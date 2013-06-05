@@ -1,0 +1,13 @@
+Package: scdhlm
+Title: Estimating hierarchical linear models for single-case designs
+Description: scdhlm provides a set of tools for estimating hierarchical linear
+    models on data from single-case designs.
+Maintainer: James E. Pustejovsky <jepusto@gmail.com>
+Author: James E. Pustejovsky <jepusto@gmail.com>
+License: GPL-3
+Version: 0.1.0
+Depends:
+    R (>= 3.0.1)
+Collate:
+    'HPS-ES-functions.R'
+    'scdhlm-package.r'
