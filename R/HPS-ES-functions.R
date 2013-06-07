@@ -46,6 +46,13 @@ J <- function(x) 1 - 3 / (4 * x - 1)
 #' @param treatment Vector of treatment indicators. Must be the same length as \code{outcome}.
 #' @param id factor vector indicating unique cases. Must be the same length as \code{outcome}.
 #' @param time vector of measurement occasion times. Must be the same length as \code{outcome}.
+#' @param phi Optional value of the auto-correlation nuisance parameter, to be used 
+#' in calculating the small-sample adjusted effect size
+#' @param rho Optional value of the intra-class correlation nuisance parameter, to be used 
+#' in calculating the small-sample adjusted effect size
+#' 
+#' @note If phi or rho is left unspecified (or both), estimates for the nuisance
+#' parameters will be calculated.
 #' 
 #' @export 
 #' 
@@ -56,9 +63,9 @@ J <- function(x) 1 - 3 / (4 * x - 1)
 #' \code{D_bar} \tab numerator of effect size estimate \cr
 #' \code{S_sq} \tab sample variance, pooled across time points and treatment groups \cr
 #' \code{delta_hat_unadj} \tab unadjusted effect size estimate \cr
-#' \code{phi_hat} \tab corrected estimate of first-order auto-correlation \cr
+#' \code{phi} \tab corrected estimate of first-order auto-correlation \cr
 #' \code{sigma_sq_w} \tab corrected estimate of within-case variance \cr
-#' \code{rho_hat} \tab estimated intra-class correlation \cr
+#' \code{rho} \tab estimated intra-class correlation \cr
 #' \code{theta} \tab estimated scalar constant \cr
 #' \code{nu} \tab estimated degrees of freedom \cr
 #' \code{delta_hat} \tab corrected effect size estimate \cr
@@ -76,7 +83,7 @@ J <- function(x) 1 - 3 / (4 * x - 1)
 #' data(Laski)
 #' with(Laski, effect_size_MB(outcome, treatment, case, time))
 
-effect_size_MB <- function(outcome, treatment, id, time) {
+effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   
   ###########
   ## setup ##
@@ -125,22 +132,27 @@ effect_size_MB <- function(outcome, treatment, id, time) {
   ## nuisance parameter estimates ##
   ##################################
   
-  # auto-covariances - See first display equation on p. 32.
-  acv_SS <- matrix(unlist(tapply(case_FE$residuals[order(id_fac, time)], id_fac, auto_SS)), m, 2, byrow=TRUE)
-  
-  # calculate adjusted autocorrelation
-  phi_YW <- sum(acv_SS[,2]) / sum(acv_SS[,1])
-  phi_correction <- sum((h_i_p - 1) / h_i_p) / (g_dotdot - 2 * m)   # This is the constant C given on p. 33.
-  phi_hat <- phi_YW + phi_correction                                # See last display equation on p. 32.
-  
-  # calculate adjusted within-case variance estimate
-  sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, time, 0, phi_hat) %*% X_case_FE) 
-                                                                    # This correction is equal to g_dotdot * F, where F is given on p. 33. 
-  sigma_sq_w <- sum(acv_SS[,1]) / sigma_sq_correction
-  
-  # calculate intra-class correlation
-  rho_hat <- max(0, 1 - sigma_sq_w / S_sq)                          # See last display equation on p. 33.
-  
+  if (missing(phi) | missing(rho)) {
+    # auto-covariances - See first display equation on p. 32.
+    acv_SS <- matrix(unlist(tapply(case_FE$residuals[order(id_fac, time)], id_fac, auto_SS)), m, 2, byrow=TRUE)
+    
+    # calculate adjusted autocorrelation
+    if (missing(phi)) {
+      phi_YW <- sum(acv_SS[,2]) / sum(acv_SS[,1])
+      phi_correction <- sum((h_i_p - 1) / h_i_p) / (g_dotdot - 2 * m)   # This is the constant C given on p. 33.
+      phi <- phi_YW + phi_correction                                # See last display equation on p. 32.      
+    }
+    
+    if (missing(rho)) {
+      # calculate adjusted within-case variance estimate
+      sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, time, 0, phi) %*% X_case_FE) 
+      # This correction is equal to g_dotdot * F, where F is given on p. 33. 
+      sigma_sq_w <- sum(acv_SS[,1]) / sigma_sq_correction
+      
+      # calculate intra-class correlation
+      rho <- max(0, 1 - sigma_sq_w / S_sq)                          # See last display equation on p. 33.    
+    } else sigma_sq_w <- NA
+  } else sigma_sq_w <- NA
   
   
   ############################################
@@ -151,7 +163,7 @@ effect_size_MB <- function(outcome, treatment, id, time) {
   A_mat <- diag(rep(1, g_dotdot)) - X_time_FE %*% solve(t(X_time_FE) %*% X_time_FE) %*% t(X_time_FE)  # S^2 = y'(A_mat)y / (g_dotdot - K). See p. 29. 
   
   # create correlation matrix
-  V_mat <- HLM_AR1_corr(id_fac, time, rho_hat, phi_hat)    # V_mat is the matrix Sigma on p. 28, scaled by tau^2 + sigma^2. 
+  V_mat <- HLM_AR1_corr(id_fac, time, rho, phi)    # V_mat is the matrix Sigma on p. 28, scaled by tau^2 + sigma^2. 
   
   # calculate degrees of freedom
   AV <- A_mat %*% V_mat
@@ -177,7 +189,7 @@ effect_size_MB <- function(outcome, treatment, id, time) {
   ####################
   
   results <- list(g_dotdot = g_dotdot, K = K, D_bar = D_bar, S_sq = S_sq, delta_hat_unadj = delta_hat_unadj, 
-               phi_hat = phi_hat, sigma_sq_w = sigma_sq_w, rho_hat = rho_hat, 
+               phi = phi, sigma_sq_w = sigma_sq_w, rho = rho, 
                theta = theta, nu = nu, delta_hat = delta_hat, V_delta_hat = V_delta_hat)
   return(results)
 }
@@ -231,12 +243,10 @@ effect_size_MB <- function(outcome, treatment, id, time) {
 #' 
 #' @examples
 #' data(Lambert)
-#' with(subset(Lambert, !is.na(outcome)), 
-#'    effect_size_ABk(outcome, treatment, case, phase, time))
+#' with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))
 #'    
 #' data(Anglesea)
-#' with(subset(Anglesea, !is.na(outcome)), 
-#'    effect_size_ABk(outcome, treatment, case, phase, session))
+#' with(Anglesea, effect_size_ABk(outcome, treatment, case, phase, session))
 
 
 effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
@@ -306,33 +316,34 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
     YW <- cbind(YW[,1:3], YW$x)
     names(YW) <- c("id_fac","phase_fac","treatment_fac","g0","g1","n")
 
-    if (missing(phi)) phi <- sum(YW$g1, na.rm=T) / sum(YW$g0, na.rm=T) + sum(1 - 1 / YW$n) / sum(YW$n - 1) # pooled autocorrelation estimate
+    # calculate adjusted estimate of pooled auto-correlation. See p. 238.
+    if (missing(phi)) phi <- sum(YW$g1, na.rm=T) / sum(YW$g0, na.rm=T) + sum(1 - 1 / YW$n) / sum(YW$n - 1)
     
     if (missing(rho)) {
       # calculate adjusted within-case variance estimate
       sigma_sq_correction <- length(outcome) - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, phase_point, 0, phi) %*% X_case_FE) 
       sigma_sq_w <- sum(YW$g0) / sigma_sq_correction
       
-      rho <- max(0, 1 - sigma_sq_w / S_sq)      # See last display equation on p. 33.
-    } else sigma_sq_w <- NULL
-  }
+      rho <- max(0, 1 - sigma_sq_w / S_sq)      # See last display equation on p. 238.
+    } else sigma_sq_w <- NA
+  } else sigma_sq_w <- NA
   
   
   ############################################
   ## calculate degrees of freedom and theta ##
   ############################################
   
-  # create A matrix
-  A_mat <- diag(rep(1, dim(X_time_FE)[1])) - X_time_FE %*% solve(t(X_time_FE) %*% X_time_FE) %*% t(X_time_FE)  # S^2 = y'(A_mat)y / (M_dot * (m - 1)). See p. 236. 
+  # create A matrix. S^2 = y'(A_mat)y / (M_dot * (m - 1)). See p. 236. 
+  A_mat <- diag(rep(1, dim(X_time_FE)[1])) - X_time_FE %*% solve(t(X_time_FE) %*% X_time_FE) %*% t(X_time_FE)  
   
-  # create correlation matrix
-  V_mat <- HLM_AR1_corr(id_fac, time, rho, phi)    # V_mat is the matrix Sigma_T on p. 236, scaled by tau^2 + sigma^2. 
+  # V_mat is the matrix Sigma_T on p. 236, scaled by tau^2 + sigma^2. 
+  V_mat <- HLM_AR1_corr(id_fac, time, rho, phi)    
   
-  # calculate degrees of freedom
+  # calculate degrees of freedom. See p. 232, formula (28). 
   AV <- A_mat %*% V_mat[include, include]
   nu <- (M_dot * (m - 1))^2 / product_trace(AV, AV)
   
-  # calculate theta
+  # calculate theta. See p. 232, formula (27).
   theta <- sqrt(sum((XtX_inv_case_FE %*% t(X_case_FE) %*% 
               V_mat %*% X_case_FE %*% XtX_inv_case_FE)[X_trt, X_trt])) / sum(X_trt)
   
@@ -341,10 +352,10 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   ## adjusted effect size and variance ##
   #######################################
   
-  # calculate adjusted effect size
+  # calculate adjusted effect size. See p. 232, formula (29).
   delta_hat <- J(nu) * delta_hat_unadj    # See p. 15, Eq. (13). 
   
-  # calculate variance of adjusted effect size
+  # calculate variance of adjusted effect size. See p. 232, formula (30).
   V_delta_hat <- J(nu)^2 * (theta^2 * nu / (nu - 2) + delta_hat^2 * (nu / (nu - 2) - 1 / J(nu)^2))   # See p. 15, Eq. (14). 
   
   

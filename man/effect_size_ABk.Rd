@@ -48,7 +48,7 @@
   \tab estimated scalar constant \cr \code{nu} \tab
   estimated degrees of freedom \cr \code{delta_hat} \tab
   corrected effect size estimate \cr \code{V_delta_hat}
-  \tab estimated variance of \code{delta_hat} }
+  \tab estimated variance of the effect size }
 }
 \description{
   Calculates the HPS effect size estimator based on data
@@ -62,12 +62,10 @@
 }
 \examples{
 data(Lambert)
-with(subset(Lambert, !is.na(outcome)),
-   effect_size_ABk(outcome, treatment, case, phase, time))
+with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))
 
 data(Anglesea)
-with(subset(Anglesea, !is.na(outcome)),
-   effect_size_ABk(outcome, treatment, case, phase, session))
+with(Anglesea, effect_size_ABk(outcome, treatment, case, phase, session))
 }
 \references{
   Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R.

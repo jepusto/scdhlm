@@ -21,7 +21,7 @@ NULL
 #' 
 #' @docType data
 #' @keywords datasets
-#' @format A data frame with 294 rows and 5 variables
+#' @format A data frame with 264 rows and 5 variables
 #' @name Lambert
 #' @source Lambert, M. C., Cartledge, G., Heward, W. L., & Lo, Y. (2006). 
 #' Effects of response cards on disruptive behavior and academic responding 
