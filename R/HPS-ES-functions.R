@@ -138,7 +138,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
     
     # calculate adjusted autocorrelation
     if (missing(phi)) {
-      phi_YW <- sum(acv_SS[,2]) / sum(acv_SS[,1])
+      phi_YW <- sum(acv_SS[,2], na.rm=T) / sum(acv_SS[,1], na.rm=T)
       phi_correction <- sum((h_i_p - 1) / h_i_p) / (g_dotdot - 2 * m)   # This is the constant C given on p. 33.
       phi <- phi_YW + phi_correction                                # See last display equation on p. 32.      
     }
@@ -147,7 +147,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
       # calculate adjusted within-case variance estimate
       sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, time, 0, phi) %*% X_case_FE) 
       # This correction is equal to g_dotdot * F, where F is given on p. 33. 
-      sigma_sq_w <- sum(acv_SS[,1]) / sigma_sq_correction
+      sigma_sq_w <- sum(acv_SS[,1], na.rm=T) / sigma_sq_correction
       
       # calculate intra-class correlation
       rho <- max(0, 1 - sigma_sq_w / S_sq)                          # See last display equation on p. 33.    
@@ -283,20 +283,33 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   ## calculate unadjusted effect size ##
   ######################################
   
-  # fixed effects regression with id-by-phase-by-treatment interaction
-  case_FE <- lm(outcome ~ id_fac:phase_fac + id_fac:phase_fac:C(treatment_fac, treatment) + 0)
-  X_case_FE <- model.matrix(case_FE)                            # design matrix from id-by-phase-by-treatment fixed-effects regression
+  if (nlevels(phase_fac) > 1) {
+    # fixed effects regression with id-by-phase-by-treatment interaction
+    case_FE <- lm(outcome ~ id_fac:phase_fac + id_fac:phase_fac:C(treatment_fac, treatment) + 0)
+    # fixed effects regression with phase-point-by-treatment-by-phase interaction
+    time_FE <- lm(outcome ~ phase_point_fac:treatment_fac:phase_fac + 0,
+                  data = data.frame(outcome, phase_point_fac, treatment_fac, phase_fac),
+                  subset = include)    
+  } else {
+    # fixed effects regression with id-by-phase-by-treatment interaction
+    case_FE <- lm(outcome ~ id_fac + id_fac:C(treatment_fac, treatment) + 0)
+    # fixed effects regression with phase-point-by-treatment-by-phase interaction
+    time_FE <- lm(outcome ~ phase_point_fac:treatment_fac + 0,
+                  data = data.frame(outcome, phase_point_fac, treatment_fac, phase_fac),
+                  subset = include)    
+    
+  }
+  
+  # design matrix from id-by-phase-by-treatment fixed-effects regression
+  X_case_FE <- model.matrix(case_FE)  
   X_trt <- attr(X_case_FE, "assign") == 2                       # indicator for individual treatment effects
   XtX_inv_case_FE <- solve(t(X_case_FE) %*% X_case_FE)          # inverse of (X'X) for this design matrix
   
   # calculate D-bar
   D_bar <- mean(coef(case_FE)[X_trt])           # See p. 231, formula (19).
   
-  # fixed effects regression with phase-point-by-treatment-by-phase interaction
-  time_FE <- lm(outcome ~ phase_point_fac:treatment_fac:phase_fac + 0,
-                data = data.frame(outcome, phase_point_fac, treatment_fac, phase_fac),
-                subset = include)
-  X_time_FE <- model.matrix(time_FE)[,time_FE$qr$pivot[1:time_FE$qr$rank]]    # design matrix for phase-point-by-treatment-by-phase fixed-effects regression
+  # design matrix for phase-point-by-treatment-by-phase fixed-effects regression
+  X_time_FE <- model.matrix(time_FE)[,time_FE$qr$pivot[1:time_FE$qr$rank]]    
   
   # calculate pooled variance S-squared
   S_sq <- summary(time_FE)$sigma^2              # See p. 231, formula (18).
@@ -322,7 +335,7 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
     if (missing(rho)) {
       # calculate adjusted within-case variance estimate
       sigma_sq_correction <- length(outcome) - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, phase_point, 0, phi) %*% X_case_FE) 
-      sigma_sq_w <- sum(YW$g0) / sigma_sq_correction
+      sigma_sq_w <- sum(YW$g0, na.rm=T) / sigma_sq_correction
       
       rho <- max(0, 1 - sigma_sq_w / S_sq)      # See last display equation on p. 238.
     } else sigma_sq_w <- NA
