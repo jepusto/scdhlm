@@ -2,7 +2,8 @@
 \alias{effect_size_ABk}
 \title{Calculates HPS effect size}
 \usage{
-  effect_size_ABk(outcome, treatment, id, time)
+  effect_size_ABk(outcome, treatment, id, phase, time, phi,
+    rho)
 }
 \arguments{
   \item{outcome}{Vector of outcome data. May not contain
@@ -14,27 +15,40 @@
   \item{id}{factor vector indicating unique cases. Must be
   the same length as \code{outcome}.}
 
+  \item{phase}{factor vector indicating unique phases (each
+  containing one contiguous control condition and one
+  contiguous treatment condition). Must be the same length
+  as \code{outcome}.}
+
   \item{time}{vector of measurement occasion times. Must be
   the same length as \code{outcome}.}
+
+  \item{phi}{Optional value of the auto-correlation
+  nuisance parameter, to be used in calculating the
+  small-sample adjusted effect size}
+
+  \item{rho}{Optional value of the intra-class correlation
+  nuisance parameter, to be used in calculating the
+  small-sample adjusted effect size}
 }
 \value{
   A list with the following components \tabular{ll}{
-  \code{g_dotdot} \tab total number of non-missing
-  observations \cr \code{K} \tab number of
-  time-by-treatment groups containing at least one
-  observation \cr \code{D_bar} \tab numerator of effect
+  \code{M_a} \tab Matrix reporting the total number of time
+  points with data for all ids, by phase and treatment
+  condition \cr \code{M_dot} \tab Total number of time
+  points used to calculate the total variance (the sum of
+  \code{M_a}) \cr \code{D_bar} \tab numerator of effect
   size estimate \cr \code{S_sq} \tab sample variance,
   pooled across time points and treatment groups \cr
   \code{delta_hat_unadj} \tab unadjusted effect size
-  estimate \cr \code{phi_hat} \tab corrected estimate of
+  estimate \cr \code{phi} \tab corrected estimate of
   first-order auto-correlation \cr \code{sigma_sq_w} \tab
-  corrected estimate of within-case variance \cr
-  \code{rho_hat} \tab estimated intra-class correlation \cr
-  \code{theta} \tab estimated scalar constant \cr \code{nu}
-  \tab estimated degrees of freedom \cr \code{delta_hat}
-  \tab corrected effect size estimate \cr
-  \code{V_delta_hat} \tab estimated variance of
-  \code{delta_hat} }
+  corrected estimate of within-case variance \cr \code{rho}
+  \tab estimated intra-class correlation \cr \code{theta}
+  \tab estimated scalar constant \cr \code{nu} \tab
+  estimated degrees of freedom \cr \code{delta_hat} \tab
+  corrected effect size estimate \cr \code{V_delta_hat}
+  \tab estimated variance of \code{delta_hat} }
 }
 \description{
   Calculates the HPS effect size estimator based on data
@@ -42,8 +56,18 @@
   Pustejovsky, & Shadish (2012). Note that the data must
   contain one row per measurement occasion per subject.
 }
+\note{
+  If phi or rho is left unspecified (or both), estimates
+  for the nuisance parameters will be calculated.
+}
 \examples{
-data(Saddler)
+data(Lambert)
+with(subset(Lambert, !is.na(outcome)),
+   effect_size_ABk(outcome, treatment, case, phase, time))
+
+data(Anglesea)
+with(subset(Anglesea, !is.na(outcome)),
+   effect_size_ABk(outcome, treatment, case, phase, session))
 }
 \references{
   Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R.
