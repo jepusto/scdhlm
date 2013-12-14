@@ -63,6 +63,7 @@ with(Laski, effect_size_MB(outcome, treatment, case, time))
 \references{
   Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R.
   (2013). A standardized mean difference effect size for
-  multiple baseline designs. Working paper, Evanston, IL.
+  multiple baseline designs. \emph{Research Synthesis
+  Methods}, forthcoming.
 }
 

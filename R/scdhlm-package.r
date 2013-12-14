@@ -17,6 +17,7 @@
 #' \item \code{\link{Anglesea}}
 #' \item \code{\link{Saddler}}
 #' \item \code{\link{Laski}}
+#' \item \code{\link{Schutte}}
 #' }
 #' 
 #' @author James E. Pustejovsky <jepusto@@gmail.com>
@@ -26,8 +27,12 @@
 #' \emph{Research Synthesis Methods, 3}, 224-239. doi:10.1002/jrsm.1052
 #' 
 #' Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
-#' A standardized mean difference effect size for multiple baseline designs. 
-#' Working paper, Evanston, IL.
+#' A standardized mean difference effect size for multiple baseline designs across individuals. 
+#' \emph{Research Synthesis Methods}, forthcoming.
+#' 
+#' Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
+#' Design-comparable effect sizes in multiple baseline designs: A general approach
+#' to modeling and estimation.
 #' 
 #' @name scdhlm
 #' @docType package
@@ -115,8 +120,8 @@ NULL
 #' doi:10.1177/0022466907310371
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
-#' A standardized mean difference effect size for multiple baseline designs. 
-#' Working paper, Evanston, IL.
+#' A standardized mean difference effect size for multiple baseline designs across individuals. 
+#' \emph{Research Synthesis Methods}, forthcoming.
 NULL
 
 
@@ -138,10 +143,35 @@ NULL
 #' @name Laski
 #' @source Laski, K. E., Charlop, M. H., & Schreibman, L. (1988). 
 #' Training parents to use the natural language paradigm to increase 
-#' their autistic children’s speech. 
+#' their autistic children's speech. 
 #' \emph{Journal of Applied Behavior Analysis, 21}(4), 391-400.
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
-#' A standardized mean difference effect size for multiple baseline designs. 
-#' Working paper, Evanston, IL.
+#' A standardized mean difference effect size for multiple baseline designs across individuals. 
+#' \emph{Research Synthesis Methods}, forthcoming.
+NULL
+
+
+#' Example from Pustejovsky, Hedges, & Shadish (2013)
+#' 
+#' Data from a multiple baseline design conducted by 
+#' Schutte, Malouff, & Brown (2008). The variables are as follows:
+#' \itemize{
+#'   \item \code{case}. Participant identifier.  
+#'   \item \code{week}. Measurement occasion.
+#'   \item \code{treatment}. Factor indicating baseline or treatment phase.
+#'   \item \code{fatigue}. Fatigue severity scale scores.
+#' }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 136 rows and 4 variables
+#' @name Schutte
+#' @source Schutte, N. S., Malouff, J. M., & Brown, R. F. (2008). 
+#' Efficacy of an emotion-focused treatment for prolonged fatigue. 
+#' \emph{Behavior Modification, 32}(5), 699-713. doi: 10.1177/0145445508317133
+#' 
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
+#' Design-comparable effect sizes in multiple baseline designs: A general approach
+#' to modeling and estimation.
 NULL

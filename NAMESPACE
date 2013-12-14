@@ -1,2 +1,4 @@
 export(effect_size_ABk)
 export(effect_size_MB)
+export(g_REML)
+export(Info_Expected_lmeAR1)

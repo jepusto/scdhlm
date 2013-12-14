@@ -1,6 +1,3 @@
-## matrix trace function ####
-
-product_trace <- function(A,B) sum(as.vector(t(A)) * as.vector(B))
 
 ## Create correlation matrix ####
 
@@ -13,6 +10,7 @@ HLM_AR1_corr <- function(id_fac, time, rho, phi) {
   return(C.mat)
 }
 
+  
 ## Calculate lagged sums of squares ####
 
 auto_SS <- function(x, n = length(x)) {
@@ -27,9 +25,6 @@ auto_SS <- function(x, n = length(x)) {
   return(c(auto_0, auto_1))
 }
 
-## Hedges G correction ####
-
-J <- function(x) 1 - 3 / (4 * x - 1)
 
 
 
@@ -74,7 +69,7 @@ J <- function(x) 1 - 3 / (4 * x - 1)
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 #' A standardized mean difference effect size for multiple baseline designs. 
-#' Working paper, Evanston, IL.
+#' \emph{Research Synthesis Methods}, forthcoming.
 #' 
 #' @examples
 #' data(Saddler)
@@ -93,6 +88,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   treatment_fac <- factor(treatment)
   id_fac <- factor(id)
   time_fac <- factor(time)
+  time_list <- by(time, id_fac, function(x) x)
     
   # unique times, unique cases, calculate sample sizes  
   time_points <- seq(min(time), max(time),1)    # unique measurement occasions j = 1,...,N
@@ -145,7 +141,10 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
     
     if (missing(rho)) {
       # calculate adjusted within-case variance estimate
-      sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, time, 0, phi) %*% X_case_FE) 
+      AR1_corr <- lmeAR1_cov_block(block=id_fac, Z_design=rep(1,g_dotdot), theta=list(sigma_sq=1,phi=phi,Tau=0), times = time_list)
+      sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% prod_blockmatrix(AR1_corr, X_case_FE, block=id_fac)) 
+      #sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, time, 0, phi) %*% X_case_FE) 
+      
       # This correction is equal to g_dotdot * F, where F is given on p. 33. 
       sigma_sq_w <- sum(acv_SS[,1], na.rm=T) / sigma_sq_correction
       
@@ -162,15 +161,15 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   # create A matrix
   A_mat <- diag(rep(1, g_dotdot)) - X_time_FE %*% solve(t(X_time_FE) %*% X_time_FE) %*% t(X_time_FE)  # S^2 = y'(A_mat)y / (g_dotdot - K). See p. 29. 
   
-  # create correlation matrix
-  V_mat <- HLM_AR1_corr(id_fac, time, rho, phi)    # V_mat is the matrix Sigma on p. 28, scaled by tau^2 + sigma^2. 
+  # create correlation matrix V_mat, which is the matrix Sigma on p. 28, scaled by tau^2 + sigma^2. 
+  V_mat <- lmeAR1_cov_block(block=id_fac, Z_design=rep(1,g_dotdot), theta=list(sigma_sq=1-rho,phi=phi,Tau=rho), times = time_list)
   
   # calculate degrees of freedom
-  AV <- A_mat %*% V_mat
+  AV <- prod_matrixblock(A_mat, V_mat, block=id_fac)
   nu <- (g_dotdot - K)^2 / product_trace(AV, AV)          # See p. 15, Eq. (11). Also note that product_trace(AV, AV) = tr(A Sigma A Sigma). See p. 30.
 
   # calculate theta
-  theta <- sqrt(sum(diag(XtX_inv_case_FE %*% t(X_case_FE) %*% V_mat %*% X_case_FE %*% XtX_inv_case_FE)[X_trt])) / m   # See p. 15, Eq. (10). 
+  theta <- sqrt(sum(diag(XtX_inv_case_FE %*% t(X_case_FE) %*% prod_blockmatrix(V_mat, X_case_FE, block=id_fac) %*% XtX_inv_case_FE)[X_trt])) / m   # See p. 15, Eq. (10). 
   
 
   #######################################
@@ -382,4 +381,107 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
                   theta = theta, nu = nu, 
                   delta_hat = delta_hat, V_delta_hat = V_delta_hat)
   return(results)
+}
+
+
+
+##-----------------------------------------------------------------------------
+## calculate HPS effect size (with associated estimates)
+## Note: this is a vectorized version of the function for use in simulations 
+##-----------------------------------------------------------------------------
+
+HPS_effect_size <- function(outcomes, treatment, id, time) {
+  
+  ## setup ##
+  
+  # create factor variables
+  treatment_fac <- factor(treatment)
+  id_fac <- factor(id)
+  time_fac <- factor(time)
+  
+  # unique times, unique cases, calculate sample sizes  
+  time_points <- seq(min(time), max(time),1)    # unique measurement occasions j = 1,...,N
+  N <- length(time_points)                      # number of unique measurement occasions
+  h_i_p <- table(id_fac, treatment_fac)         # number of non-missing observations for case i in phase p
+  cases <- levels(id_fac)                       # unique cases i = 1,...,m
+  m <- length(cases)                            # number of cases
+  g_dotdot <- length(treatment)                 # total number of non-missing observations
+  
+  
+  ## calculate unadjusted effect size ##
+  
+  y <- as.matrix(outcomes)[,1]
+  
+  # fixed effects regression with id-by-treatment interaction
+  case_FE <- lm(y ~ id_fac + id_fac:treatment_fac + 0)
+  X_case_FE <- model.matrix(case_FE)                            # design matrix from id-by-treatment fixed-effects regression
+  X_trt <- attr(X_case_FE, "assign") == 2                       # indicator for individual treatment effects
+  XtX_inv_Xt_case_FE <- solve(t(X_case_FE) %*% X_case_FE) %*% t(X_case_FE)          #  (X'X)^-1 X'
+  
+  # calculate D-bar
+  D_bar <- colMeans((XtX_inv_Xt_case_FE[X_trt,] %*% outcomes))
+  
+  # fixed effects regression with time-by-treatment interaction
+  time_FE <- lm(y ~ time_fac + time_fac:treatment_fac + 0)
+  X_time_FE <- model.matrix(time_FE)[,time_FE$qr$pivot[1:time_FE$qr$rank]]    # design matrix for time-by-treatment fixed-effects regression
+  
+  # calculate pooled variance S-squared
+  
+  A_mat <- diag(rep(1, g_dotdot)) - X_time_FE %*% solve(t(X_time_FE) %*% X_time_FE) %*% t(X_time_FE)  # S^2 = y'(A_mat)y / (g_dotdot - K). See p. 29. 
+  K <- time_FE$rank                             # number of time-by-treatment groups containing at least one observation. See p. 11.
+  S_sq <- colSums(outcomes * (A_mat %*% outcomes)) / (g_dotdot - K)
+  
+  # calculate unadjusted effect size
+  delta_hat_unadj <- D_bar / sqrt(S_sq)         # See p. 13, Eq. (4)
+  
+  
+  ## nuisance parameter estimates ##
+  
+  # auto-covariances - See first display equation on p. 32.
+  residuals <- (diag(rep(1, g_dotdot)) - X_case_FE %*% XtX_inv_Xt_case_FE) %*% outcomes
+  acv_SS <- rowSums(matrix(unlist(by(residuals, id_fac, function(x) colSums(x[1:(dim(x)[1]-1),] * x[2:dim(x)[1],]))), dim(outcomes)[2], m))
+  SS_within <- colSums(residuals * residuals)
+  
+  # calculate adjusted autocorrelation
+  phi_correction <- sum((h_i_p - 1) / h_i_p) / (g_dotdot - 2 * m)     # This is the constant C given on p. 33.
+  phi_hat <- acv_SS / SS_within + phi_correction                      # See last display equation on p. 32.
+  
+  # calculate adjusted within-case variance estimate
+  sigma_sq_correction <- g_dotdot - sapply(phi_hat, function(phi)
+    product_trace(XtX_inv_Xt_case_FE, prod_blockmatrix(AR1_corr_block(phi, time, id_fac), X_case_FE)))
+  
+  # This correction is equal to g_dotdot * F, where F is given on p. 33. 
+  sigma_sq_w <- SS_within / sigma_sq_correction
+  
+  # calculate intra-class correlation
+  rho_hat <- pmax(0, 1 - sigma_sq_w / S_sq)                          # See last display equation on p. 33.
+  
+  
+  ## calculate degrees of freedom and theta ##
+  
+  df_theta <- function(rho, phi) {
+    V_mat <- LME_cov_block(id_fac, Z_design=rep(1,g_dotdot), sigma_sq = 1 - rho, phi, Tau = rho, times = time)
+    AV <- prod_matrixblock(A_mat, V_mat)
+    nu <- (g_dotdot - K)^2 / product_trace(AV, AV)          # See p. 15, Eq. (11). Also note that product.trace(AV, AV) = tr(A Sigma A Sigma). See p. 30.
+    theta <- sqrt(sum(diag(prod_matrixblock(XtX_inv_Xt_case_FE[X_trt,], V_mat) %*% t(XtX_inv_Xt_case_FE[X_trt,])))) / m   # See p. 15, Eq. (10). 
+    return(c(nu, theta))
+  }
+  
+  df_theta <- mapply(df_theta, rho=rho_hat, phi=phi_hat)
+  df <- df_theta[1,]
+  theta <- df_theta[2,]
+  
+  ## adjusted effect size and variance ##
+  
+  # calculate adjusted effect size
+  delta_hat <- J(df) * delta_hat_unadj    # See p. 15, Eq. (13). 
+  
+  # calculate variance of adjusted effect size
+  V_delta_hat <- J(df)^2 * (theta^2 * df / (df - 2) + delta_hat^2 * (df / (df - 2) - 1 / J(df)^2))   # See p. 15, Eq. (14). 
+  
+  
+  ## return results ##
+  
+  rbind(D_bar = D_bar, S_sq = S_sq, delta_hat_unadj = delta_hat_unadj, 
+        phi_hat = phi_hat, rho_hat = rho_hat, df = df, delta_hat = delta_hat, V_delta_hat = V_delta_hat)
 }

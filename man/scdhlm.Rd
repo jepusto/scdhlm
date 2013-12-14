@@ -20,7 +20,7 @@
   The package also includes the data used in the examples
   from each paper: \itemize{ \item \code{\link{Lambert}}
   \item \code{\link{Anglesea}} \item \code{\link{Saddler}}
-  \item \code{\link{Laski}} }
+  \item \code{\link{Laski}} \item \code{\link{Schutte}} }
 }
 \author{
   James E. Pustejovsky <jepusto@gmail.com>
@@ -33,6 +33,12 @@
 
   Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R.
   (2013). A standardized mean difference effect size for
-  multiple baseline designs. Working paper, Evanston, IL.
+  multiple baseline designs across individuals.
+  \emph{Research Synthesis Methods}, forthcoming.
+
+  Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R.
+  (2013). Design-comparable effect sizes in multiple
+  baseline designs: A general approach to modeling and
+  estimation.
 }
 

@@ -6,9 +6,8 @@
 \source{
   Laski, K. E., Charlop, M. H., & Schreibman, L. (1988).
   Training parents to use the natural language paradigm to
-  increase their autistic children’s speech.
-  \emph{Journal of Applied Behavior Analysis, 21}(4),
-  391-400.
+  increase their autistic children's speech. \emph{Journal
+  of Applied Behavior Analysis, 21}(4), 391-400.
 }
 \description{
   Data from a multiple baseline design conducted by Laski,
@@ -23,7 +22,8 @@
 \references{
   Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R.
   (2013). A standardized mean difference effect size for
-  multiple baseline designs. Working paper, Evanston, IL.
+  multiple baseline designs across individuals.
+  \emph{Research Synthesis Methods}, forthcoming.
 }
 \keyword{datasets}
 

@@ -23,7 +23,8 @@
 \references{
   Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R.
   (2013). A standardized mean difference effect size for
-  multiple baseline designs. Working paper, Evanston, IL.
+  multiple baseline designs across individuals.
+  \emph{Research Synthesis Methods}, forthcoming.
 }
 \keyword{datasets}
 
