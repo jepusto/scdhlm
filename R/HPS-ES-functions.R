@@ -88,7 +88,6 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   treatment_fac <- factor(treatment)
   id_fac <- factor(id)
   time_fac <- factor(time)
-  time_list <- by(time, id_fac, function(x) x)
     
   # unique times, unique cases, calculate sample sizes  
   time_points <- seq(min(time), max(time),1)    # unique measurement occasions j = 1,...,N
@@ -141,9 +140,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
     
     if (missing(rho)) {
       # calculate adjusted within-case variance estimate
-      AR1_corr <- lmeAR1_cov_block(block=id_fac, Z_design=rep(1,g_dotdot), theta=list(sigma_sq=1,phi=phi,Tau=0), times = time_list)
-      sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% prod_blockmatrix(AR1_corr, X_case_FE, block=id_fac)) 
-      #sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, time, 0, phi) %*% X_case_FE) 
+      sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, time, 0, phi) %*% X_case_FE) 
       
       # This correction is equal to g_dotdot * F, where F is given on p. 33. 
       sigma_sq_w <- sum(acv_SS[,1], na.rm=T) / sigma_sq_correction
@@ -162,14 +159,14 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   A_mat <- diag(rep(1, g_dotdot)) - X_time_FE %*% solve(t(X_time_FE) %*% X_time_FE) %*% t(X_time_FE)  # S^2 = y'(A_mat)y / (g_dotdot - K). See p. 29. 
   
   # create correlation matrix V_mat, which is the matrix Sigma on p. 28, scaled by tau^2 + sigma^2. 
-  V_mat <- lmeAR1_cov_block(block=id_fac, Z_design=rep(1,g_dotdot), theta=list(sigma_sq=1-rho,phi=phi,Tau=rho), times = time_list)
+  V_mat <- HLM_AR1_corr(id_fac, time, rho, phi) 
   
   # calculate degrees of freedom
-  AV <- prod_matrixblock(A_mat, V_mat, block=id_fac)
+  AV <- A_mat %*% V_mat
   nu <- (g_dotdot - K)^2 / product_trace(AV, AV)          # See p. 15, Eq. (11). Also note that product_trace(AV, AV) = tr(A Sigma A Sigma). See p. 30.
 
   # calculate theta
-  theta <- sqrt(sum(diag(XtX_inv_case_FE %*% t(X_case_FE) %*% prod_blockmatrix(V_mat, X_case_FE, block=id_fac) %*% XtX_inv_case_FE)[X_trt])) / m   # See p. 15, Eq. (10). 
+  theta <- sqrt(sum(diag(XtX_inv_case_FE %*% t(X_case_FE) %*% V_mat %*% X_case_FE %*% XtX_inv_case_FE)[X_trt])) / m   # See p. 15, Eq. (10). 
   
 
   #######################################
@@ -398,6 +395,7 @@ HPS_effect_size <- function(outcomes, treatment, id, time) {
   treatment_fac <- factor(treatment)
   id_fac <- factor(id)
   time_fac <- factor(time)
+  time_list <- by(time, id_fac, function(x) x)
   
   # unique times, unique cases, calculate sample sizes  
   time_points <- seq(min(time), max(time),1)    # unique measurement occasions j = 1,...,N
@@ -448,7 +446,9 @@ HPS_effect_size <- function(outcomes, treatment, id, time) {
   
   # calculate adjusted within-case variance estimate
   sigma_sq_correction <- g_dotdot - sapply(phi_hat, function(phi)
-    product_trace(XtX_inv_Xt_case_FE, prod_blockmatrix(AR1_corr_block(phi, time, id_fac), X_case_FE)))
+    product_trace(XtX_inv_Xt_case_FE, 
+      prod_blockmatrix(AR1_corr_block(phi=phi, block=id_fac, times=time_list), 
+                       X_case_FE)))
   
   # This correction is equal to g_dotdot * F, where F is given on p. 33. 
   sigma_sq_w <- SS_within / sigma_sq_correction
@@ -460,10 +460,12 @@ HPS_effect_size <- function(outcomes, treatment, id, time) {
   ## calculate degrees of freedom and theta ##
   
   df_theta <- function(rho, phi) {
-    V_mat <- LME_cov_block(id_fac, Z_design=rep(1,g_dotdot), sigma_sq = 1 - rho, phi, Tau = rho, times = time)
-    AV <- prod_matrixblock(A_mat, V_mat)
+    V_mat <- lmeAR1_cov_block(block=id_fac, Z_design=rep(1,g_dotdot), 
+                    theta = list(sigma_sq = 1 - rho, phi=phi, Tau = rho), 
+                    times = time_list)
+    AV <- prod_matrixblock(A_mat, V_mat, block=id_fac)
     nu <- (g_dotdot - K)^2 / product_trace(AV, AV)          # See p. 15, Eq. (11). Also note that product.trace(AV, AV) = tr(A Sigma A Sigma). See p. 30.
-    theta <- sqrt(sum(diag(prod_matrixblock(XtX_inv_Xt_case_FE[X_trt,], V_mat) %*% t(XtX_inv_Xt_case_FE[X_trt,])))) / m   # See p. 15, Eq. (10). 
+    theta <- sqrt(sum(diag(prod_matrixblock(XtX_inv_Xt_case_FE[X_trt,], V_mat, block=id_fac) %*% t(XtX_inv_Xt_case_FE[X_trt,])))) / m   # See p. 15, Eq. (10). 
     return(c(nu, theta))
   }
   

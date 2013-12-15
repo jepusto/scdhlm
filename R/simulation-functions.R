@@ -35,16 +35,18 @@ design_matrix <- function(m, n, treat_times = n / 2 + 1, center = 0) {
 ## generate simulation data
 ##------------------------------------------------------------------------
 
-#iterations <- 10
-#design <- design_matrix(m=3, n=6, treat_times=2:4)
-#beta <- c(0, 1.2, 0, 0)
-#sigma_sq <- 0.5
-#phi <- 0.4
-#Tau <- (1 - sigma_sq) * diag(c(1,1,0,0))
+# iterations <- 10
+# design <- design_matrix(m=3, n=6, treat_times=2:4)
+# beta <- c(0, 1.2, 0, 0)
+# sigma_sq <- 0.5
+# phi <- 0.4
+# Tau <- (1 - sigma_sq) * diag(c(1,1,0,0))
 
 simulation_data <- function(iterations, design, beta, sigma_sq, phi, Tau) {
   N <- dim(design)[1]
-  V_chol <- lapply(LME_cov_block(block=design$id, Z_design=design[,2:5], sigma_sq=sigma_sq, phi=phi, Tau=Tau), chol)  
+  V_mat <- lmeAR1_cov_block(block=design$id, Z_design=design[,2:5], 
+                theta = list(sigma_sq=sigma_sq, phi=phi, Tau=Tau))
+  V_chol <- lapply(V_mat, chol)  
   mean_vector <- as.matrix(design[,2:5]) %*% beta
   errors <- t(prod_matrixblock(matrix(rnorm(iterations * N), iterations, N), V_chol, design$id))
   matrix(mean_vector, N, iterations) + errors
@@ -54,8 +56,6 @@ simulation_data <- function(iterations, design, beta, sigma_sq, phi, Tau) {
 ##------------------------------------------------------------------------
 ## estimate model, calculate effect size statistics 
 ##------------------------------------------------------------------------
-
-require(nlme)
 
 random_formula <- function(random_terms)
   as.formula(paste("~ 0 + ",paste(random_terms, collapse=" + "),"| id"))
@@ -73,12 +73,31 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 ##------------------------------------------------------------------------
 ## Compare RML to HPS for models MB1 and TR1 ##
 ##------------------------------------------------------------------------
-# iterations <- 5000
-# design <- design_matrix(m=3, n=6, treat_times=4)
-# beta <- c(0,1,0,0)
-# rho <- 0.8
-# phi <- 0.5
 
+#' @title Run simulation comparing REML and HPS estimates
+#' 
+#' @description Simulates data from a simple linear mixed effects model, then calculates 
+#' REML and HPS effect size estimators as described in Pustejovsky, Hedges, & Shadish (2013).
+#' 
+#' @param iterations number of independent iterations of the simulation
+#' @param design design matrix
+#' @param beta vector of fixed effect parameters
+#' @param rho intra-class correlation parameter
+#' @param phi autocorrelation parameter 
+#'   
+#' @export 
+#' 
+#' @return A list with the following components
+#' \tabular{ll}{
+#' \code{means} \tab Expected value of statistics generated using REML and HPS methods \cr
+#' \code{var} \tab Variance of statistics generated using REML and HPS methods \cr
+#' \code{cov} \tab Covariance between REML and HPS effect size estimates \cr
+#' }
+#' 
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
+#' Design-comparable effect sizes in multiple baseline designs: A general approach
+#' to modeling and estimation.
+#' 
 
 compare_RML_HPS <- function(iterations, design, beta, rho, phi) {
   
@@ -88,17 +107,20 @@ compare_RML_HPS <- function(iterations, design, beta, rho, phi) {
   r_const <- c(1,0,1)
   
   y_sims <- simulation_data(iterations, design, beta, sigma_sq = 1 - rho, phi, Tau = diag(c(rho,0,0,0)))
+  
   RML <- apply(y_sims, 2, function(y) 
-    g_AB(lme_fit(y, design, fixed_terms, random_terms), 
-         design, fixed_terms, random_terms, p_const, r_const))
+    g_REML(lme_fit(y, design, fixed_terms, random_terms),
+           p_const, r_const,
+           X_design=as.matrix(design[,fixed_terms]), 
+           Z_design=as.matrix(design[,random_terms]),
+           block=design$id, times=NULL)[-11])
+  RML_mat <- matrix(unlist(RML), length(RML[[1]]), iterations, dimnames = list(names(RML[[1]])))
   HPS <- HPS_effect_size(y_sims, treatment=design$treatment, id=design$id, time=design$trend)
   
-  estimates <- rbind(RML, HPS)
+  estimates <- rbind(RML_mat, HPS)
   list(means = rowMeans(estimates), var = apply(estimates, 1, var), 
-       cov = cor(t(estimates[c("g_star","g_AB","delta_hat"),]))[lower.tri(diag(3))])
+       cov = cov(estimates["g_AB",], estimates["delta_hat",]))
 }
-
-#compare_RML_HPS(50, design, beta, rho, phi)
 
 
 
@@ -120,21 +142,25 @@ convergence_handler_TR2 <- function(design, y, method="REML") {
   W <- NULL
   m_full <- withCallingHandlers(
     tryCatch(
-      lme_fit(y, design, fixed_terms=fixed_terms, random_terms=c("constant","treatment"), method=method),
+      lme_fit(y, design, fixed_terms=fixed_terms, 
+              random_terms=c("constant","treatment"), method=method),
       error = function(e) e),
     warning = function(w) W <<- w)
   attr(m_full, "warning") <- W
   
   if (!inherits(m_full,"error")) {
-    g <- g_AB(m_full, design, 
-              fixed_terms=fixed_terms, random_terms=c("constant","treatment"), 
-              p_const=p_const, r_const=c(1,0,1,0,0))
+    g <- g_REML(m_full, p_const=p_const, r_const=c(1,0,1,0,0),
+                X_design=as.matrix(design[,fixed_terms]), 
+                Z_design=as.matrix(design[,c("constant","treatment")]),
+                block=design$id, times=NULL)[-11]
   } else {
-    m_reduced <- lme_fit(y, design, fixed_terms=fixed_terms, random_terms="constant", method=method)
+    m_reduced <- lme_fit(y, design, fixed_terms=fixed_terms, 
+                         random_terms="constant", method=method)
     attr(m_reduced,"warning") <- m_full
-    g <- c(g_AB(m_reduced, design, 
-                fixed_terms=fixed_terms, random_terms="constant", 
-                p_const=p_const, r_const=c(1,0,1)),
+    g <- c(g_REML(m_reduced, p_const=p_const, r_const=c(1,0,1),
+                  X_design=as.matrix(design[,fixed_terms]), 
+                  Z_design=as.matrix(design[,"constant"]),
+                  block=design$id, times=NULL)[-11],
            "id.cov(treatment,constant)" = 0,
            "id.var(treatment)" = 0)
   }
@@ -172,13 +198,13 @@ convergence_handler_MB4 <- function(design, y, p_const) {
   attr(m_full, "warning") <- W
   
   if (!inherits(m_full,"error")) {
-    g <- g_AB(m_full, design, 
+    g <- g_REML(m_full, design, 
               fixed_terms=fixed_terms, random_terms=c("constant","trend"), 
               p_const=p_const, r_const=c(1,0,1,0,0))
   } else {
     m_reduced <- lme_fit(y, design, fixed_terms=fixed_terms, random_terms="constant")
     attr(m_reduced,"warning") <- m_full
-    g <- c(g_AB(m_reduced, design, 
+    g <- c(g_REML(m_reduced, design, 
                 fixed_terms=fixed_terms, random_terms="constant", 
                 p_const=p_const, r_const=c(1,0,1)),
            "id.cov(trend,constant)" = 0,

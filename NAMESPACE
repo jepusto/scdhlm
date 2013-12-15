@@ -1,3 +1,4 @@
+export(compare_RML_HPS)
 export(effect_size_ABk)
 export(effect_size_MB)
 export(g_REML)

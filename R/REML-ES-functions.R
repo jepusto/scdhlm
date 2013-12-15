@@ -36,7 +36,11 @@ Tau_matrix <- function(Tau_coef) {
 # create block-diagonal covariance matrix with AR(1) level-1 error
 
 lmeAR1_cov_block <- function(block, Z_design, theta, times = NULL) {
-  Tau_mat <- Tau_matrix(theta$Tau)
+  if(is.matrix(theta$Tau)) {
+    Tau_mat <- theta$Tau 
+    } else {
+      Tau_mat <- Tau_matrix(theta$Tau)
+    }
   ZTauZ <- by(Z_design, block, function(z) {
             z_mat <- as.matrix(z)
             z_mat %*% Tau_mat %*% t(z_mat)})
