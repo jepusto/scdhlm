@@ -6,7 +6,8 @@
     X_design = model.matrix(m_fit, data = m_fit$data),
     Z_design = model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data),
     block = nlme::getGroups(m_fit),
-    times = attr(m_fit$modelStruct$corStruct, "covariate"))
+    times = attr(m_fit$modelStruct$corStruct, "covariate"),
+    returnModel = TRUE)
 }
 \arguments{
   \item{m_fit}{Fitted model of class lme, with AR(1)
@@ -36,6 +37,9 @@
   \item{times}{(Optional) list of times used to describe
   AR(1) structure. Will be extracted from \code{m_fit} if
   not specified.}
+
+  \item{returnModel}{(Optional) If true, the fitted input
+  model is included in the return.}
 }
 \value{
   A list with the following components \tabular{ll}{
@@ -43,7 +47,8 @@
   \code{r_theta} \tab Squared denominator of effect size
   \cr \code{delta_AB} \tab Unadjusted (REML) effect size
   estimate \cr \code{nu} \tab Estimated denominator degrees
-  of freedom \cr \code{g_AB} \tab Corrected effect size
+  of freedom \cr \code{kappa} \tab Scaled standard error of
+  numerator \cr \code{g_AB} \tab Corrected effect size
   estimate \cr \code{V_g_AB} \tab Approximate variance
   estimate \cr \code{cnvg_warn} \tab Indicator that model
   did not converge \cr \code{sigma_sq} \tab Estimated
@@ -59,6 +64,19 @@
   in Pustejovsky, Hedges, & Shadish (2013). Note that the
   data must contain one row per measurement occasion per
   case.
+}
+\examples{
+data(Laski)
+Laski_RML <- lme(fixed = outcome ~ treatment, random = ~ 1 | case, correlation = corAR1(0, ~ time | case), data = Laski)
+summary(Laski_RML)
+g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel=FALSE)
+
+data(Schutte)
+Schutte$trt.week <- with(Schutte, unlist(tapply((treatment=="treatment") * week, list(treatment,case), function(x) x - min(x))) + (treatment=="treatment"))
+Schutte$week <- Schutte$week - 9
+Schutte_RML <- lme(fixed = fatigue ~ week + treatment + trt.week, random = ~ week | case, correlation = corAR1(0, ~ week | case), data = Schutte)
+summary(Schutte_RML)
+g_REML(Schutte_RML, p_const = c(0,0,1,7), r_const = c(1,0,1,0,0), returnModel=FALSE)
 }
 \references{
   Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R.

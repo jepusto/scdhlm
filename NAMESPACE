@@ -1,5 +1,8 @@
 export(compare_RML_HPS)
+export(design_matrix)
 export(effect_size_ABk)
 export(effect_size_MB)
 export(g_REML)
 export(Info_Expected_lmeAR1)
+export(simulate_MB4)
+export(simulate_TR2)

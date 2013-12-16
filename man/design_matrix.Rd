@@ -1,0 +1,29 @@
+\name{design_matrix}
+\alias{design_matrix}
+\title{Create a design matrix for a single-case design}
+\usage{
+  design_matrix(m, n, treat_times = n/2 + 1, center = 0)
+}
+\arguments{
+  \item{m}{number of cases}
+
+  \item{n}{number of time points}
+
+  \item{treat_times}{(Optional) vector of length \code{m}
+  listing treatment introduction times for each case.}
+
+  \item{center}{centering point for time trend.}
+}
+\value{
+  A design matrix
+}
+\description{
+  Create a design matrix containing a linear trend, a
+  treatment effect, and a trend-by-treatment interaction
+  for a single-case design with \code{m} cases and \code{n}
+  measurement occasions.
+}
+\examples{
+design_matrix(3, 16, c(5,9,13))
+}
+

@@ -15,6 +15,25 @@ MBTreatTimes <- function(m, n, min_B = 3, min_T = 3) {
   return(sort(treat_times))
 }
 
+
+#' @title Create a design matrix for a single-case design
+#' 
+#' @description Create a design matrix containing a linear trend, a treatment effect, and a 
+#' trend-by-treatment interaction for a single-case design with \code{m} cases and \code{n} 
+#' measurement occasions.
+#' 
+#' @param m number of cases
+#' @param n number of time points
+#' @param treat_times (Optional) vector of length \code{m} listing treatment introduction times for each case. 
+#' @param center centering point for time trend.
+#'   
+#' @export 
+#' 
+#' @return A design matrix 
+#' 
+#' @examples 
+#' design_matrix(3, 16, c(5,9,13))
+
 design_matrix <- function(m, n, treat_times = n / 2 + 1, center = 0) {
   X <- data.frame(matrix(NA, m * n, 5))
   attr(X, "bal") <- (length(unique(treat_times)) == 1)
@@ -98,6 +117,9 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #' Design-comparable effect sizes in multiple baseline designs: A general approach
 #' to modeling and estimation.
 #' 
+#' @examples
+#' compare_RML_HPS(iterations=10, design=design_matrix(m=3,n=8), beta = c(0,1,0,0), rho = 0.3, phi = 0.5)
+
 
 compare_RML_HPS <- function(iterations, design, beta, rho, phi) {
   
@@ -113,8 +135,9 @@ compare_RML_HPS <- function(iterations, design, beta, rho, phi) {
            p_const, r_const,
            X_design=as.matrix(design[,fixed_terms]), 
            Z_design=as.matrix(design[,random_terms]),
-           block=design$id, times=NULL)[-11])
-  RML_mat <- matrix(unlist(RML), length(RML[[1]]), iterations, dimnames = list(names(RML[[1]])))
+           block=design$id, times=NULL, returnModel=FALSE)[-12])
+  RML_mat <- matrix(unlist(RML), length(unlist(RML[[1]])), iterations, 
+                    dimnames = list(names(unlist(RML[[1]]))))
   HPS <- HPS_effect_size(y_sims, treatment=design$treatment, id=design$id, time=design$trend)
   
   estimates <- rbind(RML_mat, HPS)
@@ -127,14 +150,6 @@ compare_RML_HPS <- function(iterations, design, beta, rho, phi) {
 ##------------------------------------------------------------------------
 ## Simulate model TR2
 ##------------------------------------------------------------------------
-
-# iterations <- 1000
-# design <- design_matrix(m=3, n=8, treat_times=5)
-# beta <- c(0,1,0,0)
-# rho <- 0
-# phi <- 0.5
-# tau1_ratio <- 0.5
-# tau_corr <- -0.4
 
 convergence_handler_TR2 <- function(design, y, method="REML") {
   fixed_terms <- c("constant","treatment")
@@ -152,20 +167,47 @@ convergence_handler_TR2 <- function(design, y, method="REML") {
     g <- g_REML(m_full, p_const=p_const, r_const=c(1,0,1,0,0),
                 X_design=as.matrix(design[,fixed_terms]), 
                 Z_design=as.matrix(design[,c("constant","treatment")]),
-                block=design$id, times=NULL)[-11]
+                block=design$id, times=NULL, returnModel=FALSE)[-12]
   } else {
     m_reduced <- lme_fit(y, design, fixed_terms=fixed_terms, 
                          random_terms="constant", method=method)
     attr(m_reduced,"warning") <- m_full
-    g <- c(g_REML(m_reduced, p_const=p_const, r_const=c(1,0,1),
+    g <- g_REML(m_reduced, p_const=p_const, r_const=c(1,0,1),
                   X_design=as.matrix(design[,fixed_terms]), 
                   Z_design=as.matrix(design[,"constant"]),
-                  block=design$id, times=NULL)[-11],
-           "id.cov(treatment,constant)" = 0,
-           "id.var(treatment)" = 0)
+                  block=design$id, times=NULL, returnModel=FALSE)[-12]
+    g$Tau <- c(g$Tau, "id.cov(treatment,constant)" = 0, "id.var(treatment)" = 0)
   }
   g
 }
+
+#' @title Simulate Model TR2 from Pustejovsky (2013)
+#' 
+#' @description Simulates data from a linear mixed effects model, then calculates 
+#' REML effect size estimator as described in Pustejovsky (2013).
+#' 
+#' @param iterations number of independent iterations of the simulation
+#' @param design design matrix
+#' @param beta vector of fixed effect parameters
+#' @param rho intra-class correlation parameter
+#' @param phi autocorrelation parameter 
+#' @param tau1_ratio ratio of treatment effect variance to intercept variance 
+#' @param tau_corr correlation between case-specific treatment effects and intercepts  
+#'   
+#' @export 
+#' 
+#' @return A list with the following components
+#' \tabular{ll}{
+#' \code{means} \tab Expected value of statistics generated using REML method \cr
+#' \code{var} \tab Variance of statistics generated using REML method \cr
+#' }
+#' 
+#' @references Pustejovsky, J.E. (2013). Operationally Comparable Effect Sizes for 
+#' Meta-Analysis of Single-Case Research. Doctoral dissertation, Northwestern University.
+#' 
+#' @examples
+#' simulate_TR2(iterations = 10, design = design_matrix(m=3, n=8), 
+#'              beta = c(0,1,0,0), rho = 0.4, phi = 0.5, tau1_ratio = 0.5, tau_corr = -0.4)
 
 simulate_TR2 <- function(iterations, design, beta, rho, phi, tau1_ratio, tau_corr) {
   
@@ -175,12 +217,11 @@ simulate_TR2 <- function(iterations, design, beta, rho, phi, tau1_ratio, tau_cor
   
   y_sims <- simulation_data(iterations, design, beta, sigma_sq = 1 - rho, phi, Tau = Tau)
   RML <- apply(y_sims, 2, convergence_handler_TR2, design=design)
-  tau_corr_est <- RML[15,] / sqrt(RML[14,] * RML[16,])
-  
-  list(means = rowMeans(RML), var = apply(RML, 1, var), cov = cor(RML["g_star",],RML["g_AB",]), 
-       tau_corr=table(tau_corr_est), errors=table(RML[16,]==0))
-}
+  RML_mat <- matrix(unlist(RML), length(unlist(RML[[1]])), iterations, 
+                    dimnames = list(names(unlist(RML[[1]]))))
 
+  list(means = rowMeans(RML_mat), var = apply(RML_mat, 1, var))
+}
 
 
 ##------------------------------------------------------------------------
@@ -198,20 +239,52 @@ convergence_handler_MB4 <- function(design, y, p_const) {
   attr(m_full, "warning") <- W
   
   if (!inherits(m_full,"error")) {
-    g <- g_REML(m_full, design, 
-              fixed_terms=fixed_terms, random_terms=c("constant","trend"), 
-              p_const=p_const, r_const=c(1,0,1,0,0))
+    g <- g_REML(m_full, p_const=p_const, r_const=c(1,0,1,0,0),
+                X_design=as.matrix(design[,fixed_terms]), 
+                Z_design=as.matrix(design[,c("constant","trend")]),
+                block=design$id, times=NULL, returnModel=FALSE)[-12]
   } else {
     m_reduced <- lme_fit(y, design, fixed_terms=fixed_terms, random_terms="constant")
     attr(m_reduced,"warning") <- m_full
-    g <- c(g_REML(m_reduced, design, 
-                fixed_terms=fixed_terms, random_terms="constant", 
-                p_const=p_const, r_const=c(1,0,1)),
-           "id.cov(trend,constant)" = 0,
-           "id.var(trend)" = 0)
+    g <- g_REML(m_reduced, p_const=p_const, r_const=c(1,0,1),
+                X_design=as.matrix(design[,fixed_terms]), 
+                Z_design=as.matrix(design[,"constant"]),
+                block=design$id, times=NULL, returnModel=FALSE)[-12]
+    g$Tau <- c(g$Tau, "id.cov(trend,constant)" = 0, "id.var(trend)" = 0)
   }
   g
 }
+
+#' @title Simulate Model MB4 from Pustejovsky (2013)
+#' 
+#' @description Simulates data from a linear mixed effects model, then calculates 
+#' REML effect size estimator as described in Pustejovsky (2013).
+#' 
+#' @param iterations number of independent iterations of the simulation
+#' @param design design matrix
+#' @param beta vector of fixed effect parameters
+#' @param rho intra-class correlation parameter
+#' @param phi autocorrelation parameter 
+#' @param tau2_ratio ratio of trend variance to intercept variance 
+#' @param tau_corr correlation between case-specific trends and intercepts
+#' @param p_const vector of constants for calculating numerator of effect size
+#'   
+#' @export 
+#' 
+#' @return A list with the following components
+#' \tabular{ll}{
+#' \code{means} \tab Expected value of statistics generated using REML method \cr
+#' \code{var} \tab Variance of statistics generated using REML method \cr
+#' }
+#' 
+#' @references Pustejovsky, J.E. (2013). Operationally Comparable Effect Sizes for 
+#' Meta-Analysis of Single-Case Research. Doctoral dissertation, Northwestern University.
+#' 
+#' @examples
+#' simulate_MB4(iterations = 10, 
+#'              design = design_matrix(3, 16, treat_times=c(5,9,13), center = 12), 
+#'              beta = c(0,1,0,0), rho = 0.8, phi = 0.5, tau2_ratio = 0.5, tau_corr = 0, 
+#'              p_const = c(0,1,0,7))
 
 simulate_MB4 <- function(iterations, design, beta, rho, phi, tau2_ratio, tau_corr, p_const) {
   
@@ -221,27 +294,8 @@ simulate_MB4 <- function(iterations, design, beta, rho, phi, tau2_ratio, tau_cor
   
   y_sims <- simulation_data(iterations, design, beta, sigma_sq = 1 - rho, phi, Tau = Tau)
   RML <- apply(y_sims, 2, convergence_handler_MB4, design=design, p_const=p_const)
-  tau_corr_est <- RML[15,] / sqrt(RML[14,] * RML[16,])
+  RML_mat <- matrix(unlist(RML), length(unlist(RML[[1]])), iterations, 
+                    dimnames = list(names(unlist(RML[[1]]))))
   
-  list(means = rowMeans(RML), var = apply(RML, 1, var), cov = cor(RML["g_star",],RML["g_AB",]), 
-       tau_corr=table(tau_corr_est), errors=table(RML[16,]==0))
+  list(means = rowMeans(RML_mat), var = apply(RML_mat, 1, var))
 }
-
-# iterations <- 1000
-# m <- 3
-# n <- 16
-# design <- design_matrix(m, n, treat_times=MBTreatTimes(m,n), center = 3 * n / 4)
-# beta <- c(0,1,0,0)
-# rho <- 0.8
-# phi <- 0.5
-# tau2_ratio <- 0.5
-# tau_corr <- 0
-# 
-# MB4 <- simulate_MB4(iterations, design, beta, rho, phi, tau2_ratio, tau_corr)
-# tau_corr <- rep(as.double(names(MB4$tau_corr)),MB4$tau_corr)
-# hist(tau_corr)
-# table(round(tau_corr,2))
-# plot(density(tau_corr))
-# MB4$errors
-
-

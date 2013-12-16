@@ -184,6 +184,11 @@ Info_Expected <- function(theta, X_design, Z_design, block, times=NULL) {
 #' @export 
 #' 
 #' @return Expected Information matrix corresponding to variance components of \code{m_fit}.
+#' 
+#' @examples
+#' data(Laski)
+#' Laski_RML <- lme(fixed = outcome ~ treatment, random = ~ 1 | case, correlation = corAR1(0, ~ time | case), data = Laski)
+#' Info_Expected_lmeAR1(Laski_RML)
 
 Info_Expected_lmeAR1 <- function(m_fit) {
   theta <- extract_varcomp(m_fit)
@@ -213,6 +218,7 @@ Info_Expected_lmeAR1 <- function(m_fit) {
 #' @param Z_design (Optional) Design matrix for random effects. Will be extracted from \code{m_fit} if not specified.
 #' @param block (Optional) Factor variable describing the blocking structure. Will be extracted from \code{m_fit} if not specified.
 #' @param times (Optional) list of times used to describe AR(1) structure. Will be extracted from \code{m_fit} if not specified.
+#' @param returnModel (Optional) If true, the fitted input model is included in the return.
 #' 
 #' @export 
 #' 
@@ -222,6 +228,7 @@ Info_Expected_lmeAR1 <- function(m_fit) {
 #' \code{r_theta} \tab Squared denominator of effect size \cr
 #' \code{delta_AB} \tab Unadjusted (REML) effect size estimate \cr
 #' \code{nu} \tab Estimated denominator degrees of freedom \cr
+#' \code{kappa} \tab Scaled standard error of numerator \cr
 #' \code{g_AB} \tab Corrected effect size estimate \cr
 #' \code{V_g_AB} \tab Approximate variance estimate \cr
 #' \code{cnvg_warn} \tab Indicator that model did not converge \cr
@@ -235,12 +242,24 @@ Info_Expected_lmeAR1 <- function(m_fit) {
 #' Design-comparable effect sizes in multiple baseline designs: A general approach
 #' to modeling and estimation.
 #' 
+#' @examples
+#' data(Laski)
+#' Laski_RML <- lme(fixed = outcome ~ treatment, random = ~ 1 | case, correlation = corAR1(0, ~ time | case), data = Laski)
+#' summary(Laski_RML)
+#' g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel=FALSE)
+#' 
+#' data(Schutte)
+#' Schutte$trt.week <- with(Schutte, unlist(tapply((treatment=="treatment") * week, list(treatment,case), function(x) x - min(x))) + (treatment=="treatment"))
+#' Schutte$week <- Schutte$week - 9
+#' Schutte_RML <- lme(fixed = fatigue ~ week + treatment + trt.week, random = ~ week | case, correlation = corAR1(0, ~ week | case), data = Schutte)
+#' summary(Schutte_RML)
+#' g_REML(Schutte_RML, p_const = c(0,0,1,7), r_const = c(1,0,1,0,0), returnModel=FALSE)
 
 g_REML <- function(m_fit, p_const, r_const, 
                    X_design = model.matrix(m_fit, data = m_fit$data), 
                    Z_design = model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data), 
                    block = nlme::getGroups(m_fit),
-                   times = attr(m_fit$modelStruct$corStruct, "covariate")) {
+                   times = attr(m_fit$modelStruct$corStruct, "covariate"), returnModel=TRUE) {
 
   # basic model estimates
   p_beta <- sum(nlme::fixed.effects(m_fit) * p_const)               # p'Beta
@@ -260,8 +279,15 @@ g_REML <- function(m_fit, p_const, r_const,
   nu_trunc <- max(nu, 2.001)
   V_g_AB <- J(nu)^2 * (nu_trunc * kappa_sq / (nu_trunc - 2) + g_AB^2 * (nu_trunc / (nu_trunc - 2) - 1 / J(nu_trunc)^2))
   
-  return(c(list(p_beta=p_beta, r_theta=r_theta, delta_AB=delta_AB, nu=nu, 
-                 g_AB=g_AB, V_g_AB=V_g_AB, cnvg_warn=cnvg_warn), theta, list(I_E_inv=I_E_inv)))
+  g_REML <- c(list(p_beta=p_beta, r_theta=r_theta, delta_AB=delta_AB, nu=nu, kappa = sqrt(kappa_sq),
+                   g_AB=g_AB, V_g_AB=V_g_AB, cnvg_warn=cnvg_warn), theta, list(I_E_inv=I_E_inv))
+  
+  if (returnModel) {
+    g_REML <- c(g_REML, m_fit)
+    class(g_REML) <- "g_REML"
+  }    
+  
+  return(g_REML)
 }
 
 
