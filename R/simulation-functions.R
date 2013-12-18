@@ -99,10 +99,13 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #' REML and HPS effect size estimators as described in Pustejovsky, Hedges, & Shadish (2013).
 #' 
 #' @param iterations number of independent iterations of the simulation
-#' @param design design matrix
 #' @param beta vector of fixed effect parameters
 #' @param rho intra-class correlation parameter
 #' @param phi autocorrelation parameter 
+#' @param design design matrix. If not specified, it will be calculated based on \code{m}, \code{n}, and \code{MB}.
+#' @param m number of cases. Not used if \code{design} is specified.
+#' @param n number of measurement occasions. Not used if \code{design} is specified.
+#' @param MB If true, a multiple baseline design will be used; otherwise, an AB design will be used. Not used if \code{design} is specified.
 #'   
 #' @export 
 #' 
@@ -118,11 +121,15 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #' to modeling and estimation.
 #' 
 #' @examples
-#' compare_RML_HPS(iterations=10, design=design_matrix(m=3,n=8), beta = c(0,1,0,0), rho = 0.3, phi = 0.5)
+#' compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3, phi = 0.5, design=design_matrix(m=3,n=8))
 
 
-compare_RML_HPS <- function(iterations, design, beta, rho, phi) {
-  
+compare_RML_HPS <- function(iterations, beta, rho, phi, design = NULL, m = NULL, n = NULL, MB = TRUE) {
+  if (is.null(design)) {
+    treat_times <- if (MB) MBTreatTimes(m=m,n=n) else rep(n / 2 + 1, m)
+    design <- design_matrix(m=m, n=n, treat_times = treat_times)
+  }
+    
   fixed_terms <- c("constant","treatment")
   random_terms <- c("constant")
   p_const <- c(0,1)
