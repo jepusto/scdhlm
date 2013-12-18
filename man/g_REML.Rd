@@ -74,9 +74,13 @@ g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel=FALSE)
 data(Schutte)
 Schutte$trt.week <- with(Schutte, unlist(tapply((treatment=="treatment") * week, list(treatment,case), function(x) x - min(x))) + (treatment=="treatment"))
 Schutte$week <- Schutte$week - 9
-Schutte_RML <- lme(fixed = fatigue ~ week + treatment + trt.week, random = ~ week | case, correlation = corAR1(0, ~ week | case), data = Schutte)
+Schutte_RML <- lme(fixed = fatigue ~ week + treatment + trt.week,
+                   random = ~ week | case,
+                   correlation = corAR1(0, ~ week | case),
+                   data = subset(Schutte, case != 4))
 summary(Schutte_RML)
-g_REML(Schutte_RML, p_const = c(0,0,1,7), r_const = c(1,0,1,0,0), returnModel=FALSE)
+Schutte_g <- g_REML(Schutte_RML, p_const = c(0,0,1,7), r_const = c(1,0,1,0,0))
+summary(Schutte_g)
 }
 \references{
   Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R.

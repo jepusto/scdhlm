@@ -251,9 +251,13 @@ Info_Expected_lmeAR1 <- function(m_fit) {
 #' data(Schutte)
 #' Schutte$trt.week <- with(Schutte, unlist(tapply((treatment=="treatment") * week, list(treatment,case), function(x) x - min(x))) + (treatment=="treatment"))
 #' Schutte$week <- Schutte$week - 9
-#' Schutte_RML <- lme(fixed = fatigue ~ week + treatment + trt.week, random = ~ week | case, correlation = corAR1(0, ~ week | case), data = Schutte)
+#' Schutte_RML <- lme(fixed = fatigue ~ week + treatment + trt.week, 
+#'                    random = ~ week | case, 
+#'                    correlation = corAR1(0, ~ week | case), 
+#'                    data = subset(Schutte, case != 4))
 #' summary(Schutte_RML)
-#' g_REML(Schutte_RML, p_const = c(0,0,1,7), r_const = c(1,0,1,0,0), returnModel=FALSE)
+#' Schutte_g <- g_REML(Schutte_RML, p_const = c(0,0,1,7), r_const = c(1,0,1,0,0))
+#' summary(Schutte_g)
 
 g_REML <- function(m_fit, p_const, r_const, 
                    X_design = model.matrix(m_fit, data = m_fit$data), 
@@ -291,3 +295,16 @@ g_REML <- function(m_fit, p_const, r_const,
 }
 
 
+#' @S3method summary g_REML
+#'
+
+summary.g_REML <- function(object, ...) {
+  varcomp <- with(object, cbind(est = c(sigma_sq = sigma_sq, phi = phi, Tau, r_theta = r_theta),
+                                se = c(sqrt(diag(I_E_inv)), r_theta * sqrt(2 / nu))))
+  betas <- with(object, cbind(est = c(coefficients$fixed, p_beta = p_beta),
+                            se = c(sqrt(diag(varFix)), kappa * sqrt(r_theta))))
+  ES <- with(object, cbind(est = c(unadjusted = delta_AB, adjusted = g_AB, df = nu, kappa = kappa, logLik=logLik),
+                               se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA, NA, NA)))
+  
+  round(rbind(varcomp, betas, ES),2)
+}
