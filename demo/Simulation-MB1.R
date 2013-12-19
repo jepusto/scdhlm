@@ -4,12 +4,14 @@
 #------------------------------------
 iterations <- 25
 beta <- c(0,1,0,0)
-phi <- -3:5 / 10
+phi <- seq(-0.7, 0.7, 0.2)
 rho <- seq(0.0, 0.8, 0.2)
 m <- 3:6
 n <- c(8, 16)
   
 parms <- expand.grid(phi = phi, rho = rho, m = m, n=n)
+print(lengths <- c(length(phi), length(rho), length(m), length(n)))
+prod(lengths)
 dim(parms)
 
 #--------------------------------------
@@ -24,9 +26,9 @@ system.time(MB1results <- maply(parms[1:5,], .fun = compare_RML_HPS,
 save(MB1results, file="data/MB1-results.RData")
 
 
-#-------------------------------------------
-# run simulations in parallel on Windows
-#-------------------------------------------
+#--------------------------------------------------------
+# run simulations in parallel on Windows via SNOW
+#--------------------------------------------------------
 
 library(plyr)
 library(snow)
@@ -50,6 +52,26 @@ stopCluster(cluster)
 save(MB1results, file="data/MB1-results.RData")
 
 
+#-------------------------------------------------------------
+# run simulations in parallel on Mac via multicore
+#-------------------------------------------------------------
+
+# set up multicore
+library(parallel)
+library(foreach)
+library(iterators)
+library(doParallel)
+registerDoParallel(cores=detectCores())
+
+library(plyr)
+library(scdhlm)
+
+# execute simulations
+system.time(MB1results <- maply(parms, .fun = compare_RML_HPS, 
+                                iterations = iterations, beta = beta, 
+                                .drop=FALSE, .parallel=TRUE))
+
+save(MB1results, file="data/MB1-results.RData")
 
 #--------------------------------------
 # plot results
