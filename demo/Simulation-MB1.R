@@ -81,5 +81,5 @@ attr(MB1results, "beta") <- beta
 save(MB1results, file="data/MB1-results.RData")
 
 #--------------------------------------
-# plot results
+# Analyze results
 #--------------------------------------
