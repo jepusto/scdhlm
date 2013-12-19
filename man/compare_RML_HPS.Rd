@@ -2,8 +2,8 @@
 \alias{compare_RML_HPS}
 \title{Run simulation comparing REML and HPS estimates}
 \usage{
-  compare_RML_HPS(iterations, beta, rho, phi,
-    design = NULL, m = NULL, n = NULL, MB = TRUE)
+  compare_RML_HPS(iterations, beta, rho, phi, design, m, n,
+    MB = TRUE)
 }
 \arguments{
   \item{iterations}{number of independent iterations of the

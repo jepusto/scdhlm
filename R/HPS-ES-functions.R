@@ -485,5 +485,6 @@ HPS_effect_size <- function(outcomes, treatment, id, time) {
   ## return results ##
   
   rbind(D_bar = D_bar, S_sq = S_sq, delta_hat_unadj = delta_hat_unadj, 
-        phi_hat = phi_hat, rho_hat = rho_hat, df = df, delta_hat = delta_hat, V_delta_hat = V_delta_hat)
+        phi_hat = phi_hat, rho_hat = rho_hat, kappa = theta, df = df,
+        delta_hat = delta_hat, V_delta_hat = V_delta_hat)
 }

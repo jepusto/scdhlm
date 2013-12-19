@@ -124,8 +124,8 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #' compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3, phi = 0.5, design=design_matrix(m=3,n=8))
 
 
-compare_RML_HPS <- function(iterations, beta, rho, phi, design = NULL, m = NULL, n = NULL, MB = TRUE) {
-  if (is.null(design)) {
+compare_RML_HPS <- function(iterations, beta, rho, phi, design, m, n, MB = TRUE) {
+  if (missing(design)) {
     treat_times <- if (MB) MBTreatTimes(m=m,n=n) else rep(n / 2 + 1, m)
     design <- design_matrix(m=m, n=n, treat_times = treat_times)
   }
@@ -147,7 +147,11 @@ compare_RML_HPS <- function(iterations, beta, rho, phi, design = NULL, m = NULL,
                     dimnames = list(names(unlist(RML[[1]]))))
   HPS <- HPS_effect_size(y_sims, treatment=design$treatment, id=design$id, time=design$trend)
   
-  estimates <- rbind(RML_mat, HPS)
+  RML_coverage1 <- coverage(delta = beta[2], CI = CI_SMD(delta = RML_mat["delta_AB",], kappa = RML_mat["kappa",], nu = RML_mat["nu",]))
+  RML_coverage2 <- abs(RML_mat["g_AB",] - beta[2]) / sqrt(RML_mat["V_g_AB",]) < qt(0.975, df = RML_mat["nu",])
+  HPS_coverage1 <- coverage(delta = beta[2], CI = CI_SMD(delta = HPS["delta_hat_unadj",], kappa = HPS["kappa",], nu = HPS["df",]))
+  HPS_coverage2 <- abs(HPS["delta_hat",] - beta[2]) / sqrt(HPS["V_delta_hat",]) < qt(0.975, df = HPS["df",])
+  estimates <- rbind(RML_mat, RML_coverage1, RML_coverage2, HPS, HPS_coverage1, HPS_coverage2)
   list(means = rowMeans(estimates), var = apply(estimates, 1, var), 
        cov = cov(estimates["g_AB",], estimates["delta_hat",]))
 }
@@ -155,10 +159,10 @@ compare_RML_HPS <- function(iterations, beta, rho, phi, design = NULL, m = NULL,
 
 
 ##------------------------------------------------------------------------
-## Simulate model TR2
+## Simulate model MB2
 ##------------------------------------------------------------------------
 
-convergence_handler_TR2 <- function(design, y, method="REML") {
+convergence_handler_MB2 <- function(design, y, method="REML") {
   fixed_terms <- c("constant","treatment")
   p_const <- c(0,1)
   W <- NULL
@@ -188,7 +192,7 @@ convergence_handler_TR2 <- function(design, y, method="REML") {
   g
 }
 
-#' @title Simulate Model TR2 from Pustejovsky (2013)
+#' @title Simulate Model MB2 from Pustejovsky (2013)
 #' 
 #' @description Simulates data from a linear mixed effects model, then calculates 
 #' REML effect size estimator as described in Pustejovsky (2013).
@@ -213,21 +217,24 @@ convergence_handler_TR2 <- function(design, y, method="REML") {
 #' Meta-Analysis of Single-Case Research. Doctoral dissertation, Northwestern University.
 #' 
 #' @examples
-#' simulate_TR2(iterations = 10, design = design_matrix(m=3, n=8), 
+#' simulate_MB2(iterations = 10, design = design_matrix(m=3, n=8), 
 #'              beta = c(0,1,0,0), rho = 0.4, phi = 0.5, tau1_ratio = 0.5, tau_corr = -0.4)
 
-simulate_TR2 <- function(iterations, design, beta, rho, phi, tau1_ratio, tau_corr) {
+simulate_MB2 <- function(iterations, design, beta, rho, phi, tau1_ratio, tau_corr) {
   
   Tau <- rbind(cbind(
     rho * matrix(c(1,rep(tau_corr * sqrt(tau1_ratio),2),tau1_ratio), 2, 2), 
     matrix(0,2,2)), matrix(0,2,4))
   
   y_sims <- simulation_data(iterations, design, beta, sigma_sq = 1 - rho, phi, Tau = Tau)
-  RML <- apply(y_sims, 2, convergence_handler_TR2, design=design)
+  RML <- apply(y_sims, 2, convergence_handler_MB2, design=design)
   RML_mat <- matrix(unlist(RML), length(unlist(RML[[1]])), iterations, 
                     dimnames = list(names(unlist(RML[[1]]))))
-
-  list(means = rowMeans(RML_mat), var = apply(RML_mat, 1, var))
+  RML_coverage1 <- coverage(delta = beta[2], CI = CI_SMD(delta = RML_mat["delta_AB",], kappa = RML_mat["kappa",], nu = RML_mat["nu",]))
+  RML_coverage2 <- abs(RML_mat["g_AB",] - beta[2]) / sqrt(RML_mat["V_g_AB",]) < qt(0.975, df = RML_mat["nu",])
+  estimates <- rbind(RML_mat, RML_coverage1, RML_coverage2)
+  
+  list(means = rowMeans(estimates), var = apply(estimates, 1, var))
 }
 
 
@@ -303,6 +310,9 @@ simulate_MB4 <- function(iterations, design, beta, rho, phi, tau2_ratio, tau_cor
   RML <- apply(y_sims, 2, convergence_handler_MB4, design=design, p_const=p_const)
   RML_mat <- matrix(unlist(RML), length(unlist(RML[[1]])), iterations, 
                     dimnames = list(names(unlist(RML[[1]]))))
+  RML_coverage1 <- coverage(delta = sum(beta * p_const), CI = CI_SMD(delta = RML_mat["delta_AB",], kappa = RML_mat["kappa",], nu = RML_mat["nu",]))
+  RML_coverage2 <- abs(RML_mat["g_AB",] - sum(beta * p_const)) / sqrt(RML_mat["V_g_AB",]) < qt(0.975, df = RML_mat["nu",])
+  estimates <- rbind(RML_mat, RML_coverage1, RML_coverage2)
   
-  list(means = rowMeans(RML_mat), var = apply(RML_mat, 1, var))
+  list(means = rowMeans(estimates), var = apply(estimates, 1, var))
 }
