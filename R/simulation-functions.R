@@ -198,12 +198,15 @@ convergence_handler_MB2 <- function(design, y, method="REML") {
 #' REML effect size estimator as described in Pustejovsky (2013).
 #' 
 #' @param iterations number of independent iterations of the simulation
-#' @param design design matrix
 #' @param beta vector of fixed effect parameters
 #' @param rho intra-class correlation parameter
 #' @param phi autocorrelation parameter 
 #' @param tau1_ratio ratio of treatment effect variance to intercept variance 
 #' @param tau_corr correlation between case-specific treatment effects and intercepts  
+#' @param design design matrix. If not specified, it will be calculated based on \code{m}, \code{n}, and \code{MB}.
+#' @param m number of cases. Not used if \code{design} is specified.
+#' @param n number of measurement occasions. Not used if \code{design} is specified.
+#' @param MB If true, a multiple baseline design will be used; otherwise, an AB design will be used. Not used if \code{design} is specified.
 #'   
 #' @export 
 #' 
@@ -217,10 +220,18 @@ convergence_handler_MB2 <- function(design, y, method="REML") {
 #' Meta-Analysis of Single-Case Research. Doctoral dissertation, Northwestern University.
 #' 
 #' @examples
-#' simulate_MB2(iterations = 10, design = design_matrix(m=3, n=8), 
-#'              beta = c(0,1,0,0), rho = 0.4, phi = 0.5, tau1_ratio = 0.5, tau_corr = -0.4)
+#' set.seed(8)
+#' simulate_MB2(iterations = 10, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, tau1_ratio = 0.5, tau_corr = -0.4, design = design_matrix(m=3, n=8))
+#' set.seed(8)
+#' simulate_MB2(iterations = 10, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, tau1_ratio = 0.5, tau_corr = -0.4, m = 3, n = 8, MB = FALSE)
 
-simulate_MB2 <- function(iterations, design, beta, rho, phi, tau1_ratio, tau_corr) {
+
+simulate_MB2 <- function(iterations, beta, rho, phi, tau1_ratio, tau_corr, design, m, n, MB = TRUE) {
+
+  if (missing(design)) {
+    treat_times <- if (MB) MBTreatTimes(m=m,n=n) else rep(n / 2 + 1, m)
+    design <- design_matrix(m=m, n=n, treat_times = treat_times)
+  }
   
   Tau <- rbind(cbind(
     rho * matrix(c(1,rep(tau_corr * sqrt(tau1_ratio),2),tau1_ratio), 2, 2), 
@@ -275,13 +286,16 @@ convergence_handler_MB4 <- function(design, y, p_const) {
 #' REML effect size estimator as described in Pustejovsky (2013).
 #' 
 #' @param iterations number of independent iterations of the simulation
-#' @param design design matrix
 #' @param beta vector of fixed effect parameters
 #' @param rho intra-class correlation parameter
 #' @param phi autocorrelation parameter 
 #' @param tau2_ratio ratio of trend variance to intercept variance 
 #' @param tau_corr correlation between case-specific trends and intercepts
 #' @param p_const vector of constants for calculating numerator of effect size
+#' @param design design matrix. If not specified, it will be calculated based on \code{m}, \code{n}, and \code{MB}.
+#' @param m number of cases. Not used if \code{design} is specified.
+#' @param n number of measurement occasions. Not used if \code{design} is specified.
+#' @param MB If true, a multiple baseline design will be used; otherwise, an AB design will be used. Not used if \code{design} is specified.
 #'   
 #' @export 
 #' 
@@ -295,12 +309,15 @@ convergence_handler_MB4 <- function(design, y, p_const) {
 #' Meta-Analysis of Single-Case Research. Doctoral dissertation, Northwestern University.
 #' 
 #' @examples
-#' simulate_MB4(iterations = 10, 
-#'              design = design_matrix(3, 16, treat_times=c(5,9,13), center = 12), 
-#'              beta = c(0,1,0,0), rho = 0.8, phi = 0.5, tau2_ratio = 0.5, tau_corr = 0, 
-#'              p_const = c(0,1,0,7))
+#' simulate_MB4(iterations = 10, beta = c(0,1,0,0), rho = 0.8, phi = 0.5, tau2_ratio = 0.5, tau_corr = 0, 
+#'              p_const = c(0,1,0,7), design = design_matrix(3, 16, treat_times=c(5,9,13), center = 12))
 
-simulate_MB4 <- function(iterations, design, beta, rho, phi, tau2_ratio, tau_corr, p_const) {
+simulate_MB4 <- function(iterations, beta, rho, phi, tau2_ratio, tau_corr, p_const, design, m, n, MB = TRUE) {
+  
+  if (missing(design)) {
+    treat_times <- if (MB) MBTreatTimes(m=m,n=n) else rep(n / 2 + 1, m)
+    design <- design_matrix(m=m, n=n, treat_times = treat_times)
+  }
   
   Tau <- rbind(cbind(
     rho * matrix(c(1,rep(tau_corr * sqrt(tau2_ratio),2),tau2_ratio), 2, 2), 
