@@ -2,9 +2,9 @@
 #------------------------------------
 # Design parameters
 #------------------------------------
-iterations <- 25
+iterations <- 10
 beta <- c(0,1,0,0)
-phi <- seq(-0.7, 0.7, 0.2)
+phi <- seq(-7L, 7L, 2) / 10L
 rho <- seq(0.0, 0.8, 0.2)
 m <- 3:6
 n <- c(8, 16)
@@ -21,8 +21,8 @@ dim(parms)
 library(plyr)
 library(scdhlm)
 set.seed(20110325)
-system.time(MB1results <- maply(parms[1:5,], .fun = compare_RML_HPS, 
-                             iterations = iterations, beta = beta, .drop=FALSE))
+system.time(MB1results <- maply(parms, .fun = compare_RML_HPS, 
+                             iterations = iterations, beta = beta, .drop=FALSE, .progress = "text"))
 save(MB1results, file="data/MB1-results.RData")
 
 

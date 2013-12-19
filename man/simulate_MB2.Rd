@@ -1,8 +1,8 @@
-\name{simulate_TR2}
-\alias{simulate_TR2}
-\title{Simulate Model TR2 from Pustejovsky (2013)}
+\name{simulate_MB2}
+\alias{simulate_MB2}
+\title{Simulate Model MB2 from Pustejovsky (2013)}
 \usage{
-  simulate_TR2(iterations, design, beta, rho, phi,
+  simulate_MB2(iterations, design, beta, rho, phi,
     tau1_ratio, tau_corr)
 }
 \arguments{
@@ -35,7 +35,7 @@
   Pustejovsky (2013).
 }
 \examples{
-simulate_TR2(iterations = 10, design = design_matrix(m=3, n=8),
+simulate_MB2(iterations = 10, design = design_matrix(m=3, n=8),
              beta = c(0,1,0,0), rho = 0.4, phi = 0.5, tau1_ratio = 0.5, tau_corr = -0.4)
 }
 \references{
