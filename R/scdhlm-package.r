@@ -178,3 +178,45 @@ NULL
 #' Design-comparable effect sizes in multiple baseline designs: A general approach
 #' to modeling and estimation.
 NULL
+
+#' MB1 simulation results
+#' 
+#' Simulation results for model MB1 from  Pustejovsky, Hedges, & Shadish (2013).
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame
+#' @name MB1results
+#' 
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
+#' Design-comparable effect sizes in multiple baseline designs: A general approach
+#' to modeling and estimation.
+NULL
+
+#' MB2 simulation results
+#' 
+#' Simulation results for model MB2 from  Pustejovsky, Hedges, & Shadish (2013).
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame
+#' @name MB2results
+#' 
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
+#' Design-comparable effect sizes in multiple baseline designs: A general approach
+#' to modeling and estimation.
+NULL
+
+#' MB4 simulation results
+#' 
+#' Simulation results for model MB4 from  Pustejovsky, Hedges, & Shadish (2013).
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame
+#' @name MB4results
+#' 
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
+#' Design-comparable effect sizes in multiple baseline designs: A general approach
+#' to modeling and estimation.
+NULL

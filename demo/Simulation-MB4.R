@@ -25,13 +25,9 @@ head(parms)
 library(plyr)
 library(scdhlm)
 set.seed(19810112)
-system.time(MB4results <- maply(parms, .fun = simulate_MB4, 
+system.time(MB4_array <- maply(parms, .fun = simulate_MB4, 
                                 iterations = iterations, beta = beta, p_const = p_const,
                                 .drop=FALSE, .progress = "text"))
-attr(MB4results, "iterations") <- iterations
-attr(MB4results, "beta") <- beta
-attr(MB4results, "p_const") <- p_const
-save(MB4results, file="data/MB4-results.RData")
 
 
 #--------------------------------------------------------
@@ -45,22 +41,18 @@ library(iterators)
 library(doSNOW)
 library(rlecuyer)
 
-cluster <- makeCluster(8, type = "SOCK")
+cluster <- makeCluster(4, type = "SOCK")
 registerDoSNOW(cluster)
 
 # set up parallel random number generator
 clusterSetupRNGstream(cluster, 20131003)
 
 # execute simulations
-system.time(MB4results <- maply(parms, .fun = simulate_MB4, 
+system.time(MB4_array <- maply(parms, .fun = simulate_MB4, 
                                 iterations = iterations, beta = beta, p_const = p_const,
                                 .drop=FALSE, .parallel=TRUE,
                                 .paropts = list(.packages="scdhlm")))
 stopCluster(cluster)
-attr(MB4results, "iterations") <- iterations
-attr(MB4results, "beta") <- beta
-attr(MB4results, "p_const") <- p_const
-save(MB4results, file="data/MB4-results.RData")
 
 
 #-------------------------------------------------------------
@@ -78,15 +70,26 @@ library(plyr)
 library(scdhlm)
 
 # execute simulations
-system.time(MB4results <- maply(parms, .fun = simulate_MB4, 
+system.time(MB4_array <- maply(parms, .fun = simulate_MB4, 
                                 iterations = iterations, beta = beta, p_const = p_const,
                                 .drop=FALSE, .parallel=TRUE,
                                 .paropts = list(.packages="scdhlm")))
+
+##------------------------------------------------
+## reshape and save results
+##------------------------------------------------
+
+library(reshape)
+
+names(dimnames(MB4_array))[7:8] <- c("stat","moment")
+MB4results <- cast(melt(MB4_array), ... ~ moment)
 attr(MB4results, "iterations") <- iterations
 attr(MB4results, "beta") <- beta
 attr(MB4results, "p_const") <- p_const
-save(MB4results, file="data/MB4-results.RData")
+save(MB4results, file="data/MB4results.RData", compress="xz")
+
 
 #--------------------------------------
 # Analyze results
 #--------------------------------------
+data(MB4results)

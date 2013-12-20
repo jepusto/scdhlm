@@ -152,8 +152,8 @@ compare_RML_HPS <- function(iterations, beta, rho, phi, design, m, n, MB = TRUE)
   HPS_coverage1 <- coverage(delta = beta[2], CI = CI_SMD(delta = HPS["delta_hat_unadj",], kappa = HPS["kappa",], nu = HPS["df",]))
   HPS_coverage2 <- abs(HPS["delta_hat",] - beta[2]) / sqrt(HPS["V_delta_hat",]) < qt(0.975, df = HPS["df",])
   estimates <- rbind(RML_mat, RML_coverage1, RML_coverage2, HPS, HPS_coverage1, HPS_coverage2)
-  list(means = rowMeans(estimates), var = apply(estimates, 1, var), 
-       cov = cov(estimates["g_AB",], estimates["delta_hat",]))
+  rbind(cbind(mean = rowMeans(estimates), var = apply(estimates, 1, var)), 
+       cov = c(NA, cov(estimates["g_AB",], estimates["delta_hat",])))
 }
 
 
@@ -245,7 +245,7 @@ simulate_MB2 <- function(iterations, beta, rho, phi, tau1_ratio, tau_corr, desig
   RML_coverage2 <- abs(RML_mat["g_AB",] - beta[2]) / sqrt(RML_mat["V_g_AB",]) < qt(0.975, df = RML_mat["nu",])
   estimates <- rbind(RML_mat, RML_coverage1, RML_coverage2)
   
-  list(means = rowMeans(estimates), var = apply(estimates, 1, var))
+  cbind(mean = rowMeans(estimates), var = apply(estimates, 1, var))
 }
 
 
@@ -331,5 +331,5 @@ simulate_MB4 <- function(iterations, beta, rho, phi, tau2_ratio, tau_corr, p_con
   RML_coverage2 <- abs(RML_mat["g_AB",] - sum(beta * p_const)) / sqrt(RML_mat["V_g_AB",]) < qt(0.975, df = RML_mat["nu",])
   estimates <- rbind(RML_mat, RML_coverage1, RML_coverage2)
   
-  list(means = rowMeans(estimates), var = apply(estimates, 1, var))
+  cbind(mean = rowMeans(estimates), var = apply(estimates, 1, var))
 }

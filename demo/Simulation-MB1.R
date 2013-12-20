@@ -21,11 +21,8 @@ dim(parms)
 library(plyr)
 library(scdhlm)
 set.seed(20110325)
-system.time(MB1results <- maply(parms, .fun = compare_RML_HPS, 
+system.time(MB1_array <- maply(parms, .fun = compare_RML_HPS, 
                              iterations = iterations, beta = beta, .drop=FALSE, .progress = "text"))
-attr(MB1results, "iterations") <- iterations
-attr(MB1results, "beta") <- beta
-save(MB1results, file="data/MB1-results.RData")
 
 
 #--------------------------------------------------------
@@ -46,15 +43,11 @@ registerDoSNOW(cluster)
 clusterSetupRNGstream(cluster, 20131003)
 
 # execute simulations
-system.time(MB1results <- maply(parms, .fun = compare_RML_HPS, 
+system.time(MB1_array <- maply(parms, .fun = compare_RML_HPS, 
                              iterations = iterations, beta = beta, 
                              .drop=FALSE, .parallel=TRUE,
                              .paropts = list(.packages="scdhlm")))
 stopCluster(cluster)
-attr(MB1results, "iterations") <- iterations
-attr(MB1results, "beta") <- beta
-save(MB1results, file="data/MB1-results.RData")
-
 
 
 #-------------------------------------------------------------
@@ -72,14 +65,30 @@ library(plyr)
 library(scdhlm)
 
 # execute simulations
-system.time(MB1results <- maply(parms, .fun = compare_RML_HPS, 
+system.time(MB1_array <- maply(parms, .fun = compare_RML_HPS, 
                                 iterations = iterations, beta = beta, 
                                 .drop=FALSE, .parallel=TRUE))
 
+
+##------------------------------------------------
+## reshape and save results
+##------------------------------------------------
+library(reshape)
+load("data/MB1-results.Rdata")
+
+MB1_array <- array(unlist(MB1results[,,,,-3]), 
+                   dim = c(length(MB1results[1,1,1,1,1][[1]]),dim(MB1results[,,,,-3])),
+                   dimnames = c(stat = list(names(MB1results[1,1,1,1,1][[1]])),dimnames(MB1results[,,,,-3])))
+names(dimnames(MB1_array))[6] <- "moment"
+dimnames(MB1_array)$stat[c(5,19)] <- c("kappa_RML","kappa_HPS")
+
+MB1results <- cast(melt(MB1_array), ... ~ moment)
 attr(MB1results, "iterations") <- iterations
 attr(MB1results, "beta") <- beta
-save(MB1results, file="data/MB1-results.RData")
+save(MB1results, file="data/MB1results.RData", compress="xz")
+
 
 #--------------------------------------
 # Analyze results
 #--------------------------------------
+data(MB1results)

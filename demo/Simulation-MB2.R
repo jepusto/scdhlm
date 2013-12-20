@@ -23,11 +23,8 @@ head(parms)
 library(plyr)
 library(scdhlm)
 set.seed(19810112)
-system.time(MB2results <- maply(parms, .fun = simulate_MB2, 
+system.time(MB2_array <- maply(parms, .fun = simulate_MB2, 
                                 iterations = iterations, beta = beta, .drop=FALSE, .progress = "text"))
-attr(MB2results, "iterations") <- iterations
-attr(MB2results, "beta") <- beta
-save(MB2results, file="data/MB2-results.RData")
 
 
 #--------------------------------------------------------
@@ -48,14 +45,11 @@ registerDoSNOW(cluster)
 clusterSetupRNGstream(cluster, 20131003)
 
 # execute simulations
-system.time(MB2results <- maply(parms, .fun = simulate_MB2, 
+system.time(MB2_array <- maply(parms, .fun = simulate_MB2, 
                                 iterations = iterations, beta = beta, 
                                 .drop=FALSE, .parallel=TRUE,
                                 .paropts = list(.packages="scdhlm")))
 stopCluster(cluster)
-attr(MB2results, "iterations") <- iterations
-attr(MB2results, "beta") <- beta
-save(MB2results, file="data/MB2-results.RData")
 
 
 #-------------------------------------------------------------
@@ -73,14 +67,23 @@ library(plyr)
 library(scdhlm)
 
 # execute simulations
-system.time(MB2results <- maply(parms, .fun = simulate_MB2, 
+system.time(MB2_array <- maply(parms, .fun = simulate_MB2, 
                                 iterations = iterations, beta = beta, 
                                 .drop=FALSE, .parallel=TRUE,
                                 .paropts = list(.packages="scdhlm")))
+
+##------------------------------------------------
+## reshape and save results
+##------------------------------------------------
+library(reshape)
+
+names(dimnames(MB2_array))[7:8] <- c("stat","moment")
+MB2results <- cast(melt(MB2_array), ... ~ moment)
 attr(MB2results, "iterations") <- iterations
 attr(MB2results, "beta") <- beta
-save(MB2results, file="data/MB2-results.RData")
+save(MB2results, file="data/MB2results.RData", compress="xz")
 
 #--------------------------------------
 # Analyze results
 #--------------------------------------
+data(MB2results)
