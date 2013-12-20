@@ -1,8 +1,8 @@
-
+set.seed(1)
 #------------------------------------
 # Design parameters
 #------------------------------------
-iterations <- 20000
+iterations <- 10000
 beta <- c(0,1,0,0)
 phi <- seq(-7L, 7L, 2) / 10L
 rho <- seq(0.0, 0.8, 0.2)
@@ -11,11 +11,11 @@ tau_corr <- 0
 m <- 3:6
 n <- c(8, 16)
 
-parms <- expand.grid(phi = phi, rho = rho, tau1_ratio = tau1_ratio, tau_corr = tau_corr, m = m, n=n)
 print(lengths <- c(length(phi), length(rho), length(tau1_ratio), length(tau_corr), length(m), length(n)))
-prod(lengths)
-dim(parms)
+print(combos <- prod(lengths))
+parms <- expand.grid(phi = phi, rho = rho, tau1_ratio = tau1_ratio, tau_corr = tau_corr, m = m, n=n)[sample(combos),]
 head(parms)
+
 #--------------------------------------
 # run simulations in serial
 #--------------------------------------
@@ -51,6 +51,8 @@ system.time(MB2_array <- maply(parms, .fun = simulate_MB2,
                                 .paropts = list(.packages="scdhlm")))
 stopCluster(cluster)
 
+test <- melt(maply(parms, .fun = function(phi, rho, tau1_ratio, tau_corr, m, n) prod(phi, rho, tau1_ratio, m, n)))
+test$truth <- with(test, phi * rho * tau1_ratio * m * n)
 
 #-------------------------------------------------------------
 # run simulations in parallel on Mac via multicore
