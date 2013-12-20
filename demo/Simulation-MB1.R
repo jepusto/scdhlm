@@ -1,18 +1,18 @@
-
+set.seed(1)
 #------------------------------------
 # Design parameters
 #------------------------------------
-iterations <- 20000
+iterations <- 10000
 beta <- c(0,1,0,0)
 phi <- seq(-7L, 7L, 2) / 10L
 rho <- seq(0.0, 0.8, 0.2)
 m <- 3:6
 n <- c(8, 16)
-  
-parms <- expand.grid(phi = phi, rho = rho, m = m, n=n)
+
 print(lengths <- c(length(phi), length(rho), length(m), length(n)))
-prod(lengths)
-dim(parms)
+print(combos <- prod(lengths))
+parms <- expand.grid(phi = phi, rho = rho, m = m, n=n)[sample(combos),]
+head(parms)
 
 #--------------------------------------
 # run simulations in serial
