@@ -29,12 +29,8 @@
   \code{design} is specified.}
 }
 \value{
-  A list with the following components \tabular{ll}{
-  \code{means} \tab Expected value of statistics generated
-  using REML and HPS methods \cr \code{var} \tab Variance
-  of statistics generated using REML and HPS methods \cr
-  \code{cov} \tab Covariance between REML and HPS effect
-  size estimates \cr }
+  A matrix reporting the mean and variance of the effect
+  size estimates and various associated statistics.
 }
 \description{
   Simulates data from a simple linear mixed effects model,

@@ -90,7 +90,7 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 
 
 ##------------------------------------------------------------------------
-## Compare RML to HPS for models MB1 and TR1 ##
+## Compare RML to HPS for model MB1
 ##------------------------------------------------------------------------
 
 #' @title Run simulation comparing REML and HPS estimates
@@ -109,12 +109,8 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #'   
 #' @export 
 #' 
-#' @return A list with the following components
-#' \tabular{ll}{
-#' \code{means} \tab Expected value of statistics generated using REML and HPS methods \cr
-#' \code{var} \tab Variance of statistics generated using REML and HPS methods \cr
-#' \code{cov} \tab Covariance between REML and HPS effect size estimates \cr
-#' }
+#' @return A matrix reporting the mean and variance of the effect size estimates
+#' and various associated statistics.
 #' 
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
 #' Design-comparable effect sizes in multiple baseline designs: A general approach
@@ -145,13 +141,14 @@ compare_RML_HPS <- function(iterations, beta, rho, phi, design, m, n, MB = TRUE)
            block=design$id, times=NULL, returnModel=FALSE)[-12])
   RML_mat <- matrix(unlist(RML), length(unlist(RML[[1]])), iterations, 
                     dimnames = list(names(unlist(RML[[1]]))))
+  rho <- RML_mat["Tau.id.var(constant)",] / (RML_mat["Tau.id.var(constant)",] + RML_mat["sigma_sq",])
   HPS <- HPS_effect_size(y_sims, treatment=design$treatment, id=design$id, time=design$trend)
   
   RML_coverage1 <- coverage(delta = beta[2], CI = CI_SMD(delta = RML_mat["delta_AB",], kappa = RML_mat["kappa",], nu = RML_mat["nu",]))
   RML_coverage2 <- abs(RML_mat["g_AB",] - beta[2]) / sqrt(RML_mat["V_g_AB",]) < qt(0.975, df = RML_mat["nu",])
   HPS_coverage1 <- coverage(delta = beta[2], CI = CI_SMD(delta = HPS["delta_hat_unadj",], kappa = HPS["kappa",], nu = HPS["df",]))
   HPS_coverage2 <- abs(HPS["delta_hat",] - beta[2]) / sqrt(HPS["V_delta_hat",]) < qt(0.975, df = HPS["df",])
-  estimates <- rbind(RML_mat, RML_coverage1, RML_coverage2, HPS, HPS_coverage1, HPS_coverage2)
+  estimates <- rbind(RML_mat, rho, RML_coverage1, RML_coverage2, HPS, HPS_coverage1, HPS_coverage2)
   rbind(cbind(mean = rowMeans(estimates), var = apply(estimates, 1, var)), 
        cov = c(NA, cov(estimates["g_AB",], estimates["delta_hat",])))
 }
@@ -210,14 +207,12 @@ convergence_handler_MB2 <- function(design, y, method="REML") {
 #'   
 #' @export 
 #' 
-#' @return A list with the following components
-#' \tabular{ll}{
-#' \code{means} \tab Expected value of statistics generated using REML method \cr
-#' \code{var} \tab Variance of statistics generated using REML method \cr
-#' }
+#' @return A matrix reporting the mean and variance of the effect size estimates
+#' and various associated statistics.
 #' 
-#' @references Pustejovsky, J.E. (2013). Operationally Comparable Effect Sizes for 
-#' Meta-Analysis of Single-Case Research. Doctoral dissertation, Northwestern University.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
+#' Design-comparable effect sizes in multiple baseline designs: A general approach
+#' to modeling and estimation.
 #' 
 #' @examples
 #' set.seed(8)
@@ -300,14 +295,12 @@ convergence_handler_MB4 <- function(design, y, p_const, r_const) {
 #'   
 #' @export 
 #' 
-#' @return A list with the following components
-#' \tabular{ll}{
-#' \code{means} \tab Expected value of statistics generated using REML method \cr
-#' \code{var} \tab Variance of statistics generated using REML method \cr
-#' }
+#' @return A matrix reporting the mean and variance of the effect size estimates
+#' and various associated statistics.
 #' 
-#' @references Pustejovsky, J.E. (2013). Operationally Comparable Effect Sizes for 
-#' Meta-Analysis of Single-Case Research. Doctoral dissertation, Northwestern University.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
+#' Design-comparable effect sizes in multiple baseline designs: A general approach
+#' to modeling and estimation.
 #' 
 #' @examples
 #' simulate_MB4(iterations = 10, beta = c(0,1,0,0), rho = 0.8, phi = 0.5, tau2_ratio = 0.5, tau_corr = 0, 

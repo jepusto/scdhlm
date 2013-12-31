@@ -41,10 +41,8 @@
   \code{design} is specified.}
 }
 \value{
-  A list with the following components \tabular{ll}{
-  \code{means} \tab Expected value of statistics generated
-  using REML method \cr \code{var} \tab Variance of
-  statistics generated using REML method \cr }
+  A matrix reporting the mean and variance of the effect
+  size estimates and various associated statistics.
 }
 \description{
   Simulates data from a linear mixed effects model, then
@@ -58,8 +56,9 @@ simulate_MB4(iterations = 10, beta = c(0,1,0,0), rho = 0.8, phi = 0.5, tau2_rati
              m = 6, n = 8)
 }
 \references{
-  Pustejovsky, J.E. (2013). Operationally Comparable Effect
-  Sizes for Meta-Analysis of Single-Case Research. Doctoral
-  dissertation, Northwestern University.
+  Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R.
+  (2013). Design-comparable effect sizes in multiple
+  baseline designs: A general approach to modeling and
+  estimation.
 }
 
