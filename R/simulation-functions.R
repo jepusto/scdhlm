@@ -119,7 +119,6 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #' @examples
 #' compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3, phi = 0.5, design=design_matrix(m=3,n=8))
 
-
 compare_RML_HPS <- function(iterations, beta, rho, phi, design, m, n, MB = TRUE) {
   if (missing(design)) {
     treat_times <- if (MB) MBTreatTimes(m=m,n=n) else rep(n / 2 + 1, m)

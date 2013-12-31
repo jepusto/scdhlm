@@ -177,7 +177,8 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   delta_hat <- J(nu) * delta_hat_unadj    # See p. 15, Eq. (13). 
   
   # calculate variance of adjusted effect size
-  V_delta_hat <- J(nu)^2 * (theta^2 * nu / (nu - 2) + delta_hat^2 * (nu / (nu - 2) - 1 / J(nu)^2))   # See p. 15, Eq. (14). 
+  nu_trunc <- max(nu, 2.001)
+  V_delta_hat <- J(nu)^2 * (theta^2 * nu_trunc / (nu_trunc - 2) + delta_hat^2 * (nu_trunc / (nu_trunc - 2) - 1 / J(nu)^2))   # See p. 15, Eq. (14). 
   
   
   ####################
@@ -365,7 +366,8 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   delta_hat <- J(nu) * delta_hat_unadj    # See p. 15, Eq. (13). 
   
   # calculate variance of adjusted effect size. See p. 232, formula (30).
-  V_delta_hat <- J(nu)^2 * (theta^2 * nu / (nu - 2) + delta_hat^2 * (nu / (nu - 2) - 1 / J(nu)^2))   # See p. 15, Eq. (14). 
+  nu_trunc <- max(nu, 2.001)
+  V_delta_hat <- J(nu)^2 * (theta^2 * nu_trunc / (nu_trunc - 2) + delta_hat^2 * (nu_trunc / (nu_trunc - 2) - 1 / J(nu)^2))   # See p. 15, Eq. (14). 
   
   
   ####################
@@ -454,7 +456,7 @@ HPS_effect_size <- function(outcomes, treatment, id, time) {
   sigma_sq_w <- SS_within / sigma_sq_correction
   
   # calculate intra-class correlation
-  rho_hat <- pmax(0, 1 - sigma_sq_w / S_sq)                          # See last display equation on p. 33.
+  rho_hat <- pmax(0, 1 - sigma_sq_w / S_sq) # See last display equation on p. 33.
   
   
   ## calculate degrees of freedom and theta ##
@@ -479,7 +481,9 @@ HPS_effect_size <- function(outcomes, treatment, id, time) {
   delta_hat <- J(df) * delta_hat_unadj    # See p. 15, Eq. (13). 
   
   # calculate variance of adjusted effect size
-  V_delta_hat <- J(df)^2 * (theta^2 * df / (df - 2) + delta_hat^2 * (df / (df - 2) - 1 / J(df)^2))   # See p. 15, Eq. (14). 
+  df_trunc <- pmax(df, 2.001)
+  V_delta_hat <- J(df)^2 * (theta^2 * df_trunc / (df_trunc - 2) + delta_hat^2 * (df_trunc / (df_trunc - 2) - 1 / J(df)^2))   # See p. 15, Eq. (14). 
+  
   
   
   ## return results ##
