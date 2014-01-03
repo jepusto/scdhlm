@@ -1,12 +1,14 @@
 
 CI_SMD_single <- function(delta, kappa, nu, V_delta, cover, bound) {
-  t_crit <- qt(1 - cover / 2, df = nu)
-  L <- kappa * nlminb(start = (delta - t_crit * sqrt(V_delta)) / kappa,
+  start_val <- (delta + c(-1, 1) * qt(1 - cover / 2, df = nu) * sqrt(V_delta)) / kappa
+  L <- kappa * nlminb(start = start_val[1],
                       objective = function(ncp) (qt(cover / 2, df = nu, ncp=-ncp) + delta / kappa)^2,
                       lower = -bound, upper = bound)$par
-  U <- kappa * nlminb(start = (delta + t_crit * sqrt(V_delta)) / kappa,
+  U <- kappa * nlminb(start = start_val[2],
                       objective = function(ncp) (qt(cover / 2, df = nu, ncp=ncp) - delta / kappa)^2, 
                       lower = -bound, upper = bound)$par
+  if (L == -bound * kappa) L <- start_val[1] * kappa
+  if (U == bound * kappa) U <- start_val[2] * kappa
   c(L,U)
 }
 
