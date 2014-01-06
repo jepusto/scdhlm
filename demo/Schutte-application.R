@@ -48,7 +48,8 @@ summary(Schutte_g1)
 ## Model 4: random intercepts, random baseline trends ##
 ##-----------------------------------------------------------------
 
-hlm2 <- update(hlm1, random = ~ week | case)
+hlm2 <- update(hlm1, random = ~ week | case, 
+               control=lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))
 summary(hlm2)
 Schutte_all$hlm2 <- predict(hlm2, newdata = Schutte_all)
 
@@ -58,6 +59,15 @@ summary(Schutte_g2)
 anova(hlm1, hlm2)
 mean(pchisq(2 * (hlm2$logLik - hlm1$logLik), 1:2, lower.tail=FALSE))
 
+g2_boots <- simulate_g_REML(Schutte_g2, nsim = 2000)
+library(boot)
+boot.ci(boot.out = list(R=2000, call = "", sim = "parametric"), 
+        type = "perc", t0 = Schutte_g2$delta_AB, t = g2_boots$delta_AB)
+boot.ci(boot.out = list(R=2000, call = "", sim = "parametric"), 
+        type = "perc", t0 = Schutte_g2$g_AB, t = g2_boots$g_AB)
+mean(g2_boots$delta_AB < Schutte_g2$delta_AB)
+mean(g2_boots$g_AB < as.double(Schutte_g2$g_AB))
+CI_g(Schutte_g2)
 
 ##--------------------------------------------------------------------------------
 ## Model 5: random intercepts, random baseline trends, random treatment trends

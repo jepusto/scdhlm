@@ -1,0 +1,29 @@
+\name{CI_g}
+\alias{CI_g}
+\title{Approximate confidence interval for \code{g_REML} effect size estimate}
+\usage{
+  CI_g(g_REML, cover = 0.95, bound = 35)
+}
+\arguments{
+  \item{g_REML}{a \code{g_REML} object}
+
+  \item{cover}{confidence level}
+
+  \item{bound}{numerical tolerance for non-centrality
+  parameter in \code{\link{qt}}.}
+}
+\value{
+  A vector of upper and lower confidence bounds.
+}
+\description{
+  Calculates an approximate confidence interval given a
+  \code{g_REML} object, based on a non-central t
+  approximation.
+}
+\examples{
+data(Laski)
+Laski_RML <- lme(fixed = outcome ~ treatment, random = ~ 1 | case, correlation = corAR1(0, ~ time | case), data = Laski)
+Laski_g <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel=FALSE)
+CI_g(Laski_g)
+}
+

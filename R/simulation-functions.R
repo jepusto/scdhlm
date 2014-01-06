@@ -63,11 +63,12 @@ design_matrix <- function(m, n, treat_times = n / 2 + 1, center = 0) {
 
 simulation_data <- function(iterations, design, beta, sigma_sq, phi, Tau) {
   N <- dim(design)[1]
-  V_mat <- lmeAR1_cov_block(block=design$id, Z_design=design[,2:5], 
+  block <- design[,1]
+  V_mat <- lmeAR1_cov_block(block=block, Z_design=design[,-1], 
                 theta = list(sigma_sq=sigma_sq, phi=phi, Tau=Tau))
   V_chol <- lapply(V_mat, chol)  
-  mean_vector <- as.matrix(design[,2:5]) %*% beta
-  errors <- t(prod_matrixblock(matrix(rnorm(iterations * N), iterations, N), V_chol, design$id))
+  mean_vector <- as.matrix(design[,-1]) %*% beta
+  errors <- t(prod_matrixblock(matrix(rnorm(iterations * N), iterations, N), V_chol, block))
   matrix(mean_vector, N, iterations) + errors
 }
 
@@ -137,7 +138,7 @@ compare_RML_HPS <- function(iterations, beta, rho, phi, design, m, n, MB = TRUE)
            p_const, r_const,
            X_design=as.matrix(design[,fixed_terms]), 
            Z_design=as.matrix(design[,random_terms]),
-           block=design$id, times=NULL, returnModel=FALSE)[-12])
+           block=design$id, times=NULL, returnModel=FALSE)[-14:-12])
   RML_mat <- matrix(unlist(RML), length(unlist(RML[[1]])), iterations, 
                     dimnames = list(names(unlist(RML[[1]]))))
   rho <- RML_mat["Tau.id.var(constant)",] / (RML_mat["Tau.id.var(constant)",] + RML_mat["sigma_sq",])
@@ -174,7 +175,7 @@ convergence_handler_MB2 <- function(design, y, method="REML") {
     g <- g_REML(m_full, p_const=p_const, r_const=c(1,0,1,0,0),
                 X_design=as.matrix(design[,fixed_terms]), 
                 Z_design=as.matrix(design[,c("constant","treatment")]),
-                block=design$id, times=NULL, returnModel=FALSE)[-12]
+                block=design$id, times=NULL, returnModel=FALSE)[-14:-12]
   } else {
     m_reduced <- lme_fit(y, design, fixed_terms=fixed_terms, 
                          random_terms="constant", method=method)
@@ -182,7 +183,7 @@ convergence_handler_MB2 <- function(design, y, method="REML") {
     g <- g_REML(m_reduced, p_const=p_const, r_const=c(1,0,1),
                   X_design=as.matrix(design[,fixed_terms]), 
                   Z_design=as.matrix(design[,"constant"]),
-                  block=design$id, times=NULL, returnModel=FALSE)[-12]
+                  block=design$id, times=NULL, returnModel=FALSE)[-14:-12]
     g$Tau <- c(g$Tau, "id.cov(treatment,constant)" = 0, "id.var(treatment)" = 0)
   }
   g
@@ -261,14 +262,14 @@ convergence_handler_MB4 <- function(design, y, p_const, r_const) {
     g <- g_REML(m_full, p_const=p_const, r_const=r_const,
                 X_design=as.matrix(design[,fixed_terms]), 
                 Z_design=as.matrix(design[,c("constant","trend")]),
-                block=design$id, times=NULL, returnModel=FALSE)[-12]
+                block=design$id, times=NULL, returnModel=FALSE)[-14:-12]
   } else {
     m_reduced <- lme_fit(y, design, fixed_terms=fixed_terms, random_terms="constant")
     attr(m_reduced,"warning") <- m_full
     g <- g_REML(m_reduced, p_const=p_const, r_const=c(1,0,1),
                 X_design=as.matrix(design[,fixed_terms]), 
                 Z_design=as.matrix(design[,"constant"]),
-                block=design$id, times=NULL, returnModel=FALSE)[-12]
+                block=design$id, times=NULL, returnModel=FALSE)[-14:-12]
     g$Tau <- c(g$Tau, "id.cov(trend,constant)" = 0, "id.var(trend)" = 0)
   }
   g
@@ -331,4 +332,60 @@ simulate_MB4 <- function(iterations, beta, rho, phi, tau2_ratio, tau_corr,
   estimates <- rbind(RML_mat, RML_coverage1, RML_coverage2)
   
   cbind(mean = rowMeans(estimates), var = apply(estimates, 1, var))
+}
+
+
+#' @title Simulate data from a fitted \code{g_REML} object
+#' 
+#' @description Simulates data from the linear mixed effects model used to estimate the
+#' specified standardized mean difference effect size. 
+#' Suitable for parametric bootstrapping.
+#' 
+#' @param object a \code{g_REML} object
+#' @param nsim number of models to simulate
+#' @param seed seed value. See documentation for \code{\link{simulate}}
+#' @param parallel if \code{TRUE}, run in parallel using foreach backend.
+#' @param ... additional optional arguments
+#' 
+#' @export
+#' 
+#' @return A matrix with one row per simulation, with columns corresponding to the output
+#' of \code{g_REML}.
+#' 
+#' @examples
+#' data(Laski)
+#' Laski_RML <- lme(fixed = outcome ~ treatment, random = ~ 1 | case, correlation = corAR1(0, ~ time | case), data = Laski)
+#' Laski_g <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
+#' simulate_g_REML(Laski_g, nsim = 20)
+#' 
+
+simulate_g_REML <- function(object, nsim = 1, seed = NULL, parallel = FALSE, ...) {
+  require(plyr)
+  set.seed(seed)
+  
+  X_design <- model.matrix(object, data = object$data)
+  Z_design <- model.matrix(object$modelStruct$reStruct, data = object$data)
+  block <- object$groups[[1]]
+  times <- attr(object$modelStruct$corStruct, "covariate")
+  
+  nXterms <- dim(X_design)[2]
+  Zterms <- match(colnames(Z_design), colnames(X_design))
+  Tau <- matrix(0, nXterms, nXterms)
+  Tau[Zterms,Zterms] <- Tau_matrix(object$Tau)
+  
+  sim_data <- simulation_data(iterations = nsim, 
+                              design = cbind(block,X_design), 
+                              beta = object$coefficients$fixed, 
+                              sigma_sq = object$sigma_sq, phi = object$phi, Tau = Tau)
+  
+  fit_g <- function(y) {
+    m_fit <- update(object, fixed = update(as.formula(object$call$fixed), y ~ .), 
+                    data = data.frame(y=y, object$data))
+    unlist(g_REML(m_fit, p_const=object$p_const, object$r_const, 
+           X_design = X_design, Z_design = Z_design, 
+           block = block, times = times, 
+           returnModel=FALSE)[-14:-12])
+  }
+  if (parallel) paropts <- list(.packages = c("nlme","scdhlm")) else paropts = NULL
+  aaply(sim_data, 2, fit_g, .parallel = parallel, .paropts = paropts)
 }
