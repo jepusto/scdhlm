@@ -1,0 +1,36 @@
+\name{simulate.g_REML}
+\alias{simulate.g_REML}
+\title{Simulate data from a fitted \code{g_REML} object}
+\usage{
+  simulate.g_REML(object, nsim = 1, seed = NULL,
+    parallel = FALSE, ...)
+}
+\arguments{
+  \item{object}{a \code{g_REML} object}
+
+  \item{nsim}{number of models to simulate}
+
+  \item{seed}{seed value. See documentation for
+  \code{\link{simulate}}}
+
+  \item{parallel}{if \code{TRUE}, run in parallel using
+  foreach backend.}
+
+  \item{...}{additional optional arguments}
+}
+\value{
+  A matrix with one row per simulation, with columns
+  corresponding to the output of \code{g_REML}.
+}
+\description{
+  Simulates data from the linear mixed effects model used
+  to estimate the specified standardized mean difference
+  effect size. Suitable for parametric bootstrapping.
+}
+\examples{
+data(Laski)
+Laski_RML <- lme(fixed = outcome ~ treatment, random = ~ 1 | case, correlation = corAR1(0, ~ time | case), data = Laski)
+Laski_g <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
+simulate(Laski_g, nsim = 20)
+}
+

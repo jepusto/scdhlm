@@ -284,7 +284,8 @@ g_REML <- function(m_fit, p_const, r_const,
   V_g_AB <- J(nu)^2 * (nu_trunc * kappa_sq / (nu_trunc - 2) + g_AB^2 * (nu_trunc / (nu_trunc - 2) - 1 / J(nu_trunc)^2))
   
   g_REML <- c(list(p_beta=p_beta, r_theta=r_theta, delta_AB=delta_AB, nu=nu, kappa = sqrt(kappa_sq),
-                   g_AB=g_AB, V_g_AB=V_g_AB, cnvg_warn=cnvg_warn), theta, list(I_E_inv=I_E_inv))
+                   g_AB=g_AB, V_g_AB=V_g_AB, cnvg_warn=cnvg_warn), theta, list(I_E_inv=I_E_inv,
+                   p_const=p_const, r_const=r_const))
   
   if (returnModel) {
     g_REML <- c(g_REML, m_fit)
