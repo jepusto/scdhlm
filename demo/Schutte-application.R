@@ -68,7 +68,6 @@ summary(Schutte_g2)
 anova(hlm1, hlm2)
 mean(pchisq(2 * (hlm2$logLik - hlm1$logLik), 1:2, lower.tail=FALSE))
 
-
 # Confidence intervals
 boots <- 5000
 
