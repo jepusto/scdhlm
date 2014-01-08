@@ -20,13 +20,13 @@ head(parms)
 #--------------------------------------------------------
 
 library(plyr)
-library(parallel)
+library(snow)
 library(foreach)
 library(iterators)
 library(doSNOW)
 library(rlecuyer)
 
-cluster <- makeCluster(detectCores(), type = "SOCK")
+cluster <- makeCluster(parallel::detectCores(), type = "SOCK")
 registerDoSNOW(cluster)
 
 # set up parallel random number generator
