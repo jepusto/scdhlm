@@ -2,20 +2,20 @@
 \alias{Info_Expected_lmeAR1}
 \title{Calculate expected information matrix}
 \usage{
-  Info_Expected_lmeAR1(m_fit)
+Info_Expected_lmeAR1(m_fit)
 }
 \arguments{
   \item{m_fit}{Fitted model of class lme, with AR(1)
   correlation structure at level 1.}
 }
 \value{
-  Expected Information matrix corresponding to variance
-  components of \code{m_fit}.
+Expected Information matrix corresponding to variance
+components of \code{m_fit}.
 }
 \description{
-  Calculates the expected information matrix from a fitted
-  linear mixed effects model with AR(1) correlation
-  structure in the level-1 errors.
+Calculates the expected information matrix from a fitted
+linear mixed effects model with AR(1) correlation structure
+in the level-1 errors.
 }
 \examples{
 data(Laski)

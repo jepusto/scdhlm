@@ -2,12 +2,11 @@
 \alias{g_REML}
 \title{Calculates adjusted REML effect size}
 \usage{
-  g_REML(m_fit, p_const, r_const,
-    X_design = model.matrix(m_fit, data = m_fit$data),
-    Z_design = model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data),
-    block = nlme::getGroups(m_fit),
-    times = attr(m_fit$modelStruct$corStruct, "covariate"),
-    returnModel = TRUE)
+g_REML(m_fit, p_const, r_const, X_design = model.matrix(m_fit, data =
+  m_fit$data), Z_design = model.matrix(m_fit$modelStruct$reStruct, data =
+  m_fit$data), block = nlme::getGroups(m_fit),
+  times = attr(m_fit$modelStruct$corStruct, "covariate"),
+  returnModel = TRUE)
 }
 \arguments{
   \item{m_fit}{Fitted model of class lme, with AR(1)
@@ -42,28 +41,26 @@
   model is included in the return.}
 }
 \value{
-  A list with the following components \tabular{ll}{
-  \code{p_beta} \tab Numerator of effect size \cr
-  \code{r_theta} \tab Squared denominator of effect size
-  \cr \code{delta_AB} \tab Unadjusted (REML) effect size
-  estimate \cr \code{nu} \tab Estimated denominator degrees
-  of freedom \cr \code{kappa} \tab Scaled standard error of
-  numerator \cr \code{g_AB} \tab Corrected effect size
-  estimate \cr \code{V_g_AB} \tab Approximate variance
-  estimate \cr \code{cnvg_warn} \tab Indicator that model
-  did not converge \cr \code{sigma_sq} \tab Estimated
-  level-1 variance \cr \code{phi} \tab Estimated
-  autocorrelation \cr \code{Tau} \tab Vector of level-2
-  variance components \cr \code{I_E_inv} \tab Expected
-  information matrix \cr }
+A list with the following components \tabular{ll}{
+\code{p_beta} \tab Numerator of effect size \cr
+\code{r_theta} \tab Squared denominator of effect size \cr
+\code{delta_AB} \tab Unadjusted (REML) effect size estimate
+\cr \code{nu} \tab Estimated denominator degrees of freedom
+\cr \code{kappa} \tab Scaled standard error of numerator
+\cr \code{g_AB} \tab Corrected effect size estimate \cr
+\code{V_g_AB} \tab Approximate variance estimate \cr
+\code{cnvg_warn} \tab Indicator that model did not converge
+\cr \code{sigma_sq} \tab Estimated level-1 variance \cr
+\code{phi} \tab Estimated autocorrelation \cr \code{Tau}
+\tab Vector of level-2 variance components \cr
+\code{I_E_inv} \tab Expected information matrix \cr }
 }
 \description{
-  Estimates a design-comparable standardized mean
-  difference effect size based on data from a multiple
-  baseline design, using adjusted REML method as described
-  in Pustejovsky, Hedges, & Shadish (2013). Note that the
-  data must contain one row per measurement occasion per
-  case.
+Estimates a design-comparable standardized mean difference
+effect size based on data from a multiple baseline design,
+using adjusted REML method as described in Pustejovsky,
+Hedges, & Shadish (2013). Note that the data must contain
+one row per measurement occasion per case.
 }
 \examples{
 data(Laski)
@@ -83,9 +80,8 @@ Schutte_g <- g_REML(Schutte_RML, p_const = c(0,0,1,7), r_const = c(1,0,1,0,0))
 summary(Schutte_g)
 }
 \references{
-  Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R.
-  (2013). Design-comparable effect sizes in multiple
-  baseline designs: A general approach to modeling and
-  estimation.
+Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013).
+Design-comparable effect sizes in multiple baseline
+designs: A general approach to modeling and estimation.
 }
 

@@ -4,26 +4,26 @@
 \title{Example 2 from Hedges, Pustejovsky, & Shadish (2013)}
 \format{A data frame with 128 rows and 4 variables}
 \source{
-  Laski, K. E., Charlop, M. H., & Schreibman, L. (1988).
-  Training parents to use the natural language paradigm to
-  increase their autistic children's speech. \emph{Journal
-  of Applied Behavior Analysis, 21}(4), 391-400.
+Laski, K. E., Charlop, M. H., & Schreibman, L. (1988).
+Training parents to use the natural language paradigm to
+increase their autistic children's speech. \emph{Journal of
+Applied Behavior Analysis, 21}(4), 391-400.
 }
 \description{
-  Data from a multiple baseline design conducted by Laski,
-  Charlop, & Schreibman (1988). The variables are as
-  follows: \itemize{ \item \code{case}. Child identifier.
-  \item \code{outcome}. Frequency of child vocalization, as
-  measured by a partial interval recording procedure with
-  60 ten-second intervals per session.  \item \code{time}.
-  Measurement occasion.  \item \code{treatment}. Indicator
-  for treatment phase. }
+Data from a multiple baseline design conducted by Laski,
+Charlop, & Schreibman (1988). The variables are as follows:
+\itemize{ \item \code{case}. Child identifier.  \item
+\code{outcome}. Frequency of child vocalization, as
+measured by a partial interval recording procedure with 60
+ten-second intervals per session.  \item \code{time}.
+Measurement occasion.  \item \code{treatment}. Indicator
+for treatment phase. }
 }
 \references{
-  Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R.
-  (2013). A standardized mean difference effect size for
-  multiple baseline designs across individuals.
-  \emph{Research Synthesis Methods}, forthcoming.
+Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013).
+A standardized mean difference effect size for multiple
+baseline designs across individuals. \emph{Research
+Synthesis Methods}, forthcoming.
 }
 \keyword{datasets}
 

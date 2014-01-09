@@ -2,8 +2,7 @@
 \alias{effect_size_ABk}
 \title{Calculates HPS effect size}
 \usage{
-  effect_size_ABk(outcome, treatment, id, phase, time, phi,
-    rho)
+effect_size_ABk(outcome, treatment, id, phase, time, phi, rho)
 }
 \arguments{
   \item{outcome}{Vector of outcome data. May not contain
@@ -32,33 +31,33 @@
   small-sample adjusted effect size}
 }
 \value{
-  A list with the following components \tabular{ll}{
-  \code{M_a} \tab Matrix reporting the total number of time
-  points with data for all ids, by phase and treatment
-  condition \cr \code{M_dot} \tab Total number of time
-  points used to calculate the total variance (the sum of
-  \code{M_a}) \cr \code{D_bar} \tab numerator of effect
-  size estimate \cr \code{S_sq} \tab sample variance,
-  pooled across time points and treatment groups \cr
-  \code{delta_hat_unadj} \tab unadjusted effect size
-  estimate \cr \code{phi} \tab corrected estimate of
-  first-order auto-correlation \cr \code{sigma_sq_w} \tab
-  corrected estimate of within-case variance \cr \code{rho}
-  \tab estimated intra-class correlation \cr \code{theta}
-  \tab estimated scalar constant \cr \code{nu} \tab
-  estimated degrees of freedom \cr \code{delta_hat} \tab
-  corrected effect size estimate \cr \code{V_delta_hat}
-  \tab estimated variance of the effect size }
+A list with the following components \tabular{ll}{
+\code{M_a} \tab Matrix reporting the total number of time
+points with data for all ids, by phase and treatment
+condition \cr \code{M_dot} \tab Total number of time points
+used to calculate the total variance (the sum of
+\code{M_a}) \cr \code{D_bar} \tab numerator of effect size
+estimate \cr \code{S_sq} \tab sample variance, pooled
+across time points and treatment groups \cr
+\code{delta_hat_unadj} \tab unadjusted effect size estimate
+\cr \code{phi} \tab corrected estimate of first-order
+auto-correlation \cr \code{sigma_sq_w} \tab corrected
+estimate of within-case variance \cr \code{rho} \tab
+estimated intra-class correlation \cr \code{theta} \tab
+estimated scalar constant \cr \code{nu} \tab estimated
+degrees of freedom \cr \code{delta_hat} \tab corrected
+effect size estimate \cr \code{V_delta_hat} \tab estimated
+variance of the effect size }
 }
 \description{
-  Calculates the HPS effect size estimator based on data
-  from an (AB)^k design, as described in Hedges,
-  Pustejovsky, & Shadish (2012). Note that the data must
-  contain one row per measurement occasion per subject.
+Calculates the HPS effect size estimator based on data from
+an (AB)^k design, as described in Hedges, Pustejovsky, &
+Shadish (2012). Note that the data must contain one row per
+measurement occasion per subject.
 }
 \note{
-  If phi or rho is left unspecified (or both), estimates
-  for the nuisance parameters will be calculated.
+If phi or rho is left unspecified (or both), estimates for
+the nuisance parameters will be calculated.
 }
 \examples{
 data(Lambert)
@@ -68,9 +67,9 @@ data(Anglesea)
 with(Anglesea, effect_size_ABk(outcome, treatment, case, phase, session))
 }
 \references{
-  Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R.
-  (2012).  A standardized mean difference effect size for
-  single case designs.  Research Synthesis Methods, 3,
-  224-239. doi:10.1002/jrsm.1052
+Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
+A standardized mean difference effect size for single case
+designs.  Research Synthesis Methods, 3, 224-239.
+doi:10.1002/jrsm.1052
 }
 

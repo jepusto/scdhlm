@@ -220,3 +220,27 @@ NULL
 #' Design-comparable effect sizes in multiple baseline designs: A general approach
 #' to modeling and estimation.
 NULL
+
+#' MB1 simulation time
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame
+#' @name MB1time
+NULL
+
+#' MB2 simulation time
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame
+#' @name MB2time
+NULL
+
+#' MB4 simulation time
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame
+#' @name MB4time
+NULL

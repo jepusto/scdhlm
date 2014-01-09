@@ -13,10 +13,3 @@ Depends:
 Suggests:
     plyr,
     boot
-Collate:
-    'HPS-ES-functions.R'
-    'REML-ES-functions.R'
-    'matrix-functions.R'
-    'scdhlm-package.r'
-    'simulation-functions.R'
-    'confidence-interval-functions.R'

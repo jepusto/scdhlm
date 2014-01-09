@@ -2,8 +2,8 @@
 \alias{simulate.g_REML}
 \title{Simulate data from a fitted \code{g_REML} object}
 \usage{
-  simulate.g_REML(object, nsim = 1, seed = NULL,
-    parallel = FALSE, ...)
+\method{simulate}{g_REML}(object, nsim = 1, seed = NULL, parallel = FALSE,
+  ...)
 }
 \arguments{
   \item{object}{a \code{g_REML} object}
@@ -19,13 +19,13 @@
   \item{...}{additional optional arguments}
 }
 \value{
-  A matrix with one row per simulation, with columns
-  corresponding to the output of \code{g_REML}.
+A matrix with one row per simulation, with columns
+corresponding to the output of \code{g_REML}.
 }
 \description{
-  Simulates data from the linear mixed effects model used
-  to estimate the specified standardized mean difference
-  effect size. Suitable for parametric bootstrapping.
+Simulates data from the linear mixed effects model used to
+estimate the specified standardized mean difference effect
+size. Suitable for parametric bootstrapping.
 }
 \examples{
 data(Laski)
