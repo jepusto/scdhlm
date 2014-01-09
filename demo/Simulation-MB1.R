@@ -39,15 +39,12 @@ system.time(MB1_array <- maply(parms, .fun = compare_RML_HPS,
                              .paropts = list(.packages="scdhlm")))
 stopCluster(cluster)
 
-
 ##------------------------------------------------
 ## reshape and save results
 ##------------------------------------------------
 library(reshape)
 
-names(dimnames(MB1_array))[7:8] <- c("stat","moment")
-dimnames(MB1_array)$stat[c(5,19)] <- c("kappa_RML","kappa_HPS")
-
+names(dimnames(MB1_array))[5:6] <- c("stat","moment")
 MB1results <- cast(melt(MB1_array), ... ~ moment)
 attr(MB1results, "iterations") <- iterations
 attr(MB1results, "beta") <- beta
