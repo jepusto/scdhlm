@@ -39,6 +39,7 @@
 #' 
 #' @name scdhlm
 #' @docType package
+#' @importFrom stats simulate
 NULL
 
 
