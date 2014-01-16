@@ -8,6 +8,7 @@ library(rlecuyer)
 parallel <- TRUE
 
 
+library(nlme)
 library(scdhlm)
 library(reshape)
 library(ggplot2)
@@ -69,10 +70,13 @@ anova(hlm1, hlm2)
 mean(pchisq(2 * (hlm2$logLik - hlm1$logLik), 1:2, lower.tail=FALSE))
 
 # Confidence intervals
+round(CI_g(Schutte_g2),2)
+round(with(Schutte_g2, g_AB + c(-1, 1) * qt(0.975, df = nu) * sqrt(V_g_AB)),2)
+
 boots <- 5000
 
 if (parallel) {
-  cluster <- makeCluster(8, type = "SOCK")
+  cluster <- makeCluster(parallel::detectCores() - 1, type = "SOCK")
   registerDoSNOW(cluster)
   clusterSetupRNGstream(cluster, 20131003)
   print(system.time(g2_boots <- simulate(Schutte_g2, nsim = boots, parallel=TRUE)))
@@ -88,17 +92,15 @@ mean(g2_boots$delta_AB)
 mean(g2_boots$delta_AB < Schutte_g2$delta_AB)
 boot.ci(boot.out = list(R=boots, call = "", sim = "parametric"), 
         type = "perc", t0 = Schutte_g2$delta_AB, t = g2_boots$delta_AB)
-quantile(g2_boots$delta_AB, probs = c(0.025, 0.975))
+round(quantile(g2_boots$delta_AB, probs = c(0.025, 0.975)), 3)
 
 mean(g2_boots$g_AB)
 mean(g2_boots$g_AB < as.double(Schutte_g2$g_AB))
 boot.ci(boot.out = list(R=boots, call = "", sim = "parametric"), 
         type = "perc", t0 = Schutte_g2$g_AB, t = g2_boots$g_AB)
-quantile(g2_boots$g_AB, probs = c(0.025, 0.975))
+round(quantile(g2_boots$g_AB, probs = c(0.025, 0.975)), 3)
 
 
-CI_g(Schutte_g2)
-with(Schutte_g2, g_AB + c(-1, 1) * qt(0.975, df = nu) * sqrt(V_g_AB))
 
 ##--------------------------------------------------------------------------------
 ## Model 5: random intercepts, random baseline trends, random treatment trends
@@ -118,6 +120,10 @@ Dev <- 2 * (hlm3$logLik - hlm2$logLik)
 mean(pchisq(Dev, 2:3, lower.tail=FALSE))
 
 # Confidence intervals
+
+round(CI_g(Schutte_g3), 2)
+round(with(Schutte_g3, g_AB + c(-1, 1) * qt(0.975, df = nu) * sqrt(V_g_AB)), 2)
+
 boots <- 5000
 
 if (parallel) {
@@ -139,16 +145,14 @@ mean(g3_boots$delta_AB)
 mean(g3_boots$delta_AB < Schutte_g3$delta_AB)
 boot.ci(boot.out = list(R=dim(g3_boots)[1], call = "", sim = "parametric"), 
         type = "perc", t0 = Schutte_g3$delta_AB, t = g3_boots$delta_AB)
-quantile(g3_boots$delta_AB, probs = c(0.025, 0.975))
+round(quantile(g3_boots$delta_AB, probs = c(0.025, 0.975)), 3)
 
 mean(g3_boots$g_AB)
 mean(g3_boots$g_AB < as.double(Schutte_g3$g_AB))
 boot.ci(boot.out = list(R=dim(g3_boots)[1], call = "", sim = "parametric"), 
         type = "perc", t0 = Schutte_g3$g_AB, t = g3_boots$g_AB)
-quantile(g3_boots$g_AB, probs = c(0.025, 0.975))
+round(quantile(g3_boots$g_AB, probs = c(0.025, 0.975)), 3)
 
-CI_g(Schutte_g3)
-with(Schutte_g3, g_AB + c(-1, 1) * qt(0.975, df = nu) * sqrt(V_g_AB))
 
 ## look at individual effects at week 9
 individual.effects <- fixed.effects(hlm3)["treatmenttreatment"] + 7 * fixed.effects(hlm3)["trt.week"] + 7 * random.effects(hlm3)["trt.week"]
