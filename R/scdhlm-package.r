@@ -40,6 +40,7 @@
 #' @name scdhlm
 #' @docType package
 #' @importFrom stats simulate
+#' @import nlme
 NULL
 
 
