@@ -72,7 +72,7 @@ mean(pchisq(2 * (hlm2$logLik - hlm1$logLik), 1:2, lower.tail=FALSE))
 boots <- 5000
 
 if (parallel) {
-  cluster <- makeCluster(8, type = "SOCK")
+  cluster <- makeCluster(parallel::detectCores(), type = "SOCK")
   registerDoSNOW(cluster)
   clusterSetupRNGstream(cluster, 20131003)
   print(system.time(g2_boots <- simulate(Schutte_g2, nsim = boots, parallel=TRUE)))
@@ -86,12 +86,14 @@ lines(density(g2_boots$delta_AB))
 
 mean(g2_boots$delta_AB)
 mean(g2_boots$delta_AB < Schutte_g2$delta_AB)
+sd(g2_boots$delta_AB)
 boot.ci(boot.out = list(R=boots, call = "", sim = "parametric"), 
         type = "perc", t0 = Schutte_g2$delta_AB, t = g2_boots$delta_AB)
 quantile(g2_boots$delta_AB, probs = c(0.025, 0.975))
 
 mean(g2_boots$g_AB)
 mean(g2_boots$g_AB < as.double(Schutte_g2$g_AB))
+sd(g2_boots$g_AB)
 boot.ci(boot.out = list(R=boots, call = "", sim = "parametric"), 
         type = "perc", t0 = Schutte_g2$g_AB, t = g2_boots$g_AB)
 quantile(g2_boots$g_AB, probs = c(0.025, 0.975))
@@ -121,7 +123,7 @@ mean(pchisq(Dev, 2:3, lower.tail=FALSE))
 boots <- 5000
 
 if (parallel) {
-  cluster <- makeCluster(8, type = "SOCK")
+  cluster <- makeCluster(parallel::detectCores(), type = "SOCK")
   registerDoSNOW(cluster)
   clusterSetupRNGstream(cluster, 20131003)
   print(system.time(g3_boots <- simulate(Schutte_g3, nsim = boots, parallel=TRUE)))
@@ -137,12 +139,14 @@ lines(density(g3_boots$delta_AB))
 
 mean(g3_boots$delta_AB)
 mean(g3_boots$delta_AB < Schutte_g3$delta_AB)
+sd(g3_boots$delta_AB)
 boot.ci(boot.out = list(R=dim(g3_boots)[1], call = "", sim = "parametric"), 
         type = "perc", t0 = Schutte_g3$delta_AB, t = g3_boots$delta_AB)
 quantile(g3_boots$delta_AB, probs = c(0.025, 0.975))
 
 mean(g3_boots$g_AB)
 mean(g3_boots$g_AB < as.double(Schutte_g3$g_AB))
+sd(g3_boots$g_AB)
 boot.ci(boot.out = list(R=dim(g3_boots)[1], call = "", sim = "parametric"), 
         type = "perc", t0 = Schutte_g3$g_AB, t = g3_boots$g_AB)
 quantile(g3_boots$g_AB, probs = c(0.025, 0.975))
