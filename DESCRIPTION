@@ -6,17 +6,12 @@ Maintainer: James E. Pustejovsky <jepusto@gmail.com>
 Author: James E. Pustejovsky <jepusto@gmail.com>
 License: GPL-3
 Version: 0.2.0
+Imports:
+    stats
 Depends:
-    stats,
     nlme,
     R (>= 3.0.1)
 Suggests:
     plyr,
-    boot
-Collate:
-    'HPS-ES-functions.R'
-    'REML-ES-functions.R'
-    'matrix-functions.R'
-    'scdhlm-package.r'
-    'simulation-functions.R'
-    'confidence-interval-functions.R'
+    boot,
+    parallel

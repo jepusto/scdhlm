@@ -39,6 +39,8 @@
 #' 
 #' @name scdhlm
 #' @docType package
+#' @importFrom stats simulate
+#' @import nlme
 NULL
 
 
@@ -219,4 +221,28 @@ NULL
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
 #' Design-comparable effect sizes in multiple baseline designs: A general approach
 #' to modeling and estimation.
+NULL
+
+#' MB1 simulation time
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame
+#' @name MB1time
+NULL
+
+#' MB2 simulation time
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame
+#' @name MB2time
+NULL
+
+#' MB4 simulation time
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame
+#' @name MB4time
 NULL

@@ -2,8 +2,8 @@
 \alias{simulate_MB2}
 \title{Simulate Model MB2 from Pustejovsky (2013)}
 \usage{
-  simulate_MB2(iterations, beta, rho, phi, tau1_ratio,
-    tau_corr, design, m, n, MB = TRUE)
+simulate_MB2(iterations, beta, rho, phi, tau1_ratio, tau_corr, design, m, n,
+  MB = TRUE)
 }
 \arguments{
   \item{iterations}{number of independent iterations of the
@@ -35,13 +35,13 @@
   \code{design} is specified.}
 }
 \value{
-  A matrix reporting the mean and variance of the effect
-  size estimates and various associated statistics.
+A matrix reporting the mean and variance of the effect size
+estimates and various associated statistics.
 }
 \description{
-  Simulates data from a linear mixed effects model, then
-  calculates REML effect size estimator as described in
-  Pustejovsky (2013).
+Simulates data from a linear mixed effects model, then
+calculates REML effect size estimator as described in
+Pustejovsky (2013).
 }
 \examples{
 set.seed(8)
@@ -50,9 +50,8 @@ set.seed(8)
 simulate_MB2(iterations = 10, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, tau1_ratio = 0.5, tau_corr = -0.4, m = 3, n = 8, MB = FALSE)
 }
 \references{
-  Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R.
-  (2013). Design-comparable effect sizes in multiple
-  baseline designs: A general approach to modeling and
-  estimation.
+Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013).
+Design-comparable effect sizes in multiple baseline
+designs: A general approach to modeling and estimation.
 }
 

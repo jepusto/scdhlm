@@ -2,7 +2,7 @@
 \alias{CI_g}
 \title{Approximate confidence interval for \code{g_REML} effect size estimate}
 \usage{
-  CI_g(g_REML, cover = 0.95, bound = 35)
+CI_g(g_REML, cover = 0.95, bound = 35)
 }
 \arguments{
   \item{g_REML}{a \code{g_REML} object}
@@ -13,12 +13,12 @@
   parameter in \code{\link{qt}}.}
 }
 \value{
-  A vector of upper and lower confidence bounds.
+A vector of upper and lower confidence bounds.
 }
 \description{
-  Calculates an approximate confidence interval given a
-  \code{g_REML} object, based on a non-central t
-  approximation.
+Calculates an approximate confidence interval given a
+\code{g_REML} object, based on a non-central t
+approximation.
 }
 \examples{
 data(Laski)

@@ -4,30 +4,30 @@
 \title{Example 1 from Hedges, Pustejovsky, & Shadish (2012)}
 \format{A data frame with 264 rows and 5 variables}
 \source{
-  Lambert, M. C., Cartledge, G., Heward, W. L., & Lo, Y.
-  (2006). Effects of response cards on disruptive behavior
-  and academic responding during math lessons by
-  fourth-grade urban students. \emph{Journal of Positive
-  Behavior Interventions, 8}(2), 88-99.
+Lambert, M. C., Cartledge, G., Heward, W. L., & Lo, Y.
+(2006). Effects of response cards on disruptive behavior
+and academic responding during math lessons by fourth-grade
+urban students. \emph{Journal of Positive Behavior
+Interventions, 8}(2), 88-99.
 }
 \description{
-  Data from an ABAB design conducted by Lambert, Cartledge,
-  Heward, & Lo (2008). The variables are as follows:
-  \itemize{ \item \code{case}. Student identifier.  \item
-  \code{treatment}. Factor indicating treatment or control
-  condition.  SSR = single-subject responding. RC =
-  response cards.  \item \code{phase}. Study phase
-  (including both control and treatment condition) \item
-  \code{time}. Measurement occasion.  \item \code{outcome}.
-  Intervals with disruptive behavior, as measured by a
-  partial interval recording procedure with 10 ten-second
-  intervals per session. }
+Data from an ABAB design conducted by Lambert, Cartledge,
+Heward, & Lo (2008). The variables are as follows:
+\itemize{ \item \code{case}. Student identifier.  \item
+\code{treatment}. Factor indicating treatment or control
+condition.  SSR = single-subject responding. RC = response
+cards.  \item \code{phase}. Study phase (including both
+control and treatment condition) \item \code{time}.
+Measurement occasion.  \item \code{outcome}. Intervals with
+disruptive behavior, as measured by a partial interval
+recording procedure with 10 ten-second intervals per
+session. }
 }
 \references{
-  Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R.
-  (2012). A standardized mean difference effect size for
-  single case designs. \emph{Research Synthesis Methods,
-  3}, 224-239. doi:10.1002/jrsm.1052
+Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
+A standardized mean difference effect size for single case
+designs. \emph{Research Synthesis Methods, 3}, 224-239.
+doi:10.1002/jrsm.1052
 }
 \keyword{datasets}
 
