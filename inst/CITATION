@@ -1,0 +1,9 @@
+bibentry("Manual",
+   title = "scdhlm: Estimating hierarchical linear models for single-case designs",
+   author = person("James E. Pustejovsky"),
+   organization = "University of Texas at Austin",
+   address = "Austin, TX",
+   year = version$year,
+   note = "R package version", 
+   url = "http://blogs.edb.utexas.edu/pusto/software/"
+)
