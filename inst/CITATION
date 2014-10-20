@@ -3,7 +3,7 @@ bibentry("Manual",
    author = person("James E. Pustejovsky"),
    organization = "University of Texas at Austin",
    address = "Austin, TX",
-   year = version$year,
-   note = "R package version", 
+   year = 2013,
+   note = "R package version 0.2.0", 
    url = "http://blogs.edb.utexas.edu/pusto/software/"
 )
