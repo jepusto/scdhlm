@@ -1,0 +1,12 @@
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry("Manual",
+   title = "scdhlm: Estimating hierarchical linear models for single-case designs",
+   author = person("James E. Pustejovsky"),
+   organization = "University of Texas at Austin",
+   address = "Austin, TX",
+   year = year,
+   note = note, 
+   url = "http://blogs.edb.utexas.edu/pusto/software/"
+)
