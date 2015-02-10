@@ -97,7 +97,7 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #' @title Run simulation comparing REML and HPS estimates
 #' 
 #' @description Simulates data from a simple linear mixed effects model, then calculates 
-#' REML and HPS effect size estimators as described in Pustejovsky, Hedges, & Shadish (2013).
+#' REML and HPS effect size estimators as described in Pustejovsky, Hedges, & Shadish (2014).
 #' 
 #' @param iterations number of independent iterations of the simulation
 #' @param beta vector of fixed effect parameters
@@ -113,9 +113,9 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #' @return A matrix reporting the mean and variance of the effect size estimates
 #' and various associated statistics.
 #' 
-#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
-#' Design-comparable effect sizes in multiple baseline designs: A general approach
-#' to modeling and estimation.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
+#' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 #' 
 #' @examples
 #' compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3, phi = 0.5, design=design_matrix(m=3,n=8))
@@ -189,10 +189,10 @@ convergence_handler_MB2 <- function(design, y, method="REML") {
   g
 }
 
-#' @title Simulate Model MB2 from Pustejovsky (2013)
+#' @title Simulate Model MB2 from Pustejovsky, Hedges, & Shadish (2014)
 #' 
 #' @description Simulates data from a linear mixed effects model, then calculates 
-#' REML effect size estimator as described in Pustejovsky (2013).
+#' REML effect size estimator as described in Pustejovsky, Hedges, & Shadish (2014).
 #' 
 #' @param iterations number of independent iterations of the simulation
 #' @param beta vector of fixed effect parameters
@@ -210,9 +210,9 @@ convergence_handler_MB2 <- function(design, y, method="REML") {
 #' @return A matrix reporting the mean and variance of the effect size estimates
 #' and various associated statistics.
 #' 
-#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
-#' Design-comparable effect sizes in multiple baseline designs: A general approach
-#' to modeling and estimation.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
+#' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 #' 
 #' @examples
 #' set.seed(8)
@@ -275,10 +275,10 @@ convergence_handler_MB4 <- function(design, y, p_const, r_const) {
   g
 }
 
-#' @title Simulate Model MB4 from Pustejovsky (2013)
+#' @title Simulate Model MB4 from Pustejovsky, Hedges, & Shadish (2014)
 #' 
 #' @description Simulates data from a linear mixed effects model, then calculates 
-#' REML effect size estimator as described in Pustejovsky (2013).
+#' REML effect size estimator as described in Pustejovsky, Hedges, & Shadish (2014).
 #' 
 #' @param iterations number of independent iterations of the simulation
 #' @param beta vector of fixed effect parameters
@@ -298,9 +298,9 @@ convergence_handler_MB4 <- function(design, y, p_const, r_const) {
 #' @return A matrix reporting the mean and variance of the effect size estimates
 #' and various associated statistics.
 #' 
-#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
-#' Design-comparable effect sizes in multiple baseline designs: A general approach
-#' to modeling and estimation.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
+#' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 #' 
 #' @examples
 #' simulate_MB4(iterations = 10, beta = c(0,1,0,0), rho = 0.8, phi = 0.5, tau2_ratio = 0.5, tau_corr = 0, p_const = c(0,1,0,7), r_const = c(1,0,1,0,0), design = design_matrix(3, 16, treat_times=c(5,9,13), center = 12))
@@ -361,14 +361,15 @@ fit_g <- function(y, object) {
 #' @title Simulate data from a fitted \code{g_REML} object
 #' 
 #' @description Simulates data from the linear mixed effects model used to estimate the
-#' specified standardized mean difference effect size. 
-#' Suitable for parametric bootstrapping.
+#' specified standardized mean difference effect size. Suitable for parametric bootstrapping.
 #' 
 #' @param object a \code{g_REML} object
 #' @param nsim number of models to simulate
 #' @param seed seed value. See documentation for \code{\link{simulate}}
 #' @param parallel if \code{TRUE}, run in parallel using foreach backend.
 #' @param ... additional optional arguments
+#' 
+#' @export
 #' 
 #' @return A matrix with one row per simulation, with columns corresponding to the output
 #' of \code{g_REML}.
@@ -379,8 +380,6 @@ fit_g <- function(y, object) {
 #' Laski_g <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
 #' simulate(Laski_g, nsim = 20)
 #' 
-#' 
-#' @S3method simulate g_REML
 
 
 simulate.g_REML <- function(object, nsim = 1, seed = NULL, parallel = FALSE, ...) {

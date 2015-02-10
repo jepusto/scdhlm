@@ -207,7 +207,7 @@ Info_Expected_lmeAR1 <- function(m_fit) {
 #' 
 #' @description Estimates a design-comparable standardized mean difference effect size based on data 
 #' from a multiple baseline design, using adjusted REML method as described in Pustejovsky, Hedges, 
-#' & Shadish (2013). Note that the data must contain one row per measurement occasion per case.
+#' & Shadish (2014). Note that the data must contain one row per measurement occasion per case.
 #' 
 #' @param m_fit Fitted model of class lme, with AR(1) correlation structure at level 1.
 #' @param p_const Vector of constants for calculating numerator of effect size. 
@@ -238,9 +238,9 @@ Info_Expected_lmeAR1 <- function(m_fit) {
 #' \code{I_E_inv} \tab Expected information matrix \cr
 #' }
 #' 
-#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
-#' Design-comparable effect sizes in multiple baseline designs: A general approach
-#' to modeling and estimation.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
+#' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 #' 
 #' @examples
 #' data(Laski)
@@ -296,7 +296,7 @@ g_REML <- function(m_fit, p_const, r_const,
 }
 
 
-#' @S3method summary g_REML
+#' @export
 #'
 
 summary.g_REML <- function(object, ...) {

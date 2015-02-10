@@ -27,15 +27,15 @@
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
 #' A standardized mean difference effect size for single case designs. 
-#' \emph{Research Synthesis Methods, 3}, 224-239. doi:10.1002/jrsm.1052
+#' \emph{Research Synthesis Methods, 3}, 224-239. doi:\href{http://doi.org/10.1002/jrsm.1052}{10.1002/jrsm.1052}
 #' 
 #' Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 #' A standardized mean difference effect size for multiple baseline designs across individuals. 
-#' \emph{Research Synthesis Methods}, forthcoming.
+#' \emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{http://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
 #' 
-#' Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
-#' Design-comparable effect sizes in multiple baseline designs: A general approach
-#' to modeling and estimation.
+#' Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
+#' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 #' 
 #' @name scdhlm
 #' @docType package
@@ -69,7 +69,7 @@ NULL
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
 #' A standardized mean difference effect size for single case designs. 
-#' \emph{Research Synthesis Methods, 3}, 224-239. doi:10.1002/jrsm.1052
+#' \emph{Research Synthesis Methods, 3}, 224-239. doi:\href{http://doi.org/10.1002/jrsm.1052}{10.1002/jrsm.1052}
 NULL
 
 #' Example 2 from Hedges, Pustejovsky, & Shadish (2012)
@@ -92,11 +92,11 @@ NULL
 #' @source Anglesea, M. M., Hoch, H., & Taylor, B. A. (2008). 
 #' Reducing rapid eating in teenagers with autism: Use of a pager prompt. 
 #' \emph{Journal of Applied Behavior Analysis, 41}(1), 107-111. 
-#' doi:10.1901/jaba.2008.41-107
+#' doi:\href{http://doi.org/10.1901/jaba.2008.41-107}{10.1901/jaba.2008.41-107}
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
 #' A standardized mean difference effect size for single case designs. 
-#' \emph{Research Synthesis Methods, 3}, 224-239. doi:10.1002/jrsm.1052
+#' \emph{Research Synthesis Methods, 3}, 224-239. doi:\href{http://doi.org/10.1002/jrsm.1052}{10.1002/jrsm.1052}
 NULL
 
 #' Example 1 from Hedges, Pustejovsky, & Shadish (2013)
@@ -122,11 +122,12 @@ NULL
 #' The effects of sentence-combining instruction on the writing of 
 #' fourth-grade students with writing difficulties. 
 #' \emph{The Journal of Special Education, 42}(2), 79-90. 
-#' doi:10.1177/0022466907310371
+#' doi:\href{http://doi.org/10.1177/0022466907310371}{10.1177/0022466907310371}
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 #' A standardized mean difference effect size for multiple baseline designs across individuals. 
-#' \emph{Research Synthesis Methods}, forthcoming.
+#' \emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{http://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
+
 NULL
 
 
@@ -153,11 +154,12 @@ NULL
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 #' A standardized mean difference effect size for multiple baseline designs across individuals. 
-#' \emph{Research Synthesis Methods}, forthcoming.
+#' \emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{http://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
+
 NULL
 
 
-#' Example from Pustejovsky, Hedges, & Shadish (2013)
+#' Example from Pustejovsky, Hedges, & Shadish (2014)
 #' 
 #' Data from a multiple baseline design conducted by 
 #' Schutte, Malouff, & Brown (2008). The variables are as follows:
@@ -174,53 +176,53 @@ NULL
 #' @name Schutte
 #' @source Schutte, N. S., Malouff, J. M., & Brown, R. F. (2008). 
 #' Efficacy of an emotion-focused treatment for prolonged fatigue. 
-#' \emph{Behavior Modification, 32}(5), 699-713. doi: 10.1177/0145445508317133
+#' \emph{Behavior Modification, 32}(5), 699-713. doi:\href{http://doi.org/10.1177/0145445508317133}{10.1177/0145445508317133}
 #' 
-#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
-#' Design-comparable effect sizes in multiple baseline designs: A general approach
-#' to modeling and estimation.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
+#' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 NULL
 
 #' MB1 simulation results
 #' 
-#' Simulation results for model MB1 from  Pustejovsky, Hedges, & Shadish (2013).
+#' Simulation results for model MB1 from  Pustejovsky, Hedges, & Shadish (2014).
 #' 
 #' @docType data
 #' @keywords datasets
 #' @format A data frame
 #' @name MB1results
 #' 
-#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
-#' Design-comparable effect sizes in multiple baseline designs: A general approach
-#' to modeling and estimation.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
+#' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 NULL
 
 #' MB2 simulation results
 #' 
-#' Simulation results for model MB2 from  Pustejovsky, Hedges, & Shadish (2013).
+#' Simulation results for model MB2 from  Pustejovsky, Hedges, & Shadish (2014).
 #' 
 #' @docType data
 #' @keywords datasets
 #' @format A data frame
 #' @name MB2results
 #' 
-#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
-#' Design-comparable effect sizes in multiple baseline designs: A general approach
-#' to modeling and estimation.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
+#' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 NULL
 
 #' MB4 simulation results
 #' 
-#' Simulation results for model MB4 from  Pustejovsky, Hedges, & Shadish (2013).
+#' Simulation results for model MB4 from  Pustejovsky, Hedges, & Shadish (2014).
 #' 
 #' @docType data
 #' @keywords datasets
 #' @format A data frame
 #' @name MB4results
 #' 
-#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2013). 
-#' Design-comparable effect sizes in multiple baseline designs: A general approach
-#' to modeling and estimation.
+#' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
+#' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 NULL
 
 #' MB1 simulation time
