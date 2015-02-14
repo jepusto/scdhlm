@@ -1,4 +1,10 @@
-scdhlm
-======
+[![Build Status](https://travis-ci.org/jepusto/scdhlm.svg?branch=master)](https://travis-ci.org/jepusto/scdhlm)
 
-An R package implementing the methods in Pustejovsky, Hedges, &amp; Shadish (2014) and Hedges, Pustejovsky, &amp; Shadish (2012, 2013).
+An R package for estimating design-comparable standardized mean difference effect sizes based on data from single-case designs. Implements methods described in: 
+
+* Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. Research Synthesis Methods, 3, 224-239. doi: [10.1002/jrsm.1052](http://doi.org/10.1002/jrsm.1052)
+* Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. Research Synthesis Methods, 4(4), 324-341. doi: [10.1002/jrsm.1086](http://doi.org/10.1002/jrsm.1086)
+* Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. Journal of Educational and Behavioral Statistics, 39(4), 211-227. doi: [10.3102/1076998614547577](http://doi.org/10.3102/1076998614547577)
+
+
+
