@@ -1,8 +1,12 @@
 ---
 title: "Estimating design-comparable standardized mean differences with scdhlm"
 author: "James E. Pustejovsky"
-date: "Tuesday, February 10, 2015"
-output: html_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{"Estimating design-comparable standardized mean differences"}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
 The scdhlm package (Pustejovsky, 2015) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. A design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases); Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variability. 
@@ -139,7 +143,7 @@ The effect size estimate that is `r round(100 * (1 - Laski_ES_RML2$g_AB / Laski_
 ## Schutte, Malouf, & Brown (2008)
 
 Schutte, Malouf, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.
-```{r setup}
+```{r, fig.width = 7, fig.height = 5}
 data(Schutte)
 Schutte <- subset(Schutte, case != 4)
 Schutte$case <- factor(Schutte$case)

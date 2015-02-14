@@ -383,7 +383,10 @@ fit_g <- function(y, object) {
 
 
 simulate.g_REML <- function(object, nsim = 1, seed = NULL, parallel = FALSE, ...) {
-  require(plyr)
+  if (!requireNamespace("plyr", quietly = TRUE)) {
+    stop("The plyr package is needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   set.seed(seed)
   
   X_design <- model.matrix(object, data = object$data)
@@ -402,6 +405,6 @@ simulate.g_REML <- function(object, nsim = 1, seed = NULL, parallel = FALSE, ...
 
   if (parallel) paropts <- list(.packages = c("nlme","scdhlm")) else paropts = NULL
 
-  as.data.frame(aaply(sim_data, 2, fit_g, object = object, .parallel = parallel, .paropts = paropts))
+  as.data.frame(plyr::aaply(sim_data, 2, fit_g, object = object, .parallel = parallel, .paropts = paropts))
 
 }
