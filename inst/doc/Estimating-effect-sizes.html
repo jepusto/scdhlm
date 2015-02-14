@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="James E. Pustejovsky" />
+
+<meta name="date" content="2015-02-13" />
+
+<title>Estimating design-comparable standardized mean differences with scdhlm</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%7D%0Apre%20%7B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Estimating design-comparable standardized mean differences with scdhlm</h1>
+<h4 class="author"><em>James E. Pustejovsky</em></h4>
+<h4 class="date"><em>2015-02-13</em></h4>
+</div>
+
+
+<p>The scdhlm package (Pustejovsky, 2015) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. A design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases); Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variability.</p>
+<p>The original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the <code>effect_size_ABk</code> and <code>effect_size_MB</code> functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxilliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function <code>lme</code> from the package <code>nlme</code> by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function <code>g_REML</code> from the <code>scdhlm</code> package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(scdhlm)</code></pre>
+<div id="lambert-cartledge-heward-lo-2006" class="section level2">
+<h2>Lambert, Cartledge, Heward, &amp; Lo (2006)</h2>
+<p>Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the <code>effect_size_ABk</code> function. To use this function, the user must provide five pieces of data:</p>
+<ul>
+<li>the outcome variable,</li>
+<li>a variable indicating the treatment condition,</li>
+<li>a variable listing the case on which the outcome was measured,</li>
+<li>a variable indicating the phase of treatment (i.e., each replication of a baseline and treatment condition), and</li>
+<li>a variable listing the session number.</li>
+</ul>
+<p>In the <code>Lambert</code> dataset, these variables are called respectively <code>outcome</code>, <code>treatment</code>, <code>case</code>, <code>phase</code>, and <code>time</code>. Given these inputs, the design-comparable SMD is calculated as follows:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Lambert)
+Lambert_ES &lt;-<span class="st"> </span><span class="kw">with</span>(Lambert, <span class="kw">effect_size_ABk</span>(<span class="dt">outcome =</span> outcome, <span class="dt">treatment =</span> treatment, 
+                                            <span class="dt">id =</span> case, <span class="dt">phase =</span> phase, <span class="dt">time =</span> time))
+<span class="kw">str</span>(Lambert_ES)</code></pre>
+<pre><code>## List of 12
+##  $ M_a            : int [1:2, 1:2] 6 4 6 7
+##   ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. ..$ : chr [1:2] &quot;SSR&quot; &quot;RC&quot;
+##   .. ..$ : chr [1:2] &quot;1&quot; &quot;2&quot;
+##  $ M_dot          : int 23
+##  $ D_bar          : num -5.46
+##  $ S_sq           : num 4.67
+##  $ delta_hat_unadj: num -2.52
+##  $ phi            : num 0.225
+##  $ sigma_sq_w     : num 4.53
+##  $ rho            : num 0.0299
+##  $ theta          : num 0.145
+##  $ nu             : num 164
+##  $ delta_hat      : num -2.51
+##  $ V_delta_hat    : num 0.0405</code></pre>
+<p>The function produces a list containing the estimated effect size estimate, an estimate of its variance, and several pieces of auxilliary information. The effect size estimate is stored in the list entry called <code>delta_hat</code>, which in this example is equal to -2.5131; its variance is stored in <code>V_delta_hat</code>, which in this example is equal to 0.0405. The effect size estimate is bias-corrected in a manner analogous to the correction in Hedges’ g for SMDs from a between-subjects design. The degrees of freedom are estimated based on a Satterthwaite-type approximation and are stored in the entry <code>nu</code> (equal to 164.4923 in this example).</p>
+<p>By default, the <code>effect_size_ABk</code> function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry <code>phi</code>) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry <code>rho</code>). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimated was . The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of 0.2247.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(Lambert, <span class="kw">effect_size_ABk</span>(<span class="dt">outcome =</span> outcome, <span class="dt">treatment =</span> treatment, 
+                              <span class="dt">id =</span> case, <span class="dt">phase =</span> phase, <span class="dt">time =</span> time, 
+                              <span class="dt">phi =</span> <span class="fl">0.10</span>))[<span class="kw">c</span>(<span class="st">&quot;delta_hat&quot;</span>,<span class="st">&quot;V_delta_hat&quot;</span>,<span class="st">&quot;nu&quot;</span>)]</code></pre>
+<pre><code>## $delta_hat
+## [1] -2.513
+## 
+## $V_delta_hat
+## [1] 0.03719
+## 
+## $nu
+## [1] 158.7</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(Lambert, <span class="kw">effect_size_ABk</span>(<span class="dt">outcome =</span> outcome, <span class="dt">treatment =</span> treatment, 
+                              <span class="dt">id =</span> case, <span class="dt">phase =</span> phase, <span class="dt">time =</span> time, 
+                              <span class="dt">phi =</span> <span class="fl">0.35</span>))[<span class="kw">c</span>(<span class="st">&quot;delta_hat&quot;</span>,<span class="st">&quot;V_delta_hat&quot;</span>,<span class="st">&quot;nu&quot;</span>)]</code></pre>
+<pre><code>## $delta_hat
+## [1] -2.512
+## 
+## $V_delta_hat
+## [1] 0.04662
+## 
+## $nu
+## [1] 152.6</code></pre>
+<p>The estimated auto-correlation has only a trivial effect on the effect size estimate and a minor effect on its estimated variance.</p>
+</div>
+<div id="anglesea-hoch-taylor-2008" class="section level2">
+<h2>Anglesea, Hoch, &amp; Taylor (2008)</h2>
+<p>Anglesea, Hoch, and Taylor (2008) used an ABAB design to test the effect of using a pager prompt to reduce the rapid eating of three teenage boys with autism. The primary outcome was a measure of how quickly each participant consumed one serving of a familiar food. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who used it to illustrate the calculation of the design-comparable SMD when based on the minimum required number of cases. Their calculations can be replicated using the following code:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Anglesea)
+Anglesea_ES &lt;-<span class="st"> </span><span class="kw">with</span>(Anglesea, <span class="kw">effect_size_ABk</span>(outcome, treatment, case, phase, session))
+Anglesea_ES[<span class="kw">c</span>(<span class="st">&quot;delta_hat&quot;</span>,<span class="st">&quot;V_delta_hat&quot;</span>,<span class="st">&quot;nu&quot;</span>)]</code></pre>
+<pre><code>## $delta_hat
+## [1] 1.15
+## 
+## $V_delta_hat
+## [1] 2.44
+## 
+## $nu
+## [1] 2.34</code></pre>
+<p>Note that the variance of the effect size estimate is quite large and the degrees of freedom corresponding to the denominator of the SMD estimate are very low. Both quantities are extreme due to the small number of cases used in this example.</p>
+</div>
+<div id="saddler-behforooz-asaro-2008" class="section level2">
+<h2>Saddler, Behforooz, &amp; Asaro (2008)</h2>
+<p>Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the intervention’s effect on measures of writing quality, sentence complexity, and use of target constructions.</p>
+<p>Design-comparable SMDs can be estimated based on these data using the <code>effect_size_MB</code> function. The syntax for this function is similar to that of the <code>effect_size_ABk</code> function, but does not require the user to input information about the phase of the design (because in the multiple baseline design, phase exactly corresponds to treatment condition). The following code replicates the calculations reported in Hedges, Pustejovsky, and Shadish (2013):</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Saddler)
+
+quality_ES &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">subset</span>(Saddler, measure==<span class="dv">1</span>), 
+                   <span class="kw">effect_size_MB</span>(outcome, treatment, case, time))
+complexity_ES &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">subset</span>(Saddler, measure==<span class="dv">2</span>), 
+                      <span class="kw">effect_size_MB</span>(outcome, treatment, case, time))
+construction_ES &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">subset</span>(Saddler, measure==<span class="dv">3</span>), 
+                        <span class="kw">effect_size_MB</span>(outcome, treatment, case, time))
+
+<span class="kw">cbind</span>(<span class="dt">quality =</span> <span class="kw">unlist</span>(quality_ES), 
+      <span class="dt">complexity =</span> <span class="kw">unlist</span>(complexity_ES), 
+      <span class="dt">construction =</span> <span class="kw">unlist</span>(construction_ES))[<span class="kw">c</span>(<span class="st">&quot;delta_hat&quot;</span>,<span class="st">&quot;V_delta_hat&quot;</span>,<span class="st">&quot;nu&quot;</span>,<span class="st">&quot;phi&quot;</span>,<span class="st">&quot;rho&quot;</span>),]</code></pre>
+<pre><code>##             quality complexity construction
+## delta_hat   1.96307    0.78540      0.74755
+## V_delta_hat 0.33491    0.08023      0.07847
+## nu          8.91815    9.60204      7.57981
+## phi         0.09965   -0.07542     -0.11159
+## rho         0.63321    0.61453      0.73124</code></pre>
+<p>For multiple baseline designs, an alternative to using the <code>effect_size_MB</code> function is to estimate a hierarchical linear model for the data and then use the <code>g_REML</code> function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a heirarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which will be demonstrated using the writing quality measure. First, estimate the hierarchical model with an AR(1) within-case error structure using the <code>lme</code> function:</p>
+<pre class="sourceCode r"><code class="sourceCode r">quality_RML &lt;-<span class="st"> </span><span class="kw">lme</span>(<span class="dt">fixed =</span> outcome ~<span class="st"> </span>treatment, 
+                   <span class="dt">random =</span> ~<span class="st"> </span><span class="dv">1</span> |<span class="st"> </span>case, 
+                   <span class="dt">correlation =</span> <span class="kw">corAR1</span>(<span class="dv">0</span>, ~<span class="st"> </span>time |<span class="st"> </span>case), 
+                   <span class="dt">data =</span> <span class="kw">subset</span>(Saddler, measure==<span class="dv">1</span>))
+<span class="kw">summary</span>(quality_RML)</code></pre>
+<pre><code>## Linear mixed-effects model fit by REML
+##  Data: subset(Saddler, measure == 1) 
+##     AIC   BIC logLik
+##   97.31 105.6 -43.66
+## 
+## Random effects:
+##  Formula: ~1 | case
+##         (Intercept) Residual
+## StdDev:      0.6622   0.6657
+## 
+## Correlation Structure: ARMA(1,0)
+##  Formula: ~time | case 
+##  Parameter estimate(s):
+##  Phi1 
+## 0.382 
+## Fixed effects: outcome ~ treatment 
+##             Value Std.Error DF t-value p-value
+## (Intercept) 2.437    0.3188 34   7.646       0
+## treatment   2.181    0.2340 34   9.320       0
+##  Correlation: 
+##           (Intr)
+## treatment -0.308
+## 
+## Standardized Within-Group Residuals:
+##     Min      Q1     Med      Q3     Max 
+## -1.4700 -0.4627 -0.1908  0.4286  1.8064 
+## 
+## Number of Observations: 41
+## Number of Groups: 6</code></pre>
+<p>The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. The next step is to combine these estimated components into an effect size estimate using the <code>g_REML</code> function. This function takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. For details on how to choose these constants, see Pustejovsky, Hedges, and Shadish (2014). In this example:</p>
+<pre class="sourceCode r"><code class="sourceCode r">quality_ES_RML &lt;-<span class="st"> </span><span class="kw">g_REML</span>(quality_RML, <span class="dt">p_const =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), 
+                         <span class="dt">r_const =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">returnModel=</span><span class="ot">FALSE</span>)
+<span class="kw">str</span>(quality_ES_RML)</code></pre>
+<pre><code>## List of 14
+##  $ p_beta   : num 2.18
+##  $ r_theta  : num 0.882
+##  $ delta_AB : num 2.32
+##  $ nu       : num [1, 1] 12
+##  $ kappa    : num [1, 1] 0.249
+##  $ g_AB     : num [1, 1] 2.17
+##  $ V_g_AB   : num [1, 1] 0.311
+##  $ cnvg_warn: logi FALSE
+##  $ sigma_sq : num 0.443
+##  $ phi      : num 0.382
+##  $ Tau      : Named num 0.438
+##   ..- attr(*, &quot;names&quot;)= chr &quot;case.var((Intercept))&quot;
+##  $ I_E_inv  : num [1:3, 1:3] 0.0236 0.0253 -0.0104 0.0253 0.0528 ...
+##  $ p_const  : num [1:2] 0 1
+##  $ r_const  : num [1:3] 1 0 1</code></pre>
+<p>The function returns a list containing the SMD effect size estimate (<code>g_AB</code> = 2.1742), its variance (<code>V_g_AB</code> = 0.3106), the estimated auto-correlation (<code>phi</code> = 0.382), estimated degrees of freedom (<code>nu</code> = 11.9634), and several other pieces of auxilliary information. In this example, the RML effect size estimate is about 10% larger than the estimate from <code>effect_size_MB</code>, with a slightly smaller variance estimate. The RML estimate of the auto-correlation is substantially higher than before, but <code>effect_size_MB</code> uses a moment estimator that is known to be biased towards zero and that does not perform well when outcomes are intermittently missing for some sessions (as is the case here).</p>
+</div>
+<div id="laski-charlop-schreibman-1988" class="section level2">
+<h2>Laski, Charlop, &amp; Schreibman (1988)</h2>
+<p>Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included <span class="math">\(m = 8\)</span> children; one child was measured separately with each parent; for purposes of simplicity, and following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in the analysis.</p>
+<p>The following code compares the estimates of the design-comparable SMD effect size based on the Hedges, Pustejovsky, and Shadish (2013) approach (using the <code>effect_size_MB</code> function) to the estimates based on the hierarchical linear modeling approach described in Pustejovsky, Hedges, and Shadish (2014) (using the <code>g_REML</code> function).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Laski)
+
+<span class="co"># Hedges, Pustejovsky, &amp; Shadish (2013)</span>
+Laski_ES_HPS &lt;-<span class="st"> </span><span class="kw">with</span>(Laski, <span class="kw">effect_size_MB</span>(outcome, treatment, case, time))
+
+<span class="co"># Pustejovsky, Hedges, &amp; Shadish (2014)</span>
+Laski_RML &lt;-<span class="st"> </span><span class="kw">lme</span>(<span class="dt">fixed =</span> outcome ~<span class="st"> </span>treatment,
+                 <span class="dt">random =</span> ~<span class="st"> </span><span class="dv">1</span> |<span class="st"> </span>case, 
+                 <span class="dt">correlation =</span> <span class="kw">corAR1</span>(<span class="dv">0</span>, ~<span class="st"> </span>time |<span class="st"> </span>case), 
+                 <span class="dt">data =</span> Laski)
+<span class="kw">summary</span>(Laski_RML)</code></pre>
+<pre><code>## Linear mixed-effects model fit by REML
+##  Data: Laski 
+##    AIC  BIC logLik
+##   1048 1062 -519.1
+## 
+## Random effects:
+##  Formula: ~1 | case
+##         (Intercept) Residual
+## StdDev:       15.68    13.88
+## 
+## Correlation Structure: AR(1)
+##  Formula: ~time | case 
+##  Parameter estimate(s):
+##    Phi 
+## 0.2528 
+## Fixed effects: outcome ~ treatment 
+##             Value Std.Error  DF t-value p-value
+## (Intercept) 39.08     5.989 119   6.524       0
+## treatment   30.68     2.996 119  10.242       0
+##  Correlation: 
+##           (Intr)
+## treatment -0.272
+## 
+## Standardized Within-Group Residuals:
+##      Min       Q1      Med       Q3      Max 
+## -2.72642 -0.69387  0.01454  0.69861  2.14528 
+## 
+## Number of Observations: 128
+## Number of Groups: 8</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">Laski_ES_RML &lt;-<span class="st"> </span><span class="kw">g_REML</span>(Laski_RML, <span class="dt">p_const =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),
+                       <span class="dt">r_const =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">returnModel=</span><span class="ot">FALSE</span>)
+
+<span class="co"># compare the estimates</span>
+<span class="kw">cbind</span>(<span class="dt">HPS =</span> <span class="kw">with</span>(Laski_ES_HPS, <span class="kw">c</span>(<span class="dt">SMD =</span> delta_hat, <span class="dt">Variance =</span> V_delta_hat, <span class="dt">phi =</span> phi, <span class="dt">rho =</span> rho, <span class="dt">nu =</span> nu)),
+      <span class="dt">RML =</span> <span class="kw">with</span>(Laski_ES_RML, <span class="kw">c</span>(g_AB, V_g_AB, phi, Tau /<span class="st"> </span>(Tau +<span class="st"> </span>sigma_sq), nu)))</code></pre>
+<pre><code>##               HPS      RML
+## SMD       1.38839  1.40489
+## Variance  0.10050  0.08198
+## phi       0.01653  0.25277
+## rho       0.69397  0.56061
+## nu       13.10041 18.55241</code></pre>
+<p>As in the Saddler example, both methods produce very similar SMD estimates and variance estimates. The RML estimate of auto-correlation is substantially higher than the HPS estimate, while the intra-class correlation estimate is somewhat lower; in combination, these differences lead to larger degrees of freedom.</p>
+<p>An advantage of the RML approach is that it is readily extended to more complex models. The above analysis was based on the assumption that the treatment effect is constant across cases. This assumption can be removed by fitting a model that includes a random treatment effect for each case.</p>
+<pre class="sourceCode r"><code class="sourceCode r">Laski_RML2 &lt;-<span class="st"> </span><span class="kw">lme</span>(<span class="dt">fixed =</span> outcome ~<span class="st"> </span>treatment,
+                 <span class="dt">random =</span> ~<span class="st"> </span>treatment |<span class="st"> </span>case, 
+                 <span class="dt">correlation =</span> <span class="kw">corAR1</span>(<span class="dv">0</span>, ~<span class="st"> </span>time |<span class="st"> </span>case), 
+                 <span class="dt">data =</span> Laski)
+<span class="kw">summary</span>(Laski_RML2)</code></pre>
+<pre><code>## Linear mixed-effects model fit by REML
+##  Data: Laski 
+##    AIC  BIC logLik
+##   1036 1056   -511
+## 
+## Random effects:
+##  Formula: ~treatment | case
+##  Structure: General positive-definite, Log-Cholesky parametrization
+##             StdDev Corr  
+## (Intercept) 21.80  (Intr)
+## treatment   13.24  -0.869
+## Residual    11.94        
+## 
+## Correlation Structure: AR(1)
+##  Formula: ~time | case 
+##  Parameter estimate(s):
+##     Phi 
+## 0.02267 
+## Fixed effects: outcome ~ treatment 
+##             Value Std.Error  DF t-value p-value
+## (Intercept) 38.45     7.881 119   4.879       0
+## treatment   31.59     5.178 119   6.101       0
+##  Correlation: 
+##           (Intr)
+## treatment -0.835
+## 
+## Standardized Within-Group Residuals:
+##      Min       Q1      Med       Q3      Max 
+## -3.12358 -0.50575 -0.01606  0.65004  2.05388 
+## 
+## Number of Observations: 128
+## Number of Groups: 8</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(Laski_RML, Laski_RML2)</code></pre>
+<pre><code>##            Model df  AIC  BIC logLik   Test L.Ratio p-value
+## Laski_RML      1  5 1048 1062 -519.1                       
+## Laski_RML2     2  7 1036 1056 -511.0 1 vs 2   16.27   3e-04</code></pre>
+<p>The fit of the two models can be compared using a likelihood ratio test, which rejects the model with a constant treatment effect. The second model, which allows the treatment effect to vary, is to be preferred. The following code estimates a design-comparable SMD based on the better-fitting model.</p>
+<pre class="sourceCode r"><code class="sourceCode r">Laski_ES_RML2 &lt;-<span class="st"> </span><span class="kw">g_REML</span>(Laski_RML2, <span class="dt">p_const =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), 
+                        <span class="dt">r_const =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">returnModel=</span><span class="ot">FALSE</span>)
+Laski_ES_RML2[<span class="kw">c</span>(<span class="st">&quot;g_AB&quot;</span>,<span class="st">&quot;V_g_AB&quot;</span>,<span class="st">&quot;phi&quot;</span>,<span class="st">&quot;nu&quot;</span>)]</code></pre>
+<pre><code>## $g_AB
+##       [,1]
+## [1,] 1.181
+## 
+## $V_g_AB
+##        [,1]
+## [1,] 0.1284
+## 
+## $phi
+## [1] 0.02267
+## 
+## $nu
+##       [,1]
+## [1,] 10.78</code></pre>
+<p>The effect size estimate that is 16% smaller than the estimate from the simpler model; with a standard error that is 25% larger. The difference between the two models is due to a difference in between-case variance across phases not captured by the assumptions of the simpler model. The between-case variation in the outcome appears to be substantially larger in the baseline phase than in the treatment phase. Maintaining the constant treatment effect assumption constrains the between-case variance to be constant across phases, and so the between-case variance is estimated by pooling across both phases. The constant treatment effect assumption therefore leads to a smaller estimate than one based on the baseline phase alone.</p>
+</div>
+<div id="schutte-malouf-brown-2008" class="section level2">
+<h2>Schutte, Malouf, &amp; Brown (2008)</h2>
+<p>Schutte, Malouf, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Schutte)
+Schutte &lt;-<span class="st"> </span><span class="kw">subset</span>(Schutte, case !=<span class="st"> </span><span class="dv">4</span>)
+Schutte$case &lt;-<span class="st"> </span><span class="kw">factor</span>(Schutte$case)
+
+change &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">case=</span><span class="kw">unique</span>(Schutte$case),
+                     <span class="dt">phase.change =</span> <span class="kw">with</span>(<span class="kw">subset</span>(Schutte, treatment==<span class="st"> &quot;treatment&quot;</span>), 
+                                         <span class="kw">tapply</span>(week, case, min)) -<span class="st"> </span><span class="fl">0.5</span>)
+
+<span class="kw">library</span>(ggplot2)
+<span class="kw">ggplot</span>(Schutte, <span class="kw">aes</span>(week, fatigue, <span class="dt">shape =</span> treatment, <span class="dt">color =</span> treatment)) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>case, <span class="dt">ncol =</span> <span class="dv">3</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">color=</span><span class="st">&quot;Phase&quot;</span>,<span class="dt">shape=</span><span class="st">&quot;Phase&quot;</span>, <span class="dt">y =</span><span class="st">&quot;Fatigue&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Week&quot;</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">data =</span> change, <span class="kw">aes</span>(<span class="dt">xintercept=</span>phase.change)) +
+<span class="st">  </span><span class="kw">theme_bw</span>() </code></pre>
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-11" /></p>
+<p>Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create time-by-trt interaction</span>
+Schutte$trt.week &lt;-<span class="st"> </span><span class="kw">with</span>(Schutte, 
+                         <span class="kw">unlist</span>(<span class="kw">tapply</span>((treatment==<span class="st">&quot;treatment&quot;</span>) *<span class="st"> </span>week, 
+                                        <span class="kw">list</span>(treatment,case), 
+                                        function(x) x -<span class="st"> </span><span class="kw">min</span>(x))) +<span class="st"> </span>(treatment==<span class="st">&quot;treatment&quot;</span>))
+
+<span class="co"># time-point constants</span>
+A &lt;-<span class="st"> </span><span class="dv">2</span>
+B &lt;-<span class="st"> </span><span class="dv">9</span>
+<span class="co"># center at follow-up time</span>
+Center &lt;-<span class="st"> </span>B
+Schutte$week &lt;-<span class="st"> </span>Schutte$week -<span class="st"> </span>Center</code></pre>
+<p>Having completed the data-cleaning process, three different models will be considered, again following the example from Pustejovsky, Hedges, and Shadish (2014).</p>
+<div id="varying-intercepts-fixed-treatment-effect-fixed-trends" class="section level3">
+<h3>Varying intercepts, fixed treatment effect, fixed trends</h3>
+<p>The initial model allows for a baseline time trend, treatment effect, and treatment-by-time interaction, all of which are assumed to be constant across the 12 cases; only the baseline intercept is assumed to vary across cases. This specification corresponds to Model MB3 from Pustejovsky, Hedges, and Shadish (2014)</p>
+<pre class="sourceCode r"><code class="sourceCode r">hlm1 &lt;-<span class="st"> </span><span class="kw">lme</span>(<span class="dt">fixed =</span> fatigue ~<span class="st"> </span>week +<span class="st"> </span>treatment +<span class="st"> </span>trt.week, 
+            <span class="dt">random =</span> ~<span class="st"> </span><span class="dv">1</span> |<span class="st"> </span>case, 
+            <span class="dt">correlation =</span> <span class="kw">corAR1</span>(<span class="dv">0</span>, ~<span class="st"> </span>week |<span class="st"> </span>case),
+            <span class="dt">data =</span> Schutte,
+            <span class="dt">method =</span> <span class="st">&quot;REML&quot;</span>)
+<span class="kw">summary</span>(hlm1)</code></pre>
+<pre><code>## Linear mixed-effects model fit by REML
+##  Data: Schutte 
+##     AIC   BIC logLik
+##   884.2 904.4 -435.1
+## 
+## Random effects:
+##  Formula: ~1 | case
+##         (Intercept) Residual
+## StdDev:       3.843     9.95
+## 
+## Correlation Structure: AR(1)
+##  Formula: ~week | case 
+##  Parameter estimate(s):
+##    Phi 
+## 0.8092 
+## Fixed effects: fatigue ~ week + treatment + trt.week 
+##                    Value Std.Error  DF t-value p-value
+## (Intercept)        52.93     4.422 121  11.970  0.0000
+## week                0.49     0.622 121   0.785  0.4338
+## treatmenttreatment -1.37     1.972 121  -0.696  0.4876
+## trt.week           -1.90     0.938 121  -2.021  0.0455
+##  Correlation: 
+##                    (Intr) week   trtmnt
+## week                0.805              
+## treatmenttreatment -0.119 -0.069       
+## trt.week           -0.761 -0.777 -0.263
+## 
+## Standardized Within-Group Residuals:
+##      Min       Q1      Med       Q3      Max 
+## -2.69579 -0.64001 -0.06285  0.65266  2.01492 
+## 
+## Number of Observations: 136
+## Number of Groups: 12</code></pre>
+<p>The design-comparable standarized mean difference corresponds to the treatment effect at week B = 9, after B - A = 7 weeks of treatment. The corresponding values of <code>p_const</code> and <code>r_const</code> are specified below.</p>
+<pre class="sourceCode r"><code class="sourceCode r">Schutte_g1 &lt;-<span class="st"> </span><span class="kw">g_REML</span>(<span class="dt">m_fit =</span> hlm1, <span class="dt">p_const =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,B -<span class="st"> </span>A), <span class="dt">r_const =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>))
+Schutte_g1[<span class="kw">c</span>(<span class="st">&quot;g_AB&quot;</span>,<span class="st">&quot;V_g_AB&quot;</span>,<span class="st">&quot;nu&quot;</span>)]</code></pre>
+<pre><code>## $g_AB
+##        [,1]
+## [1,] -1.337
+## 
+## $V_g_AB
+##        [,1]
+## [1,] 0.3933
+## 
+## $nu
+##       [,1]
+## [1,] 29.15</code></pre>
+<p>It will be seen below that this initial model provides a poor fit to the data; thus, the effect size estimate based on it should not be trusted.</p>
+</div>
+<div id="varying-intercepts-fixed-treatment-effect-varying-trends" class="section level3">
+<h3>Varying intercepts, fixed treatment effect, varying trends</h3>
+<p>The next model (Model MB4) allows the baseline time trend to vary across cases. This can be done by modifying the previous model with the <code>update</code> function.</p>
+<pre class="sourceCode r"><code class="sourceCode r">hlm2 &lt;-<span class="st"> </span><span class="kw">update</span>(hlm1, <span class="dt">random =</span> ~<span class="st"> </span>week |<span class="st"> </span>case, 
+               <span class="dt">control=</span><span class="kw">lmeControl</span>(<span class="dt">msMaxIter =</span> <span class="dv">50</span>, <span class="dt">apVar=</span><span class="ot">FALSE</span>, <span class="dt">returnObject=</span><span class="ot">TRUE</span>))
+<span class="kw">summary</span>(hlm2)</code></pre>
+<pre><code>## Linear mixed-effects model fit by REML
+##  Data: Schutte 
+##   AIC   BIC logLik
+##   876 901.9   -429
+## 
+## Random effects:
+##  Formula: ~week | case
+##  Structure: General positive-definite, Log-Cholesky parametrization
+##             StdDev Corr  
+## (Intercept) 9.783  (Intr)
+## week        1.412  0.811 
+## Residual    5.422        
+## 
+## Correlation Structure: AR(1)
+##  Formula: ~week | case 
+##  Parameter estimate(s):
+##    Phi 
+## 0.3986 
+## Fixed effects: fatigue ~ week + treatment + trt.week 
+##                    Value Std.Error  DF t-value p-value
+## (Intercept)        50.29     4.074 121  12.346  0.0000
+## week                0.20     0.616 121   0.329  0.7427
+## treatmenttreatment -0.54     1.752 121  -0.310  0.7575
+## trt.week           -1.63     0.655 121  -2.491  0.0141
+##  Correlation: 
+##                    (Intr) week   trtmnt
+## week                0.883              
+## treatmenttreatment -0.258 -0.200       
+## trt.week           -0.567 -0.596 -0.178
+## 
+## Standardized Within-Group Residuals:
+##      Min       Q1      Med       Q3      Max 
+## -2.33194 -0.46272 -0.05349  0.32878  4.08750 
+## 
+## Number of Observations: 136
+## Number of Groups: 12</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(hlm1, hlm2)</code></pre>
+<pre><code>##      Model df   AIC   BIC logLik   Test L.Ratio p-value
+## hlm1     1  7 884.2 904.4 -435.1                       
+## hlm2     2  9 876.0 901.9 -429.0 1 vs 2   12.22  0.0022</code></pre>
+<p>A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows.</p>
+<pre class="sourceCode r"><code class="sourceCode r">Schutte_g2 &lt;-<span class="st"> </span><span class="kw">g_REML</span>(<span class="dt">m_fit =</span> hlm2, <span class="dt">p_const =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>, B -<span class="st"> </span>A), <span class="dt">r_const =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))
+Schutte_g2[<span class="kw">c</span>(<span class="st">&quot;g_AB&quot;</span>,<span class="st">&quot;V_g_AB&quot;</span>,<span class="st">&quot;nu&quot;</span>)]</code></pre>
+<pre><code>## $g_AB
+##        [,1]
+## [1,] -1.013
+## 
+## $V_g_AB
+##        [,1]
+## [1,] 0.2197
+## 
+## $nu
+##      [,1]
+## [1,] 14.3</code></pre>
+<p>The design-comparable SMD is estimated to be -1.0127, with a standard error of 0.4687.</p>
+</div>
+<div id="varying-intercepts-varying-trends-varying-treatment-by-time-interactions" class="section level3">
+<h3>Varying intercepts, varying trends, varying treatment-by-time interactions</h3>
+<p>The final model (Model MB5) is yet more flexible, in that it allows the treatment-by-time interactions to vary across cases. Given that the data contain only twelve cases, fitting a model with three random effects would be questionable if the goal were to make inferences about the full structure of the model. However, simulation evidence from Pustejovsky, Hedges, and Shadish (2014) suggests that using such a flexible parameterization may nonetheless be reasonable for the more limited purpose of effect size estimation.</p>
+<pre class="sourceCode r"><code class="sourceCode r">hlm3 &lt;-<span class="st"> </span><span class="kw">update</span>(hlm2, <span class="dt">random =</span> ~<span class="st"> </span>week +<span class="st"> </span>trt.week |<span class="st"> </span>case, 
+               <span class="dt">control=</span><span class="kw">lmeControl</span>(<span class="dt">msMaxIter =</span> <span class="dv">50</span>, <span class="dt">apVar=</span><span class="ot">FALSE</span>, <span class="dt">returnObject=</span><span class="ot">TRUE</span>))</code></pre>
+<pre><code>## Warning: nlminb problem, convergence error code = 1
+##   message = iteration limit reached without convergence (10)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(hlm3)</code></pre>
+<pre><code>## Linear mixed-effects model fit by REML
+##  Data: Schutte 
+##   AIC   BIC logLik
+##   873 907.6 -424.5
+## 
+## Random effects:
+##  Formula: ~week + trt.week | case
+##  Structure: General positive-definite, Log-Cholesky parametrization
+##             StdDev Corr        
+## (Intercept) 6.1898 (Intr) week 
+## week        0.3841 0.162       
+## trt.week    1.7344 0.163  0.999
+## Residual    4.7477             
+## 
+## Correlation Structure: AR(1)
+##  Formula: ~week | case 
+##  Parameter estimate(s):
+##    Phi 
+## 0.2396 
+## Fixed effects: fatigue ~ week + treatment + trt.week 
+##                    Value Std.Error  DF t-value p-value
+## (Intercept)        50.53    2.8218 121  17.905  0.0000
+## week                0.22    0.3642 121   0.601  0.5488
+## treatmenttreatment  0.03    1.5999 121   0.017  0.9866
+## trt.week           -1.67    0.7405 121  -2.257  0.0258
+##  Correlation: 
+##                    (Intr) week   trtmnt
+## week                0.722              
+## treatmenttreatment -0.357 -0.331       
+## trt.week           -0.312 -0.282 -0.154
+## 
+## Standardized Within-Group Residuals:
+##       Min        Q1       Med        Q3       Max 
+## -2.559160 -0.446183 -0.004518  0.366481  4.597306 
+## 
+## Number of Observations: 136
+## Number of Groups: 12</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(hlm2, hlm3)</code></pre>
+<pre><code>##      Model df AIC   BIC logLik   Test L.Ratio p-value
+## hlm2     1  9 876 901.9 -429.0                       
+## hlm3     2 12 873 907.6 -424.5 1 vs 2   8.928  0.0303</code></pre>
+<p>The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.</p>
+<pre class="sourceCode r"><code class="sourceCode r">Schutte_g3 &lt;-<span class="st"> </span><span class="kw">g_REML</span>(<span class="dt">m_fit =</span> hlm3, <span class="dt">p_const =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,B -<span class="st"> </span>A), <span class="dt">r_const =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))
+
+<span class="co"># compare effect size estimates</span>
+<span class="kw">cbind</span>(<span class="dt">MB3 =</span> <span class="kw">unlist</span>(Schutte_g1[<span class="kw">c</span>(<span class="st">&quot;g_AB&quot;</span>,<span class="st">&quot;V_g_AB&quot;</span>,<span class="st">&quot;nu&quot;</span>)]), 
+      <span class="dt">MB4 =</span> <span class="kw">unlist</span>(Schutte_g2[<span class="kw">c</span>(<span class="st">&quot;g_AB&quot;</span>,<span class="st">&quot;V_g_AB&quot;</span>,<span class="st">&quot;nu&quot;</span>)]), 
+      <span class="dt">MB5 =</span> <span class="kw">unlist</span>(Schutte_g3[<span class="kw">c</span>(<span class="st">&quot;g_AB&quot;</span>,<span class="st">&quot;V_g_AB&quot;</span>,<span class="st">&quot;nu&quot;</span>)]))</code></pre>
+<pre><code>##            MB3     MB4     MB5
+## g_AB   -1.3374 -1.0127 -1.3261
+## V_g_AB  0.3933  0.2197  0.6829
+## nu     29.1518 14.3023  6.8473</code></pre>
+<p>The effect size estimate has magnitude comparable to the estimate from Model MB3. However, the variance of the estimate is extremely large, due to the fact that the variance components that go into the denominator of the SMD estimate are estimated with low precision. This final model may represent an outer limit on the complexity of models that can feasibility be estimated, given that most single-case designs have fewer cases than the study examined in this example.</p>
+</div>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Anglesea, M. M., Hoch, H., &amp; Taylor, B. A. (2008). Reducing rapid eating in teenagers with autism: Use of a pager prompt. <em>Journal of Applied Behavior Analysis, 41</em>(1), 107â€“111. doi: <a href="http://doi.org/10.1901/jaba.2008.41-107">10.1901/jaba.2008.41-107</a></p>
+<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. <em>Research Synthesis Methods, 3</em>, 224-239. doi: <a href="http://doi.org/10.1002/jrsm.1052">10.1002/jrsm.1052</a></p>
+<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. <em>Research Synthesis Methods, 4</em>(4), 324-341. doi: <a href="http://doi.org/10.1002/jrsm.1086">10.1002/jrsm.1086</a></p>
+<p>Lambert, M. C., Cartledge, G., Heward, W. L., &amp; Lo, Y. (2006). Effects of response cards on disruptive behavior and academic responding during math lessons by fourth-grade urban students. <em>Journal of Positive Behavior Interventions, 8</em>(2), 88-99.</p>
+<p>Laski, K. E., Charlop, M. H., &amp; Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic childrenâ€™s speech. <em>Journal of Applied Behavior Analysis, 21</em>(4), 391â€“400.</p>
+<p>Pinheiro J., Bates D., DebRoy S., Sarkar D. and R Core Team (2015). <em>nlme: Linear and Nonlinear Mixed Effects Models</em>. R package version 3.1-119, <a href="http://CRAN.R-project.org/package=nlme">http://CRAN.R-project.org/package=nlme</a></p>
+<p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href="http://doi.org/10.3102/1076998614547577">10.3102/1076998614547577</a></p>
+<p>Pustejovsky, J. E. (2015). <em>scdhlm: Estimating hierarchical linear models for single-case designs</em>. University of Texas at Austin, Austin, TX. R package version 0.2.1, <a href="http://blogs.edb.utexas.edu/pusto/software/">http://blogs.edb.utexas.edu/pusto/software/</a></p>
+<p>Saddler, B., Behforooz, B., &amp; Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. <em>The Journal of Special Education, 42</em>(2), 79â€“90. doi: <a href="http://doi.org/10.1177/0022466907310371">10.1177/0022466907310371</a></p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

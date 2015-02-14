@@ -1,0 +1,254 @@
+---
+title: "Estimating design-comparable standardized mean differences with scdhlm"
+author: "James E. Pustejovsky"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{"Estimating design-comparable standardized mean differences"}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+The scdhlm package (Pustejovsky, 2015) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. A design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases); Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variability. 
+
+The original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the `effect_size_ABk` and `effect_size_MB` functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxilliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function `lme` from the package `nlme` by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function `g_REML` from the `scdhlm` package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:
+```{r}
+library(scdhlm)
+```
+
+## Lambert, Cartledge, Heward, & Lo (2006)
+
+Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the `effect_size_ABk` function. To use this function, the user must provide five pieces of data: 
+
+* the outcome variable, 
+* a variable indicating the treatment condition, 
+* a variable listing the case on which the outcome was measured, 
+* a variable indicating the phase of treatment (i.e., each replication of a baseline and treatment condition), and 
+* a variable listing the session number.
+
+In the `Lambert` dataset, these variables are called respectively `outcome`, `treatment`, `case`, `phase`, and `time`. Given these inputs, the design-comparable SMD is calculated as follows:
+```{r}
+data(Lambert)
+Lambert_ES <- with(Lambert, effect_size_ABk(outcome = outcome, treatment = treatment, 
+                                            id = case, phase = phase, time = time))
+str(Lambert_ES)
+```
+The function produces a list containing the estimated effect size estimate, an estimate of its variance, and several pieces of auxilliary information. The effect size estimate is stored in the list entry called `delta_hat`, which in this example is equal to `r Lambert_ES$delta_hat`; its variance is stored in `V_delta_hat`, which in this example is equal to `r Lambert_ES$V_delta_hat`. The effect size estimate is bias-corrected in a manner analogous to the correction in Hedges' g for SMDs from a between-subjects design. The degrees of freedom are estimated based on a Satterthwaite-type approximation and are stored in the entry `nu` (equal to `r Lambert_ES$nu` in this example).
+
+By default, the `effect_size_ABk` function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry `phi`) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry `rho`). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimated was . The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of `r Lambert_ES$phi`. 
+```{r}
+with(Lambert, effect_size_ABk(outcome = outcome, treatment = treatment, 
+                              id = case, phase = phase, time = time, 
+                              phi = 0.10))[c("delta_hat","V_delta_hat","nu")]
+
+with(Lambert, effect_size_ABk(outcome = outcome, treatment = treatment, 
+                              id = case, phase = phase, time = time, 
+                              phi = 0.35))[c("delta_hat","V_delta_hat","nu")]
+```
+The estimated auto-correlation has only a trivial effect on the effect size estimate and a minor effect on its estimated variance. 
+
+## Anglesea, Hoch, & Taylor (2008)
+
+Anglesea, Hoch, and Taylor (2008) used an ABAB design to test the effect of using a pager prompt to reduce the rapid eating of three teenage boys with autism. The primary outcome was a measure of how quickly each participant consumed one serving of a familiar food. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who used it to illustrate the calculation of the design-comparable SMD when based on the minimum required number of cases. Their calculations can be replicated using the following code:
+```{r}
+data(Anglesea)
+Anglesea_ES <- with(Anglesea, effect_size_ABk(outcome, treatment, case, phase, session))
+Anglesea_ES[c("delta_hat","V_delta_hat","nu")]
+```
+Note that the variance of the effect size estimate is quite large and the degrees of freedom corresponding to the denominator of the SMD estimate are very low. Both quantities are extreme due to the small number of cases used in this example. 
+
+## Saddler, Behforooz, & Asaro (2008)
+
+Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the intervention's effect on measures of writing quality, sentence complexity, and use of target constructions. 
+
+Design-comparable SMDs can be estimated based on these data using the `effect_size_MB` function. The syntax for this function is similar to that of the `effect_size_ABk` function, but does not require the user to input information about the phase of the design (because in the multiple baseline design, phase exactly corresponds to treatment condition). The following code replicates the calculations reported in Hedges, Pustejovsky, and Shadish (2013):
+```{r}
+data(Saddler)
+
+quality_ES <- with(subset(Saddler, measure==1), 
+                   effect_size_MB(outcome, treatment, case, time))
+complexity_ES <- with(subset(Saddler, measure==2), 
+                      effect_size_MB(outcome, treatment, case, time))
+construction_ES <- with(subset(Saddler, measure==3), 
+                        effect_size_MB(outcome, treatment, case, time))
+
+cbind(quality = unlist(quality_ES), 
+      complexity = unlist(complexity_ES), 
+      construction = unlist(construction_ES))[c("delta_hat","V_delta_hat","nu","phi","rho"),]
+```
+
+For multiple baseline designs, an alternative to using the `effect_size_MB` function is to estimate a hierarchical linear model for the data and then use the `g_REML` function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a heirarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which will be demonstrated using the writing quality measure. First, estimate the hierarchical model with an AR(1) within-case error structure using the `lme` function:
+```{r}
+quality_RML <- lme(fixed = outcome ~ treatment, 
+                   random = ~ 1 | case, 
+                   correlation = corAR1(0, ~ time | case), 
+                   data = subset(Saddler, measure==1))
+summary(quality_RML)
+```
+The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. The next step is to combine these estimated components into an effect size estimate using the `g_REML` function. This function takes the fitted `lme` model object as input, followed by the vectors `p_const` and `r_const`, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. For details on how to choose these constants, see Pustejovsky, Hedges, and Shadish (2014). In this example:
+```{r}
+quality_ES_RML <- g_REML(quality_RML, p_const = c(0,1), 
+                         r_const = c(1,0,1), returnModel=FALSE)
+str(quality_ES_RML)
+```
+The function returns a list containing the SMD effect size estimate (`g_AB` = `r quality_ES_RML$g_AB`), its variance (`V_g_AB` = `r quality_ES_RML$V_g_AB`), the estimated auto-correlation (`phi` = `r quality_ES_RML$phi`), estimated degrees of freedom (`nu` = `r quality_ES_RML$nu`), and several other pieces of auxilliary information. In this example, the RML effect size estimate is about 10% larger than the estimate from `effect_size_MB`, with a slightly smaller variance estimate. The RML estimate of the auto-correlation is substantially higher than before, but `effect_size_MB` uses a moment estimator that is known to be biased towards zero and that does not perform well when outcomes are intermittently missing for some sessions (as is the case here). 
+
+## Laski, Charlop, & Schreibman (1988)
+
+Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included $m = 8$ children; one child was measured separately with each parent; for purposes of simplicity, and following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in the analysis.
+
+The following code compares the estimates of the design-comparable SMD effect size based on the Hedges, Pustejovsky, and Shadish (2013) approach (using the `effect_size_MB` function) to the estimates based on the hierarchical linear modeling approach described in Pustejovsky, Hedges, and Shadish (2014) (using the `g_REML` function). 
+
+```{r}
+data(Laski)
+
+# Hedges, Pustejovsky, & Shadish (2013)
+Laski_ES_HPS <- with(Laski, effect_size_MB(outcome, treatment, case, time))
+
+# Pustejovsky, Hedges, & Shadish (2014)
+Laski_RML <- lme(fixed = outcome ~ treatment,
+                 random = ~ 1 | case, 
+                 correlation = corAR1(0, ~ time | case), 
+                 data = Laski)
+summary(Laski_RML)
+Laski_ES_RML <- g_REML(Laski_RML, p_const = c(0,1),
+                       r_const = c(1,0,1), returnModel=FALSE)
+
+# compare the estimates
+cbind(HPS = with(Laski_ES_HPS, c(SMD = delta_hat, Variance = V_delta_hat, phi = phi, rho = rho, nu = nu)),
+      RML = with(Laski_ES_RML, c(g_AB, V_g_AB, phi, Tau / (Tau + sigma_sq), nu)))
+```
+
+As in the Saddler example, both methods produce very similar SMD estimates and variance estimates. The RML estimate of auto-correlation is substantially higher than the HPS estimate, while the intra-class correlation estimate is somewhat lower; in combination, these differences lead to larger degrees of freedom.
+
+An advantage of the RML approach is that it is readily extended to more complex models. The above analysis was based on the assumption that the treatment effect is constant across cases. This assumption can be removed by fitting a model that includes a random treatment effect for each case.
+```{r}
+Laski_RML2 <- lme(fixed = outcome ~ treatment,
+                 random = ~ treatment | case, 
+                 correlation = corAR1(0, ~ time | case), 
+                 data = Laski)
+summary(Laski_RML2)
+anova(Laski_RML, Laski_RML2)
+```
+The fit of the two models can be compared using a likelihood ratio test, which rejects the model with a constant treatment effect. The second model, which allows the treatment effect to vary, is to be preferred. The following code estimates a design-comparable SMD based on the better-fitting model.
+```{r}
+Laski_ES_RML2 <- g_REML(Laski_RML2, p_const = c(0,1), 
+                        r_const = c(1,0,1,0,0), returnModel=FALSE)
+Laski_ES_RML2[c("g_AB","V_g_AB","phi","nu")]
+```
+
+The effect size estimate that is `r round(100 * (1 - Laski_ES_RML2$g_AB / Laski_ES_RML$g_AB))`% smaller than the estimate from the simpler model; with a standard error that is `r round(100 * (sqrt(Laski_ES_RML2$V_g_AB / Laski_ES_RML$V_g_AB) - 1))`% larger. The difference between the two models is due to a difference in between-case variance across phases not captured by the assumptions of the simpler model. The between-case variation in the outcome appears to be substantially larger in the baseline phase than in the treatment phase. Maintaining the constant treatment effect assumption constrains the between-case variance to be constant across phases, and so the between-case variance is estimated by pooling across both phases. The constant treatment effect assumption therefore leads to a smaller estimate than one based on the baseline phase alone. 
+
+
+## Schutte, Malouf, & Brown (2008)
+
+Schutte, Malouf, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.
+```{r, fig.width = 7, fig.height = 5}
+data(Schutte)
+Schutte <- subset(Schutte, case != 4)
+Schutte$case <- factor(Schutte$case)
+
+change <- data.frame(case=unique(Schutte$case),
+                     phase.change = with(subset(Schutte, treatment== "treatment"), 
+                                         tapply(week, case, min)) - 0.5)
+
+library(ggplot2)
+ggplot(Schutte, aes(week, fatigue, shape = treatment, color = treatment)) + 
+  geom_point() + facet_wrap(~ case, ncol = 3) + 
+  labs(color="Phase",shape="Phase", y ="Fatigue", x="Week") + 
+  geom_vline(data = change, aes(xintercept=phase.change)) +
+  theme_bw() 
+```
+
+Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations. 
+```{r}
+# create time-by-trt interaction
+Schutte$trt.week <- with(Schutte, 
+                         unlist(tapply((treatment=="treatment") * week, 
+                                        list(treatment,case), 
+                                        function(x) x - min(x))) + (treatment=="treatment"))
+
+# time-point constants
+A <- 2
+B <- 9
+# center at follow-up time
+Center <- B
+Schutte$week <- Schutte$week - Center
+```
+Having completed the data-cleaning process, three different models will be considered, again following the example from Pustejovsky, Hedges, and Shadish (2014).
+
+### Varying intercepts, fixed treatment effect, fixed trends
+
+The initial model allows for a baseline time trend, treatment effect, and treatment-by-time interaction, all of which are assumed to be constant across the 12 cases; only the baseline intercept is assumed to vary across cases. This specification corresponds to Model MB3 from Pustejovsky, Hedges, and Shadish (2014)
+```{r Model3}
+hlm1 <- lme(fixed = fatigue ~ week + treatment + trt.week, 
+            random = ~ 1 | case, 
+            correlation = corAR1(0, ~ week | case),
+            data = Schutte,
+            method = "REML")
+summary(hlm1)
+```
+The design-comparable standarized mean difference corresponds to the treatment effect at week B = 9, after B - A = 7 weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.
+```{r}
+Schutte_g1 <- g_REML(m_fit = hlm1, p_const = c(0,0,1,B - A), r_const = c(1,0,1))
+Schutte_g1[c("g_AB","V_g_AB","nu")]
+```
+It will be seen below that this initial model provides a poor fit to the data; thus, the effect size estimate based on it should not be trusted.
+
+### Varying intercepts, fixed treatment effect, varying trends
+
+The next model (Model MB4) allows the baseline time trend to vary across cases. This can be done by modifying the previous model with the `update` function.
+```{r Model4}
+hlm2 <- update(hlm1, random = ~ week | case, 
+               control=lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))
+summary(hlm2)
+anova(hlm1, hlm2)
+```
+A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows.
+```{r}
+Schutte_g2 <- g_REML(m_fit = hlm2, p_const = c(0,0,1, B - A), r_const = c(1,0,1,0,0))
+Schutte_g2[c("g_AB","V_g_AB","nu")]
+```
+The design-comparable SMD is estimated to be `r Schutte_g2$g_AB`, with a standard error of `r sqrt(Schutte_g2$V_g_AB)`.
+
+### Varying intercepts, varying trends, varying treatment-by-time interactions
+
+The final model (Model MB5) is yet more flexible, in that it allows the treatment-by-time interactions to vary across cases. Given that the data contain only twelve cases, fitting a model with three random effects would be questionable if the goal were to make inferences about the full structure of the model. However, simulation evidence from Pustejovsky, Hedges, and Shadish (2014) suggests that using such a flexible parameterization may nonetheless be reasonable for the more limited purpose of effect size estimation. 
+```{r Model5}
+hlm3 <- update(hlm2, random = ~ week + trt.week | case, 
+               control=lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))
+summary(hlm3)
+anova(hlm2, hlm3)
+```
+The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.
+```{r}
+Schutte_g3 <- g_REML(m_fit = hlm3, p_const = c(0,0,1,B - A), r_const = c(1,0,1,0,0,0,0,0))
+
+# compare effect size estimates
+cbind(MB3 = unlist(Schutte_g1[c("g_AB","V_g_AB","nu")]), 
+      MB4 = unlist(Schutte_g2[c("g_AB","V_g_AB","nu")]), 
+      MB5 = unlist(Schutte_g3[c("g_AB","V_g_AB","nu")]))
+```
+The effect size estimate has magnitude comparable to the estimate from Model MB3. However, the variance of the estimate is extremely large, due to the fact that the variance components that go into the denominator of the SMD estimate are estimated with low precision. This final model may represent an outer limit on the complexity of models that can feasibility be estimated, given that most single-case designs have fewer cases than the study examined in this example.
+
+## References
+
+Anglesea, M. M., Hoch, H., & Taylor, B. A. (2008). Reducing rapid eating in teenagers with autism: Use of a pager prompt. *Journal of Applied Behavior Analysis, 41*(1), 107–111. doi: [10.1901/jaba.2008.41-107](http://doi.org/10.1901/jaba.2008.41-107)
+
+Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. *Research Synthesis Methods, 3*, 224-239. doi: [10.1002/jrsm.1052](http://doi.org/10.1002/jrsm.1052)
+
+Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. *Research Synthesis Methods, 4*(4), 324-341. doi: [10.1002/jrsm.1086](http://doi.org/10.1002/jrsm.1086)
+
+Lambert, M. C., Cartledge, G., Heward, W. L., & Lo, Y. (2006). Effects of response cards on disruptive behavior and academic responding during math lessons by fourth-grade urban students. *Journal of Positive Behavior Interventions, 8*(2), 88-99.
+
+Laski, K. E., Charlop, M. H., & Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic children’s speech. *Journal of Applied Behavior Analysis, 21*(4), 391–400.
+
+Pinheiro J., Bates D., DebRoy S., Sarkar D. and R Core Team (2015). _nlme: Linear and Nonlinear Mixed Effects Models_. R package version
+3.1-119, http://CRAN.R-project.org/package=nlme
+
+Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. *Journal of Educational and Behavioral Statistics, 39*(4), 211-227. doi: [10.3102/1076998614547577](http://doi.org/10.3102/1076998614547577)
+
+Pustejovsky, J. E. (2015). _scdhlm: Estimating hierarchical linear models for single-case designs_. University of Texas at Austin,
+Austin, TX. R package version 0.2.1, http://blogs.edb.utexas.edu/pusto/software/
+
+Saddler, B., Behforooz, B., & Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. *The Journal of Special Education, 42*(2), 79–90. doi: [10.1177/0022466907310371](http://doi.org/10.1177/0022466907310371)
