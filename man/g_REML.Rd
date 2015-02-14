@@ -53,12 +53,16 @@ from a multiple baseline design, using adjusted REML method as described in Pust
 }
 \examples{
 data(Laski)
-Laski_RML <- lme(fixed = outcome ~ treatment, random = ~ 1 | case, correlation = corAR1(0, ~ time | case), data = Laski)
+Laski_RML <- lme(fixed = outcome ~ treatment,
+                 random = ~ 1 | case,
+                 correlation = corAR1(0, ~ time | case),
+                 data = Laski)
 summary(Laski_RML)
 g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel=FALSE)
 
 data(Schutte)
-Schutte$trt.week <- with(Schutte, unlist(tapply((treatment=="treatment") * week, list(treatment,case), function(x) x - min(x))) + (treatment=="treatment"))
+Schutte$trt.week <- with(Schutte, unlist(tapply((treatment=="treatment") * week,
+         list(treatment,case), function(x) x - min(x))) + (treatment=="treatment"))
 Schutte$week <- Schutte$week - 9
 Schutte_RML <- lme(fixed = fatigue ~ week + treatment + trt.week,
                    random = ~ week | case,

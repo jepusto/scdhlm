@@ -32,7 +32,8 @@ Simulates data from a simple linear mixed effects model, then calculates
 REML and HPS effect size estimators as described in Pustejovsky, Hedges, & Shadish (2014).
 }
 \examples{
-compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3, phi = 0.5, design=design_matrix(m=3,n=8))
+compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3,
+                 phi = 0.5, design=design_matrix(m=3,n=8))
 }
 \references{
 Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014).

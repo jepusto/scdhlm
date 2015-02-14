@@ -28,7 +28,10 @@ specified standardized mean difference effect size. Suitable for parametric boot
 }
 \examples{
 data(Laski)
-Laski_RML <- lme(fixed = outcome ~ treatment, random = ~ 1 | case, correlation = corAR1(0, ~ time | case), data = Laski)
+Laski_RML <- lme(fixed = outcome ~ treatment,
+                 random = ~ 1 | case,
+                 correlation = corAR1(0, ~ time | case),
+                 data = Laski)
 Laski_g <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
 simulate(Laski_g, nsim = 20)
 }

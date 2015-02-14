@@ -118,7 +118,8 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 #' 
 #' @examples
-#' compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3, phi = 0.5, design=design_matrix(m=3,n=8))
+#' compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3, 
+#'                  phi = 0.5, design=design_matrix(m=3,n=8))
 
 compare_RML_HPS <- function(iterations, beta, rho, phi, design, m, n, MB = TRUE) {
   if (missing(design)) {
@@ -216,9 +217,11 @@ convergence_handler_MB2 <- function(design, y, method="REML") {
 #' 
 #' @examples
 #' set.seed(8)
-#' simulate_MB2(iterations = 10, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, tau1_ratio = 0.5, tau_corr = -0.4, design = design_matrix(m=3, n=8))
+#' simulate_MB2(iterations = 10, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, 
+#'              tau1_ratio = 0.5, tau_corr = -0.4, design = design_matrix(m=3, n=8))
 #' set.seed(8)
-#' simulate_MB2(iterations = 10, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, tau1_ratio = 0.5, tau_corr = -0.4, m = 3, n = 8, MB = FALSE)
+#' simulate_MB2(iterations = 10, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, 
+#'              tau1_ratio = 0.5, tau_corr = -0.4, m = 3, n = 8, MB = FALSE)
 
 
 simulate_MB2 <- function(iterations, beta, rho, phi, tau1_ratio, tau_corr, design, m, n, MB = TRUE) {
@@ -303,8 +306,12 @@ convergence_handler_MB4 <- function(design, y, p_const, r_const) {
 #' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 #' 
 #' @examples
-#' simulate_MB4(iterations = 10, beta = c(0,1,0,0), rho = 0.8, phi = 0.5, tau2_ratio = 0.5, tau_corr = 0, p_const = c(0,1,0,7), r_const = c(1,0,1,0,0), design = design_matrix(3, 16, treat_times=c(5,9,13), center = 12))
-#' simulate_MB4(iterations = 10, beta = c(0,1,0,0), rho = 0.8, phi = 0.5, tau2_ratio = 0.5, tau_corr = 0, m = 6, n = 8)
+#' simulate_MB4(iterations = 10, beta = c(0,1,0,0), rho = 0.8, phi = 0.5, 
+#'              tau2_ratio = 0.5, tau_corr = 0, 
+#'              p_const = c(0,1,0,7), r_const = c(1,0,1,0,0), 
+#'              design = design_matrix(3, 16, treat_times=c(5,9,13), center = 12))
+#' simulate_MB4(iterations = 10, beta = c(0,1,0,0), rho = 0.8, phi = 0.5, 
+#'              tau2_ratio = 0.5, tau_corr = 0, m = 6, n = 8)
 
 simulate_MB4 <- function(iterations, beta, rho, phi, tau2_ratio, tau_corr, 
                          p_const, r_const, design, m, n, MB = TRUE) {
@@ -376,7 +383,10 @@ fit_g <- function(y, object) {
 #' 
 #' @examples
 #' data(Laski)
-#' Laski_RML <- lme(fixed = outcome ~ treatment, random = ~ 1 | case, correlation = corAR1(0, ~ time | case), data = Laski)
+#' Laski_RML <- lme(fixed = outcome ~ treatment, 
+#'                  random = ~ 1 | case, 
+#'                  correlation = corAR1(0, ~ time | case), 
+#'                  data = Laski)
 #' Laski_g <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
 #' simulate(Laski_g, nsim = 20)
 #' 
