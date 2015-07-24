@@ -16,5 +16,6 @@ Suggests:
     ggplot2,
     plyr,
     boot,
-    parallel
+    parallel,
+    shiny
 VignetteBuilder: knitr
