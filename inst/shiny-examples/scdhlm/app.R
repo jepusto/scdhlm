@@ -83,6 +83,7 @@ server <- function(input, output) {
     selectInput("outcome", label = "Outcome", choices = var_names, selected = NULL)
     )
   })
+  
 }
 
 shinyApp(ui = ui, server = server)
