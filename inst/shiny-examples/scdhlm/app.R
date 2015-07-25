@@ -3,6 +3,19 @@ library(markdown)
 library(ggplot2)
 library(scdhlm)
 
+exampleMapping <- list(
+  Anglesea = list(vars = c("case","session","treatment","outcome"),
+                  phases = ),
+  Lambert = list(vars = c("case","time","treatment","outcome"),
+                 phases = ),
+  Laski = list(vars = c("case","time","treatment","outcome"),
+               phases = ),
+  Saddler = list(vars = c("case","time","treatment","outcome"),
+                 phases = ),
+  Schutte = list(vars = c("case","week","treatment","fatigue"),
+                 phases = )
+)
+
 ui <- navbarPage(title = "scdhlm",
   tabPanel("Effect size estimation",
     tabsetPanel(type = "tabs", 
@@ -10,10 +23,16 @@ ui <- navbarPage(title = "scdhlm",
         br(),
         fluidRow(
           column(6,
-            radioButtons('dat_type', 'What data do you want to use?', c("Use an example" = "example", "Upload your own data" = "dat")),
+            radioButtons('dat_type', 'What data do you want to use?', 
+                         c("Use an example" = "example", "Upload data from a file" = "dat")),
             conditionalPanel(
               condition = "input.dat_type == 'example'",
-              selectInput("example", label = "Choose an example", choices = c("Anglesea", "Lambert","Laski","Saddler","Schutte"))
+              selectInput("example", label = "Choose an example", 
+                          choices = c("Anglesea (ABAB design)" = "Anglesea", 
+                                      "Lambert (ABAB design)" = "Lambert",
+                                      "Laski (multiple baseline design)" = "Laski",
+                                      "Saddler (multiple baseline design)" = "Saddler",
+                                      "Schutte (multiple baseline design)" = "Schutte"))
             ),
             conditionalPanel(
               condition = "input.dat_type == 'dat'",
@@ -28,7 +47,8 @@ ui <- navbarPage(title = "scdhlm",
               condition = "output.fileUploaded & input.dat_type == 'dat'",
               strong("Please select the variable containing each type of information."),
               column(12, br()),
-              uiOutput("variableMapping")
+              uiOutput("variableMapping"),
+              uiOutput("phaseMapping")
             )
           )
         )
@@ -56,33 +76,56 @@ ui <- navbarPage(title = "scdhlm",
 
 server <- function(input, output) {
   
-  dat <- reactive({
-    if (input$dat_type == "example") {
-      data(list = input$example)
-      dat <- get(input$example)
+  datFile <- reactive({
+    inFile <- input$dat
+    if (is.null(inFile)) {
+      return(NULL)
     } else {
-      inFile <- input$dat
-      dat <- if (is.null(inFile)) NULL else read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote, fill=TRUE)
+      return(read.table(inFile$datapath, header=input$header, 
+                        sep=input$sep, quote=input$quote, fill=TRUE))
     }
-    return(dat)
   })
   
-  output$datTable <- renderTable(dat())
   
   output$fileUploaded <- reactive({
-    return(!is.null(dat()))
+    return(!is.null(datFile()))
   })
   outputOptions(output, 'fileUploaded', suspendWhenHidden=FALSE)
   
   output$variableMapping <- renderUI({
-    var_names <- names(dat())
+    var_names <- names(datFile())
     list(
-    selectInput("caseID", label = "Case identifier", choices = var_names, selected = NULL),
-    selectInput("session", label = "Session number", choices = var_names, selected = NULL),
-    selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = NULL),
-    selectInput("outcome", label = "Outcome", choices = var_names, selected = NULL)
+      selectInput("caseID", label = "Case identifier", choices = var_names, selected = NULL),
+      selectInput("session", label = "Session number", choices = var_names, selected = NULL),
+      selectInput("outcome", label = "Outcome", choices = var_names, selected = NULL),
+      selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = NULL)
     )
   })
+  
+  output$phaseMapping <- renderUI({
+    phases <- levels(as.factor(datFile()[,input$phaseID]))
+    list(
+      selectInput("baseline", label = "Baseline level", choices = phases, selected = NULL),
+      selectInput("treatment", label = "Treatment level", choices = phases, selected = NULL)
+    )
+  })
+  
+  datClean <- reactive({
+    if (input$dat_type == "example") {
+      data(list = input$example)
+      dat <- get(input$example)
+      dat <- dat[,exampleMapping[[input$example]]$vars]
+    } else {
+      caseID <- as.factor(datFile()[,input$caseID])
+      session <- as.numeric(datFile()[,input$session])
+      phaseID <- as.factor(datFile()[,input$phaseID])
+      outcome <- as.numeric(datFile()[,input$outcome])
+      dat <- data.frame(case = caseID, session = session, phase = phaseID, outcome = outcome)
+    }
+    return(dat)
+  })
+  
+  output$datTable <- renderTable(datClean())
   
 }
 
