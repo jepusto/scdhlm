@@ -5,7 +5,7 @@ Description: scdhlm provides a set of tools for estimating hierarchical linear
 Maintainer: James E. Pustejovsky <jepusto@gmail.com>
 Author: James E. Pustejovsky <jepusto@gmail.com>
 License: GPL-3
-Version: 0.2.1
+Version: 0.2.2
 Imports: 
     stats
 Depends: 

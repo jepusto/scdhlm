@@ -1,3 +1,7 @@
+scdhlm 0.2.2
+=======================
+* Bug fix in lme_AR1_cov_block_inv.
+
 scdhlm 0.2.1
 =======================
 * Added vignette demonstrating use of g_REML.
