@@ -92,7 +92,8 @@ lmeAR1_cov_block_inv <- function(block, Z_design, theta, times=NULL) {
   } else {
     Z_list <- by(Z_design, block, function(x) x)
     mapply(lmeAR1_cov_inv, Z_design = Z_list, times = times, 
-           MoreArgs = list(sigma_sq=theta$sigma_sq, phi=theta$phi, Tau=Tau_eigen))
+           MoreArgs = list(sigma_sq=theta$sigma_sq, phi=theta$phi, Tau=Tau_eigen), 
+           SIMPLIFY = FALSE)
   }
 }
 
