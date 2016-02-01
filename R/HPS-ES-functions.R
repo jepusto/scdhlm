@@ -298,12 +298,13 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   }
   
   # design matrix from id-by-phase-by-treatment fixed-effects regression
-  X_case_FE <- model.matrix(case_FE)  
-  X_trt <- attr(X_case_FE, "assign") == 2                       # indicator for individual treatment effects
-  XtX_inv_case_FE <- solve(t(X_case_FE) %*% X_case_FE)          # inverse of (X'X) for this design matrix
+  X_case_FE <- model.matrix(case_FE)
+  X_keep <- !is.na(coef(case_FE))
+  X_trt <- (attr(X_case_FE, "assign") == 2)[X_keep]    # indicator for individual treatment effects
+  XtX_inv_case_FE <- solve(t(X_case_FE[,X_keep,drop=FALSE]) %*% X_case_FE[,X_keep,drop=FALSE])          # inverse of (X'X) for this design matrix
   
   # calculate D-bar
-  D_bar <- mean(coef(case_FE)[X_trt])           # See p. 231, formula (19).
+  D_bar <- mean(coef(case_FE)[X_keep][X_trt])           # See p. 231, formula (19).
   
   # design matrix for phase-point-by-treatment-by-phase fixed-effects regression
   X_time_FE <- model.matrix(time_FE)[,time_FE$qr$pivot[1:time_FE$qr$rank]]    
@@ -331,7 +332,7 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
     
     if (missing(rho)) {
       # calculate adjusted within-case variance estimate
-      sigma_sq_correction <- length(outcome) - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, phase_point, 0, phi) %*% X_case_FE) 
+      sigma_sq_correction <- length(outcome) - product_trace(XtX_inv_case_FE, t(X_case_FE[,X_keep,drop=FALSE]) %*% HLM_AR1_corr(id_fac, phase_point, 0, phi) %*% X_case_FE[,X_keep,drop=FALSE]) 
       sigma_sq_w <- sum(YW$g0, na.rm=T) / sigma_sq_correction
       
       rho <- max(0, 1 - sigma_sq_w / S_sq)      # See last display equation on p. 238.
@@ -354,8 +355,8 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   nu <- (M_dot * (m - 1))^2 / product_trace(AV, AV)
   
   # calculate theta. See p. 232, formula (27).
-  theta <- sqrt(sum((XtX_inv_case_FE %*% t(X_case_FE) %*% 
-              V_mat %*% X_case_FE %*% XtX_inv_case_FE)[X_trt, X_trt])) / sum(X_trt)
+  theta <- sqrt(sum((XtX_inv_case_FE %*% t(X_case_FE[,X_keep,drop=FALSE]) %*% 
+              V_mat %*% X_case_FE[,X_keep,drop=FALSE] %*% XtX_inv_case_FE)[X_trt, X_trt])) / sum(X_trt)
   
   
   #######################################
