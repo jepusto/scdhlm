@@ -47,7 +47,7 @@ trouble following the steps below.
     should then open in a new window):
 
         library(scdhlm)
-        scdhlm()
+        shine_scd()
 
 6.  To exit the simulator, simply close the window in which it appears
     or click the red "Stop" icon in the upper right-hand corner of the

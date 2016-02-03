@@ -8,7 +8,7 @@
 #' @export
 #' 
 
-ARPsimulator <- function() {
+shine_scd <- function() {
   if (!requireNamespace("shiny", quietly = TRUE)) {
     stop("The scdhlm app requires the shiny package. Please install it.", call. = FALSE)
   }
