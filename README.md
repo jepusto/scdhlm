@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/jepusto/scdhlm.svg?branch=master)](https://travis-ci.org/jepusto/scdhlm)
+[![Coverage Status](https://img.shields.io/codecov/c/github/NA/NA/master.svg)](https://codecov.io/github/NA/NA?branch=master)
 
 An R package for estimating design-comparable standardized mean difference effect sizes based on data from single-case designs. Implements methods described in: 
 
