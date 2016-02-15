@@ -261,8 +261,7 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   m <- nlevels(id_fac)                            
   
   # re-number time points per HPS (2012)
-  phase_point <- unlist(tapply(outcome, list(treatment, phase, id), 
-                  function(x) 1:length(x)))
+  phase_point <- unlist(tapply(outcome, list(treatment, phase, id), function(x) 1:length(x)))[order(order(id, phase, treatment))]
   phase_point_fac <- ordered(phase_point)
     
   # determine M^a values. See p. 231, formulas (16-17)
