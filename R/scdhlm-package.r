@@ -15,13 +15,14 @@
 #' as described in Hedges, Pustejovsky, and Shadish (2012).
 #' }
 #' 
-#' The package also includes the data used in the examples from each paper: 
+#' The package also includes the data used in the examples from each paper, as well as a few other datasets: 
 #' \itemize{
 #' \item \code{\link{Lambert}}
 #' \item \code{\link{Anglesea}}
 #' \item \code{\link{Saddler}}
 #' \item \code{\link{Laski}}
 #' \item \code{\link{Schutte}}
+#' \item \code{\link{Thorne}}
 #' }
 #' 
 #' @author James E. Pustejovsky <jepusto@@gmail.com>
@@ -182,6 +183,26 @@ NULL
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 #' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
 #' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+NULL
+
+#' Thorne (2005)
+#' 
+#' Data from an ABAB design conducted by Thorne and Kamps (2008). The variables are as follows:
+#' \itemize{
+#'   \item \code{case}. Participant identifier.  
+#'   \item \code{outcome_desc}. Outcome measure description (academic engagement or inappropriate verbalizations). 
+#'   \item \code{session}. Measurement occasion.
+#'   \item \code{phase_id}. Factor descibing the phase of the study design for each case.
+#'   \item \code{phase_indicator}. Indicator variable equal to 1 during intervention phases.
+#'   \item \code{outcome}. Outcome scores
+#' }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 776 rows and 6 variables
+#' @name Thorne
+#' @source Thorne, S., & Kamps, D. (2008). The effects of a group contingency intervention on academic engagement and problem 
+#' behavior of at-risk students. \emph{Behavior Analysis in Practice, 1}(2), 12-18.
 NULL
 
 #' MB1 simulation results
