@@ -1,6 +1,7 @@
 scdhlm 0.2.2
 =======================
 * Bug fix in lme_AR1_cov_block_inv.
+* Fixed bug in HPS effect size functions so that results are not dependent on order of data.
 
 scdhlm 0.2.1
 =======================
