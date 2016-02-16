@@ -85,17 +85,19 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   ###########
   
   # create factor variables
-  treatment_fac <- factor(treatment)
-  id_fac <- factor(id)
-  time_fac <- factor(time)
+  dat <- data.frame(id_fac = factor(id),
+                    treatment_fac = factor(treatment),
+                    time_fac = factor(time),
+                    outcome, time)
+  dat <- dat[with(dat, order(id_fac, time)),]
     
   # unique times, unique cases, calculate sample sizes  
-  time_points <- seq(min(time), max(time),1)    # unique measurement occasions j = 1,...,N
-  N <- length(time_points)                      # number of unique measurement occasions
-  h_i_p <- table(id_fac, treatment_fac)         # number of non-missing observations for case i in phase p
-  cases <- levels(id_fac)                       # unique cases i = 1,...,m
-  m <- length(cases)                            # number of cases
-  g_dotdot <- length(outcome)                   # total number of non-missing observations
+  time_points <- seq(min(time), max(time),1)            # unique measurement occasions j = 1,...,N
+  N <- length(time_points)                              # number of unique measurement occasions
+  h_i_p <- with(dat, table(id_fac, treatment_fac))      # number of non-missing observations for case i in phase p
+  cases <- levels(dat$id_fac)                           # unique cases i = 1,...,m
+  m <- length(cases)                                    # number of cases
+  g_dotdot <- length(outcome)                           # total number of non-missing observations
   
   
   ######################################
@@ -103,7 +105,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   ######################################
   
   # fixed effects regression with id-by-treatment interaction
-  case_FE <- lm(outcome ~ id_fac + id_fac:treatment_fac + 0)
+  case_FE <- lm(outcome ~ id_fac + id_fac:treatment_fac + 0, data = dat)
   X_case_FE <- model.matrix(case_FE)                            # design matrix from id-by-treatment fixed-effects regression
   X_trt <- attr(X_case_FE, "assign") == 2                       # indicator for individual treatment effects
   XtX_inv_case_FE <- solve(t(X_case_FE) %*% X_case_FE)          # inverse of (X'X) for this design matrix
@@ -112,7 +114,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   D_bar <- mean(coef(case_FE)[X_trt])           # See p. 11, Eq. (2).
   
   # fixed effects regression with time-by-treatment interaction
-  time_FE <- lm(outcome ~ time_fac + time_fac:treatment_fac + 0)
+  time_FE <- lm(outcome ~ time_fac + time_fac:treatment_fac + 0, data = dat)
   X_time_FE <- model.matrix(time_FE)[,time_FE$qr$pivot[1:time_FE$qr$rank]]    # design matrix for time-by-treatment fixed-effects regression
   
   # calculate pooled variance S-squared
@@ -129,7 +131,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   
   if (missing(phi) | missing(rho)) {
     # auto-covariances - See first display equation on p. 32.
-    acv_SS <- matrix(unlist(tapply(case_FE$residuals[order(id_fac, time)], id_fac, auto_SS)), m, 2, byrow=TRUE)
+    acv_SS <- matrix(unlist(tapply(case_FE$residuals, dat$id_fac, auto_SS)), m, 2, byrow=TRUE)
     
     # calculate adjusted autocorrelation
     if (missing(phi)) {
@@ -140,7 +142,8 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
     
     if (missing(rho)) {
       # calculate adjusted within-case variance estimate
-      sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% HLM_AR1_corr(id_fac, time, 0, phi) %*% X_case_FE) 
+      sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% 
+                                                        with(dat, HLM_AR1_corr(id_fac, time, 0, phi)) %*% X_case_FE) 
       
       # This correction is equal to g_dotdot * F, where F is given on p. 33. 
       sigma_sq_w <- sum(acv_SS[,1], na.rm=T) / sigma_sq_correction
@@ -159,7 +162,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   A_mat <- diag(rep(1, g_dotdot)) - X_time_FE %*% solve(t(X_time_FE) %*% X_time_FE) %*% t(X_time_FE)  # S^2 = y'(A_mat)y / (g_dotdot - K). See p. 29. 
   
   # create correlation matrix V_mat, which is the matrix Sigma on p. 28, scaled by tau^2 + sigma^2. 
-  V_mat <- HLM_AR1_corr(id_fac, time, rho, phi) 
+  V_mat <- with(dat, HLM_AR1_corr(id_fac, time, rho, phi))
   
   # calculate degrees of freedom
   AV <- A_mat %*% V_mat
@@ -253,46 +256,46 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   ###########
   
   # create factor variables
-  treatment_fac <- factor(treatment)
-  id_fac <- factor(id)
-  phase_fac <- factor(phase)
+  dat <- data.frame(id_fac = factor(id),
+                    phase_fac = factor(phase), 
+                    treatment_fac = factor(treatment),
+                    outcome, time)
+  dat <- dat[with(dat, order(id_fac, phase_fac, treatment_fac, time)),]
   
   # number of cases
-  m <- nlevels(id_fac)                            
+  m <- nlevels(dat$id_fac)                            
   
   # re-number time points per HPS (2012)
-  phase_point <- unlist(tapply(outcome, list(treatment, phase, id), function(x) 1:length(x)))[order(order(id, phase, treatment))]
-  phase_point_fac <- ordered(phase_point)
-    
+  dat$phase_point <- with(dat, unlist(tapply(outcome, 
+                                             list(treatment_fac, phase_fac, id_fac), 
+                                             function(x) 1:length(x))))
+  dat$phase_point_fac <- ordered(dat$phase_point)
+  
   # determine M^a values. See p. 231, formulas (16-17)
-  M_a <- apply(tapply(outcome, 
-                list(phase_point, treatment_fac, phase_fac), 
-                function(x) length(x) == m), 
-               c(2,3), sum, na.rm = TRUE)
+  M_a <- with(dat, apply(tapply(outcome, list(phase_point, treatment_fac, phase_fac), 
+                                function(x) length(x) == m), c(2,3), sum, na.rm = TRUE))
   M_dot <- sum(M_a, na.rm = TRUE)  
   
-  include <- mapply(function(phase, treat, point) 
-    m == sum(phase==phase_fac & treat==treatment_fac & point==phase_point), 
-                       phase_fac, treatment_fac, phase_point)
+  dat$include <- mapply(function(phase, treat, point)
+    m == sum(phase==dat$phase_fac & treat==dat$treatment_fac & point==dat$phase_point),
+    dat$phase_fac, dat$treatment_fac, dat$phase_point)
   
   ######################################
   ## calculate unadjusted effect size ##
   ######################################
   
-  if (nlevels(phase_fac) > 1) {
+  if (nlevels(dat$phase_fac) > 1) {
     # fixed effects regression with id-by-phase-by-treatment interaction
-    case_FE <- lm(outcome ~ id_fac:phase_fac + id_fac:phase_fac:C(treatment_fac, treatment) + 0)
+    case_FE <- lm(outcome ~ id_fac:phase_fac + id_fac:phase_fac:C(treatment_fac, contr.treatment) + 0, data = dat)
     # fixed effects regression with phase-point-by-treatment-by-phase interaction
     time_FE <- lm(outcome ~ phase_point_fac:treatment_fac:phase_fac + 0,
-                  data = data.frame(outcome, phase_point_fac, treatment_fac, phase_fac),
-                  subset = include)    
+                  data = dat, subset = dat$include)    
   } else {
     # fixed effects regression with id-by-phase-by-treatment interaction
-    case_FE <- lm(outcome ~ id_fac + id_fac:C(treatment_fac, treatment) + 0)
+    case_FE <- lm(outcome ~ id_fac + id_fac:C(treatment_fac, treatment) + 0, data = dat)
     # fixed effects regression with phase-point-by-treatment-by-phase interaction
     time_FE <- lm(outcome ~ phase_point_fac:treatment_fac + 0,
-                  data = data.frame(outcome, phase_point_fac, treatment_fac, phase_fac),
-                  subset = include)    
+                  data = dat, subset = dat$include)    
     
   }
   
@@ -300,7 +303,7 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   X_case_FE <- model.matrix(case_FE)
   X_keep <- !is.na(coef(case_FE))
   X_trt <- (attr(X_case_FE, "assign") == 2)[X_keep]    # indicator for individual treatment effects
-  XtX_inv_case_FE <- solve(t(X_case_FE[,X_keep,drop=FALSE]) %*% X_case_FE[,X_keep,drop=FALSE])          # inverse of (X'X) for this design matrix
+  XtX_inv_case_FE <- chol2inv(chol(t(X_case_FE[,X_keep,drop=FALSE]) %*% X_case_FE[,X_keep,drop=FALSE]))          # inverse of (X'X) for this design matrix
   
   # calculate D-bar
   D_bar <- mean(coef(case_FE)[X_keep][X_trt])           # See p. 231, formula (19).
@@ -321,8 +324,8 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   
   if (missing(phi) | missing(rho)) {
     # auto-covariances - See first display equation on p. 32.
-    YW <- aggregate(outcome, by = list(id_fac, phase_fac, treatment_fac), 
-                    function(x) c(auto_SS(x), length(x))) # calculate auto-covariances by case by phase
+    YW <- with(dat, aggregate(outcome, by = list(id_fac, phase_fac, treatment_fac), 
+                    function(x) c(auto_SS(x), length(x)))) # calculate auto-covariances by case by phase
     YW <- cbind(YW[,1:3], YW$x)
     names(YW) <- c("id_fac","phase_fac","treatment_fac","g0","g1","n")
 
@@ -331,7 +334,11 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
     
     if (missing(rho)) {
       # calculate adjusted within-case variance estimate
-      sigma_sq_correction <- length(outcome) - product_trace(XtX_inv_case_FE, t(X_case_FE[,X_keep,drop=FALSE]) %*% HLM_AR1_corr(id_fac, phase_point, 0, phi) %*% X_case_FE[,X_keep,drop=FALSE]) 
+      sigma_sq_correction <- length(dat$outcome) - 
+                              product_trace(XtX_inv_case_FE, 
+                                            t(X_case_FE[,X_keep,drop=FALSE]) %*% 
+                                              with(dat, HLM_AR1_corr(id_fac, phase_point, 0, phi)) %*% 
+                                              X_case_FE[,X_keep,drop=FALSE]) 
       sigma_sq_w <- sum(YW$g0, na.rm=T) / sigma_sq_correction
       
       rho <- max(0, 1 - sigma_sq_w / S_sq)      # See last display equation on p. 238.
@@ -347,10 +354,10 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   A_mat <- diag(rep(1, dim(X_time_FE)[1])) - X_time_FE %*% solve(t(X_time_FE) %*% X_time_FE) %*% t(X_time_FE)  
   
   # V_mat is the matrix Sigma_T on p. 236, scaled by tau^2 + sigma^2. 
-  V_mat <- HLM_AR1_corr(id_fac, time, rho, phi)    
+  V_mat <- with(dat, HLM_AR1_corr(id_fac, time, rho, phi))
   
   # calculate degrees of freedom. See p. 232, formula (28). 
-  AV <- A_mat %*% V_mat[include, include]
+  AV <- A_mat %*% V_mat[dat$include, dat$include]
   nu <- (M_dot * (m - 1))^2 / product_trace(AV, AV)
   
   # calculate theta. See p. 232, formula (27).
