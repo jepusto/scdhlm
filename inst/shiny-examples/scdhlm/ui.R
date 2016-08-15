@@ -1,0 +1,103 @@
+library(shiny)
+
+shinyUI(navbarPage(title = "scdhlm",
+   tabPanel("Effect size estimation",
+      tabsetPanel(type = "tabs",
+        
+        #--------------------
+        # Load the data
+        #--------------------
+        tabPanel("Load",
+           br(),
+           fluidRow(
+             column(6,
+                radioButtons('dat_type', 'What data do you want to use?', 
+                             c("Use an example" = "example", "Upload data from a file" = "dat")),
+                conditionalPanel(
+                  condition = "input.dat_type == 'example'",
+                  selectInput("example", label = "Choose an example", 
+                              choices = c("Anglesea (ABAB design)" = "Anglesea", 
+                                          "Lambert (ABAB design)" = "Lambert",
+                                          "Laski (multiple baseline design)" = "Laski",
+                                          "Saddler (multiple baseline design)" = "Saddler",
+                                          "Schutte (multiple baseline design)" = "Schutte"))
+                ),
+                conditionalPanel(
+                  condition = "input.dat_type == 'dat'",
+                  fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv','.txt')),
+                  checkboxInput('header','File contain a header.', TRUE),
+                  radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' '), ','),
+                  radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"), '')
+                )
+             ),
+             column(6,
+                conditionalPanel(
+                  condition = "output.fileUploaded & input.dat_type == 'dat'",
+                  strong("Please select the variable containing each type of information."),
+                  column(12, br()),
+                  uiOutput("variableMapping"),
+                  uiOutput("phaseMapping")
+                )
+             )
+           )
+        ),
+        
+        #--------------------
+        # Show loaded data
+        #--------------------
+        tabPanel("Inspect", 
+                 tableOutput("datTable")
+        ), 
+        
+        #--------------------
+        # Model building
+        #--------------------
+        tabPanel("Model", 
+           br(),
+           fluidRow(
+             column(6,
+                    uiOutput("studyDesign")),
+             column(6,
+                    selectInput("method", label = "Estimation method",
+                                choices = c("Moment estimation" = "HPS", "Restricted Maximum Likelihood" = "RML"), 
+                                selected = "RML")
+             )
+           ),
+           conditionalPanel(condition = "input.method == 'RML'",
+                            hr(),
+                            uiOutput("modelDegree"),
+                            uiOutput("modelSpec")
+           ),
+           hr(),
+           strong("Build a model."),
+           verbatimTextOutput("model_fit")
+        ), 
+        
+        #------------------------------
+        # Effect size estimation
+        #------------------------------
+        tabPanel("Effect size", strong("Calculate an effect size."))
+      )
+   ),
+   
+   #--------------------
+   # Help pages
+   #--------------------
+   tabPanel("Help",
+      navlistPanel(widths = c(3,9),
+                   tabPanel("Overview", includeMarkdown("markdown/Overview.md"))
+      )
+   ),
+   
+   #--------------------
+   # About pages
+   #--------------------
+   tabPanel("About",
+      navlistPanel(widths = c(3,9),
+         tabPanel("scdhlm", includeMarkdown("markdown/scdhlm.md")),
+         tabPanel("Accessing scdhlm", includeMarkdown("markdown/Accessing_scdhlm.md")),
+         tabPanel("References", includeMarkdown("markdown/references.md"))
+      )
+   )
+))
+
