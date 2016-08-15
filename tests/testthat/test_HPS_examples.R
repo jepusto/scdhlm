@@ -74,7 +74,7 @@ test_that("Example 2 from HPS 2013", {
   expect_equal(0.10050132, round(ES_Laski$V_delta_hat, 8))
 })
 
-test_that("Order doesn't matter", {
+test_that("Order doesn't matter for ABk designs", {
   data(Lambert)
   Lambert_orig <- with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))
   Lambert_new <- with(Lambert[sample.int(nrow(Lambert)),], effect_size_ABk(outcome, treatment, case, phase, time))
@@ -88,15 +88,17 @@ test_that("Order doesn't matter", {
   data(Thorne)
   Thorne$phase_pair <- with(Thorne, substr(phase_id, 2, 2))
   Thorne_A <- subset(Thorne, outcome_desc == "Academic Engagement")
-  outcome <- Thorne_A$outcome
-  treatment <- Thorne_A$phase_indicator
-  id <- Thorne_A$case
-  phase <- Thorne_A$phase_pair
-  time <- Thorne_A$session
+  Thorne_A_orig <- with(Thorne_A, effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
+  Thorne_A_new <- with(Thorne_A[sample.int(nrow(Thorne_A)),], effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
+  expect_identical(Thorne_A_orig, Thorne_A_new)
   
-  Thorne_orig <- with(Thorne_A, effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
-  Thorne_new <- with(Thorne_A[sample.int(nrow(Thorne_A)),], effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
-  expect_identical(Thorne_orig, Thorne_new)
+  Thorne_B <- subset(Thorne, outcome_desc == "Inappropriate Verbalizations")
+  Thorne_B_orig <- with(Thorne_B, effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
+  Thorne_B_new <- with(Thorne_B[sample.int(nrow(Thorne_B)),], effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
+  expect_identical(Thorne_B_orig, Thorne_B_new)
+})
+
+test_that("Order doesn't matter for multiple baseline designs", {
   
   data(Saddler)
   Saddler_1 <- subset(Saddler, measure==1)
@@ -108,7 +110,6 @@ test_that("Order doesn't matter", {
   Laski_orig <- with(Laski, effect_size_MB(outcome, treatment, case, time))
   Laski_new <- with(Laski[sample.int(nrow(Laski)),], effect_size_MB(outcome, treatment, case, time))
   expect_identical(Laski_orig, Laski_new)
-  
   
 })
 
