@@ -14,8 +14,17 @@ exampleMapping <- list(
                phases = c(0,1)),
   Saddler = list(design = "MB",
                  vars = c("case","time","treatment","outcome"),
-                 phases = c(0,1)),
+                 phases = c(0,1),
+                 filters = "measure",
+                 filter_measure = 1:3),
   Schutte = list(design = "MB",
                  vars = c("case","week","treatment","fatigue"),
                  phases = c("baseline","treatment"))
 )
+
+#------------------------------------------------
+# Polynomial degree names
+#------------------------------------------------
+
+
+degree_names <- c("level","linear","quadratic","cubic","quartic","quintic","sextic")

@@ -10,7 +10,7 @@ shinyUI(navbarPage(title = "scdhlm",
         tabPanel("Load",
            br(),
            fluidRow(
-             column(6,
+             column(4,
                 radioButtons('dat_type', 'What data do you want to use?', 
                              c("Use an example" = "example", "Upload data from a file" = "dat")),
                 conditionalPanel(
@@ -30,23 +30,36 @@ shinyUI(navbarPage(title = "scdhlm",
                   radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"), '')
                 )
              ),
-             column(6,
+             column(8,
                 conditionalPanel(
                   condition = "output.fileUploaded & input.dat_type == 'dat'",
-                  strong("Please select the variable containing each type of information."),
+                  selectInput("design", label = "1. Please specify the study design.",
+                              choices = c("Treatment reversal" = "TR", "Multiple baseline" = "MB")),
+                  strong("2. Please select the variable containing each type of information."),
                   column(12, br()),
                   uiOutput("variableMapping"),
+                  strong("3. Please specify the baseline and treatment levels."),
+                  column(12, br()),
                   uiOutput("phaseMapping")
-                )
+                ),
+                uiOutput("filterMapping")
              )
-           )
+           ),
         ),
         
         #--------------------
         # Show loaded data
         #--------------------
         tabPanel("Inspect", 
-                 tableOutput("datTable")
+          tabsetPanel(type = "tabs",
+            tabPanel("Graph",
+              column(12, br())
+            ),
+            tabPanel("Data",
+              column(12, br()),
+              tableOutput("datTable")
+            )
+          )
         ), 
         
         #--------------------
@@ -55,27 +68,46 @@ shinyUI(navbarPage(title = "scdhlm",
         tabPanel("Model", 
            br(),
            fluidRow(
-             column(6,
-                    uiOutput("studyDesign")),
-             column(6,
-                    selectInput("method", label = "Estimation method",
-                                choices = c("Moment estimation" = "HPS", "Restricted Maximum Likelihood" = "RML"), 
-                                selected = "RML")
+             column(12,
+                selectInput("method", label = "Estimation method",
+                            choices = c("Moment estimation" = "HPS", "Restricted Maximum Likelihood" = "RML"), 
+                            selected = "RML")
              )
            ),
            conditionalPanel(condition = "input.method == 'RML'",
-                            hr(),
-                            uiOutput("modelDegree"),
-                            uiOutput("modelSpec")
+              fluidRow(
+                column(6,
+                   wellPanel(
+                     h3("Baseline phase"),
+                     uiOutput("modelDegree_baseline"),
+                     uiOutput("modelSpec_baseline")
+                   )
+                ),
+                column(6,
+                   wellPanel(
+                     h3("Treatment phase"),
+                     uiOutput("modelDegree_treatment"),
+                     uiOutput("modelSpec_treatment")
+                   )
+                )
+              )
+                            
            ),
-           hr(),
-           strong("Build a model."),
-           verbatimTextOutput("model_fit")
+           tabsetPanel(type = "tabs",
+                       tabPanel("Graph",
+                                column(12, br())
+                       ),
+                       tabPanel("Model estimates",
+                                column(12, br()),
+                                verbatimTextOutput("model_fit")
+                       )
+           )
         ), 
         
         #------------------------------
         # Effect size estimation
         #------------------------------
+        
         tabPanel("Effect size", strong("Calculate an effect size."))
       )
    ),
