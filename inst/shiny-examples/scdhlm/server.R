@@ -183,18 +183,19 @@ shinyServer(function(input, output) {
   # Model spec output
   output$model_fit <- renderPrint({
     if (input$method=="RML") {
-      fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[input$design]]
+      fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[studyDesign()]]
       fit <- do.call(fit_function,
                      args = list(dat = datClean(), 
                                  FE_base = input$FE_base, RE_base = input$RE_base,
                                  FE_trt = input$FE_trt, RE_trt = input$RE_trt))
+      res <- list(fixed = fit$fixed, random = fit$random, fit = summary(fit$fit))
     } else {
-      if (input$design=="MB") {
-        fit <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
+      if (studyDesign()=="MB") {
+        res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
       } else {
-        fit <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = phase_indicator, id = case, phase = phase_pair, time = session))
+        res <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = trt, id = case, phase = phase_pair, time = session))
       }
     }
-    list(fixed = fit$fixed, random = fit$random, fit = summary(fit$fit))
+    res
   })
 })
