@@ -20,7 +20,8 @@ shinyUI(navbarPage(title = "scdhlm",
                                           "Lambert (ABAB design)" = "Lambert",
                                           "Laski (multiple baseline design)" = "Laski",
                                           "Saddler (multiple baseline design)" = "Saddler",
-                                          "Schutte (multiple baseline design)" = "Schutte"))
+                                          "Schutte (multiple baseline design)" = "Schutte",
+                                          "Thorne (ABAB design)" = "Thorne"))
                 ),
                 conditionalPanel(
                   condition = "input.dat_type == 'dat'",
@@ -44,7 +45,7 @@ shinyUI(navbarPage(title = "scdhlm",
                 ),
                 uiOutput("filterMapping")
              )
-           ),
+           )
         ),
         
         #--------------------
@@ -53,7 +54,10 @@ shinyUI(navbarPage(title = "scdhlm",
         tabPanel("Inspect", 
           tabsetPanel(type = "tabs",
             tabPanel("Graph",
-              column(12, br())
+              column(12, br()),
+              column(8,
+                plotOutput("raw_plot", height = "auto")
+              )
             ),
             tabPanel("Data",
               column(12, br()),
@@ -78,14 +82,14 @@ shinyUI(navbarPage(title = "scdhlm",
               fluidRow(
                 column(6,
                    wellPanel(
-                     h3("Baseline phase"),
+                     strong("Baseline phase"),
                      uiOutput("modelDegree_baseline"),
                      uiOutput("modelSpec_baseline")
                    )
                 ),
                 column(6,
                    wellPanel(
-                     h3("Treatment phase"),
+                     strong("Treatment phase"),
                      uiOutput("modelDegree_treatment"),
                      uiOutput("modelSpec_treatment")
                    )

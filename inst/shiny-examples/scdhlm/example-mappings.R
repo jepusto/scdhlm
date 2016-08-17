@@ -19,7 +19,12 @@ exampleMapping <- list(
                  filter_measure = 1:3),
   Schutte = list(design = "MB",
                  vars = c("case","week","treatment","fatigue"),
-                 phases = c("baseline","treatment"))
+                 phases = c("baseline","treatment")),
+  Thorne = list(design = "TR",
+                vars = c("case","session","phase_indicator","outcome"),
+                phase = c(0,1),
+                filters = "outcome_desc",
+                filter_outcome_desc = c("Academic Engagement","Inappropriate Verbalizations"))
 )
 
 #------------------------------------------------

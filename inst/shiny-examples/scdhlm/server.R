@@ -4,6 +4,7 @@ library(ggplot2)
 library(scdhlm)
 
 source("example-mappings.R")
+source("graphing-functions.R")
 source("lme-fit.R")
 
 shinyServer(function(input, output) {
@@ -126,6 +127,11 @@ shinyServer(function(input, output) {
   })
   
   output$datTable <- renderTable(datClean())
+  
+  # Raw data graph
+  output$raw_plot <- renderPlot({
+    graph_MB(dat = datClean()) 
+  }, height = function() 120 * nlevels(as.factor(datClean()$case)))
   
   # Model degree
   
