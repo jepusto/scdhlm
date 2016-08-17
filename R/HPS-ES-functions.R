@@ -246,7 +246,8 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
 #' with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))
 #'    
 #' data(Anglesea)
-#' with(Anglesea, effect_size_ABk(outcome, treatment, case, phase, session))
+#' with(Anglesea, effect_size_ABk(outcome, condition, case, phase, session))
+#' 
 
 
 effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {

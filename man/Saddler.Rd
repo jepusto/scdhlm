@@ -16,14 +16,11 @@ doi:\href{http://doi.org/10.1177/0022466907310371}{10.1177/0022466907310371}
 Data from a multiple baseline design conducted by 
 Saddler, Behforooz, & Asaro, (2008). The variables are as follows:
 \itemize{
-  \item \code{case}. Student identifier.  
-  \item \code{measure}. Outcome measure identifier. 
-  1 = writing quality. 
-  2 = T-unit length. 
-  3 = number of constructions.
-  \item \code{outcome}. Outcome measure.
+  \item \code{case} Student identifier  
+  \item \code{measure} Factor indicating the outcome measure (writing quality, T-unit length, number of constructions)
+  \item \code{outcome} Value of outcome measure.
   \item \code{time}. Measurement occasion.
-  \item \code{treatment}. Indicator for treatment phase.
+  \item \code{treatment}. Factor indicating the treatment phase.
 }
 }
 \references{

@@ -15,12 +15,11 @@ doi:\href{http://doi.org/10.1901/jaba.2008.41-107}{10.1901/jaba.2008.41-107}
 Data from an ABAB design conducted by Anglesea, Hoch, & Taylor (2008). 
 The variables are as follows:
 \itemize{
-  \item \code{case} Student identifier.  
-  \item \code{treatment} Factor indicating treatment or control condition. 
-        SSR = single-subject responding. RC = response cards.
+  \item \code{case} Case identifier.  
+  \item \code{condition} Factor indicating baseline or treatment condition
   \item \code{phase} Study phase (including both control and treatment condition)
-  \item \code{time} Measurement occasion.
-  \item \code{outcome} Total seconds of eating time.
+  \item \code{session} Measurement occasion
+  \item \code{outcome} Total seconds of eating time
 }
 }
 \references{
