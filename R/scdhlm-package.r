@@ -23,6 +23,7 @@
 #' \item \code{\link{Laski}}
 #' \item \code{\link{Schutte}}
 #' \item \code{\link{Thorne}}
+#' \item \code{\link{Carson}}
 #' }
 #' 
 #' @author James E. Pustejovsky <jepusto@@gmail.com>
@@ -79,12 +80,12 @@ NULL
 #' Data from an ABAB design conducted by Anglesea, Hoch, & Taylor (2008). 
 #' The variables are as follows:
 #' \itemize{
-#'   \item \code{case}. Student identifier.  
-#'   \item \code{treatment}. Factor indicating treatment or control condition. 
+#'   \item \code{case} Student identifier.  
+#'   \item \code{treatment} Factor indicating treatment or control condition. 
 #'         SSR = single-subject responding. RC = response cards.
-#'   \item \code{phase}. Study phase (including both control and treatment condition)
-#'   \item \code{time}. Measurement occasion.
-#'   \item \code{outcome}. Total seconds of eating time.
+#'   \item \code{phase} Study phase (including both control and treatment condition)
+#'   \item \code{time} Measurement occasion.
+#'   \item \code{outcome} Total seconds of eating time.
 #' }
 #' 
 #' @docType data
@@ -203,6 +204,29 @@ NULL
 #' @name Thorne
 #' @source Thorne, S., & Kamps, D. (2008). The effects of a group contingency intervention on academic engagement and problem 
 #' behavior of at-risk students. \emph{Behavior Analysis in Practice, 1}(2), 12-18.
+NULL
+
+#' Carson (2008)
+#' 
+#' Data from a BAB design conducted by Carson, Gast, & Ayres (2008). The
+#' variables are as follows: 
+#' \itemize{ 
+#'    \item \code{case} Participant identifier 
+#'    \item \code{treatment} Factor describing the treatment condition
+#'    \item \code{phase} Numeric descibing the phase of the study design for each case 
+#'    \item \code{outcome} Outcome scores 
+#'    \item \code{time} Measurement occasion 
+#' }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 47 rows and 5 variables
+#' @name Carson
+#' @source Carson, K. D., Gast, D. L., & Ayres, K. M. (2008). Effects of a photo
+#'   activity schedule book on independent task changes by students with
+#'   intellectual disabilities in community and school job sites. \emph{European
+#'   Journal of Special Needs Education, 23}, 269-279. 
+#'   
 NULL
 
 #' MB1 simulation results
