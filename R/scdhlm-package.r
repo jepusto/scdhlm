@@ -80,12 +80,11 @@ NULL
 #' Data from an ABAB design conducted by Anglesea, Hoch, & Taylor (2008). 
 #' The variables are as follows:
 #' \itemize{
-#'   \item \code{case} Student identifier.  
-#'   \item \code{treatment} Factor indicating treatment or control condition. 
-#'         SSR = single-subject responding. RC = response cards.
+#'   \item \code{case} Case identifier.  
+#'   \item \code{condition} Factor indicating baseline or treatment condition
 #'   \item \code{phase} Study phase (including both control and treatment condition)
-#'   \item \code{time} Measurement occasion.
-#'   \item \code{outcome} Total seconds of eating time.
+#'   \item \code{session} Measurement occasion
+#'   \item \code{outcome} Total seconds of eating time
 #' }
 #' 
 #' @docType data
@@ -107,14 +106,11 @@ NULL
 #' Data from a multiple baseline design conducted by 
 #' Saddler, Behforooz, & Asaro, (2008). The variables are as follows:
 #' \itemize{
-#'   \item \code{case}. Student identifier.  
-#'   \item \code{measure}. Outcome measure identifier. 
-#'   1 = writing quality. 
-#'   2 = T-unit length. 
-#'   3 = number of constructions.
-#'   \item \code{outcome}. Outcome measure.
+#'   \item \code{case} Student identifier  
+#'   \item \code{measure} Factor indicating the outcome measure (writing quality, T-unit length, number of constructions)
+#'   \item \code{outcome} Value of outcome measure.
 #'   \item \code{time}. Measurement occasion.
-#'   \item \code{treatment}. Indicator for treatment phase.
+#'   \item \code{treatment}. Factor indicating the treatment phase.
 #' }
 #' 
 #' @docType data
@@ -228,6 +224,43 @@ NULL
 #'   Journal of Special Needs Education, 23}, 269-279. 
 #'   
 NULL
+
+
+#' Musser (2001)
+#' 
+#' Data from a multiple baseline design conducted by 
+#' Musser, Bray, Kehle, & Jenson (2001). The variables are as follows:
+#' \itemize{
+#'   \item \code{student} Participant identifier
+#'   \item \code{session} Measurement occasion
+#'   \item \code{outcome} Percentage of disruptive intervals
+#'   \item \code{treatment} Factor indicating baseline, treatment, or follow-up phase
+#' }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 136 rows and 4 variables
+#' @name Schutte
+#' @source Musser, E. H., Bray, M. A., Kehle, T. J., & Jenson, W. R. (2001).
+#' Reducing disruptive behaviors in students with serious emotional disturbance.
+#' School Psychology Review, 30(2), 294-304.
+NULL
+
+
+
+
+
+
+
+
+
+
+
+#--------------------------
+# Simulation results
+#--------------------------
+
+
 
 #' MB1 simulation results
 #' 
