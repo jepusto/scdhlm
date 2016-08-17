@@ -240,7 +240,7 @@ NULL
 #' @docType data
 #' @keywords datasets
 #' @format A data frame with 136 rows and 4 variables
-#' @name Schutte
+#' @name Musser
 #' @source Musser, E. H., Bray, M. A., Kehle, T. J., & Jenson, W. R. (2001).
 #' Reducing disruptive behaviors in students with serious emotional disturbance.
 #' School Psychology Review, 30(2), 294-304.
