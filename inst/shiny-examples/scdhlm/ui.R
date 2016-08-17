@@ -55,7 +55,7 @@ shinyUI(navbarPage(title = "scdhlm",
           tabsetPanel(type = "tabs",
             tabPanel("Graph",
               column(12, br()),
-              column(8,
+              column(12,
                 plotOutput("raw_plot", height = "auto")
               )
             ),

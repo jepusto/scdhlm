@@ -4,7 +4,7 @@
 
 exampleMapping <- list(
   Anglesea = list(design = "TR",
-                  vars = c("case","session","treatment","outcome"),
+                  vars = c("case","session","condition","outcome"),
                   phases = c("baseline","treatment")),
   Lambert = list(design = "TR",
                  vars = c("case","time","treatment","outcome"),
@@ -16,15 +16,15 @@ exampleMapping <- list(
                  vars = c("case","time","treatment","outcome"),
                  phases = c(0,1),
                  filters = "measure",
-                 filter_measure = 1:3),
+                 filter_measure = c("writing quality", "T-unit length", "number of constructions")),
   Schutte = list(design = "MB",
                  vars = c("case","week","treatment","fatigue"),
                  phases = c("baseline","treatment")),
   Thorne = list(design = "TR",
-                vars = c("case","session","phase_indicator","outcome"),
+                vars = c("case","session","condition","outcome"),
                 phase = c(0,1),
-                filters = "outcome_desc",
-                filter_outcome_desc = c("Academic Engagement","Inappropriate Verbalizations"))
+                filters = "measure",
+                filter_measure = c("Academic Engagement","Inappropriate Verbalizations"))
 )
 
 #------------------------------------------------

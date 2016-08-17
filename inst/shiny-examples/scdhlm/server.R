@@ -5,6 +5,7 @@ library(scdhlm)
 
 source("example-mappings.R")
 source("graphing-functions.R")
+source("helper-functions.R")
 source("lme-fit.R")
 
 shinyServer(function(input, output) {
@@ -121,17 +122,21 @@ shinyServer(function(input, output) {
     dat$trt <- as.numeric(dat$phase==trt_phase)
     
     if (studyDesign() == "MB") {
-        dat$session_trt <- unlist(by(dat, dat$case, function(x) pmax(0, x$session - min(x$session[x$phase==trt_phase]))))
-    } 
+      dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
+    } else {
+      dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
+    }
     return(dat)
   })
   
   output$datTable <- renderTable(datClean())
   
   # Raw data graph
+  
   output$raw_plot <- renderPlot({
-    graph_MB(dat = datClean()) 
-  }, height = function() 120 * nlevels(as.factor(datClean()$case)))
+    graph_SCD(dat = datClean(), design = studyDesign()) 
+  }, height = function() 120 * nlevels(as.factor(datClean()$case)),
+     width = function() 700)
   
   # Model degree
   
