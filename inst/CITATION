@@ -5,5 +5,5 @@ bibentry("Manual",
    address = "Austin, TX",
    year = 2015,
    note = "R package version 0.2.1", 
-   url = "http://blogs.edb.utexas.edu/pusto/software/"
+   url = "http://github.com/jepusto/scdhlm"
 )
