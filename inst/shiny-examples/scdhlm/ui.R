@@ -81,6 +81,10 @@ shinyUI(navbarPage(title = "scdhlm",
                 uiOutput("model_centering")
              )
            ),
+           conditionalPanel(condition = "input.method == 'HPS'",
+              plotOutput("HPS_plot", height = "auto")   
+           ),
+           
            conditionalPanel(condition = "input.method == 'RML'",
               fluidRow(
                 column(6,
@@ -97,17 +101,18 @@ shinyUI(navbarPage(title = "scdhlm",
                      uiOutput("modelSpec_treatment")
                    )
                 )
+              ),
+              tabsetPanel(type = "tabs",
+                tabPanel("Graph",
+                  column(12, br(),
+                    plotOutput("RML_plot", height = "auto")
+                  )
+                ),
+                tabPanel("Model estimates",
+                  column(12, br()),
+                  verbatimTextOutput("model_fit")
+                )
               )
-                            
-           ),
-           tabsetPanel(type = "tabs",
-                       tabPanel("Graph",
-                                column(12, br())
-                       ),
-                       tabPanel("Model estimates",
-                                column(12, br()),
-                                verbatimTextOutput("model_fit")
-                       )
            )
         ), 
         

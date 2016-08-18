@@ -130,19 +130,13 @@ shinyServer(function(input, output) {
   })
   
   output$datTable <- renderTable(datClean())
-  
-  # Raw data graph
-  
-  output$raw_plot <- renderPlot({
-    graph_SCD(dat = datClean(), design = studyDesign()) 
-  }, height = function() 120 * nlevels(datClean()$case),
-     width = function() 700)
 
+  # Centering slider for RML estimation of MBD
+  
   time_range <- reactive({
     default_times(datClean())
   })
   
-  # Centering slider
   output$model_centering <- renderUI({
     if (studyDesign()=="MB" & input$method=="RML") {
       session_range <- time_range()$range
@@ -151,6 +145,7 @@ shinyServer(function(input, output) {
                   value=time_range()$A, step = 1)
     }
   })
+  
   
   # Model degree
   
@@ -194,15 +189,25 @@ shinyServer(function(input, output) {
     )
   })
   
+  # Fit model 
+  
+  model_fit <- reactive({
+    fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[studyDesign()]]
+    do.call(fit_function,
+                   args = list(dat = datClean(), 
+                               FE_base = input$FE_base, RE_base = input$RE_base,
+                               FE_trt = input$FE_trt, RE_trt = input$RE_trt, center = input$model_center))
+    
+  })
+  
   # Model spec output
+  
   output$model_fit <- renderPrint({
     if (input$method=="RML") {
-      fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[studyDesign()]]
-      fit <- do.call(fit_function,
-                     args = list(dat = datClean(), 
-                                 FE_base = input$FE_base, RE_base = input$RE_base,
-                                 FE_trt = input$FE_trt, RE_trt = input$RE_trt))
-      res <- list(fixed = fit$fixed, random = fit$random, fit = summary(fit$fit))
+      res <- list(fixed = model_fit()$fixed, 
+                  random = model_fit()$random, 
+                  fit = summary(model_fit()$fit),
+                  converged = model_fit()$converged)
     } else {
       if (studyDesign()=="MB") {
         res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
@@ -212,4 +217,33 @@ shinyServer(function(input, output) {
     }
     res
   })
+  
+  
+  # Graphs
+  
+  raw_graph <- reactive({
+    graph_SCD(dat = datClean(), design = studyDesign()) 
+  })
+  
+  output$raw_plot <- renderPlot({
+    raw_graph()
+  }, height = function() 120 * nlevels(datClean()$case),
+  width = function() 700)
+  
+  output$HPS_plot <- renderPlot({
+    raw_graph() + 
+      geom_smooth(formula = y ~ 1, method = "lm", se = FALSE)
+  }, height = function() 120 * nlevels(datClean()$case),
+  width = function() 700)
+  
+  output$RML_plot <- renderPlot({
+    if (class(model_fit()$fit)=="lme") {
+      dat <- datClean()
+      dat$fitted <- predict(model_fit()$fit)
+      raw_graph() + 
+        geom_line(data = dat, aes(session, fitted), size = 0.8)  
+    }
+  }, height = function() 120 * nlevels(datClean()$case),
+  width = function() 700)
+  
 })
