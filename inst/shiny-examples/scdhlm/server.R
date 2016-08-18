@@ -131,7 +131,7 @@ shinyServer(function(input, output) {
   
   output$datTable <- renderTable(datClean())
 
-  # Centering slider for RML estimation of MBD
+  # Centering and timing sliders for RML estimation of MBD
   
   time_range <- reactive({
     default_times(datClean())
@@ -143,6 +143,24 @@ shinyServer(function(input, output) {
       sliderInput("model_center", "Center session at", 
                   min=session_range[1], max=session_range[2], 
                   value=time_range()$A, step = 1)
+    }
+  })
+  
+  output$ES_timing <- renderUI({
+    if (studyDesign()=="MB" & input$method=="RML") {
+      timings <- time_range()
+      fluidRow(
+        column(6, 
+           sliderInput("A_time", "Initial treatment time",
+             min = timings$range[1], max = timings$range[2],
+             value = timings$A, step = 1)
+        ),
+        column(6,
+           sliderInput("B_time", "Follow-up time",
+                           min = timings$range[1], max = timings$range[2],
+                           value = timings$B, step = 1)
+        )
+      )  
     }
   })
   

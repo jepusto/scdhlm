@@ -73,34 +73,34 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, ...) {
 }
 
 
-input <- list(example = "Laski")
-data(list = input$example)
-dat <- get(input$example)
-dat <- dat[,exampleMapping[[input$example]]$vars]
-names(dat) <- c("case","session","phase","outcome")
-trt_phase <- levels(as.factor(dat$phase))[2]
-dat$trt <- as.numeric(dat$phase==trt_phase)
-dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
-
-FE_base <- c(0,2,3)
-RE_base <- c(0,2)
-FE_trt <- c(0,1)
-RE_trt <- NULL
-center <- default_times(dat)$A
-
-lme_fit <- lme_fit_MB(dat = dat, FE_base, RE_base, FE_trt, RE_trt, center = center)
-dat$fitted <- predict(lme_fit$fit)
-graph_SCD(dat = dat, design = "MB")
-last_plot() + geom_line(data = dat, aes(session, fitted), size = 0.8)
-
-input <- list(example = "Lambert")
-data(list = input$example)
-dat <- get(input$example)
-dat <- dat[,exampleMapping[[input$example]]$vars]
-names(dat) <- c("case","session","phase","outcome")
-trt_phase <- levels(as.factor(dat$phase))[2]
-dat$trt <- as.numeric(dat$phase==trt_phase)
-
-lme_fit_TR(dat = dat, FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = 0)
-lme_fit_TR(dat = dat, FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = NULL)
-lme_fit <- lme_fit_TR(dat = dat, FE_base = 0, RE_base = NULL, FE_trt = 0, RE_trt = NULL)
+# input <- list(example = "Laski")
+# data(list = input$example)
+# dat <- get(input$example)
+# dat <- dat[,exampleMapping[[input$example]]$vars]
+# names(dat) <- c("case","session","phase","outcome")
+# trt_phase <- levels(as.factor(dat$phase))[2]
+# dat$trt <- as.numeric(dat$phase==trt_phase)
+# dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
+# 
+# FE_base <- c(0,2,3)
+# RE_base <- c(0,2)
+# FE_trt <- c(0,1)
+# RE_trt <- NULL
+# center <- default_times(dat)$A
+# 
+# lme_fit <- lme_fit_MB(dat = dat, FE_base, RE_base, FE_trt, RE_trt, center = center)
+# dat$fitted <- predict(lme_fit$fit)
+# graph_SCD(dat = dat, design = "MB")
+# last_plot() + geom_line(data = dat, aes(session, fitted), size = 0.8)
+# 
+# input <- list(example = "Lambert")
+# data(list = input$example)
+# dat <- get(input$example)
+# dat <- dat[,exampleMapping[[input$example]]$vars]
+# names(dat) <- c("case","session","phase","outcome")
+# trt_phase <- levels(as.factor(dat$phase))[2]
+# dat$trt <- as.numeric(dat$phase==trt_phase)
+# 
+# lme_fit_TR(dat = dat, FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = 0)
+# lme_fit_TR(dat = dat, FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = NULL)
+# lme_fit <- lme_fit_TR(dat = dat, FE_base = 0, RE_base = NULL, FE_trt = 0, RE_trt = NULL)
