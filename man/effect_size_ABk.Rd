@@ -56,7 +56,8 @@ data(Lambert)
 with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))
    
 data(Anglesea)
-with(Anglesea, effect_size_ABk(outcome, treatment, case, phase, session))
+with(Anglesea, effect_size_ABk(outcome, condition, case, phase, session))
+
 }
 \references{
 Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).

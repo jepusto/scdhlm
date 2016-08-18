@@ -9,10 +9,6 @@
 Schutte, N. S., Malouff, J. M., & Brown, R. F. (2008). 
 Efficacy of an emotion-focused treatment for prolonged fatigue. 
 \emph{Behavior Modification, 32}(5), 699-713. doi:\href{http://doi.org/10.1177/0145445508317133}{10.1177/0145445508317133}
-
-Musser, E. H., Bray, M. A., Kehle, T. J., & Jenson, W. R. (2001).
-Reducing disruptive behaviors in students with serious emotional disturbance.
-School Psychology Review, 30(2), 294-304.
 }
 \description{
 Data from a multiple baseline design conducted by 
@@ -22,15 +18,6 @@ Schutte, Malouff, & Brown (2008). The variables are as follows:
   \item \code{week}. Measurement occasion.
   \item \code{treatment}. Factor indicating baseline or treatment phase.
   \item \code{fatigue}. Fatigue severity scale scores.
-}
-
-Data from a multiple baseline design conducted by 
-Musser, Bray, Kehle, & Jenson (2001). The variables are as follows:
-\itemize{
-  \item \code{student} Participant identifier
-  \item \code{session} Measurement occasion
-  \item \code{outcome} Percentage of disruptive intervals
-  \item \code{treatment} Factor indicating baseline, treatment, or follow-up phase
 }
 }
 \references{
