@@ -66,11 +66,11 @@ Design-comparable SMDs can be estimated based on these data using the `effect_si
 data(Saddler)
 
 quality_ES <- with(subset(Saddler, measure=="writing quality"), 
-                   effect_size_MB(outcome, treatment=="treatment", case, time))
+                   effect_size_MB(outcome, treatment, case, time))
 complexity_ES <- with(subset(Saddler, measure=="T-unit length"), 
-                      effect_size_MB(outcome, treatment=="treatment", case, time))
+                      effect_size_MB(outcome, treatment, case, time))
 construction_ES <- with(subset(Saddler, measure=="number of constructions"), 
-                        effect_size_MB(outcome, treatment=="treatment", case, time))
+                        effect_size_MB(outcome, treatment, case, time))
 
 cbind(quality = unlist(quality_ES), 
       complexity = unlist(complexity_ES), 
@@ -79,7 +79,7 @@ cbind(quality = unlist(quality_ES),
 
 For multiple baseline designs, an alternative to using the `effect_size_MB` function is to estimate a hierarchical linear model for the data and then use the `g_REML` function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a heirarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which will be demonstrated using the writing quality measure. First, estimate the hierarchical model with an AR(1) within-case error structure using the `lme` function:
 ```{r}
-quality_RML <- lme(fixed = outcome ~ I(treatment=="treatment"), 
+quality_RML <- lme(fixed = outcome ~ treatment, 
                    random = ~ 1 | case, 
                    correlation = corAR1(0, ~ time | case), 
                    data = subset(Saddler, measure=="writing quality"))
@@ -103,10 +103,10 @@ The following code compares the estimates of the design-comparable SMD effect si
 data(Laski)
 
 # Hedges, Pustejovsky, & Shadish (2013)
-Laski_ES_HPS <- with(Laski, effect_size_MB(outcome, treatment=="treatment", case, time))
+Laski_ES_HPS <- with(Laski, effect_size_MB(outcome, treatment, case, time))
 
 # Pustejovsky, Hedges, & Shadish (2014)
-Laski_RML <- lme(fixed = outcome ~ I(treatment=="treatment"),
+Laski_RML <- lme(fixed = outcome ~ treatment,
                  random = ~ 1 | case, 
                  correlation = corAR1(0, ~ time | case), 
                  data = Laski)
@@ -123,8 +123,8 @@ As in the Saddler example, both methods produce very similar SMD estimates and v
 
 An advantage of the RML approach is that it is readily extended to more complex models. The above analysis was based on the assumption that the treatment effect is constant across cases. This assumption can be removed by fitting a model that includes a random treatment effect for each case.
 ```{r}
-Laski_RML2 <- lme(fixed = outcome ~ I(treatment=="treatment"),
-                 random = ~ I(treatment=="treatment") | case, 
+Laski_RML2 <- lme(fixed = outcome ~ treatment,
+                 random = ~ treatment | case, 
                  correlation = corAR1(0, ~ time | case), 
                  data = Laski)
 summary(Laski_RML2)
@@ -163,9 +163,8 @@ ggplot(Schutte, aes(week, fatigue, shape = treatment, color = treatment)) +
 Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations. 
 ```{r}
 # create time-by-trt interaction
-Schutte$trt <- Schutte$treatment=="treatment"
-Schutte$trt.week <- with(Schutte, 
-                         unlist(tapply(trt * week, 
+Schutte$trt_week <- with(Schutte, 
+                         unlist(tapply((treatment=="treatment") * week, 
                                         list(treatment,case), 
                                         function(x) x - min(x))) + (treatment=="treatment"))
 
@@ -182,7 +181,7 @@ Having completed the data-cleaning process, three different models will be consi
 
 The initial model allows for a baseline time trend, treatment effect, and treatment-by-time interaction, all of which are assumed to be constant across the 12 cases; only the baseline intercept is assumed to vary across cases. This specification corresponds to Model MB3 from Pustejovsky, Hedges, and Shadish (2014)
 ```{r Model3}
-hlm1 <- lme(fixed = fatigue ~ week + trt + trt.week, 
+hlm1 <- lme(fixed = fatigue ~ week + treatment + trt_week, 
             random = ~ 1 | case, 
             correlation = corAR1(0, ~ week | case),
             data = Schutte,
@@ -216,7 +215,7 @@ The design-comparable SMD is estimated to be `r Schutte_g2$g_AB`, with a standar
 
 The final model (Model MB5) is yet more flexible, in that it allows the treatment-by-time interactions to vary across cases. Given that the data contain only twelve cases, fitting a model with three random effects would be questionable if the goal were to make inferences about the full structure of the model. However, simulation evidence from Pustejovsky, Hedges, and Shadish (2014) suggests that using such a flexible parameterization may nonetheless be reasonable for the more limited purpose of effect size estimation. 
 ```{r Model5, warning = FALSE}
-hlm3 <- update(hlm2, random = ~ week + trt.week | case, 
+hlm3 <- update(hlm2, random = ~ week + trt_week | case, 
                control=lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))
 summary(hlm3)
 anova(hlm2, hlm3)

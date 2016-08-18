@@ -49,10 +49,11 @@ parameters will be calculated.
 }
 \examples{
 data(Saddler)
-with(subset(Saddler, measure==1), effect_size_MB(outcome, treatment, case, time))
+with(subset(Saddler, measure=="writing quality"), effect_size_MB(outcome, treatment, case, time))
 
 data(Laski)
 with(Laski, effect_size_MB(outcome, treatment, case, time))
+
 }
 \references{
 Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 

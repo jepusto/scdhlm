@@ -42,7 +42,7 @@
 #' 
 #' @name scdhlm
 #' @docType package
-#' @importFrom stats simulate
+#' @import stats
 #' @import nlme
 NULL
 
