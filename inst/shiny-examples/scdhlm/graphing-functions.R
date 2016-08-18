@@ -20,11 +20,12 @@ graph_SCD <- function(dat, design) {
     geom_vline(data = phase_line_dat, aes(xintercept = phase_time), linetype = "dashed")
 }
 
-# input <- list(example = "Laski")
+# input <- list(example = "Saddler")
 # data(list = input$example)
 # dat <- get(input$example)
 # example_parms <- exampleMapping[[input$example]]
 # filter_vars <- example_parms$filters
+# input$filter_measure = 1
 # if (!is.null(filter_vars)) {
 #   subset_vals <- sapply(filter_vars, function(x) dat[[x]] %in% input[[paste0("filter_",x)]])
 #   dat <- dat[apply(subset_vals, 1, all),]
@@ -39,5 +40,7 @@ graph_SCD <- function(dat, design) {
 # } else {
 #   dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
 # }
+# 
+# default_times(dat)
 # 
 # graph_SCD(dat, design)

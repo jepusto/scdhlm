@@ -100,7 +100,7 @@ shinyServer(function(input, output) {
       example_parms <- exampleMapping[[input$example]]
       filter_vars <- example_parms$filters  
       if (!is.null(filter_vars)) {
-        subset_vals <- sapply(filter_vars, function(x) dat[[x]] %in% input[[paste0("filter_",x)]])
+        subset_vals <- sapply(filter_vars, function(x) levels(dat[[x]])[dat[[x]]] %in% input[[paste0("filter_",x)]])
         dat <- dat[apply(subset_vals, 1, all),]
       } 
       dat <- dat[,example_parms$vars]
@@ -135,8 +135,22 @@ shinyServer(function(input, output) {
   
   output$raw_plot <- renderPlot({
     graph_SCD(dat = datClean(), design = studyDesign()) 
-  }, height = function() 120 * nlevels(as.factor(datClean()$case)),
+  }, height = function() 120 * nlevels(datClean()$case),
      width = function() 700)
+
+  time_range <- reactive({
+    default_times(datClean())
+  })
+  
+  # Centering slider
+  output$model_centering <- renderUI({
+    if (studyDesign()=="MB" & input$method=="RML") {
+      session_range <- time_range()$range
+      sliderInput("model_center", "Center session at", 
+                  min=session_range[1], max=session_range[2], 
+                  value=time_range()$A, step = 1)
+    }
+  })
   
   # Model degree
   

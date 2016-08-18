@@ -72,10 +72,13 @@ shinyUI(navbarPage(title = "scdhlm",
         tabPanel("Model", 
            br(),
            fluidRow(
-             column(12,
+             column(6,
                 selectInput("method", label = "Estimation method",
                             choices = c("Moment estimation" = "HPS", "Restricted Maximum Likelihood" = "RML"), 
                             selected = "RML")
+             ),
+             column(6,
+                uiOutput("model_centering")
              )
            ),
            conditionalPanel(condition = "input.method == 'RML'",
