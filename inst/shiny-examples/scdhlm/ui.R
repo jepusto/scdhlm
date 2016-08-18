@@ -122,17 +122,9 @@ shinyUI(navbarPage(title = "scdhlm",
         
         tabPanel("Effect size", 
           br(),
-          uiOutput("ES_timing")
+          uiOutput("ES_timing"),
+          plotOutput("RCT_plot")
         )
-      )
-   ),
-   
-   #--------------------
-   # Help pages
-   #--------------------
-   tabPanel("Help",
-      navlistPanel(widths = c(3,9),
-                   tabPanel("Overview", includeMarkdown("markdown/Overview.md"))
       )
    ),
    
