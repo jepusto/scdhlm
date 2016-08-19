@@ -295,9 +295,10 @@ g_REML <- function(m_fit, p_const, r_const,
                    g_AB=g_AB, V_g_AB=V_g_AB, cnvg_warn=cnvg_warn), theta, list(I_E_inv=I_E_inv,
                    p_const=p_const, r_const=r_const))
   
+  class(g_REML) <- "g_REML"
+  
   if (returnModel) {
     g_REML <- c(g_REML, m_fit)
-    class(g_REML) <- "g_REML"
   }    
   
   return(g_REML)

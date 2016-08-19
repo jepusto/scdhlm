@@ -2,12 +2,12 @@
 % Please edit documentation in R/confidence-interval-functions.R
 \name{CI_g}
 \alias{CI_g}
-\title{Approximate confidence interval for \code{g_REML} effect size estimate}
+\title{Approximate confidence interval for BC-SMD effect size estimates}
 \usage{
-CI_g(g_REML, cover = 0.95, bound = 35)
+CI_g(g, cover = 0.95, bound = 35)
 }
 \arguments{
-\item{g_REML}{a \code{g_REML} object}
+\item{g}{an estimated effect size object of class \code{g_REML} or \code{g_HPS}}
 
 \item{cover}{confidence level}
 
@@ -17,7 +17,7 @@ CI_g(g_REML, cover = 0.95, bound = 35)
 A vector of upper and lower confidence bounds.
 }
 \description{
-Calculates an approximate confidence interval given a \code{g_REML}
+Calculates an approximate confidence interval given a \code{g_REML} or \code{g_HPS}
 object, based on a non-central t approximation.
 }
 \examples{
@@ -29,5 +29,9 @@ Laski_RML <- lme(fixed = outcome ~ treatment,
 Laski_g <- g_REML(Laski_RML, p_const = c(0,1), 
                   r_const = c(1,0,1), returnModel=FALSE)
 CI_g(Laski_g)
+
+Laski_HPS <- with(Laski, effect_size_MB(outcome, treatment, case, time))
+CI_g(Laski_HPS)
+
 }
 

@@ -1,7 +1,29 @@
 library(shiny)
 source("mappings.R")
 
+numericInput_inline <- function (inputId, label, value, min = NA, max = NA, step = NA, width = NULL) {
+  
+  labelTag <- tags$label(label, `for` = inputId)
+      
+  inputTag <- tags$input(id = inputId, type = "number", class = "form-control", 
+                         value = format(value, scientific = FALSE, digits = 15))
+  
+  if (!is.na(min)) inputTag$attribs$min = min
+  if (!is.na(max)) inputTag$attribs$max = max
+  if (!is.na(step)) inputTag$attribs$step = step
+  
+  if (!is.null(width)) {
+    labelTag$attribs$width = width[1]
+    inputTag$attribs$display = "inline-block"
+    inputTag$attribs$width = width[2]
+  } 
+  
+  div(class = "form-group shiny-input-container", labelTag, inputTag)
+  
+}
+
 shinyUI(fluidPage(
+   tags$head(tags$style(HTML("div#inline label { width: 50%; } div#inline input { display: inline-block; width: 25%;}"))),
    titlePanel("Between-case standardized mean difference estimator"),
    tabsetPanel(type = "tabs",
         
@@ -132,6 +154,9 @@ shinyUI(fluidPage(
           br(),
           uiOutput("ES_timing"),
           h4("Effect size estimates and auxilliary information"),
+          div(id = "inline", 
+              numericInput("coverage","CI coverage level (%)", value = 95, min = 0, max = 100, step = 0.5)
+          ),
           tableOutput("effect_size_report"),
           downloadButton('download_ES', 'Download')
         )

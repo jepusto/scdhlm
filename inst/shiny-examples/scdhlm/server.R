@@ -174,12 +174,12 @@ shinyServer(function(input, output) {
   
   output$modelDegree_baseline <- renderUI({
     max_degree <- if (studyDesign() == "MB") 6 else 0
-    numericInput("degree_base", label = "Time trend degree", min = 0, max = max_degree, step = 1, value = 0)
+    numericInput("degree_base", label = "Time trend degree", min = 0, max = max_degree, step = 1, value = 0, width = "40%")
   })
   
   output$modelDegree_treatment <- renderUI({
     max_degree <- if (studyDesign() == "MB") 6 else 0
-    numericInput("degree_trt", label = "Time trend degree", min = 0, max = max_degree, step = 1, value = 0)
+    numericInput("degree_trt", label = "Time trend degree", min = 0, max = max_degree, step = 1, value = 0, width = "40%")
   })
   
   # Model specification
@@ -259,7 +259,9 @@ shinyServer(function(input, output) {
       filter_vals <- if (length(filter_vars) > 0) lapply(filter_vars, function(x) input[[x]]) else NULL
       summarize_ES(res, 
                    filter_vars = filter_vars, filter_vals = filter_vals, 
-                   design = studyDesign(), method = input$method, A = input$A_time, B = input$B_time)
+                   design = studyDesign(), method = input$method, 
+                   A = input$A_time, B = input$B_time,
+                   coverage = input$coverage)
       
     }
   })  

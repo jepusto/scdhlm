@@ -192,6 +192,8 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   results <- list(g_dotdot = g_dotdot, K = K, D_bar = D_bar, S_sq = S_sq, delta_hat_unadj = delta_hat_unadj, 
                phi = phi, sigma_sq_w = sigma_sq_w, rho = rho, 
                theta = theta, nu = nu, delta_hat = delta_hat, V_delta_hat = V_delta_hat)
+  class(results) <- "g_HPS"
+  
   return(results)
 }
 
@@ -388,6 +390,9 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
                   phi = phi, sigma_sq_w = sigma_sq_w, rho = rho, 
                   theta = theta, nu = nu, 
                   delta_hat = delta_hat, V_delta_hat = V_delta_hat)
+  
+  class(results) <- "g_HPS"
+  
   return(results)
 }
 

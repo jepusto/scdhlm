@@ -62,28 +62,31 @@ default_times <- function(x) {
 # effect size report table
 #---------------------------------------------------------------
 
-summarize_ES <- function(res, filter_vars, filter_vals, design, method, A, B) {
+summarize_ES <- function(res, filter_vars, filter_vals, design, method, A, B, coverage = 95L) {
 
   if (method=="RML") {
     ES_summary <- data.frame(
       ES = res$g_AB,
-      SE = sqrt(res$V_g_AB),
-      df = res$nu,
-      phi = res$phi,
-      rho = with(res, Tau[1] / (Tau[1] + sigma_sq))
+      SE = sqrt(res$V_g_AB)
     )
+    res$rho <- with(res, Tau[1] / (Tau[1] + sigma_sq))
   } else {
     ES_summary <- data.frame(
       ES = res$delta_hat,
-      SE = sqrt(res$V_delta_hat),
-      df = res$nu,
-      phi = res$phi,
-      rho = res$rho
+      SE = sqrt(res$V_delta_hat)
     )
   }
   
+  CI <- CI_g(res, cover = coverage / 100L)
+  
+  ES_summary$CI_L <- CI[1]
+  ES_summary$CI_U <- CI[2]
+  ES_summary$df <- res$nu
+  ES_summary$phi <- res$phi
+  ES_summary$rho <- res$rho
   ES_summary$method <- names(estimation_names[which(estimation_names==method)])
   ES_summary$design <- names(design_names[which(design_names==design)])
+  
   if (method=="RML" & design=="MB") {
     ES_summary$A <- A
     ES_summary$B <- B
@@ -92,9 +95,11 @@ summarize_ES <- function(res, filter_vars, filter_vals, design, method, A, B) {
     ES_summary$B <- NA
   }
   
+  CI_names <- paste0(coverage, "% CI ", c("(lower)", "(upper)"))
+  
   row.names(ES_summary) <- NULL
-  names(ES_summary) <- c("BC-SMD estimate","Std. Error",
-                         "Degrees-of-freedom","Auto-correlation","Intra-class correlation",
+  names(ES_summary) <- c("BC-SMD estimate","Std. Error", CI_names,
+                         "Degrees of freedom","Auto-correlation","Intra-class correlation",
                          "Study design","Estimation method","Initial treatment time","Follow-up time")
   
   if (!is.null(filter_vals)) {
