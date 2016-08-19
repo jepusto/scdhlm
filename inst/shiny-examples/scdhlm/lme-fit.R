@@ -102,11 +102,14 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, ...) {
 # sessions <- seq(range[1], range[2])
 # dat_RCT <- data.frame(case = rep(cases, each = length(sessions)),
 #                       session = sessions,
-#                       trt = c(rep(0, A - range[1] + 1), rep(1, range[2] - range[1] - A + 1)),
-#                       session_trt = c(rep(0, A - range[1] + 1), 0:(range[2] - range[1] - A)))
-# dat_RCT$outcome <- predict(lme_fit$fit, newdata = dat_RCT)
+#                       trt = as.integer(sessions > A),
+#                       session_trt = ifelse(sessions > A, sessions - A - 1, 0))
+# dat_RCT <- lme_fit_MB(dat, FE_base = FE_base, RE_base = RE_base, 
+#                       FE_trt = FE_trt, RE_trt = RE_trt, center = B, newdata = dat_RCT)
+# dat_RCT <- dat_RCT$preds
 # dat_RCT$phase <- levels(dat$phase)[dat_RCT$trt + 1]
-# graph_SCD(dat_RCT, design = "MB")  
+# graph_SCD(dat_RCT, design = "MB")
+
 # 
 # input <- list(example = "Lambert")
 # data(list = input$example)

@@ -122,8 +122,7 @@ shinyUI(navbarPage(title = "scdhlm",
         
         tabPanel("Effect size", 
           br(),
-          uiOutput("ES_timing"),
-          plotOutput("RCT_plot")
+          uiOutput("ES_timing")
         )
       )
    ),

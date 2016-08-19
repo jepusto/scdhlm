@@ -265,22 +265,4 @@ shinyServer(function(input, output) {
   }, height = function() 120 * nlevels(datClean()$case),
   width = function() 700)
   
-  output$RCT_plot <- renderPlot({
-    if (studyDesign()=="MB" & input$method=="RML" & "lme" %in% class(model_fit()$fit)) {
-      range <- time_range()$range
-      A <- input$A_time
-      B <- input$B_time
-      cases <- levels(datClean()$case)
-      sessions <- seq(from = range[1], to = range[2])
-      dat_RCT <- data.frame(case = rep(cases, each = length(sessions)),
-                            session = sessions - input$model_center,
-                            trt = c(rep(0, A - range[1] + 1), rep(1, range[2] - range[1] - A + 1)),
-                            session_trt = c(rep(0, A - range[1] + 1), 0:(range[2] - range[1] - A)))
-      dat_RCT$phase <- levels(datClean()$phase)[dat_RCT$trt + 1]
-      dat_RCT$outcome <- predict(model_fit()$fit, newdata = dat_RCT)
-      graph_SCD(dat_RCT, design = studyDesign())
-    }
-  }, height = function() 120 * nlevels(datClean()$case),
-  width = function() 700)
-  
 })
