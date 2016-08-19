@@ -122,7 +122,8 @@ shinyUI(navbarPage(title = "scdhlm",
         
         tabPanel("Effect size", 
           br(),
-          uiOutput("ES_timing")
+          uiOutput("ES_timing"),
+          tableOutput("effect_size_report")
         )
       )
    ),

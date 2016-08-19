@@ -73,7 +73,31 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, ...) {
 }
 
 
+#---------------------------------------------------------------
+# calculate effect sizes
+#---------------------------------------------------------------
+
+effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B) {
+  fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[design]]
+  m_fit <- do.call(fit_function, 
+                 args = list(dat = dat, FE_base = FE_base, RE_base = RE_base,
+                             FE_trt = FE_trt, RE_trt = RE_trt, center = B))
+  fixed <- m_fit$fixed
+  random <- m_fit$random
+  m_fit <- m_fit$fit
+  p_const <- c(rep(0L, length(FE_base)), (B - A - 1)^as.integer(FE_trt))
+  r_dim <- length(RE_base) + length(RE_trt)
+  r_const <- c(1L, 0L, as.integer(0 %in% RE_base), rep(0, r_dim * (r_dim + 1) / 2 - 1))
+  X_design <- model.matrix(fixed, data = droplevels(m_fit$data))
+  Z_design <- model.matrix(m_fit$modelStruct$reStruct, data = droplevels(m_fit$data))
+  
+  g_REML(m_fit, p_const = p_const, r_const = r_const,
+         X_design = X_design, Z_design = Z_design,
+         returnModel=FALSE)
+}
+
 # input <- list(example = "Laski")
+# design <- "MB"
 # data(list = input$example)
 # dat <- get(input$example)
 # dat <- dat[,exampleMapping[[input$example]]$vars]
@@ -90,10 +114,17 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, ...) {
 # 
 # lme_fit <- lme_fit_MB(dat = dat, FE_base, RE_base, FE_trt, RE_trt, center = center)
 # dat$fitted <- predict(lme_fit$fit)
-# graph_SCD(dat = dat, design = "MB")
+# graph_SCD(dat = dat, design = design)
 # last_plot() + geom_line(data = dat, aes(session, fitted), size = 0.8)
 # 
+# A <- default_times(dat)$A
+# B <- default_times(dat)$B
+# effect_size_RML(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B)
+
+# 
+# 
 # input <- list(example = "Lambert")
+# design <- "TR"
 # data(list = input$example)
 # dat <- get(input$example)
 # dat <- dat[,exampleMapping[[input$example]]$vars]
@@ -102,5 +133,15 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, ...) {
 # dat$trt <- as.numeric(dat$phase==trt_phase)
 # 
 # lme_fit_TR(dat = dat, FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = 0)
-# lme_fit_TR(dat = dat, FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = NULL)
-# lme_fit <- lme_fit_TR(dat = dat, FE_base = 0, RE_base = NULL, FE_trt = 0, RE_trt = NULL)
+# lme_fit <- lme_fit_TR(dat = dat, FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = NULL)
+# lme_fit_TR(dat = dat, FE_base = 0, RE_base = NULL, FE_trt = 0, RE_trt = NULL)
+# dat$fitted <- predict(lme_fit$fit)
+# 
+# FE_base <- 0
+# RE_base <- 0
+# FE_trt <- 0
+# RE_trt <- NULL
+# A <- default_times(dat)$A
+# B <- default_times(dat)$B
+# effect_size_RML(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B)
+# 

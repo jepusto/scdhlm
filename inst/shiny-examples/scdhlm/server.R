@@ -217,15 +217,31 @@ shinyServer(function(input, output) {
                                FE_trt = input$FE_trt, RE_trt = input$RE_trt, center = input$model_center))
     
   })
+
   
   # Model spec output
   
   output$model_fit <- renderPrint({
     if (input$method=="RML") {
-      res <- list(fixed = model_fit()$fixed, 
+      list(fixed = model_fit()$fixed, 
                   random = model_fit()$random, 
                   fit = summary(model_fit()$fit),
                   converged = model_fit()$converged)
+    } 
+  })
+  
+  
+  # Calculate effect sizes
+  
+  effect_size <- reactive({
+    
+    if (input$method=="RML") {
+      A <- if (is.null(input$A_time)) 0L else input$A_time
+      B <- if (is.null(input$B_time)) 1L else input$B_time
+      res <- effect_size_RML(design = studyDesign(), dat = datClean(), 
+                             FE_base = input$FE_base, RE_base = input$RE_base,
+                             FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
+                             A = A, B = B)
     } else {
       if (studyDesign()=="MB") {
         res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
@@ -233,9 +249,19 @@ shinyServer(function(input, output) {
         res <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = trt, id = case, phase = phase_pair, time = session))
       }
     }
-    res
-  })
+    filter_vars <- grep("filter", names(input), value=TRUE)
+    filter_vals <- if (length(filter_vars) > 0) lapply(filter_vars, function(x) input[[x]]) else NULL
+    summarize_ES(res, 
+                 filter_vars = filer_vars, filter_vals = filter_vals, 
+                 design = studyDesign(), method = input$method, A = input$A_time, B = input$B_time)
+   
+  })  
   
+  # Effect size output
+  
+  output$effect_size_report <- renderTable({
+    effect_size()
+  })
   
   # Graphs
   
@@ -255,7 +281,7 @@ shinyServer(function(input, output) {
   width = function() 700)
   
   output$RML_plot <- renderPlot({
-    if (class(model_fit()$fit)=="lme") {
+    if ("lme" %in% class(model_fit()$fit)) {
       dat <- datClean()
       dat$fitted <- predict(model_fit()$fit)
       raw_graph() + 
