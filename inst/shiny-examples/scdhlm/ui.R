@@ -1,12 +1,20 @@
 library(shiny)
+source("mappings.R")
 
-shinyUI(navbarPage(title = "scdhlm",
-   tabPanel("Effect size estimation",
-      tabsetPanel(type = "tabs",
+shinyUI(fluidPage(
+   titlePanel("Between-case standardized mean difference estimator"),
+   tabsetPanel(type = "tabs",
         
         #--------------------
         # Load the data
         #--------------------
+        tabPanel("scdhlm",
+                 navlistPanel(widths = c(3,9),
+                              tabPanel("About", includeMarkdown("markdown/scdhlm.md")),
+                              tabPanel("Accessing scdhlm", includeMarkdown("markdown/Accessing_scdhlm.md")),
+                              tabPanel("References", includeMarkdown("markdown/references.md"))
+                 )
+        ),
         tabPanel("Load",
            br(),
            fluidRow(
@@ -35,7 +43,7 @@ shinyUI(navbarPage(title = "scdhlm",
                 conditionalPanel(
                   condition = "output.fileUploaded & input.dat_type == 'dat'",
                   selectInput("design", label = "1. Please specify the study design.",
-                              choices = c("Treatment reversal" = "TR", "Multiple baseline" = "MB")),
+                              choices = design_names),
                   strong("2. Please select the variable containing each type of information."),
                   column(12, br()),
                   uiOutput("variableMapping"),
@@ -74,7 +82,7 @@ shinyUI(navbarPage(title = "scdhlm",
            fluidRow(
              column(6,
                 selectInput("method", label = "Estimation method",
-                            choices = c("Moment estimation" = "HPS", "Restricted Maximum Likelihood" = "RML"), 
+                            choices = estimation_names, 
                             selected = "RML")
              ),
              column(6,
@@ -89,14 +97,14 @@ shinyUI(navbarPage(title = "scdhlm",
               fluidRow(
                 column(6,
                    wellPanel(
-                     strong("Baseline phase"),
+                     h4("Baseline phase"),
                      uiOutput("modelDegree_baseline"),
                      uiOutput("modelSpec_baseline")
                    )
                 ),
                 column(6,
                    wellPanel(
-                     strong("Treatment phase"),
+                     h4("Treatment phase"),
                      uiOutput("modelDegree_treatment"),
                      uiOutput("modelSpec_treatment")
                    )
@@ -123,29 +131,10 @@ shinyUI(navbarPage(title = "scdhlm",
         tabPanel("Effect size", 
           br(),
           uiOutput("ES_timing"),
-          tableOutput("effect_size_report")
+          h4("Effect size estimates and auxilliary information"),
+          tableOutput("effect_size_report"),
+          downloadButton('download_ES', 'Download')
         )
-      )
-   ),
-   
-   #--------------------
-   # Help pages
-   #--------------------
-   tabPanel("Help",
-      navlistPanel(widths = c(3,9),
-                   tabPanel("Overview", includeMarkdown("markdown/Overview.md"))
-      )
-   ),
-   
-   #--------------------
-   # About pages
-   #--------------------
-   tabPanel("About",
-      navlistPanel(widths = c(3,9),
-         tabPanel("scdhlm", includeMarkdown("markdown/scdhlm.md")),
-         tabPanel("Accessing scdhlm", includeMarkdown("markdown/Accessing_scdhlm.md")),
-         tabPanel("References", includeMarkdown("markdown/references.md"))
-      )
    )
 ))
 

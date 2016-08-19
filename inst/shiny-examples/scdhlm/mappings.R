@@ -27,9 +27,21 @@ exampleMapping <- list(
                 filter_measure = c("Academic Engagement","Inappropriate Verbalizations"))
 )
 
+
 #------------------------------------------------
 # Polynomial degree names
 #------------------------------------------------
 
-
 degree_names <- c("level","linear","quadratic","cubic","quartic","quintic","sextic")
+
+#------------------------------------------------
+# Design names
+#------------------------------------------------
+
+design_names <- c("Treatment Reversal" = "TR", "Multiple Baseline/Multiple Probe" = "MB")
+
+#------------------------------------------------
+# Estimation names
+#------------------------------------------------
+
+estimation_names <- c("Moment estimation" = "HPS", "Restricted Maximum Likelihood" = "RML")

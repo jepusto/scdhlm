@@ -63,31 +63,47 @@ default_times <- function(x) {
 #---------------------------------------------------------------
 
 summarize_ES <- function(res, filter_vars, filter_vals, design, method, A, B) {
-  
+
   if (method=="RML") {
     ES_summary <- data.frame(
-      design = design,
-      method = method,
       ES = res$g_AB,
       SE = sqrt(res$V_g_AB),
       df = res$nu,
       phi = res$phi,
-      rho = with(res, Tau[1] / (Tau[1] + sigma_sq)),
-      A = if (design=="TR") NA else A,
-      B = if (design=="TR") NA else B
+      rho = with(res, Tau[1] / (Tau[1] + sigma_sq))
     )
   } else {
     ES_summary <- data.frame(
-      design = design,
-      method = method,
       ES = res$delta_hat,
       SE = sqrt(res$V_delta_hat),
       df = res$nu,
       phi = res$phi,
-      rho = res$rho,
-      A = NA,
-      B = NA
+      rho = res$rho
     )
   }
-  ES_summary
+  
+  ES_summary$method <- names(estimation_names[which(estimation_names==method)])
+  ES_summary$design <- names(design_names[which(design_names==design)])
+  if (method=="RML" & design=="MB") {
+    ES_summary$A <- A
+    ES_summary$B <- B
+  } else {
+    ES_summary$A <- NA
+    ES_summary$B <- NA
+  }
+  
+  row.names(ES_summary) <- NULL
+  names(ES_summary) <- c("BC-SMD estimate","Std. Error",
+                         "Degrees-of-freedom","Auto-correlation","Intra-class correlation",
+                         "Study design","Estimation method","Initial treatment time","Follow-up time")
+  
+  if (!is.null(filter_vals)) {
+    filter_vals <- lapply(filter_vals, paste, sep = ", ")
+    names(filter_vals) <- substr(filter_vars,8,nchar(filter_vars))
+    filter_vals <- as.data.frame(filter_vals)
+    ES_summary <- cbind(ES_summary, filter_vals)
+  } 
+  
+  ES_summary  
 }
+

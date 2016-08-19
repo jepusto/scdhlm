@@ -3,7 +3,7 @@ library(markdown)
 library(ggplot2)
 library(scdhlm)
 
-source("example-mappings.R")
+source("mappings.R")
 source("graphing-functions.R")
 source("helper-functions.R")
 source("lme-fit.R")
@@ -149,16 +149,21 @@ shinyServer(function(input, output) {
   output$ES_timing <- renderUI({
     if (studyDesign()=="MB" & input$method=="RML") {
       timings <- time_range()
-      fluidRow(
-        column(6, 
-           sliderInput("A_time", "Initial treatment time",
-             min = timings$range[1], max = timings$range[2],
-             value = timings$A, step = 1)
-        ),
-        column(6,
-           sliderInput("B_time", "Follow-up time",
-                           min = timings$range[1], max = timings$range[2],
-                           value = timings$B, step = 1)
+      wellPanel(
+        fluidRow(
+          column(12, 
+             h4("Hypothetical experimental parameters")
+          ),
+          column(6, 
+             sliderInput("A_time", "Initial treatment time",
+               min = timings$range[1], max = timings$range[2],
+               value = timings$A, step = 1)
+          ),
+          column(6,
+             sliderInput("B_time", "Follow-up time",
+                             min = timings$range[1], max = timings$range[2],
+                             value = timings$B, step = 1)
+          )
         )
       )  
     }
@@ -214,7 +219,8 @@ shinyServer(function(input, output) {
     do.call(fit_function,
                    args = list(dat = datClean(), 
                                FE_base = input$FE_base, RE_base = input$RE_base,
-                               FE_trt = input$FE_trt, RE_trt = input$RE_trt, center = input$model_center))
+                               FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
+                               center = input$model_center))
     
   })
 
@@ -234,34 +240,45 @@ shinyServer(function(input, output) {
   # Calculate effect sizes
   
   effect_size <- reactive({
-    
-    if (input$method=="RML") {
-      A <- if (is.null(input$A_time)) 0L else input$A_time
-      B <- if (is.null(input$B_time)) 1L else input$B_time
-      res <- effect_size_RML(design = studyDesign(), dat = datClean(), 
-                             FE_base = input$FE_base, RE_base = input$RE_base,
-                             FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
-                             A = A, B = B)
-    } else {
-      if (studyDesign()=="MB") {
-        res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
+    if ("lme" %in% class(model_fit()$fit)) {
+      if (input$method=="RML") {
+        A <- if (is.null(input$A_time)) 0L else input$A_time
+        B <- if (is.null(input$B_time)) 1L else input$B_time
+        res <- effect_size_RML(design = studyDesign(), dat = datClean(), 
+                               FE_base = input$FE_base, RE_base = input$RE_base,
+                               FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
+                               A = A, B = B)
       } else {
-        res <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = trt, id = case, phase = phase_pair, time = session))
+        if (studyDesign()=="MB") {
+          res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
+        } else {
+          res <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = trt, id = case, phase = phase_pair, time = session))
+        }
       }
+      filter_vars <- grep("filter_", names(input), value=TRUE)
+      filter_vals <- if (length(filter_vars) > 0) lapply(filter_vars, function(x) input[[x]]) else NULL
+      summarize_ES(res, 
+                   filter_vars = filter_vars, filter_vals = filter_vals, 
+                   design = studyDesign(), method = input$method, A = input$A_time, B = input$B_time)
+      
     }
-    filter_vars <- grep("filter", names(input), value=TRUE)
-    filter_vals <- if (length(filter_vars) > 0) lapply(filter_vars, function(x) input[[x]]) else NULL
-    summarize_ES(res, 
-                 filter_vars = filer_vars, filter_vals = filter_vals, 
-                 design = studyDesign(), method = input$method, A = input$A_time, B = input$B_time)
-   
   })  
   
   # Effect size output
   
   output$effect_size_report <- renderTable({
     effect_size()
-  })
+  }, digits = 4, include.rownames = FALSE)
+  
+  output$download_ES <- downloadHandler(
+    filename = function() {
+      fname <- if (input$dat_type == "example") input$example else input$dat
+      paste(fname, "- effect size estimate.csv")
+    },
+    content = function(file) {
+      write.csv(effect_size(), file, row.names=FALSE)
+    }
+  )
   
   # Graphs
   
