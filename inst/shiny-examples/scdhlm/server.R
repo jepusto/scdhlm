@@ -13,21 +13,20 @@ shinyServer(function(input, output) {
   # Read in data
   
   datFile <- reactive({
+    
     inFile <- input$dat
-    if (is.null(inFile)) {
-      return(NULL)
-    } else {
-      return(read.table(inFile$datapath, header=input$header, 
-                        sep=input$sep, quote=input$quote, fill=TRUE))
-    }
+    
+    if (is.null(inFile)) return(NULL)
+
+    read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
   })
-  
   
   # Check that file is uploaded
   
   output$fileUploaded <- reactive({
     return(!is.null(datFile()))
   })
+  
   outputOptions(output, 'fileUploaded', suspendWhenHidden=FALSE)
   
   # Study design with defaults 

@@ -55,13 +55,14 @@ shinyUI(fluidPage(
                 ),
                 conditionalPanel(
                   condition = "input.dat_type == 'dat'",
-                  fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv','.txt')),
-                  radioButtons('header','File has a header?', c("Yes" = TRUE, "No" = FALSE)),
-                  radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' '), ','),
-                  radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"), '')
+                  fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv', '.txt')),
+                  checkboxInput('header', 'File has a header?', TRUE),
+                  radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
+                  radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
                 )
              ),
              column(8,
+                tableOutput("contents"),
                 conditionalPanel(
                   condition = "output.fileUploaded & input.dat_type == 'dat'",
                   selectInput("design", label = "1. Please specify the study design.",
@@ -120,14 +121,18 @@ shinyUI(fluidPage(
                 column(6,
                    wellPanel(
                      h4("Baseline phase"),
-                     uiOutput("modelDegree_baseline"),
+                     conditionalPanel(condition = "input.design == 'MB'",
+                        uiOutput("modelDegree_baseline")
+                     ),
                      uiOutput("modelSpec_baseline")
                    )
                 ),
                 column(6,
                    wellPanel(
                      h4("Treatment phase"),
-                     uiOutput("modelDegree_treatment"),
+                     conditionalPanel(condition = "input.design == 'MB'",
+                        uiOutput("modelDegree_treatment")
+                     ),
                      uiOutput("modelSpec_treatment")
                    )
                 )
