@@ -28,27 +28,24 @@ faster speeds than over the web. Feel free to contact me if you have
 trouble following the steps below.
 
 1.  Install R from <http://cran.r-project.org/>
-2.  For Windows users, install Rtools from
-    <http://cran.r-project.org/bin/windows/Rtools/>
-3.  Install RStudio from
+2.  Install RStudio from
     <http://www.rstudio.com/products/rstudio/download/>
-4.  Once you have these programs installed, you will need to install
+3.  Once you have these programs installed, you will need to install
     several R packages that are required to run ARPsimulator. Do this by
     typing the following commands at the console prompt:
 
-        install.packages("devtools")
         install.packages("ggplot2")
         install.packages("shiny")
         install.packages("markdown")
-        devtools::install_github("jepusto/scdhlm")
+        install.packages("scdhlm")
 
-5.  After all of these packages are installed, type the following
+4.  After all of these packages are installed, type the following
     commands at the console prompt to start the simulator (the simulator
     should then open in a new window):
 
         library(scdhlm)
         shine_scd()
 
-6.  To exit the simulator, simply close the window in which it appears
+5.  To exit the simulator, simply close the window in which it appears
     or click the red "Stop" icon in the upper right-hand corner of the
     RStudio console window.

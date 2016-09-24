@@ -84,8 +84,8 @@ summarize_ES <- function(res, filter_vars, filter_vals, design, method, A, B, co
   ES_summary$df <- res$nu
   ES_summary$phi <- res$phi
   ES_summary$rho <- res$rho
-  ES_summary$method <- names(estimation_names[which(estimation_names==method)])
   ES_summary$design <- names(design_names[which(design_names==design)])
+  ES_summary$method <- names(estimation_names[which(estimation_names==method)])
   
   if (method=="RML" & design=="MB") {
     ES_summary$A <- A

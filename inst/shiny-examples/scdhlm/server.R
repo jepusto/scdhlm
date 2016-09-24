@@ -275,11 +275,13 @@ shinyServer(function(input, output) {
   output$download_ES <- downloadHandler(
     filename = function() {
       fname <- if (input$dat_type == "example") input$example else input$dat
-      paste(fname, "- effect size estimate.csv")
+      paste(fname, '- effect size estimate.csv')
     },
     content = function(file) {
-      write.csv(effect_size(), file, row.names=FALSE)
-    }
+      dat <- effect_size()
+      write.csv(dat, file, row.names=FALSE)
+    },
+    contentType = "text/csv"
   )
   
   # Graphs

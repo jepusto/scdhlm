@@ -56,7 +56,7 @@ shinyUI(fluidPage(
                 conditionalPanel(
                   condition = "input.dat_type == 'dat'",
                   fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv','.txt')),
-                  checkboxInput('header','File contain a header.', TRUE),
+                  radioButtons('header','File has a header?', c("Yes" = TRUE, "No" = FALSE)),
                   radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' '), ','),
                   radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"), '')
                 )
