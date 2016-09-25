@@ -76,7 +76,8 @@ shinyUI(fluidPage(
                 ),
                 uiOutput("filterMapping")
              )
-           )
+           ),
+           fluidRow(br(),br(),br())
         ),
         
         #--------------------

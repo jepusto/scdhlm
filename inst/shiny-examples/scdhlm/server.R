@@ -45,10 +45,10 @@ shinyServer(function(input, output) {
     var_names <- names(datFile())
     list(
       selectizeInput("filters", label = "Filtering variables", choices = var_names, selected = NULL, multiple = TRUE),
-      selectInput("caseID", label = "Case identifier", choices = var_names, selected = NULL),
-      selectInput("session", label = "Session number", choices = var_names, selected = NULL),
-      selectInput("outcome", label = "Outcome", choices = var_names, selected = NULL),
-      selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = NULL)
+      selectInput("caseID", label = "Case identifier", choices = var_names, selected = var_names[1]),
+      selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = var_names[2]),
+      selectInput("session", label = "Session number", choices = var_names, selected = var_names[3]),
+      selectInput("outcome", label = "Outcome", choices = var_names, selected = var_names[4])
     )
   })
   
@@ -57,8 +57,8 @@ shinyServer(function(input, output) {
   output$phaseMapping <- renderUI({
     phases <- levels(as.factor(datFile()[,input$phaseID]))
     list(
-      selectInput("baseline", label = "Baseline level", choices = phases, selected = NULL),
-      selectInput("treatment", label = "Treatment level", choices = phases, selected = NULL)
+      selectInput("baseline", label = "Baseline level", choices = phases, selected = phases[1]),
+      selectInput("treatment", label = "Treatment level", choices = phases, selected = phases[2])
     )
   })
   
