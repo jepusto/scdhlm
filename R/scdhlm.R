@@ -15,11 +15,14 @@ shine_scd <- function() {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("The scdhlm app requires the ggplot2 package. Please install it.", call. = FALSE)
   }
+  if (!requireNamespace("markdown", quietly = TRUE)) {
+    stop("The scdhlm app requires the markdown package. Please install it.", call. = FALSE)
+  }
   
   appDir <- system.file("shiny-examples", "scdhlm", package = "scdhlm")
   if (appDir == "") {
     stop("Could not find the application directory. Try re-installing the scdhlm package.", call. = FALSE)
   }
   
-  shiny::runApp(appDir, display.mode = "normal")
+  shiny::runApp(appDir, display.mode = "normal", launch.browser = TRUE)
 }
