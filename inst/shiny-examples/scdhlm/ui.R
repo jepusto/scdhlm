@@ -121,20 +121,21 @@ shinyUI(fluidPage(
                 column(6,
                    wellPanel(
                      h4("Baseline phase"),
-                     conditionalPanel(condition = "input.design == 'MB'",
-                        uiOutput("modelDegree_baseline")
-                     ),
+                     uiOutput("modelDegree_baseline"),
                      uiOutput("modelSpec_baseline")
                    )
                 ),
                 column(6,
                    wellPanel(
                      h4("Treatment phase"),
-                     conditionalPanel(condition = "input.design == 'MB'",
-                        uiOutput("modelDegree_treatment")
-                     ),
+                     uiOutput("modelDegree_treatment"),
                      uiOutput("modelSpec_treatment")
                    )
+                )
+              ),
+              fluidRow(
+                column(12, 
+                htmlOutput("model_spec")
                 )
               ),
               tabsetPanel(type = "tabs",

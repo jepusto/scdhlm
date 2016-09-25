@@ -34,6 +34,9 @@ exampleMapping <- list(
 
 degree_names <- c("level","linear","quadratic","cubic","quartic","quintic","sextic")
 
+time_trends <- 0:6
+names(time_trends) <- degree_names
+
 #------------------------------------------------
 # Design names
 #------------------------------------------------

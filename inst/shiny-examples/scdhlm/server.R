@@ -172,19 +172,21 @@ shinyServer(function(input, output) {
   # Model degree
   
   output$modelDegree_baseline <- renderUI({
-    max_degree <- if (studyDesign() == "MB") 6 else 0
-    numericInput("degree_base", label = "Time trend degree", min = 0, max = max_degree, step = 1, value = 0, width = "40%")
+    if (studyDesign() == "MB") {
+      selectInput("degree_base", label = "Type of time trend", choices = time_trends, width = "40%")  
+    }
   })
   
   output$modelDegree_treatment <- renderUI({
-    max_degree <- if (studyDesign() == "MB") 6 else 0
-    numericInput("degree_trt", label = "Time trend degree", min = 0, max = max_degree, step = 1, value = 0, width = "40%")
+    if (studyDesign() == "MB") {
+      selectInput("degree_trt", label = "Type of time trend", choices = time_trends, width = "40%")  
+    }
   })
   
   # Model specification
   
   output$modelSpec_baseline <- renderUI({
-    deg_base <- if (is.null(input$degree_base)) 0 else input$degree_base
+    deg_base <- if (is.null(input$degree_base)) 0 else as.numeric(input$degree_base)
     degree_base_list <- 0:deg_base
     names(degree_base_list) <- degree_names[1:(deg_base + 1)]
     fluidRow(
@@ -198,7 +200,7 @@ shinyServer(function(input, output) {
   })
   
   output$modelSpec_treatment <- renderUI({
-    deg_trt <- if (is.null(input$degree_trt)) 0 else input$degree_trt
+    deg_trt <- if (is.null(input$degree_trt)) 0 else as.numeric(input$degree_trt)
     degree_trt_list <- 0:deg_trt
     names(degree_trt_list) <- degree_names[1:(deg_trt + 1)]
     fluidRow(
@@ -210,6 +212,15 @@ shinyServer(function(input, output) {
        )
     )
   })
+
+  # Validate model specification
+  
+  model_validation <- reactive({
+    validate_specification(input$FE_base, input$RE_base, 
+                           input$FE_trt, input$RE_trt)
+  })
+  
+  output$model_spec <- renderUI({model_validation()})
   
   # Fit model 
   

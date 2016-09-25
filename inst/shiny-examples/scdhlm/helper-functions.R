@@ -59,6 +59,34 @@ default_times <- function(x) {
 }
 
 #---------------------------------------------------------------
+# model validation
+#---------------------------------------------------------------
+
+validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt) {
+  
+  errors <- vector(mode = "character")
+  if (!("0" %in% FE_base)) {
+    errors <- c(errors, "Model must include a fixed effect for baseline level.")
+  }
+  if (!("0" %in% RE_base)) {
+    errors <- c(errors, "Model must include a random effect for baseline level.")
+  }
+  if (length(FE_trt)==0) {
+    errors <- c(errors, "Model must include at least one fixed effect for the treatment phase.")
+  }
+  
+  if (length(errors)==0) {
+    return(NULL)
+  } else if (length(errors) == 1) {
+    error_string <- paste("<b>Error:</b>", errors, "<br/>")
+  } else {
+    error_string <- paste("<b>Errors:</b> <br/>", paste(errors, collapse = "<br/>"), "<br/>")
+  } 
+  
+  return(HTML(error_string))
+}
+
+#---------------------------------------------------------------
 # effect size report table
 #---------------------------------------------------------------
 
