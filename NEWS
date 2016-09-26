@@ -1,3 +1,7 @@
+scdhlm 0.3
+=======================
+* shiny app for calculating between-case standardized mean difference effect sizes.
+
 scdhlm 0.2.2
 =======================
 * Bug fix in lme_AR1_cov_block_inv.
@@ -9,5 +13,4 @@ scdhlm 0.2.1
 
 scdhlm 0.2
 =======================
-
 * Initial release.

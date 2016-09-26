@@ -52,7 +52,7 @@ The estimated auto-correlation has only a trivial effect on the effect size esti
 Anglesea, Hoch, and Taylor (2008) used an ABAB design to test the effect of using a pager prompt to reduce the rapid eating of three teenage boys with autism. The primary outcome was a measure of how quickly each participant consumed one serving of a familiar food. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who used it to illustrate the calculation of the design-comparable SMD when based on the minimum required number of cases. Their calculations can be replicated using the following code:
 ```{r}
 data(Anglesea)
-Anglesea_ES <- with(Anglesea, effect_size_ABk(outcome, treatment, case, phase, session))
+Anglesea_ES <- with(Anglesea, effect_size_ABk(outcome, condition, case, phase, session))
 Anglesea_ES[c("delta_hat","V_delta_hat","nu")]
 ```
 Note that the variance of the effect size estimate is quite large and the degrees of freedom corresponding to the denominator of the SMD estimate are very low. Both quantities are extreme due to the small number of cases used in this example. 
@@ -65,11 +65,11 @@ Design-comparable SMDs can be estimated based on these data using the `effect_si
 ```{r}
 data(Saddler)
 
-quality_ES <- with(subset(Saddler, measure==1), 
+quality_ES <- with(subset(Saddler, measure=="writing quality"), 
                    effect_size_MB(outcome, treatment, case, time))
-complexity_ES <- with(subset(Saddler, measure==2), 
+complexity_ES <- with(subset(Saddler, measure=="T-unit length"), 
                       effect_size_MB(outcome, treatment, case, time))
-construction_ES <- with(subset(Saddler, measure==3), 
+construction_ES <- with(subset(Saddler, measure=="number of constructions"), 
                         effect_size_MB(outcome, treatment, case, time))
 
 cbind(quality = unlist(quality_ES), 
@@ -82,7 +82,7 @@ For multiple baseline designs, an alternative to using the `effect_size_MB` func
 quality_RML <- lme(fixed = outcome ~ treatment, 
                    random = ~ 1 | case, 
                    correlation = corAR1(0, ~ time | case), 
-                   data = subset(Saddler, measure==1))
+                   data = subset(Saddler, measure=="writing quality"))
 summary(quality_RML)
 ```
 The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. The next step is to combine these estimated components into an effect size estimate using the `g_REML` function. This function takes the fitted `lme` model object as input, followed by the vectors `p_const` and `r_const`, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. For details on how to choose these constants, see Pustejovsky, Hedges, and Shadish (2014). In this example:
@@ -143,7 +143,7 @@ The effect size estimate that is `r round(100 * (1 - Laski_ES_RML2$g_AB / Laski_
 ## Schutte, Malouf, & Brown (2008)
 
 Schutte, Malouf, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.
-```{r, fig.width = 7, fig.height = 5}
+```{r, fig.width = 7, fig.height = 8}
 data(Schutte)
 Schutte <- subset(Schutte, case != 4)
 Schutte$case <- factor(Schutte$case)
@@ -157,7 +157,7 @@ ggplot(Schutte, aes(week, fatigue, shape = treatment, color = treatment)) +
   geom_point() + facet_wrap(~ case, ncol = 3) + 
   labs(color="Phase",shape="Phase", y ="Fatigue", x="Week") + 
   geom_vline(data = change, aes(xintercept=phase.change)) +
-  theme_bw() 
+  theme_bw() + theme(legend.position = "bottom")
 ```
 
 Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations. 
@@ -244,7 +244,7 @@ Lambert, M. C., Cartledge, G., Heward, W. L., & Lo, Y. (2006). Effects of respon
 Laski, K. E., Charlop, M. H., & Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic children’s speech. *Journal of Applied Behavior Analysis, 21*(4), 391–400.
 
 Pinheiro J., Bates D., DebRoy S., Sarkar D. and R Core Team (2015). _nlme: Linear and Nonlinear Mixed Effects Models_. R package version
-3.1-119, http://CRAN.R-project.org/package=nlme
+3.1-119, https://CRAN.R-project.org/package=nlme
 
 Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. *Journal of Educational and Behavioral Statistics, 39*(4), 211-227. doi: [10.3102/1076998614547577](http://doi.org/10.3102/1076998614547577)
 
