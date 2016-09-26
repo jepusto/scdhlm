@@ -1,11 +1,18 @@
 Package: scdhlm
-Title: Estimating hierarchical linear models for single-case designs
-Description: scdhlm provides a set of tools for estimating hierarchical linear
-    models on data from single-case designs.
+Title: Estimating Hierarchical Linear Models for Single-Case Designs
+Version: 0.3
+Authors@R: person("James", "Pustejovsky", email = "jepusto@gmail.com", role = c("aut", "cre"))
+Description: Provides a set of tools for estimating hierarchical linear
+    models and effect sizes based on data from single-case designs. 
+    Functions are provided for calculating standardized mean difference (SMD) effect sizes that 
+    are directly comparable to SMDs estimated from between-subjects randomized experiments,
+    as described in Hedges, Pustejovsky, and Shadish (2012,2013) and Pustejovsky, Hedges, and Shadish (2014).
 Maintainer: James E. Pustejovsky <jepusto@gmail.com>
-Author: James E. Pustejovsky <jepusto@gmail.com>
+URL: https://github.com/jepusto/scdhlm
+BugReports: https://github.com/jepusto/scdhlm/issues
 License: GPL-3
-Version: 0.2.2
+VignetteBuilder: knitr
+LazyData: true
 Imports: 
     stats
 Depends: 
@@ -13,6 +20,7 @@ Depends:
     R (>= 3.0.1)
 Suggests: 
     knitr,
+    markdown,
     rmarkdown,
     ggplot2,
     plyr,
@@ -20,5 +28,4 @@ Suggests:
     parallel,
     shiny,
     testthat
-VignetteBuilder: knitr
 RoxygenNote: 5.0.1

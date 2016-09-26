@@ -291,17 +291,17 @@ g_REML <- function(m_fit, p_const, r_const,
   nu_trunc <- max(nu, 2.001)
   V_g_AB <- J(nu)^2 * (nu_trunc * kappa_sq / (nu_trunc - 2) + g_AB^2 * (nu_trunc / (nu_trunc - 2) - 1 / J(nu_trunc)^2))
   
-  g_REML <- c(list(p_beta=p_beta, r_theta=r_theta, delta_AB=delta_AB, nu=nu, kappa = sqrt(kappa_sq),
+  res <- c(list(p_beta=p_beta, r_theta=r_theta, delta_AB=delta_AB, nu=nu, kappa = sqrt(kappa_sq),
                    g_AB=g_AB, V_g_AB=V_g_AB, cnvg_warn=cnvg_warn), theta, list(I_E_inv=I_E_inv,
                    p_const=p_const, r_const=r_const))
   
-  class(g_REML) <- "g_REML"
-  
   if (returnModel) {
-    g_REML <- c(g_REML, m_fit)
+    res <- c(res, m_fit)
   }    
   
-  return(g_REML)
+  class(res) <- "g_REML"
+  
+  return(res)
 }
 
 
