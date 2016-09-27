@@ -9,7 +9,7 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-The scdhlm package (Pustejovsky, 2015) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. A design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases); Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variability. 
+The scdhlm package (Pustejovsky, 2016) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. A design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases); Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variability. 
 
 The original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the `effect_size_ABk` and `effect_size_MB` functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxilliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function `lme` from the package `nlme` by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function `g_REML` from the `scdhlm` package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:
 ```{r, message = FALSE}
@@ -143,7 +143,7 @@ The effect size estimate that is `r round(100 * (1 - Laski_ES_RML2$g_AB / Laski_
 ## Schutte, Malouf, & Brown (2008)
 
 Schutte, Malouf, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.
-```{r, message = FALSE, fig.width = 7, fig.height = 5}
+```{r, message = FALSE, fig.width = 7, fig.height = 7}
 data(Schutte)
 Schutte <- subset(Schutte, case != "Case 4")
 Schutte$case <- factor(Schutte$case)
@@ -157,7 +157,7 @@ ggplot(Schutte, aes(week, fatigue, shape = treatment, color = treatment)) +
   geom_point() + facet_wrap(~ case, ncol = 3) + 
   labs(color="Phase",shape="Phase", y ="Fatigue", x="Week") + 
   geom_vline(data = change, aes(xintercept=phase.change)) +
-  theme_bw() 
+  theme_bw() + theme(legend.position = "bottom")
 ```
 
 Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations. 
@@ -244,11 +244,10 @@ Lambert, M. C., Cartledge, G., Heward, W. L., & Lo, Y. (2006). Effects of respon
 Laski, K. E., Charlop, M. H., & Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic children’s speech. *Journal of Applied Behavior Analysis, 21*(4), 391–400.
 
 Pinheiro J., Bates D., DebRoy S., Sarkar D. and R Core Team (2015). _nlme: Linear and Nonlinear Mixed Effects Models_. R package version
-3.1-119, http://CRAN.R-project.org/package=nlme
+3.1-119. https://CRAN.R-project.org/package=nlme
 
 Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. *Journal of Educational and Behavioral Statistics, 39*(4), 211-227. doi: [10.3102/1076998614547577](http://doi.org/10.3102/1076998614547577)
 
-Pustejovsky, J. E. (2015). _scdhlm: Estimating hierarchical linear models for single-case designs_. University of Texas at Austin,
-Austin, TX. R package version 0.2.1, http://blogs.edb.utexas.edu/pusto/software/
+Pustejovsky, J. E. (2016). _scdhlm: Estimating hierarchical linear models for single-case designs_. R package version 0.3.
 
 Saddler, B., Behforooz, B., & Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. *The Journal of Special Education, 42*(2), 79–90. doi: [10.1177/0022466907310371](http://doi.org/10.1177/0022466907310371)

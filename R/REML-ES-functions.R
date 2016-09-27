@@ -66,16 +66,16 @@ lmeAR1_cov_inv  <- function(Z_design, sigma_sq, phi, Tau, times=NULL) {
     A_inv <- solve(AR1_corr(phi, times)) / sigma_sq
   }
 
-  if (class(Tau)=="list") {
-    if (sum(Tau$use) == 0) return(A_inv) else {
-      # use eigen-decomposition of Tau if available
-      Z_mat <- as.matrix(Z_design) %*% Tau$vectors[,Tau$use]
-      Tau_inv <- diag(1/Tau$values[Tau$use], nrow=sum(Tau$use))
-    }
-  } else {
+  if (is.matrix(Tau)) {
     # otherwise assume that Tau is invertible
     Z_mat <- as.matrix(Z_design)
     Tau_inv <- chol2inv(chol(Tau))
+  } else {
+    if (sum(Tau$use) == 0) return(A_inv) else {
+      # use eigen-decomposition of Tau if available
+      Z_mat <- as.matrix(Z_design) %*% Tau$vectors[,Tau$use,drop=FALSE]
+      Tau_inv <- diag(1/Tau$values[Tau$use], nrow=sum(Tau$use))
+    }
   }
   A_inv_Z <- A_inv %*% Z_mat
   A_inv - A_inv_Z %*% chol2inv(chol(Tau_inv + t(Z_mat) %*% A_inv_Z)) %*% t(A_inv_Z)  
@@ -90,7 +90,7 @@ lmeAR1_cov_block_inv <- function(block, Z_design, theta, times=NULL) {
   if (is.null(times)) {
     by(Z_design, block, lmeAR1_cov_inv, sigma_sq=theta$sigma_sq, phi=theta$phi, Tau=Tau_eigen)
   } else {
-    Z_list <- by(Z_design, block, function(x) x)
+    Z_list <- by(Z_design, block, identity)
     mapply(lmeAR1_cov_inv, Z_design = Z_list, times = times, 
            MoreArgs = list(sigma_sq=theta$sigma_sq, phi=theta$phi, Tau=Tau_eigen), 
            SIMPLIFY = FALSE)
