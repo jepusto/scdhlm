@@ -1,6 +1,8 @@
 ## Resubmission
 
-This is a new submission. 
+This is a re-submission. In this version I have:
+
+* Added DOIs to the DESCRIPTION file.
 
 ## Test environments
 
