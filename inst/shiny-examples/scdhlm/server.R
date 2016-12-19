@@ -43,12 +43,13 @@ shinyServer(function(input, output) {
   
   output$variableMapping <- renderUI({
     var_names <- names(datFile())
+    n_var <- length(var_names)
     list(
       selectizeInput("filters", label = "Filtering variables", choices = var_names, selected = NULL, multiple = TRUE),
-      selectInput("caseID", label = "Case identifier", choices = var_names, selected = var_names[1]),
-      selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = var_names[2]),
-      selectInput("session", label = "Session number", choices = var_names, selected = var_names[3]),
-      selectInput("outcome", label = "Outcome", choices = var_names, selected = var_names[4])
+      selectInput("caseID", label = "Case identifier", choices = var_names, selected = var_names[n_var - 3]),
+      selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = var_names[n_var - 2]),
+      selectInput("session", label = "Session number", choices = var_names, selected = var_names[n_var - 1]),
+      selectInput("outcome", label = "Outcome", choices = var_names, selected = var_names[n_var])
     )
   })
   
@@ -270,6 +271,8 @@ shinyServer(function(input, output) {
       summarize_ES(res, 
                    filter_vars = filter_vars, filter_vals = filter_vals, 
                    design = studyDesign(), method = input$method, 
+                   FE_base = input$FE_base, RE_base = input$RE_base,
+                   FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
                    A = input$A_time, B = input$B_time,
                    coverage = input$coverage)
       
