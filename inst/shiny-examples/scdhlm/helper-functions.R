@@ -90,7 +90,10 @@ validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt) {
 # effect size report table
 #---------------------------------------------------------------
 
-summarize_ES <- function(res, filter_vars, filter_vals, design, method, A, B, coverage = 95L) {
+summarize_ES <- function(res, filter_vars, filter_vals, 
+                         design, method, 
+                         FE_base, RE_base, FE_trt, RE_trt,
+                         A, B, coverage = 95L) {
 
   if (method=="RML") {
     ES_summary <- data.frame(
@@ -114,6 +117,10 @@ summarize_ES <- function(res, filter_vars, filter_vals, design, method, A, B, co
   ES_summary$rho <- res$rho
   ES_summary$design <- names(design_names[which(design_names==design)])
   ES_summary$method <- names(estimation_names[which(estimation_names==method)])
+  ES_summary$baseline <- paste0("F:", paste(FE_base, collapse = ""), 
+                                " R:", paste(RE_base, collapse = ""))
+  ES_summary$trt <- paste0("F:", paste(FE_trt, collapse = ""), 
+                           " R:", paste(RE_trt, collapse = ""))
   
   if (method=="RML" & design=="MB") {
     ES_summary$A <- A
@@ -128,7 +135,9 @@ summarize_ES <- function(res, filter_vars, filter_vals, design, method, A, B, co
   row.names(ES_summary) <- NULL
   names(ES_summary) <- c("BC-SMD estimate","Std. Error", CI_names,
                          "Degrees of freedom","Auto-correlation","Intra-class correlation",
-                         "Study design","Estimation method","Initial treatment time","Follow-up time")
+                         "Study design","Estimation method",
+                         "Baseline specification", "Treatment specification",
+                         "Initial treatment time","Follow-up time")
   
   if (!is.null(filter_vals)) {
     filter_vals <- lapply(filter_vals, paste, sep = ", ")
