@@ -49,7 +49,7 @@ shinyUI(fluidPage(
                               choices = c("Anglesea (ABAB design)" = "Anglesea", 
                                           "Lambert (ABAB design)" = "Lambert",
                                           "Laski (multiple baseline design)" = "Laski",
-                                          "Saddler (multiple baseline design)" = "Saddler",
+                                          "Saddler (multiple probe design)" = "Saddler",
                                           "Schutte (multiple baseline design)" = "Schutte",
                                           "Thorne (ABAB design)" = "Thorne"))
                 ),
