@@ -2,7 +2,9 @@
 
 This is a re-submission. In this version I have:
 
-* Added DOIs to the DESCRIPTION file.
+* Updated the shiny app
+* Added additional example datasets
+* Miscellaneous bug fixes
 
 ## Test environments
 
@@ -15,13 +17,6 @@ This is a re-submission. In this version I have:
 There were no ERRORs and no WARNINGs. 
 
 There was 1 NOTE:
-
-* checking CRAN incoming feasibility ... NOTE
-Maintainer: 'James Pustejovsky <jepusto@gmail.com>'
-
-New submission
-
-  This is a new submission to CRAN. I have reviewed and agree to the CRAN submission policies.
 
 Possibly mis-spelled words in DESCRIPTION:
   Pustejovsky (9:29, 9:70)
