@@ -229,7 +229,7 @@ NULL
 #' Musser (2001)
 #' 
 #' Data from a multiple baseline design conducted by 
-#' Musser, Bray, Kehle, & Jenson (2001). The variables are as follows:
+#' Musser, Bray, Kehle, and Jenson (2001). The variables are as follows:
 #' \itemize{
 #'   \item \code{student} Participant identifier
 #'   \item \code{session} Measurement occasion
@@ -246,7 +246,70 @@ NULL
 #' School Psychology Review, 30(2), 294-304.
 NULL
 
+#' Barton-Arwood, Wehby, & Falk (2005)
+#' 
+#' Data from a multiple baseline design conducted by Barton-Arwood, Wehby, and
+#' Falk (2005). The variables are as follows: \itemize{ \item \code{case}
+#' Participant identifier \item \code{condition} Character string identifying
+#' the phase of the design (A or B) \item \code{session} Measurement occasion 
+#' \item \code{outcome} Oral reading fluency score (words per minute) }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 143 rows and 4 variables
+#' @name BartonArwood
+#' @source Barton-Arwood, S. M., Wehby, J. H., & Falk, K. B. (2005). Reading
+#'   instruction for elementary-age students with emotional and behavioral
+#'   disorders: Academic and behavioral outcomes. \emph{Exceptional Children, 72}(1),
+#'   7-27. doi:\href{http://dx.doi.org/10.1177/001440290507200101}{10.1177/001440290507200101}
+#'   
+NULL
 
+#' Rodriguez & Anderson (2014)
+#' 
+#' Data from a multiple baseline design conducted by Rodriguez and Anderson (2014). 
+#' The variables are as follows: \itemize{ 
+#'   \item \code{case} Participant identifier 
+#'   \item \code{condition} Character string identifying the phase of the design (A or B) 
+#'   \item \code{session} Measurement occasion 
+#'   \item \code{outcome} Percentage of intervals with problem behavior 
+#' }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 148 rows and 4 variables
+#' @name Rodriguez
+#' @source Rodriguez, B. J., & Anderson, C. M. (2014). Integrating a social
+#'   behavior intervention during small group academic instruction using a total
+#'   group criterion intervention. \emph{Journal of Positive Behavior Interventions,
+#'   16}(4), 234-245. doi:\href{http://dx.doi.org/10.1177/1098300713492858}{10.1177/1098300713492858}
+#'   
+NULL
+
+#' Romaniuk (2002)
+#' 
+#' Data from a treatment reversal design conducted by Romaniuk and colleagues (2002).
+#' The variables are as follows: \itemize{ 
+#'   \item \code{case} Participant identifier 
+#'   \item \code{phase} Character string identifying the phase of the design
+#'   \item \code{condition} Factor identifying the treatment condition 
+#'   \item \code{session} Measurement occasion 
+#'   \item \code{outcome} Problem behavior
+#'   \item \code{measurement} Character string describing how problem behavior was measured
+#' }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 148 rows and 4 variables
+#' @name Romaniuk
+#' @source Romaniuk, C., Miltenberger, R., Conyers, C., Jenner, N., Jurgens, M.,
+#'   & Ringenberg, C. (2002). The influence of activity choice on problem
+#'   behaviors maintained by escape versus attention. \emph{Journal of Applied
+#'   Behavior Analysis, 35}(4), 349-62. 
+#'   doi:\href{http://dx.doi.org/10.1901/jaba.2002.35-349}{10.1901/jaba.2002.35-349}
+#'   
+#'   
+NULL
 
 
 

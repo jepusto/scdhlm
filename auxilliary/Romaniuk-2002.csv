@@ -1,0 +1,192 @@
+case,phase,condition,session,outcome
+Brooke,A1,No Choice,1,25.35
+Brooke,A1,No Choice,2,73.77
+Brooke,A1,No Choice,3,30.25
+Brooke,A1,No Choice,4,38.3
+Brooke,A1,No Choice,5,25.42
+Brooke,A1,No Choice,6,71.61
+Brooke,A1,No Choice,7,84.91
+Brooke,A1,No Choice,8,86.22
+Brooke,A1,No Choice,9,76.34
+Brooke,B1,Choice,10,19.19
+Brooke,B1,Choice,11,19.36
+Brooke,B1,Choice,12,7.08
+Brooke,B1,Choice,13,0
+Brooke,B1,Choice,14,7.49
+Brooke,A2,No Choice,15,97.03
+Brooke,A2,No Choice,16,99.1
+Brooke,A2,No Choice,17,77.25
+Brooke,A2,No Choice,18,98.76
+Brooke,A2,No Choice,19,97.09
+Brooke,B2,Choice,20,7.97
+Brooke,B2,Choice,21,0.9
+Brooke,B2,Choice,22,1
+Brooke,B2,Choice,23,2.97
+Brooke,B2,Choice,24,1
+Brooke,B2,Choice,25,0
+Christy,A1,No Choice,1,21.64
+Christy,A1,No Choice,2,62.76
+Christy,A1,No Choice,3,54.15
+Christy,A1,No Choice,4,75.81
+Christy,A1,No Choice,5,75.81
+Christy,A1,No Choice,6,54.28
+Christy,A1,No Choice,7,79.55
+Christy,A1,No Choice,8,73.1
+Christy,A1,No Choice,9,77.46
+Christy,B1,Choice,10,71.02
+Christy,B1,Choice,11,89.08
+Christy,B1,Choice,12,94.89
+Christy,B1,Choice,13,90.6
+Christy,A2,No Choice,14,57.49
+Christy,A2,No Choice,15,91.41
+Christy,A2,No Choice,16,87.12
+Christy,A2,No Choice,17,91.49
+Christy,A2,No Choice,18,67.03
+Christy,A2,No Choice,19,90.14
+Christy,B2,Choice,20,95.94
+Christy,B2,Choice,21,90.94
+Christy,B2,Choice,22,67.2
+Christy,B2,Choice,23,96.07
+Christy,B2,Choice,24,93.22
+Christy,B2,Choice,25,96.15
+Christy,C1,Differential reinforcement of alternative behavior,26,68.08
+Christy,C1,Differential reinforcement of alternative behavior,27,20
+Christy,C1,Differential reinforcement of alternative behavior,28,8.34
+Christy,C1,Differential reinforcement of alternative behavior,29,5.5
+Christy,C1,Differential reinforcement of alternative behavior,30,8.43
+Christy,C1,Differential reinforcement of alternative behavior,31,9.19
+Christy,C1,Differential reinforcement of alternative behavior,32,0
+Christy,C1,Differential reinforcement of alternative behavior,33,5.5
+Christy,C1,Differential reinforcement of alternative behavior,34,5.5
+Gary,A1,No Choice,1,24.62
+Gary,A1,No Choice,2,44.72
+Gary,A1,No Choice,3,67.81
+Gary,A1,No Choice,4,37.07
+Gary,A1,No Choice,5,41.48
+Gary,A1,No Choice,6,71.29
+Gary,A1,No Choice,7,67.47
+Gary,A1,No Choice,8,85.32
+Gary,A1,No Choice,9,69.53
+Gary,A1,No Choice,10,99.35
+Gary,B1,Choice,11,30.48
+Gary,B1,Choice,12,52.82
+Gary,B1,Choice,13,40.03
+Gary,B1,Choice,14,4.8
+Gary,B1,Choice,15,15.18
+Gary,B1,Choice,16,40.52
+Gary,B1,Choice,17,9.03
+Gary,A2,No Choice,18,87.45
+Gary,A2,No Choice,19,72.4
+Gary,A2,No Choice,20,78.31
+Gary,A2,No Choice,21,96.91
+Gary,A2,No Choice,22,63.17
+Gary,A2,No Choice,23,89.26
+Gary,B2,Choice,24,0
+Gary,B2,Choice,25,40
+Gary,B2,Choice,26,22.45
+Gary,B2,Choice,27,6.67
+Gary,B2,Choice,28,82.84
+Gary,B2,Choice,29,25.01
+Gary,B2,Choice,30,1.92
+Gary,B2,Choice,31,25.01
+Gary,B2,Choice,32,14.45
+Maggie,A1,No Choice,1,26.13
+Maggie,A1,No Choice,2,36.5
+Maggie,A1,No Choice,3,20
+Maggie,A1,No Choice,4,58
+Maggie,A1,No Choice,5,82.58
+Maggie,A1,No Choice,6,73.52
+Maggie,A1,No Choice,7,70.44
+Maggie,A1,No Choice,8,74.85
+Maggie,B1,Choice,9,21.68
+Maggie,B1,Choice,10,34.3
+Maggie,B1,Choice,11,26.74
+Maggie,B1,Choice,12,30.39
+Maggie,A2,No Choice,13,44.5
+Maggie,A2,No Choice,14,54.88
+Maggie,A2,No Choice,15,80
+Maggie,A2,No Choice,16,66.66
+Maggie,A2,No Choice,17,61.34
+Maggie,A2,No Choice,18,97.88
+Maggie,B2,Choice,19,10.32
+Maggie,B2,Choice,20,5.75
+Maggie,A3,No Choice,21,79.68
+Maggie,A3,No Choice,22,96.78
+Maggie,B3,Choice,23,24.17
+Maggie,B3,Choice,24,16.61
+Rick,A1,No Choice,1,20.18
+Rick,A1,No Choice,2,29.55
+Rick,A1,No Choice,3,57.66
+Rick,A1,No Choice,4,55.5
+Rick,A1,No Choice,5,61.98
+Rick,A1,No Choice,6,67.75
+Rick,A1,No Choice,7,43.24
+Rick,A1,No Choice,8,66.31
+Rick,A1,No Choice,9,76.4
+Rick,B1,Choice,10,82.16
+Rick,B1,Choice,11,84.32
+Rick,B1,Choice,12,72.07
+Rick,B1,Choice,13,64.14
+Rick,B1,Choice,14,70.63
+Rick,B1,Choice,15,77.84
+Rick,A2,No Choice,16,98.02
+Rick,A2,No Choice,17,100
+Rick,A2,No Choice,18,29.55
+Rick,A2,No Choice,19,57.66
+Rick,A2,No Choice,20,91.53
+Rick,A2,No Choice,21,91.5
+Rick,B2,Choice,22,100
+Rick,B2,Choice,23,95.14
+Rick,B2,Choice,24,47.57
+Rick,B2,Choice,25,61.26
+Rick,B2,Choice,26,51.89
+Rick,B2,Choice,27,38.92
+Rick,B2,Choice,28,97.3
+Rick,B2,Choice,29,55.5
+Rick,C1,Differential reinforcement of alternative behavior,30,25.95
+Rick,C1,Differential reinforcement of alternative behavior,31,0.72
+Rick,C1,Differential reinforcement of alternative behavior,32,0.72
+Rick,C1,Differential reinforcement of alternative behavior,33,5.77
+Rick,C1,Differential reinforcement of alternative behavior,34,5.79
+Rick,C1,Differential reinforcement of alternative behavior,35,5.05
+Riley,A1,No Choice,1,84
+Riley,A1,No Choice,2,50
+Riley,A1,No Choice,3,84
+Riley,A1,No Choice,4,97
+Riley,A1,No Choice,5,60
+Riley,A1,No Choice,6,39
+Riley,A1,No Choice,7,102
+Riley,A1,No Choice,8,60
+Riley,A1,No Choice,9,14
+Riley,A1,No Choice,10,64
+Riley,A1,No Choice,11,105
+Riley,A1,No Choice,12,69
+Riley,A1,No Choice,13,75
+Riley,A1,No Choice,14,101
+Riley,A1,No Choice,15,86
+Riley,B1,Choice,16,79
+Riley,B1,Choice,17,124
+Riley,B1,Choice,18,75
+Riley,B1,Choice,19,75
+Riley,B1,Choice,20,130
+Riley,B1,Choice,21,114
+Riley,A2,No Choice,22,53
+Riley,A2,No Choice,23,80
+Riley,A2,No Choice,24,106
+Riley,A2,No Choice,25,142
+Riley,A2,No Choice,26,80
+Riley,A2,No Choice,27,50
+Riley,B2,Choice,28,73
+Riley,B2,Choice,29,139
+Riley,B2,Choice,30,99
+Riley,B2,Choice,31,110
+Riley,B2,Choice,32,105
+Riley,B2,Choice,33,121
+Riley,C1,Differential reinforcement of alternative behavior,34,23
+Riley,C1,Differential reinforcement of alternative behavior,35,13
+Riley,C1,Differential reinforcement of alternative behavior,36,9
+Riley,C1,Differential reinforcement of alternative behavior,37,14
+Riley,C1,Differential reinforcement of alternative behavior,38,5
+Riley,C1,Differential reinforcement of alternative behavior,39,14
+Riley,C1,Differential reinforcement of alternative behavior,40,0
+Riley,C1,Differential reinforcement of alternative behavior,41,3

@@ -12,6 +12,16 @@ str(Anglesea)
 save(Anglesea, file = "data/Anglesea.RData", compress = TRUE)
 
 #--------------------
+# Barton-Arwood
+#--------------------
+
+BartonArwood <- read.csv("auxilliary/Barton-Arwood-2005.csv", stringsAsFactors = FALSE)
+BartonArwood$phase <- NULL
+str(BartonArwood)
+
+save(BartonArwood, file = "data/BartonArwood.RData", compress = TRUE)
+
+#--------------------
 # Carson
 #---------------------
 
@@ -63,6 +73,29 @@ Musser <- within(Musser, {
 })
 
 save(Musser, file = "data/Musser.RData", compress = TRUE)
+
+#--------------------
+# Rodriguez
+#--------------------
+
+Rodriguez <- read.csv("auxilliary/Rodriguez-2014.csv", stringsAsFactors = FALSE)
+Rodriguez$phase <- NULL
+str(Rodriguez)
+
+save(Rodriguez, file = "data/Rodriguez.RData", compress = TRUE)
+
+#--------------------
+# Romaniuk
+#--------------------
+
+Romaniuk <- read.csv("auxilliary/Romaniuk-2002.csv", stringsAsFactors = FALSE)
+Romaniuk <- within(Romaniuk, {
+  condition <- factor(condition, levels = c("No Choice","Choice","Differential reinforcement of alternative behavior"))
+  measurement <- ifelse(case=="Riley", "Responses per minute", "Percentage of session time")
+})
+str(Romaniuk)
+
+save(Romaniuk, file = "data/Romaniuk.RData", compress = TRUE)
 
 
 #--------------------

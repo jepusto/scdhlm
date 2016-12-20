@@ -12,7 +12,7 @@ School Psychology Review, 30(2), 294-304.
 }
 \description{
 Data from a multiple baseline design conducted by 
-Musser, Bray, Kehle, & Jenson (2001). The variables are as follows:
+Musser, Bray, Kehle, and Jenson (2001). The variables are as follows:
 \itemize{
   \item \code{student} Participant identifier
   \item \code{session} Measurement occasion
