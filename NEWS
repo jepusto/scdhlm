@@ -1,3 +1,9 @@
+scdhlm 0.3.1
+=======================
+* updated shiny app with additional documentation
+* added additional example datasets (BartonArwood, Rodriguez, Romaniuk)
+
+
 scdhlm 0.3
 =======================
 * shiny app for calculating between-case standardized mean difference effect sizes.
