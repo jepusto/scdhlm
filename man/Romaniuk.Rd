@@ -16,7 +16,7 @@ Romaniuk, C., Miltenberger, R., Conyers, C., Jenner, N., Jurgens, M.,
 Data from a treatment reversal design conducted by Romaniuk and colleagues (2002).
 The variables are as follows: \itemize{ 
   \item \code{case} Participant identifier 
-  \item \code{phase} Character string identifying the phase of the design
+  \item \code{phase} Factor identifying the phase of the design
   \item \code{condition} Factor identifying the treatment condition 
   \item \code{session} Measurement occasion 
   \item \code{outcome} Problem behavior

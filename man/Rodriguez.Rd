@@ -15,7 +15,7 @@ Rodriguez, B. J., & Anderson, C. M. (2014). Integrating a social
 Data from a multiple baseline design conducted by Rodriguez and Anderson (2014). 
 The variables are as follows: \itemize{ 
   \item \code{case} Participant identifier 
-  \item \code{condition} Character string identifying the phase of the design (A or B) 
+  \item \code{condition} Factor identifying the phase of the design (A or B) 
   \item \code{session} Measurement occasion 
   \item \code{outcome} Percentage of intervals with problem behavior 
 }

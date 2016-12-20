@@ -18,6 +18,11 @@ save(Anglesea, file = "data/Anglesea.RData", compress = TRUE)
 BartonArwood <- read.csv("auxilliary/Barton-Arwood-2005.csv", stringsAsFactors = FALSE)
 BartonArwood$phase <- NULL
 str(BartonArwood)
+BartonArwood <- within(BartonArwood, {
+  case <- factor(case, levels = c("Sam","Gerald","Rich","Jack","Emma","Kim"))
+  condition <- factor(condition, levels = c("A","B"))
+})
+str(BartonArwood)
 
 save(BartonArwood, file = "data/BartonArwood.RData", compress = TRUE)
 
@@ -81,6 +86,11 @@ save(Musser, file = "data/Musser.RData", compress = TRUE)
 Rodriguez <- read.csv("auxilliary/Rodriguez-2014.csv", stringsAsFactors = FALSE)
 Rodriguez$phase <- NULL
 str(Rodriguez)
+Rodriguez <- within(Rodriguez, {
+  case <- factor(case, levels = unique(case))
+  condition <- factor(condition, levels = c("A","B"))
+})
+str(Rodriguez)
 
 save(Rodriguez, file = "data/Rodriguez.RData", compress = TRUE)
 
@@ -90,6 +100,7 @@ save(Rodriguez, file = "data/Rodriguez.RData", compress = TRUE)
 
 Romaniuk <- read.csv("auxilliary/Romaniuk-2002.csv", stringsAsFactors = FALSE)
 Romaniuk <- within(Romaniuk, {
+  case <- factor(case, levels = unique(case))
   condition <- factor(condition, levels = c("No Choice","Choice","Differential reinforcement of alternative behavior"))
   measurement <- ifelse(case=="Riley", "Responses per minute", "Percentage of session time")
 })

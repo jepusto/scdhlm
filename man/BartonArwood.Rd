@@ -14,7 +14,7 @@ Barton-Arwood, S. M., Wehby, J. H., & Falk, K. B. (2005). Reading
 \description{
 Data from a multiple baseline design conducted by Barton-Arwood, Wehby, and
 Falk (2005). The variables are as follows: \itemize{ \item \code{case}
-Participant identifier \item \code{condition} Character string identifying
+Participant identifier \item \code{condition} Factor identifying
 the phase of the design (A or B) \item \code{session} Measurement occasion 
 \item \code{outcome} Oral reading fluency score (words per minute) }
 }
