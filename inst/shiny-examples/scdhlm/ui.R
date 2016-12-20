@@ -34,7 +34,8 @@ shinyUI(fluidPage(
                  navlistPanel(widths = c(3,9),
                               tabPanel("About", includeMarkdown("markdown/scdhlm.md")),
                               tabPanel("Accessing scdhlm", includeMarkdown("markdown/Accessing_scdhlm.md")),
-                              tabPanel("References", includeMarkdown("markdown/references.md"))
+                              tabPanel("References", includeMarkdown("markdown/references.md")),
+                              tabPanel("Example data", includeMarkdown("markdown/example-data.md"))
                  )
         ),
         tabPanel("Load",
@@ -46,12 +47,7 @@ shinyUI(fluidPage(
                 conditionalPanel(
                   condition = "input.dat_type == 'example'",
                   selectInput("example", label = "Choose an example", 
-                              choices = c("Anglesea (ABAB design)" = "Anglesea", 
-                                          "Lambert (ABAB design)" = "Lambert",
-                                          "Laski (multiple baseline design)" = "Laski",
-                                          "Saddler (multiple probe design)" = "Saddler",
-                                          "Schutte (multiple baseline design)" = "Schutte",
-                                          "Thorne (ABAB design)" = "Thorne"))
+                              choices = exampleChoices)
                 ),
                 conditionalPanel(
                   condition = "input.dat_type == 'dat'",
