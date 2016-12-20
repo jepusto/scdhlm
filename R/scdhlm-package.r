@@ -261,7 +261,7 @@ NULL
 #' @source Barton-Arwood, S. M., Wehby, J. H., & Falk, K. B. (2005). Reading
 #'   instruction for elementary-age students with emotional and behavioral
 #'   disorders: Academic and behavioral outcomes. \emph{Exceptional Children, 72}(1),
-#'   7-27. doi:\href{http://dx.doi.org/10.1177/001440290507200101}{10.1177/001440290507200101}
+#'   7-27. doi:10.1177/001440290507200101
 #'   
 NULL
 
