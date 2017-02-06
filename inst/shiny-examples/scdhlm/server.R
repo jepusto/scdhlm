@@ -126,6 +126,10 @@ shinyServer(function(input, output) {
     } else {
       dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
     }
+    
+    # remove rows with missing outcome values
+    dat <- dat[!is.na(dat$outcome),]
+    
     return(dat)
   })
   
