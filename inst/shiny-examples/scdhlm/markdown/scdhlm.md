@@ -1,6 +1,6 @@
 ### scdhlm
 
-Version 0.3.1
+Version 0.3.2 (2017-03-24)
 
 Designed and built by James E. Pustejovsky
 
