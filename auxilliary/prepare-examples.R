@@ -1,4 +1,21 @@
 #--------------------
+# Alber-Morgan
+#--------------------
+
+AlberMorgan <- read.csv("auxilliary/Alber-Morgan-2007.csv", stringsAsFactors = FALSE)
+str(AlberMorgan)
+AlberMorgan <- within(AlberMorgan, {
+  case <- factor(case, levels = c("Theo","Kelly","Brian","Andrew"))
+  condition <- factor(phase, levels = c("baseline","treatment"))
+  phase <- NULL
+})
+AlberMorgan <- AlberMorgan[c("case","condition","session","outcome")]
+str(AlberMorgan)
+levels(AlberMorgan$case)
+
+save(AlberMorgan, file = "data/AlberMorgan.RData", compress = TRUE)
+
+#--------------------
 # Anglesea
 #--------------------
 

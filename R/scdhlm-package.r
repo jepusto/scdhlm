@@ -312,6 +312,27 @@ NULL
 NULL
 
 
+#' Alber-Morgan, et al. (2007)
+#' 
+#' Data from a multiple baseline design conducted by Alber-Morgan, Ramp,
+#' Anderson, & Martin (2007). The variables are as follows: \itemize{ \item
+#' \code{case} Participant identifier \item \code{condition} Factor identifying
+#' the phase of the design (baseline or treatment) \item \code{session}
+#' Measurement occasion \item \code{outcome} Number of words read correctly per
+#' minute }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 119 rows and 4 variables
+#' @name AlberMorgan
+#' @source Alber-Morgan, S. R., Ramp, E. M., Anderson, L. L., & Martin, C. M.
+#'   (2007). Effects of repeated readings, error correction, and performance
+#'   feedback on the fluency and comprehension of middle school students with
+#'   behavior problems. Journal of Special Education, 41(1), 17-30.
+#'   doi:\href{http://dx.doi.org/10.1177/00224669070410010201}{10.1177/00224669070410010201}
+#'   
+#'   
+NULL
 
 
 

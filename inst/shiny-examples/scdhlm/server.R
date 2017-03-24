@@ -18,7 +18,9 @@ shinyServer(function(input, output) {
     
     if (is.null(inFile)) return(NULL)
 
-    read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote)
+    read.table(inFile$datapath, header=input$header, 
+               sep=input$sep, quote=input$quote,
+               stringsAsFactors = FALSE)
   })
   
   # Check that file is uploaded
@@ -107,9 +109,11 @@ shinyServer(function(input, output) {
       names(dat) <- c("case","session","phase","outcome")
       trt_phase <- levels(as.factor(dat$phase))[2]
     } else {
-      caseID <- as.factor(datFile()[,input$caseID])
+      case_vec <- datFile()[,input$caseID]
+      caseID <- factor(case_vec, levels = unique(case_vec))
       session <- as.numeric(datFile()[,input$session])
-      phaseID <- as.factor(datFile()[,input$phaseID])
+      phase_vec <- datFile()[,input$phaseID]
+      phaseID <- factor(phase_vec, levels = unique(phase_vec))
       outcome <- as.numeric(datFile()[,input$outcome])
       dat <- data.frame(case = caseID, session = session, phase = phaseID, outcome = outcome)
       if (!is.null(input$filters)) {

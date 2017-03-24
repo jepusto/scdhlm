@@ -2,7 +2,8 @@
 # Information about pre-loaded examples
 #------------------------------------------------
 
-exampleChoices <- c("Anglesea (ABAB design)" = "Anglesea", 
+exampleChoices <- c("Alber-Morgan (multiple baseline design)" = "AlberMorgan",
+                    "Anglesea (ABAB design)" = "Anglesea", 
                     "Barton-Arwood (multiple baseline design)" = "BartonArwood",
                     "Lambert (ABAB design)" = "Lambert",
                     "Laski (multiple baseline design)" = "Laski",
@@ -12,6 +13,9 @@ exampleChoices <- c("Anglesea (ABAB design)" = "Anglesea",
                     "Thorne (ABAB design)" = "Thorne")
 
 exampleMapping <- list(
+  AlberMorgan = list(design = "MB",
+                      vars = c("case","session","condition","outcome"),
+                      phases = c("baseline","treatment")),
   Anglesea = list(design = "TR",
                   vars = c("case","session","condition","outcome"),
                   phases = c("baseline","treatment")),
