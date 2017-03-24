@@ -1,8 +1,11 @@
+scdhlm 0.3.2
+=======================
+* fixed bug in web-app occurring when cases were listed out of alphabetical order
+
 scdhlm 0.3.1
 =======================
 * updated shiny app with additional documentation
-* added additional example datasets (BartonArwood, Rodriguez, Romaniuk)
-
+* added additional example datasets (BartonArwood, Rodriguez, Romaniuk, AlberMorgan)
 
 scdhlm 0.3
 =======================
