@@ -1,10 +1,10 @@
 name: scdhlm
-title:
+title: scdhlm
 account: jepusto
 server: shinyapps.io
 appId: 124926
-bundleId: 656151
+bundleId: 765641
 url: https://jepusto.shinyapps.io/scdhlm/
-when: 1482249942.76786
+when: 1490641972.20885
 asMultiple: FALSE
 asStatic: FALSE
