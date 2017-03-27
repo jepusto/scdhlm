@@ -47,7 +47,7 @@ shinyServer(function(input, output) {
     var_names <- names(datFile())
     n_var <- length(var_names)
     list(
-      selectizeInput("filters", label = "Filtering variables", choices = var_names, selected = NULL, multiple = TRUE),
+      selectizeInput("filters", label = "Filtering variables (optional)", choices = var_names, selected = NULL, multiple = TRUE),
       selectInput("caseID", label = "Case identifier", choices = var_names, selected = var_names[n_var - 3]),
       selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = var_names[n_var - 2]),
       selectInput("session", label = "Session number", choices = var_names, selected = var_names[n_var - 1]),
@@ -133,7 +133,7 @@ shinyServer(function(input, output) {
     
     # remove rows with missing outcome values
     dat <- dat[!is.na(dat$outcome),]
-    
+    dat <- droplevels(dat)
     return(dat)
   })
   

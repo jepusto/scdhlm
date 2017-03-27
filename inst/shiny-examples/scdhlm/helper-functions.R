@@ -139,8 +139,8 @@ summarize_ES <- function(res, filter_vars, filter_vals,
                          "Initial treatment time","Follow-up time")
   
   if (!is.null(filter_vals)) {
-    filter_vals <- lapply(filter_vals, paste, sep = ", ")
-    names(filter_vals) <- substr(filter_vars,8,nchar(filter_vars))
+    filter_vals <- lapply(filter_vals, paste, collapse = ", ")
+    names(filter_vals) <- substr(filter_vars, 8, nchar(filter_vars))
     filter_vals <- as.data.frame(filter_vals)
     ES_summary <- cbind(ES_summary, filter_vals)
   } 
