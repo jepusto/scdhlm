@@ -1,777 +1,777 @@
-"case","outcome_desc","session","phase_id","phase_indicator","outcome"
-"Participant 1","Academic Engagement",1,"A1",0,63.08
-"Participant 1","Academic Engagement",2,"A1",0,55.89
-"Participant 1","Academic Engagement",3,"A1",0,54.72
-"Participant 1","Academic Engagement",4,"B1",1,91.77
-"Participant 1","Academic Engagement",5,"B1",1,87.45
-"Participant 1","Academic Engagement",6,"B1",1,93.07
-"Participant 1","Academic Engagement",7,"B1",1,91.77
-"Participant 1","Academic Engagement",8,"B1",1,92.21
-"Participant 1","Academic Engagement",9,"B1",1,94.37
-"Participant 1","Academic Engagement",10,"B1",1,94.37
-"Participant 1","Academic Engagement",11,"B1",1,93.94
-"Participant 1","Academic Engagement",12,"B1",1,94.37
-"Participant 1","Academic Engagement",13,"B1",1,93.07
-"Participant 1","Academic Engagement",14,"B1",1,95.24
-"Participant 1","Academic Engagement",15,"A2",0,91.86
-"Participant 1","Academic Engagement",16,"A2",0,87.33
-"Participant 1","Academic Engagement",17,"A2",0,73.3
-"Participant 1","Academic Engagement",18,"A2",0,75.57
-"Participant 1","Academic Engagement",19,"A2",0,21.72
-"Participant 1","Academic Engagement",20,"B2",1,55.97
-"Participant 1","Academic Engagement",21,"B2",1,70.46
-"Participant 1","Academic Engagement",22,"B2",1,95.21
-"Participant 1","Academic Engagement",23,"B2",1,86.62
-"Participant 1","Academic Engagement",24,"B2",1,86.58
-"Participant 1","Academic Engagement",25,"B2",1,93.4
-"Participant 1","Academic Engagement",26,"B2",1,92.92
-"Participant 1","Academic Engagement",27,"B2",1,86.91
-"Participant 1","Academic Engagement",28,"B2",1,91.15
-"Participant 1","Academic Engagement",29,"B2",1,83.42
-"Participant 1","Academic Engagement",30,"B2",1,92.36
-"Participant 1","Academic Engagement",31,"B2",1,90.61
-"Participant 1","Inappropriate Verbalizations",1,"A1",0,16.93
-"Participant 1","Inappropriate Verbalizations",2,"A1",0,18.47
-"Participant 1","Inappropriate Verbalizations",3,"A1",0,24.03
-"Participant 1","Inappropriate Verbalizations",4,"B1",1,6.84
-"Participant 1","Inappropriate Verbalizations",5,"B1",1,10.47
-"Participant 1","Inappropriate Verbalizations",6,"B1",1,4.7
-"Participant 1","Inappropriate Verbalizations",7,"B1",1,5.77
-"Participant 1","Inappropriate Verbalizations",8,"B1",1,7.69
-"Participant 1","Inappropriate Verbalizations",9,"B1",1,1.92
-"Participant 1","Inappropriate Verbalizations",10,"B1",1,1.71
-"Participant 1","Inappropriate Verbalizations",11,"B1",1,2.78
-"Participant 1","Inappropriate Verbalizations",12,"B1",1,1.71
-"Participant 1","Inappropriate Verbalizations",13,"B1",1,4.49
-"Participant 1","Inappropriate Verbalizations",14,"B1",1,0.85
-"Participant 1","Inappropriate Verbalizations",15,"A2",0,3.28
-"Participant 1","Inappropriate Verbalizations",16,"A2",0,8.3
-"Participant 1","Inappropriate Verbalizations",17,"A2",0,13.97
-"Participant 1","Inappropriate Verbalizations",18,"A2",0,21.62
-"Participant 1","Inappropriate Verbalizations",19,"A2",0,35.59
-"Participant 1","Inappropriate Verbalizations",20,"B2",1,18.39
-"Participant 1","Inappropriate Verbalizations",21,"B2",1,11.01
-"Participant 1","Inappropriate Verbalizations",22,"B2",1,3.85
-"Participant 1","Inappropriate Verbalizations",23,"B2",1,4.26
-"Participant 1","Inappropriate Verbalizations",24,"B2",1,5.98
-"Participant 1","Inappropriate Verbalizations",25,"B2",1,3.58
-"Participant 1","Inappropriate Verbalizations",26,"B2",1,3.35
-"Participant 1","Inappropriate Verbalizations",27,"B2",1,5.93
-"Participant 1","Inappropriate Verbalizations",28,"B2",1,3.31
-"Participant 1","Inappropriate Verbalizations",29,"B2",1,5.67
-"Participant 1","Inappropriate Verbalizations",30,"B2",1,3.28
-"Participant 1","Inappropriate Verbalizations",31,"B2",1,3.69
-"Participant 2","Academic Engagement",1,"A1",0,80.09
-"Participant 2","Academic Engagement",2,"A1",0,15.04
-"Participant 2","Academic Engagement",3,"A1",0,30.09
-"Participant 2","Academic Engagement",4,"B1",1,93.74
-"Participant 2","Academic Engagement",5,"B1",1,88.85
-"Participant 2","Academic Engagement",6,"B1",1,91.14
-"Participant 2","Academic Engagement",7,"B1",1,95.21
-"Participant 2","Academic Engagement",8,"B1",1,93.89
-"Participant 2","Academic Engagement",9,"B1",1,93.48
-"Participant 2","Academic Engagement",10,"B1",1,93.97
-"Participant 2","Academic Engagement",11,"B1",1,95.8
-"Participant 2","Academic Engagement",12,"B1",1,95.84
-"Participant 2","Academic Engagement",13,"B1",1,88.71
-"Participant 2","Academic Engagement",14,"B1",1,95.91
-"Participant 2","Academic Engagement",15,"B1",1,93.27
-"Participant 2","Academic Engagement",16,"A2",0,80.66
-"Participant 2","Academic Engagement",17,"A2",0,75.83
-"Participant 2","Academic Engagement",18,"A2",0,80.87
-"Participant 2","Academic Engagement",19,"A2",0,78.62
-"Participant 2","Academic Engagement",20,"B2",1,87.81
-"Participant 2","Academic Engagement",21,"B2",1,92.56
-"Participant 2","Academic Engagement",22,"B2",1,95.14
-"Participant 2","Academic Engagement",23,"B2",1,92.93
-"Participant 2","Academic Engagement",24,"B2",1,92.46
-"Participant 2","Academic Engagement",25,"B2",1,94.17
-"Participant 2","Academic Engagement",26,"B2",1,94.12
-"Participant 2","Academic Engagement",27,"B2",1,92.79
-"Participant 2","Academic Engagement",28,"B2",1,91.89
-"Participant 2","Academic Engagement",29,"B2",1,93.6
-"Participant 2","Academic Engagement",30,"B2",1,94.43
-"Participant 2","Academic Engagement",31,"B2",1,92.65
-"Participant 2","Academic Engagement",32,"B2",1,92.62
-"Participant 2","Inappropriate Verbalizations",1,"A1",0,12.99
-"Participant 2","Inappropriate Verbalizations",2,"A1",0,35.71
-"Participant 2","Inappropriate Verbalizations",3,"A1",0,30.3
-"Participant 2","Inappropriate Verbalizations",4,"B1",1,3.53
-"Participant 2","Inappropriate Verbalizations",5,"B1",1,2.23
-"Participant 2","Inappropriate Verbalizations",6,"B1",1,3.57
-"Participant 2","Inappropriate Verbalizations",7,"B1",1,4.69
-"Participant 2","Inappropriate Verbalizations",8,"B1",1,3.38
-"Participant 2","Inappropriate Verbalizations",9,"B1",1,5.39
-"Participant 2","Inappropriate Verbalizations",10,"B1",1,1.22
-"Participant 2","Inappropriate Verbalizations",11,"B1",1,1.24
-"Participant 2","Inappropriate Verbalizations",12,"B1",1,1.7
-"Participant 2","Inappropriate Verbalizations",13,"B1",1,5.46
-"Participant 2","Inappropriate Verbalizations",14,"B1",1,1.96
-"Participant 2","Inappropriate Verbalizations",15,"B1",1,3.08
-"Participant 2","Inappropriate Verbalizations",16,"A2",0,9.44
-"Participant 2","Inappropriate Verbalizations",17,"A2",0,10.87
-"Participant 2","Inappropriate Verbalizations",18,"A2",0,8.37
-"Participant 2","Inappropriate Verbalizations",19,"A2",0,19.57
-"Participant 2","Inappropriate Verbalizations",20,"B2",1,3.26
-"Participant 2","Inappropriate Verbalizations",21,"B2",1,1.5
-"Participant 2","Inappropriate Verbalizations",22,"B2",1,1.48
-"Participant 2","Inappropriate Verbalizations",23,"B2",1,2.55
-"Participant 2","Inappropriate Verbalizations",24,"B2",1,2.76
-"Participant 2","Inappropriate Verbalizations",25,"B2",1,2.08
-"Participant 2","Inappropriate Verbalizations",26,"B2",1,1.85
-"Participant 2","Inappropriate Verbalizations",27,"B2",1,2.7
-"Participant 2","Inappropriate Verbalizations",28,"B2",1,3.55
-"Participant 2","Inappropriate Verbalizations",29,"B2",1,1.58
-"Participant 2","Inappropriate Verbalizations",30,"B2",1,1.13
-"Participant 2","Inappropriate Verbalizations",31,"B2",1,2.42
-"Participant 2","Inappropriate Verbalizations",32,"B2",1,3.27
-"Participant 3","Academic Engagement",1,"A1",0,54.15
-"Participant 3","Academic Engagement",2,"A1",0,43.24
-"Participant 3","Academic Engagement",3,"A1",0,68.58
-"Participant 3","Academic Engagement",4,"B1",1,82.27
-"Participant 3","Academic Engagement",5,"B1",1,81.73
-"Participant 3","Academic Engagement",6,"B1",1,82.95
-"Participant 3","Academic Engagement",7,"B1",1,83.69
-"Participant 3","Academic Engagement",8,"B1",1,95.22
-"Participant 3","Academic Engagement",9,"B1",1,81.79
-"Participant 3","Academic Engagement",10,"B1",1,86.87
-"Participant 3","Academic Engagement",11,"B1",1,79.88
-"Participant 3","Academic Engagement",12,"B1",1,87.97
-"Participant 3","Academic Engagement",13,"A2",0,88.65
-"Participant 3","Academic Engagement",14,"A2",0,75.61
-"Participant 3","Academic Engagement",15,"A2",0,81.03
-"Participant 3","Academic Engagement",16,"A2",0,77.22
-"Participant 3","Academic Engagement",17,"A2",0,56.73
-"Participant 3","Academic Engagement",18,"A2",0,72.19
-"Participant 3","Academic Engagement",19,"A2",0,76.71
-"Participant 3","Academic Engagement",20,"B2",1,79.19
-"Participant 3","Academic Engagement",21,"B2",1,88.23
-"Participant 3","Academic Engagement",22,"B2",1,76.49
-"Participant 3","Academic Engagement",23,"B2",1,92.46
-"Participant 3","Academic Engagement",24,"B2",1,88.08
-"Participant 3","Academic Engagement",25,"B2",1,92.36
-"Participant 3","Academic Engagement",26,"B2",1,89.26
-"Participant 3","Academic Engagement",27,"B2",1,84.44
-"Participant 3","Inappropriate Verbalizations",1,"A1",0,16.04
-"Participant 3","Inappropriate Verbalizations",2,"A1",0,19.62
-"Participant 3","Inappropriate Verbalizations",3,"A1",0,15.47
-"Participant 3","Inappropriate Verbalizations",4,"B1",1,4.9
-"Participant 3","Inappropriate Verbalizations",5,"B1",1,6.85
-"Participant 3","Inappropriate Verbalizations",6,"B1",1,6.04
-"Participant 3","Inappropriate Verbalizations",7,"B1",1,4.2
-"Participant 3","Inappropriate Verbalizations",8,"B1",1,5.72
-"Participant 3","Inappropriate Verbalizations",9,"B1",1,4.71
-"Participant 3","Inappropriate Verbalizations",10,"B1",1,8.34
-"Participant 3","Inappropriate Verbalizations",11,"B1",1,10.31
-"Participant 3","Inappropriate Verbalizations",12,"B1",1,5.06
-"Participant 3","Inappropriate Verbalizations",13,"A2",0,5.14
-"Participant 3","Inappropriate Verbalizations",14,"A2",0,12.01
-"Participant 3","Inappropriate Verbalizations",15,"A2",0,9.07
-"Participant 3","Inappropriate Verbalizations",16,"A2",0,10
-"Participant 3","Inappropriate Verbalizations",17,"A2",0,11.55
-"Participant 3","Inappropriate Verbalizations",18,"A2",0,7.77
-"Participant 3","Inappropriate Verbalizations",19,"A2",0,9.12
-"Participant 3","Inappropriate Verbalizations",20,"B2",1,4.98
-"Participant 3","Inappropriate Verbalizations",21,"B2",1,6.83
-"Participant 3","Inappropriate Verbalizations",22,"B2",1,4.41
-"Participant 3","Inappropriate Verbalizations",23,"B2",1,6.65
-"Participant 3","Inappropriate Verbalizations",24,"B2",1,7
-"Participant 3","Inappropriate Verbalizations",25,"B2",1,4.6
-"Participant 3","Inappropriate Verbalizations",26,"B2",1,4.08
-"Participant 3","Inappropriate Verbalizations",27,"B2",1,7.85
-"Participant 4","Academic Engagement",1,"A1",0,38.89
-"Participant 4","Academic Engagement",2,"A1",0,29.06
-"Participant 4","Academic Engagement",3,"A1",0,47.44
-"Participant 4","Academic Engagement",4,"A1",0,44.87
-"Participant 4","Academic Engagement",5,"B1",1,66.45
-"Participant 4","Academic Engagement",6,"B1",1,80.25
-"Participant 4","Academic Engagement",7,"B1",1,77.06
-"Participant 4","Academic Engagement",8,"B1",1,85.19
-"Participant 4","Academic Engagement",9,"B1",1,85.92
-"Participant 4","Academic Engagement",10,"B1",1,73.19
-"Participant 4","Academic Engagement",11,"B1",1,77.41
-"Participant 4","Academic Engagement",12,"B1",1,76.82
-"Participant 4","Academic Engagement",13,"B1",1,71.92
-"Participant 4","Academic Engagement",14,"B1",1,83.52
-"Participant 4","Academic Engagement",15,"A2",0,41.38
-"Participant 4","Academic Engagement",16,"A2",0,20.38
-"Participant 4","Academic Engagement",17,"A2",0,36.15
-"Participant 4","Academic Engagement",18,"A2",0,51.5
-"Participant 4","Academic Engagement",19,"A2",0,20.47
-"Participant 4","Academic Engagement",20,"B2",1,47.39
-"Participant 4","Academic Engagement",21,"B2",1,74.72
-"Participant 4","Academic Engagement",22,"B2",1,73.07
-"Participant 4","Academic Engagement",23,"B2",1,65.59
-"Participant 4","Academic Engagement",24,"B2",1,73.29
-"Participant 4","Academic Engagement",25,"B2",1,82.33
-"Participant 4","Academic Engagement",26,"B2",1,74.4
-"Participant 4","Academic Engagement",27,"B2",1,96.36
-"Participant 4","Academic Engagement",28,"B2",1,92.91
-"Participant 4","Academic Engagement",29,"B2",1,93.48
-"Participant 4","Academic Engagement",30,"B2",1,94.06
-"Participant 4","Academic Engagement",31,"B2",1,93.72
-"Participant 4","Inappropriate Verbalizations",1,"A1",0,45.03
-"Participant 4","Inappropriate Verbalizations",2,"A1",0,29.19
-"Participant 4","Inappropriate Verbalizations",3,"A1",0,23.19
-"Participant 4","Inappropriate Verbalizations",4,"A1",0,16.78
-"Participant 4","Inappropriate Verbalizations",5,"B1",1,8.15
-"Participant 4","Inappropriate Verbalizations",6,"B1",1,9.91
-"Participant 4","Inappropriate Verbalizations",7,"B1",1,7.05
-"Participant 4","Inappropriate Verbalizations",8,"B1",1,1.98
-"Participant 4","Inappropriate Verbalizations",9,"B1",1,6.83
-"Participant 4","Inappropriate Verbalizations",10,"B1",1,12.33
-"Participant 4","Inappropriate Verbalizations",11,"B1",1,8.15
-"Participant 4","Inappropriate Verbalizations",12,"B1",1,5.51
-"Participant 4","Inappropriate Verbalizations",13,"B1",1,10.35
-"Participant 4","Inappropriate Verbalizations",14,"B1",1,4.85
-"Participant 4","Inappropriate Verbalizations",15,"A2",0,19.99
-"Participant 4","Inappropriate Verbalizations",16,"A2",0,32.49
-"Participant 4","Inappropriate Verbalizations",17,"A2",0,25.11
-"Participant 4","Inappropriate Verbalizations",18,"A2",0,13.76
-"Participant 4","Inappropriate Verbalizations",19,"A2",0,25.83
-"Participant 4","Inappropriate Verbalizations",20,"B2",1,23.68
-"Participant 4","Inappropriate Verbalizations",21,"B2",1,16.23
-"Participant 4","Inappropriate Verbalizations",22,"B2",1,5.92
-"Participant 4","Inappropriate Verbalizations",23,"B2",1,8.33
-"Participant 4","Inappropriate Verbalizations",24,"B2",1,10.53
-"Participant 4","Inappropriate Verbalizations",25,"B2",1,5.48
-"Participant 4","Inappropriate Verbalizations",26,"B2",1,8.33
-"Participant 4","Inappropriate Verbalizations",27,"B2",1,5.48
-"Participant 4","Inappropriate Verbalizations",28,"B2",1,5.04
-"Participant 4","Inappropriate Verbalizations",29,"B2",1,2.63
-"Participant 4","Inappropriate Verbalizations",30,"B2",1,4.61
-"Participant 4","Inappropriate Verbalizations",31,"B2",1,4.82
-"Participant 5","Academic Engagement",1,"A1",0,46.78
-"Participant 5","Academic Engagement",2,"A1",0,39.35
-"Participant 5","Academic Engagement",3,"A1",0,45.2
-"Participant 5","Academic Engagement",4,"A1",0,45.79
-"Participant 5","Academic Engagement",5,"B1",1,91.29
-"Participant 5","Academic Engagement",6,"B1",1,95.39
-"Participant 5","Academic Engagement",7,"B1",1,95.56
-"Participant 5","Academic Engagement",8,"B1",1,84.87
-"Participant 5","Academic Engagement",9,"B1",1,87.98
-"Participant 5","Academic Engagement",10,"B1",1,93.11
-"Participant 5","Academic Engagement",11,"B1",1,84.39
-"Participant 5","Academic Engagement",12,"B1",1,80.56
-"Participant 5","Academic Engagement",13,"B1",1,93.58
-"Participant 5","Academic Engagement",14,"A2",0,87.62
-"Participant 5","Academic Engagement",15,"A2",0,80.75
-"Participant 5","Academic Engagement",16,"A2",0,76.86
-"Participant 5","Academic Engagement",17,"A2",0,80.45
-"Participant 5","Academic Engagement",18,"A2",0,75.56
-"Participant 5","Academic Engagement",19,"B2",1,82.2
-"Participant 5","Academic Engagement",20,"B2",1,81.89
-"Participant 5","Academic Engagement",21,"B2",1,89.74
-"Participant 5","Academic Engagement",22,"B2",1,93.24
-"Participant 5","Academic Engagement",23,"B2",1,92.39
-"Participant 5","Academic Engagement",24,"B2",1,88.63
-"Participant 5","Academic Engagement",25,"B2",1,88.29
-"Participant 5","Academic Engagement",26,"B2",1,86.05
-"Participant 5","Academic Engagement",27,"B2",1,89.07
-"Participant 5","Academic Engagement",28,"B2",1,86.8
-"Participant 5","Academic Engagement",29,"B2",1,89.82
-"Participant 5","Inappropriate Verbalizations",1,"A1",0,26.18
-"Participant 5","Inappropriate Verbalizations",2,"A1",0,26.42
-"Participant 5","Inappropriate Verbalizations",3,"A1",0,24.76
-"Participant 5","Inappropriate Verbalizations",4,"A1",0,23.11
-"Participant 5","Inappropriate Verbalizations",5,"B1",1,6.51
-"Participant 5","Inappropriate Verbalizations",6,"B1",1,6.28
-"Participant 5","Inappropriate Verbalizations",7,"B1",1,5.81
-"Participant 5","Inappropriate Verbalizations",8,"B1",1,4.88
-"Participant 5","Inappropriate Verbalizations",9,"B1",1,2.33
-"Participant 5","Inappropriate Verbalizations",10,"B1",1,2.79
-"Participant 5","Inappropriate Verbalizations",11,"B1",1,11.4
-"Participant 5","Inappropriate Verbalizations",12,"B1",1,11.86
-"Participant 5","Inappropriate Verbalizations",13,"B1",1,2.79
-"Participant 5","Inappropriate Verbalizations",14,"A2",0,5.67
-"Participant 5","Inappropriate Verbalizations",15,"A2",0,11.05
-"Participant 5","Inappropriate Verbalizations",16,"A2",0,13.54
-"Participant 5","Inappropriate Verbalizations",17,"A2",0,11.01
-"Participant 5","Inappropriate Verbalizations",18,"A2",0,10.59
-"Participant 5","Inappropriate Verbalizations",19,"B2",1,2.44
-"Participant 5","Inappropriate Verbalizations",20,"B2",1,8.3
-"Participant 5","Inappropriate Verbalizations",21,"B2",1,3.62
-"Participant 5","Inappropriate Verbalizations",22,"B2",1,4.57
-"Participant 5","Inappropriate Verbalizations",23,"B2",1,2.35
-"Participant 5","Inappropriate Verbalizations",24,"B2",1,6.5
-"Participant 5","Inappropriate Verbalizations",25,"B2",1,5.24
-"Participant 5","Inappropriate Verbalizations",26,"B2",1,9.39
-"Participant 5","Inappropriate Verbalizations",27,"B2",1,3.98
-"Participant 5","Inappropriate Verbalizations",28,"B2",1,4.69
-"Participant 5","Inappropriate Verbalizations",29,"B2",1,3.44
-"Participant 6","Academic Engagement",1,"A1",0,75.22
-"Participant 6","Academic Engagement",2,"A1",0,49.12
-"Participant 6","Academic Engagement",3,"A1",0,65.04
-"Participant 6","Academic Engagement",4,"B1",1,86
-"Participant 6","Academic Engagement",5,"B1",1,87.76
-"Participant 6","Academic Engagement",6,"B1",1,94.47
-"Participant 6","Academic Engagement",7,"B1",1,87.22
-"Participant 6","Academic Engagement",8,"B1",1,93.94
-"Participant 6","Academic Engagement",9,"B1",1,95.25
-"Participant 6","Academic Engagement",10,"B1",1,94.75
-"Participant 6","Academic Engagement",11,"B1",1,96.95
-"Participant 6","Academic Engagement",12,"B1",1,87.44
-"Participant 6","Academic Engagement",13,"B1",1,96.87
-"Participant 6","Academic Engagement",14,"A2",0,92.07
-"Participant 6","Academic Engagement",15,"A2",0,84.21
-"Participant 6","Academic Engagement",16,"A2",0,84.82
-"Participant 6","Academic Engagement",17,"A2",0,80.56
-"Participant 6","Academic Engagement",18,"A2",0,80.77
-"Participant 6","Academic Engagement",19,"B2",1,87.07
-"Participant 6","Academic Engagement",20,"B2",1,93.65
-"Participant 6","Academic Engagement",21,"B2",1,94
-"Participant 6","Academic Engagement",22,"B2",1,93.92
-"Participant 6","Academic Engagement",23,"B2",1,98.3
-"Participant 6","Academic Engagement",24,"B2",1,97.76
-"Participant 6","Academic Engagement",25,"B2",1,95.48
-"Participant 6","Academic Engagement",26,"B2",1,98.04
-"Participant 6","Academic Engagement",27,"B2",1,93.08
-"Participant 6","Academic Engagement",28,"B2",1,92.56
-"Participant 6","Academic Engagement",29,"B2",1,92
-"Participant 6","Inappropriate Verbalizations",1,"A1",0,8.11
-"Participant 6","Inappropriate Verbalizations",2,"A1",0,11.35
-"Participant 6","Inappropriate Verbalizations",3,"A1",0,8.23
-"Participant 6","Inappropriate Verbalizations",4,"B1",1,3.89
-"Participant 6","Inappropriate Verbalizations",5,"B1",1,3.93
-"Participant 6","Inappropriate Verbalizations",6,"B1",1,1.83
-"Participant 6","Inappropriate Verbalizations",7,"B1",1,2.08
-"Participant 6","Inappropriate Verbalizations",8,"B1",1,2.13
-"Participant 6","Inappropriate Verbalizations",9,"B1",1,2.38
-"Participant 6","Inappropriate Verbalizations",10,"B1",1,2.42
-"Participant 6","Inappropriate Verbalizations",11,"B1",1,2.47
-"Participant 6","Inappropriate Verbalizations",12,"B1",1,4.22
-"Participant 6","Inappropriate Verbalizations",13,"B1",1,2.55
-"Participant 6","Inappropriate Verbalizations",14,"A2",0,2.99
-"Participant 6","Inappropriate Verbalizations",15,"A2",0,5.95
-"Participant 6","Inappropriate Verbalizations",16,"A2",0,8.27
-"Participant 6","Inappropriate Verbalizations",17,"A2",0,8.01
-"Participant 6","Inappropriate Verbalizations",18,"A2",0,10.11
-"Participant 6","Inappropriate Verbalizations",19,"B2",1,5.5
-"Participant 6","Inappropriate Verbalizations",20,"B2",1,2.73
-"Participant 6","Inappropriate Verbalizations",21,"B2",1,2.29
-"Participant 6","Inappropriate Verbalizations",22,"B2",1,4.17
-"Participant 6","Inappropriate Verbalizations",23,"B2",1,2.46
-"Participant 6","Inappropriate Verbalizations",24,"B2",1,2.86
-"Participant 6","Inappropriate Verbalizations",25,"B2",1,3.9
-"Participant 6","Inappropriate Verbalizations",26,"B2",1,3.25
-"Participant 6","Inappropriate Verbalizations",27,"B2",1,3.43
-"Participant 6","Inappropriate Verbalizations",28,"B2",1,3.42
-"Participant 6","Inappropriate Verbalizations",29,"B2",1,2.55
-"Participant 7","Academic Engagement",1,"A1",0,67.55
-"Participant 7","Academic Engagement",2,"A1",0,65.99
-"Participant 7","Academic Engagement",3,"A1",0,63.09
-"Participant 7","Academic Engagement",4,"B1",1,79.08
-"Participant 7","Academic Engagement",5,"B1",1,87.48
-"Participant 7","Academic Engagement",6,"B1",1,88.45
-"Participant 7","Academic Engagement",7,"B1",1,80.11
-"Participant 7","Academic Engagement",8,"B1",1,95.48
-"Participant 7","Academic Engagement",9,"B1",1,92.27
-"Participant 7","Academic Engagement",10,"B1",1,98.8
-"Participant 7","Academic Engagement",11,"B1",1,96.04
-"Participant 7","Academic Engagement",12,"B1",1,94.67
-"Participant 7","Academic Engagement",13,"B1",1,95.17
-"Participant 7","Academic Engagement",14,"B1",1,92.41
-"Participant 7","Academic Engagement",15,"B1",1,87.33
-"Participant 7","Academic Engagement",16,"B1",1,94.33
-"Participant 7","Academic Engagement",17,"B1",1,95.76
-"Participant 7","Academic Engagement",18,"B1",1,94.86
-"Participant 7","Academic Engagement",19,"A2",0,91.71
-"Participant 7","Academic Engagement",20,"A2",0,86.18
-"Participant 7","Academic Engagement",21,"A2",0,87.1
-"Participant 7","Academic Engagement",22,"A2",0,90.78
-"Participant 7","Academic Engagement",23,"A2",0,72.35
-"Participant 7","Academic Engagement",24,"A2",0,82.95
-"Participant 7","Academic Engagement",25,"A2",0,77.42
-"Participant 7","Academic Engagement",26,"B2",1,91.31
-"Participant 7","Academic Engagement",27,"B2",1,94.45
-"Participant 7","Academic Engagement",28,"B2",1,94.86
-"Participant 7","Academic Engagement",29,"B2",1,97.54
-"Participant 7","Academic Engagement",30,"B2",1,92.92
-"Participant 7","Academic Engagement",31,"B2",1,89.68
-"Participant 7","Academic Engagement",32,"B2",1,93.27
-"Participant 7","Academic Engagement",33,"B2",1,91.85
-"Participant 7","Academic Engagement",34,"B2",1,94.55
-"Participant 7","Inappropriate Verbalizations",1,"A1",0,8.36
-"Participant 7","Inappropriate Verbalizations",2,"A1",0,3.24
-"Participant 7","Inappropriate Verbalizations",3,"A1",0,7.23
-"Participant 7","Inappropriate Verbalizations",4,"B1",1,4.7
-"Participant 7","Inappropriate Verbalizations",5,"B1",1,3.8
-"Participant 7","Inappropriate Verbalizations",6,"B1",1,3.86
-"Participant 7","Inappropriate Verbalizations",7,"B1",1,6.7
-"Participant 7","Inappropriate Verbalizations",8,"B1",1,2.78
-"Participant 7","Inappropriate Verbalizations",9,"B1",1,4
-"Participant 7","Inappropriate Verbalizations",10,"B1",1,1.24
-"Participant 7","Inappropriate Verbalizations",11,"B1",1,4.08
-"Participant 7","Inappropriate Verbalizations",12,"B1",1,3.19
-"Participant 7","Inappropriate Verbalizations",13,"B1",1,2.77
-"Participant 7","Inappropriate Verbalizations",14,"B1",1,4.69
-"Participant 7","Inappropriate Verbalizations",15,"B1",1,4.97
-"Participant 7","Inappropriate Verbalizations",16,"B1",1,3.61
-"Participant 7","Inappropriate Verbalizations",17,"B1",1,1.33
-"Participant 7","Inappropriate Verbalizations",18,"B1",1,2.32
-"Participant 7","Inappropriate Verbalizations",19,"A2",0,4.12
-"Participant 7","Inappropriate Verbalizations",20,"A2",0,6.69
-"Participant 7","Inappropriate Verbalizations",21,"A2",0,5.38
-"Participant 7","Inappropriate Verbalizations",22,"A2",0,3.19
-"Participant 7","Inappropriate Verbalizations",23,"A2",0,10.08
-"Participant 7","Inappropriate Verbalizations",24,"A2",0,5.35
-"Participant 7","Inappropriate Verbalizations",25,"A2",0,6.11
-"Participant 7","Inappropriate Verbalizations",26,"B2",1,3.02
-"Participant 7","Inappropriate Verbalizations",27,"B2",1,2.61
-"Participant 7","Inappropriate Verbalizations",28,"B2",1,1.5
-"Participant 7","Inappropriate Verbalizations",29,"B2",1,0.86
-"Participant 7","Inappropriate Verbalizations",30,"B2",1,1.85
-"Participant 7","Inappropriate Verbalizations",31,"B2",1,4.22
-"Participant 7","Inappropriate Verbalizations",32,"B2",1,2.19
-"Participant 7","Inappropriate Verbalizations",33,"B2",1,2.01
-"Participant 7","Inappropriate Verbalizations",34,"B2",1,4.13
-"Participant 8","Academic Engagement",1,"A1",0,65.11
-"Participant 8","Academic Engagement",2,"A1",0,77.63
-"Participant 8","Academic Engagement",3,"A1",0,72.29
-"Participant 8","Academic Engagement",4,"B1",1,84.39
-"Participant 8","Academic Engagement",5,"B1",1,78.4
-"Participant 8","Academic Engagement",6,"B1",1,85.02
-"Participant 8","Academic Engagement",7,"B1",1,86.6
-"Participant 8","Academic Engagement",8,"B1",1,90.23
-"Participant 8","Academic Engagement",9,"B1",1,91.81
-"Participant 8","Academic Engagement",10,"B1",1,91.86
-"Participant 8","Academic Engagement",11,"B1",1,88.91
-"Participant 8","Academic Engagement",12,"B1",1,91.49
-"Participant 8","Academic Engagement",13,"B1",1,91.07
-"Participant 8","Academic Engagement",14,"B1",1,92.12
-"Participant 8","Academic Engagement",15,"B1",1,86.16
-"Participant 8","Academic Engagement",16,"B1",1,87.74
-"Participant 8","Academic Engagement",17,"B1",1,90.83
-"Participant 8","Academic Engagement",18,"B1",1,90.4
-"Participant 8","Academic Engagement",19,"A2",0,84.24
-"Participant 8","Academic Engagement",20,"A2",0,73.62
-"Participant 8","Academic Engagement",21,"A2",0,81.87
-"Participant 8","Academic Engagement",22,"A2",0,71.25
-"Participant 8","Academic Engagement",23,"A2",0,59.08
-"Participant 8","Academic Engagement",24,"A2",0,42.32
-"Participant 8","Academic Engagement",25,"B2",1,81.96
-"Participant 8","Academic Engagement",26,"B2",1,86.35
-"Participant 8","Academic Engagement",27,"B2",1,83.52
-"Participant 8","Academic Engagement",28,"B2",1,93.14
-"Participant 8","Academic Engagement",29,"B2",1,89.87
-"Participant 8","Academic Engagement",30,"B2",1,92.73
-"Participant 8","Academic Engagement",31,"B2",1,95.11
-"Participant 8","Academic Engagement",32,"B2",1,91.19
-"Participant 8","Academic Engagement",33,"B2",1,92.6
-"Participant 8","Inappropriate Verbalizations",1,"A1",0,7.61
-"Participant 8","Inappropriate Verbalizations",2,"A1",0,2.03
-"Participant 8","Inappropriate Verbalizations",3,"A1",0,6.35
-"Participant 8","Inappropriate Verbalizations",4,"B1",1,4.13
-"Participant 8","Inappropriate Verbalizations",5,"B1",1,5.21
-"Participant 8","Inappropriate Verbalizations",6,"B1",1,3.72
-"Participant 8","Inappropriate Verbalizations",7,"B1",1,4.03
-"Participant 8","Inappropriate Verbalizations",8,"B1",1,1.25
-"Participant 8","Inappropriate Verbalizations",9,"B1",1,1.05
-"Participant 8","Inappropriate Verbalizations",10,"B1",1,3.42
-"Participant 8","Inappropriate Verbalizations",11,"B1",1,4.51
-"Participant 8","Inappropriate Verbalizations",12,"B1",1,0.69
-"Participant 8","Inappropriate Verbalizations",13,"B1",1,2.54
-"Participant 8","Inappropriate Verbalizations",14,"B1",1,0.8
-"Participant 8","Inappropriate Verbalizations",15,"B1",1,4.45
-"Participant 8","Inappropriate Verbalizations",16,"B1",1,0.64
-"Participant 8","Inappropriate Verbalizations",17,"B1",1,0.96
-"Participant 8","Inappropriate Verbalizations",18,"B1",1,0.75
-"Participant 8","Inappropriate Verbalizations",19,"A2",0,3.47
-"Participant 8","Inappropriate Verbalizations",20,"A2",0,5.88
-"Participant 8","Inappropriate Verbalizations",21,"A2",0,3.3
-"Participant 8","Inappropriate Verbalizations",22,"A2",0,6.77
-"Participant 8","Inappropriate Verbalizations",23,"A2",0,10.52
-"Participant 8","Inappropriate Verbalizations",24,"A2",0,11.62
-"Participant 8","Inappropriate Verbalizations",25,"B2",1,3.12
-"Participant 8","Inappropriate Verbalizations",26,"B2",1,0.37
-"Participant 8","Inappropriate Verbalizations",27,"B2",1,3.04
-"Participant 8","Inappropriate Verbalizations",28,"B2",1,2.35
-"Participant 8","Inappropriate Verbalizations",29,"B2",1,3.21
-"Participant 8","Inappropriate Verbalizations",30,"B2",1,1.73
-"Participant 8","Inappropriate Verbalizations",31,"B2",1,1.32
-"Participant 8","Inappropriate Verbalizations",32,"B2",1,2.69
-"Participant 8","Inappropriate Verbalizations",33,"B2",1,4.05
-"Participant 9","Academic Engagement",1,"A1",0,77.42
-"Participant 9","Academic Engagement",2,"A1",0,80.35
-"Participant 9","Academic Engagement",3,"A1",0,76.86
-"Participant 9","Academic Engagement",4,"B1",1,85.21
-"Participant 9","Academic Engagement",5,"B1",1,84.89
-"Participant 9","Academic Engagement",6,"B1",1,81.72
-"Participant 9","Academic Engagement",7,"B1",1,79.97
-"Participant 9","Academic Engagement",8,"B1",1,89.1
-"Participant 9","Academic Engagement",9,"B1",1,93.18
-"Participant 9","Academic Engagement",10,"B1",1,97.97
-"Participant 9","Academic Engagement",11,"B1",1,86.31
-"Participant 9","Academic Engagement",12,"B1",1,96.85
-"Participant 9","Academic Engagement",13,"B1",1,98.64
-"Participant 9","Academic Engagement",14,"B1",1,88.91
-"Participant 9","Academic Engagement",15,"B1",1,89.58
-"Participant 9","Academic Engagement",16,"B1",1,94.32
-"Participant 9","Academic Engagement",17,"B1",1,98.45
-"Participant 9","Academic Engagement",18,"B1",1,96.16
-"Participant 9","Academic Engagement",19,"B1",1,98.37
-"Participant 9","Academic Engagement",20,"A2",0,93.78
-"Participant 9","Academic Engagement",21,"A2",0,84.21
-"Participant 9","Academic Engagement",22,"A2",0,93.59
-"Participant 9","Academic Engagement",23,"A2",0,84.54
-"Participant 9","Academic Engagement",24,"A2",0,75.5
-"Participant 9","Academic Engagement",25,"A2",0,83.88
-"Participant 9","Academic Engagement",26,"B2",1,80.12
-"Participant 9","Academic Engagement",27,"B2",1,85.51
-"Participant 9","Academic Engagement",28,"B2",1,82.63
-"Participant 9","Academic Engagement",29,"B2",1,83.67
-"Participant 9","Academic Engagement",30,"B2",1,97.3
-"Participant 9","Academic Engagement",31,"B2",1,93.96
-"Participant 9","Academic Engagement",32,"B2",1,92.54
-"Participant 9","Academic Engagement",33,"B2",1,96.48
-"Participant 9","Academic Engagement",34,"B2",1,95.07
-"Participant 9","Academic Engagement",35,"B2",1,95.6
-"Participant 9","Inappropriate Verbalizations",1,"A1",0,6.84
-"Participant 9","Inappropriate Verbalizations",2,"A1",0,5.66
-"Participant 9","Inappropriate Verbalizations",3,"A1",0,6.6
-"Participant 9","Inappropriate Verbalizations",4,"B1",1,2.43
-"Participant 9","Inappropriate Verbalizations",5,"B1",1,3.71
-"Participant 9","Inappropriate Verbalizations",6,"B1",1,3.78
-"Participant 9","Inappropriate Verbalizations",7,"B1",1,5.99
-"Participant 9","Inappropriate Verbalizations",8,"B1",1,5.13
-"Participant 9","Inappropriate Verbalizations",9,"B1",1,0.56
-"Participant 9","Inappropriate Verbalizations",10,"B1",1,2.33
-"Participant 9","Inappropriate Verbalizations",11,"B1",1,5.51
-"Participant 9","Inappropriate Verbalizations",12,"B1",1,2.69
-"Participant 9","Inappropriate Verbalizations",13,"B1",1,1.76
-"Participant 9","Inappropriate Verbalizations",14,"B1",1,4.49
-"Participant 9","Inappropriate Verbalizations",15,"B1",1,6.73
-"Participant 9","Inappropriate Verbalizations",16,"B1",1,3.89
-"Participant 9","Inappropriate Verbalizations",17,"B1",1,0.31
-"Participant 9","Inappropriate Verbalizations",18,"B1",1,4.24
-"Participant 9","Inappropriate Verbalizations",19,"B1",1,2.37
-"Participant 9","Inappropriate Verbalizations",20,"A2",0,3.57
-"Participant 9","Inappropriate Verbalizations",21,"A2",0,6.71
-"Participant 9","Inappropriate Verbalizations",22,"A2",0,5.61
-"Participant 9","Inappropriate Verbalizations",23,"A2",0,7.12
-"Participant 9","Inappropriate Verbalizations",24,"A2",0,10.97
-"Participant 9","Inappropriate Verbalizations",25,"A2",0,7.27
-"Participant 9","Inappropriate Verbalizations",26,"B2",1,6.26
-"Participant 9","Inappropriate Verbalizations",27,"B2",1,4.95
-"Participant 9","Inappropriate Verbalizations",28,"B2",1,6.26
-"Participant 9","Inappropriate Verbalizations",29,"B2",1,3.7
-"Participant 9","Inappropriate Verbalizations",30,"B2",1,1.86
-"Participant 9","Inappropriate Verbalizations",31,"B2",1,3.41
-"Participant 9","Inappropriate Verbalizations",32,"B2",1,4.72
-"Participant 9","Inappropriate Verbalizations",33,"B2",1,1.67
-"Participant 9","Inappropriate Verbalizations",34,"B2",1,3.69
-"Participant 9","Inappropriate Verbalizations",35,"B2",1,2.86
-"Participant 10","Academic Engagement",1,"A1",0,53.16
-"Participant 10","Academic Engagement",2,"A1",0,59.87
-"Participant 10","Academic Engagement",3,"A1",0,52.23
-"Participant 10","Academic Engagement",4,"B1",1,73.9
-"Participant 10","Academic Engagement",5,"B1",1,79.43
-"Participant 10","Academic Engagement",6,"B1",1,83.57
-"Participant 10","Academic Engagement",7,"B1",1,83.03
-"Participant 10","Academic Engagement",8,"B1",1,79.26
-"Participant 10","Academic Engagement",9,"B1",1,75.02
-"Participant 10","Academic Engagement",10,"B1",1,84.73
-"Participant 10","Academic Engagement",11,"B1",1,90.25
-"Participant 10","Academic Engagement",12,"B1",1,78.57
-"Participant 10","Academic Engagement",13,"B1",1,91.53
-"Participant 10","Academic Engagement",14,"B1",1,80.31
-"Participant 10","Academic Engagement",15,"B1",1,84.44
-"Participant 10","Academic Engagement",16,"B1",1,89.97
-"Participant 10","Academic Engagement",17,"B1",1,91.76
-"Participant 10","Academic Engagement",18,"B1",1,92.16
-"Participant 10","Academic Engagement",19,"B1",1,91.64
-"Participant 10","Academic Engagement",20,"A2",0,91.08
-"Participant 10","Academic Engagement",21,"A2",0,75.59
-"Participant 10","Academic Engagement",22,"A2",0,53.99
-"Participant 10","Academic Engagement",23,"A2",0,42.25
-"Participant 10","Academic Engagement",24,"A2",0,59.81
-"Participant 10","Academic Engagement",25,"B2",1,58.88
-"Participant 10","Academic Engagement",26,"B2",1,74.3
-"Participant 10","Academic Engagement",27,"B2",1,82.71
-"Participant 10","Academic Engagement",28,"B2",1,80.37
-"Participant 10","Academic Engagement",29,"B2",1,78.5
-"Participant 10","Academic Engagement",30,"B2",1,81.31
-"Participant 10","Academic Engagement",31,"B2",1,94.39
-"Participant 10","Academic Engagement",32,"B2",1,83.64
-"Participant 10","Academic Engagement",33,"B2",1,84.58
-"Participant 10","Academic Engagement",34,"B2",1,90.19
-"Participant 10","Academic Engagement",35,"B2",1,94.39
-"Participant 10","Academic Engagement",36,"B2",1,89.72
-"Participant 10","Academic Engagement",37,"B2",1,91.12
-"Participant 10","Inappropriate Verbalizations",1,"A1",0,13.15
-"Participant 10","Inappropriate Verbalizations",2,"A1",0,15.34
-"Participant 10","Inappropriate Verbalizations",3,"A1",0,14.53
-"Participant 10","Inappropriate Verbalizations",4,"B1",1,8.2
-"Participant 10","Inappropriate Verbalizations",5,"B1",1,5.14
-"Participant 10","Inappropriate Verbalizations",6,"B1",1,3.25
-"Participant 10","Inappropriate Verbalizations",7,"B1",1,3.94
-"Participant 10","Inappropriate Verbalizations",8,"B1",1,3.45
-"Participant 10","Inappropriate Verbalizations",9,"B1",1,8.37
-"Participant 10","Inappropriate Verbalizations",10,"B1",1,3.89
-"Participant 10","Inappropriate Verbalizations",11,"B1",1,1.3
-"Participant 10","Inappropriate Verbalizations",12,"B1",1,3.87
-"Participant 10","Inappropriate Verbalizations",13,"B1",1,1.5
-"Participant 10","Inappropriate Verbalizations",14,"B1",1,5.48
-"Participant 10","Inappropriate Verbalizations",15,"B1",1,3.82
-"Participant 10","Inappropriate Verbalizations",16,"B1",1,3.57
-"Participant 10","Inappropriate Verbalizations",17,"B1",1,1.92
-"Participant 10","Inappropriate Verbalizations",18,"B1",1,5.66
-"Participant 10","Inappropriate Verbalizations",19,"B1",1,4.47
-"Participant 10","Inappropriate Verbalizations",20,"A2",0,5.78
-"Participant 10","Inappropriate Verbalizations",21,"A2",0,8.7
-"Participant 10","Inappropriate Verbalizations",22,"A2",0,9.97
-"Participant 10","Inappropriate Verbalizations",23,"A2",0,11.44
-"Participant 10","Inappropriate Verbalizations",24,"A2",0,9.81
-"Participant 10","Inappropriate Verbalizations",25,"B2",1,8.37
-"Participant 10","Inappropriate Verbalizations",26,"B2",1,7.39
-"Participant 10","Inappropriate Verbalizations",27,"B2",1,2.92
-"Participant 10","Inappropriate Verbalizations",28,"B2",1,4.75
-"Participant 10","Inappropriate Verbalizations",29,"B2",1,6.59
-"Participant 10","Inappropriate Verbalizations",30,"B2",1,4.69
-"Participant 10","Inappropriate Verbalizations",31,"B2",1,2.56
-"Participant 10","Inappropriate Verbalizations",32,"B2",1,5.56
-"Participant 10","Inappropriate Verbalizations",33,"B2",1,3.66
-"Participant 10","Inappropriate Verbalizations",34,"B2",1,4.56
-"Participant 10","Inappropriate Verbalizations",35,"B2",1,1.73
-"Participant 10","Inappropriate Verbalizations",36,"B2",1,3.09
-"Participant 10","Inappropriate Verbalizations",37,"B2",1,2.36
-"Participant 11","Academic Engagement",1,"A1",0,60.53
-"Participant 11","Academic Engagement",2,"A1",0,44.19
-"Participant 11","Academic Engagement",3,"A1",0,61.69
-"Participant 11","Academic Engagement",4,"A1",0,59.36
-"Participant 11","Academic Engagement",5,"B1",1,87.27
-"Participant 11","Academic Engagement",6,"B1",1,84.71
-"Participant 11","Academic Engagement",7,"B1",1,91.4
-"Participant 11","Academic Engagement",8,"B1",1,93.17
-"Participant 11","Academic Engagement",9,"B1",1,84.29
-"Participant 11","Academic Engagement",10,"B1",1,87.03
-"Participant 11","Academic Engagement",11,"B1",1,90.26
-"Participant 11","Academic Engagement",12,"B1",1,81.42
-"Participant 11","Academic Engagement",13,"B1",1,79.75
-"Participant 11","Academic Engagement",14,"B1",1,92.76
-"Participant 11","Academic Engagement",15,"B1",1,86.27
-"Participant 11","Academic Engagement",16,"B1",1,91.03
-"Participant 11","Academic Engagement",17,"B1",1,89.91
-"Participant 11","Academic Engagement",18,"B1",1,85.35
-"Participant 11","Academic Engagement",19,"B1",1,91
-"Participant 11","Academic Engagement",20,"B1",1,85.05
-"Participant 11","Academic Engagement",21,"A2",0,87.94
-"Participant 11","Academic Engagement",22,"A2",0,72.37
-"Participant 11","Academic Engagement",23,"A2",0,64.02
-"Participant 11","Academic Engagement",24,"A2",0,53.46
-"Participant 11","Academic Engagement",25,"B2",1,72.78
-"Participant 11","Academic Engagement",26,"B2",1,75.37
-"Participant 11","Academic Engagement",27,"B2",1,91.11
-"Participant 11","Academic Engagement",28,"B2",1,85.11
-"Participant 11","Academic Engagement",29,"B2",1,72.55
-"Participant 11","Academic Engagement",30,"B2",1,76.67
-"Participant 11","Academic Engagement",31,"B2",1,89.86
-"Participant 11","Academic Engagement",32,"B2",1,87.41
-"Participant 11","Academic Engagement",33,"B2",1,85.97
-"Participant 11","Academic Engagement",34,"B2",1,81.49
-"Participant 11","Academic Engagement",35,"B2",1,84.58
-"Participant 11","Academic Engagement",36,"B2",1,82.65
-"Participant 11","Academic Engagement",37,"B2",1,88.77
-"Participant 11","Academic Engagement",38,"B2",1,91.37
-"Participant 11","Inappropriate Verbalizations",1,"A1",0,7.2
-"Participant 11","Inappropriate Verbalizations",2,"A1",0,9.41
-"Participant 11","Inappropriate Verbalizations",3,"A1",0,8.15
-"Participant 11","Inappropriate Verbalizations",4,"A1",0,7.51
-"Participant 11","Inappropriate Verbalizations",5,"B1",1,4.43
-"Participant 11","Inappropriate Verbalizations",6,"B1",1,2.96
-"Participant 11","Inappropriate Verbalizations",7,"B1",1,1.72
-"Participant 11","Inappropriate Verbalizations",8,"B1",1,0.25
-"Participant 11","Inappropriate Verbalizations",9,"B1",1,6.16
-"Participant 11","Inappropriate Verbalizations",10,"B1",1,0.99
-"Participant 11","Inappropriate Verbalizations",11,"B1",1,2.22
-"Participant 11","Inappropriate Verbalizations",12,"B1",1,4.43
-"Participant 11","Inappropriate Verbalizations",13,"B1",1,1.72
-"Participant 11","Inappropriate Verbalizations",14,"B1",1,0.74
-"Participant 11","Inappropriate Verbalizations",15,"B1",1,2.22
-"Participant 11","Inappropriate Verbalizations",16,"B1",1,0.25
-"Participant 11","Inappropriate Verbalizations",17,"B1",1,1.97
-"Participant 11","Inappropriate Verbalizations",18,"B1",1,4.43
-"Participant 11","Inappropriate Verbalizations",19,"B1",1,4.19
-"Participant 11","Inappropriate Verbalizations",20,"B1",1,1.72
-"Participant 11","Inappropriate Verbalizations",21,"A2",0,5.32
-"Participant 11","Inappropriate Verbalizations",22,"A2",0,7.41
-"Participant 11","Inappropriate Verbalizations",23,"A2",0,6.76
-"Participant 11","Inappropriate Verbalizations",24,"A2",0,9.14
-"Participant 11","Inappropriate Verbalizations",25,"B2",1,5.04
-"Participant 11","Inappropriate Verbalizations",26,"B2",1,6.13
-"Participant 11","Inappropriate Verbalizations",27,"B2",1,0.96
-"Participant 11","Inappropriate Verbalizations",28,"B2",1,2.83
-"Participant 11","Inappropriate Verbalizations",29,"B2",1,7.89
-"Participant 11","Inappropriate Verbalizations",30,"B2",1,7.26
-"Participant 11","Inappropriate Verbalizations",31,"B2",1,3.57
-"Participant 11","Inappropriate Verbalizations",32,"B2",1,4.41
-"Participant 11","Inappropriate Verbalizations",33,"B2",1,4.25
-"Participant 11","Inappropriate Verbalizations",34,"B2",1,6.34
-"Participant 11","Inappropriate Verbalizations",35,"B2",1,4.68
-"Participant 11","Inappropriate Verbalizations",36,"B2",1,5.24
-"Participant 11","Inappropriate Verbalizations",37,"B2",1,4.09
-"Participant 11","Inappropriate Verbalizations",38,"B2",1,4.46
-"Participant 12","Academic Engagement",1,"A1",0,78.19
-"Participant 12","Academic Engagement",2,"A1",0,81.43
-"Participant 12","Academic Engagement",3,"A1",0,76.56
-"Participant 12","Academic Engagement",4,"B1",1,91.07
-"Participant 12","Academic Engagement",5,"B1",1,93.83
-"Participant 12","Academic Engagement",6,"B1",1,90.6
-"Participant 12","Academic Engagement",7,"B1",1,94.65
-"Participant 12","Academic Engagement",8,"B1",1,87.97
-"Participant 12","Academic Engagement",9,"B1",1,95
-"Participant 12","Academic Engagement",10,"B1",1,93.1
-"Participant 12","Academic Engagement",11,"B1",1,96.63
-"Participant 12","Academic Engagement",12,"B1",1,95.13
-"Participant 12","Academic Engagement",13,"B1",1,93.61
-"Participant 12","Academic Engagement",14,"B1",1,100.66
-"Participant 12","Academic Engagement",15,"B1",1,94.41
-"Participant 12","Academic Engagement",16,"B1",1,92.44
-"Participant 12","Academic Engagement",17,"A2",0,95.19
-"Participant 12","Academic Engagement",18,"A2",0,94.26
-"Participant 12","Academic Engagement",19,"A2",0,96.42
-"Participant 12","Academic Engagement",20,"A2",0,90.82
-"Participant 12","Academic Engagement",21,"A2",0,89.51
-"Participant 12","Academic Engagement",22,"B2",1,86.25
-"Participant 12","Academic Engagement",23,"B2",1,89.28
-"Participant 12","Academic Engagement",24,"B2",1,92.77
-"Participant 12","Academic Engagement",25,"B2",1,91.2
-"Participant 12","Academic Engagement",26,"B2",1,95.06
-"Participant 12","Academic Engagement",27,"B2",1,97.72
-"Participant 12","Academic Engagement",28,"B2",1,98.24
-"Participant 12","Academic Engagement",29,"B2",1,92.91
-"Participant 12","Academic Engagement",30,"B2",1,93
-"Participant 12","Academic Engagement",31,"B2",1,91.9
-"Participant 12","Academic Engagement",32,"B2",1,95.73
-"Participant 12","Inappropriate Verbalizations",1,"A1",0,9.67804551539487
-"Participant 12","Inappropriate Verbalizations",2,"A1",0,7.60263275323515
-"Participant 12","Inappropriate Verbalizations",3,"A1",0,10.5861222668451
-"Participant 12","Inappropriate Verbalizations",4,"B1",1,5.68362338241857
-"Participant 12","Inappropriate Verbalizations",5,"B1",1,3.75613565372603
-"Participant 12","Inappropriate Verbalizations",6,"B1",1,0.638107987505577
-"Participant 12","Inappropriate Verbalizations",7,"B1",1,1.83801874163316
-"Participant 12","Inappropriate Verbalizations",8,"B1",1,2.88688085676034
-"Participant 12","Inappropriate Verbalizations",9,"B1",1,0.959839357429729
-"Participant 12","Inappropriate Verbalizations",10,"B1",1,0.819053993752788
-"Participant 12","Inappropriate Verbalizations",11,"B1",1,0
-"Participant 12","Inappropriate Verbalizations",12,"B1",1,0
-"Participant 12","Inappropriate Verbalizations",13,"B1",1,0
-"Participant 12","Inappropriate Verbalizations",14,"B1",1,0
-"Participant 12","Inappropriate Verbalizations",15,"B1",1,1.90004462293615
-"Participant 12","Inappropriate Verbalizations",16,"B1",1,2.80053547523425
-"Participant 12","Inappropriate Verbalizations",17,"A2",0,0.725122713074512
-"Participant 12","Inappropriate Verbalizations",18,"A2",0,2.81615350290047
-"Participant 12","Inappropriate Verbalizations",19,"A2",0,2.82418563141453
-"Participant 12","Inappropriate Verbalizations",20,"A2",0,6.8502900490852
-"Participant 12","Inappropriate Verbalizations",21,"A2",0,8.04841588576528
-"Participant 12","Inappropriate Verbalizations",22,"B2",1,4.93083444890672
-"Participant 12","Inappropriate Verbalizations",23,"B2",1,2.70615796519408
-"Participant 12","Inappropriate Verbalizations",24,"B2",1,3.01182507809011
-"Participant 12","Inappropriate Verbalizations",25,"B2",1,0.936412315930397
-"Participant 12","Inappropriate Verbalizations",26,"B2",1,1.09281570727353
-"Participant 12","Inappropriate Verbalizations",27,"B2",1,0
-"Participant 12","Inappropriate Verbalizations",28,"B2",1,0
-"Participant 12","Inappropriate Verbalizations",29,"B2",1,0.967648371262839
-"Participant 12","Inappropriate Verbalizations",30,"B2",1,0.975234270415001
-"Participant 12","Inappropriate Verbalizations",31,"B2",1,0.98326639892906
-"Participant 12","Inappropriate Verbalizations",32,"B2",1,0
+Measure,Case_number,Condition,Session_number,Outcome,Trt
+Academic Engagement,1,A,1,63.08,0
+Academic Engagement,1,A,2,55.89,0
+Academic Engagement,1,A,3,54.72,0
+Academic Engagement,1,B,4,91.77,1
+Academic Engagement,1,B,5,87.45,1
+Academic Engagement,1,B,6,93.07,1
+Academic Engagement,1,B,7,91.77,1
+Academic Engagement,1,B,8,92.21,1
+Academic Engagement,1,B,9,94.37,1
+Academic Engagement,1,B,10,94.37,1
+Academic Engagement,1,B,11,93.94,1
+Academic Engagement,1,B,12,94.37,1
+Academic Engagement,1,B,13,93.07,1
+Academic Engagement,1,B,14,95.24,1
+Academic Engagement,1,A,15,91.86,0
+Academic Engagement,1,A,16,87.33,0
+Academic Engagement,1,A,17,73.3,0
+Academic Engagement,1,A,18,75.57,0
+Academic Engagement,1,A,19,21.72,0
+Academic Engagement,1,B,20,55.97,1
+Academic Engagement,1,B,21,70.46,1
+Academic Engagement,1,B,22,95.21,1
+Academic Engagement,1,B,23,86.62,1
+Academic Engagement,1,B,24,86.58,1
+Academic Engagement,1,B,25,93.4,1
+Academic Engagement,1,B,26,92.92,1
+Academic Engagement,1,B,27,86.91,1
+Academic Engagement,1,B,28,91.15,1
+Academic Engagement,1,B,29,83.42,1
+Academic Engagement,1,B,30,92.36,1
+Academic Engagement,1,B,31,90.61,1
+Academic Engagement,2,A,1,80.09,0
+Academic Engagement,2,A,2,15.04,0
+Academic Engagement,2,A,3,30.09,0
+Academic Engagement,2,B,4,93.74,1
+Academic Engagement,2,B,5,88.85,1
+Academic Engagement,2,B,6,91.14,1
+Academic Engagement,2,B,7,95.21,1
+Academic Engagement,2,B,8,93.89,1
+Academic Engagement,2,B,9,93.48,1
+Academic Engagement,2,B,10,93.97,1
+Academic Engagement,2,B,11,95.8,1
+Academic Engagement,2,B,12,95.84,1
+Academic Engagement,2,B,13,88.71,1
+Academic Engagement,2,B,14,95.91,1
+Academic Engagement,2,B,15,93.27,1
+Academic Engagement,2,A,16,80.66,0
+Academic Engagement,2,A,17,75.83,0
+Academic Engagement,2,A,18,80.87,0
+Academic Engagement,2,A,19,78.62,0
+Academic Engagement,2,B,20,87.81,1
+Academic Engagement,2,B,21,92.56,1
+Academic Engagement,2,B,22,95.14,1
+Academic Engagement,2,B,23,92.93,1
+Academic Engagement,2,B,24,92.46,1
+Academic Engagement,2,B,25,94.17,1
+Academic Engagement,2,B,26,94.12,1
+Academic Engagement,2,B,27,92.79,1
+Academic Engagement,2,B,28,91.89,1
+Academic Engagement,2,B,29,93.6,1
+Academic Engagement,2,B,30,94.43,1
+Academic Engagement,2,B,31,92.65,1
+Academic Engagement,2,B,32,92.62,1
+Academic Engagement,3,A,1,54.15,0
+Academic Engagement,3,A,2,43.24,0
+Academic Engagement,3,A,3,68.58,0
+Academic Engagement,3,B,4,82.27,1
+Academic Engagement,3,B,5,81.73,1
+Academic Engagement,3,B,6,82.95,1
+Academic Engagement,3,B,7,83.69,1
+Academic Engagement,3,B,8,95.22,1
+Academic Engagement,3,B,9,81.79,1
+Academic Engagement,3,B,10,86.87,1
+Academic Engagement,3,B,11,79.88,1
+Academic Engagement,3,B,12,87.97,1
+Academic Engagement,3,A,13,88.65,0
+Academic Engagement,3,A,14,75.61,0
+Academic Engagement,3,A,15,81.03,0
+Academic Engagement,3,A,16,77.22,0
+Academic Engagement,3,A,17,56.73,0
+Academic Engagement,3,A,18,72.19,0
+Academic Engagement,3,A,19,76.71,0
+Academic Engagement,3,B,20,79.19,1
+Academic Engagement,3,B,21,88.23,1
+Academic Engagement,3,B,22,76.49,1
+Academic Engagement,3,B,23,92.46,1
+Academic Engagement,3,B,24,88.08,1
+Academic Engagement,3,B,25,92.36,1
+Academic Engagement,3,B,26,89.26,1
+Academic Engagement,3,B,27,84.44,1
+Academic Engagement,4,A,1,38.89,0
+Academic Engagement,4,A,2,29.06,0
+Academic Engagement,4,A,3,47.44,0
+Academic Engagement,4,A,4,44.87,0
+Academic Engagement,4,B,5,66.45,1
+Academic Engagement,4,B,6,80.25,1
+Academic Engagement,4,B,7,77.06,1
+Academic Engagement,4,B,8,85.19,1
+Academic Engagement,4,B,9,85.92,1
+Academic Engagement,4,B,10,73.19,1
+Academic Engagement,4,B,11,77.41,1
+Academic Engagement,4,B,12,76.82,1
+Academic Engagement,4,B,13,71.92,1
+Academic Engagement,4,B,14,83.52,1
+Academic Engagement,4,A,15,41.38,0
+Academic Engagement,4,A,16,20.38,0
+Academic Engagement,4,A,17,36.15,0
+Academic Engagement,4,A,18,51.5,0
+Academic Engagement,4,A,19,20.47,0
+Academic Engagement,4,B,20,47.39,1
+Academic Engagement,4,B,21,74.72,1
+Academic Engagement,4,B,22,73.07,1
+Academic Engagement,4,B,23,65.59,1
+Academic Engagement,4,B,24,73.29,1
+Academic Engagement,4,B,25,82.33,1
+Academic Engagement,4,B,26,74.4,1
+Academic Engagement,4,B,27,96.36,1
+Academic Engagement,4,B,28,92.91,1
+Academic Engagement,4,B,29,93.48,1
+Academic Engagement,4,B,30,94.06,1
+Academic Engagement,4,B,31,93.72,1
+Academic Engagement,5,A,1,46.78,0
+Academic Engagement,5,A,2,39.35,0
+Academic Engagement,5,A,3,45.2,0
+Academic Engagement,5,A,4,45.79,0
+Academic Engagement,5,B,5,91.29,1
+Academic Engagement,5,B,6,95.39,1
+Academic Engagement,5,B,7,95.56,1
+Academic Engagement,5,B,8,84.87,1
+Academic Engagement,5,B,9,87.98,1
+Academic Engagement,5,B,10,93.11,1
+Academic Engagement,5,B,11,84.39,1
+Academic Engagement,5,B,12,80.56,1
+Academic Engagement,5,B,13,93.58,1
+Academic Engagement,5,A,14,87.62,0
+Academic Engagement,5,A,15,80.75,0
+Academic Engagement,5,A,16,76.86,0
+Academic Engagement,5,A,17,80.45,0
+Academic Engagement,5,A,18,75.56,0
+Academic Engagement,5,B,19,82.2,1
+Academic Engagement,5,B,20,81.89,1
+Academic Engagement,5,B,21,89.74,1
+Academic Engagement,5,B,22,93.24,1
+Academic Engagement,5,B,23,92.39,1
+Academic Engagement,5,B,24,88.63,1
+Academic Engagement,5,B,25,88.29,1
+Academic Engagement,5,B,26,86.05,1
+Academic Engagement,5,B,27,89.07,1
+Academic Engagement,5,B,28,86.8,1
+Academic Engagement,5,B,29,89.82,1
+Academic Engagement,6,A,1,75.22,0
+Academic Engagement,6,A,2,49.12,0
+Academic Engagement,6,A,3,65.04,0
+Academic Engagement,6,B,4,86,1
+Academic Engagement,6,B,5,87.76,1
+Academic Engagement,6,B,6,94.47,1
+Academic Engagement,6,B,7,87.22,1
+Academic Engagement,6,B,8,93.94,1
+Academic Engagement,6,B,9,95.25,1
+Academic Engagement,6,B,10,94.75,1
+Academic Engagement,6,B,11,96.95,1
+Academic Engagement,6,B,12,87.44,1
+Academic Engagement,6,B,13,96.87,1
+Academic Engagement,6,A,14,92.07,0
+Academic Engagement,6,A,15,84.21,0
+Academic Engagement,6,A,16,84.82,0
+Academic Engagement,6,A,17,80.56,0
+Academic Engagement,6,A,18,80.77,0
+Academic Engagement,6,B,19,87.07,1
+Academic Engagement,6,B,20,93.65,1
+Academic Engagement,6,B,21,94,1
+Academic Engagement,6,B,22,93.92,1
+Academic Engagement,6,B,23,98.3,1
+Academic Engagement,6,B,24,97.76,1
+Academic Engagement,6,B,25,95.48,1
+Academic Engagement,6,B,26,98.04,1
+Academic Engagement,6,B,27,93.08,1
+Academic Engagement,6,B,28,92.56,1
+Academic Engagement,6,B,29,92,1
+Academic Engagement,7,A,1,67.55,0
+Academic Engagement,7,A,2,65.99,0
+Academic Engagement,7,A,3,63.09,0
+Academic Engagement,7,B,4,79.08,1
+Academic Engagement,7,B,5,87.48,1
+Academic Engagement,7,B,6,88.45,1
+Academic Engagement,7,B,7,80.11,1
+Academic Engagement,7,B,8,95.48,1
+Academic Engagement,7,B,9,92.27,1
+Academic Engagement,7,B,10,98.8,1
+Academic Engagement,7,B,11,96.04,1
+Academic Engagement,7,B,12,94.67,1
+Academic Engagement,7,B,13,95.17,1
+Academic Engagement,7,B,14,92.41,1
+Academic Engagement,7,B,15,87.33,1
+Academic Engagement,7,B,16,94.33,1
+Academic Engagement,7,B,17,95.76,1
+Academic Engagement,7,B,18,94.86,1
+Academic Engagement,7,A,19,91.71,0
+Academic Engagement,7,A,20,86.18,0
+Academic Engagement,7,A,21,87.1,0
+Academic Engagement,7,A,22,90.78,0
+Academic Engagement,7,A,23,72.35,0
+Academic Engagement,7,A,24,82.95,0
+Academic Engagement,7,A,25,77.42,0
+Academic Engagement,7,B,26,91.31,1
+Academic Engagement,7,B,27,94.45,1
+Academic Engagement,7,B,28,94.86,1
+Academic Engagement,7,B,29,97.54,1
+Academic Engagement,7,B,30,92.92,1
+Academic Engagement,7,B,31,89.68,1
+Academic Engagement,7,B,32,93.27,1
+Academic Engagement,7,B,33,91.85,1
+Academic Engagement,7,B,34,94.55,1
+Academic Engagement,8,A,1,65.11,0
+Academic Engagement,8,A,2,77.63,0
+Academic Engagement,8,A,3,72.29,0
+Academic Engagement,8,B,4,84.39,1
+Academic Engagement,8,B,5,78.4,1
+Academic Engagement,8,B,6,85.02,1
+Academic Engagement,8,B,7,86.6,1
+Academic Engagement,8,B,8,90.23,1
+Academic Engagement,8,B,9,91.81,1
+Academic Engagement,8,B,10,91.86,1
+Academic Engagement,8,B,11,88.91,1
+Academic Engagement,8,B,12,91.49,1
+Academic Engagement,8,B,13,91.07,1
+Academic Engagement,8,B,14,92.12,1
+Academic Engagement,8,B,15,86.16,1
+Academic Engagement,8,B,16,87.74,1
+Academic Engagement,8,B,17,90.83,1
+Academic Engagement,8,B,18,90.4,1
+Academic Engagement,8,A,19,84.24,0
+Academic Engagement,8,A,20,73.62,0
+Academic Engagement,8,A,21,81.87,0
+Academic Engagement,8,A,22,71.25,0
+Academic Engagement,8,A,23,59.08,0
+Academic Engagement,8,A,24,42.32,0
+Academic Engagement,8,B,25,81.96,1
+Academic Engagement,8,B,26,86.35,1
+Academic Engagement,8,B,27,83.52,1
+Academic Engagement,8,B,28,93.14,1
+Academic Engagement,8,B,29,89.87,1
+Academic Engagement,8,B,30,92.73,1
+Academic Engagement,8,B,31,95.11,1
+Academic Engagement,8,B,32,91.19,1
+Academic Engagement,8,B,33,92.6,1
+Academic Engagement,9,A,1,77.42,0
+Academic Engagement,9,A,2,80.35,0
+Academic Engagement,9,A,3,76.86,0
+Academic Engagement,9,B,4,85.21,1
+Academic Engagement,9,B,5,84.89,1
+Academic Engagement,9,B,6,81.72,1
+Academic Engagement,9,B,7,79.97,1
+Academic Engagement,9,B,8,89.1,1
+Academic Engagement,9,B,9,93.18,1
+Academic Engagement,9,B,10,97.97,1
+Academic Engagement,9,B,11,86.31,1
+Academic Engagement,9,B,12,96.85,1
+Academic Engagement,9,B,13,98.64,1
+Academic Engagement,9,B,14,88.91,1
+Academic Engagement,9,B,15,89.58,1
+Academic Engagement,9,B,16,94.32,1
+Academic Engagement,9,B,17,98.45,1
+Academic Engagement,9,B,18,96.16,1
+Academic Engagement,9,B,19,98.37,1
+Academic Engagement,9,A,20,93.78,0
+Academic Engagement,9,A,21,84.21,0
+Academic Engagement,9,A,22,93.59,0
+Academic Engagement,9,A,23,84.54,0
+Academic Engagement,9,A,24,75.5,0
+Academic Engagement,9,A,25,83.88,0
+Academic Engagement,9,B,26,80.12,1
+Academic Engagement,9,B,27,85.51,1
+Academic Engagement,9,B,28,82.63,1
+Academic Engagement,9,B,29,83.67,1
+Academic Engagement,9,B,30,97.3,1
+Academic Engagement,9,B,31,93.96,1
+Academic Engagement,9,B,32,92.54,1
+Academic Engagement,9,B,33,96.48,1
+Academic Engagement,9,B,34,95.07,1
+Academic Engagement,9,B,35,95.6,1
+Academic Engagement,10,A,1,53.16,0
+Academic Engagement,10,A,2,59.87,0
+Academic Engagement,10,A,3,52.23,0
+Academic Engagement,10,B,4,73.9,1
+Academic Engagement,10,B,5,79.43,1
+Academic Engagement,10,B,6,83.57,1
+Academic Engagement,10,B,7,83.03,1
+Academic Engagement,10,B,8,79.26,1
+Academic Engagement,10,B,9,75.02,1
+Academic Engagement,10,B,10,84.73,1
+Academic Engagement,10,B,11,90.25,1
+Academic Engagement,10,B,12,78.57,1
+Academic Engagement,10,B,13,91.53,1
+Academic Engagement,10,B,14,80.31,1
+Academic Engagement,10,B,15,84.44,1
+Academic Engagement,10,B,16,89.97,1
+Academic Engagement,10,B,17,91.76,1
+Academic Engagement,10,B,18,92.16,1
+Academic Engagement,10,B,19,91.64,1
+Academic Engagement,10,A,20,91.08,0
+Academic Engagement,10,A,21,75.59,0
+Academic Engagement,10,A,22,53.99,0
+Academic Engagement,10,A,23,42.25,0
+Academic Engagement,10,A,24,59.81,0
+Academic Engagement,10,B,25,58.88,1
+Academic Engagement,10,B,26,74.3,1
+Academic Engagement,10,B,27,82.71,1
+Academic Engagement,10,B,28,80.37,1
+Academic Engagement,10,B,29,78.5,1
+Academic Engagement,10,B,30,81.31,1
+Academic Engagement,10,B,31,94.39,1
+Academic Engagement,10,B,32,83.64,1
+Academic Engagement,10,B,33,84.58,1
+Academic Engagement,10,B,34,90.19,1
+Academic Engagement,10,B,35,94.39,1
+Academic Engagement,10,B,36,89.72,1
+Academic Engagement,10,B,37,91.12,1
+Academic Engagement,11,A,1,60.53,0
+Academic Engagement,11,A,2,44.19,0
+Academic Engagement,11,A,3,61.69,0
+Academic Engagement,11,A,4,59.36,0
+Academic Engagement,11,B,5,87.27,1
+Academic Engagement,11,B,6,84.71,1
+Academic Engagement,11,B,7,91.4,1
+Academic Engagement,11,B,8,93.17,1
+Academic Engagement,11,B,9,84.29,1
+Academic Engagement,11,B,10,87.03,1
+Academic Engagement,11,B,11,90.26,1
+Academic Engagement,11,B,12,81.42,1
+Academic Engagement,11,B,13,79.75,1
+Academic Engagement,11,B,14,92.76,1
+Academic Engagement,11,B,15,86.27,1
+Academic Engagement,11,B,16,91.03,1
+Academic Engagement,11,B,17,89.91,1
+Academic Engagement,11,B,18,85.35,1
+Academic Engagement,11,B,19,91,1
+Academic Engagement,11,B,20,85.05,1
+Academic Engagement,11,A,21,87.94,0
+Academic Engagement,11,A,22,72.37,0
+Academic Engagement,11,A,23,64.02,0
+Academic Engagement,11,A,24,53.46,0
+Academic Engagement,11,B,25,72.78,1
+Academic Engagement,11,B,26,75.37,1
+Academic Engagement,11,B,27,91.11,1
+Academic Engagement,11,B,28,85.11,1
+Academic Engagement,11,B,29,72.55,1
+Academic Engagement,11,B,30,76.67,1
+Academic Engagement,11,B,31,89.86,1
+Academic Engagement,11,B,32,87.41,1
+Academic Engagement,11,B,33,85.97,1
+Academic Engagement,11,B,34,81.49,1
+Academic Engagement,11,B,35,84.58,1
+Academic Engagement,11,B,36,82.65,1
+Academic Engagement,11,B,37,88.77,1
+Academic Engagement,11,B,38,91.37,1
+Academic Engagement,12,A,1,78.19,0
+Academic Engagement,12,A,2,81.43,0
+Academic Engagement,12,A,3,76.56,0
+Academic Engagement,12,B,4,91.07,1
+Academic Engagement,12,B,5,93.83,1
+Academic Engagement,12,B,6,90.6,1
+Academic Engagement,12,B,7,94.65,1
+Academic Engagement,12,B,8,87.97,1
+Academic Engagement,12,B,9,95,1
+Academic Engagement,12,B,10,93.1,1
+Academic Engagement,12,B,11,96.63,1
+Academic Engagement,12,B,12,95.13,1
+Academic Engagement,12,B,13,93.61,1
+Academic Engagement,12,B,14,100.66,1
+Academic Engagement,12,B,15,94.41,1
+Academic Engagement,12,B,16,92.44,1
+Academic Engagement,12,B,17,95.19,1
+Academic Engagement,12,A,18,94.26,0
+Academic Engagement,12,A,19,96.42,0
+Academic Engagement,12,A,20,90.82,0
+Academic Engagement,12,A,21,89.51,0
+Academic Engagement,12,B,22,86.25,1
+Academic Engagement,12,B,23,89.28,1
+Academic Engagement,12,B,24,92.77,1
+Academic Engagement,12,B,25,91.2,1
+Academic Engagement,12,B,26,95.06,1
+Academic Engagement,12,B,27,97.72,1
+Academic Engagement,12,B,28,98.24,1
+Academic Engagement,12,B,29,92.91,1
+Academic Engagement,12,B,30,93,1
+Academic Engagement,12,B,31,91.9,1
+Academic Engagement,12,B,32,95.73,1
+Inappropriate Verbalizations,1,A,1,16.93,0
+Inappropriate Verbalizations,1,A,2,18.47,0
+Inappropriate Verbalizations,1,A,3,24.03,0
+Inappropriate Verbalizations,1,B,4,6.84,1
+Inappropriate Verbalizations,1,B,5,10.47,1
+Inappropriate Verbalizations,1,B,6,4.7,1
+Inappropriate Verbalizations,1,B,7,5.77,1
+Inappropriate Verbalizations,1,B,8,7.69,1
+Inappropriate Verbalizations,1,B,9,1.92,1
+Inappropriate Verbalizations,1,B,10,1.71,1
+Inappropriate Verbalizations,1,B,11,2.78,1
+Inappropriate Verbalizations,1,B,12,1.71,1
+Inappropriate Verbalizations,1,B,13,4.49,1
+Inappropriate Verbalizations,1,B,14,0.85,1
+Inappropriate Verbalizations,1,A,15,3.28,0
+Inappropriate Verbalizations,1,A,16,8.3,0
+Inappropriate Verbalizations,1,A,17,13.97,0
+Inappropriate Verbalizations,1,A,18,21.62,0
+Inappropriate Verbalizations,1,A,19,35.59,0
+Inappropriate Verbalizations,1,B,20,18.39,1
+Inappropriate Verbalizations,1,B,21,11.01,1
+Inappropriate Verbalizations,1,B,22,3.85,1
+Inappropriate Verbalizations,1,B,23,4.26,1
+Inappropriate Verbalizations,1,B,24,5.98,1
+Inappropriate Verbalizations,1,B,25,3.58,1
+Inappropriate Verbalizations,1,B,26,3.35,1
+Inappropriate Verbalizations,1,B,27,5.93,1
+Inappropriate Verbalizations,1,B,28,3.31,1
+Inappropriate Verbalizations,1,B,29,5.67,1
+Inappropriate Verbalizations,1,B,30,3.28,1
+Inappropriate Verbalizations,1,B,31,3.69,1
+Inappropriate Verbalizations,2,A,1,12.99,0
+Inappropriate Verbalizations,2,A,2,35.71,0
+Inappropriate Verbalizations,2,A,3,30.3,0
+Inappropriate Verbalizations,2,B,4,3.53,1
+Inappropriate Verbalizations,2,B,5,2.23,1
+Inappropriate Verbalizations,2,B,6,3.57,1
+Inappropriate Verbalizations,2,B,7,4.69,1
+Inappropriate Verbalizations,2,B,8,3.38,1
+Inappropriate Verbalizations,2,B,9,5.39,1
+Inappropriate Verbalizations,2,B,10,1.22,1
+Inappropriate Verbalizations,2,B,11,1.24,1
+Inappropriate Verbalizations,2,B,12,1.7,1
+Inappropriate Verbalizations,2,B,13,5.46,1
+Inappropriate Verbalizations,2,B,14,1.96,1
+Inappropriate Verbalizations,2,B,15,3.08,1
+Inappropriate Verbalizations,2,A,16,9.44,0
+Inappropriate Verbalizations,2,A,17,10.87,0
+Inappropriate Verbalizations,2,A,18,8.37,0
+Inappropriate Verbalizations,2,A,19,19.57,0
+Inappropriate Verbalizations,2,B,20,3.26,1
+Inappropriate Verbalizations,2,B,21,1.5,1
+Inappropriate Verbalizations,2,B,22,1.48,1
+Inappropriate Verbalizations,2,B,23,2.55,1
+Inappropriate Verbalizations,2,B,24,2.76,1
+Inappropriate Verbalizations,2,B,25,2.08,1
+Inappropriate Verbalizations,2,B,26,1.85,1
+Inappropriate Verbalizations,2,B,27,2.7,1
+Inappropriate Verbalizations,2,B,28,3.55,1
+Inappropriate Verbalizations,2,B,29,1.58,1
+Inappropriate Verbalizations,2,B,30,1.13,1
+Inappropriate Verbalizations,2,B,31,2.42,1
+Inappropriate Verbalizations,2,B,32,3.27,1
+Inappropriate Verbalizations,3,A,1,16.04,0
+Inappropriate Verbalizations,3,A,2,19.62,0
+Inappropriate Verbalizations,3,A,3,15.47,0
+Inappropriate Verbalizations,3,B,4,4.9,1
+Inappropriate Verbalizations,3,B,5,6.85,1
+Inappropriate Verbalizations,3,B,6,6.04,1
+Inappropriate Verbalizations,3,B,7,4.2,1
+Inappropriate Verbalizations,3,B,8,5.72,1
+Inappropriate Verbalizations,3,B,9,4.71,1
+Inappropriate Verbalizations,3,B,10,8.34,1
+Inappropriate Verbalizations,3,B,11,10.31,1
+Inappropriate Verbalizations,3,B,12,5.06,1
+Inappropriate Verbalizations,3,A,13,5.14,0
+Inappropriate Verbalizations,3,A,14,12.01,0
+Inappropriate Verbalizations,3,A,15,9.07,0
+Inappropriate Verbalizations,3,A,16,10,0
+Inappropriate Verbalizations,3,A,17,11.55,0
+Inappropriate Verbalizations,3,A,18,7.77,0
+Inappropriate Verbalizations,3,A,19,9.12,0
+Inappropriate Verbalizations,3,B,20,4.98,1
+Inappropriate Verbalizations,3,B,21,6.83,1
+Inappropriate Verbalizations,3,B,22,4.41,1
+Inappropriate Verbalizations,3,B,23,6.65,1
+Inappropriate Verbalizations,3,B,24,7,1
+Inappropriate Verbalizations,3,B,25,4.6,1
+Inappropriate Verbalizations,3,B,26,4.08,1
+Inappropriate Verbalizations,3,B,27,7.85,1
+Inappropriate Verbalizations,4,A,1,45.03,0
+Inappropriate Verbalizations,4,A,2,29.19,0
+Inappropriate Verbalizations,4,A,3,23.19,0
+Inappropriate Verbalizations,4,A,4,16.78,0
+Inappropriate Verbalizations,4,B,5,8.15,1
+Inappropriate Verbalizations,4,B,6,9.91,1
+Inappropriate Verbalizations,4,B,7,7.05,1
+Inappropriate Verbalizations,4,B,8,1.98,1
+Inappropriate Verbalizations,4,B,9,6.83,1
+Inappropriate Verbalizations,4,B,10,12.33,1
+Inappropriate Verbalizations,4,B,11,8.15,1
+Inappropriate Verbalizations,4,B,12,5.51,1
+Inappropriate Verbalizations,4,B,13,10.35,1
+Inappropriate Verbalizations,4,B,14,4.85,1
+Inappropriate Verbalizations,4,A,15,19.99,0
+Inappropriate Verbalizations,4,A,16,32.49,0
+Inappropriate Verbalizations,4,A,17,25.11,0
+Inappropriate Verbalizations,4,A,18,13.76,0
+Inappropriate Verbalizations,4,A,19,25.83,0
+Inappropriate Verbalizations,4,B,20,23.68,1
+Inappropriate Verbalizations,4,B,21,16.23,1
+Inappropriate Verbalizations,4,B,22,5.92,1
+Inappropriate Verbalizations,4,B,23,8.33,1
+Inappropriate Verbalizations,4,B,24,10.53,1
+Inappropriate Verbalizations,4,B,25,5.48,1
+Inappropriate Verbalizations,4,B,26,8.33,1
+Inappropriate Verbalizations,4,B,27,5.48,1
+Inappropriate Verbalizations,4,B,28,5.04,1
+Inappropriate Verbalizations,4,B,29,2.63,1
+Inappropriate Verbalizations,4,B,30,4.61,1
+Inappropriate Verbalizations,4,B,31,4.82,1
+Inappropriate Verbalizations,5,A,1,26.18,0
+Inappropriate Verbalizations,5,A,2,26.42,0
+Inappropriate Verbalizations,5,A,3,24.76,0
+Inappropriate Verbalizations,5,A,4,23.11,0
+Inappropriate Verbalizations,5,B,5,6.51,1
+Inappropriate Verbalizations,5,B,6,6.28,1
+Inappropriate Verbalizations,5,B,7,5.81,1
+Inappropriate Verbalizations,5,B,8,4.88,1
+Inappropriate Verbalizations,5,B,9,2.33,1
+Inappropriate Verbalizations,5,B,10,2.79,1
+Inappropriate Verbalizations,5,B,11,11.4,1
+Inappropriate Verbalizations,5,B,12,11.86,1
+Inappropriate Verbalizations,5,B,13,2.79,1
+Inappropriate Verbalizations,5,A,14,5.67,0
+Inappropriate Verbalizations,5,A,15,11.05,0
+Inappropriate Verbalizations,5,A,16,13.54,0
+Inappropriate Verbalizations,5,A,17,11.01,0
+Inappropriate Verbalizations,5,A,18,10.59,0
+Inappropriate Verbalizations,5,B,19,2.44,1
+Inappropriate Verbalizations,5,B,20,8.3,1
+Inappropriate Verbalizations,5,B,21,3.62,1
+Inappropriate Verbalizations,5,B,22,4.57,1
+Inappropriate Verbalizations,5,B,23,2.35,1
+Inappropriate Verbalizations,5,B,24,6.5,1
+Inappropriate Verbalizations,5,B,25,5.24,1
+Inappropriate Verbalizations,5,B,26,9.39,1
+Inappropriate Verbalizations,5,B,27,3.98,1
+Inappropriate Verbalizations,5,B,28,4.69,1
+Inappropriate Verbalizations,5,B,29,3.44,1
+Inappropriate Verbalizations,6,A,1,8.11,0
+Inappropriate Verbalizations,6,A,2,11.35,0
+Inappropriate Verbalizations,6,A,3,8.23,0
+Inappropriate Verbalizations,6,B,4,3.89,1
+Inappropriate Verbalizations,6,B,5,3.93,1
+Inappropriate Verbalizations,6,B,6,1.83,1
+Inappropriate Verbalizations,6,B,7,2.08,1
+Inappropriate Verbalizations,6,B,8,2.13,1
+Inappropriate Verbalizations,6,B,9,2.38,1
+Inappropriate Verbalizations,6,B,10,2.42,1
+Inappropriate Verbalizations,6,B,11,2.47,1
+Inappropriate Verbalizations,6,B,12,4.22,1
+Inappropriate Verbalizations,6,B,13,2.55,1
+Inappropriate Verbalizations,6,A,14,2.99,0
+Inappropriate Verbalizations,6,A,15,5.95,0
+Inappropriate Verbalizations,6,A,16,8.27,0
+Inappropriate Verbalizations,6,A,17,8.01,0
+Inappropriate Verbalizations,6,A,18,10.11,0
+Inappropriate Verbalizations,6,B,19,5.5,1
+Inappropriate Verbalizations,6,B,20,2.73,1
+Inappropriate Verbalizations,6,B,21,2.29,1
+Inappropriate Verbalizations,6,B,22,4.17,1
+Inappropriate Verbalizations,6,B,23,2.46,1
+Inappropriate Verbalizations,6,B,24,2.86,1
+Inappropriate Verbalizations,6,B,25,3.9,1
+Inappropriate Verbalizations,6,B,26,3.25,1
+Inappropriate Verbalizations,6,B,27,3.43,1
+Inappropriate Verbalizations,6,B,28,3.42,1
+Inappropriate Verbalizations,6,B,29,2.55,1
+Inappropriate Verbalizations,7,A,1,8.36,0
+Inappropriate Verbalizations,7,A,2,3.24,0
+Inappropriate Verbalizations,7,A,3,7.23,0
+Inappropriate Verbalizations,7,B,4,4.7,1
+Inappropriate Verbalizations,7,B,5,3.8,1
+Inappropriate Verbalizations,7,B,6,3.86,1
+Inappropriate Verbalizations,7,B,7,6.7,1
+Inappropriate Verbalizations,7,B,8,2.78,1
+Inappropriate Verbalizations,7,B,9,4,1
+Inappropriate Verbalizations,7,B,10,1.24,1
+Inappropriate Verbalizations,7,B,11,4.08,1
+Inappropriate Verbalizations,7,B,12,3.19,1
+Inappropriate Verbalizations,7,B,13,2.77,1
+Inappropriate Verbalizations,7,B,14,4.69,1
+Inappropriate Verbalizations,7,B,15,4.97,1
+Inappropriate Verbalizations,7,B,16,3.61,1
+Inappropriate Verbalizations,7,B,17,1.33,1
+Inappropriate Verbalizations,7,B,18,2.32,1
+Inappropriate Verbalizations,7,A,19,4.12,0
+Inappropriate Verbalizations,7,A,20,6.69,0
+Inappropriate Verbalizations,7,A,21,5.38,0
+Inappropriate Verbalizations,7,A,22,3.19,0
+Inappropriate Verbalizations,7,A,23,10.08,0
+Inappropriate Verbalizations,7,A,24,5.35,0
+Inappropriate Verbalizations,7,A,25,6.11,0
+Inappropriate Verbalizations,7,B,26,3.02,1
+Inappropriate Verbalizations,7,B,27,2.61,1
+Inappropriate Verbalizations,7,B,28,1.5,1
+Inappropriate Verbalizations,7,B,29,0.86,1
+Inappropriate Verbalizations,7,B,30,1.85,1
+Inappropriate Verbalizations,7,B,31,4.22,1
+Inappropriate Verbalizations,7,B,32,2.19,1
+Inappropriate Verbalizations,7,B,33,2.01,1
+Inappropriate Verbalizations,7,B,34,4.13,1
+Inappropriate Verbalizations,8,A,1,7.61,0
+Inappropriate Verbalizations,8,A,2,2.03,0
+Inappropriate Verbalizations,8,A,3,6.35,0
+Inappropriate Verbalizations,8,B,4,4.13,1
+Inappropriate Verbalizations,8,B,5,5.21,1
+Inappropriate Verbalizations,8,B,6,3.72,1
+Inappropriate Verbalizations,8,B,7,4.03,1
+Inappropriate Verbalizations,8,B,8,1.25,1
+Inappropriate Verbalizations,8,B,9,1.05,1
+Inappropriate Verbalizations,8,B,10,3.42,1
+Inappropriate Verbalizations,8,B,11,4.51,1
+Inappropriate Verbalizations,8,B,12,0.69,1
+Inappropriate Verbalizations,8,B,13,2.54,1
+Inappropriate Verbalizations,8,B,14,0.8,1
+Inappropriate Verbalizations,8,B,15,4.45,1
+Inappropriate Verbalizations,8,B,16,0.64,1
+Inappropriate Verbalizations,8,B,17,0.96,1
+Inappropriate Verbalizations,8,B,18,0.75,1
+Inappropriate Verbalizations,8,A,19,3.47,0
+Inappropriate Verbalizations,8,A,20,5.88,0
+Inappropriate Verbalizations,8,A,21,3.3,0
+Inappropriate Verbalizations,8,A,22,6.77,0
+Inappropriate Verbalizations,8,A,23,10.52,0
+Inappropriate Verbalizations,8,A,24,11.62,0
+Inappropriate Verbalizations,8,B,25,3.12,1
+Inappropriate Verbalizations,8,B,26,0.37,1
+Inappropriate Verbalizations,8,B,27,3.04,1
+Inappropriate Verbalizations,8,B,28,2.35,1
+Inappropriate Verbalizations,8,B,29,3.21,1
+Inappropriate Verbalizations,8,B,30,1.73,1
+Inappropriate Verbalizations,8,B,31,1.32,1
+Inappropriate Verbalizations,8,B,32,2.69,1
+Inappropriate Verbalizations,8,B,33,4.05,1
+Inappropriate Verbalizations,9,A,1,6.84,0
+Inappropriate Verbalizations,9,A,2,5.66,0
+Inappropriate Verbalizations,9,A,3,6.6,0
+Inappropriate Verbalizations,9,B,4,2.43,1
+Inappropriate Verbalizations,9,B,5,3.71,1
+Inappropriate Verbalizations,9,B,6,3.78,1
+Inappropriate Verbalizations,9,B,7,5.99,1
+Inappropriate Verbalizations,9,B,8,5.13,1
+Inappropriate Verbalizations,9,B,9,0.56,1
+Inappropriate Verbalizations,9,B,10,2.33,1
+Inappropriate Verbalizations,9,B,11,5.51,1
+Inappropriate Verbalizations,9,B,12,2.69,1
+Inappropriate Verbalizations,9,B,13,1.76,1
+Inappropriate Verbalizations,9,B,14,4.49,1
+Inappropriate Verbalizations,9,B,15,6.73,1
+Inappropriate Verbalizations,9,B,16,3.89,1
+Inappropriate Verbalizations,9,B,17,0.31,1
+Inappropriate Verbalizations,9,B,18,4.24,1
+Inappropriate Verbalizations,9,B,19,2.37,1
+Inappropriate Verbalizations,9,A,20,3.57,0
+Inappropriate Verbalizations,9,A,21,6.71,0
+Inappropriate Verbalizations,9,A,22,5.61,0
+Inappropriate Verbalizations,9,A,23,7.12,0
+Inappropriate Verbalizations,9,A,24,10.97,0
+Inappropriate Verbalizations,9,A,25,7.27,0
+Inappropriate Verbalizations,9,B,26,6.26,1
+Inappropriate Verbalizations,9,B,27,4.95,1
+Inappropriate Verbalizations,9,B,28,6.26,1
+Inappropriate Verbalizations,9,B,29,3.7,1
+Inappropriate Verbalizations,9,B,30,1.86,1
+Inappropriate Verbalizations,9,B,31,3.41,1
+Inappropriate Verbalizations,9,B,32,4.72,1
+Inappropriate Verbalizations,9,B,33,1.67,1
+Inappropriate Verbalizations,9,B,34,3.69,1
+Inappropriate Verbalizations,9,B,35,2.86,1
+Inappropriate Verbalizations,10,A,1,13.15,0
+Inappropriate Verbalizations,10,A,2,15.34,0
+Inappropriate Verbalizations,10,A,3,14.53,0
+Inappropriate Verbalizations,10,B,4,8.2,1
+Inappropriate Verbalizations,10,B,5,5.14,1
+Inappropriate Verbalizations,10,B,6,3.25,1
+Inappropriate Verbalizations,10,B,7,3.94,1
+Inappropriate Verbalizations,10,B,8,3.45,1
+Inappropriate Verbalizations,10,B,9,8.37,1
+Inappropriate Verbalizations,10,B,10,3.89,1
+Inappropriate Verbalizations,10,B,11,1.3,1
+Inappropriate Verbalizations,10,B,12,3.87,1
+Inappropriate Verbalizations,10,B,13,1.5,1
+Inappropriate Verbalizations,10,B,14,5.48,1
+Inappropriate Verbalizations,10,B,15,3.82,1
+Inappropriate Verbalizations,10,B,16,3.57,1
+Inappropriate Verbalizations,10,B,17,1.92,1
+Inappropriate Verbalizations,10,B,18,5.66,1
+Inappropriate Verbalizations,10,B,19,4.47,1
+Inappropriate Verbalizations,10,A,20,5.78,0
+Inappropriate Verbalizations,10,A,21,8.7,0
+Inappropriate Verbalizations,10,A,22,9.97,0
+Inappropriate Verbalizations,10,A,23,11.44,0
+Inappropriate Verbalizations,10,A,24,9.81,0
+Inappropriate Verbalizations,10,B,25,8.37,1
+Inappropriate Verbalizations,10,B,26,7.39,1
+Inappropriate Verbalizations,10,B,27,2.92,1
+Inappropriate Verbalizations,10,B,28,4.75,1
+Inappropriate Verbalizations,10,B,29,6.59,1
+Inappropriate Verbalizations,10,B,30,4.69,1
+Inappropriate Verbalizations,10,B,31,2.56,1
+Inappropriate Verbalizations,10,B,32,5.56,1
+Inappropriate Verbalizations,10,B,33,3.66,1
+Inappropriate Verbalizations,10,B,34,4.56,1
+Inappropriate Verbalizations,10,B,35,1.73,1
+Inappropriate Verbalizations,10,B,36,3.09,1
+Inappropriate Verbalizations,10,B,37,2.36,1
+Inappropriate Verbalizations,11,A,1,7.2,0
+Inappropriate Verbalizations,11,A,2,9.41,0
+Inappropriate Verbalizations,11,A,3,8.15,0
+Inappropriate Verbalizations,11,A,4,7.51,0
+Inappropriate Verbalizations,11,B,5,4.43,1
+Inappropriate Verbalizations,11,B,6,2.96,1
+Inappropriate Verbalizations,11,B,7,1.72,1
+Inappropriate Verbalizations,11,B,8,0.25,1
+Inappropriate Verbalizations,11,B,9,6.16,1
+Inappropriate Verbalizations,11,B,10,0.99,1
+Inappropriate Verbalizations,11,B,11,2.22,1
+Inappropriate Verbalizations,11,B,12,4.43,1
+Inappropriate Verbalizations,11,B,13,1.72,1
+Inappropriate Verbalizations,11,B,14,0.74,1
+Inappropriate Verbalizations,11,B,15,2.22,1
+Inappropriate Verbalizations,11,B,16,0.25,1
+Inappropriate Verbalizations,11,B,17,1.97,1
+Inappropriate Verbalizations,11,B,18,4.43,1
+Inappropriate Verbalizations,11,B,19,4.19,1
+Inappropriate Verbalizations,11,B,20,1.72,1
+Inappropriate Verbalizations,11,A,21,5.32,0
+Inappropriate Verbalizations,11,A,22,7.41,0
+Inappropriate Verbalizations,11,A,23,6.76,0
+Inappropriate Verbalizations,11,A,24,9.14,0
+Inappropriate Verbalizations,11,B,25,5.04,1
+Inappropriate Verbalizations,11,B,26,6.13,1
+Inappropriate Verbalizations,11,B,27,0.96,1
+Inappropriate Verbalizations,11,B,28,2.83,1
+Inappropriate Verbalizations,11,B,29,7.89,1
+Inappropriate Verbalizations,11,B,30,7.26,1
+Inappropriate Verbalizations,11,B,31,3.57,1
+Inappropriate Verbalizations,11,B,32,4.41,1
+Inappropriate Verbalizations,11,B,33,4.25,1
+Inappropriate Verbalizations,11,B,34,6.34,1
+Inappropriate Verbalizations,11,B,35,4.68,1
+Inappropriate Verbalizations,11,B,36,5.24,1
+Inappropriate Verbalizations,11,B,37,4.09,1
+Inappropriate Verbalizations,11,B,38,4.46,1
+Inappropriate Verbalizations,12,A,1,10,0
+Inappropriate Verbalizations,12,A,2,8,0
+Inappropriate Verbalizations,12,A,3,11,0
+Inappropriate Verbalizations,12,B,4,6,1
+Inappropriate Verbalizations,12,B,5,4,1
+Inappropriate Verbalizations,12,B,6,1,1
+Inappropriate Verbalizations,12,B,7,2,1
+Inappropriate Verbalizations,12,B,8,3,1
+Inappropriate Verbalizations,12,B,9,1,1
+Inappropriate Verbalizations,12,B,10,1,1
+Inappropriate Verbalizations,12,B,11,0,1
+Inappropriate Verbalizations,12,B,12,0,1
+Inappropriate Verbalizations,12,B,13,0,1
+Inappropriate Verbalizations,12,B,14,0,1
+Inappropriate Verbalizations,12,B,15,2,1
+Inappropriate Verbalizations,12,B,16,3,1
+Inappropriate Verbalizations,12,B,17,1,1
+Inappropriate Verbalizations,12,A,18,3,0
+Inappropriate Verbalizations,12,A,19,3,0
+Inappropriate Verbalizations,12,A,20,7,0
+Inappropriate Verbalizations,12,A,21,8,0
+Inappropriate Verbalizations,12,B,22,5,1
+Inappropriate Verbalizations,12,B,23,3,1
+Inappropriate Verbalizations,12,B,24,3,1
+Inappropriate Verbalizations,12,B,25,1,1
+Inappropriate Verbalizations,12,B,26,1,1
+Inappropriate Verbalizations,12,B,27,0,1
+Inappropriate Verbalizations,12,B,28,0,1
+Inappropriate Verbalizations,12,B,29,1,1
+Inappropriate Verbalizations,12,B,30,1,1
+Inappropriate Verbalizations,12,B,31,1,1
+Inappropriate Verbalizations,12,B,32,0,1

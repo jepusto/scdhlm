@@ -159,13 +159,12 @@ save(Schutte, file = "data/Schutte.RData", compress = TRUE)
 #--------------------
 
 Thorne <- read.csv("auxilliary/Thorne.csv", stringsAsFactors = FALSE)
-names(Thorne)[2] <- "measure"
-names(Thorne)[5] <- "condition"
+names(Thorne) <- c("measure", "case", "condition", "session","outcome", "trt")
 
 Thorne <- within(Thorne, {
-  case <- factor(case, levels = paste("Participant",1:12))
+  case <- factor(case, levels = 1:12, labels = paste("Participant", 1:12))
   measure <- factor(measure)
-  condition <- factor(condition, levels = 0:1, labels = c("A","B"))
+  condition <- factor(condition, levels = c("A","B"))
 })
 str(Thorne)
 
