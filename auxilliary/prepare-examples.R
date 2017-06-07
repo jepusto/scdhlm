@@ -157,15 +157,40 @@ save(Schutte, file = "data/Schutte.RData", compress = TRUE)
 #--------------------
 # Thorne
 #--------------------
+library(readr)
+library(dplyr)
 
-Thorne <- read.csv("auxilliary/Thorne.csv", stringsAsFactors = FALSE)
-names(Thorne) <- c("measure", "case", "condition", "session","outcome", "trt")
+phase_pairs <- function(phase) {
+  conditions <- levels(phase)
+  n <- length(phase)
+  y <- rep(1,n)
+  for (i in 2:n) {
+    (which_lev <- match(phase[i-1], conditions))
+    (which_conditions <- conditions[c(which_lev, which_lev + 1)])
+    !(phase[i] %in% which_conditions)
+    (y[i] <- y[i - 1] + !(phase[i] %in% which_conditions))
+  }
+  y
+}
 
-Thorne <- within(Thorne, {
-  case <- factor(case, levels = 1:12, labels = paste("Participant", 1:12))
-  measure <- factor(measure)
-  condition <- factor(condition, levels = c("A","B"))
-})
+Thorne <- 
+  read_csv("auxilliary/Thorne.csv") %>%
+  select(case = Case_number, measure = Measure, session = Session_number, 
+         phase_id = Condition, phase_indicator = Trt, outcome = Outcome) %>%
+  mutate(
+    case = factor(case, levels = 1:12, labels = paste("Participant", 1:12)),
+    measure = factor(measure),
+    phase_id = factor(phase_id, levels = c("A","B"))
+  ) %>%
+  arrange(measure, case, session) %>%
+  group_by(measure, case) %>% 
+  mutate(
+    phase_pair = phase_pairs(phase_id),
+    phase_id = paste0(phase_id, phase_pair)
+  ) %>%
+  select(-phase_pair) %>%
+  as.data.frame()
+
 str(Thorne)
 
 save(Thorne, file = "data/Thorne.RData", compress = TRUE)

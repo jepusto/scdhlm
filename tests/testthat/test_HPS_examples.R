@@ -103,13 +103,13 @@ test_that("Order doesn't matter for ABk designs", {
   
   Thorne$phase_pair <- with(Thorne, substr(phase_id, 2, 2))
   Thorne_A <- subset(Thorne, measure == "Academic Engagement")
-  Thorne_A_orig <- with(Thorne_A, effect_size_ABk(outcome, condition, case, phase_pair, session))
-  Thorne_A_new <- with(Thorne_A[sample.int(nrow(Thorne_A)),], effect_size_ABk(outcome, condition, case, phase_pair, session))
+  Thorne_A_orig <- with(Thorne_A, effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
+  Thorne_A_new <- with(Thorne_A[sample.int(nrow(Thorne_A)),], effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
   expect_identical(Thorne_A_orig, Thorne_A_new)
   
   Thorne_B <- subset(Thorne, measure == "Inappropriate Verbalizations")
-  Thorne_B_orig <- with(Thorne_B, effect_size_ABk(outcome, condition, case, phase_pair, session))
-  Thorne_B_new <- with(Thorne_B[sample.int(nrow(Thorne_B)),], effect_size_ABk(outcome, condition, case, phase_pair, session))
+  Thorne_B_orig <- with(Thorne_B, effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
+  Thorne_B_new <- with(Thorne_B[sample.int(nrow(Thorne_B)),], effect_size_ABk(outcome, phase_indicator, case, phase_pair, session))
   expect_identical(Thorne_B_orig, Thorne_B_new)
   
 })
