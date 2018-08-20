@@ -2,6 +2,7 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/jepusto/scdhlm/master.svg)](https://codecov.io/github/jepusto/scdhlm?branch=master)
 [![](http://www.r-pkg.org/badges/version/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
+[![](http://cranlogs.r-pkg.org/badges/last-month/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
 
 An R package for estimating design-comparable standardized mean difference effect sizes based on data from single-case designs. Implements methods described in: 
 
