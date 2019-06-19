@@ -13,7 +13,7 @@ behavior of at-risk students. \emph{Behavior Analysis in Practice, 1}(2), 12-18.
 Data from an ABAB design conducted by Thorne and Kamps (2008). The variables are as follows:
 \itemize{
   \item \code{case}. Participant identifier.  
-  \item \code{outcome_desc}. Outcome measure description (academic engagement or inappropriate verbalizations). 
+  \item \code{measure}. Outcome measure description (academic engagement or inappropriate verbalizations). 
   \item \code{session}. Measurement occasion.
   \item \code{phase_id}. Factor descibing the phase of the study design for each case.
   \item \code{phase_indicator}. Indicator variable equal to 1 during intervention phases.
@@ -21,4 +21,3 @@ Data from an ABAB design conducted by Thorne and Kamps (2008). The variables are
 }
 }
 \keyword{datasets}
-

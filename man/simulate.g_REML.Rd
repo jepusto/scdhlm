@@ -4,8 +4,8 @@
 \alias{simulate.g_REML}
 \title{Simulate data from a fitted \code{g_REML} object}
 \usage{
-\method{simulate}{g_REML}(object, nsim = 1, seed = NULL, parallel = FALSE,
-  ...)
+\method{simulate}{g_REML}(object, nsim = 1, seed = NULL,
+  parallel = FALSE, ...)
 }
 \arguments{
 \item{object}{a \code{g_REML} object}
@@ -36,4 +36,3 @@ Laski_g <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
 simulate(Laski_g, nsim = 20)
 
 }
-

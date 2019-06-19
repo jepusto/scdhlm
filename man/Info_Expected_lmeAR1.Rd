@@ -24,4 +24,3 @@ Laski_RML <- lme(fixed = outcome ~ treatment,
                  data = Laski)
 Info_Expected_lmeAR1(Laski_RML)
 }
-

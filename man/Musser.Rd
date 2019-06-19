@@ -21,4 +21,3 @@ Musser, Bray, Kehle, and Jenson (2001). The variables are as follows:
 }
 }
 \keyword{datasets}
-

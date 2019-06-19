@@ -30,4 +30,3 @@ A standardized mean difference effect size for single case designs.
 \emph{Research Synthesis Methods, 3}, 224-239. doi:\href{http://doi.org/10.1002/jrsm.1052}{10.1002/jrsm.1052}
 }
 \keyword{datasets}
-

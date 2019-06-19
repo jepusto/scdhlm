@@ -4,8 +4,8 @@
 \alias{simulate_MB2}
 \title{Simulate Model MB2 from Pustejovsky, Hedges, & Shadish (2014)}
 \usage{
-simulate_MB2(iterations, beta, rho, phi, tau1_ratio, tau_corr, design, m, n,
-  MB = TRUE)
+simulate_MB2(iterations, beta, rho, phi, tau1_ratio, tau_corr, design, m,
+  n, MB = TRUE)
 }
 \arguments{
 \item{iterations}{number of independent iterations of the simulation}
@@ -49,4 +49,3 @@ Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014).
 Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
 \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 }
-

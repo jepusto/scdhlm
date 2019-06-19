@@ -33,9 +33,6 @@ The package also includes the data used in the examples from each paper, as well
 \item \code{\link{Carson}}
 }
 }
-\author{
-James E. Pustejovsky <jepusto@gmail.com>
-}
 \references{
 Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
 A standardized mean difference effect size for single case designs. 
@@ -49,4 +46,6 @@ Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014).
 Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
 \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 }
-
+\author{
+James E. Pustejovsky <jepusto@gmail.com>
+}

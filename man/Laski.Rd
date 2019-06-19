@@ -28,4 +28,3 @@ A standardized mean difference effect size for multiple baseline designs across 
 \emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{http://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
 }
 \keyword{datasets}
-

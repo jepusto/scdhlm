@@ -11,4 +11,3 @@ An interactive shiny interface for estimating design-comparable
 standardized mean difference effect sizes from single-case designs. Estimation methods
 for multiple baseline and treatment reversal designs are available.
 }
-

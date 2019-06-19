@@ -26,4 +26,3 @@ measurement occasions.
 \examples{
 design_matrix(3, 16, c(5,9,13))
 }
-

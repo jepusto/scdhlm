@@ -21,4 +21,3 @@ Measurement occasion \item \code{outcome} Number of words read correctly per
 minute }
 }
 \keyword{datasets}
-

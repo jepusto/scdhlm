@@ -34,4 +34,3 @@ Laski_HPS <- with(Laski, effect_size_MB(outcome, treatment, case, time))
 CI_g(Laski_HPS)
 
 }
-
