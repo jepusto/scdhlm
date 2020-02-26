@@ -1,5 +1,6 @@
 library(shiny)
 source("mappings.R")
+library(readxl)
 
 numericInput_inline <- function (inputId, label, value, min = NA, max = NA, step = NA, width = NULL) {
   
@@ -43,7 +44,7 @@ shinyUI(fluidPage(
            fluidRow(
              column(4,
                 radioButtons('dat_type', 'What data do you want to use?', 
-                             c("Use an example" = "example", "Upload data from a file" = "dat")),
+                             c("Use an example" = "example", "Upload data from a .csv or .txt file" = "dat", "Upload data from a .xlsx file" = "dat2")),
                 conditionalPanel(
                   condition = "input.dat_type == 'example'",
                   selectInput("example", label = "Choose an example", 
@@ -55,12 +56,18 @@ shinyUI(fluidPage(
                   checkboxInput('header', 'File has a header?', TRUE),
                   radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
                   radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
+                ),
+                conditionalPanel(
+                  condition = "input.dat_type == 'dat2'",
+                  fileInput('dat2', 'Upload a .xlsx file', accept = c('.xlsx')),
+                  checkboxInput('col_names', 'File has a header?', TRUE),
+                  numericInput('sheet','What is the sheet number?', value = 1, min = 1)
                 )
              ),
              column(8,
                 tableOutput("contents"),
                 conditionalPanel(
-                  condition = "output.fileUploaded & input.dat_type == 'dat'",
+                  condition = "output.fileUploaded & input.dat_type == 'dat' || output.fileUploaded & input.dat_type == 'dat2'",
                   selectInput("design", label = "1. Please specify the study design.",
                               choices = design_names),
                   strong("2. Please select the variable containing each type of information."),

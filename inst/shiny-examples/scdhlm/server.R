@@ -2,6 +2,8 @@ library(shiny)
 library(markdown)
 library(ggplot2)
 library(scdhlm)
+library(readxl)
+
 
 source("mappings.R")
 source("graphing-functions.R")
@@ -11,8 +13,10 @@ source("lme-fit.R")
 shinyServer(function(input, output) {
   
   # Read in data
-  
-  datFile <- reactive({
+
+  datFile <- reactive({ 
+    if(input$dat_type == "dat"){
+ 
     
     inFile <- input$dat
     
@@ -21,7 +25,19 @@ shinyServer(function(input, output) {
     read.table(inFile$datapath, header=input$header, 
                sep=input$sep, quote=input$quote,
                stringsAsFactors = FALSE)
+   } else if(input$dat_type == "dat2"){
+       
+       inFile <- input$dat2
+       
+       if (is.null(inFile)) return(NULL)
+       
+       as.data.frame(read_xlsx(inFile$datapath, col_names = input$col_names,
+                 sheet = input$sheet))
+       
+   } else {
+   }
   })
+  
   
   # Check that file is uploaded
   
