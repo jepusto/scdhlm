@@ -61,7 +61,8 @@ shinyUI(fluidPage(
                   condition = "input.dat_type == 'dat2'",
                   fileInput('dat2', 'Upload a .xlsx file', accept = c('.xlsx')),
                   checkboxInput('col_names', 'File has a header?', TRUE),
-                  numericInput('sheet','What is the sheet number?', value = 1, min = 1)
+                  numericInput('sheet','What is the sheet number?', value = 1, min = 1),
+                  selectInput("inSelect", "inSelect", "")
                 )
              ),
              column(8,

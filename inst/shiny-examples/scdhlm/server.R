@@ -10,7 +10,7 @@ source("graphing-functions.R")
 source("helper-functions.R")
 source("lme-fit.R")
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
   # Read in data
 
@@ -32,11 +32,36 @@ shinyServer(function(input, output) {
        if (is.null(inFile)) return(NULL)
        
        as.data.frame(read_xlsx(inFile$datapath, col_names = input$col_names,
-                 sheet = input$sheet))
+                 sheet = 1))
        
    } else {
    }
   })
+  
+   sheetname <- reactive({
+     if(input$dat_type == "dat2"){
+       inFile <- input$dat2
+       if (is.null(inFile)) return(NULL)
+     sheetnames  <- excel_sheets(inFile$datapath)
+     } else {
+     }
+    })
+  
+   observe({
+     updateSelectInput(session, "inSelect", label = "inSelect",
+                       choices = sheetname(),
+                       selected = NULL)
+   }
+   
+   )
+
+   # datFile <- observeEvent(input$inSelect, {
+   #   inFile <- input$dat2
+   #   if (is.null(inFile)) return(NULL)
+   #   as.data.frame(read_xlsx(inFile$datapath, col_names = input$col_names,
+   #                                         sheet = input$inSelect))
+   # })
+  
   
   
   # Check that file is uploaded
