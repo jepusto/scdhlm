@@ -13,47 +13,49 @@ source("lme-fit.R")
 shinyServer(function(input, output, session) {
   
   # Read in data
-
+  sheetname <- reactive({
+    if (input$dat_type == "xlsx") {
+      inFile <- input$xlsx
+      if (is.null(inFile)) return(NULL)
+      sheetnames <- excel_sheets(inFile$datapath)
+      return(sheetnames)
+    } else {
+      return(NULL)
+    }
+  })
+  
+  observe({
+    updateSelectInput(session, "inSelect", label = "inSelect",
+                      choices = sheetname(),
+                      selected = NULL)
+  })
+  
   datFile <- reactive({ 
-    if(input$dat_type == "dat"){
+    
+    if (input$dat_type == "dat") {
  
-    
-    inFile <- input$dat
-    
-    if (is.null(inFile)) return(NULL)
-
-    read.table(inFile$datapath, header=input$header, 
-               sep=input$sep, quote=input$quote,
-               stringsAsFactors = FALSE)
-   } else if(input$dat_type == "dat2"){
+      inFile <- input$dat
+      
+      if (is.null(inFile)) return(NULL)
+  
+      read.table(inFile$datapath, header=input$header, 
+                 sep=input$sep, quote=input$quote,
+                 stringsAsFactors = FALSE)
+      
+   } else if (input$dat_type == "xlsx") {
        
-       inFile <- input$dat2
+       inFile <- input$xlsx
        
        if (is.null(inFile)) return(NULL)
        
        as.data.frame(read_xlsx(inFile$datapath, col_names = input$col_names,
-                 sheet = 1))
+                 sheet = input$inSelect))
        
    } else {
    }
   })
   
-   sheetname <- reactive({
-     if(input$dat_type == "dat2"){
-       inFile <- input$dat2
-       if (is.null(inFile)) return(NULL)
-     sheetnames  <- excel_sheets(inFile$datapath)
-     } else {
-     }
-    })
-  
-   observe({
-     updateSelectInput(session, "inSelect", label = "inSelect",
-                       choices = sheetname(),
-                       selected = NULL)
-   }
-   
-   )
+
 
    # datFile <- observeEvent(input$inSelect, {
    #   inFile <- input$dat2

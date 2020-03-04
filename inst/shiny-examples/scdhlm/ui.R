@@ -44,7 +44,7 @@ shinyUI(fluidPage(
            fluidRow(
              column(4,
                 radioButtons('dat_type', 'What data do you want to use?', 
-                             c("Use an example" = "example", "Upload data from a .csv or .txt file" = "dat", "Upload data from a .xlsx file" = "dat2")),
+                             c("Use an example" = "example", "Upload data from a .csv or .txt file" = "dat", "Upload data from a .xlsx file" = "xlsx")),
                 conditionalPanel(
                   condition = "input.dat_type == 'example'",
                   selectInput("example", label = "Choose an example", 
@@ -58,8 +58,8 @@ shinyUI(fluidPage(
                   radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
                 ),
                 conditionalPanel(
-                  condition = "input.dat_type == 'dat2'",
-                  fileInput('dat2', 'Upload a .xlsx file', accept = c('.xlsx')),
+                  condition = "input.dat_type == 'xlsx'",
+                  fileInput('xlsx', 'Upload a .xlsx file', accept = c('.xlsx')),
                   checkboxInput('col_names', 'File has a header?', TRUE),
                   numericInput('sheet','What is the sheet number?', value = 1, min = 1),
                   selectInput("inSelect", "inSelect", "")
