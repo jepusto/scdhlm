@@ -55,15 +55,6 @@ shinyServer(function(input, output, session) {
    }
   })
   
-
-
-   # datFile <- observeEvent(input$inSelect, {
-   #   inFile <- input$dat2
-   #   if (is.null(inFile)) return(NULL)
-   #   as.data.frame(read_xlsx(inFile$datapath, col_names = input$col_names,
-   #                                         sheet = input$inSelect))
-   # })
-  
   
   
   # Check that file is uploaded

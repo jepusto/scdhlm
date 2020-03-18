@@ -61,14 +61,13 @@ shinyUI(fluidPage(
                   condition = "input.dat_type == 'xlsx'",
                   fileInput('xlsx', 'Upload a .xlsx file', accept = c('.xlsx')),
                   checkboxInput('col_names', 'File has a header?', TRUE),
-                  numericInput('sheet','What is the sheet number?', value = 1, min = 1),
                   selectInput("inSelect", "inSelect", "")
                 )
              ),
              column(8,
                 tableOutput("contents"),
                 conditionalPanel(
-                  condition = "output.fileUploaded & input.dat_type == 'dat' || output.fileUploaded & input.dat_type == 'dat2'",
+                  condition = "output.fileUploaded & input.dat_type == 'dat' || output.fileUploaded & input.dat_type == 'xlsx'",
                   selectInput("design", label = "1. Please specify the study design.",
                               choices = design_names),
                   strong("2. Please select the variable containing each type of information."),
