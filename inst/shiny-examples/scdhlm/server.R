@@ -25,7 +25,7 @@ shinyServer(function(input, output, session) {
   })
   
   observe({
-    updateSelectInput(session, "inSelect", label = "inSelect",
+    updateSelectInput(session, "inSelect", label = "Select a sheet",
                       choices = sheetname(),
                       selected = NULL)
   })
