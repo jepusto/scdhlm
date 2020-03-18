@@ -2,26 +2,60 @@ library(shiny)
 library(markdown)
 library(ggplot2)
 library(scdhlm)
+library(readxl)
+
 
 source("mappings.R")
 source("graphing-functions.R")
 source("helper-functions.R")
 source("lme-fit.R")
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
   # Read in data
-  
-  datFile <- reactive({
-    
-    inFile <- input$dat
-    
-    if (is.null(inFile)) return(NULL)
-
-    read.table(inFile$datapath, header=input$header, 
-               sep=input$sep, quote=input$quote,
-               stringsAsFactors = FALSE)
+  sheetname <- reactive({
+    if (input$dat_type == "xlsx") {
+      inFile <- input$xlsx
+      if (is.null(inFile)) return(NULL)
+      sheetnames <- excel_sheets(inFile$datapath)
+      return(sheetnames)
+    } else {
+      return(NULL)
+    }
   })
+  
+  observe({
+    updateSelectInput(session, "inSelect", label = "Select a sheet",
+                      choices = sheetname(),
+                      selected = NULL)
+  })
+  
+  datFile <- reactive({ 
+    
+    if (input$dat_type == "dat") {
+ 
+      inFile <- input$dat
+      
+      if (is.null(inFile)) return(NULL)
+  
+      read.table(inFile$datapath, header=input$header, 
+                 sep=input$sep, quote=input$quote,
+                 stringsAsFactors = FALSE)
+      
+   } else if (input$dat_type == "xlsx") {
+       
+       inFile <- input$xlsx
+       
+       if (is.null(inFile)) return(NULL)
+       
+       as.data.frame(read_xlsx(inFile$datapath, col_names = input$col_names,
+                 sheet = input$inSelect))
+       
+   } else {
+   }
+  })
+  
+  
   
   # Check that file is uploaded
   
