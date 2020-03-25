@@ -335,31 +335,7 @@ NULL
 NULL
 
 
-#' Salazar, et al. (2020)
-#' 
-#' Data from a multiple baseline design conducted by Salazar, Ruiz,
-#' Ramírez1, &  Cardona-Betancourt (2020). The variables are as follows:
-#' \itemize{
-#'   \item \code{case}. Participant identifier.  
-#'   \item \code{measure}. Outcome measure description (AFQ-Y, PTQ-C, or GPQ-C). 
-#'   \item \code{treatment} Factor indicating baseline, treatment, or follow-up phase
-#'   \item \code{time}. Measurement occasion.
-#'   \item \code{outcome}. Outcome scores
-#' }
-#' 
-#' @docType data
-#' @keywords datasets
-#' @format A data frame with 324 rows and 5 variables
-#' @name Salazar
-#' 
-#' @source Salazar, D., Ruiz, F., Ramírez, E., & Cardona-Betancourt, V. (2020).
-#'  Acceptance and Commitment Therapy Focused on Repetitive Negative Thinking for 
-#'  Child Depression: A Randomized Multiple-Baseline Evaluation. The Psychological 
-#'  Record. 
-#'  doi: \href{https://doi.org/10.1007/s40732-019-00362-5}
-#'   
-#'   
-NULL
+
 
 
 
