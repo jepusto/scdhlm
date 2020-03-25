@@ -200,7 +200,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
 
 
 
-effect_size_MB_new <- function(data, outcome, treatment, id, time, phi, rho) {
+effect_size_MB_new <- function(outcome, treatment, id, time, data = NULL, phi = NULL, rho = NULL) {
   
   ###########
   ## setup ##
@@ -208,17 +208,20 @@ effect_size_MB_new <- function(data, outcome, treatment, id, time, phi, rho) {
   
   # create factor variables
   
-  outcome_call <- substitute(outcome)
-  treatment_call <- substitute(treatment)
-  id_call <- substitute(id)
-  time_call <- substitute(time)
+  if (!is.null(data)) {
+    outcome_call <- substitute(outcome)
+    treatment_call <- substitute(treatment)
+    id_call <- substitute(id)
+    time_call <- substitute(time)
+    
+    env <- list2env(data, parent = parent.frame())
+    
+    outcome <- eval(outcome_call, env)
+    treatment <- eval(treatment_call, env)
+    id <- eval(id_call, env)
+    time <- eval(time_call, env)
+  }
   
-  env <- list2env(data, parent = parent.frame())
-  
-  outcome <- eval(outcome_call, env)
-  treatment <- eval(treatment_call, env)
-  id <- eval(id_call, env)
-  time <- eval(time_call, env)
   
   dat <- data.frame(id_fac = factor(id),
                     treatment_fac = factor(treatment),
@@ -265,18 +268,18 @@ effect_size_MB_new <- function(data, outcome, treatment, id, time, phi, rho) {
   ## nuisance parameter estimates ##
   ##################################
   
-  if (missing(phi) | missing(rho)) {
+  if (is.null(phi) | is.null(rho)) {
     # auto-covariances - See first display equation on p. 32.
     acv_SS <- matrix(unlist(tapply(case_FE$residuals, dat$id_fac, auto_SS)), m, 2, byrow=TRUE)
     
     # calculate adjusted autocorrelation
-    if (missing(phi)) {
+    if (is.null(phi)) {
       phi_YW <- sum(acv_SS[,2], na.rm=T) / sum(acv_SS[,1], na.rm=T)
       phi_correction <- sum((h_i_p - 1) / h_i_p) / (g_dotdot - 2 * m)   # This is the constant C given on p. 33.
       phi <- phi_YW + phi_correction                                # See last display equation on p. 32.      
     }
     
-    if (missing(rho)) {
+    if (is.null(rho)) {
       # calculate adjusted within-case variance estimate
       sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% 
                                                         with(dat, HLM_AR1_corr(id_fac, time, 0, phi)) %*% X_case_FE) 
