@@ -153,6 +153,40 @@ Schutte <- within(Schutte, {
 
 save(Schutte, file = "data/Schutte.RData", compress = TRUE)
 
+#--------------------
+Salazar
+#--------------------
+library(readxl)
+library(tidyverse)
+
+sheet <- excel_sheets('auxilliary//Raw Data.xlsx')
+datFile <- lapply(setNames(sheet, sheet), function(x) read_excel("auxilliary//Raw Data.xlsx", sheet=x))
+datFile <-  bind_rows(datFile, .id="Sheet")
+
+datFile <- datFile %>% 
+  select(Sheet:`GPQ-C`) %>%
+  pivot_longer(cols= `AFQ-Y`:`GPQ-C`, names_to = "measure", values_to = "outcome")
+
+datFile <- datFile %>%
+  select(case = Sheet, measure, condition= `...1`, outcome) %>%
+  mutate(
+    treatment = case_when(
+      str_detect(condition, "LB") ~ "baseline",
+      str_detect(condition, "Int") ~ "treatment",
+      str_detect(condition, "Post") ~ "follow-up",
+      str_detect(condition, "FU") ~ "follow-up",
+    ),
+    condition = as.factor(condition),
+    measure = as.factor(measure),
+    case = as.factor(case)
+  ) %>%
+  group_by(case, measure) %>%
+  mutate(time = as.numeric(row_number())) %>%
+  select(case, measure, treatment, time, outcome)
+
+Salazar <- as.data.frame(datFile)
+
+save(Salazar, file = "data/Salazar.RData", compress = TRUE)
 
 #--------------------
 # Thorne
