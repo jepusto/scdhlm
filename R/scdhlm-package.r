@@ -225,7 +225,6 @@ NULL
 #'   
 NULL
 
-
 #' Musser (2001)
 #' 
 #' Data from a multiple baseline design conducted by 
@@ -339,11 +338,11 @@ NULL
 #' Data from a multiple baseline design conducted by Salazar, Ruiz,
 #' Ramírez1, &  Cardona-Betancourt (2020). The variables are as follows:
 #' \itemize{
-#'   \item \code{case}. Participant identifier.  
-#'   \item \code{measure}. Outcome measure description (AFQ-Y, PTQ-C, or GPQ-C). 
-#'   \item \code{treatment} Factor indicating baseline, treatment, or follow-up phase
+#'   \item \code{case}. Participant identifier.
+#'   \item \code{measure}. Outcome measure description (AFQ-Y, PTQ-C, or GPQ-C).
+#'   \item \code{treatment} Factor indicating baseline, treatment, post, or follow-up phase.
 #'   \item \code{time}. Measurement occasion.
-#'   \item \code{outcome}. Outcome scores
+#'   \item \code{outcome}. Outcome scores.
 #' }
 #' 
 #' @docType data
@@ -352,16 +351,12 @@ NULL
 #' @name Salazar
 #' 
 #' @source Salazar, D., Ruiz, F., Ramírez, E., & Cardona-Betancourt, V. (2020).
-#'  Acceptance and Commitment Therapy Focused on Repetitive Negative Thinking for 
-#'  Child Depression: A Randomized Multiple-Baseline Evaluation. The Psychological 
-#'  Record. 
-#'  doi: \href{https://doi.org/10.1007/s40732-019-00362-5}
-#'   
-#'   
+#'   Acceptance and Commitment Therapy Focused on Repetitive Negative Thinking for
+#'   Child Depression: A Randomized Multiple-Baseline Evaluation. The Psychological
+#'   Record. doi:\href{https://doi.org/10.1007/s40732-019-00362-5}{10.1007/s40732-019-00362-5}
+#'
+#'
 NULL
-
-
-
 
 
 #--------------------------
