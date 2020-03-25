@@ -129,7 +129,6 @@ NULL
 
 NULL
 
-
 #' Example 2 from Hedges, Pustejovsky, & Shadish (2013)
 #' 
 #' Data from a multiple baseline design conducted by 
@@ -310,7 +309,6 @@ NULL
 #'   
 NULL
 
-
 #' Alber-Morgan, et al. (2007)
 #' 
 #' Data from a multiple baseline design conducted by Alber-Morgan, Ramp,
@@ -357,7 +355,6 @@ NULL
 #'
 #'
 NULL
-
 
 #--------------------------
 # Simulation results

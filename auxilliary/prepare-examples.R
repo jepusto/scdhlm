@@ -173,7 +173,7 @@ datFile <- datFile %>%
     treatment = case_when(
       str_detect(condition, "LB") ~ "baseline",
       str_detect(condition, "Int") ~ "treatment",
-      str_detect(condition, "Post") ~ "follow-up",
+      str_detect(condition, "Post") ~ "post",
       str_detect(condition, "FU") ~ "follow-up",
     ),
     condition = as.factor(condition),
@@ -186,7 +186,7 @@ datFile <- datFile %>%
 
 Salazar <- as.data.frame(datFile)
 
-save(Salazar, file = "data/Salazar.RData", compress = TRUE)
+save(Salazar, file = "data/Salazar.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Thorne
