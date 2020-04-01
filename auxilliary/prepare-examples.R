@@ -125,7 +125,35 @@ str(Romaniuk)
 
 save(Romaniuk, file = "data/Romaniuk.RData", compress = TRUE)
 
+#--------------------
+# Ruiz
+#--------------------
+library(readxl)
+library(tidyverse)
 
+Ruiz <- read_excel('auxilliary//Data_Sheet_1_A Multiple-Baseline Evaluation.xlsx', sheet = "Overall")
+
+
+Ruiz <- Ruiz %>% 
+  pivot_longer(cols= `PSWQ`:`VQ-OBSTRUCTION`, names_to = "measure", values_to = "outcome")
+
+
+Ruiz <- Ruiz %>%
+  select(case, time=session, measure, outcome) %>%
+  mutate(
+    treatment = case_when(
+      time < 6 ~ "baseline",
+      time == 6 ~ "treatment",
+      time == 7 ~ "treatment",
+      time == 8 ~ "post",
+      time > 8 ~ "follow-up"
+    ),
+    treatment = as.factor(treatment),
+    case = as.factor(case),
+    measure = as.factor(measure)
+  )
+
+save(Ruiz, file = "data/Ruiz.RData", compress = TRUE, version = 2)
 #--------------------
 # Saddler
 #--------------------
