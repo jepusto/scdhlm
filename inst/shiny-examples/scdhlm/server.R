@@ -366,4 +366,7 @@ shinyServer(function(input, output, session) {
   }, height = function() 120 * nlevels(datClean()$case),
   width = function() 700)
   
+  
+ session$onSessionEnded(stopApp)
+  
 })
