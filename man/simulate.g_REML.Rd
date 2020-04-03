@@ -4,8 +4,7 @@
 \alias{simulate.g_REML}
 \title{Simulate data from a fitted \code{g_REML} object}
 \usage{
-\method{simulate}{g_REML}(object, nsim = 1, seed = NULL,
-  parallel = FALSE, ...)
+\method{simulate}{g_REML}(object, nsim = 1, seed = NULL, parallel = FALSE, ...)
 }
 \arguments{
 \item{object}{a \code{g_REML} object}
