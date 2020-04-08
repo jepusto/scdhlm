@@ -1,6 +1,6 @@
 ## Resubmission
 
-This is a re-submission. In this version I have:
+This is a re-submission. In this version we have:
 
 * Updated included functions to work with datasets instead of vectors only.
 * Added features and fixed bugs in the included shiny app
@@ -8,7 +8,7 @@ This is a re-submission. In this version I have:
 
 ## Test environments
 
-* local Windows 7 Enterprise, R 3.6.1
+* local Windows 7 Enterprise, R 3.6.3
 * ubuntu 16.04.6 (on travis-ci), R 3.6.2
 * win-builder (devel, release, oldrelease)
 
