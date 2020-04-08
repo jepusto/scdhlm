@@ -4,7 +4,16 @@
 \alias{effect_size_ABk}
 \title{Calculates HPS effect size}
 \usage{
-effect_size_ABk(outcome, treatment, id, phase, time, phi, rho)
+effect_size_ABk(
+  outcome,
+  treatment,
+  id,
+  phase,
+  time,
+  data = NULL,
+  phi = NULL,
+  rho = NULL
+)
 }
 \arguments{
 \item{outcome}{Vector of outcome data. May not contain any missing values.}
@@ -17,6 +26,8 @@ effect_size_ABk(outcome, treatment, id, phase, time, phi, rho)
 condition and one contiguous treatment condition). Must be the same length as \code{outcome}.}
 
 \item{time}{vector of measurement occasion times. Must be the same length as \code{outcome}.}
+
+\item{data}{Optional dataset to use for analysis. Must be data.frame.}
 
 \item{phi}{Optional value of the auto-correlation nuisance parameter, to be used 
 in calculating the small-sample adjusted effect size}

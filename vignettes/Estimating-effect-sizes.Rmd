@@ -29,21 +29,23 @@ Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response ca
 In the `Lambert` dataset, these variables are called respectively `outcome`, `treatment`, `case`, `phase`, and `time`. Given these inputs, the design-comparable SMD is calculated as follows:
 ```{r}
 data(Lambert)
-Lambert_ES <- with(Lambert, effect_size_ABk(outcome = outcome, treatment = treatment, 
-                                            id = case, phase = phase, time = time))
+
+Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, 
+                                            id = case, phase = phase, time = time, data= Lambert)
+
 str(Lambert_ES)
 ```
 The function produces a list containing the estimated effect size estimate, an estimate of its variance, and several pieces of auxilliary information. The effect size estimate is stored in the list entry called `delta_hat`, which in this example is equal to `r Lambert_ES$delta_hat`; its variance is stored in `V_delta_hat`, which in this example is equal to `r Lambert_ES$V_delta_hat`. The effect size estimate is bias-corrected in a manner analogous to the correction in Hedges' g for SMDs from a between-subjects design. The degrees of freedom are estimated based on a Satterthwaite-type approximation and are stored in the entry `nu` (equal to `r Lambert_ES$nu` in this example).
 
 By default, the `effect_size_ABk` function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry `phi`) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry `rho`). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimated was . The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of `r Lambert_ES$phi`. 
 ```{r}
-with(Lambert, effect_size_ABk(outcome = outcome, treatment = treatment, 
-                              id = case, phase = phase, time = time, 
-                              phi = 0.10))[c("delta_hat","V_delta_hat","nu")]
+effect_size_ABk(outcome = outcome, treatment = treatment, 
+                              id = case, phase = phase, time = time, data= Lambert,
+                              phi = 0.10)[c("delta_hat","V_delta_hat","nu")]
 
-with(Lambert, effect_size_ABk(outcome = outcome, treatment = treatment, 
-                              id = case, phase = phase, time = time, 
-                              phi = 0.35))[c("delta_hat","V_delta_hat","nu")]
+effect_size_ABk(outcome = outcome, treatment = treatment, 
+                              id = case, phase = phase, time = time, data= Lambert,
+                              phi = 0.35)[c("delta_hat","V_delta_hat","nu")]
 ```
 The estimated auto-correlation has only a trivial effect on the effect size estimate and a minor effect on its estimated variance. 
 
@@ -52,7 +54,7 @@ The estimated auto-correlation has only a trivial effect on the effect size esti
 Anglesea, Hoch, and Taylor (2008) used an ABAB design to test the effect of using a pager prompt to reduce the rapid eating of three teenage boys with autism. The primary outcome was a measure of how quickly each participant consumed one serving of a familiar food. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who used it to illustrate the calculation of the design-comparable SMD when based on the minimum required number of cases. Their calculations can be replicated using the following code:
 ```{r}
 data(Anglesea)
-Anglesea_ES <- with(Anglesea, effect_size_ABk(outcome, condition, case, phase, session))
+Anglesea_ES <- effect_size_ABk(outcome, condition, case, phase, session, data = Anglesea)
 Anglesea_ES[c("delta_hat","V_delta_hat","nu")]
 ```
 Note that the variance of the effect size estimate is quite large and the degrees of freedom corresponding to the denominator of the SMD estimate are very low. Both quantities are extreme due to the small number of cases used in this example. 
@@ -65,12 +67,9 @@ Design-comparable SMDs can be estimated based on these data using the `effect_si
 ```{r}
 data(Saddler)
 
-quality_ES <- with(subset(Saddler, measure=="writing quality"), 
-                   effect_size_MB(outcome, treatment, case, time))
-complexity_ES <- with(subset(Saddler, measure=="T-unit length"), 
-                      effect_size_MB(outcome, treatment, case, time))
-construction_ES <- with(subset(Saddler, measure=="number of constructions"), 
-                        effect_size_MB(outcome, treatment, case, time))
+quality_ES <- effect_size_MB(outcome, treatment, case, time, data= subset(Saddler, measure=="writing quality"))
+complexity_ES <- effect_size_MB(outcome, treatment, case, time , data= subset(Saddler, measure=="T-unit length"))
+construction_ES <- effect_size_MB(outcome, treatment, case, time, data= subset(Saddler, measure=="number of constructions"))
 
 cbind(quality = unlist(quality_ES), 
       complexity = unlist(complexity_ES), 
@@ -103,7 +102,7 @@ The following code compares the estimates of the design-comparable SMD effect si
 data(Laski)
 
 # Hedges, Pustejovsky, & Shadish (2013)
-Laski_ES_HPS <- with(Laski, effect_size_MB(outcome, treatment, case, time))
+Laski_ES_HPS <- effect_size_MB(outcome, treatment, case, time, data= Laski)
 
 # Pustejovsky, Hedges, & Shadish (2014)
 Laski_RML <- lme(fixed = outcome ~ treatment,

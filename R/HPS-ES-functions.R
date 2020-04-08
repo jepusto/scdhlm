@@ -37,10 +37,11 @@ auto_SS <- function(x, n = length(x)) {
 #' as described in Hedges, Pustejovsky, & Shadish (2013). Note that the data must contain one row per 
 #' measurement occasion per subject.
 #' 
-#' @param outcome Vector of outcome data. May not contain any missing values.
-#' @param treatment Vector of treatment indicators. Must be the same length as \code{outcome}.
-#' @param id factor vector indicating unique cases. Must be the same length as \code{outcome}.
-#' @param time vector of measurement occasion times. Must be the same length as \code{outcome}.
+#' @param outcome Vector of outcome data or name of variable within \code{data}. May not contain any missing values.
+#' @param treatment Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param id factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param time vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param data Optional dataset to use for analysis. Must be data.frame. 
 #' @param phi Optional value of the auto-correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
 #' @param rho Optional value of the intra-class correlation nuisance parameter, to be used 
@@ -79,19 +80,37 @@ auto_SS <- function(x, n = length(x)) {
 #' with(Laski, effect_size_MB(outcome, treatment, case, time))
 #' 
 
-effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
+
+effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL, rho = NULL) {
   
   ###########
   ## setup ##
   ###########
   
   # create factor variables
+  
+  if (!is.null(data)) {
+    outcome_call <- substitute(outcome)
+    treatment_call <- substitute(treatment)
+    id_call <- substitute(id)
+    time_call <- substitute(time)
+    
+    env <- list2env(data, parent = parent.frame())
+    
+    outcome <- eval(outcome_call, env)
+    treatment <- eval(treatment_call, env)
+    id <- eval(id_call, env)
+    time <- eval(time_call, env)
+  }
+  
+  
   dat <- data.frame(id_fac = factor(id),
                     treatment_fac = factor(treatment),
                     time_fac = factor(time),
                     outcome, time)
+  
   dat <- dat[with(dat, order(id_fac, time)),]
-    
+  
   # unique times, unique cases, calculate sample sizes  
   time_points <- seq(min(time), max(time),1)            # unique measurement occasions j = 1,...,N
   N <- length(time_points)                              # number of unique measurement occasions
@@ -121,7 +140,7 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   # calculate pooled variance S-squared
   S_sq <- summary(time_FE)$sigma^2              # See p. 12, Eq. (3) and also footnote 5.
   K <- time_FE$rank                             # number of time-by-treatment groups containing at least one observation. See p. 11.
-
+  
   # calculate unadjusted effect size
   delta_hat_unadj <- D_bar / sqrt(S_sq)         # See p. 13, Eq. (4)
   
@@ -130,18 +149,18 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   ## nuisance parameter estimates ##
   ##################################
   
-  if (missing(phi) | missing(rho)) {
+  if (is.null(phi) | is.null(rho)) {
     # auto-covariances - See first display equation on p. 32.
     acv_SS <- matrix(unlist(tapply(case_FE$residuals, dat$id_fac, auto_SS)), m, 2, byrow=TRUE)
     
     # calculate adjusted autocorrelation
-    if (missing(phi)) {
+    if (is.null(phi)) {
       phi_YW <- sum(acv_SS[,2], na.rm=T) / sum(acv_SS[,1], na.rm=T)
       phi_correction <- sum((h_i_p - 1) / h_i_p) / (g_dotdot - 2 * m)   # This is the constant C given on p. 33.
       phi <- phi_YW + phi_correction                                # See last display equation on p. 32.      
     }
     
-    if (missing(rho)) {
+    if (is.null(rho)) {
       # calculate adjusted within-case variance estimate
       sigma_sq_correction <- g_dotdot - product_trace(XtX_inv_case_FE, t(X_case_FE) %*% 
                                                         with(dat, HLM_AR1_corr(id_fac, time, 0, phi)) %*% X_case_FE) 
@@ -168,11 +187,11 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   # calculate degrees of freedom
   AV <- A_mat %*% V_mat
   nu <- (g_dotdot - K)^2 / product_trace(AV, AV)          # See p. 15, Eq. (11). Also note that product_trace(AV, AV) = tr(A Sigma A Sigma). See p. 30.
-
+  
   # calculate theta
   theta <- sqrt(sum(diag(XtX_inv_case_FE %*% t(X_case_FE) %*% V_mat %*% X_case_FE %*% XtX_inv_case_FE)[X_trt])) / m   # See p. 15, Eq. (10). 
   
-
+  
   #######################################
   ## adjusted effect size and variance ##
   #######################################
@@ -190,13 +209,12 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
   ####################
   
   results <- list(g_dotdot = g_dotdot, K = K, D_bar = D_bar, S_sq = S_sq, delta_hat_unadj = delta_hat_unadj, 
-               phi = phi, sigma_sq_w = sigma_sq_w, rho = rho, 
-               theta = theta, nu = nu, delta_hat = delta_hat, V_delta_hat = V_delta_hat)
+                  phi = phi, sigma_sq_w = sigma_sq_w, rho = rho, 
+                  theta = theta, nu = nu, delta_hat = delta_hat, V_delta_hat = V_delta_hat)
   class(results) <- "g_HPS"
   
   return(results)
 }
-
 
 
 ## calculate effect size (with associated estimates) for (AB)^k design ####
@@ -207,12 +225,13 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
 #' as described in Hedges, Pustejovsky, & Shadish (2012). Note that the data must contain one row per 
 #' measurement occasion per subject.
 #' 
-#' @param outcome Vector of outcome data. May not contain any missing values.
-#' @param treatment Vector of treatment indicators. Must be the same length as \code{outcome}.
-#' @param id factor vector indicating unique cases. Must be the same length as \code{outcome}.
+#' @param outcome Vector of outcome data or name of variable within \code{data}. May not contain any missing values.
+#' @param treatment Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param id factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param phase factor vector indicating unique phases (each containing one contiguous control 
-#' condition and one contiguous treatment condition). Must be the same length as \code{outcome}.
-#' @param time vector of measurement occasion times. Must be the same length as \code{outcome}.
+#' condition and one contiguous treatment condition) or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param time vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param data Optional dataset to use for analysis. Must be data.frame. 
 #' @param phi Optional value of the auto-correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
 #' @param rho Optional value of the intra-class correlation nuisance parameter, to be used 
@@ -252,12 +271,27 @@ effect_size_MB <- function(outcome, treatment, id, time, phi, rho) {
 #' with(Anglesea, effect_size_ABk(outcome, condition, case, phase, session))
 #' 
 
-
-effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
+effect_size_ABk <- function(outcome, treatment, id, phase, time, data = NULL, phi=NULL, rho=NULL) {
   
   ###########
   ## setup ##
   ###########
+  
+  if (!is.null(data)) {
+  outcome_call <- substitute(outcome)
+  treatment_call <- substitute(treatment)
+  id_call <- substitute(id)
+  phase_call <- substitute(phase)
+  time_call <- substitute(time)
+  
+  env <- list2env(data, parent = parent.frame())
+  
+  outcome <- eval(outcome_call, env)
+  treatment <- eval(treatment_call, env)
+  id <- eval(id_call, env)
+  phase <- eval(phase_call, env)
+  time <- eval(time_call, env)
+  }
   
   # create factor variables
   dat <- data.frame(id_fac = factor(id),
@@ -329,20 +363,20 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   if (missing(phi) | missing(rho)) {
     # auto-covariances - See first display equation on p. 32.
     YW <- with(dat, aggregate(outcome, by = list(id_fac, phase_fac, treatment_fac), 
-                    function(x) c(auto_SS(x), length(x)))) # calculate auto-covariances by case by phase
+                              function(x) c(auto_SS(x), length(x)))) # calculate auto-covariances by case by phase
     YW <- cbind(YW[,1:3], YW$x)
     names(YW) <- c("id_fac","phase_fac","treatment_fac","g0","g1","n")
-
+    
     # calculate adjusted estimate of pooled auto-correlation. See p. 238.
     if (missing(phi)) phi <- sum(YW$g1, na.rm=T) / sum(YW$g0, na.rm=T) + sum(1 - 1 / YW$n) / sum(YW$n - 1)
     
     if (missing(rho)) {
       # calculate adjusted within-case variance estimate
       sigma_sq_correction <- length(dat$outcome) - 
-                              product_trace(XtX_inv_case_FE, 
-                                            t(X_case_FE[,X_keep,drop=FALSE]) %*% 
-                                              with(dat, HLM_AR1_corr(id_fac, phase_point, 0, phi)) %*% 
-                                              X_case_FE[,X_keep,drop=FALSE]) 
+        product_trace(XtX_inv_case_FE, 
+                      t(X_case_FE[,X_keep,drop=FALSE]) %*% 
+                        with(dat, HLM_AR1_corr(id_fac, phase_point, 0, phi)) %*% 
+                        X_case_FE[,X_keep,drop=FALSE]) 
       sigma_sq_w <- sum(YW$g0, na.rm=T) / sigma_sq_correction
       
       rho <- max(0, 1 - sigma_sq_w / S_sq)      # See last display equation on p. 238.
@@ -366,7 +400,7 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   
   # calculate theta. See p. 232, formula (27).
   theta <- sqrt(sum((XtX_inv_case_FE %*% t(X_case_FE[,X_keep,drop=FALSE]) %*% 
-              V_mat %*% X_case_FE[,X_keep,drop=FALSE] %*% XtX_inv_case_FE)[X_trt, X_trt])) / sum(X_trt)
+                       V_mat %*% X_case_FE[,X_keep,drop=FALSE] %*% XtX_inv_case_FE)[X_trt, X_trt])) / sum(X_trt)
   
   
   #######################################
@@ -395,6 +429,7 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, phi, rho) {
   
   return(results)
 }
+
 
 
 

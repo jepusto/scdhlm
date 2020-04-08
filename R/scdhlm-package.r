@@ -129,7 +129,6 @@ NULL
 
 NULL
 
-
 #' Example 2 from Hedges, Pustejovsky, & Shadish (2013)
 #' 
 #' Data from a multiple baseline design conducted by 
@@ -225,7 +224,6 @@ NULL
 #'   
 NULL
 
-
 #' Musser (2001)
 #' 
 #' Data from a multiple baseline design conducted by 
@@ -311,7 +309,6 @@ NULL
 #'   
 NULL
 
-
 #' Alber-Morgan, et al. (2007)
 #' 
 #' Data from a multiple baseline design conducted by Alber-Morgan, Ramp,
@@ -332,6 +329,31 @@ NULL
 #'   doi:\href{http://dx.doi.org/10.1177/00224669070410010201}{10.1177/00224669070410010201}
 #'   
 #'   
+NULL
+
+
+#' Salazar, et al. (2020)
+#' 
+#' Data from a multiple baseline design conducted by Salazar, Ruiz,
+#' Ramírez1, &  Cardona-Betancourt (2020). The variables are as follows:
+#' \itemize{
+#'   \item \code{case}. Participant identifier.
+#'   \item \code{measure}. Outcome measure description (AFQ-Y, PTQ-C, or GPQ-C).
+#'   \item \code{treatment} Factor indicating baseline, treatment, post, or follow-up phase.
+#'   \item \code{time}. Measurement occasion.
+#'   \item \code{outcome}. Outcome scores.
+#' }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 324 rows and 5 variables
+#' @name Salazar
+#' 
+#' @source Salazar, D., Ruiz, F., Ramírez, E., & Cardona-Betancourt, V. (2020).
+#'   Acceptance and Commitment Therapy Focused on Repetitive Negative Thinking for
+#'   Child Depression: A Randomized Multiple-Baseline Evaluation. The Psychological
+#'   Record. doi:\href{https://doi.org/10.1007/s40732-019-00362-5}{10.1007/s40732-019-00362-5}
+#'
 NULL
 
 #' Bryant et al. (2018)
@@ -390,6 +412,32 @@ NULL
 #'
 NULL
 
+#' Ruiz, et al. (2020)
+#' 
+#' Data from a multiple baseline design conducted by  Ruiz,
+#' Luciano, Florez, Suarez-Falcon, &  Cardona-Betancourt (2020). The variables are as follows:
+#' \itemize{
+#'   \item \code{case}. Participant identifier.
+#'   \item \code{measure}. Outcome measure description (AAQ-II, ANXIETY, CFQ, DASS-TOTAL, DEPRESSION, PSWQ, PTQ, STRESS, VQ-OBSTRUCTION, or VQ-PROGRESS).
+#'   \item \code{treatment} Factor indicating baseline, treatment, post, or follow-up phase.
+#'   \item \code{time}. Measurement occasion.
+#'   \item \code{outcome}. Outcome scores.
+#' }
+#' 
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 840 rows and 5 variables
+#' @name Ruiz
+#' 
+#' @source Ruiz, F., Luciano, C., Florez, C., Suarez-Falcon, J., & Cardona-Betancourt, V. (2020).
+#'   A Multiple-Baseline Evaluation of Acceptance and Commitment Therapy Focused on Repetitive Negative 
+#'   Thinking for Comorbid Generalized Anxiety Disorder and Depression. Frontiers in Psychology, 11. 
+#'   doi: \href{https://doi.org/10.3389/fpsyg.2020.00356}{10.3389/fpsyg.2020.00356}
+#'
+#'
+NULL
+
+
 #' Thiemann & Goldstein (2004)
 #'
 #' Data from a multiple baseline across behaviors design conducted by
@@ -417,8 +465,6 @@ NULL
 #' and Hearing Research, 47}(1), 126-144. doi:\href{https://doi.org/10.1044/1092-4388(2004/012)}{10.1044/1092-4388(2004/012)}
 #'
 NULL
-
-
 
 
 #--------------------------

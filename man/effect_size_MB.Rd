@@ -4,7 +4,15 @@
 \alias{effect_size_MB}
 \title{Calculates HPS effect size}
 \usage{
-effect_size_MB(outcome, treatment, id, time, phi, rho)
+effect_size_MB(
+  outcome,
+  treatment,
+  id,
+  time,
+  data = NULL,
+  phi = NULL,
+  rho = NULL
+)
 }
 \arguments{
 \item{outcome}{Vector of outcome data. May not contain any missing values.}
@@ -14,6 +22,8 @@ effect_size_MB(outcome, treatment, id, time, phi, rho)
 \item{id}{factor vector indicating unique cases. Must be the same length as \code{outcome}.}
 
 \item{time}{vector of measurement occasion times. Must be the same length as \code{outcome}.}
+
+\item{data}{Optional dataset to use for analysis. Must be data.frame.}
 
 \item{phi}{Optional value of the auto-correlation nuisance parameter, to be used 
 in calculating the small-sample adjusted effect size}

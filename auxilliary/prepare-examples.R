@@ -125,7 +125,35 @@ str(Romaniuk)
 
 save(Romaniuk, file = "data/Romaniuk.RData", compress = TRUE)
 
+#--------------------
+# Ruiz
+#--------------------
+library(readxl)
+library(tidyverse)
 
+Ruiz <- read_excel('auxilliary//Data_Sheet_1_A Multiple-Baseline Evaluation.xlsx', sheet = "Overall")
+
+
+Ruiz <- Ruiz %>% 
+  pivot_longer(cols= `PSWQ`:`VQ-OBSTRUCTION`, names_to = "measure", values_to = "outcome")
+
+
+Ruiz <- Ruiz %>%
+  select(case, time=session, measure, outcome) %>%
+  mutate(
+    treatment = case_when(
+      time < 6 ~ "baseline",
+      time == 6 ~ "treatment",
+      time == 7 ~ "treatment",
+      time == 8 ~ "post",
+      time > 8 ~ "follow-up"
+    ),
+    treatment = as.factor(treatment),
+    case = as.factor(case),
+    measure = as.factor(measure)
+  )
+
+save(Ruiz, file = "data/Ruiz.RData", compress = TRUE, version = 2)
 #--------------------
 # Saddler
 #--------------------
@@ -153,6 +181,40 @@ Schutte <- within(Schutte, {
 
 save(Schutte, file = "data/Schutte.RData", compress = TRUE)
 
+#--------------------
+Salazar
+#--------------------
+library(readxl)
+library(tidyverse)
+
+sheet <- excel_sheets('auxilliary//Raw Data.xlsx')
+datFile <- lapply(setNames(sheet, sheet), function(x) read_excel("auxilliary//Raw Data.xlsx", sheet=x))
+datFile <-  bind_rows(datFile, .id="Sheet")
+
+datFile <- datFile %>% 
+  select(Sheet:`GPQ-C`) %>%
+  pivot_longer(cols= `AFQ-Y`:`GPQ-C`, names_to = "measure", values_to = "outcome")
+
+datFile <- datFile %>%
+  select(case = Sheet, measure, condition= `...1`, outcome) %>%
+  mutate(
+    treatment = case_when(
+      str_detect(condition, "LB") ~ "baseline",
+      str_detect(condition, "Int") ~ "treatment",
+      str_detect(condition, "Post") ~ "post",
+      str_detect(condition, "FU") ~ "follow-up",
+    ),
+    condition = as.factor(condition),
+    measure = as.factor(measure),
+    case = as.factor(case)
+  ) %>%
+  group_by(case, measure) %>%
+  mutate(time = as.numeric(row_number())) %>%
+  select(case, measure, treatment, time, outcome)
+
+Salazar <- as.data.frame(datFile)
+
+save(Salazar, file = "data/Salazar.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Thorne
