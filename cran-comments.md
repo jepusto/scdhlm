@@ -2,15 +2,15 @@
 
 This is a re-submission. In this version I have:
 
-* Updated the shiny app
+* Updated included functions to work with datasets instead of vectors only.
+* Added features and fixed bugs in the included shiny app
 * Added additional example datasets
-* Miscellaneous bug fixes
 
 ## Test environments
 
-* local Windows 7 Enterprise, R 3.3.1
-* ubuntu 12.04.5 (on travis-ci), R 3.3.1
-* win-builder (devel and release)
+* local Windows 7 Enterprise, R 3.6.1
+* ubuntu 16.04.6 (on travis-ci), R 3.6.2
+* win-builder (devel, release, oldrelease)
 
 ## R CMD check results
 
