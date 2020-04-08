@@ -59,10 +59,12 @@ parameters will be calculated.
 }
 \examples{
 data(Saddler)
-with(subset(Saddler, measure=="writing quality"), effect_size_MB(outcome, treatment, case, time))
+effect_size_MB(outcome = outcome, treatment = treatment, id = case, 
+               time = time, data = subset(Saddler, measure=="writing quality"))
 
 data(Laski)
-with(Laski, effect_size_MB(outcome, treatment, case, time))
+effect_size_MB(outcome = outcome, treatment = treatment, id = case, 
+               time = time, data = Laski)
 
 }
 \references{

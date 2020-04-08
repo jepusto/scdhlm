@@ -64,10 +64,12 @@ parameters will be calculated.
 }
 \examples{
 data(Lambert)
-with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))
+effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
+                phase = phase, time = time, data = Lambert)
    
 data(Anglesea)
-with(Anglesea, effect_size_ABk(outcome, condition, case, phase, session))
+effect_size_ABk(outcome = outcome, treatment = condition, id = case, 
+                phase = phase, time = session, data = Anglesea)
 
 }
 \references{
