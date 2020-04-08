@@ -3,7 +3,6 @@
 \docType{package}
 \name{scdhlm}
 \alias{scdhlm}
-\alias{scdhlm-package}
 \title{scdhlm}
 \description{
 Standardize mean difference effect size estimation based on hierarchical models

@@ -4,11 +4,16 @@
 \alias{g_REML}
 \title{Calculates adjusted REML effect size}
 \usage{
-g_REML(m_fit, p_const, r_const, X_design = model.matrix(m_fit, data =
-  m_fit$data), Z_design = model.matrix(m_fit$modelStruct$reStruct, data =
-  m_fit$data), block = nlme::getGroups(m_fit),
+g_REML(
+  m_fit,
+  p_const,
+  r_const,
+  X_design = model.matrix(m_fit, data = m_fit$data),
+  Z_design = model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data),
+  block = nlme::getGroups(m_fit),
   times = attr(m_fit$modelStruct$corStruct, "covariate"),
-  returnModel = TRUE)
+  returnModel = TRUE
+)
 }
 \arguments{
 \item{m_fit}{Fitted model of class lme, with AR(1) correlation structure at level 1.}

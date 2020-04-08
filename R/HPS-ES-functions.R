@@ -37,10 +37,10 @@ auto_SS <- function(x, n = length(x)) {
 #' as described in Hedges, Pustejovsky, & Shadish (2013). Note that the data must contain one row per 
 #' measurement occasion per subject.
 #' 
-#' @param outcome Vector of outcome data. May not contain any missing values.
-#' @param treatment Vector of treatment indicators. Must be the same length as \code{outcome}.
-#' @param id factor vector indicating unique cases. Must be the same length as \code{outcome}.
-#' @param time vector of measurement occasion times. Must be the same length as \code{outcome}.
+#' @param outcome Vector of outcome data or name of variable within \code{data}. May not contain any missing values.
+#' @param treatment Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param id factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param time vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param data Optional dataset to use for analysis. Must be data.frame. 
 #' @param phi Optional value of the auto-correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
@@ -225,12 +225,12 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
 #' as described in Hedges, Pustejovsky, & Shadish (2012). Note that the data must contain one row per 
 #' measurement occasion per subject.
 #' 
-#' @param outcome Vector of outcome data. May not contain any missing values.
-#' @param treatment Vector of treatment indicators. Must be the same length as \code{outcome}.
-#' @param id factor vector indicating unique cases. Must be the same length as \code{outcome}.
+#' @param outcome Vector of outcome data or name of variable within \code{data}. May not contain any missing values.
+#' @param treatment Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param id factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param phase factor vector indicating unique phases (each containing one contiguous control 
-#' condition and one contiguous treatment condition). Must be the same length as \code{outcome}.
-#' @param time vector of measurement occasion times. Must be the same length as \code{outcome}.
+#' condition and one contiguous treatment condition) or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param time vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param data Optional dataset to use for analysis. Must be data.frame. 
 #' @param phi Optional value of the auto-correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size

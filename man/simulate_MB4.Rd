@@ -4,8 +4,20 @@
 \alias{simulate_MB4}
 \title{Simulate Model MB4 from Pustejovsky, Hedges, & Shadish (2014)}
 \usage{
-simulate_MB4(iterations, beta, rho, phi, tau2_ratio, tau_corr, p_const,
-  r_const, design, m, n, MB = TRUE)
+simulate_MB4(
+  iterations,
+  beta,
+  rho,
+  phi,
+  tau2_ratio,
+  tau_corr,
+  p_const,
+  r_const,
+  design,
+  m,
+  n,
+  MB = TRUE
+)
 }
 \arguments{
 \item{iterations}{number of independent iterations of the simulation}
