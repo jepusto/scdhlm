@@ -4,7 +4,9 @@
 \name{MB2results}
 \alias{MB2results}
 \title{MB2 simulation results}
-\format{A data frame}
+\format{
+A data frame
+}
 \description{
 Simulation results for model MB2 from  Pustejovsky, Hedges, & Shadish (2014).
 }

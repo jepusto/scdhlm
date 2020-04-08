@@ -4,7 +4,9 @@
 \name{Anglesea}
 \alias{Anglesea}
 \title{Example 2 from Hedges, Pustejovsky, & Shadish (2012)}
-\format{A data frame with 55 rows and 5 variables}
+\format{
+A data frame with 55 rows and 5 variables
+}
 \source{
 Anglesea, M. M., Hoch, H., & Taylor, B. A. (2008). 
 Reducing rapid eating in teenagers with autism: Use of a pager prompt. 

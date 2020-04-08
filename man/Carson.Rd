@@ -4,7 +4,9 @@
 \name{Carson}
 \alias{Carson}
 \title{Carson (2008)}
-\format{A data frame with 47 rows and 5 variables}
+\format{
+A data frame with 47 rows and 5 variables
+}
 \source{
 Carson, K. D., Gast, D. L., & Ayres, K. M. (2008). Effects of a photo
   activity schedule book on independent task changes by students with

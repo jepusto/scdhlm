@@ -4,7 +4,9 @@
 \name{Schutte}
 \alias{Schutte}
 \title{Example from Pustejovsky, Hedges, & Shadish (2014)}
-\format{A data frame with 136 rows and 4 variables}
+\format{
+A data frame with 136 rows and 4 variables
+}
 \source{
 Schutte, N. S., Malouff, J. M., & Brown, R. F. (2008). 
 Efficacy of an emotion-focused treatment for prolonged fatigue. 

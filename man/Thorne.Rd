@@ -4,7 +4,9 @@
 \name{Thorne}
 \alias{Thorne}
 \title{Thorne (2005)}
-\format{A data frame with 776 rows and 6 variables}
+\format{
+A data frame with 776 rows and 6 variables
+}
 \source{
 Thorne, S., & Kamps, D. (2008). The effects of a group contingency intervention on academic engagement and problem 
 behavior of at-risk students. \emph{Behavior Analysis in Practice, 1}(2), 12-18.

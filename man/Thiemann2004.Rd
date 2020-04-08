@@ -4,7 +4,9 @@
 \name{Thiemann2004}
 \alias{Thiemann2004}
 \title{Thiemann & Goldstein (2004)}
-\format{A data frame with 408 rows and 8 variables}
+\format{
+A data frame with 408 rows and 8 variables
+}
 \source{
 Thiemann, K.S., & Goldstein, H. (2004).
 Effects of peer training and written text cueing on social communication of

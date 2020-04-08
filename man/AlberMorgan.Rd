@@ -4,7 +4,9 @@
 \name{AlberMorgan}
 \alias{AlberMorgan}
 \title{Alber-Morgan, et al. (2007)}
-\format{A data frame with 119 rows and 4 variables}
+\format{
+A data frame with 119 rows and 4 variables
+}
 \source{
 Alber-Morgan, S. R., Ramp, E. M., Anderson, L. L., & Martin, C. M.
   (2007). Effects of repeated readings, error correction, and performance

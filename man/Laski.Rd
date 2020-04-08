@@ -4,7 +4,9 @@
 \name{Laski}
 \alias{Laski}
 \title{Example 2 from Hedges, Pustejovsky, & Shadish (2013)}
-\format{A data frame with 128 rows and 4 variables}
+\format{
+A data frame with 128 rows and 4 variables
+}
 \source{
 Laski, K. E., Charlop, M. H., & Schreibman, L. (1988). 
 Training parents to use the natural language paradigm to increase 

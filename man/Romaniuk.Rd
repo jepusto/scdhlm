@@ -4,7 +4,9 @@
 \name{Romaniuk}
 \alias{Romaniuk}
 \title{Romaniuk (2002)}
-\format{A data frame with 148 rows and 4 variables}
+\format{
+A data frame with 148 rows and 4 variables
+}
 \source{
 Romaniuk, C., Miltenberger, R., Conyers, C., Jenner, N., Jurgens, M.,
   & Ringenberg, C. (2002). The influence of activity choice on problem

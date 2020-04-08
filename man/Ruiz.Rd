@@ -4,7 +4,9 @@
 \name{Ruiz}
 \alias{Ruiz}
 \title{Ruiz, et al. (2020)}
-\format{A data frame with 840 rows and 5 variables}
+\format{
+A data frame with 840 rows and 5 variables
+}
 \source{
 Ruiz, F., Luciano, C., Florez, C., Suarez-Falcon, J., & Cardona-Betancourt, V. (2020).
   A Multiple-Baseline Evaluation of Acceptance and Commitment Therapy Focused on Repetitive Negative 
