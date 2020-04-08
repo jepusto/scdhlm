@@ -154,6 +154,8 @@ Ruiz <- Ruiz %>%
   )
 
 save(Ruiz, file = "data/Ruiz.RData", compress = TRUE, version = 2)
+
+
 #--------------------
 # Saddler
 #--------------------
@@ -181,9 +183,11 @@ Schutte <- within(Schutte, {
 
 save(Schutte, file = "data/Schutte.RData", compress = TRUE)
 
+
 #--------------------
-Salazar
+# Salazar
 #--------------------
+
 library(readxl)
 library(tidyverse)
 
@@ -216,9 +220,11 @@ Salazar <- as.data.frame(datFile)
 
 save(Salazar, file = "data/Salazar.RData", compress = TRUE, version = 2)
 
+
 #--------------------
 # Thorne
 #--------------------
+
 library(readr)
 library(dplyr)
 
@@ -260,7 +266,8 @@ save(Thorne, file = "data/Thorne.RData", compress = TRUE)
 #--------------------
 # Bryant2018
 #--------------------
-Bryant2018 <- read.csv("auxiliary/Bryant2018.csv", stringsAsFactors = FALSE)
+
+Bryant2018 <- read.csv("auxilliary/Bryant2018.csv", stringsAsFactors = FALSE)
 str(Bryant2018)
 
 Bryant2018 <- within(Bryant2018, {
@@ -287,9 +294,10 @@ save(Bryant2018, file = "data/Bryant2018.RData", compress = TRUE)
 #--------------------
 # Thiemann2001
 #--------------------
+
 library(tidyverse)
 
-Thiemann2001 <- read.csv("auxiliary/Thiemann2001.csv", stringsAsFactors = FALSE)
+Thiemann2001 <- read.csv("auxilliary/Thiemann2001.csv", stringsAsFactors = FALSE)
 str(Thiemann2001)
 
 Thiemann2001 <- Thiemann2001 %>%
@@ -314,10 +322,12 @@ Thiemann2001$time_c <- Thiemann2001$time - Center
 
 save(Thiemann2001, file = "data/Thiemann2001.RData", compress = TRUE)
 
+
 #--------------------
 # Thiemann2004
 #--------------------
-Thiemann2004 <- read.csv("auxiliary/Thiemann2004.csv", stringsAsFactors = FALSE)
+
+Thiemann2004 <- read.csv("auxilliary/Thiemann2004.csv", stringsAsFactors = FALSE)
 str(Thiemann2004)
 
 Thiemann2004 <- Thiemann2004 %>%
