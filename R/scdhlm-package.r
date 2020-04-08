@@ -331,6 +331,7 @@ NULL
 #'   
 NULL
 
+
 #' Salazar, et al. (2020)
 #' 
 #' Data from a multiple baseline design conducted by Salazar, Ruiz,
@@ -353,9 +354,63 @@ NULL
 #'   Child Depression: A Randomized Multiple-Baseline Evaluation. The Psychological
 #'   Record. doi:\href{https://doi.org/10.1007/s40732-019-00362-5}{10.1007/s40732-019-00362-5}
 #'
+NULL
+
+#' Bryant et al. (2018)
+#'
+#' Data from a multiple baseline across clusters design conducted by
+#' Bryant et al. (2018). The variables are as follows:
+#' \itemize{
+#'   \item \code{Study_ID}. Study identifier.
+#'   \item \code{school}. School identifier.
+#'   \item \code{case}. Student identifier.
+#'   \item \code{treatment}. Indicator for treatment phase.
+#'   \item \code{session}. Measurement occasion.
+#'   \item \code{session_trt}. Measurement occasion times treatment phase.
+#'   \item \code{outcome}. Texas Early Mathematics Inventory (TEMI-Aim Check) scores.
+#'   \item \code{session_c}. Measurement occasion centered at the follow-up time.
+#' }
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 536 rows and 8 variables
+#' @name Bryant2018
+#' @source Bryant, D. R., Bryant, B. R., Sorelle-Miner, D. A., Falcomata, T. S.
+#' & Nozari, M. (2018).
+#' Tier 3 intensified intervention for second grade students with severe
+#' mathematics difficulties. \emph{Archives of Psychology, 2}(11), 1-24.
+#' doi:\href{https://doi.org/10.31296/aop.v2i11.86}{10.31296/aop.v2i11.86}
 #'
 NULL
 
+#' Thiemann & Goldstein (2001)
+#'
+#' Data from a multiple baseline across behaviors design conducted by
+#' Thiemann & Goldstein (2001). The variables are as follows:
+#' \itemize{
+#'   \item \code{Study_ID}. Study identifier.
+#'   \item \code{case}. Student identifier.
+#'   \item \code{series}. Series identifier.
+#'   \item \code{outcome}. Frequency of coded social communication skills, as measured by
+#'   a direct observation coding system with 15-second intervals recoding for the occurrence
+#'   of any of the four social measures: contingent responses, securing attention, initiating
+#'   comments, and initiating requests.
+#'   \item \code{time}. Measurement occasion.
+#'   \item \code{treatment}. Indicator for treatment phase.
+#'   \item \code{trt_time}. Measurement occasion times treatment phase.
+#'   \item \code{time_c}. Measurement occasion centered at the follow-up time.
+#' }
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 221 rows and 8 variables
+#' @name Thiemann2001
+#' @source Thiemann, K.S., & Goldstein, H. (2001).
+#' Social stories, written text cues, and video feedback: effects on social communication
+#' of children with Autism. \emph{Journal of Applied Behavior Analysis, 34}(4), 425-446.
+#' doi:\href{http://doi.org/10.1901/jaba.2001.34-425}{10.1901/jaba.2001.34-425}
+#'
+NULL
 
 #' Ruiz, et al. (2020)
 #' 
@@ -379,6 +434,35 @@ NULL
 #'   Thinking for Comorbid Generalized Anxiety Disorder and Depression. Frontiers in Psychology, 11. 
 #'   doi: \href{https://doi.org/10.3389/fpsyg.2020.00356}{10.3389/fpsyg.2020.00356}
 #'
+#'
+NULL
+
+
+#' Thiemann & Goldstein (2004)
+#'
+#' Data from a multiple baseline across behaviors design conducted by
+#' Thiemann & Goldstein (2004). The variables are as follows:
+#' \itemize{
+#'   \item \code{Study_ID}. Study identifier.
+#'   \item \code{case}. Student identifier.
+#'   \item \code{series}. Series identifier.
+#'   \item \code{outcome}. Frequency of unprompted targeted social communication skills,
+#'   as measured by a direct observation, paper and pencil coding system during the 10-minute
+#'   social activity for each behavior for all sessions.
+#'   \item \code{time}. Measurement occasion.
+#'   \item \code{treatment}. Indicator for treatment phase.
+#'   \item \code{trt_time}. Measurement occasion times treatment phase.
+#'   \item \code{time_c}. Measurement occasion centered at the follow-up time.
+#' }
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 408 rows and 8 variables
+#' @name Thiemann2004
+#' @source Thiemann, K.S., & Goldstein, H. (2004).
+#' Effects of peer training and written text cueing on social communication of
+#' school-age children with pervasive developmental disorder. \emph{Journal of Speech Language 
+#' and Hearing Research, 47}(1), 126-144. doi:\href{https://doi.org/10.1044/1092-4388(2004/012)}{10.1044/1092-4388(2004/012)}
 #'
 NULL
 
