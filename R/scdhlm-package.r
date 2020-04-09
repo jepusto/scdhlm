@@ -15,15 +15,23 @@
 #' as described in Hedges, Pustejovsky, and Shadish (2012).
 #' }
 #' 
-#' The package also includes the data used in the examples from each paper, as well as a few other datasets: 
+#' The package also includes the data used in the examples from each paper, as well as several other datasets: 
 #' \itemize{
-#' \item \code{\link{Lambert}}
+#' \item \code{\link{AlberMorgan}}
 #' \item \code{\link{Anglesea}}
-#' \item \code{\link{Saddler}}
-#' \item \code{\link{Laski}}
-#' \item \code{\link{Schutte}}
-#' \item \code{\link{Thorne}}
+#' \item \code{\link{BartonArwood}}
+#' \item \code{\link{Bryant2018}}
 #' \item \code{\link{Carson}}
+#' \item \code{\link{Lambert}}
+#' \item \code{\link{Laski}}
+#' \item \code{\link{Musser}}
+#' \item \code{\link{Rodriguez}}
+#' \item \code{\link{Ruiz}}
+#' \item \code{\link{Saddler}}
+#' \item \code{\link{Schutte}}
+#' \item \code{\link{Thiemann2001}}
+#' \item \code{\link{Thiemann2004}}
+#' \item \code{\link{Thorne}}
 #' }
 #' 
 #' @author James E. Pustejovsky <jepusto@@gmail.com>
@@ -188,7 +196,7 @@ NULL
 #'   \item \code{case}. Participant identifier.  
 #'   \item \code{measure}. Outcome measure description (academic engagement or inappropriate verbalizations). 
 #'   \item \code{session}. Measurement occasion.
-#'   \item \code{phase_id}. Factor descibing the phase of the study design for each case.
+#'   \item \code{phase_id}. Factor describing the phase of the study design for each case.
 #'   \item \code{phase_indicator}. Indicator variable equal to 1 during intervention phases.
 #'   \item \code{outcome}. Outcome scores
 #' }
@@ -208,7 +216,7 @@ NULL
 #' \itemize{ 
 #'    \item \code{case} Participant identifier 
 #'    \item \code{treatment} Factor describing the treatment condition
-#'    \item \code{phase} Numeric descibing the phase of the study design for each case 
+#'    \item \code{phase} Numeric describing the phase of the study design for each case 
 #'    \item \code{outcome} Outcome scores 
 #'    \item \code{time} Measurement occasion 
 #' }

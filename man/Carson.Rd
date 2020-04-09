@@ -19,7 +19,7 @@ variables are as follows:
 \itemize{ 
    \item \code{case} Participant identifier 
    \item \code{treatment} Factor describing the treatment condition
-   \item \code{phase} Numeric descibing the phase of the study design for each case 
+   \item \code{phase} Numeric describing the phase of the study design for each case 
    \item \code{outcome} Outcome scores 
    \item \code{time} Measurement occasion 
 }

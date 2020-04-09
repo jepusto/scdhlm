@@ -17,7 +17,7 @@ Data from an ABAB design conducted by Thorne and Kamps (2008). The variables are
   \item \code{case}. Participant identifier.  
   \item \code{measure}. Outcome measure description (academic engagement or inappropriate verbalizations). 
   \item \code{session}. Measurement occasion.
-  \item \code{phase_id}. Factor descibing the phase of the study design for each case.
+  \item \code{phase_id}. Factor describing the phase of the study design for each case.
   \item \code{phase_indicator}. Indicator variable equal to 1 during intervention phases.
   \item \code{outcome}. Outcome scores
 }

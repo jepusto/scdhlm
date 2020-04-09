@@ -76,7 +76,7 @@ cbind(quality = unlist(quality_ES),
       construction = unlist(construction_ES))[c("delta_hat","V_delta_hat","nu","phi","rho"),]
 ```
 
-For multiple baseline designs, an alternative to using the `effect_size_MB` function is to estimate a hierarchical linear model for the data and then use the `g_REML` function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a heirarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which will be demonstrated using the writing quality measure. First, estimate the hierarchical model with an AR(1) within-case error structure using the `lme` function:
+For multiple baseline designs, an alternative to using the `effect_size_MB` function is to estimate a hierarchical linear model for the data and then use the `g_REML` function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a hierarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which will be demonstrated using the writing quality measure. First, estimate the hierarchical model with an AR(1) within-case error structure using the `lme` function:
 ```{r}
 quality_RML <- lme(fixed = outcome ~ treatment, 
                    random = ~ 1 | case, 
@@ -187,7 +187,7 @@ hlm1 <- lme(fixed = fatigue ~ week + treatment + trt_week,
             method = "REML")
 summary(hlm1)
 ```
-The design-comparable standarized mean difference corresponds to the treatment effect at week B = 9, after B - A = 7 weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.
+The design-comparable standardized mean difference corresponds to the treatment effect at week B = 9, after B - A = 7 weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.
 ```{r}
 Schutte_g1 <- g_REML(m_fit = hlm1, p_const = c(0,0,1,B - A), r_const = c(1,0,1))
 Schutte_g1[c("g_AB","V_g_AB","nu")]

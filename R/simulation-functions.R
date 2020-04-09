@@ -373,7 +373,7 @@ fit_g <- function(y, object) {
 #' @param object a \code{g_REML} object
 #' @param nsim number of models to simulate
 #' @param seed seed value. See documentation for \code{\link{simulate}}
-#' @param parallel if \code{TRUE}, run in parallel using foreach backend.
+#' @param parallel if \code{TRUE}, run in parallel using \code{foreach} backend.
 #' @param ... additional optional arguments
 #' 
 #' @export

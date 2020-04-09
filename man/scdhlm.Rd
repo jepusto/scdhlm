@@ -21,15 +21,23 @@ as described in Hedges, Pustejovsky, and Shadish (2013).
 as described in Hedges, Pustejovsky, and Shadish (2012).
 }
 
-The package also includes the data used in the examples from each paper, as well as a few other datasets: 
+The package also includes the data used in the examples from each paper, as well as several other datasets: 
 \itemize{
-\item \code{\link{Lambert}}
+\item \code{\link{AlberMorgan}}
 \item \code{\link{Anglesea}}
-\item \code{\link{Saddler}}
-\item \code{\link{Laski}}
-\item \code{\link{Schutte}}
-\item \code{\link{Thorne}}
+\item \code{\link{BartonArwood}}
+\item \code{\link{Bryant2018}}
 \item \code{\link{Carson}}
+\item \code{\link{Lambert}}
+\item \code{\link{Laski}}
+\item \code{\link{Musser}}
+\item \code{\link{Rodriguez}}
+\item \code{\link{Ruiz}}
+\item \code{\link{Saddler}}
+\item \code{\link{Schutte}}
+\item \code{\link{Thiemann2001}}
+\item \code{\link{Thiemann2004}}
+\item \code{\link{Thorne}}
 }
 }
 \references{
