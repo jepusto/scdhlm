@@ -256,3 +256,89 @@ Thorne <-
 str(Thorne)
 
 save(Thorne, file = "data/Thorne.RData", compress = TRUE)
+
+#--------------------
+# Bryant2018
+#--------------------
+Bryant2018 <- read.csv("auxiliary/Bryant2018.csv", stringsAsFactors = FALSE)
+str(Bryant2018)
+
+Bryant2018 <- within(Bryant2018, {
+  Study_ID <- rep("Bryant2018", length(Bryant2018$school))
+  school <- factor(paste("school", school))
+  case <- factor(studentID)
+  outcome <- AC
+  treatment <- ifelse(phase == "Baseline", "baseline", "treatment")
+  treatment <- factor(treatment)
+})
+
+Bryant2018 <- Bryant2018[c("Study_ID", "school","case","treatment","session","session_trt","outcome")]
+
+# time-point constants
+A <- 4
+B <- 21
+
+# center at follow-up time
+Center <- B
+Bryant2018$session_c <-Bryant2018$session - Center
+
+save(Bryant2018, file = "data/Bryant2018.RData", compress = TRUE)
+
+#--------------------
+# Thiemann2001
+#--------------------
+library(tidyverse)
+
+Thiemann2001 <- read.csv("auxiliary/Thiemann2001.csv", stringsAsFactors = FALSE)
+str(Thiemann2001)
+
+Thiemann2001 <- Thiemann2001 %>%
+  arrange(case, series, time) %>%
+  group_by(case, series) %>%
+  mutate(trt_time = pmax(0, time - max(time[treatment == "A"])))
+
+Thiemann2001 <- within(Thiemann2001, {
+  case <- factor(case)
+  series <- factor(series)
+  treatment <- ifelse(treatment == "A", "baseline", "treatment")
+  treatment <- factor(treatment)
+})
+
+# time-point constants
+A <- 8
+B <- 30
+
+# center at follow-up time
+Center <- B
+Thiemann2001$time_c <- Thiemann2001$time - Center
+
+save(Thiemann2001, file = "data/Thiemann2001.RData", compress = TRUE)
+
+#--------------------
+# Thiemann2004
+#--------------------
+Thiemann2004 <- read.csv("auxiliary/Thiemann2004.csv", stringsAsFactors = FALSE)
+str(Thiemann2004)
+
+Thiemann2004 <- Thiemann2004 %>%
+  arrange(case, series, time) %>%
+  group_by(case, series) %>%
+  mutate(
+    trt_time = pmax(0, time - max(time[treatment == "A"])))
+
+Thiemann2004 <- within(Thiemann2004, {
+  case <- factor(case)
+  series <- factor(series)
+  treatment <- ifelse(treatment == "A", "baseline", "treatment")
+  treatment <- factor(treatment)
+})
+
+# time-point constants
+A <- 10
+B <- 33
+
+# center at follow-up time
+Center <- B
+Thiemann2004$time_c <- Thiemann2004$time - Center
+
+save(Thiemann2004, file = "data/Thiemann2004.RData", compress = TRUE)

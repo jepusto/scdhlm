@@ -1,0 +1,222 @@
+Study_ID,case,series,outcome,time,treatment
+Thiemann2001JABA,case 1,initiates comments and requests,0.3,1,A
+Thiemann2001JABA,case 1,initiates comments and requests,0.7,2,A
+Thiemann2001JABA,case 1,initiates comments and requests,4,3,A
+Thiemann2001JABA,case 1,initiates comments and requests,0.7,4,A
+Thiemann2001JABA,case 1,initiates comments and requests,3.4,5,A
+Thiemann2001JABA,case 1,initiates comments and requests,8.6,6,A
+Thiemann2001JABA,case 1,initiates comments and requests,3.7,7,A
+Thiemann2001JABA,case 1,initiates comments and requests,4.7,8,A
+Thiemann2001JABA,case 1,initiates comments and requests,2.5,9,A
+Thiemann2001JABA,case 1,initiates comments and requests,11.3,10,B
+Thiemann2001JABA,case 1,initiates comments and requests,10.3,11,B
+Thiemann2001JABA,case 1,initiates comments and requests,9.7,12,B
+Thiemann2001JABA,case 1,initiates comments and requests,21.7,13,B
+Thiemann2001JABA,case 1,initiates comments and requests,23.4,14,B
+Thiemann2001JABA,case 1,initiates comments and requests,20.8,15,B
+Thiemann2001JABA,case 1,secures attention,0,1,A
+Thiemann2001JABA,case 1,secures attention,0,2,A
+Thiemann2001JABA,case 1,secures attention,0,3,A
+Thiemann2001JABA,case 1,secures attention,0,4,A
+Thiemann2001JABA,case 1,secures attention,0,5,A
+Thiemann2001JABA,case 1,secures attention,0,6,A
+Thiemann2001JABA,case 1,secures attention,0,7,A
+Thiemann2001JABA,case 1,secures attention,0,8,A
+Thiemann2001JABA,case 1,secures attention,0,9,A
+Thiemann2001JABA,case 1,secures attention,0,10,A
+Thiemann2001JABA,case 1,secures attention,0,11,A
+Thiemann2001JABA,case 1,secures attention,0,12,A
+Thiemann2001JABA,case 1,secures attention,0,13,A
+Thiemann2001JABA,case 1,secures attention,0,14,A
+Thiemann2001JABA,case 1,secures attention,0,15,A
+Thiemann2001JABA,case 1,secures attention,13.7,16,B
+Thiemann2001JABA,case 1,secures attention,11.8,17,B
+Thiemann2001JABA,case 1,secures attention,12.1,18,B
+Thiemann2001JABA,case 1,secures attention,8.9,19,B
+Thiemann2001JABA,case 1,secures attention,10.8,20,B
+Thiemann2001JABA,case 1,secures attention,12.7,21,B
+Thiemann2001JABA,case 1,secures attention,10.1,22,B
+Thiemann2001JABA,case 1,secures attention,9.1,23,B
+Thiemann2001JABA,case 1,secures attention,9.4,24,B
+Thiemann2001JABA,case 1,secures attention,9.7,25,B
+Thiemann2001JABA,case 1,contingent responses,1.3,1,A
+Thiemann2001JABA,case 1,contingent responses,4.6,2,A
+Thiemann2001JABA,case 1,contingent responses,0,3,A
+Thiemann2001JABA,case 1,contingent responses,2.3,4,A
+Thiemann2001JABA,case 1,contingent responses,0.7,5,A
+Thiemann2001JABA,case 1,contingent responses,2.3,6,A
+Thiemann2001JABA,case 1,contingent responses,4.6,7,A
+Thiemann2001JABA,case 1,contingent responses,8.9,8,A
+Thiemann2001JABA,case 1,contingent responses,4.3,9,A
+Thiemann2001JABA,case 1,contingent responses,3,10,A
+Thiemann2001JABA,case 1,contingent responses,3,11,A
+Thiemann2001JABA,case 1,contingent responses,4.9,12,A
+Thiemann2001JABA,case 1,contingent responses,0,13,A
+Thiemann2001JABA,case 1,contingent responses,4.3,14,A
+Thiemann2001JABA,case 1,contingent responses,3,15,A
+Thiemann2001JABA,case 1,contingent responses,3,16,A
+Thiemann2001JABA,case 1,contingent responses,3.9,17,A
+Thiemann2001JABA,case 1,contingent responses,1,18,A
+Thiemann2001JABA,case 1,contingent responses,16.1,19,A
+Thiemann2001JABA,case 1,contingent responses,5.9,20,A
+Thiemann2001JABA,case 1,contingent responses,5.9,21,A
+Thiemann2001JABA,case 1,contingent responses,1,22,A
+Thiemann2001JABA,case 1,contingent responses,1,23,A
+Thiemann2001JABA,case 1,contingent responses,3,24,A
+Thiemann2001JABA,case 1,contingent responses,5.9,25,A
+Thiemann2001JABA,case 1,contingent responses,30.5,26,B
+Thiemann2001JABA,case 1,contingent responses,20,27,B
+Thiemann2001JABA,case 1,contingent responses,22,28,B
+Thiemann2001JABA,case 1,contingent responses,31.5,29,B
+Thiemann2001JABA,case 1,contingent responses,25.9,30,B
+Thiemann2001JABA,case 2,secures attention,1.9,1,A
+Thiemann2001JABA,case 2,secures attention,0,2,A
+Thiemann2001JABA,case 2,secures attention,7.1,3,A
+Thiemann2001JABA,case 2,secures attention,2.6,4,A
+Thiemann2001JABA,case 2,secures attention,0,5,A
+Thiemann2001JABA,case 2,secures attention,2.9,6,A
+Thiemann2001JABA,case 2,secures attention,7.1,7,A
+Thiemann2001JABA,case 2,secures attention,4.5,8,A
+Thiemann2001JABA,case 2,secures attention,2.9,9,A
+Thiemann2001JABA,case 2,secures attention,18.1,10,A
+Thiemann2001JABA,case 2,secures attention,8.1,11,A
+Thiemann2001JABA,case 2,secures attention,8.1,12,A
+Thiemann2001JABA,case 2,secures attention,7.1,13,A
+Thiemann2001JABA,case 2,secures attention,2.9,14,A
+Thiemann2001JABA,case 2,secures attention,26.8,15,B
+Thiemann2001JABA,case 2,secures attention,15.8,16,B
+Thiemann2001JABA,case 2,secures attention,14.5,17,B
+Thiemann2001JABA,case 2,secures attention,16.1,18,B
+Thiemann2001JABA,case 2,secures attention,17.4,19,B
+Thiemann2001JABA,case 2,secures attention,10,20,B
+Thiemann2001JABA,case 2,secures attention,13.2,21,B
+Thiemann2001JABA,case 2,secures attention,18.7,22,B
+Thiemann2001JABA,case 2,secures attention,9.7,23,B
+Thiemann2001JABA,case 2,initiates comments,1.9,1,A
+Thiemann2001JABA,case 2,initiates comments,6.2,2,A
+Thiemann2001JABA,case 2,initiates comments,3.9,3,A
+Thiemann2001JABA,case 2,initiates comments,3.9,4,A
+Thiemann2001JABA,case 2,initiates comments,6.9,5,A
+Thiemann2001JABA,case 2,initiates comments,9.2,6,A
+Thiemann2001JABA,case 2,initiates comments,11.1,7,A
+Thiemann2001JABA,case 2,initiates comments,5,8,A
+Thiemann2001JABA,case 2,initiates comments,9.2,9,A
+Thiemann2001JABA,case 2,initiates comments,15.1,10,A
+Thiemann2001JABA,case 2,initiates comments,5,11,A
+Thiemann2001JABA,case 2,initiates comments,4,12,A
+Thiemann2001JABA,case 2,initiates comments,18.7,13,A
+Thiemann2001JABA,case 2,initiates comments,10.9,14,A
+Thiemann2001JABA,case 2,initiates comments,0,15,A
+Thiemann2001JABA,case 2,initiates comments,13.8,16,A
+Thiemann2001JABA,case 2,initiates comments,5.7,17,A
+Thiemann2001JABA,case 2,initiates comments,5.1,18,A
+Thiemann2001JABA,case 2,initiates comments,7,19,A
+Thiemann2001JABA,case 2,initiates comments,0,20,A
+Thiemann2001JABA,case 2,initiates comments,3.5,21,A
+Thiemann2001JABA,case 2,initiates comments,13.9,22,A
+Thiemann2001JABA,case 2,initiates comments,16.5,23,B
+Thiemann2001JABA,case 2,initiates comments,14.9,24,B
+Thiemann2001JABA,case 2,initiates comments,16.2,25,B
+Thiemann2001JABA,case 2,initiates comments,10,26,B
+Thiemann2001JABA,case 2,initiates comments,11,27,B
+Thiemann2001JABA,case 2,initiates comments,21.1,28,B
+Thiemann2001JABA,case 2,initiates comments,13.3,29,B
+Thiemann2001JABA,case 2,initiates comments,16.3,30,B
+Thiemann2001JABA,case 2,initiates requests,11.8,1,A
+Thiemann2001JABA,case 2,initiates requests,0,2,A
+Thiemann2001JABA,case 2,initiates requests,9.5,3,A
+Thiemann2001JABA,case 2,initiates requests,2.3,4,A
+Thiemann2001JABA,case 2,initiates requests,1.6,5,A
+Thiemann2001JABA,case 2,initiates requests,0,6,A
+Thiemann2001JABA,case 2,initiates requests,7.1,7,A
+Thiemann2001JABA,case 2,initiates requests,8.8,8,A
+Thiemann2001JABA,case 2,initiates requests,13.4,9,A
+Thiemann2001JABA,case 2,initiates requests,5.2,10,A
+Thiemann2001JABA,case 2,initiates requests,5.1,11,A
+Thiemann2001JABA,case 2,initiates requests,2.5,12,A
+Thiemann2001JABA,case 2,initiates requests,4.5,13,A
+Thiemann2001JABA,case 2,initiates requests,11,14,A
+Thiemann2001JABA,case 2,initiates requests,11.7,15,A
+Thiemann2001JABA,case 2,initiates requests,7.7,16,A
+Thiemann2001JABA,case 2,initiates requests,10,17,A
+Thiemann2001JABA,case 2,initiates requests,9.3,18,A
+Thiemann2001JABA,case 2,initiates requests,12.9,19,A
+Thiemann2001JABA,case 2,initiates requests,1.4,20,A
+Thiemann2001JABA,case 2,initiates requests,14.5,21,A
+Thiemann2001JABA,case 2,initiates requests,10.3,22,A
+Thiemann2001JABA,case 2,initiates requests,4,23,A
+Thiemann2001JABA,case 2,initiates requests,10.3,24,A
+Thiemann2001JABA,case 2,initiates requests,2.1,25,A
+Thiemann2001JABA,case 2,initiates requests,0.1,26,A
+Thiemann2001JABA,case 2,initiates requests,2.7,27,A
+Thiemann2001JABA,case 2,initiates requests,6.9,28,A
+Thiemann2001JABA,case 2,initiates requests,4.6,29,A
+Thiemann2001JABA,case 2,initiates requests,8.6,30,A
+Thiemann2001JABA,case 2,initiates requests,19.7,31,B
+Thiemann2001JABA,case 2,initiates requests,17.4,32,B
+Thiemann2001JABA,case 2,initiates requests,31.8,33,B
+Thiemann2001JABA,case 2,initiates requests,15.1,34,B
+Thiemann2001JABA,case 3,initiates comments and requests,24.5,1,A
+Thiemann2001JABA,case 3,initiates comments and requests,19.1,2,A
+Thiemann2001JABA,case 3,initiates comments and requests,15.3,3,A
+Thiemann2001JABA,case 3,initiates comments and requests,9.5,4,A
+Thiemann2001JABA,case 3,initiates comments and requests,17.4,5,A
+Thiemann2001JABA,case 3,initiates comments and requests,15.5,6,A
+Thiemann2001JABA,case 3,initiates comments and requests,9.2,7,A
+Thiemann2001JABA,case 3,initiates comments and requests,2.5,8,A
+Thiemann2001JABA,case 3,initiates comments and requests,11.3,9,A
+Thiemann2001JABA,case 3,initiates comments and requests,32.8,10,B
+Thiemann2001JABA,case 3,initiates comments and requests,18.8,11,B
+Thiemann2001JABA,case 3,initiates comments and requests,15.4,12,B
+Thiemann2001JABA,case 3,initiates comments and requests,50.6,13,B
+Thiemann2001JABA,case 3,initiates comments and requests,22.4,14,B
+Thiemann2001JABA,case 3,initiates comments and requests,32.2,15,B
+Thiemann2001JABA,case 3,secures attention,24.5,1,A
+Thiemann2001JABA,case 3,secures attention,12.3,2,A
+Thiemann2001JABA,case 3,secures attention,2.5,3,A
+Thiemann2001JABA,case 3,secures attention,8.5,4,A
+Thiemann2001JABA,case 3,secures attention,6.5,5,A
+Thiemann2001JABA,case 3,secures attention,6,6,A
+Thiemann2001JABA,case 3,secures attention,0.2,7,A
+Thiemann2001JABA,case 3,secures attention,0.2,8,A
+Thiemann2001JABA,case 3,secures attention,5.1,9,A
+Thiemann2001JABA,case 3,secures attention,6.6,10,A
+Thiemann2001JABA,case 3,secures attention,0,11,A
+Thiemann2001JABA,case 3,secures attention,2.7,12,A
+Thiemann2001JABA,case 3,secures attention,8.2,13,A
+Thiemann2001JABA,case 3,secures attention,1.3,14,A
+Thiemann2001JABA,case 3,secures attention,1.3,15,A
+Thiemann2001JABA,case 3,secures attention,17.6,16,B
+Thiemann2001JABA,case 3,secures attention,11.7,17,B
+Thiemann2001JABA,case 3,secures attention,14.7,18,B
+Thiemann2001JABA,case 3,secures attention,11.3,19,B
+Thiemann2001JABA,case 3,secures attention,8.8,20,B
+Thiemann2001JABA,case 3,secures attention,14.3,21,B
+Thiemann2001JABA,case 3,contingent responses,24.5,1,A
+Thiemann2001JABA,case 3,contingent responses,8.6,2,A
+Thiemann2001JABA,case 3,contingent responses,25.5,3,A
+Thiemann2001JABA,case 3,contingent responses,10,4,A
+Thiemann2001JABA,case 3,contingent responses,3.7,5,A
+Thiemann2001JABA,case 3,contingent responses,14.3,6,A
+Thiemann2001JABA,case 3,contingent responses,7.5,7,A
+Thiemann2001JABA,case 3,contingent responses,12.8,8,A
+Thiemann2001JABA,case 3,contingent responses,33.1,9,A
+Thiemann2001JABA,case 3,contingent responses,6.9,10,A
+Thiemann2001JABA,case 3,contingent responses,5.4,11,A
+Thiemann2001JABA,case 3,contingent responses,8.3,12,A
+Thiemann2001JABA,case 3,contingent responses,20.4,13,A
+Thiemann2001JABA,case 3,contingent responses,16,14,A
+Thiemann2001JABA,case 3,contingent responses,3.4,15,A
+Thiemann2001JABA,case 3,contingent responses,13.5,16,A
+Thiemann2001JABA,case 3,contingent responses,13.4,17,A
+Thiemann2001JABA,case 3,contingent responses,23.6,18,A
+Thiemann2001JABA,case 3,contingent responses,19.7,19,A
+Thiemann2001JABA,case 3,contingent responses,9,20,A
+Thiemann2001JABA,case 3,contingent responses,9.9,21,A
+Thiemann2001JABA,case 3,contingent responses,16.2,22,B
+Thiemann2001JABA,case 3,contingent responses,17.6,23,B
+Thiemann2001JABA,case 3,contingent responses,16.6,24,B
+Thiemann2001JABA,case 3,contingent responses,14.1,25,B
+Thiemann2001JABA,case 3,contingent responses,21.4,26,B
+Thiemann2001JABA,case 3,contingent responses,15.5,27,B
+Thiemann2001JABA,case 3,contingent responses,12.1,28,B
