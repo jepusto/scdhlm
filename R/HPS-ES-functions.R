@@ -74,10 +74,10 @@ auto_SS <- function(x, n = length(x)) {
 #' 
 #' @examples
 #' data(Saddler)
-#' with(subset(Saddler, measure=="writing quality"), effect_size_MB(outcome, treatment, case, time))
+#' effect_size_MB(outcome=outcome, treatment=treatment, id=case, time=time, data=subset(Saddler, measure=="writing quality"))
 #' 
 #' data(Laski)
-#' with(Laski, effect_size_MB(outcome, treatment, case, time))
+#' effect_size_MB(outcome=outcome, treatment=treatment, id=case, time=time, data= Laski)
 #' 
 
 
@@ -265,10 +265,10 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
 #' 
 #' @examples
 #' data(Lambert)
-#' with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))
+#' effect_size_ABk(outcome =outcome, treatment=treatment, id = case, phase=phase, time=time, data= Lambert)
 #'    
 #' data(Anglesea)
-#' with(Anglesea, effect_size_ABk(outcome, condition, case, phase, session))
+#' effect_size_ABk(outcome =outcome, treatment=condition, id=case, phase=phase, time=session , data= Anglesea)
 #' 
 
 effect_size_ABk <- function(outcome, treatment, id, phase, time, data = NULL, phi=NULL, rho=NULL) {
