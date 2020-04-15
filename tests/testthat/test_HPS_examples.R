@@ -139,3 +139,14 @@ test_that("MB and ABk give similar results", {
   
 })
 
+test_that("summary and print work for effect_size_ABK() and effect_size_MB() objects", {
+  Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
+                                phase = phase, time = time, data= Lambert)
+  expect_output(summary(Lambert_ES))
+  expect_output(print(Lambert_ES))
+  
+  quality_ES <- effect_size_MB(outcome, treatment, case, time, 
+                               data= subset(Saddler, measure=="writing quality"))
+  expect_output(summary(quality_ES))
+  expect_output(print(quality_ES))
+})
