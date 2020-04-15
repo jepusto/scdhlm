@@ -1,5 +1,44 @@
-# this is the function I created. I will delete this file after the graphing function gets incorporated with the scdhlm
-#package. 
+library(testthat)
+
+data("Anglesea")
+data("AlberMorgan")
+
+
+
+session_by_treatment <- function(x, trt_phase) {
+  pmax(0, x$session - min(x$session[x$phase==trt_phase]))
+}
+
+phase_pairs <- function(x) {
+  conditions <- levels(as.factor(x$phase))
+  n <- length(x$phase)
+  phase <- x$phase[order(x$session)]
+  y <- rep(1,n)
+  for (i in 2:n) {
+    (i <- i + 1)
+    (which_lev <- match(phase[i-1], conditions))
+    (which_conditions <- conditions[c(which_lev, which_lev + 1)])
+    !(phase[i] %in% which_conditions)
+    (y[i] <- y[i - 1] + !(phase[i] %in% which_conditions))
+  }
+  y[order(order(x$session))]
+}
+
+
+phase_lines <- function(x) {
+  phase <- x$phase[order(x$session)]
+  n <- length(phase)
+  switches <- which(phase[2:n] != phase[1:(n-1)])
+  (x$session[switches] + x$session[switches + 1]) / 2
+}
+
+phase_lines_by_case <- function(x) {
+  phase_line <- by(x, x$case, phase_lines)
+  data.frame(case = rep(names(phase_line), lengths(phase_line)), phase_time = as.vector(unlist(phase_line)))
+}
+
+#assume it is secondond level of  treatment facrot. 
+
 graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NULL,  data=NULL) {
   
   if (is.null(treatment_name)) { 
@@ -28,6 +67,8 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
                     phase = factor(phase),
                     session_fac = factor(session),
                     outcome, session)
+  
+  
   
   
   trt_phase <- treatment_name
@@ -59,27 +100,10 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
     geom_vline(data = phase_line_dat, aes(xintercept = phase_time), linetype = "dashed")
 }
 
-# input <- list(example = "Saddler")
-# data(list = input$example)
-# dat <- get(input$example)
-# example_parms <- exampleMapping[[input$example]]
-# filter_vars <- example_parms$filters
-# input$filter_measure = 1
-# if (!is.null(filter_vars)) {
-#   subset_vals <- sapply(filter_vars, function(x) dat[[x]] %in% input[[paste0("filter_",x)]])
-#   dat <- dat[apply(subset_vals, 1, all),]
-# }
-# dat <- dat[,example_parms$vars]
-# names(dat) <- c("case","session","phase","outcome")
-# design <- example_parms$design
-# trt_phase <- levels(as.factor(dat$phase))[2]
-# dat$trt <- as.numeric(dat$phase==trt_phase)
-# if (design == "MB") {
-#   dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
-# } else {
-#   dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
-# }
-# 
-# default_times(dat)
-# 
-# graph_SCD(dat, design)
+test_that("graph is a ggplot2 graph", {
+  
+  my_graph <- graph_SCD(case=case, phase=condition, session=session, outcome=outcome, design="TR", treatment_name = NULL,  data=Anglesea)
+  expect_s3_class(my_graph, "ggplot")
+  
+})
+
