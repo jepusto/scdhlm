@@ -278,7 +278,7 @@ g_REML <- function(m_fit, p_const, r_const,
   theta <- extract_varcomp(m_fit)                                   # full theta vector
   r_theta <- sum(unlist(theta) * r_const)                           # r'theta
   delta_AB <- p_beta / sqrt(r_theta)                                # delta_AB              
-  kappa_sq <- (t(p_const) %*% vcov(m_fit) %*% p_const) / r_theta    # kappa^2
+  kappa_sq <- as.numeric(t(p_const) %*% vcov(m_fit) %*% p_const) / r_theta    # kappa^2
   cnvg_warn <- !is.null(attr(m_fit,"warning"))                      # indicator that RML estimation has not converged
       
   # calculate inverse expected information
@@ -286,7 +286,7 @@ g_REML <- function(m_fit, p_const, r_const,
   I_E_inv <- chol2inv(chol(I_E))
   
 
-  nu <- 2 * r_theta^2 / (t(r_const) %*% I_E_inv %*% r_const)
+  nu <- 2 * r_theta^2 / as.numeric(t(r_const) %*% I_E_inv %*% r_const)
   g_AB <- J(nu) * delta_AB
   nu_trunc <- max(nu, 2.001)
   V_g_AB <- J(nu)^2 * (nu_trunc * kappa_sq / (nu_trunc - 2) + g_AB^2 * (nu_trunc / (nu_trunc - 2) - 1 / J(nu_trunc)^2))
