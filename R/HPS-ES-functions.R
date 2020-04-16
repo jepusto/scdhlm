@@ -436,17 +436,24 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, data = NULL, ph
 #' @export
 
 summary.g_HPS <- function(object, digits = 3, ...) {
-  print(round(with(object, 
-                   rbind("numerator of effect size estimate" = D_bar,
-                          "sample variance" = S_sq,
-                          "within-case variance" = sigma_sq_w,
-                          "intra-class correlation" = rho,
-                          "auto-correlation" = phi,
-                          "unadjusted effect size" = delta_hat_unadj,
-                          "adjusted effect size" = delta_hat,
-                          "variance of adjusted effect size" = V_delta_hat,
-                          "degree of freedom" = nu,
-                          "scalar constant" = theta)), digits))
+  
+  varcomp <- with(object, cbind(est = c("within-case variance" = sigma_sq_w,
+                                        "sample variance" = S_sq,
+                                        "intra-class correlation" = rho,
+                                        "auto-correlation" = phi),
+                                se = c(NA, NA, NA, NA)))
+  
+  beta <- with(object, cbind(est = c("numerator of effect size estimate" = D_bar), se = c(NA)))
+  
+  
+  ES <- with(object, cbind(est = c("unadjusted effect size" = delta_hat_unadj, 
+                                   "adjusted effect size" = delta_hat,
+                                   "degree of freedom" = nu, 
+                                   "scalar constant" = theta),
+                           se = c(sqrt(V_delta_hat) / J(nu), sqrt(V_delta_hat), NA, NA)))
+  
+  print(round(rbind(varcomp, beta, ES), digits), na.print = "")
+
 }
 
 #' @export
