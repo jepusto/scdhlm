@@ -90,38 +90,79 @@ library(scdhlm)
 data(Lambert)
 
 Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
-                              phase = phase, time = time, data= Lambert)
+                              phase = phase, time = time, data = Lambert)
 
-str(Lambert_ES)
-#> List of 12
-#>  $ M_a            : int [1:2, 1:2] 6 4 6 7
-#>   ..- attr(*, "dimnames")=List of 2
-#>   .. ..$ : chr [1:2] "SSR" "RC"
-#>   .. ..$ : chr [1:2] "1" "2"
-#>  $ M_dot          : int 23
-#>  $ D_bar          : num -5.46
-#>  $ S_sq           : num 4.67
-#>  $ delta_hat_unadj: num -2.52
-#>  $ phi            : num 0.225
-#>  $ sigma_sq_w     : num 4.53
-#>  $ rho            : num 0.0299
-#>  $ theta          : num 0.145
-#>  $ nu             : num 164
-#>  $ delta_hat      : num -2.51
-#>  $ V_delta_hat    : num 0.0405
-#>  - attr(*, "class")= chr "g_HPS"
+Lambert_ES
+#> $M_a
+#>     1 2
+#> SSR 6 6
+#> RC  4 7
+#> 
+#> $M_dot
+#> [1] 23
+#> 
+#> $D_bar
+#> [1] -5.457995
+#> 
+#> $S_sq
+#> [1] 4.673913
+#> 
+#> $delta_hat_unadj
+#> [1] -2.524601
+#> 
+#> $phi
+#> [1] 0.2246802
+#> 
+#> $sigma_sq_w
+#> [1] 4.534312
+#> 
+#> $rho
+#> [1] 0.02986803
+#> 
+#> $theta
+#> [1] 0.1449257
+#> 
+#> $nu
+#> [1] 164.4923
+#> 
+#> $delta_hat
+#> [1] -2.513073
+#> 
+#> $V_delta_hat
+#> [1] 0.04054616
+#> 
+#> attr(,"class")
+#> [1] "g_HPS"
 ```
 
-The function produces a list containing the estimated effect size
-estimate, an estimate of its variance, and several pieces of auxiliary
-information. The effect size estimate `delta_hat` is equal to -2.513;
-its variance `V_delta_hat` is equal to 0.041. A standard error for
+The adjusted effect size estimate `delta_hat` is equal to -2.513; its
+variance `V_delta_hat` is equal to 0.041. A standard error for
 `delta_hat` can be calculated by taking the square root of
 `V_delta_hat`: `sqrt(Lambert_ES$V_delta_hat)` = 0.201. The effect size
 estimate is bias-corrected in a manner analogous to Hedges’ g correction
 for SMDs from a between-subjects design. The degrees of freedom `nu` are
 estimated based on a Satterthwaite-type approximation, which is equal to
 164.5 in this example.
+
+A summary() method is included to return more detail about the model
+parameter estimates and effect size estimates:
+
+``` r
+summary(Lambert_ES)
+#>                 Length Class  Mode   
+#> M_a             4      -none- numeric
+#> M_dot           1      -none- numeric
+#> D_bar           1      -none- numeric
+#> S_sq            1      -none- numeric
+#> delta_hat_unadj 1      -none- numeric
+#> phi             1      -none- numeric
+#> sigma_sq_w      1      -none- numeric
+#> rho             1      -none- numeric
+#> theta           1      -none- numeric
+#> nu              1      -none- numeric
+#> delta_hat       1      -none- numeric
+#> V_delta_hat     1      -none- numeric
+```
 
 ### Estimating SMDs using `effect_size_MB()`
 
@@ -139,27 +180,72 @@ design-comparable SMD estimate for the measure of writing quality:
 data(Saddler)
 
 Saddler_quality <- subset(Saddler, measure=="writing quality")
-quality_ES <- effect_size_MB(outcome, treatment, case, time, data= Saddler_quality)
+quality_ES <- effect_size_MB(outcome, treatment, case, time, data = Saddler_quality)
 
-str(quality_ES)
-#> List of 12
-#>  $ g_dotdot       : int 41
-#>  $ K              : int 13
-#>  $ D_bar          : num 2.1
-#>  $ S_sq           : num 0.952
-#>  $ delta_hat_unadj: num 2.15
-#>  $ phi            : num 0.0997
-#>  $ sigma_sq_w     : num 0.349
-#>  $ rho            : num 0.633
-#>  $ theta          : num 0.201
-#>  $ nu             : num 8.92
-#>  $ delta_hat      : num 1.96
-#>  $ V_delta_hat    : num 0.335
-#>  - attr(*, "class")= chr "g_HPS"
+quality_ES
+#> $g_dotdot
+#> [1] 41
+#> 
+#> $K
+#> [1] 13
+#> 
+#> $D_bar
+#> [1] 2.097222
+#> 
+#> $S_sq
+#> [1] 0.952381
+#> 
+#> $delta_hat_unadj
+#> [1] 2.149013
+#> 
+#> $phi
+#> [1] 0.09965017
+#> 
+#> $sigma_sq_w
+#> [1] 0.3493219
+#> 
+#> $rho
+#> [1] 0.633212
+#> 
+#> $theta
+#> [1] 0.2006415
+#> 
+#> $nu
+#> [1] 8.918146
+#> 
+#> $delta_hat
+#> [1] 1.963073
+#> 
+#> $V_delta_hat
+#> [1] 0.3349129
+#> 
+#> attr(,"class")
+#> [1] "g_HPS"
 ```
 
-The effect size estimate \``delta_hat` is equal to 1.963, with sampling
-variance of `V_delta_hat` equal to 0.335 and a standard error of 0.579.
+The adjusted effect size estimate `delta_hat` is equal to 1.963, with
+sampling variance of `V_delta_hat` equal to 0.335 and a standard error
+of 0.579.
+
+`summary(quality_ES)` returns more detail about the model parameter
+estimates and effect size estimates:
+
+``` r
+summary(quality_ES)
+#>                 Length Class  Mode   
+#> g_dotdot        1      -none- numeric
+#> K               1      -none- numeric
+#> D_bar           1      -none- numeric
+#> S_sq            1      -none- numeric
+#> delta_hat_unadj 1      -none- numeric
+#> phi             1      -none- numeric
+#> sigma_sq_w      1      -none- numeric
+#> rho             1      -none- numeric
+#> theta           1      -none- numeric
+#> nu              1      -none- numeric
+#> delta_hat       1      -none- numeric
+#> V_delta_hat     1      -none- numeric
+```
 
 ### Estimating SMDs using `g_REML()`
 

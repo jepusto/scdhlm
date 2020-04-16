@@ -71,12 +71,18 @@ library(scdhlm)
 data(Lambert)
 
 Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
-                              phase = phase, time = time, data= Lambert)
+                              phase = phase, time = time, data = Lambert)
 
-str(Lambert_ES)
+Lambert_ES
 ```
 
-The function produces a list containing the estimated effect size estimate, an estimate of its variance, and several pieces of auxiliary information. The effect size estimate `delta_hat` is equal to `r round(Lambert_ES$delta_hat, 3)`; its variance `V_delta_hat` is equal to `r round(Lambert_ES$V_delta_hat,3)`. A standard error for `delta_hat` can be calculated by taking the square root of `V_delta_hat`: `sqrt(Lambert_ES$V_delta_hat)` = `r round(sqrt(Lambert_ES$V_delta_hat),3)`. The effect size estimate is bias-corrected in a manner analogous to Hedges' g correction for SMDs from a between-subjects design. The degrees of freedom `nu` are estimated based on a Satterthwaite-type approximation, which is equal to `r round(Lambert_ES$nu,1)` in this example.
+The adjusted effect size estimate `delta_hat` is equal to `r round(Lambert_ES$delta_hat, 3)`; its variance `V_delta_hat` is equal to `r round(Lambert_ES$V_delta_hat,3)`. A standard error for `delta_hat` can be calculated by taking the square root of `V_delta_hat`: `sqrt(Lambert_ES$V_delta_hat)` = `r round(sqrt(Lambert_ES$V_delta_hat),3)`. The effect size estimate is bias-corrected in a manner analogous to Hedges' g correction for SMDs from a between-subjects design. The degrees of freedom `nu` are estimated based on a Satterthwaite-type approximation, which is equal to `r round(Lambert_ES$nu,1)` in this example.
+
+A summary() method is included to return more detail about the model parameter estimates and effect size estimates:
+
+```{r}
+summary(Lambert_ES)
+```
 
 ### Estimating SMDs using `effect_size_MB()`
 
@@ -88,11 +94,18 @@ Design-comparable SMDs can be estimated based on these data using the `effect_si
 data(Saddler)
 
 Saddler_quality <- subset(Saddler, measure=="writing quality")
-quality_ES <- effect_size_MB(outcome, treatment, case, time, data= Saddler_quality)
+quality_ES <- effect_size_MB(outcome, treatment, case, time, data = Saddler_quality)
 
-str(quality_ES)
+quality_ES
 ```
-The effect size estimate ``delta_hat` is equal to `r round(quality_ES$delta_hat, 3)`, with sampling variance of `V_delta_hat` equal to `r round(quality_ES$V_delta_hat, 3)` and a standard error of `r round(sqrt(quality_ES$V_delta_hat), 3)`.
+The adjusted effect size estimate `delta_hat` is equal to `r round(quality_ES$delta_hat, 3)`, with sampling variance of `V_delta_hat` equal to `r round(quality_ES$V_delta_hat, 3)` and a standard error of `r round(sqrt(quality_ES$V_delta_hat), 3)`.
+
+`summary(quality_ES)` returns more detail about the model parameter estimates and effect size estimates:
+
+```{r}
+summary(quality_ES)
+```
+
 
 ### Estimating SMDs using `g_REML()`
 
