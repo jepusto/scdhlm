@@ -93,46 +93,10 @@ Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = cas
                               phase = phase, time = time, data = Lambert)
 
 Lambert_ES
-#> $M_a
-#>     1 2
-#> SSR 6 6
-#> RC  4 7
-#> 
-#> $M_dot
-#> [1] 23
-#> 
-#> $D_bar
-#> [1] -5.457995
-#> 
-#> $S_sq
-#> [1] 4.673913
-#> 
-#> $delta_hat_unadj
-#> [1] -2.524601
-#> 
-#> $phi
-#> [1] 0.2246802
-#> 
-#> $sigma_sq_w
-#> [1] 4.534312
-#> 
-#> $rho
-#> [1] 0.02986803
-#> 
-#> $theta
-#> [1] 0.1449257
-#> 
-#> $nu
-#> [1] 164.4923
-#> 
-#> $delta_hat
-#> [1] -2.513073
-#> 
-#> $V_delta_hat
-#> [1] 0.04054616
-#> 
-#> attr(,"class")
-#> [1] "g_HPS"
+#>                            est    se
+#> unadjusted effect size  -2.525 0.202
+#> adjusted effect size    -2.513 0.201
+#> degree of freedom      164.492
 ```
 
 The adjusted effect size estimate `delta_hat` is equal to -2.513; its
@@ -149,19 +113,16 @@ parameter estimates and effect size estimates:
 
 ``` r
 summary(Lambert_ES)
-#>                 Length Class  Mode   
-#> M_a             4      -none- numeric
-#> M_dot           1      -none- numeric
-#> D_bar           1      -none- numeric
-#> S_sq            1      -none- numeric
-#> delta_hat_unadj 1      -none- numeric
-#> phi             1      -none- numeric
-#> sigma_sq_w      1      -none- numeric
-#> rho             1      -none- numeric
-#> theta           1      -none- numeric
-#> nu              1      -none- numeric
-#> delta_hat       1      -none- numeric
-#> V_delta_hat     1      -none- numeric
+#>                                       est    se
+#> within-case variance                4.534      
+#> sample variance                     4.674      
+#> intra-class correlation             0.030      
+#> auto-correlation                    0.225      
+#> numerator of effect size estimate  -5.458      
+#> unadjusted effect size             -2.525 0.202
+#> adjusted effect size               -2.513 0.201
+#> degree of freedom                 164.492      
+#> scalar constant                     0.145
 ```
 
 ### Estimating SMDs using `effect_size_MB()`
@@ -183,44 +144,10 @@ Saddler_quality <- subset(Saddler, measure=="writing quality")
 quality_ES <- effect_size_MB(outcome, treatment, case, time, data = Saddler_quality)
 
 quality_ES
-#> $g_dotdot
-#> [1] 41
-#> 
-#> $K
-#> [1] 13
-#> 
-#> $D_bar
-#> [1] 2.097222
-#> 
-#> $S_sq
-#> [1] 0.952381
-#> 
-#> $delta_hat_unadj
-#> [1] 2.149013
-#> 
-#> $phi
-#> [1] 0.09965017
-#> 
-#> $sigma_sq_w
-#> [1] 0.3493219
-#> 
-#> $rho
-#> [1] 0.633212
-#> 
-#> $theta
-#> [1] 0.2006415
-#> 
-#> $nu
-#> [1] 8.918146
-#> 
-#> $delta_hat
-#> [1] 1.963073
-#> 
-#> $V_delta_hat
-#> [1] 0.3349129
-#> 
-#> attr(,"class")
-#> [1] "g_HPS"
+#>                          est    se
+#> unadjusted effect size 2.149 0.634
+#> adjusted effect size   1.963 0.579
+#> degree of freedom      8.918
 ```
 
 The adjusted effect size estimate `delta_hat` is equal to 1.963, with
@@ -232,19 +159,16 @@ estimates and effect size estimates:
 
 ``` r
 summary(quality_ES)
-#>                 Length Class  Mode   
-#> g_dotdot        1      -none- numeric
-#> K               1      -none- numeric
-#> D_bar           1      -none- numeric
-#> S_sq            1      -none- numeric
-#> delta_hat_unadj 1      -none- numeric
-#> phi             1      -none- numeric
-#> sigma_sq_w      1      -none- numeric
-#> rho             1      -none- numeric
-#> theta           1      -none- numeric
-#> nu              1      -none- numeric
-#> delta_hat       1      -none- numeric
-#> V_delta_hat     1      -none- numeric
+#>                                     est    se
+#> within-case variance              0.349      
+#> sample variance                   0.952      
+#> intra-class correlation           0.633      
+#> auto-correlation                  0.100      
+#> numerator of effect size estimate 2.097      
+#> unadjusted effect size            2.149 0.634
+#> adjusted effect size              1.963 0.579
+#> degree of freedom                 8.918      
+#> scalar constant                   0.201
 ```
 
 ### Estimating SMDs using `g_REML()`
@@ -332,10 +256,10 @@ str(Laski_ES_RML)
 #>  $ p_beta   : num 30.7
 #>  $ r_theta  : num 439
 #>  $ delta_AB : num 1.46
-#>  $ nu       : num [1, 1] 18.6
-#>  $ kappa    : num [1, 1] 0.143
-#>  $ g_AB     : num [1, 1] 1.4
-#>  $ V_g_AB   : num [1, 1] 0.082
+#>  $ nu       : num 18.6
+#>  $ kappa    : num 0.143
+#>  $ g_AB     : num 1.4
+#>  $ V_g_AB   : num 0.082
 #>  $ cnvg_warn: logi FALSE
 #>  $ sigma_sq : num 193
 #>  $ phi      : num 0.253
