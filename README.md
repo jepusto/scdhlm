@@ -19,12 +19,15 @@ Status](https://img.shields.io/codecov/c/github/jepusto/scdhlm/master.svg)](http
 `scdhlm` provides a set of tools for estimating hierarchical linear
 models and effect sizes based on data from single-case designs. The
 estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish
-(2014), are directly comparable to standardized mean differences (SMDs)
-estimated from between-subjects randomized experiments. The package
-includes functions for estimating design-comparable SMDs based on data
-from ABAB designs (Hedges, Pustejovsky, and Shadish, 2012) and multiple
-baseline designs (Hedges, Pustejovsky, and Shadish, 2013). The package
-also includes an interactive web interface implemented using Shiny.
+(2014), are comparable in principle to standardized mean differences
+(SMDs) estimated from between-subjects randomized experiments. The
+package includes functions for estimating design-comparable SMDs based
+on data from ABAB designs (or more general treatment reversal designs)
+and multiple baseline designs. Two estimation methods are available:
+moment estimation (Hedges, Pustejovsky, & Shadish, 2012; 2013) and
+restricted maximum likelihood estimation (Pustejovsky, Hedges, &
+Shadish, 2014). The package also includes an interactive web interface
+implemented using Shiny.
 
 ## Installation
 
@@ -39,12 +42,12 @@ You can install the development version from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("jepusto/scdhlm")
+# install.packages("remotes")
+remotes::install_github("jepusto/scdhlm")
 ```
 
-You can access the [interactive
-web-app](https://jepusto.shinyapps.io/scdhlm/) with:
+You can access a local version of the [interactive
+web-app](https://jepusto.shinyapps.io/scdhlm/) by running the commands:
 
 ``` r
 library(scdhlm)
@@ -53,9 +56,10 @@ shine_scd()
 
 ## Demonstration
 
-We use three empirical datasets to demonstrate how `scdhlm` calculates
-design-comparable SMDs with different estimation methods based on data
-from different single-case designs.
+Here we demonstrate how to use `scdhlm` to calculate design-comparable
+SMDs based on data from different single-case designs. We will first
+demonstrate the older, moment estimation methods, followed by the
+restricted maximum likelihood estimation method.
 
 ### Estimating SMDs using `effect_size_ABk()`
 
@@ -67,7 +71,7 @@ design. This example is discussed in Hedges, Pustejovsky, and Shadish
 (2012), who selected it because the design was close to balanced and
 used a relatively large number of cases. Their calculations can be
 replicated using the `effect_size_ABk()` function. To use this function,
-the user must provide five pieces of data:
+the user must provide the names of five variables:
 
   - the outcome variable,
   - a variable indicating the treatment condition,
@@ -111,11 +115,13 @@ str(Lambert_ES)
 The function produces a list containing the estimated effect size
 estimate, an estimate of its variance, and several pieces of auxiliary
 information. The effect size estimate `delta_hat` is equal to -2.513;
-its variance `V_delta_hat` is equal to 0.041. The effect size estimate
-is bias-corrected in a manner analogous to the correction in Hedges’ g
+its variance `V_delta_hat` is equal to 0.041. A standard error for
+`delta_hat` can be calculated by taking the square root of
+`V_delta_hat`: `sqrt(Lambert_ES$V_delta_hat)` = 0.201. The effect size
+estimate is bias-corrected in a manner analogous to Hedges’ g correction
 for SMDs from a between-subjects design. The degrees of freedom `nu` are
 estimated based on a Satterthwaite-type approximation, which is equal to
-164.492 in this example.
+164.5 in this example.
 
 ### Estimating SMDs using `effect_size_MB()`
 
@@ -126,29 +132,34 @@ effect on measures of writing quality, sentence complexity, and use of
 target constructions.
 
 Design-comparable SMDs can be estimated based on these data using the
-`effect_size_MB()` function. The following code replicates the
-calculations reported in Hedges, Pustejovsky, and Shadish (2013):
+`effect_size_MB()` function. The following code calculates a
+design-comparable SMD estimate for the measure of writing quality:
 
 ``` r
 data(Saddler)
 
-quality_ES <- effect_size_MB(outcome, treatment, case, time, 
-                             data= subset(Saddler, measure=="writing quality"))
-complexity_ES <- effect_size_MB(outcome, treatment, case, time , 
-                                data= subset(Saddler, measure=="T-unit length"))
-construction_ES <- effect_size_MB(outcome, treatment, case, time, 
-                                  data= subset(Saddler, measure=="number of constructions"))
+Saddler_quality <- subset(Saddler, measure=="writing quality")
+quality_ES <- effect_size_MB(outcome, treatment, case, time, data= Saddler_quality)
 
-cbind(quality = unlist(quality_ES), 
-      complexity = unlist(complexity_ES), 
-      construction = unlist(construction_ES))[c("delta_hat","V_delta_hat","nu","phi","rho"),]
-#>                quality  complexity construction
-#> delta_hat   1.96307272  0.78540043   0.74755356
-#> V_delta_hat 0.33491289  0.08023320   0.07847359
-#> nu          8.91814603  9.60204004   7.57981360
-#> phi         0.09965017 -0.07542229  -0.11159420
-#> rho         0.63321198  0.61453091   0.73123744
+str(quality_ES)
+#> List of 12
+#>  $ g_dotdot       : int 41
+#>  $ K              : int 13
+#>  $ D_bar          : num 2.1
+#>  $ S_sq           : num 0.952
+#>  $ delta_hat_unadj: num 2.15
+#>  $ phi            : num 0.0997
+#>  $ sigma_sq_w     : num 0.349
+#>  $ rho            : num 0.633
+#>  $ theta          : num 0.201
+#>  $ nu             : num 8.92
+#>  $ delta_hat      : num 1.96
+#>  $ V_delta_hat    : num 0.335
+#>  - attr(*, "class")= chr "g_HPS"
 ```
+
+The effect size estimate \``delta_hat` is equal to 1.963, with sampling
+variance of `V_delta_hat` equal to 0.335 and a standard error of 0.579.
 
 ### Estimating SMDs using `g_REML()`
 
@@ -156,18 +167,16 @@ Laski, Charlop, and Schreibman (1988) used a multiple baseline across
 individuals to evaluate the effect of a training program for parents on
 the speech production of their autistic children, as measured using a
 partial interval recording procedure. The design included \(m = 8\)
-children; one child was measured separately with each parent; for
-purposes of simplicity, and following Hedges, Pustejovsky, and Shadish
-(2013), only the measurements taken with the mother are included in the
-analysis.
+children. One child was measured separately with each parent; following
+Hedges, Pustejovsky, and Shadish (2013), only the measurements taken
+with the mother are included in our analysis.
 
-The following code estimates a design-comparable SMD with the
-hierarchical linear modeling approach (Pustejovsky et al., 2014) using
-the `g_REML()` function.
-
-  - Step 1: fit the hierarchical model using `nlme::lme()`
-
-<!-- end list -->
+For this study, we will estimate a design-comparable SMD using
+restricted maximum likelihood (REML) methods, as described by
+Pustejovsky and colleagues (2014). This is a two-step process. The first
+step is to estimate a hierarchical linear model for the data, treated
+the measurements as nested within cases. We fit the model using
+`nlme::lme()`
 
 ``` r
 data(Laski)
@@ -212,22 +221,22 @@ summary(Laski_RML)
 The summary of the fitted model displays estimates of the component
 parameters, including the within-case and between-case standard
 deviations, auto-correlation, and (unstandardized) treatment effect
-estimate. Those estimated components will be used to estimate the effect
-size in next step.
+estimate. These estimated components will be used to calculate the
+effect size in next step.
 
-  - Step 2: estimate design-comparable SMD using `scdhlm::g_REML()`
-
-The SMD parameter can be defined as the ratio of a linear combination of
-the fitted model’s fixed effect parameters over the square root of a
-linear combination of the model’s variance components. `g_REML()` takes
-the fitted `lme` model object as input, followed by the vectors
-`p_const` and `r_const`, which specify the components of the fixed
-effects and variance estimates that are to be used in constructing the
-design-comparable SMD. In this example, we use the treatment effect in
-the numerator of the effect size and the sum of the within-case and
-between-case variance components in the denominator of the effect size.
-The constants are therefore given by `p_const = c(0, 1)` and `r_const =
-c(1, 0, 1)`. The effect size estimated is calculated as:
+The second step in the process is to estimate a design-comparable SMD
+using `scdhlm::g_REML()`. The SMD parameter can be defined as the ratio
+of a linear combination of the fitted model’s fixed effect parameters
+over the square root of a linear combination of the model’s variance
+components. `g_REML()` takes the fitted `lme` model object as input,
+followed by the vectors `p_const` and `r_const`, which specify the
+components of the fixed effects and variance estimates that are to be
+used in constructing the design-comparable SMD. In this example, we use
+the treatment effect in the numerator of the effect size and the sum of
+the within-case and between-case variance components in the denominator
+of the effect size. The constants are therefore given by `p_const =
+c(0, 1)` and `r_const = c(1, 0, 1)`. The effect size estimated is
+calculated as:
 
 ``` r
 Laski_ES_RML <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel=FALSE)
