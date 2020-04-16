@@ -218,7 +218,6 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
   return(results)
 }
 
-
 ## calculate effect size (with associated estimates) for (AB)^k design ####
 
 #' @title Calculates HPS effect size
@@ -434,6 +433,40 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, data = NULL, ph
   return(results)
 }
 
+#' @export
+
+summary.g_HPS <- function(object, digits = 3, ...) {
+  
+  varcomp <- with(object, cbind(est = c("within-case variance" = sigma_sq_w,
+                                        "sample variance" = S_sq,
+                                        "intra-class correlation" = rho,
+                                        "auto-correlation" = phi),
+                                se = c(NA, NA, NA, NA)))
+  
+  beta <- with(object, cbind(est = c("numerator of effect size estimate" = D_bar), se = c(NA)))
+  
+  
+  ES <- with(object, cbind(est = c("unadjusted effect size" = delta_hat_unadj, 
+                                   "adjusted effect size" = delta_hat,
+                                   "degree of freedom" = nu, 
+                                   "scalar constant" = theta),
+                           se = c(sqrt(V_delta_hat) / J(nu), sqrt(V_delta_hat), NA, NA)))
+  
+  print(round(rbind(varcomp, beta, ES), digits), na.print = "")
+
+}
+
+#' @export
+
+print.g_HPS <- function(x, digits = 3, ...) {
+  
+  ES <- with(x, cbind(est = c("unadjusted effect size" = delta_hat_unadj,
+                              "adjusted effect size" = delta_hat,
+                              "degree of freedom" = nu),
+                           se = c(sqrt(V_delta_hat) / J(nu), sqrt(V_delta_hat), NA)))
+  
+  print(round(ES, digits), na.print = "")
+}
 
 
 
