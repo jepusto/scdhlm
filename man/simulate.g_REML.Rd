@@ -13,7 +13,7 @@
 
 \item{seed}{seed value. See documentation for \code{\link{simulate}}}
 
-\item{parallel}{if \code{TRUE}, run in parallel using foreach backend.}
+\item{parallel}{if \code{TRUE}, run in parallel using \code{foreach} backend.}
 
 \item{...}{additional optional arguments}
 }

@@ -4,7 +4,9 @@
 \name{Bryant2018}
 \alias{Bryant2018}
 \title{Bryant et al. (2018)}
-\format{A data frame with 536 rows and 8 variables}
+\format{
+A data frame with 536 rows and 8 variables
+}
 \source{
 Bryant, D. R., Bryant, B. R., Sorelle-Miner, D. A., Falcomata, T. S.
 & Nozari, M. (2018).

@@ -4,7 +4,9 @@
 \name{BartonArwood}
 \alias{BartonArwood}
 \title{Barton-Arwood, Wehby, & Falk (2005)}
-\format{A data frame with 143 rows and 4 variables}
+\format{
+A data frame with 143 rows and 4 variables
+}
 \source{
 Barton-Arwood, S. M., Wehby, J. H., & Falk, K. B. (2005). Reading
   instruction for elementary-age students with emotional and behavioral

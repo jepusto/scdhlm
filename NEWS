@@ -1,5 +1,8 @@
 scdhlm 0.3.2
 =======================
+* Updated HPS estimation functions to work with datasets (issue #2 from austinj).
+* Added additional example datasets (Ruiz, Salazar, Thiemann2001, Thiemann2004, Bryant2018).
+* Updated web-app to allow use of .xlsx files.
 * Fixed bug in web-app occurring when cases were listed out of alphabetical order.
 * Fixed bug in web-app occurring when auto-correlation is very weakly identified.
 

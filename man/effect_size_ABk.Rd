@@ -16,16 +16,16 @@ effect_size_ABk(
 )
 }
 \arguments{
-\item{outcome}{Vector of outcome data. May not contain any missing values.}
+\item{outcome}{Vector of outcome data or name of variable within \code{data}. May not contain any missing values.}
 
-\item{treatment}{Vector of treatment indicators. Must be the same length as \code{outcome}.}
+\item{treatment}{Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.}
 
-\item{id}{factor vector indicating unique cases. Must be the same length as \code{outcome}.}
+\item{id}{factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.}
 
 \item{phase}{factor vector indicating unique phases (each containing one contiguous control 
-condition and one contiguous treatment condition). Must be the same length as \code{outcome}.}
+condition and one contiguous treatment condition) or name of variable within \code{data}. Must be the same length as \code{outcome}.}
 
-\item{time}{vector of measurement occasion times. Must be the same length as \code{outcome}.}
+\item{time}{vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.}
 
 \item{data}{Optional dataset to use for analysis. Must be data.frame.}
 
@@ -64,10 +64,12 @@ parameters will be calculated.
 }
 \examples{
 data(Lambert)
-with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))
+effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
+                phase = phase, time = time, data = Lambert)
    
 data(Anglesea)
-with(Anglesea, effect_size_ABk(outcome, condition, case, phase, session))
+effect_size_ABk(outcome = outcome, treatment = condition, id = case, 
+                phase = phase, time = session, data = Anglesea)
 
 }
 \references{

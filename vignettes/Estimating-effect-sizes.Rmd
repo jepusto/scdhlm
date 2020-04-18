@@ -11,7 +11,7 @@ vignette: >
 
 The scdhlm package (Pustejovsky, 2016) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. A design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases); Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variability. 
 
-The original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the `effect_size_ABk` and `effect_size_MB` functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxilliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function `lme` from the package `nlme` by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function `g_REML` from the `scdhlm` package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:
+The original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the `effect_size_ABk` and `effect_size_MB` functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxiliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function `lme` from the package `nlme` by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function `g_REML` from the `scdhlm` package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:
 ```{r, message = FALSE}
 library(scdhlm)
 ```
@@ -31,21 +31,22 @@ In the `Lambert` dataset, these variables are called respectively `outcome`, `tr
 data(Lambert)
 
 Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, 
-                                            id = case, phase = phase, time = time, data= Lambert)
+                              id = case, phase = phase, time = time, 
+                              data = Lambert)
 
 str(Lambert_ES)
 ```
-The function produces a list containing the estimated effect size estimate, an estimate of its variance, and several pieces of auxilliary information. The effect size estimate is stored in the list entry called `delta_hat`, which in this example is equal to `r Lambert_ES$delta_hat`; its variance is stored in `V_delta_hat`, which in this example is equal to `r Lambert_ES$V_delta_hat`. The effect size estimate is bias-corrected in a manner analogous to the correction in Hedges' g for SMDs from a between-subjects design. The degrees of freedom are estimated based on a Satterthwaite-type approximation and are stored in the entry `nu` (equal to `r Lambert_ES$nu` in this example).
+The function produces a list containing the estimated effect size estimate, an estimate of its variance, and several pieces of auxiliary information. The effect size estimate is stored in the list entry called `delta_hat`, which in this example is equal to `r Lambert_ES$delta_hat`; its variance is stored in `V_delta_hat`, which in this example is equal to `r Lambert_ES$V_delta_hat`. The effect size estimate is bias-corrected in a manner analogous to the correction in Hedges' g for SMDs from a between-subjects design. The degrees of freedom are estimated based on a Satterthwaite-type approximation and are stored in the entry `nu` (equal to `r Lambert_ES$nu` in this example).
 
-By default, the `effect_size_ABk` function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry `phi`) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry `rho`). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimated was . The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of `r Lambert_ES$phi`. 
+By default, the `effect_size_ABk` function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry `phi`) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry `rho`). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimated was `r Lambert_ES$phi`. The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of `r Lambert_ES$phi`. 
 ```{r}
 effect_size_ABk(outcome = outcome, treatment = treatment, 
-                              id = case, phase = phase, time = time, data= Lambert,
-                              phi = 0.10)[c("delta_hat","V_delta_hat","nu")]
+                id = case, phase = phase, time = time, 
+                data = Lambert, phi = 0.10)[c("delta_hat","V_delta_hat","nu")]
 
 effect_size_ABk(outcome = outcome, treatment = treatment, 
-                              id = case, phase = phase, time = time, data= Lambert,
-                              phi = 0.35)[c("delta_hat","V_delta_hat","nu")]
+                id = case, phase = phase, time = time, 
+                data = Lambert, phi = 0.35)[c("delta_hat","V_delta_hat","nu")]
 ```
 The estimated auto-correlation has only a trivial effect on the effect size estimate and a minor effect on its estimated variance. 
 
@@ -67,16 +68,21 @@ Design-comparable SMDs can be estimated based on these data using the `effect_si
 ```{r}
 data(Saddler)
 
-quality_ES <- effect_size_MB(outcome, treatment, case, time, data= subset(Saddler, measure=="writing quality"))
-complexity_ES <- effect_size_MB(outcome, treatment, case, time , data= subset(Saddler, measure=="T-unit length"))
-construction_ES <- effect_size_MB(outcome, treatment, case, time, data= subset(Saddler, measure=="number of constructions"))
+quality_ES <- effect_size_MB(outcome, treatment, case, time, 
+                             data = subset(Saddler, measure=="writing quality"))
+complexity_ES <- effect_size_MB(outcome, treatment, case, time , 
+                                data = subset(Saddler, measure=="T-unit length"))
+construction_ES <- effect_size_MB(outcome, treatment, case, time, 
+                                  data = subset(Saddler, measure=="number of constructions"))
 
-cbind(quality = unlist(quality_ES), 
-      complexity = unlist(complexity_ES), 
-      construction = unlist(construction_ES))[c("delta_hat","V_delta_hat","nu","phi","rho"),]
+data.frame(
+  quality = unlist(quality_ES), 
+  complexity = unlist(complexity_ES), 
+  construction = unlist(construction_ES)
+)[c("delta_hat","V_delta_hat","nu","phi","rho"),]
 ```
 
-For multiple baseline designs, an alternative to using the `effect_size_MB` function is to estimate a hierarchical linear model for the data and then use the `g_REML` function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a heirarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which will be demonstrated using the writing quality measure. First, estimate the hierarchical model with an AR(1) within-case error structure using the `lme` function:
+For multiple baseline designs, an alternative to using the `effect_size_MB` function is to estimate a hierarchical linear model for the data and then use the `g_REML` function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a hierarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which will be demonstrated using the writing quality measure. First, estimate the hierarchical model with an AR(1) within-case error structure using the `lme` function:
 ```{r}
 quality_RML <- lme(fixed = outcome ~ treatment, 
                    random = ~ 1 | case, 
@@ -90,7 +96,7 @@ quality_ES_RML <- g_REML(quality_RML, p_const = c(0,1),
                          r_const = c(1,0,1), returnModel=FALSE)
 str(quality_ES_RML)
 ```
-The function returns a list containing the SMD effect size estimate (`g_AB` = `r quality_ES_RML$g_AB`), its variance (`V_g_AB` = `r quality_ES_RML$V_g_AB`), the estimated auto-correlation (`phi` = `r quality_ES_RML$phi`), estimated degrees of freedom (`nu` = `r quality_ES_RML$nu`), and several other pieces of auxilliary information. In this example, the RML effect size estimate is about 10% larger than the estimate from `effect_size_MB`, with a slightly smaller variance estimate. The RML estimate of the auto-correlation is substantially higher than before, but `effect_size_MB` uses a moment estimator that is known to be biased towards zero and that does not perform well when outcomes are intermittently missing for some sessions (as is the case here). 
+The function returns a list containing the SMD effect size estimate (`g_AB` = `r quality_ES_RML$g_AB`), its variance (`V_g_AB` = `r quality_ES_RML$V_g_AB`), the estimated auto-correlation (`phi` = `r quality_ES_RML$phi`), estimated degrees of freedom (`nu` = `r quality_ES_RML$nu`), and several other pieces of auxiliary information. In this example, the RML effect size estimate is about 10% larger than the estimate from `effect_size_MB`, with a slightly smaller variance estimate. The RML estimate of the auto-correlation is substantially higher than before, but `effect_size_MB` uses a moment estimator that is known to be biased towards zero and that does not perform well when outcomes are intermittently missing for some sessions (as is the case here). 
 
 ## Laski, Charlop, & Schreibman (1988)
 
@@ -114,8 +120,11 @@ Laski_ES_RML <- g_REML(Laski_RML, p_const = c(0,1),
                        r_const = c(1,0,1), returnModel=FALSE)
 
 # compare the estimates
-cbind(HPS = with(Laski_ES_HPS, c(SMD = delta_hat, Variance = V_delta_hat, phi = phi, rho = rho, nu = nu)),
-      RML = with(Laski_ES_RML, c(g_AB, V_g_AB, phi, Tau / (Tau + sigma_sq), nu)))
+data.frame(
+  HPS = with(Laski_ES_HPS, c(SMD = delta_hat, Variance = V_delta_hat, 
+                             phi = phi, rho = rho, nu = nu)),
+  RML = with(Laski_ES_RML, c(g_AB, V_g_AB, phi, Tau / (Tau + sigma_sq), nu))
+)
 ```
 
 As in the Saddler example, both methods produce very similar SMD estimates and variance estimates. The RML estimate of auto-correlation is substantially higher than the HPS estimate, while the intra-class correlation estimate is somewhat lower; in combination, these differences lead to larger degrees of freedom.
@@ -160,6 +169,7 @@ ggplot(Schutte, aes(week, fatigue, shape = treatment, color = treatment)) +
 ```
 
 Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations. 
+
 ```{r}
 # create time-by-trt interaction
 Schutte$trt_week <- with(Schutte, 
@@ -187,7 +197,7 @@ hlm1 <- lme(fixed = fatigue ~ week + treatment + trt_week,
             method = "REML")
 summary(hlm1)
 ```
-The design-comparable standarized mean difference corresponds to the treatment effect at week B = 9, after B - A = 7 weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.
+The design-comparable standardized mean difference corresponds to the treatment effect at week B = 9, after B - A = 7 weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.
 ```{r}
 Schutte_g1 <- g_REML(m_fit = hlm1, p_const = c(0,0,1,B - A), r_const = c(1,0,1))
 Schutte_g1[c("g_AB","V_g_AB","nu")]
@@ -224,9 +234,11 @@ The REML estimation algorithm fails to converge because the estimate of the corr
 Schutte_g3 <- g_REML(m_fit = hlm3, p_const = c(0,0,1,B - A), r_const = c(1,0,1,0,0,0,0,0))
 
 # compare effect size estimates
-cbind(MB3 = unlist(Schutte_g1[c("g_AB","V_g_AB","nu")]), 
-      MB4 = unlist(Schutte_g2[c("g_AB","V_g_AB","nu")]), 
-      MB5 = unlist(Schutte_g3[c("g_AB","V_g_AB","nu")]))
+data.frame(
+  MB3 = unlist(Schutte_g1[c("g_AB","V_g_AB","nu")]), 
+  MB4 = unlist(Schutte_g2[c("g_AB","V_g_AB","nu")]), 
+  MB5 = unlist(Schutte_g3[c("g_AB","V_g_AB","nu")])
+)
 ```
 The effect size estimate has magnitude comparable to the estimate from Model MB3. However, the variance of the estimate is extremely large, due to the fact that the variance components that go into the denominator of the SMD estimate are estimated with low precision. This final model may represent an outer limit on the complexity of models that can feasibility be estimated, given that most single-case designs have fewer cases than the study examined in this example.
 

@@ -4,7 +4,9 @@
 \name{Rodriguez}
 \alias{Rodriguez}
 \title{Rodriguez & Anderson (2014)}
-\format{A data frame with 148 rows and 4 variables}
+\format{
+A data frame with 148 rows and 4 variables
+}
 \source{
 Rodriguez, B. J., & Anderson, C. M. (2014). Integrating a social
   behavior intervention during small group academic instruction using a total

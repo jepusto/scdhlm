@@ -74,10 +74,19 @@ auto_SS <- function(x, n = length(x)) {
 #' 
 #' @examples
 #' data(Saddler)
+<<<<<<< HEAD
 #' effect_size_MB(outcome=outcome, treatment=treatment, id=case, time=time, data=subset(Saddler, measure=="writing quality"))
 #' 
 #' data(Laski)
 #' effect_size_MB(outcome=outcome, treatment=treatment, id=case, time=time, data= Laski)
+=======
+#' effect_size_MB(outcome = outcome, treatment = treatment, id = case, 
+#'                time = time, data = subset(Saddler, measure=="writing quality"))
+#' 
+#' data(Laski)
+#' effect_size_MB(outcome = outcome, treatment = treatment, id = case, 
+#'                time = time, data = Laski)
+>>>>>>> 85c9f2b8682a52c26e12a079e0389963b40d2648
 #' 
 
 
@@ -216,7 +225,6 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
   return(results)
 }
 
-
 ## calculate effect size (with associated estimates) for (AB)^k design ####
 
 #' @title Calculates HPS effect size
@@ -265,10 +273,19 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
 #' 
 #' @examples
 #' data(Lambert)
+<<<<<<< HEAD
 #' effect_size_ABk(outcome =outcome, treatment=treatment, id = case, phase=phase, time=time, data= Lambert)
 #'    
 #' data(Anglesea)
 #' effect_size_ABk(outcome =outcome, treatment=condition, id=case, phase=phase, time=session , data= Anglesea)
+=======
+#' effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
+#'                 phase = phase, time = time, data = Lambert)
+#'    
+#' data(Anglesea)
+#' effect_size_ABk(outcome = outcome, treatment = condition, id = case, 
+#'                 phase = phase, time = session, data = Anglesea)
+>>>>>>> 85c9f2b8682a52c26e12a079e0389963b40d2648
 #' 
 
 effect_size_ABk <- function(outcome, treatment, id, phase, time, data = NULL, phi=NULL, rho=NULL) {
@@ -430,6 +447,40 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, data = NULL, ph
   return(results)
 }
 
+#' @export
+
+summary.g_HPS <- function(object, digits = 3, ...) {
+  
+  varcomp <- with(object, cbind(est = c("within-case variance" = sigma_sq_w,
+                                        "sample variance" = S_sq,
+                                        "intra-class correlation" = rho,
+                                        "auto-correlation" = phi),
+                                se = c(NA, NA, NA, NA)))
+  
+  beta <- with(object, cbind(est = c("numerator of effect size estimate" = D_bar), se = c(NA)))
+  
+  
+  ES <- with(object, cbind(est = c("unadjusted effect size" = delta_hat_unadj, 
+                                   "adjusted effect size" = delta_hat,
+                                   "degree of freedom" = nu, 
+                                   "scalar constant" = theta),
+                           se = c(sqrt(V_delta_hat) / J(nu), sqrt(V_delta_hat), NA, NA)))
+  
+  print(round(rbind(varcomp, beta, ES), digits), na.print = "")
+
+}
+
+#' @export
+
+print.g_HPS <- function(x, digits = 3, ...) {
+  
+  ES <- with(x, cbind(est = c("unadjusted effect size" = delta_hat_unadj,
+                              "adjusted effect size" = delta_hat,
+                              "degree of freedom" = nu),
+                           se = c(sqrt(V_delta_hat) / J(nu), sqrt(V_delta_hat), NA)))
+  
+  print(round(ES, digits), na.print = "")
+}
 
 
 

@@ -4,7 +4,9 @@
 \name{Salazar}
 \alias{Salazar}
 \title{Salazar, et al. (2020)}
-\format{A data frame with 324 rows and 5 variables}
+\format{
+A data frame with 324 rows and 5 variables
+}
 \source{
 Salazar, D., Ruiz, F., Ramírez, E., & Cardona-Betancourt, V. (2020).
   Acceptance and Commitment Therapy Focused on Repetitive Negative Thinking for

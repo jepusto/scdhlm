@@ -3,4 +3,5 @@
 ^\.travis\.yml$
 auxilliary
 cran-comments.md
-README.md
+^README\.Rmd$
+^CRAN-RELEASE$

@@ -13,7 +13,7 @@ AlberMorgan <- AlberMorgan[c("case","condition","session","outcome")]
 str(AlberMorgan)
 levels(AlberMorgan$case)
 
-save(AlberMorgan, file = "data/AlberMorgan.RData", compress = TRUE)
+save(AlberMorgan, file = "data/AlberMorgan.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Anglesea
@@ -26,7 +26,7 @@ Anglesea <- within(Anglesea, {
 })
 str(Anglesea)
 
-save(Anglesea, file = "data/Anglesea.RData", compress = TRUE)
+save(Anglesea, file = "data/Anglesea.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Barton-Arwood
@@ -41,7 +41,7 @@ BartonArwood <- within(BartonArwood, {
 })
 str(BartonArwood)
 
-save(BartonArwood, file = "data/BartonArwood.RData", compress = TRUE)
+save(BartonArwood, file = "data/BartonArwood.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Carson
@@ -50,7 +50,7 @@ save(BartonArwood, file = "data/BartonArwood.RData", compress = TRUE)
 Carson <- read.csv("auxilliary/Carson.csv", stringsAsFactors = FALSE)
 str(Carson)
 
-save(Carson, file = "data/Carson.RData", compress = TRUE)
+save(Carson, file = "data/Carson.RData", compress = TRUE, version = 2)
 
 
 #--------------------
@@ -65,7 +65,7 @@ Lambert <- within(Lambert, {
 })
 str(Lambert)
 
-save(Lambert, file = "data/Lambert.RData", compress = TRUE)
+save(Lambert, file = "data/Lambert.RData", compress = TRUE, version = 2)
 
 
 #--------------------
@@ -79,7 +79,7 @@ Laski <- within(Laski, {
   treatment <- factor(treatment, levels = 0:1, labels = c("baseline","treatment"))
 })
 
-save(Laski, file = "data/Laski.RData", compress = TRUE)
+save(Laski, file = "data/Laski.RData", compress = TRUE, version = 2)
 
 
 #--------------------
@@ -94,7 +94,7 @@ Musser <- within(Musser, {
   treatment <- factor(treatment, levels = 0:2, labels = c("baseline","treatment","follow-up"))
 })
 
-save(Musser, file = "data/Musser.RData", compress = TRUE)
+save(Musser, file = "data/Musser.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Rodriguez
@@ -109,7 +109,7 @@ Rodriguez <- within(Rodriguez, {
 })
 str(Rodriguez)
 
-save(Rodriguez, file = "data/Rodriguez.RData", compress = TRUE)
+save(Rodriguez, file = "data/Rodriguez.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Romaniuk
@@ -123,7 +123,7 @@ Romaniuk <- within(Romaniuk, {
 })
 str(Romaniuk)
 
-save(Romaniuk, file = "data/Romaniuk.RData", compress = TRUE)
+save(Romaniuk, file = "data/Romaniuk.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Ruiz
@@ -153,7 +153,9 @@ Ruiz <- Ruiz %>%
     measure = as.factor(measure)
   )
 
-save(Ruiz, file = "data/Ruiz.RData", compress = TRUE, version = 2)
+save(Ruiz, file = "data/Ruiz.RData", compress = TRUE, version = 2, version = 2)
+
+
 #--------------------
 # Saddler
 #--------------------
@@ -165,7 +167,7 @@ Saddler <- within(Saddler, {
   treatment <- factor(treatment, levels = 0:1, labels = c("baseline","treatment"))
 })
 str(Saddler)
-save(Saddler, file = "data/Saddler.RData", compress = TRUE)
+save(Saddler, file = "data/Saddler.RData", compress = TRUE, version = 2)
 
 
 #--------------------
@@ -179,11 +181,13 @@ Schutte <- within(Schutte, {
   treatment <- factor(treatment, levels = c("baseline","treatment"))
 })
 
-save(Schutte, file = "data/Schutte.RData", compress = TRUE)
+save(Schutte, file = "data/Schutte.RData", compress = TRUE, version = 2)
+
 
 #--------------------
-Salazar
+# Salazar
 #--------------------
+
 library(readxl)
 library(tidyverse)
 
@@ -216,9 +220,11 @@ Salazar <- as.data.frame(datFile)
 
 save(Salazar, file = "data/Salazar.RData", compress = TRUE, version = 2)
 
+
 #--------------------
 # Thorne
 #--------------------
+
 library(readr)
 library(dplyr)
 
@@ -255,12 +261,13 @@ Thorne <-
 
 str(Thorne)
 
-save(Thorne, file = "data/Thorne.RData", compress = TRUE)
+save(Thorne, file = "data/Thorne.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Bryant2018
 #--------------------
-Bryant2018 <- read.csv("auxiliary/Bryant2018.csv", stringsAsFactors = FALSE)
+
+Bryant2018 <- read.csv("auxilliary/Bryant2018.csv", stringsAsFactors = FALSE)
 str(Bryant2018)
 
 Bryant2018 <- within(Bryant2018, {
@@ -282,14 +289,15 @@ B <- 21
 Center <- B
 Bryant2018$session_c <-Bryant2018$session - Center
 
-save(Bryant2018, file = "data/Bryant2018.RData", compress = TRUE)
+save(Bryant2018, file = "data/Bryant2018.RData", compress = TRUE, version = 2)
 
 #--------------------
 # Thiemann2001
 #--------------------
+
 library(tidyverse)
 
-Thiemann2001 <- read.csv("auxiliary/Thiemann2001.csv", stringsAsFactors = FALSE)
+Thiemann2001 <- read.csv("auxilliary/Thiemann2001.csv", stringsAsFactors = FALSE)
 str(Thiemann2001)
 
 Thiemann2001 <- Thiemann2001 %>%
@@ -312,12 +320,14 @@ B <- 30
 Center <- B
 Thiemann2001$time_c <- Thiemann2001$time - Center
 
-save(Thiemann2001, file = "data/Thiemann2001.RData", compress = TRUE)
+save(Thiemann2001, file = "data/Thiemann2001.RData", compress = TRUE, version = 2)
+
 
 #--------------------
 # Thiemann2004
 #--------------------
-Thiemann2004 <- read.csv("auxiliary/Thiemann2004.csv", stringsAsFactors = FALSE)
+
+Thiemann2004 <- read.csv("auxilliary/Thiemann2004.csv", stringsAsFactors = FALSE)
 str(Thiemann2004)
 
 Thiemann2004 <- Thiemann2004 %>%
@@ -341,4 +351,4 @@ B <- 33
 Center <- B
 Thiemann2004$time_c <- Thiemann2004$time - Center
 
-save(Thiemann2004, file = "data/Thiemann2004.RData", compress = TRUE)
+save(Thiemann2004, file = "data/Thiemann2004.RData", compress = TRUE, version = 2)
