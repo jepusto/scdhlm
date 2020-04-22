@@ -108,32 +108,24 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
     p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = phase, shape = phase, group = interaction(phase, phase_pair)))
   }
   
+  p <- p + 
+    ggplot2::geom_point() + 
+    ggplot2::geom_line() + 
+    ggplot2::facet_grid(case ~ .) + 
+    ggplot2::theme_bw() + 
+    ggplot2::labs(color = "", shape = "") + 
+    ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed")
+  
   # With model fit
   if (!is.null(model_fit)) {
     
-  
     dat$fitted <- predict(model_fit)
     
+    p <- p + ggplot2::geom_line(data = dat, ggplot2::aes(session, fitted), size = 0.8)
     
-    p + 
-      ggplot2::geom_point() + 
-      ggplot2::geom_line() + 
-      ggplot2::facet_grid(case ~ .) + 
-      ggplot2::theme_bw() + 
-      ggplot2::labs(color = "", shape = "") + 
-      ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed") +
-      ggplot2::geom_line(data = dat, ggplot2::aes(session, fitted), size = 0.8)
-    
-  }  else { #without model fit
-    
-    p + 
-      ggplot2::geom_point() + 
-      ggplot2::geom_line() + 
-      ggplot2::facet_grid(case ~ .) + 
-      ggplot2::theme_bw() + 
-      ggplot2::labs(color = "", shape = "") + 
-      ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed")
-    
-  }
+  } 
+  
+  p
+  
 }
 
