@@ -43,7 +43,15 @@ If treatment_name is left null it will choose the second level of the phase vari
 }
 \examples{
 data(Anglesea)
-graph_SCD(case=case, phase=condition, session=session, outcome=outcome, design="TR", treatment_name = "treatment",  data=Anglesea)
+graph_SCD(case=case, phase=condition, 
+          session=session, outcome=outcome, 
+          design="TR", treatment_name = "treatment", 
+          data=Anglesea)
+          
 data(BartonArwood)
-graph_SCD(case=case, phase=condition, session=session, outcome=outcome, design="MB", treatment_name = "B",  data=BartonArwood)
+graph_SCD(case=case, phase=condition, 
+          session=session, outcome=outcome, 
+          design="MB", treatment_name = "B",  
+          data=BartonArwood)
+
 }

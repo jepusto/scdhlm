@@ -55,9 +55,18 @@ phase_lines_by_case <- function(x) {
 #' 
 #' @examples
 #' data(Anglesea)
-#' graph_SCD(case=case, phase=condition, session=session, outcome=outcome, design="TR", treatment_name = "treatment",  data=Anglesea)
+#' graph_SCD(case=case, phase=condition, 
+#'           session=session, outcome=outcome, 
+#'           design="TR", treatment_name = "treatment", 
+#'           data=Anglesea)
+#'           
 #' data(BartonArwood)
-#' graph_SCD(case=case, phase=condition, session=session, outcome=outcome, design="MB", treatment_name = "B",  data=BartonArwood)
+#' graph_SCD(case=case, phase=condition, 
+#'           session=session, outcome=outcome, 
+#'           design="MB", treatment_name = "B",  
+#'           data=BartonArwood)
+#' 
+
 graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NULL, model_fit=NULL, data=NULL) {
   
   phase_pair <-  phase_time  <- NULL
@@ -79,13 +88,9 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
       session <- eval(session_call, env)
     }
     
-    
     if (is.null(treatment_name)) {
       treatment_name <-  levels(as.factor(phase))[2]
     }
-    
-    
-    
     
     dat <- data.frame(case = factor(case),
                       phase = factor(phase),
@@ -104,7 +109,6 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
       dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
     }
     
-    
     if (design=="MB") {
       p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = as.factor(phase), shape = as.factor(phase)))  
     } else {
@@ -119,6 +123,7 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
       ggplot2::labs(color = "", shape = "") + 
       ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed") +
       ggplot2::geom_line(data = dat, ggplot2::aes(session, fitted), size = 0.8)
+    
   }  else { #without model fit
     
     if (!is.null(data)) {
@@ -139,9 +144,6 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
     if (is.null(treatment_name)) {
       treatment_name <-  levels(as.factor(phase))[2]
     }
-    
-    
-    
     
     dat <- data.frame(case = factor(case),
                       phase = factor(phase),
