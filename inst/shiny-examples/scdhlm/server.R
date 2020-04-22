@@ -6,9 +6,6 @@ library(readxl)
 
 
 source("mappings.R")
-# this is the function I created. I will delete this file after the graphing function gets incorporated with the scdhlm
-#package, so I can source it from there. 
-source("graphing-functions.R")
 source("helper-functions.R")
 source("lme-fit.R")
 
