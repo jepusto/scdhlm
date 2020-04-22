@@ -16,9 +16,9 @@ effect_size_ABk(
 )
 }
 \arguments{
-\item{outcome}{Vector of outcome data or name of variable within \code{data}. May not contain any missing values.}
+\item{outcome}{vector of outcome data or name of variable within \code{data}. May not contain any missing values.}
 
-\item{treatment}{Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.}
+\item{treatment}{vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.}
 
 \item{id}{factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.}
 
@@ -27,12 +27,12 @@ condition and one contiguous treatment condition) or name of variable within \co
 
 \item{time}{vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.}
 
-\item{data}{Optional dataset to use for analysis. Must be data.frame.}
+\item{data}{(Optional) dataset to use for analysis. Must be data.frame.}
 
-\item{phi}{Optional value of the auto-correlation nuisance parameter, to be used 
+\item{phi}{(Optional) value of the auto-correlation nuisance parameter, to be used 
 in calculating the small-sample adjusted effect size}
 
-\item{rho}{Optional value of the intra-class correlation nuisance parameter, to be used 
+\item{rho}{(Optional) value of the intra-class correlation nuisance parameter, to be used 
 in calculating the small-sample adjusted effect size}
 }
 \value{
@@ -64,6 +64,10 @@ parameters will be calculated.
 }
 \examples{
 data(Lambert)
+effect_size_ABk(outcome =outcome, treatment=treatment, id = case, phase=phase, time=time, data= Lambert)
+   
+data(Anglesea)
+effect_size_ABk(outcome =outcome, treatment=condition, id=case, phase=phase, time=session , data= Anglesea)
 effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
                 phase = phase, time = time, data = Lambert)
    

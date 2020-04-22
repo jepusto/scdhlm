@@ -37,14 +37,14 @@ auto_SS <- function(x, n = length(x)) {
 #' as described in Hedges, Pustejovsky, & Shadish (2013). Note that the data must contain one row per 
 #' measurement occasion per subject.
 #' 
-#' @param outcome Vector of outcome data or name of variable within \code{data}. May not contain any missing values.
-#' @param treatment Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param outcome vector of outcome data or name of variable within \code{data}. May not contain any missing values.
+#' @param treatment vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param id factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param time vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.
-#' @param data Optional dataset to use for analysis. Must be data.frame. 
-#' @param phi Optional value of the auto-correlation nuisance parameter, to be used 
+#' @param data (Optional) dataset to use for analysis. Must be data.frame. 
+#' @param phi (Optional) value of the auto-correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
-#' @param rho Optional value of the intra-class correlation nuisance parameter, to be used 
+#' @param rho (Optional) value of the intra-class correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
 #' 
 #' @note If phi or rho is left unspecified (or both), estimates for the nuisance
@@ -74,6 +74,10 @@ auto_SS <- function(x, n = length(x)) {
 #' 
 #' @examples
 #' data(Saddler)
+#' effect_size_MB(outcome=outcome, treatment=treatment, id=case, time=time, data=subset(Saddler, measure=="writing quality"))
+#' 
+#' data(Laski)
+#' effect_size_MB(outcome=outcome, treatment=treatment, id=case, time=time, data= Laski)
 #' effect_size_MB(outcome = outcome, treatment = treatment, id = case, 
 #'                time = time, data = subset(Saddler, measure=="writing quality"))
 #' 
@@ -226,16 +230,16 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
 #' as described in Hedges, Pustejovsky, & Shadish (2012). Note that the data must contain one row per 
 #' measurement occasion per subject.
 #' 
-#' @param outcome Vector of outcome data or name of variable within \code{data}. May not contain any missing values.
-#' @param treatment Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param outcome vector of outcome data or name of variable within \code{data}. May not contain any missing values.
+#' @param treatment vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param id factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param phase factor vector indicating unique phases (each containing one contiguous control 
 #' condition and one contiguous treatment condition) or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param time vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.
-#' @param data Optional dataset to use for analysis. Must be data.frame. 
-#' @param phi Optional value of the auto-correlation nuisance parameter, to be used 
+#' @param data (Optional) dataset to use for analysis. Must be data.frame. 
+#' @param phi (Optional) value of the auto-correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
-#' @param rho Optional value of the intra-class correlation nuisance parameter, to be used 
+#' @param rho (Optional) value of the intra-class correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
 #' 
 #' @note If phi or rho is left unspecified (or both), estimates for the nuisance
@@ -266,6 +270,10 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
 #' 
 #' @examples
 #' data(Lambert)
+#' effect_size_ABk(outcome =outcome, treatment=treatment, id = case, phase=phase, time=time, data= Lambert)
+#'    
+#' data(Anglesea)
+#' effect_size_ABk(outcome =outcome, treatment=condition, id=case, phase=phase, time=session , data= Anglesea)
 #' effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
 #'                 phase = phase, time = time, data = Lambert)
 #'    
