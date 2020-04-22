@@ -1,4 +1,4 @@
-library(testthat)
+context("Graphing functions")
 
 
 ## Actual Test
