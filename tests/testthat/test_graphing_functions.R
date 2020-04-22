@@ -1,10 +1,6 @@
 library(testthat)
 
-data("Anglesea")
-data("AlberMorgan")
-
-
-
+## functions to test below
 session_by_treatment <- function(x, trt_phase) {
   pmax(0, x$session - min(x$session[x$phase==trt_phase]))
 }
@@ -39,70 +35,150 @@ phase_lines_by_case <- function(x) {
 
 #assume it is secondond level of  treatment facrot. 
 
-graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NULL,  data=NULL) {
+graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NULL, model_fit=NULL, data=NULL) {
+
+  phase_pair <-  phase_time  <- NULL
   
-  if (is.null(treatment_name)) { 
-    treatment_name <-  levels(as.factor(dat$phase))[2]
-  }
-  
-  if (!is.null(data)) {
-    outcome_call <- substitute(outcome)
-    phase_call <- substitute(phase)
-    case_call <- substitute(case)
-    session_call <- substitute(session)
-    treatment_name_call <- substitute(treatment_name)
+  # With model fit
+  if (!is.null(model_fit)) {
+   
+    if (!is.null(data)) {
+      outcome_call <- substitute(outcome)
+      phase_call <- substitute(phase)
+      case_call <- substitute(case)
+      session_call <- substitute(session)
+      
+      env <- list2env(data, parent = parent.frame())
+      
+      outcome <- eval(outcome_call, env)
+      phase <- eval(phase_call, env)
+      case <- eval(case_call, env)
+      session <- eval(session_call, env)
+    }
     
-    env <- list2env(data, parent = parent.frame())
     
-    outcome <- eval(outcome_call, env)
-    phase <- eval(phase_call, env)
-    case <- eval(case_call, env)
-    session <- eval(session_call, env)
-    treatment_name <- eval(treatment_name_call, env)
-  }
+    if (is.null(treatment_name)) {
+      treatment_name <-  levels(as.factor(phase))[2]
+    }
+    
+    
+    
+    
+    dat <- data.frame(case = factor(case),
+                      phase = factor(phase),
+                      session_fac = factor(session),
+                      outcome, session)
+    
+    dat$fitted <- predict(model_fit)
+    
+    trt_phase <- treatment_name
+    dat$trt <- as.numeric(dat$phase==trt_phase)
+    phase_line_dat <- phase_lines_by_case(dat)
+    
+    if (design == "MB") {
+      dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
+    } else {
+      dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
+    }
+    
+    
+    if (design=="MB") {
+      p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = as.factor(phase), shape = as.factor(phase)))  
+    } else {
+      p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = phase, shape = phase, group = interaction(phase, phase_pair)))
+    }
+    
+    p + 
+      ggplot2::geom_point() + 
+      ggplot2::geom_line() + 
+      ggplot2::facet_grid(case ~ .) + 
+      ggplot2::theme_bw() + 
+      ggplot2::labs(color = "", shape = "") + 
+      ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed") +
+      ggplot2::geom_line(data = dat, ggplot2::aes(session, fitted), size = 0.8)
+  }  else { #without model fit
+    
+    if (!is.null(data)) {
+     outcome_call <- substitute(outcome)
+     phase_call <- substitute(phase)
+     case_call <- substitute(case)
+     session_call <- substitute(session)
+    
+      env <- list2env(data, parent = parent.frame())
+    
+     outcome <- eval(outcome_call, env)
+     phase <- eval(phase_call, env)
+     case <- eval(case_call, env)
+     session <- eval(session_call, env)
+   }
   
   
-  
-  dat <- data.frame(case = factor(case),
-                    phase = factor(phase),
-                    session_fac = factor(session),
-                    outcome, session)
+    if (is.null(treatment_name)) {
+    treatment_name <-  levels(as.factor(phase))[2]
+   }
   
   
+
   
+    dat <- data.frame(case = factor(case),
+                      phase = factor(phase),
+                      session_fac = factor(session),
+                      outcome, session)
   
-  trt_phase <- treatment_name
-  dat$trt <- as.numeric(dat$phase==trt_phase)
-  phase_line_dat <- phase_lines_by_case(dat)
+    trt_phase <- treatment_name
+    dat$trt <- as.numeric(dat$phase==trt_phase)
+    phase_line_dat <- phase_lines_by_case(dat)
   
-  if (design == "MB") {
-    dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
-  } else {
-    dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
-  }
+    if (design == "MB") {
+      dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
+    } else {
+      dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
+    }
   
+    if (design=="MB") {
+      p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = as.factor(phase), shape = as.factor(phase)))  
+    } else {
+      p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = phase, shape = phase, group = interaction(phase, phase_pair)))
+    }
   
-  if (design=="MB") {
-    p <- ggplot(dat, aes(session, outcome, color = as.factor(phase), shape = as.factor(phase)))  
-  } else {
-    p <- ggplot(dat, 
-                aes(session, outcome, 
-                    color = phase, shape = phase,
-                    group = interaction(phase, phase_pair)))
-  }
-  
-  p + 
-    geom_point() + 
-    geom_line() + 
-    facet_grid(case ~ .) + 
-    theme_bw() + 
-    labs(color = "", shape = "") + 
-    geom_vline(data = phase_line_dat, aes(xintercept = phase_time), linetype = "dashed")
+    p + 
+      ggplot2::geom_point() + 
+      ggplot2::geom_line() + 
+      ggplot2::facet_grid(case ~ .) + 
+      ggplot2::theme_bw() + 
+      ggplot2::labs(color = "", shape = "") + 
+      ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed")
+
+    }
 }
+
+## Actual Test
+
+data("Anglesea")
+data("AlberMorgan")
+data("Laski")
+
+Laski_RML <- lme(fixed = outcome ~ 1 + treatment,
+                 random = ~ 1 | case, 
+                 correlation = corAR1(0, ~ time | case), 
+                 data = Laski)
+
 
 test_that("graph is a ggplot2 graph", {
   
-  my_graph <- graph_SCD(case=case, phase=condition, session=session, outcome=outcome, design="TR", treatment_name = NULL,  data=Anglesea)
+  my_graph <- graph_SCD(case=case, phase=condition, session=session, outcome=outcome, design="TR", treatment_name = NULL, model_fit=NULL,  data=Anglesea)
+  expect_s3_class(my_graph, "ggplot")
+  
+  my_graph1 <- graph_SCD(case=case, phase=condition, session=session, outcome=outcome, design="TR", treatment_name = "treatment", model_fit=NULL,  data=Anglesea)
+  expect_s3_class(my_graph1, "ggplot")
+  
+  my_graph2 <- graph_SCD(case=Anglesea$case, phase=Anglesea$condition, session=Anglesea$session, outcome=Anglesea$outcome, design="TR", treatment_name = "treatment",model_fit=NULL)
+  expect_s3_class(my_graph2, "ggplot")
+  
+  my_graph3 <- graph_SCD(case=Anglesea$case, phase=Anglesea$condition, session=Anglesea$session, outcome=Anglesea$outcome, design="TR", model_fit=NULL)
+  expect_s3_class(my_graph3, "ggplot")
+  
+  my_graph <- graph_SCD(case=case, phase=treatment, session=time, outcome=outcome, design="MB", treatment_name = "treatment", model_fit=Laski_RML,  data=Laski)
   expect_s3_class(my_graph, "ggplot")
   
 })

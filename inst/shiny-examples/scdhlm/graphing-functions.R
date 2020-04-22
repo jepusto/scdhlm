@@ -1,62 +1,120 @@
 # this is the function I created. I will delete this file after the graphing function gets incorporated with the scdhlm
 #package. 
-graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NULL,  data=NULL) {
+graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NULL, model_fit=NULL, data=NULL) {
   
-  if (is.null(treatment_name)) { 
-    treatment_name <-  levels(as.factor(dat$phase))[2]
-  }
+  phase_pair <-  phase_time  <- NULL
   
-  if (!is.null(data)) {
-    outcome_call <- substitute(outcome)
-    phase_call <- substitute(phase)
-    case_call <- substitute(case)
-    session_call <- substitute(session)
-    treatment_name_call <- substitute(treatment_name)
+  # With model fit
+  if (!is.null(model_fit)) {
     
-    env <- list2env(data, parent = parent.frame())
+    if (!is.null(data)) {
+      outcome_call <- substitute(outcome)
+      phase_call <- substitute(phase)
+      case_call <- substitute(case)
+      session_call <- substitute(session)
+      
+      env <- list2env(data, parent = parent.frame())
+      
+      outcome <- eval(outcome_call, env)
+      phase <- eval(phase_call, env)
+      case <- eval(case_call, env)
+      session <- eval(session_call, env)
+    }
     
-    outcome <- eval(outcome_call, env)
-    phase <- eval(phase_call, env)
-    case <- eval(case_call, env)
-    session <- eval(session_call, env)
-    treatment_name <- eval(treatment_name_call, env)
+    
+    if (is.null(treatment_name)) {
+      treatment_name <-  levels(as.factor(phase))[2]
+    }
+    
+    
+    
+    
+    dat <- data.frame(case = factor(case),
+                      phase = factor(phase),
+                      session_fac = factor(session),
+                      outcome, session)
+    
+    dat$fitted <- predict(model_fit)
+    
+    trt_phase <- treatment_name
+    dat$trt <- as.numeric(dat$phase==trt_phase)
+    phase_line_dat <- phase_lines_by_case(dat)
+    
+    if (design == "MB") {
+      dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
+    } else {
+      dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
+    }
+    
+    
+    if (design=="MB") {
+      p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = as.factor(phase), shape = as.factor(phase)))  
+    } else {
+      p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = phase, shape = phase, group = interaction(phase, phase_pair)))
+    }
+    
+    p + 
+      ggplot2::geom_point() + 
+      ggplot2::geom_line() + 
+      ggplot2::facet_grid(case ~ .) + 
+      ggplot2::theme_bw() + 
+      ggplot2::labs(color = "", shape = "") + 
+      ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed") +
+      ggplot2::geom_line(data = dat, ggplot2::aes(session, fitted), size = 0.8)
+  }  else { #without model fit
+    
+    if (!is.null(data)) {
+      outcome_call <- substitute(outcome)
+      phase_call <- substitute(phase)
+      case_call <- substitute(case)
+      session_call <- substitute(session)
+      
+      env <- list2env(data, parent = parent.frame())
+      
+      outcome <- eval(outcome_call, env)
+      phase <- eval(phase_call, env)
+      case <- eval(case_call, env)
+      session <- eval(session_call, env)
+    }
+    
+    
+    if (is.null(treatment_name)) {
+      treatment_name <-  levels(as.factor(phase))[2]
+    }
+    
+    
+    
+    
+    dat <- data.frame(case = factor(case),
+                      phase = factor(phase),
+                      session_fac = factor(session),
+                      outcome, session)
+    
+    trt_phase <- treatment_name
+    dat$trt <- as.numeric(dat$phase==trt_phase)
+    phase_line_dat <- phase_lines_by_case(dat)
+    
+    if (design == "MB") {
+      dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
+    } else {
+      dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
+    }
+    
+    if (design=="MB") {
+      p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = as.factor(phase), shape = as.factor(phase)))  
+    } else {
+      p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = phase, shape = phase, group = interaction(phase, phase_pair)))
+    }
+    
+    p + 
+      ggplot2::geom_point() + 
+      ggplot2::geom_line() + 
+      ggplot2::facet_grid(case ~ .) + 
+      ggplot2::theme_bw() + 
+      ggplot2::labs(color = "", shape = "") + 
+      ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed")
+    
   }
-  
-  
-  
-  dat <- data.frame(case = factor(case),
-                    phase = factor(phase),
-                    session_fac = factor(session),
-                    outcome, session)
-  
-  
-  trt_phase <- treatment_name
-  dat$trt <- as.numeric(dat$phase==trt_phase)
-  phase_line_dat <- phase_lines_by_case(dat)
-  
-  if (design == "MB") {
-    dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
-  } else {
-    dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
-  }
-  
-  
-  if (design=="MB") {
-    p <- ggplot(dat, aes(session, outcome, color = as.factor(phase), shape = as.factor(phase)))  
-  } else {
-    p <- ggplot(dat, 
-                aes(session, outcome, 
-                    color = phase, shape = phase,
-                    group = interaction(phase, phase_pair)))
-  }
-  
-  p + 
-    geom_point() + 
-    geom_line() + 
-    facet_grid(case ~ .) + 
-    theme_bw() + 
-    labs(color = "", shape = "") + 
-    geom_vline(data = phase_line_dat, aes(xintercept = phase_time), linetype = "dashed")
 }
 
 # input <- list(example = "Saddler")

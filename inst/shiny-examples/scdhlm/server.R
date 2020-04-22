@@ -344,7 +344,7 @@ shinyServer(function(input, output, session) {
   # Graphs
   
   raw_graph <- reactive({
-    graph_SCD(data = datClean(), design = studyDesign(), case=case, phase=phase, session=session, outcome=outcome, treatment_name = NULL) 
+    graph_SCD(data = datClean(), design = studyDesign(), case=case, phase=phase, session=session, outcome=outcome, treatment_name = NULL, model_fit = NULL) 
   })
   
   output$raw_plot <- renderPlot({
