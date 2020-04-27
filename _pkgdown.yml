@@ -1,0 +1,55 @@
+destination: docs
+
+reference:
+  - title: "Estimating Effect Sizes"
+    desc: "Functions for estimating effect sizes based on data from single-case designs"
+    contents: 
+      - CI_g
+      - effect_size_ABk
+      - effect_size_MB
+      - g_REML
+  - title: "Graphing Single-Case Design Data"
+    desc: "Function for graphing data from single-case designs"
+    contents: 
+      - graph_SCD
+  - title: "Shiny App"
+    desc: "Function to launch shiny app"
+    contents:
+        - shine_scd
+  - title: "Example Datasets"
+    desc: "Example datasets from single-case designs"
+    contents:
+        - AlberMorgan
+        - Anglesea
+        - BartonArwood
+        - Bryant2018
+        - Carson
+        - Lambert
+        - Laski
+        - Musser
+        - Rodriguez
+        - Romaniuk
+        - Ruiz
+        - Saddler
+        - Salazar
+        - Schutte
+        - Thiemann2001
+        - Thiemann2004
+        - Thorne
+  - title: "Misc"
+    desc: "Miscellaneous functions"
+    contents:
+        - compare_RML_HPS
+        - design_matrix
+        - Info_Expected_lmeAR1
+        - MB1results
+        - MB1time
+        - MB2results
+        - MB2time
+        - MB4results
+        - MB4time
+        - simulate.g_REML
+        - simulate_MB2
+        - simulate_MB4
+    
+        
