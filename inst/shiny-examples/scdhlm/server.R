@@ -80,7 +80,7 @@ shinyServer(function(input, output, session) {
     var_names <- names(datFile())
     n_var <- length(var_names)
     list(
-      selectizeInput("filters", label = "Filtering variables (optional)", choices = var_names, selected = NULL, multiple = TRUE),
+    #  selectizeInput("filters", label = "Filtering variables (optional)", choices = var_names, selected = NULL, multiple = TRUE),
       selectInput("caseID", label = "Case identifier", choices = var_names, selected = var_names[n_var - 3]),
       selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = var_names[n_var - 2]),
       selectInput("session", label = "Session number", choices = var_names, selected = var_names[n_var - 1]),
@@ -99,6 +99,16 @@ shinyServer(function(input, output, session) {
   })
   
   # Filtering interface
+  
+  output$filtervarMapping <- renderUI({
+    var_names <- names(datFile())
+    n_var <- length(var_names)
+    list(
+      selectizeInput("filters", label = "Filtering variables", choices = var_names, selected = NULL, multiple = TRUE)
+    )
+  })
+  
+  
 
   output$filterMapping <- renderUI({
     
@@ -112,7 +122,7 @@ shinyServer(function(input, output, session) {
       filter_vars <- input$filters  
       filter_vals <- lapply(filter_vars, function(x) levels(as.factor(datFile()[,x])))
       names(filter_vals) <- filter_vars
-      header <- strong("4. Please select values for the filtering variables.")
+      header <- strong("Values for the filtering variables.")
     }
     
     filter_selects <- lapply(filter_vars, function(x) 
