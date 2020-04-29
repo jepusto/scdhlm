@@ -70,34 +70,25 @@ phase_lines_by_case <- function(x) {
 graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NULL, model_fit=NULL, data=NULL) {
   
   phase_pair <-  phase_time  <- NULL
-  if (!is.null(data)) {
-    outcome_call <- substitute(outcome)
-    phase_call <- substitute(phase)
-    case_call <- substitute(case)
-    session_call <- substitute(session)
-    
-    env <- list2env(data, parent = parent.frame())
-    
-    outcome <- eval(outcome_call, env)
-    phase <- eval(phase_call, env)
-    case <- eval(case_call, env)
-    session <- eval(session_call, env)
-  } else if (!is.null(model_fit)){
-    outcome_call <- substitute(outcome)
-    phase_call <- substitute(phase)
-    case_call <- substitute(case)
-    session_call <- substitute(session)
-    
-    data <- nlme::getData(model_fit)
-    
-    env <- list2env(data, parent = parent.frame())
-    
-    outcome <- eval(outcome_call, env)
-    phase <- eval(phase_call, env)
-    case <- eval(case_call, env)
-    session <- eval(session_call, env)
-  }
   
+  if (!is.null(data) | !is.null(model_fit)) {
+    outcome_call <- substitute(outcome)
+    phase_call <- substitute(phase)
+    case_call <- substitute(case)
+    session_call <- substitute(session)
+    
+    if (is.null(data)) {
+      data <- nlme::getData(model_fit)
+    } 
+    
+    env <- list2env(data, parent = parent.frame())
+    outcome <- eval(outcome_call, env)
+    phase <- eval(phase_call, env)
+    case <- eval(case_call, env)
+    session <- eval(session_call, env)
+    
+  }
+
   if (is.null(treatment_name)) {
     treatment_name <-  levels(as.factor(phase))[2]
   }
