@@ -85,7 +85,7 @@
       <h1 data-toc-skip>Estimating design-comparable standardized mean differences with scdhlm</h1>
                         <h4 class="author">James E. Pustejovsky</h4>
             
-            <h4 class="date">2020-04-27</h4>
+            <h4 class="date">2020-04-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jepusto/scdhlm/blob/master/vignettes/Estimating-effect-sizes.Rmd"><code>vignettes/Estimating-effect-sizes.Rmd</code></a></small>
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -451,7 +451,7 @@
 ## 
 ## Standardized Within-Group Residuals:
 ##         Min          Q1         Med          Q3         Max 
-## -2.69578896 -0.64000820 -0.06285371  0.65265931  2.01491696 
+## -2.69578897 -0.64000820 -0.06285371  0.65265931  2.01491696 
 ## 
 ## Number of Observations: 136
 ## Number of Groups: 12</code></pre>
@@ -538,44 +538,44 @@
 <pre><code>## Linear mixed-effects model fit by REML
 ##  Data: Schutte 
 ##        AIC      BIC    logLik
-##   873.0243 907.6179 -424.5121
+##   873.0245 907.6181 -424.5123
 ## 
 ## Random effects:
 ##  Formula: ~week + trt_week | case
 ##  Structure: General positive-definite, Log-Cholesky parametrization
 ##             StdDev    Corr        
-## (Intercept) 6.1896345 (Intr) week 
-## week        0.3834078 0.161       
-## trt_week    1.7350446 0.162  0.999
-## Residual    4.7475908             
+## (Intercept) 6.1884596 (Intr) week 
+## week        0.3832993 0.162       
+## trt_week    1.7351247 0.162  0.999
+## Residual    4.7477472             
 ## 
 ## Correlation Structure: AR(1)
 ##  Formula: ~week | case 
 ##  Parameter estimate(s):
 ##       Phi 
-## 0.2395855 
+## 0.2396137 
 ## Fixed effects: fatigue ~ week + treatment + trt_week 
 ##                       Value Std.Error  DF   t-value p-value
-## (Intercept)        50.52573 2.8215881 121 17.906842  0.0000
-## week                0.21903 0.3640860 121  0.601583  0.5486
-## treatmenttreatment  0.02706 1.5998822 121  0.016911  0.9865
-## trt_week           -1.67123 0.7405909 121 -2.256620  0.0258
+## (Intercept)        50.52566 2.8214130 121 17.907928  0.0000
+## week                0.21901 0.3640857 121  0.601537  0.5486
+## treatmenttreatment  0.02697 1.5999246 121  0.016855  0.9866
+## trt_week           -1.67113 0.7406249 121 -2.256378  0.0258
 ##  Correlation: 
 ##                    (Intr) week   trtmnt
 ## week                0.722              
 ## treatmenttreatment -0.357 -0.331       
-## trt_week           -0.313 -0.283 -0.154
+## trt_week           -0.312 -0.283 -0.154
 ## 
 ## Standardized Within-Group Residuals:
 ##          Min           Q1          Med           Q3          Max 
-## -2.559252749 -0.446175543 -0.004461023  0.366693487  4.597333596 
+## -2.559123387 -0.446173508 -0.004457334  0.366743786  4.597278939 
 ## 
 ## Number of Observations: 136
 ## Number of Groups: 12</code></pre>
 <div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span>(<span class="no">hlm2</span>, <span class="no">hlm3</span>)</pre></body></html></div>
 <pre><code>##      Model df      AIC      BIC    logLik   Test L.Ratio p-value
 ## hlm2     1  9 875.9526 901.8978 -428.9763                       
-## hlm3     2 12 873.0243 907.6179 -424.5121 1 vs 2 8.92832  0.0303</code></pre>
+## hlm3     2 12 873.0245 907.6181 -424.5123 1 vs 2 8.92808  0.0303</code></pre>
 <p>The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.</p>
 <div class="sourceCode" id="cb42"><html><body><pre class="r"><span class="no">Schutte_g3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/g_REML.html">g_REML</a></span>(<span class="kw">m_fit</span> <span class="kw">=</span> <span class="no">hlm3</span>, <span class="kw">p_const</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="no">B</span> - <span class="no">A</span>), <span class="kw">r_const</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>))
 
@@ -586,9 +586,9 @@
   <span class="kw">MB5</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">Schutte_g3</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"g_AB"</span>,<span class="st">"V_g_AB"</span>,<span class="st">"nu"</span>)])
 )</pre></body></html></div>
 <pre><code>##               MB3        MB4        MB5
-## g_AB   -1.3374403 -1.0127209 -1.3261473
-## V_g_AB  0.3932573  0.2197237  0.6830584
-## nu     29.1518395 14.3022604  6.8482494</code></pre>
+## g_AB   -1.3374403 -1.0127209 -1.3262061
+## V_g_AB  0.3932573  0.2197237  0.6832475
+## nu     29.1518395 14.3022604  6.8477597</code></pre>
 <p>The effect size estimate has magnitude comparable to the estimate from Model MB3. However, the variance of the estimate is extremely large, due to the fact that the variance components that go into the denominator of the SMD estimate are estimated with low precision. This final model may represent an outer limit on the complexity of models that can feasibility be estimated, given that most single-case designs have fewer cases than the study examined in this example.</p>
 </div>
 </div>
