@@ -1,5 +1,11 @@
 destination: docs
 
+authors:
+  James E. Pustejovsky:
+    href: https://www.jepusto.com/
+  Bethany Hamilton:
+  Man Chen:
+    
 reference:
   - title: "Estimating Effect Sizes"
     desc: "Functions for estimating effect sizes based on data from single-case designs"
