@@ -82,6 +82,20 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
     phase <- eval(phase_call, env)
     case <- eval(case_call, env)
     session <- eval(session_call, env)
+  } else if (!is.null(model_fit)){
+    outcome_call <- substitute(outcome)
+    phase_call <- substitute(phase)
+    case_call <- substitute(case)
+    session_call <- substitute(session)
+    
+    data <- nlme::getData(model_fit)
+    
+    env <- list2env(data, parent = parent.frame())
+    
+    outcome <- eval(outcome_call, env)
+    phase <- eval(phase_call, env)
+    case <- eval(case_call, env)
+    session <- eval(session_call, env)
   }
   
   if (is.null(treatment_name)) {

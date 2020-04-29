@@ -34,5 +34,10 @@ test_that("graph is a ggplot2 graph", {
   my_graph4 <- graph_SCD(case=case, phase=treatment, session=time, outcome=outcome, design="MB", treatment_name = "treatment", model_fit=Laski_RML,  data=Laski)
   expect_s3_class(my_graph4, "ggplot")
   
+  my_graph5 <- graph_SCD(case=case, phase=treatment, session=time, outcome=outcome, design="MB", treatment_name = "treatment", model_fit=Laski_RML)
+  expect_s3_class(my_graph5, "ggplot")
+  
+  expect_equal(my_graph4, my_graph5)
+  
 })
 
