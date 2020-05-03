@@ -1,9 +1,14 @@
 destination: docs
 
+repo:
+  url:
+    home: https://github.com/jepusto/scdhlm/
+    source:
+
 authors:
   James E. Pustejovsky:
     href: https://www.jepusto.com/
-  Bethany Hamilton:
+  Bethany J. Hamilton:
   Man Chen:
     
 reference:

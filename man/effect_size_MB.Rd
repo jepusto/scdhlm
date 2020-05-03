@@ -59,10 +59,6 @@ parameters will be calculated.
 }
 \examples{
 data(Saddler)
-effect_size_MB(outcome=outcome, treatment=treatment, id=case, time=time, data=subset(Saddler, measure=="writing quality"))
-
-data(Laski)
-effect_size_MB(outcome=outcome, treatment=treatment, id=case, time=time, data= Laski)
 effect_size_MB(outcome = outcome, treatment = treatment, id = case, 
                time = time, data = subset(Saddler, measure=="writing quality"))
 

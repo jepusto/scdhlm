@@ -64,10 +64,6 @@ parameters will be calculated.
 }
 \examples{
 data(Lambert)
-effect_size_ABk(outcome =outcome, treatment=treatment, id = case, phase=phase, time=time, data= Lambert)
-   
-data(Anglesea)
-effect_size_ABk(outcome =outcome, treatment=condition, id=case, phase=phase, time=session , data= Anglesea)
 effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
                 phase = phase, time = time, data = Lambert)
    
