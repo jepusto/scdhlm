@@ -101,12 +101,17 @@ shinyServer(function(input, output, session) {
   # Filtering interface
   
   output$filtervarMapping <- renderUI({
+    
+    if (input$dat_type == "example"){
+    } else {
     var_names <- names(datFile())
     n_var <- length(var_names)
     list(
-      selectizeInput("filters", label = "Filtering variables", choices = var_names, selected = NULL, multiple = TRUE)
+    selectizeInput("filters", label = "Filtering variables", choices = var_names, selected = NULL, multiple = TRUE)
     )
-  })
+
+    }
+      })
   
   
 
@@ -117,7 +122,7 @@ shinyServer(function(input, output, session) {
       filter_vars <- example_parms$filters  
       filter_vals <- lapply(filter_vars, function(x) example_parms[[paste0("filter_", x)]])
       names(filter_vals) <- filter_vars
-      header <- strong("Please select values for the filtering variables.")
+      header <- strong("Please select the variables you wish to filter.")
     } else {
       filter_vars <- input$filters  
       filter_vals <- lapply(filter_vars, function(x) levels(as.factor(datFile()[,x])))
