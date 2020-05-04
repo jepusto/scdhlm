@@ -75,10 +75,14 @@ shinyUI(fluidPage(
                   uiOutput("variableMapping"),
                   strong("3. Please specify the baseline and treatment levels."),
                   column(12, br()),
-                  uiOutput("phaseMapping")
+                  uiOutput("phaseMapping"), 
+                  strong("4. Please select the variables you wish to filter (optional)."),
+                  column(12, br()),
+                  uiOutput("filtervarMapping")
                 ),
+  
                 uiOutput("filterMapping")
-             )
+              )
            ),
            fluidRow(br(),br(),br())
         ),

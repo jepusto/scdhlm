@@ -3,7 +3,8 @@ Title: Estimating Hierarchical Linear Models for Single-Case Designs
 Version: 0.3.2
 Authors@R: c(
     person("James", "Pustejovsky", email = "jepusto@gmail.com", role = c("aut", "cre")),
-    person("Bethany", "Hamilton", role = "aut"))
+    person("Bethany", "Hamilton", role = "aut"),
+	person("Man", "Chen", role = "aut"))
 Description: Provides a set of tools for estimating hierarchical linear
     models and effect sizes based on data from single-case designs. 
     Functions are provided for calculating standardized mean difference effect sizes that 

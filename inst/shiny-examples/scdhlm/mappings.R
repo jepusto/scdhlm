@@ -41,7 +41,7 @@ exampleMapping <- list(
                  phases = c("baseline","treatment")),
   Thorne = list(design = "TR",
                 vars = c("case","session","condition","outcome"),
-                phase = c(0,1),
+                phases = c("A","B"),
                 filters = "measure",
                 filter_measure = c("Academic Engagement","Inappropriate Verbalizations"))
 )

@@ -5,3 +5,6 @@ auxilliary
 cran-comments.md
 ^README\.Rmd$
 ^CRAN-RELEASE$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
