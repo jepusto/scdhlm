@@ -244,11 +244,11 @@ phase_pairs <- function(phase) {
 Thorne <- 
   read_csv("auxilliary/Thorne.csv") %>%
   select(case = Case_number, measure = Measure, session = Session_number, 
-         phase_id = Condition, phase_indicator = Trt, outcome = Outcome) %>%
+         condition = Condition, phase_indicator = Trt, outcome = Outcome) %>%
   mutate(
     case = factor(case, levels = 1:12, labels = paste("Participant", 1:12)),
     measure = factor(measure),
-    phase_id = factor(phase_id, levels = c("A","B"))
+    phase_id = factor(condition, levels = c("A","B"))
   ) %>%
   arrange(measure, case, session) %>%
   group_by(measure, case) %>% 
@@ -256,7 +256,7 @@ Thorne <-
     phase_pair = phase_pairs(phase_id),
     phase_id = paste0(phase_id, phase_pair)
   ) %>%
-  select(-phase_pair) %>%
+  select(case, measure, session, phase_id, condition, phase_indicator, outcome) %>%
   as.data.frame()
 
 str(Thorne)

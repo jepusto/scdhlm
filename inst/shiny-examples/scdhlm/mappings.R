@@ -40,8 +40,8 @@ exampleMapping <- list(
                  vars = c("case","week","treatment","fatigue"),
                  phases = c("baseline","treatment")),
   Thorne = list(design = "TR",
-                vars = c("case","session","phase_id","outcome"),
-                phase = c(0,1),
+                vars = c("case","session","condition","outcome"),
+                phases = c("A","B"),
                 filters = "measure",
                 filter_measure = c("Academic Engagement","Inappropriate Verbalizations"))
 )
