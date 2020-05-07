@@ -37,14 +37,14 @@ auto_SS <- function(x, n = length(x)) {
 #' as described in Hedges, Pustejovsky, & Shadish (2013). Note that the data must contain one row per 
 #' measurement occasion per subject.
 #' 
-#' @param outcome Vector of outcome data or name of variable within \code{data}. May not contain any missing values.
-#' @param treatment Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param outcome vector of outcome data or name of variable within \code{data}. May not contain any missing values.
+#' @param treatment vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param id factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param time vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.
-#' @param data Optional dataset to use for analysis. Must be data.frame. 
-#' @param phi Optional value of the auto-correlation nuisance parameter, to be used 
+#' @param data (Optional) dataset to use for analysis. Must be data.frame. 
+#' @param phi (Optional) value of the auto-correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
-#' @param rho Optional value of the intra-class correlation nuisance parameter, to be used 
+#' @param rho (Optional) value of the intra-class correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
 #' 
 #' @note If phi or rho is left unspecified (or both), estimates for the nuisance
@@ -218,7 +218,6 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
   return(results)
 }
 
-
 ## calculate effect size (with associated estimates) for (AB)^k design ####
 
 #' @title Calculates HPS effect size
@@ -227,16 +226,16 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
 #' as described in Hedges, Pustejovsky, & Shadish (2012). Note that the data must contain one row per 
 #' measurement occasion per subject.
 #' 
-#' @param outcome Vector of outcome data or name of variable within \code{data}. May not contain any missing values.
-#' @param treatment Vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
+#' @param outcome vector of outcome data or name of variable within \code{data}. May not contain any missing values.
+#' @param treatment vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param id factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param phase factor vector indicating unique phases (each containing one contiguous control 
 #' condition and one contiguous treatment condition) or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param time vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.
-#' @param data Optional dataset to use for analysis. Must be data.frame. 
-#' @param phi Optional value of the auto-correlation nuisance parameter, to be used 
+#' @param data (Optional) dataset to use for analysis. Must be data.frame. 
+#' @param phi (Optional) value of the auto-correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
-#' @param rho Optional value of the intra-class correlation nuisance parameter, to be used 
+#' @param rho (Optional) value of the intra-class correlation nuisance parameter, to be used 
 #' in calculating the small-sample adjusted effect size
 #' 
 #' @note If phi or rho is left unspecified (or both), estimates for the nuisance
@@ -434,6 +433,40 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, data = NULL, ph
   return(results)
 }
 
+#' @export
+
+summary.g_HPS <- function(object, digits = 3, ...) {
+  
+  varcomp <- with(object, cbind(est = c("within-case variance" = sigma_sq_w,
+                                        "sample variance" = S_sq,
+                                        "intra-class correlation" = rho,
+                                        "auto-correlation" = phi),
+                                se = c(NA, NA, NA, NA)))
+  
+  beta <- with(object, cbind(est = c("numerator of effect size estimate" = D_bar), se = c(NA)))
+  
+  
+  ES <- with(object, cbind(est = c("unadjusted effect size" = delta_hat_unadj, 
+                                   "adjusted effect size" = delta_hat,
+                                   "degree of freedom" = nu, 
+                                   "scalar constant" = theta),
+                           se = c(sqrt(V_delta_hat) / J(nu), sqrt(V_delta_hat), NA, NA)))
+  
+  print(round(rbind(varcomp, beta, ES), digits), na.print = "")
+
+}
+
+#' @export
+
+print.g_HPS <- function(x, digits = 3, ...) {
+  
+  ES <- with(x, cbind(est = c("unadjusted effect size" = delta_hat_unadj,
+                              "adjusted effect size" = delta_hat,
+                              "degree of freedom" = nu),
+                           se = c(sqrt(V_delta_hat) / J(nu), sqrt(V_delta_hat), NA)))
+  
+  print(round(ES, digits), na.print = "")
+}
 
 
 

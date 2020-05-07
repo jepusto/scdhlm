@@ -3,6 +3,9 @@
 ^\.travis\.yml$
 auxilliary
 cran-comments.md
-README.md
+^README\.Rmd$
 ^CRAN-RELEASE$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
