@@ -61,7 +61,7 @@ default_times <- function(x) {
 # model validation
 #---------------------------------------------------------------
 
-validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt) {
+validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt, case) {
   
   errors <- vector(mode = "character")
   if (!("0" %in% FE_base)) {
@@ -72,6 +72,10 @@ validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt) {
   }
   if (length(FE_trt)==0) {
     errors <- c(errors, "Model must include at least one fixed effect for the treatment phase.")
+  }
+  
+  if(nlevels(case) < 3) {
+    errors <- c(errors, "Model must include at least three cases. Currently, you have less than three cases.")
   }
   
   if (length(errors)==0) {

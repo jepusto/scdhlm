@@ -274,7 +274,7 @@ shinyServer(function(input, output, session) {
   
   model_validation <- reactive({
     validate_specification(input$FE_base, input$RE_base, 
-                           input$FE_trt, input$RE_trt)
+                           input$FE_trt, input$RE_trt, datClean()$case)
   })
   
   output$model_spec <- renderUI({model_validation()})
