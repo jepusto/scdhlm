@@ -65,25 +65,25 @@ validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt, case) {
   
   errors <- vector(mode = "character")
   if (!("0" %in% FE_base)) {
-    errors <- c(errors, "Model must include a fixed effect for baseline level.")
+    errors <- c(errors, "<font color='red'>Model must include a fixed effect for baseline level.</font>")
   }
   if (!("0" %in% RE_base)) {
-    errors <- c(errors, "Model must include a random effect for baseline level.")
+    errors <- c(errors, "<font color='red'>Model must include a random effect for baseline level.</font>")
   }
   if (length(FE_trt)==0) {
-    errors <- c(errors, "Model must include at least one fixed effect for the treatment phase.")
+    errors <- c(errors, "<font color='red'>Model must include at least one fixed effect for the treatment phase.</font>")
   }
   
   if(nlevels(case) < 3) {
-    errors <- c(errors, "Model must include at least three cases. Currently, you have less than three cases.")
+    errors <- c(errors, "<font color='red'>Model must include at least three cases. Currently, you have less than three cases.</font>")
   }
   
   if (length(errors)==0) {
     return(NULL)
   } else if (length(errors) == 1) {
-    error_string <- paste("<b>Error:</b>", errors, "<br/>")
+    error_string <- paste("<b><font color='red'>Error:</font></b>", errors, "<br/>")
   } else {
-    error_string <- paste("<b>Errors:</b> <br/>", paste(errors, collapse = "<br/>"), "<br/>")
+    error_string <- paste("<b><font color='red'>Errors:</font></b><br/>", paste(errors, collapse = "<br/>"), "<br/>")
   } 
   
   return(HTML(error_string))
