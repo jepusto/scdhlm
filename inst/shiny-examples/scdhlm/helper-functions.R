@@ -100,10 +100,10 @@ summarize_ES <- function(res, filter_vars, filter_vals,
 
   if (method=="RML") {
     ES_summary <- data.frame(
-      ES = res$g_AB,
-      SE = sqrt(res$V_g_AB)
+      ES = as.numeric(res$g_AB),
+      SE = as.numeric(res$SE_g_AB)
     )
-    res$rho <- with(res, Tau[1] / (Tau[1] + sigma_sq))
+    res$rho <- with(res, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
   } else {
     ES_summary <- data.frame(
       ES = res$delta_hat,
@@ -111,12 +111,12 @@ summarize_ES <- function(res, filter_vars, filter_vals,
     )
   }
   
-  CI <- CI_g(res, cover = coverage / 100L)
+  CI <- CI_g(res, cover = coverage / 100L, symmetric = FALSE)
   
   ES_summary$CI_L <- CI[1]
   ES_summary$CI_U <- CI[2]
   ES_summary$df <- res$nu
-  ES_summary$phi <- res$phi
+  ES_summary$phi <- res$theta$cor_params
   ES_summary$rho <- res$rho
   ES_summary$design <- names(design_names[which(design_names==design)])
   ES_summary$method <- names(estimation_names[which(estimation_names==method)])

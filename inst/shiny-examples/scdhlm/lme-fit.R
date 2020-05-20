@@ -17,7 +17,25 @@ write_formula <- function(powers, var_names) {
 lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, center = 0, phi_init = 0.01) {
   require(nlme)
   # sort the data
-  dat <- dat[order(dat$case, dat$session),]
+  
+  if ("cluster" %in% names(dat) & !"series" %in% names(dat)) {
+    
+    dat <- dat[order(dat$cluster, dat$case, dat$session), ]
+    
+  } else if (!"cluster" %in% names(dat) & "series" %in% names(dat)) {
+    
+    dat <- dat[order(dat$case, dat$series, dat$session), ]
+    
+  } else if ("cluster" %in% names(dat) & "series" %in% names(dat)) {
+    
+    dat <- dat[order(dat$cluster, dat$case, dat$series, dat$session), ]
+    
+  } else {
+    
+    dat <- dat[order(dat$case, dat$session),]
+    
+  }
+  
   dat$session <- dat$session - center
   
   session_FE <- write_formula(FE_base, c("0","1","session"))
@@ -26,17 +44,54 @@ lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, center = 0, phi_in
   
   session_RE <- write_formula(RE_base, c("0","1","session"))
   trt_RE <- write_formula(RE_trt, c("NULL","trt","session_trt"))
-  random <- as.formula(paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
-  
   W <- TRUE
   E <- NULL
-  RML_fit <- withCallingHandlers(
-    tryCatch(lme(fixed = fixed, random = random,
-                 correlation = corAR1(phi_init, ~ session),
-                 data = dat, 
-                 control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
-             error = function(e) E <<- e),
-    warning = function(w) W <<- w)
+  
+  if ("cluster" %in% names(dat) & !"series" %in% names(dat)) {
+    
+    random <- as.formula(paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| cluster/case"))
+    RML_fit <- withCallingHandlers(
+      tryCatch(lme(fixed = fixed, random = random,
+                   correlation = corAR1(phi_init, ~ session | cluster/case),
+                   data = dat, 
+                   control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
+               error = function(e) E <<- e),
+      warning = function(w) W <<- w)
+    
+  } else if (!"cluster" %in% names(dat) & "series" %in% names(dat)) {
+    
+    random <- as.formula(paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case/series"))
+    RML_fit <- withCallingHandlers(
+      tryCatch(lme(fixed = fixed, random = random,
+                   correlation = corAR1(phi_init, ~ session | case/series),
+                   data = dat, 
+                   control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
+               error = function(e) E <<- e),
+      warning = function(w) W <<- w)
+    
+  } else if ("cluster" %in% names(dat) & "series" %in% names(dat)) {
+    
+    random <- as.formula(paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| cluster/case/series"))
+    RML_fit <- withCallingHandlers(
+      tryCatch(lme(fixed = fixed, random = random,
+                   correlation = corAR1(phi_init, ~ session | cluster/case/series),
+                   data = dat, 
+                   control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
+               error = function(e) E <<- e),
+      warning = function(w) W <<- w)
+    
+  } else {
+    
+    random <- as.formula(paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
+    RML_fit <- withCallingHandlers(
+      tryCatch(lme(fixed = fixed, random = random,
+                   correlation = corAR1(phi_init, ~ session | case),
+                   data = dat, 
+                   control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
+               error = function(e) E <<- e),
+      warning = function(w) W <<- w)
+    
+  }
   
   list(fixed = fixed,
        random = random,
@@ -82,25 +137,101 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, phi_init = 0.01, .
 effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B, phi_init = 0.01) {
   fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[design]]
   m_fit <- do.call(fit_function, 
-                 args = list(dat = dat, FE_base = FE_base, RE_base = RE_base,
-                             FE_trt = FE_trt, RE_trt = RE_trt, center = B, phi_init = phi_init))
+                   args = list(dat = dat, FE_base = FE_base, RE_base = RE_base,
+                               FE_trt = FE_trt, RE_trt = RE_trt, center = B, phi_init = phi_init))
   fixed <- m_fit$fixed
   random <- m_fit$random
-  m_fit <- m_fit$fit
+  mod <- m_fit$fit
   p_const <- c(rep(0L, length(FE_base)), (B - A - 1)^as.integer(FE_trt))
   r_dim <- length(RE_base) + length(RE_trt)
-  r_const <- c(1L, 0L, as.integer(0 %in% RE_base), rep(0, r_dim * (r_dim + 1) / 2 - 1))
-  X_design <- model.matrix(fixed, data = droplevels(m_fit$data))
-  Z_design <- model.matrix(m_fit$modelStruct$reStruct, data = droplevels(m_fit$data))
   
-  # block <- nlme::getGroups(m_fit)
-  # times <- attr(m_fit$modelStruct$corStruct, "covariate")
+  if (length(mod$modelStruct$reStruct) >= 2) {
+    
+    sigma_sq <- mod$sigma^2
+    RE_params <- coef(mod$modelStruct$reStruct, FALSE)
+    Tau_params <- RE_params * RE_params^(as.numeric(grepl("sd", attr(RE_params, "names")))) * sigma_sq
+    names(Tau_params) <- mapply(gsub, ".sd", ".var", names(Tau_params), USE.NAMES = FALSE)
+    group_names <- names(mod$groups)
+    Tau_param_list <- sapply(group_names,
+                             function(x) Tau_params[grep(x, names(Tau_params))],
+                             simplify = FALSE, USE.NAMES = TRUE)
+    length_Tau_cluster <- sum(grepl("^cluster",names(unlist(Tau_param_list))))
+    length_Tau_case <- sum(grepl("^case",names(unlist(Tau_param_list))))
+    length_Tau_series <- sum(grepl("^series",names(unlist(Tau_param_list))))
+    
+    if (length_Tau_cluster > 0 & length_Tau_series == 0) {
+      
+      r_const <- c(1L, rep(0, length_Tau_cluster - 1),
+                   1L, rep(0, length_Tau_case - 1),
+                   rep(0, length(mod$modelStruct$corStruct)), 
+                   rep(0, length(mod$modelStruct$varStruct)), 
+                   1L)
+      
+    } else if (length_Tau_cluster == 0 & length_Tau_series > 0) {
+      
+      r_const <- c(1L, rep(0, length_Tau_case - 1),
+                   1L, rep(0, length_Tau_series - 1),
+                   rep(0, length(mod$modelStruct$corStruct)), 
+                   rep(0, length(mod$modelStruct$varStruct)), 
+                   1L)
+
+    } else if (length_Tau_cluster > 0 & length_Tau_series > 0) {
+      
+      r_const <- c(1L, rep(0, length_Tau_cluster - 1),
+                   1L, rep(0, length_Tau_case - 1),
+                   1L, rep(0, length_Tau_series - 1),
+                   rep(0, length(mod$modelStruct$corStruct)), 
+                   rep(0, length(mod$modelStruct$varStruct)), 
+                   1L)
+      
+    }
+    
+  } else {
+    
+    r_const <- c(as.integer(0 %in% RE_base),
+                 rep(0, r_dim * (r_dim + 1) / 2 - 1),
+                 rep(0, length(mod$modelStruct$corStruct)), 
+                 rep(0, length(mod$modelStruct$varStruct)), 
+                 1L)
+    
+  }
   
-  g_REML(m_fit, p_const = p_const, r_const = r_const,
-         X_design = X_design, Z_design = Z_design,
-         returnModel=FALSE)
+  g_mlm(mod, p_const = p_const, r_const = r_const, infotype = "expected", returnModel = TRUE)
+  
 }
 
+# dat <- Thiemann2001
+# dat$session <- dat$time
+# trt_phase <- levels(as.factor(dat$treatment))[2]
+# dat$trt <- as.numeric(dat$treatment==trt_phase)
+# dat$session_trt <- dat$trt_time
+# FE_base <- c(0)
+# RE_base <- c(0)
+# FE_trt <- c(0)
+# RE_trt <- NULL
+# center <- 8
+# A <- 8
+# B <- 30
+# lme_fit <- lme_fit_MB(dat = dat, FE_base, RE_base, FE_trt, RE_trt, center = center)
+# res <- effect_size_RML(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B)
+# summarize_ES(res, filter_vars = NULL, filter_vals = NULL, design = design, method = "RML", 
+#              FE_base = FE_base, RE_base = RE_base, FE_trt = FE_trt, RE_trt = RE_trt, A = A, B = B)
+# 
+# dat <- Bryant2018
+# dat$cluster <- dat$school
+# trt_phase <- levels(as.factor(dat$treatment))[2]
+# dat$trt <- as.numeric(dat$treatment==trt_phase)
+# FE_base <- c(0)
+# RE_base <- c(0)
+# FE_trt <- c(0)
+# RE_trt <- NULL
+# center <- 4
+# A <- 4
+# B <- 21
+# lme_fit <- lme_fit_MB(dat = dat, FE_base, RE_base, FE_trt, RE_trt, center = center)
+# res <- effect_size_RML(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B)
+# summarize_ES(res, filter_vars = NULL, filter_vals = NULL, design = design, method = "RML", 
+#              FE_base = FE_base, RE_base = RE_base, FE_trt = FE_trt, RE_trt = RE_trt, A = A, B = B)
 
 # input <- list(example = "Laski")
 # design <- "MB"
@@ -126,11 +257,11 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B,
 # A <- default_times(dat)$A
 # B <- default_times(dat)$B
 # res <- effect_size_RML(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B)
-# 
-# summarize_ES(res, filter_vars = NULL, filter_vals = NULL, design = design, method = "RML", A = A, B = B)
+# summarize_ES(res, filter_vars = NULL, filter_vals = NULL, design = design, method = "RML",
+#              FE_base = FE_base, RE_base = RE_base, FE_trt = FE_trt, RE_trt = RE_trt, A = A, B = B)
 
 # 
-# 
+
 # cases <- levels(dat$case)
 # range <- default_times(dat)$range
 # A <- default_times(dat)$A
@@ -140,7 +271,7 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B,
 #                       session = sessions,
 #                       trt = as.integer(sessions > A),
 #                       session_trt = ifelse(sessions > A, sessions - A - 1, 0))
-# dat_RCT <- lme_fit_MB(dat, FE_base = FE_base, RE_base = RE_base, 
+# dat_RCT <- lme_fit_MB(dat, FE_base = FE_base, RE_base = RE_base,
 #                       FE_trt = FE_trt, RE_trt = RE_trt, center = B, newdata = dat_RCT)
 # dat_RCT <- dat_RCT$preds
 # dat_RCT$phase <- levels(dat$phase)[dat_RCT$trt + 1]
@@ -167,5 +298,6 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B,
 # RE_trt <- NULL
 # A <- default_times(dat)$A
 # B <- default_times(dat)$B
-# effect_size_RML(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B)
-# 
+# res <- effect_size_RML(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B)
+# summarize_ES(res, filter_vars = NULL, filter_vals = NULL, design = design, method = "RML",
+#              FE_base = FE_base, RE_base = RE_base, FE_trt = FE_trt, RE_trt = RE_trt, A = A, B = B)
