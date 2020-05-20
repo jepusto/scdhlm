@@ -171,7 +171,7 @@ summary(quality_ES)
 #> scalar constant                   0.201
 ```
 
-### Estimating SMDs using `g_REML()`
+### Estimating SMDs using `g_mlm()`
 
 Laski, Charlop, and Schreibman (1988) used a multiple baseline across
 individuals to evaluate the effect of a training program for parents on
@@ -196,11 +196,13 @@ Laski_RML <- lme(fixed = outcome ~ treatment,
                  random = ~ 1 | case, 
                  correlation = corAR1(0, ~ time | case), 
                  data = Laski)
-summary(Laski_RML)
+Laski_RML
 #> Linear mixed-effects model fit by REML
-#>  Data: Laski 
-#>        AIC      BIC    logLik
-#>   1048.285 1062.466 -519.1424
+#>   Data: Laski 
+#>   Log-restricted-likelihood: -519.1424
+#>   Fixed: outcome ~ treatment 
+#>        (Intercept) treatmenttreatment 
+#>           39.07612           30.68366 
 #> 
 #> Random effects:
 #>  Formula: ~1 | case
@@ -212,18 +214,6 @@ summary(Laski_RML)
 #>  Parameter estimate(s):
 #>      Phi 
 #> 0.252769 
-#> Fixed effects: outcome ~ treatment 
-#>                       Value Std.Error  DF   t-value p-value
-#> (Intercept)        39.07612  5.989138 119  6.524498       0
-#> treatmenttreatment 30.68366  2.995972 119 10.241637       0
-#>  Correlation: 
-#>                    (Intr)
-#> treatmenttreatment -0.272
-#> 
-#> Standardized Within-Group Residuals:
-#>         Min          Q1         Med          Q3         Max 
-#> -2.72642154 -0.69387388  0.01454473  0.69861200  2.14528141 
-#> 
 #> Number of Observations: 128
 #> Number of Groups: 8
 ```
@@ -234,49 +224,90 @@ deviations, auto-correlation, and (unstandardized) treatment effect
 estimate. These estimated components will be used to calculate the
 effect size in next step.
 
-The second step in the process is to estimate a design-comparable SMD
-using `scdhlm::g_REML()`. The SMD parameter can be defined as the ratio
-of a linear combination of the fitted model’s fixed effect parameters
-over the square root of a linear combination of the model’s variance
-components. `g_REML()` takes the fitted `lme` model object as input,
-followed by the vectors `p_const` and `r_const`, which specify the
-components of the fixed effects and variance estimates that are to be
-used in constructing the design-comparable SMD. In this example, we use
-the treatment effect in the numerator of the effect size and the sum of
-the within-case and between-case variance components in the denominator
-of the effect size. The constants are therefore given by `p_const =
-c(0, 1)` and `r_const = c(1, 0, 1)`. The effect size estimated is
-calculated as:
+The sampling variance-covariance of variance component parameters of
+model `Laski_RML` can be estimated using `varcomp_vcov()` in `scdhlm`.
+Setting `type = "expected"` will calculate the sampling
+variance-covariance of variance component parameters using the inverse
+expected Fisher information. Setting `type = "average"` will calculate
+the inverse of the average Fisher information matrix (Gilmour, Thompson,
+& Cullis, 1995).
 
 ``` r
-Laski_ES_RML <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel=FALSE)
-
-str(Laski_ES_RML)
-#> List of 14
-#>  $ p_beta   : num 30.7
-#>  $ r_theta  : num 439
-#>  $ delta_AB : num 1.46
-#>  $ nu       : num 18.6
-#>  $ kappa    : num 0.143
-#>  $ g_AB     : num 1.4
-#>  $ V_g_AB   : num 0.082
-#>  $ cnvg_warn: logi FALSE
-#>  $ sigma_sq : num 193
-#>  $ phi      : num 0.253
-#>  $ Tau      : Named num 246
-#>   ..- attr(*, "names")= chr "case.var((Intercept))"
-#>  $ I_E_inv  : num [1:3, 1:3] 798.92 1.32 -132.12 1.32 0.01 ...
-#>  $ p_const  : num [1:2] 0 1
-#>  $ r_const  : num [1:3] 1 0 1
-#>  - attr(*, "class")= chr "g_REML"
+varcomp_vcov(Laski_RML, type = "expected")
 ```
 
-The function returns a list containing the SMD effect size estimate
-(`g_AB` = 1.405), its variance (`V_g_AB` = 0.082), the estimated
-auto-correlation (`phi` = 0.253), estimated degrees of freedom (`nu` =
-18.552), and several other pieces of auxiliary information.
+It returns the estimated sampling variance-covariance of the case-level
+intercept variance `Tau.case.var((Intercept))`, the first-order
+autocorrelation `cor_params`, and the within-case error variance
+`sigma_sq`.
+
+The second step in the process is to estimate a design-comparable SMD
+using `scdhlm::g_mlm()`. The SMD parameter can be defined as the ratio
+of a linear combination of the fitted model’s fixed effect parameters
+over the square root of a linear combination of the model’s variance
+components. `g_mlm()` takes the fitted `lme` model object as input,
+followed by the vectors `p_const` and `r_const`, which specify the
+components of the fixed effects and variance estimates that are to be
+used in constructing the design-comparable SMD. Note that `r_const` is a
+vector of 0s and 1s which specify whether to use the variance component
+parameters for calculating the effect size: random effects variances,
+correlation structure parameters, variance structure parameters, and
+level-1 error variance. The function calculates an effect size estimate
+by first substituting maximum likelihood or restricted maximum
+likelihood estimates in place of the corresponding parameters, then
+applying a small-sample correction. The small-sample correction and the
+standard error are based on approximating the distribution of the
+estimator by a t distribution, with degrees of freedom given by a
+Satterthwaite approximation (Pustejovsky, Hedges, & Shadish, 2014). The
+`g_mlm()` function includes an option allowing use of the expected or
+average form of the Fisher information matrix in the calculations.
+
+In this example, we use the treatment effect in the numerator of the
+effect size and the sum of the between-case and within-case variance
+components in the denominator of the effect size. The constants are
+therefore given by `p_const = c(0, 1)` and `r_const = c(1, 0, 1)`. The
+effect size estimated is calculated as:
+
+``` r
+Laski_ES_RML <- g_mlm(Laski_RML, p_const = c(0, 1), r_const = c(1, 0, 1), 
+                      infotype = "expected", returnModel = TRUE)
+
+Laski_ES_RML
+```
+
+The estimated adjusted SMD effect size estimate is
+`round(Laski_ES_RML$g_AB, 3)` with standard error of
+`round(Laski_ES_RML$SE_g_AB, 3)` and degree of freedom
+`round(Laski_ES_RML$nu, 3)`.
+
+A `summary()` method is included, which returns more detail about the
+model parameter estimates and effect size estimate when setting
+`returnModel = TRUE` (the default) in `g_mlm()`:
+
+``` r
+summary(Laski_ES_RML)
+```
+
+The `CI_g()` calculates a symmetric confidence interval using a central
+t distribution (the default) or an asymmetric confidence interval using
+non-central t distribution (setting `symmetric = FALSE`).
+
+``` r
+CI_g(Laski_ES_RML)
+
+CI_g(Laski_ES_RML, symmetric = FALSE)
+```
+
+The symmetric confidence interval is `round(CI_g(Laski_ES_RML),3)` and
+the asymmetric confidence interval is `round(CI_g(Laski_ES_RML,
+symmetric = FALSE),3)`.
 
 ## References
+
+Gilmour, A. R., Thompson, R., & Cullis, B. R. (1995). Average
+information REML: An efficient algorithm for variance parameter
+estimation in linear mixed models. *Biometrics, 51*(4), 1440–1450.
+<https://doi.org/10.2307/2533274>
 
 Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012). A
 standardized mean difference effect size for single case designs.
