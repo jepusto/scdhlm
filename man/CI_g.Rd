@@ -2,35 +2,47 @@
 % Please edit documentation in R/confidence-interval-functions.R
 \name{CI_g}
 \alias{CI_g}
-\title{Approximate confidence interval for BC-SMD effect size estimates}
+\title{Calculates a confidence interval for a standardized mean difference
+  effect size}
 \usage{
-CI_g(g, cover = 0.95, bound = 35)
+CI_g(g, cover = 0.95, bound = 35, symmetric = TRUE)
 }
 \arguments{
-\item{g}{an estimated effect size object of class \code{g_REML} or \code{g_HPS}}
+\item{g}{an estimated effect size object of class \code{g_REML}, class
+\code{g_HPS}, or class \code{g_mlm}.}
 
 \item{cover}{confidence level}
 
-\item{bound}{numerical tolerance for non-centrality parameter in \code{\link{qt}}.}
+\item{bound}{numerical tolerance for non-centrality parameter in
+\code{\link[stats]{qt}}.}
+
+\item{symmetric}{If \code{TRUE} (the default), use a symmetric confidence
+interval. If \code{FALSE}, use a non-central t approximation to obtain an
+asymmetric confidence interval.}
 }
 \value{
 A vector of upper and lower confidence bounds.
 }
 \description{
-Calculates an approximate confidence interval given a \code{g_REML} or \code{g_HPS}
-object, based on a non-central t approximation.
+Calculates a confidence interval given a \code{g_REML}, a
+  \code{g_HPS}, or a \code{g_mlm} object using either a central t
+  distribution (for a symmetric interval) or a non-central t distribution
+  (for an asymmetric interval).
 }
 \examples{
 data(Laski)
 Laski_RML <- lme(fixed = outcome ~ treatment,
-                 random = ~ 1 | case, 
-                 correlation = corAR1(0, ~ time | case), 
+                 random = ~ 1 | case,
+                 correlation = corAR1(0, ~ time | case),
                  data = Laski)
-Laski_g <- g_REML(Laski_RML, p_const = c(0,1), 
-                  r_const = c(1,0,1), returnModel=FALSE)
-CI_g(Laski_g)
+Laski_g_REML <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel = FALSE)
+CI_g(Laski_g_REML, symmetric = TRUE)
+CI_g(Laski_g_REML, symmetric = FALSE)
 
 Laski_HPS <- with(Laski, effect_size_MB(outcome, treatment, case, time))
-CI_g(Laski_HPS)
+CI_g(Laski_HPS, symmetric = FALSE)
+
+Laski_g_mlm <- g_mlm(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE)
+CI_g(Laski_g_mlm, symmetric = FALSE)
 
 }
