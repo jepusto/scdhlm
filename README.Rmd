@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 ## Estimating Hierarchical Linear Models for Single-Case Designs
 
-`scdhlm` provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from ABAB designs (or more general treatment reversal designs) and multiple baseline designs. Two estimation methods are available: moment estimation (Hedges, Pustejovsky, & Shadish, 2012; 2013) and restricted maximum likelihood estimation (Pustejovsky, Hedges, & Shadish, 2014). The package also includes an interactive web interface implemented using Shiny.
+`scdhlm` provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from ABAB designs (or more general treatment reversal designs), multiple baseline designs, and multiple probe designs. Two estimation methods are available: moment estimation (Hedges, Pustejovsky, & Shadish, 2012; 2013) and restricted maximum likelihood estimation (Pustejovsky, Hedges, & Shadish, 2014). The package also includes an interactive web interface implemented using Shiny.
 
 ## Installation
 
@@ -51,7 +51,67 @@ shine_scd()
 
 ## Demonstration
 
-Here we demonstrate how to use `scdhlm` to calculate design-comparable SMDs based on data from different single-case designs. We will first demonstrate the older, moment estimation methods, followed by the restricted maximum likelihood estimation method.
+Here we demonstrate how to use `scdhlm` to calculate design-comparable SMDs based on data from different single-case designs. We will first demonstrate the recommended approach, which uses restricted maximum likelihood (REML) estimation. We will then demonstrate the older, moment estimation methods. The moment estimation methods were the originally proposed approach (described in Hedges, Pustejovsky, & Shadish, 2012, 2013). The package provides these methods for sake of completeness, but we no longer recommend them for general use. 
+
+### Estimating SMDs using REML with `g_mlm()`
+
+Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included eight children. One child was measured separately with each parent; following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in our analysis.
+
+For this study, we will estimate a design-comparable SMD using restricted maximum likelihood (REML) methods, as described by Pustejovsky and colleagues (2014). This is a two-step process. The first step is to estimate a hierarchical linear model for the data, treated the measurements as nested within cases. We fit the model using `nlme::lme()`
+
+```{r Laski}
+library(nlme)
+library(scdhlm)
+data(Laski)
+
+# Pustejovsky, Hedges, & Shadish (2014)
+Laski_RML <- lme(fixed = outcome ~ treatment,
+                 random = ~ 1 | case, 
+                 correlation = corAR1(0, ~ time | case), 
+                 data = Laski)
+Laski_RML
+
+```
+
+The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. These estimated components will be used to calculate the effect size in next step.
+
+The sampling variance-covariance of variance component parameters of model `Laski_RML` can be estimated using `varcomp_vcov()` in `scdhlm`. Setting `type = "expected"` will calculate the sampling variance-covariance of variance component parameters using the inverse expected Fisher information. Setting `type = "average"` will calculate the inverse of the average Fisher information matrix (Gilmour, Thompson, & Cullis, 1995).
+
+```{r Laski-vcov-expected, eval=TRUE}
+varcomp_vcov(Laski_RML, type = "expected")
+```
+
+It returns the estimated sampling variance-covariance of the case-level intercept variance `Tau.case.var((Intercept))`, the first-order autocorrelation `cor_params`, and the within-case error variance `sigma_sq`.
+
+The second step in the process is to estimate a design-comparable SMD using `scdhlm::g_mlm()`.
+The SMD parameter can be defined as the ratio of a linear combination of the fitted model’s fixed effect parameters over the square root of a linear combination of the model’s variance components. `g_mlm()` takes the fitted `lme` model object as input, followed by the vectors `p_const` and `r_const`, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. Note that `r_const` is a vector of 0s and 1s which specify whether to use the variance component parameters for calculating the effect size: random effects variances, correlation structure parameters, variance structure parameters, and level-1 error variance. The function calculates an effect size estimate by first substituting maximum likelihood or restricted maximum likelihood estimates in place of the corresponding parameters, then applying a small-sample correction. The small-sample correction and the standard error are based on approximating the distribution of the estimator by a t distribution, with degrees of freedom given by a Satterthwaite approximation (Pustejovsky, Hedges, & Shadish, 2014). The `g_mlm()` function includes an option allowing use of the expected or average form of the Fisher information matrix in the calculations.
+
+In this example, we use the treatment effect in the numerator of the effect size and the sum of the between-case and within-case variance components in the denominator of the effect size. The constants are therefore given by `p_const = c(0, 1)` and `r_const = c(1, 0, 1)`. The effect size estimated is calculated as:
+
+```{r Laski-bc-smd, eval=TRUE}
+Laski_ES_RML <- g_mlm(Laski_RML, p_const = c(0, 1), r_const = c(1, 0, 1))
+
+Laski_ES_RML
+
+```
+
+The adjusted SMD effect size estimate is `r round(Laski_ES_RML$g_AB, 3)` with standard error of `r round(Laski_ES_RML$SE_g_AB, 3)` and degree of freedom `r round(Laski_ES_RML$nu, 1)`.
+
+A `summary()` method is included, which returns more detail about the model parameter estimates and effect size estimate when setting `returnModel = TRUE` (the default) in `g_mlm()`:
+
+```{r Laski-summary, eval=TRUE}
+summary(Laski_ES_RML)
+```
+
+The `CI_g()` calculates a symmetric confidence interval using a central t distribution (the default) or an asymmetric confidence interval using non-central t distribution (setting `symmetric = FALSE`). 
+
+```{r Laski-CI, eval=TRUE}
+CI_g(Laski_ES_RML)
+
+CI_g(Laski_ES_RML, symmetric = FALSE)
+```
+
+The symmetric confidence interval is [`r round(CI_g(Laski_ES_RML),3)`] and the asymmetric confidence interval is [`r round(CI_g(Laski_ES_RML, symmetric = FALSE),3)`].
 
 ### Estimating SMDs using `effect_size_ABk()`
 
@@ -66,8 +126,6 @@ Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response ca
 In the `Lambert` dataset, these variables are called respectively `outcome`, `treatment`, `case`, `phase`, and `time`. Given these inputs, the design-comparable SMD is calculated as follows:
 
 ```{r}
-library(nlme)
-library(scdhlm)
 data(Lambert)
 
 Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
@@ -107,65 +165,6 @@ The adjusted effect size estimate `delta_hat` is equal to `r round(quality_ES$de
 summary(quality_ES)
 ```
 
-
-### Estimating SMDs using `g_mlm()`
-
-Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included $m = 8$ children. One child was measured separately with each parent; following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in our analysis.
-
-For this study, we will estimate a design-comparable SMD using restricted maximum likelihood (REML) methods, as described by Pustejovsky and colleagues (2014). This is a two-step process. The first step is to estimate a hierarchical linear model for the data, treated the measurements as nested within cases. We fit the model using `nlme::lme()`
-
-```{r Laski}
-data(Laski)
-
-# Pustejovsky, Hedges, & Shadish (2014)
-Laski_RML <- lme(fixed = outcome ~ treatment,
-                 random = ~ 1 | case, 
-                 correlation = corAR1(0, ~ time | case), 
-                 data = Laski)
-Laski_RML
-
-```
-
-The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. These estimated components will be used to calculate the effect size in next step.
-
-The sampling variance-covariance of variance component parameters of model `Laski_RML` can be estimated using `varcomp_vcov()` in `scdhlm`. Setting `type = "expected"` will calculate the sampling variance-covariance of variance component parameters using the inverse expected Fisher information. Setting `type = "average"` will calculate the inverse of the average Fisher information matrix (Gilmour, Thompson, & Cullis, 1995).
-
-```{r Laski-vcov-expected, eval=FALSE}
-varcomp_vcov(Laski_RML, type = "expected")
-```
-
-It returns the estimated sampling variance-covariance of the case-level intercept variance `Tau.case.var((Intercept))`, the first-order autocorrelation `cor_params`, and the within-case error variance `sigma_sq`.
-
-The second step in the process is to estimate a design-comparable SMD using `scdhlm::g_mlm()`.
-The SMD parameter can be defined as the ratio of a linear combination of the fitted model’s fixed effect parameters over the square root of a linear combination of the model’s variance components. `g_mlm()` takes the fitted `lme` model object as input, followed by the vectors `p_const` and `r_const`, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. Note that `r_const` is a vector of 0s and 1s which specify whether to use the variance component parameters for calculating the effect size: random effects variances, correlation structure parameters, variance structure parameters, and level-1 error variance. The function calculates an effect size estimate by first substituting maximum likelihood or restricted maximum likelihood estimates in place of the corresponding parameters, then applying a small-sample correction. The small-sample correction and the standard error are based on approximating the distribution of the estimator by a t distribution, with degrees of freedom given by a Satterthwaite approximation (Pustejovsky, Hedges, & Shadish, 2014). The `g_mlm()` function includes an option allowing use of the expected or average form of the Fisher information matrix in the calculations.
-
-In this example, we use the treatment effect in the numerator of the effect size and the sum of the between-case and within-case variance components in the denominator of the effect size. The constants are therefore given by `p_const = c(0, 1)` and `r_const = c(1, 0, 1)`. The effect size estimated is calculated as:
-
-```{r Laski-bc-smd, eval=FALSE}
-Laski_ES_RML <- g_mlm(Laski_RML, p_const = c(0, 1), r_const = c(1, 0, 1), 
-                      infotype = "expected", returnModel = TRUE)
-
-Laski_ES_RML
-
-```
-
-The estimated adjusted SMD effect size estimate is `round(Laski_ES_RML$g_AB, 3)` with standard error of `round(Laski_ES_RML$SE_g_AB, 3)` and degree of freedom `round(Laski_ES_RML$nu, 3)`.
-
-A `summary()` method is included, which returns more detail about the model parameter estimates and effect size estimate when setting `returnModel = TRUE` (the default) in `g_mlm()`:
-
-```{r Laski-summary, eval=FALSE}
-summary(Laski_ES_RML)
-```
-
-The `CI_g()` calculates a symmetric confidence interval using a central t distribution (the default) or an asymmetric confidence interval using non-central t distribution (setting `symmetric = FALSE`). 
-
-```{r Laski-CI, eval=FALSE}
-CI_g(Laski_ES_RML)
-
-CI_g(Laski_ES_RML, symmetric = FALSE)
-```
-
-The symmetric confidence interval is `round(CI_g(Laski_ES_RML),3)` and the asymmetric confidence interval is `round(CI_g(Laski_ES_RML, symmetric = FALSE),3)`.
 
 ## References
 
