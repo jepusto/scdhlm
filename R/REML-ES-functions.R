@@ -139,11 +139,33 @@ dV_dTau_unstruct <- function(block, Z_design) {
 ## extract variance components
 ##------------------------------------------------------------------------------
 
+#' Deprecated functions in scdhlm
+#' 
+#' These functions still work but will be removed (defunct) in the next version.
+#' 
+#' \itemize{
+#'  \item \code{\link{extract_varcomp}}: `scdhlm::extract_varcomp()` will be updated with the `lmeInfo::extract_varcomp()` in the next version.
+#'  \item \code{\link{Info_Expected_lmeAR1}}: This function is deprecated, and will be removed in the next version of this package.
+#'  \item \code{\link{g_REML}}: This function is deprecated, and will be removed in the next version of this package.
+#' }
+#' 
+#' @name scdhlm-deprecated
+NULL
+
+#' @importFrom lmeInfo extract_varcomp
+#' @importFrom lmeInfo varcomp_vcov
+#' @importFrom lmeInfo Fisher_info
+#' @importFrom lmeInfo g_mlm
+#' 
+
 extract_varcomp <- function(m_fit) {
+
+  .Deprecated(msg = "'scdhlm::extract_varcomp()' will be updated with the 'lmeInfo::extract_varcomp()' in the next version.")
+
   sigma_sq <- m_fit$sigma^2                                         # sigma^2
   phi <- as.double(coef(m_fit$modelStruct$corStruct, FALSE))        # phi
   Tau_coef <- coef(m_fit$modelStruct$reStruct, FALSE) * sigma_sq    # unique coefficients in Tau
-  
+
   varcomp <- list(sigma_sq=sigma_sq, phi=phi, Tau = Tau_coef)
   class(varcomp) <- "varcomp"
   return(varcomp)
@@ -194,7 +216,11 @@ Info_Expected <- function(theta, X_design, Z_design, block, times=NULL) {
 #'                  data = Laski)
 #' Info_Expected_lmeAR1(Laski_RML)
 
+
 Info_Expected_lmeAR1 <- function(m_fit) {
+  
+  .Deprecated(msg = "'scdhlm::Info_Expected_lmeAR1()' will not be available for lmeStruct objects in the next version. Please use `Fisher_info()` instead.")
+  
   theta <- extract_varcomp(m_fit)
   X_design <- model.matrix(m_fit, data = m_fit$data)
   Z_design <- model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data)
@@ -202,7 +228,6 @@ Info_Expected_lmeAR1 <- function(m_fit) {
   times <- attr(m_fit$modelStruct$corStruct, "covariate")
   Info_Expected(theta=theta, X_design=X_design, Z_design=Z_design, block=block, times=times)
 }
-
 
 
 ## estimate adjusted REML effect size (with associated estimates) for multiple baseline design ####
@@ -267,11 +292,14 @@ Info_Expected_lmeAR1 <- function(m_fit) {
 #' Schutte_g <- g_REML(Schutte_RML, p_const = c(0,0,1,7), r_const = c(1,0,1,0,0))
 #' summary(Schutte_g)
 
+
 g_REML <- function(m_fit, p_const, r_const, 
                    X_design = model.matrix(m_fit, data = m_fit$data), 
                    Z_design = model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data), 
                    block = nlme::getGroups(m_fit),
                    times = attr(m_fit$modelStruct$corStruct, "covariate"), returnModel=TRUE) {
+  
+  .Deprecated("g_mlm", msg = "'g_REML()' will be removed in the next version. Please use `g_mlm()` instead.")
 
   # basic model estimates
   p_beta <- sum(nlme::fixed.effects(m_fit) * p_const)               # p'Beta
@@ -304,17 +332,26 @@ g_REML <- function(m_fit, p_const, r_const,
   return(res)
 }
 
-
-#' @export
-#'
+#' Defunct functions in scdhlm
+#' 
+#' \itemize{
+#'  \item \code{\link{summary}}: This function is not available for g_REML objects.
+#' }
+#' 
+#' @name scdhlm-defunct
+NULL
 
 summary.g_REML <- function(object, ...) {
+
+  # summary.g_REML() is removed because it conflicts with summary.g_mlm()
+  .Defunct("summary.g_mlm", msg = "`summary()` is not available for g_REML objects. Please use `print()` to return the results for g_REML objects.")
+
   varcomp <- with(object, cbind(est = c(sigma_sq = sigma_sq, phi = phi, Tau, r_theta = r_theta),
                                 se = c(sqrt(diag(I_E_inv)), r_theta * sqrt(2 / nu))))
   betas <- with(object, cbind(est = c(coefficients$fixed, p_beta = p_beta),
                             se = c(sqrt(diag(varFix)), kappa * sqrt(r_theta))))
   ES <- with(object, cbind(est = c(unadjusted = delta_AB, adjusted = g_AB, df = nu, kappa = kappa, logLik=logLik),
                                se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA, NA, NA)))
-  
+
   round(rbind(varcomp, betas, ES),2)
 }
