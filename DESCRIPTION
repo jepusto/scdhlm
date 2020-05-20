@@ -1,6 +1,6 @@
 Package: scdhlm
 Title: Estimating Hierarchical Linear Models for Single-Case Designs
-Version: 0.3.3.900
+Version: 0.4.2.9000
 Authors@R: c(
     person("James", "Pustejovsky", email = "jepusto@gmail.com", role = c("aut", "cre")),
     person("Bethany", "Hamilton", role = "aut"),
@@ -13,7 +13,7 @@ Description: Provides a set of tools for estimating hierarchical linear
     Hedges, Pustejovsky, and Shadish (2013) <DOI:10.1002/jrsm.1086>; and 
     Pustejovsky, Hedges, and Shadish (2014) <DOI:10.3102/1076998614547577>. 
     Includes an interactive web interface.
-URL: https://github.com/jepusto/scdhlm
+URL: http://jepusto.github.io/scdhlm
 BugReports: https://github.com/jepusto/scdhlm/issues
 License: GPL-3
 VignetteBuilder: knitr
@@ -22,6 +22,7 @@ Imports:
     stats
 Depends: 
     nlme,
+    lmeInfo,
     R (>= 3.0.1)
 Suggests: 
     knitr,
