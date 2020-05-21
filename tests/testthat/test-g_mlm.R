@@ -18,15 +18,19 @@ Bryant2016_RML1 <- lme(fixed = outcome ~ treatment,
 test_that("g_mlm() is imported appropriately.", {
   
   # two-level data
-  Laski_g1_REML <- suppressWarnings(g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = FALSE))
+  Laski_g1_REML <- suppressWarnings(g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE))
   Laski_g1_mlm <- g_mlm(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE)
   
-  expect_warning(g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = FALSE))
-  expect_warning(extract_varcomp(Laski_RML1))
-  expect_warning(Info_Expected_lmeAR1(Laski_RML1))
+  expect_warning(g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE))
   expect_equal(varcomp_vcov(Laski_RML1)[1, 1], 20214.7623585, tol = 1e-7)
   
-  expect_error(summary(Laski_g1_REML))
+  varcomp_ex <- extract_varcomp_ex(Laski_RML1) # extract varcomp using old function in scdhlm
+  varcomp <- extract_varcomp(Laski_RML1) # extract varcomp using new function in lmeInfo
+  expect_equal(varcomp_ex$sigma_sq, varcomp$sigma_sq)
+  expect_equal(varcomp_ex$phi, varcomp$cor_params)
+  expect_equal(varcomp_ex$Tau, varcomp$Tau$case)
+  
+  expect_output(summary(Laski_g1_REML))
   expect_output(print(Laski_g1_REML))
   expect_output(summary(Laski_g1_mlm))
   expect_output(print(Laski_g1_mlm))
