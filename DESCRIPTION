@@ -19,10 +19,10 @@ License: GPL-3
 VignetteBuilder: knitr
 LazyData: true
 Imports: 
-    stats
+    stats,
+    lmeInfo
 Depends: 
     nlme,
-    lmeInfo,
     R (>= 3.0.1)
 Suggests: 
     knitr,

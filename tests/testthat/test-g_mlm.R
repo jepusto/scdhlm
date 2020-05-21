@@ -25,7 +25,6 @@ test_that("g_mlm() is imported appropriately.", {
   expect_warning(extract_varcomp(Laski_RML1))
   expect_warning(Info_Expected_lmeAR1(Laski_RML1))
   expect_equal(varcomp_vcov(Laski_RML1)[1, 1], 20214.7623585, tol = 1e-7)
-  expect_equal(Fisher_info(Laski_RML1)[1, 2], 0.001874239, tol = 1e-7)
   
   expect_error(summary(Laski_g1_REML))
   expect_output(print(Laski_g1_REML))

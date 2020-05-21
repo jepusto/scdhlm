@@ -1,3 +1,4 @@
+
 ##------------------------------------------------------------------------------
 ## Create AR(1) correlation and inverse correlation matrices
 ##------------------------------------------------------------------------------
@@ -151,12 +152,6 @@ dV_dTau_unstruct <- function(block, Z_design) {
 #' 
 #' @name scdhlm-deprecated
 NULL
-
-#' @importFrom lmeInfo extract_varcomp
-#' @importFrom lmeInfo varcomp_vcov
-#' @importFrom lmeInfo Fisher_info
-#' @importFrom lmeInfo g_mlm
-#' 
 
 extract_varcomp <- function(m_fit) {
 
