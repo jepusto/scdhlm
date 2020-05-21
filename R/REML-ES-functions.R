@@ -140,22 +140,30 @@ dV_dTau_unstruct <- function(block, Z_design) {
 ## extract variance components
 ##------------------------------------------------------------------------------
 
-#' Deprecated functions in scdhlm
-#' 
-#' These functions still work but will be removed (defunct) in the next version.
-#' 
-#' \itemize{
-#'  \item \code{\link{extract_varcomp}}: `scdhlm::extract_varcomp()` will be updated with the `lmeInfo::extract_varcomp()` in the next version.
-#'  \item \code{\link{Info_Expected_lmeAR1}}: This function is deprecated, and will be removed in the next version of this package.
-#'  \item \code{\link{g_REML}}: This function is deprecated, and will be removed in the next version of this package.
-#' }
-#' 
-#' @name scdhlm-deprecated
-NULL
+#' @title Extract estimated variance components
+#'
+#' @description Extracts the estimated variance components from a fitted linear
+#'   mixed effects model (lmeStruct object).
+#'
+#' @param mod Fitted model of class lmeStruct.
+#'
+#' @export
+#'
+#' @return Object of class \code{varcomp} consisting of a list of estimated
+#'   variance components: level-1 error variance, auto-correlation, and random
+#'   effects variances.
+#'
+#' @examples
+#'
+#' library(nlme)
+#' Laski_RML <- lme(fixed = outcome ~ treatment,
+#'                  random = ~ 1 | case,
+#'                  correlation = corAR1(0, ~ time | case),
+#'                  data = Laski)
+#' extract_varcomp_ex(Laski_RML)
+#'
 
-extract_varcomp <- function(m_fit) {
-
-  .Deprecated(msg = "'scdhlm::extract_varcomp()' will be updated with the 'lmeInfo::extract_varcomp()' in the next version.")
+extract_varcomp_ex <- function(m_fit) {
 
   sigma_sq <- m_fit$sigma^2                                         # sigma^2
   phi <- as.double(coef(m_fit$modelStruct$corStruct, FALSE))        # phi
@@ -214,9 +222,7 @@ Info_Expected <- function(theta, X_design, Z_design, block, times=NULL) {
 
 Info_Expected_lmeAR1 <- function(m_fit) {
   
-  .Deprecated(msg = "'scdhlm::Info_Expected_lmeAR1()' will not be available for lmeStruct objects in the next version. Please use `Fisher_info()` instead.")
-  
-  theta <- extract_varcomp(m_fit)
+  theta <- extract_varcomp_ex(m_fit)
   X_design <- model.matrix(m_fit, data = m_fit$data)
   Z_design <- model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data)
   block <- nlme::getGroups(m_fit)
@@ -287,18 +293,17 @@ Info_Expected_lmeAR1 <- function(m_fit) {
 #' Schutte_g <- g_REML(Schutte_RML, p_const = c(0,0,1,7), r_const = c(1,0,1,0,0))
 #' summary(Schutte_g)
 
-
 g_REML <- function(m_fit, p_const, r_const, 
                    X_design = model.matrix(m_fit, data = m_fit$data), 
                    Z_design = model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data), 
                    block = nlme::getGroups(m_fit),
                    times = attr(m_fit$modelStruct$corStruct, "covariate"), returnModel=TRUE) {
   
-  .Deprecated("g_mlm", msg = "'g_REML()' will be removed in the next version. Please use `g_mlm()` instead.")
+  .Deprecated("g_mlm", msg = "'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.")
 
   # basic model estimates
   p_beta <- sum(nlme::fixed.effects(m_fit) * p_const)               # p'Beta
-  theta <- extract_varcomp(m_fit)                                   # full theta vector
+  theta <- extract_varcomp_ex(m_fit)                                # full theta vector
   r_theta <- sum(unlist(theta) * r_const)                           # r'theta
   delta_AB <- p_beta / sqrt(r_theta)                                # delta_AB              
   kappa_sq <- as.numeric(t(p_const) %*% vcov(m_fit) %*% p_const) / r_theta    # kappa^2
@@ -327,26 +332,43 @@ g_REML <- function(m_fit, p_const, r_const,
   return(res)
 }
 
-#' Defunct functions in scdhlm
-#' 
-#' \itemize{
-#'  \item \code{\link{summary}}: This function is not available for g_REML objects.
-#' }
-#' 
-#' @name scdhlm-defunct
-NULL
-
-summary.g_REML <- function(object, ...) {
-
-  # summary.g_REML() is removed because it conflicts with summary.g_mlm()
-  .Defunct("summary.g_mlm", msg = "`summary()` is not available for g_REML objects. Please use `print()` to return the results for g_REML objects.")
-
-  varcomp <- with(object, cbind(est = c(sigma_sq = sigma_sq, phi = phi, Tau, r_theta = r_theta),
-                                se = c(sqrt(diag(I_E_inv)), r_theta * sqrt(2 / nu))))
-  betas <- with(object, cbind(est = c(coefficients$fixed, p_beta = p_beta),
-                            se = c(sqrt(diag(varFix)), kappa * sqrt(r_theta))))
-  ES <- with(object, cbind(est = c(unadjusted = delta_AB, adjusted = g_AB, df = nu, kappa = kappa, logLik=logLik),
-                               se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA, NA, NA)))
-
-  round(rbind(varcomp, betas, ES),2)
+summary.g_REML <- function(object, digits = 3, ...) {
+  
+  if (is.null(object$modelStruct)) {
+    
+    stop("'summary()' method only available when setting 'returnModel = TRUE` in `g_REML()`.")
+    
+  } else {
+    
+    varcomp <- with(object, cbind(est = c(sigma_sq = sigma_sq, phi = phi, Tau, "total variance" = r_theta),
+                                  se = c(sqrt(diag(I_E_inv)), r_theta * sqrt(2 / nu))))
+    betas <- with(object, cbind(est = c(coefficients$fixed, "treatment effect at a specified time" = p_beta),
+                                se = c(sqrt(diag(varFix)), kappa * sqrt(r_theta))))
+    ES <- with(object, cbind(est = c("unadjusted effect size" = delta_AB, "adjusted effect size" = g_AB,
+                                     "degree of freedom" = nu, kappa = kappa, logLik=logLik),
+                             se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA, NA, NA)))
+    
+    print(round(rbind(varcomp, betas, ES), digits), na.print = "")
+    
+  }
+  
 }
+
+print.g_REML <- function(x, digits = 3, ...) {
+  ES <- with(x, cbind(est = c("unadjusted effect size" = delta_AB,
+                              "adjusted effect size" = g_AB,
+                              "degree of freedom" = nu),
+                      se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA)))
+  print(round(ES, digits), na.print = "")
+}
+
+#' Deprecated functions in scdhlm
+#'
+#' This function still works but maybe removed in a later version of the package.
+#'
+#' \itemize{
+#'  \item \code{\g_REML}: This function is deprecated and may be removed in a later version of the package.
+#' }
+#'
+#' @name scdhlm-deprecated
+NULL
