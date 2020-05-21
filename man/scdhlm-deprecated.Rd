@@ -4,12 +4,10 @@
 \alias{scdhlm-deprecated}
 \title{Deprecated functions in scdhlm}
 \description{
-These functions still work but will be removed (defunct) in the next version.
+This function still works but maybe removed in a later version of the package.
 }
 \details{
 \itemize{
- \item \code{\link{extract_varcomp}}: `scdhlm::extract_varcomp()` will be updated with the `lmeInfo::extract_varcomp()` in the next version.
- \item \code{\link{Info_Expected_lmeAR1}}: This function is deprecated, and will be removed in the next version of this package.
- \item \code{\link{g_REML}}: This function is deprecated, and will be removed in the next version of this package.
+ \item \code{\g_REML}: This function is deprecated and may be removed in a later version of the package.
 }
 }
