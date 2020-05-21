@@ -111,7 +111,7 @@ summarize_ES <- function(res, filter_vars, filter_vals,
     )
   }
   
-  CI <- CI_g(res, cover = coverage / 100L, symmetric = FALSE)
+  CI <- CI_g(res, cover = coverage / 100L)
   
   ES_summary$CI_L <- CI[1]
   ES_summary$CI_U <- CI[2]
