@@ -8,6 +8,8 @@
 \item{g}{an estimated effect size object of class \code{g_REML}, class
 \code{g_HPS}, or class \code{g_mlm}.}
 
+\item{cover}{confidence level}
+
 \item{bound}{numerical tolerance for non-centrality parameter in
 \code{\link[stats]{qt}}.}
 
@@ -30,7 +32,10 @@ Laski_RML <- lme(fixed = outcome ~ treatment,
                  random = ~ 1 | case,
                  correlation = corAR1(0, ~ time | case),
                  data = Laski)
-Laski_g_REML <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel = FALSE)
+Laski_g_REML <- suppressWarnings(
+  g_REML(Laski_RML, p_const = c(0,1), 
+         r_const = c(1,0,1), returnModel = FALSE)
+)
 CI_g(Laski_g_REML, symmetric = TRUE)
 CI_g(Laski_g_REML, symmetric = FALSE)
 

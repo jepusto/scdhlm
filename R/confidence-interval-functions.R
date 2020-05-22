@@ -22,7 +22,7 @@ CI_SMD <- function(delta, kappa, nu, cover = 0.95, bound = 35) {
 coverage <- function(delta, CI) CI[1,] < delta & CI[2,] > delta
 
 
-
+#' @method CI_g g_REML
 #' @export
 
 CI_g.g_REML <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
@@ -46,6 +46,7 @@ CI_g.g_REML <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
   
 }
 
+#' @method CI_g g_HPS
 #' @export
 
 CI_g.g_HPS <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
