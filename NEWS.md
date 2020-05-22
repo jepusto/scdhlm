@@ -1,3 +1,17 @@
+# scdhlm 0.4.2
+
+* Imported `g_mlm()` from `lmeInfo`.
+
+* Updated vignette using `g_mlm()`.
+
+* Updated README using `g_mlm()`.
+
+* Updated shiny app using `g_mlm()`.
+
+* Imported `extract_varcomp()` from `lmeInfo`. This function extracts variance components from a fitted `lme` model, which can then be used for `g_mlm()`.
+
+* Updated `CI_g()` to allow calculating symmetric and asymmetric confidence intervals for `g_HPS` objects, `g_REML` objects, and `g_mlm()` objects. Note that symmetric confidence interval is the default.
+
 # scdhlm 0.3.2
 
 * Updated HPS estimation functions to work with datasets (issue #2 from austinj).

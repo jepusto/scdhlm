@@ -1,3 +1,4 @@
+
 ##------------------------------------------------------------------------------
 ## Create AR(1) correlation and inverse correlation matrices
 ##------------------------------------------------------------------------------
@@ -139,11 +140,12 @@ dV_dTau_unstruct <- function(block, Z_design) {
 ## extract variance components
 ##------------------------------------------------------------------------------
 
-extract_varcomp <- function(m_fit) {
+extract_varcomp_lmeAR1 <- function(m_fit) {
+
   sigma_sq <- m_fit$sigma^2                                         # sigma^2
   phi <- as.double(coef(m_fit$modelStruct$corStruct, FALSE))        # phi
   Tau_coef <- coef(m_fit$modelStruct$reStruct, FALSE) * sigma_sq    # unique coefficients in Tau
-  
+
   varcomp <- list(sigma_sq=sigma_sq, phi=phi, Tau = Tau_coef)
   class(varcomp) <- "varcomp"
   return(varcomp)
@@ -194,15 +196,16 @@ Info_Expected <- function(theta, X_design, Z_design, block, times=NULL) {
 #'                  data = Laski)
 #' Info_Expected_lmeAR1(Laski_RML)
 
+
 Info_Expected_lmeAR1 <- function(m_fit) {
-  theta <- extract_varcomp(m_fit)
+  
+  theta <- extract_varcomp_lmeAR1(m_fit)
   X_design <- model.matrix(m_fit, data = m_fit$data)
   Z_design <- model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data)
   block <- nlme::getGroups(m_fit)
   times <- attr(m_fit$modelStruct$corStruct, "covariate")
   Info_Expected(theta=theta, X_design=X_design, Z_design=Z_design, block=block, times=times)
 }
-
 
 
 ## estimate adjusted REML effect size (with associated estimates) for multiple baseline design ####
@@ -272,10 +275,12 @@ g_REML <- function(m_fit, p_const, r_const,
                    Z_design = model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data), 
                    block = nlme::getGroups(m_fit),
                    times = attr(m_fit$modelStruct$corStruct, "covariate"), returnModel=TRUE) {
+  
+  .Deprecated("g_mlm", msg = "'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.")
 
   # basic model estimates
   p_beta <- sum(nlme::fixed.effects(m_fit) * p_const)               # p'Beta
-  theta <- extract_varcomp(m_fit)                                   # full theta vector
+  theta <- extract_varcomp_lmeAR1(m_fit)                                # full theta vector
   r_theta <- sum(unlist(theta) * r_const)                           # r'theta
   delta_AB <- p_beta / sqrt(r_theta)                                # delta_AB              
   kappa_sq <- as.numeric(t(p_const) %*% vcov(m_fit) %*% p_const) / r_theta    # kappa^2
@@ -304,17 +309,41 @@ g_REML <- function(m_fit, p_const, r_const,
   return(res)
 }
 
-
-#' @export
-#'
-
-summary.g_REML <- function(object, ...) {
-  varcomp <- with(object, cbind(est = c(sigma_sq = sigma_sq, phi = phi, Tau, r_theta = r_theta),
-                                se = c(sqrt(diag(I_E_inv)), r_theta * sqrt(2 / nu))))
-  betas <- with(object, cbind(est = c(coefficients$fixed, p_beta = p_beta),
-                            se = c(sqrt(diag(varFix)), kappa * sqrt(r_theta))))
-  ES <- with(object, cbind(est = c(unadjusted = delta_AB, adjusted = g_AB, df = nu, kappa = kappa, logLik=logLik),
-                               se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA, NA, NA)))
+summary.g_REML <- function(object, digits = 3, ...) {
   
-  round(rbind(varcomp, betas, ES),2)
+  if (is.null(object$modelStruct)) {
+    
+    stop("'summary()' method only available when setting 'returnModel = TRUE` in `g_REML()`.")
+    
+  }   
+  
+  varcomp <- with(object, cbind(est = c(sigma_sq = sigma_sq, phi = phi, Tau, "total variance" = r_theta),
+                                se = c(sqrt(diag(I_E_inv)), r_theta * sqrt(2 / nu))))
+  betas <- with(object, cbind(est = c(coefficients$fixed, "treatment effect at a specified time" = p_beta),
+                              se = c(sqrt(diag(varFix)), kappa * sqrt(r_theta))))
+  ES <- with(object, cbind(est = c("unadjusted effect size" = delta_AB, "adjusted effect size" = g_AB,
+                                   "degree of freedom" = nu, kappa = kappa, logLik=logLik),
+                           se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA, NA, NA)))
+
+  print(round(rbind(varcomp, betas, ES), digits), na.print = "")
+
 }
+
+print.g_REML <- function(x, digits = 3, ...) {
+  ES <- with(x, cbind(est = c("unadjusted effect size" = delta_AB,
+                              "adjusted effect size" = g_AB,
+                              "degree of freedom" = nu),
+                      se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA)))
+  print(round(ES, digits), na.print = "")
+}
+
+#' Deprecated functions in scdhlm
+#'
+#' This function still works but maybe removed in a later version of the package.
+#'
+#' \itemize{
+#'  \item \code{g_REML}: This function is deprecated and may be removed in a later version of the package.
+#' }
+#'
+#' @name scdhlm-deprecated
+NULL

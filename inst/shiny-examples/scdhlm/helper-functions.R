@@ -100,10 +100,11 @@ summarize_ES <- function(res, filter_vars, filter_vals,
 
   if (method=="RML") {
     ES_summary <- data.frame(
-      ES = res$g_AB,
-      SE = sqrt(res$V_g_AB)
+      ES = as.numeric(res$g_AB),
+      SE = as.numeric(res$SE_g_AB)
     )
-    res$rho <- with(res, Tau[1] / (Tau[1] + sigma_sq))
+    res$rho <- with(res, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
+    res$phi <- res$theta$cor_params
   } else {
     ES_summary <- data.frame(
       ES = res$delta_hat,
