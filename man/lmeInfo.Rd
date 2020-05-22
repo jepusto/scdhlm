@@ -5,6 +5,7 @@
 \alias{extract_varcomp}
 \alias{varcomp_vcov}
 \alias{g_mlm}
+\alias{CI_g}
 \title{lmeInfo}
 \description{
 Functions imported from the lmeInfo package.
@@ -13,5 +14,6 @@ Functions imported from the lmeInfo package.
 \item \code{\link[lmeInfo]{extract_varcomp}}
 \item \code{\link[lmeInfo]{g_mlm}}
 \item \code{\link[lmeInfo]{varcomp_vcov}}
+\item \code{\link[lmeInfo]{CI_g}}
 }
 }

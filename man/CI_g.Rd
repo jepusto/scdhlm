@@ -2,10 +2,11 @@
 % Please edit documentation in R/confidence-interval-functions.R
 \name{CI_g}
 \alias{CI_g}
+\alias{CI_g.g_REML}
 \title{Calculates a confidence interval for a standardized mean difference
   effect size}
 \usage{
-CI_g(g, cover = 0.95, bound = 35, symmetric = TRUE)
+\method{CI_g}{g_REML}(g, cover = 0.95, bound = 35, symmetric = TRUE)
 }
 \arguments{
 \item{g}{an estimated effect size object of class \code{g_REML}, class
