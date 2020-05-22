@@ -315,20 +315,18 @@ summary.g_REML <- function(object, digits = 3, ...) {
     
     stop("'summary()' method only available when setting 'returnModel = TRUE` in `g_REML()`.")
     
-  } else {
-    
-    varcomp <- with(object, cbind(est = c(sigma_sq = sigma_sq, phi = phi, Tau, "total variance" = r_theta),
-                                  se = c(sqrt(diag(I_E_inv)), r_theta * sqrt(2 / nu))))
-    betas <- with(object, cbind(est = c(coefficients$fixed, "treatment effect at a specified time" = p_beta),
-                                se = c(sqrt(diag(varFix)), kappa * sqrt(r_theta))))
-    ES <- with(object, cbind(est = c("unadjusted effect size" = delta_AB, "adjusted effect size" = g_AB,
-                                     "degree of freedom" = nu, kappa = kappa, logLik=logLik),
-                             se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA, NA, NA)))
-    
-    print(round(rbind(varcomp, betas, ES), digits), na.print = "")
-    
-  }
+  }   
   
+  varcomp <- with(object, cbind(est = c(sigma_sq = sigma_sq, phi = phi, Tau, "total variance" = r_theta),
+                                se = c(sqrt(diag(I_E_inv)), r_theta * sqrt(2 / nu))))
+  betas <- with(object, cbind(est = c(coefficients$fixed, "treatment effect at a specified time" = p_beta),
+                              se = c(sqrt(diag(varFix)), kappa * sqrt(r_theta))))
+  ES <- with(object, cbind(est = c("unadjusted effect size" = delta_AB, "adjusted effect size" = g_AB,
+                                   "degree of freedom" = nu, kappa = kappa, logLik=logLik),
+                           se = c(sqrt(V_g_AB) / J(nu), sqrt(V_g_AB), NA, NA, NA)))
+
+  print(round(rbind(varcomp, betas, ES), digits), na.print = "")
+
 }
 
 print.g_REML <- function(x, digits = 3, ...) {
