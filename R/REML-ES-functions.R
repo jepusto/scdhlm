@@ -367,7 +367,7 @@ print.g_REML <- function(x, digits = 3, ...) {
 #' This function still works but maybe removed in a later version of the package.
 #'
 #' \itemize{
-#'  \item \code{\g_REML}: This function is deprecated and may be removed in a later version of the package.
+#'  \item \code{g_REML}: This function is deprecated and may be removed in a later version of the package.
 #' }
 #'
 #' @name scdhlm-deprecated

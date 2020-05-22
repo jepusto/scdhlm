@@ -8,6 +8,6 @@ This function still works but maybe removed in a later version of the package.
 }
 \details{
 \itemize{
- \item \code{\g_REML}: This function is deprecated and may be removed in a later version of the package.
+ \item \code{g_REML}: This function is deprecated and may be removed in a later version of the package.
 }
 }
