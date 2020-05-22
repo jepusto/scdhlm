@@ -104,11 +104,13 @@ summarize_ES <- function(res, filter_vars, filter_vals,
       SE = as.numeric(res$SE_g_AB)
     )
     res$rho <- with(res, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
+    res$phi <- res$theta$cor_params
   } else {
     ES_summary <- data.frame(
       ES = res$delta_hat,
       SE = sqrt(res$V_delta_hat)
     )
+    res$phi <- res$phi
   }
   
   CI <- CI_g(res, cover = coverage / 100L)
@@ -116,7 +118,7 @@ summarize_ES <- function(res, filter_vars, filter_vals,
   ES_summary$CI_L <- CI[1]
   ES_summary$CI_U <- CI[2]
   ES_summary$df <- res$nu
-  ES_summary$phi <- res$theta$cor_params
+  ES_summary$phi <- res$phi
   ES_summary$rho <- res$rho
   ES_summary$design <- names(design_names[which(design_names==design)])
   ES_summary$method <- names(estimation_names[which(estimation_names==method)])

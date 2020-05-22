@@ -61,7 +61,7 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, phi_init = 0.01, .
   E <- NULL
   RML_fit <- withCallingHandlers(
     tryCatch(lme(fixed = fixed, random = random,
-                 correlation = corAR1(phi_init, ~ session),
+                 correlation = corAR1(phi_init, ~ session | case),
                  data = dat, 
                  control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
              error = function(e) E <<- e),
@@ -87,6 +87,8 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B,
   fixed <- m_fit$fixed
   random <- m_fit$random
   mod <- m_fit$fit
+  mod$call$fixed <- fixed
+  mod$call$random <- random
   p_const <- c(rep(0L, length(FE_base)), (B - A - 1)^as.integer(FE_trt))
   r_dim <- length(RE_base) + length(RE_trt)
   r_const <- c(as.integer(0 %in% RE_base),
@@ -97,7 +99,7 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B,
   
   # X_design <- model.matrix(fixed, data = droplevels(mod$data))
   # Z_design <- model.matrix(mod$modelStruct$reStruct, data = droplevels(mod$data))
-  X <- model.matrix(mod, data = nlme::getData(mod))
+  # X <- stats::model.matrix(mod, data = nlme::getData(mod))
   g_mlm(mod, p_const = p_const, r_const = r_const, infotype = "expected", returnModel = TRUE)
   
 }
