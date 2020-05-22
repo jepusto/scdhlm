@@ -110,7 +110,6 @@ summarize_ES <- function(res, filter_vars, filter_vals,
       ES = res$delta_hat,
       SE = sqrt(res$V_delta_hat)
     )
-    res$phi <- res$phi
   }
   
   CI <- CI_g(res, cover = coverage / 100L)
