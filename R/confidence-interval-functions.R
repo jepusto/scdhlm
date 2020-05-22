@@ -111,27 +111,3 @@ CI_g.g_HPS <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
   }
   
 }
-
-#' @method CI_g g_mlm
-#' @export
-
-CI_g.g_mlm <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
-  delta <- g$delta_AB
-  g_AB <- g$g_AB
-  SE_g_AB <- g$SE_g_AB
-  kappa <- g$kappa
-  nu <- g$nu
-  J_nu <- 1 - 3 / (4 * nu - 1)
-  V_delta <- kappa^2 * nu / (nu - 2) + delta^2 * (nu / (nu - 2) - 1 / J_nu^2)
-
-  if (symmetric) {
-
-    suppressWarnings(g_AB + c(-1, 1) * stats::qt(1 - (1 - cover) / 2, df = nu) * SE_g_AB)
-
-  } else {
-
-    CI_SMD_single(delta = delta, kappa = kappa, nu = nu,
-                  V_delta = V_delta, cover = cover, bound = bound)
-  }
-
-}
