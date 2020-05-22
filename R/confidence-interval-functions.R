@@ -63,9 +63,8 @@ coverage <- function(delta, CI) CI[1,] < delta & CI[2,] > delta
 #' CI_g(Laski_g_mlm, symmetric = FALSE)
 #' 
 
-
-CI_g <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) UseMethod("CI_g")
-
+#' @name CI_g
+#' @method CI_g g_REML
 #' @export
 
 CI_g.g_REML <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
@@ -89,6 +88,7 @@ CI_g.g_REML <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
   
 }
 
+#' @method CI_g g_HPS
 #' @export
 
 CI_g.g_HPS <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
@@ -112,6 +112,7 @@ CI_g.g_HPS <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
   
 }
 
+#' @method CI_g g_mlm
 #' @export
 
 CI_g.g_mlm <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
@@ -122,15 +123,15 @@ CI_g.g_mlm <- function(g, cover = 0.95, bound = 35, symmetric = TRUE) {
   nu <- g$nu
   J_nu <- 1 - 3 / (4 * nu - 1)
   V_delta <- kappa^2 * nu / (nu - 2) + delta^2 * (nu / (nu - 2) - 1 / J_nu^2)
-  
+
   if (symmetric) {
-    
+
     suppressWarnings(g_AB + c(-1, 1) * stats::qt(1 - (1 - cover) / 2, df = nu) * SE_g_AB)
-    
+
   } else {
-    
+
     CI_SMD_single(delta = delta, kappa = kappa, nu = nu,
                   V_delta = V_delta, cover = cover, bound = bound)
   }
-  
+
 }
