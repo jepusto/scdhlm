@@ -94,9 +94,10 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B,
                rep(0, length(mod$modelStruct$corStruct)), 
                rep(0, length(mod$modelStruct$varStruct)), 
                1L)
-  X_design <- model.matrix(fixed, data = droplevels(mod$data))
-  Z_design <- model.matrix(mod$modelStruct$reStruct, data = droplevels(mod$data))
   
+  # X_design <- model.matrix(fixed, data = droplevels(mod$data))
+  # Z_design <- model.matrix(mod$modelStruct$reStruct, data = droplevels(mod$data))
+  X <- model.matrix(mod, data = nlme::getData(mod))
   g_mlm(mod, p_const = p_const, r_const = r_const, infotype = "expected", returnModel = TRUE)
   
 }
