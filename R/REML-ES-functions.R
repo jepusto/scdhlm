@@ -140,30 +140,7 @@ dV_dTau_unstruct <- function(block, Z_design) {
 ## extract variance components
 ##------------------------------------------------------------------------------
 
-#' @title Extract estimated variance components
-#'
-#' @description Extracts the estimated variance components from a fitted linear
-#'   mixed effects model (lmeStruct object).
-#'
-#' @param mod Fitted model of class lmeStruct.
-#'
-#' @export
-#'
-#' @return Object of class \code{varcomp} consisting of a list of estimated
-#'   variance components: level-1 error variance, auto-correlation, and random
-#'   effects variances.
-#'
-#' @examples
-#'
-#' library(nlme)
-#' Laski_RML <- lme(fixed = outcome ~ treatment,
-#'                  random = ~ 1 | case,
-#'                  correlation = corAR1(0, ~ time | case),
-#'                  data = Laski)
-#' extract_varcomp_ex(Laski_RML)
-#'
-
-extract_varcomp_ex <- function(m_fit) {
+extract_varcomp_lmeAR1 <- function(m_fit) {
 
   sigma_sq <- m_fit$sigma^2                                         # sigma^2
   phi <- as.double(coef(m_fit$modelStruct$corStruct, FALSE))        # phi
@@ -222,7 +199,7 @@ Info_Expected <- function(theta, X_design, Z_design, block, times=NULL) {
 
 Info_Expected_lmeAR1 <- function(m_fit) {
   
-  theta <- extract_varcomp_ex(m_fit)
+  theta <- extract_varcomp_lmeAR1(m_fit)
   X_design <- model.matrix(m_fit, data = m_fit$data)
   Z_design <- model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data)
   block <- nlme::getGroups(m_fit)
@@ -303,7 +280,7 @@ g_REML <- function(m_fit, p_const, r_const,
 
   # basic model estimates
   p_beta <- sum(nlme::fixed.effects(m_fit) * p_const)               # p'Beta
-  theta <- extract_varcomp_ex(m_fit)                                # full theta vector
+  theta <- extract_varcomp_lmeAR1(m_fit)                                # full theta vector
   r_theta <- sum(unlist(theta) * r_const)                           # r'theta
   delta_AB <- p_beta / sqrt(r_theta)                                # delta_AB              
   kappa_sq <- as.numeric(t(p_const) %*% vcov(m_fit) %*% p_const) / r_theta    # kappa^2

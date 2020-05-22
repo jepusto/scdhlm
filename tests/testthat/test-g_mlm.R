@@ -24,7 +24,7 @@ test_that("g_mlm() is imported appropriately.", {
   expect_warning(g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE))
   expect_equal(varcomp_vcov(Laski_RML1)[1, 1], 20214.7623585, tol = 1e-7)
   
-  varcomp_ex <- extract_varcomp_ex(Laski_RML1) # extract varcomp using old function in scdhlm
+  varcomp_ex <- extract_varcomp_lmeAR1(Laski_RML1) # extract varcomp using old function in scdhlm
   varcomp <- extract_varcomp(Laski_RML1) # extract varcomp using new function in lmeInfo
   expect_equal(varcomp_ex$sigma_sq, varcomp$sigma_sq)
   expect_equal(varcomp_ex$phi, varcomp$cor_params)

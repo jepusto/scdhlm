@@ -8,7 +8,7 @@
 
 * Updated shiny app using `g_mlm()`.
 
-* Renamed `scdhlm::extract_varcomp()` to `extract_varcomp_ex()` which extracts variance components to be used for `g_REML()`. Imported `lmeInfo::extract_varcomp()` so that `extract_varcomp()` extracts variance components that can be used for `g_mlm()`.
+* Imported `extract_varcomp()` from `lmeInfo`. This function extracts variance components from a fitted `lme` model, which can then be used for `g_mlm()`.
 
 * Updated `CI_g()` to allow calculating symmetric and asymmetric confidence intervals for `g_HPS` objects, `g_REML` objects, and `g_mlm()` objects. Note that symmetric confidence interval is the default.
 
