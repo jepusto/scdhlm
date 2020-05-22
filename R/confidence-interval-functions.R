@@ -63,7 +63,7 @@ coverage <- function(delta, CI) CI[1,] < delta & CI[2,] > delta
 #' CI_g(Laski_g_mlm, symmetric = FALSE)
 #' 
 
-#' @name CI_g
+#' @name ci_g
 #' @method CI_g g_REML
 #' @export
 
