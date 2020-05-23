@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Approximate confidence interval for BC-SMD effect size estimates — CI_g • scdhlm</title>
+<title>Calculates a confidence interval for a standardized mean difference
+  effect size — CI_g • scdhlm</title>
 
 
 <!-- jquery -->
@@ -39,9 +40,12 @@
 
 
 
-<meta property="og:title" content="Approximate confidence interval for BC-SMD effect size estimates — CI_g" />
-<meta property="og:description" content="Calculates an approximate confidence interval given a g_REML or g_HPS
-object, based on a non-central t approximation." />
+<meta property="og:title" content="Calculates a confidence interval for a standardized mean difference
+  effect size — CI_g" />
+<meta property="og:description" content="Calculates a confidence interval given a g_REML, a
+  g_HPS, or a g_mlm object using either a central t
+  distribution (for a symmetric interval) or a non-central t distribution
+  (for an asymmetric interval)." />
 
 
 
@@ -73,7 +77,7 @@ object, based on a non-central t approximation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
       </span>
     </div>
 
@@ -124,24 +128,27 @@ object, based on a non-central t approximation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Approximate confidence interval for BC-SMD effect size estimates</h1>
+    <h1>Calculates a confidence interval for a standardized mean difference
+  effect size</h1>
     
     <div class="hidden name"><code>CI_g.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates an approximate confidence interval given a <code>g_REML</code> or <code>g_HPS</code>
-object, based on a non-central t approximation.</p>
+    <p>Calculates a confidence interval given a <code>g_REML</code>, a
+  <code>g_HPS</code>, or a <code>g_mlm</code> object using either a central t
+  distribution (for a symmetric interval) or a non-central t distribution
+  (for an asymmetric interval).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>CI_g</span>(<span class='no'>g</span>, <span class='kw'>cover</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>bound</span> <span class='kw'>=</span> <span class='fl'>35</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>g</th>
-      <td><p>an estimated effect size object of class <code>g_REML</code> or <code>g_HPS</code></p></td>
+      <td><p>an estimated effect size object of class <code>g_REML</code>, class
+<code>g_HPS</code>, or class <code>g_mlm</code>.</p></td>
     </tr>
     <tr>
       <th>cover</th>
@@ -149,7 +156,14 @@ object, based on a non-central t approximation.</p>
     </tr>
     <tr>
       <th>bound</th>
-      <td><p>numerical tolerance for non-centrality parameter in <code><a href='https://rdrr.io/r/stats/TDist.html'>qt</a></code>.</p></td>
+      <td><p>numerical tolerance for non-centrality parameter in
+<code><a href='https://rdrr.io/r/stats/TDist.html'>qt</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>symmetric</th>
+      <td><p>If <code>TRUE</code> (the default), use a symmetric confidence
+interval. If <code>FALSE</code>, use a non-central t approximation to obtain an
+asymmetric confidence interval.</p></td>
     </tr>
     </table>
 
@@ -163,11 +177,15 @@ object, based on a non-central t approximation.</p>
                  <span class='kw'>random</span> <span class='kw'>=</span> ~ <span class='fl'>1</span> <span class='kw'>|</span> <span class='no'>case</span>,
                  <span class='kw'>correlation</span> <span class='kw'>=</span> <span class='fu'>corAR1</span>(<span class='fl'>0</span>, ~ <span class='no'>time</span> <span class='kw'>|</span> <span class='no'>case</span>),
                  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Laski</span>)
-<span class='no'>Laski_g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='g_REML.html'>g_REML</a></span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>),
-                  <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>returnModel</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='fu'>CI_g</span>(<span class='no'>Laski_g</span>)</div><div class='output co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
+<span class='no'>Laski_g_REML</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span>(
+  <span class='fu'><a href='g_REML.html'>g_REML</a></span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>),
+         <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>returnModel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+)
+<span class='fu'>CI_g</span>(<span class='no'>Laski_g_REML</span>, <span class='kw'>symmetric</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] 0.8046224 2.0051521</div><div class='input'><span class='fu'>CI_g</span>(<span class='no'>Laski_g_REML</span>, <span class='kw'>symmetric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
 <span class='no'>Laski_HPS</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(<span class='no'>Laski</span>, <span class='fu'><a href='effect_size_MB.html'>effect_size_MB</a></span>(<span class='no'>outcome</span>, <span class='no'>treatment</span>, <span class='no'>case</span>, <span class='no'>time</span>))
-<span class='fu'>CI_g</span>(<span class='no'>Laski_HPS</span>)</div><div class='output co'>#&gt; [1] 0.8786207 2.0639828</div><div class='input'>
+<span class='fu'>CI_g</span>(<span class='no'>Laski_HPS</span>, <span class='kw'>symmetric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 0.8786207 2.0639828</div><div class='input'>
+<span class='no'>Laski_g_mlm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lmeInfo.html'>g_mlm</a></span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>returnModel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>CI_g</span>(<span class='no'>Laski_g_mlm</span>, <span class='kw'>symmetric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

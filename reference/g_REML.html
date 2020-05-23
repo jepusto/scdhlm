@@ -74,7 +74,7 @@ from a multiple baseline design, using adjusted REML method as described in Pust
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
       </span>
     </div>
 
@@ -244,7 +244,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt; -2.72642154 -0.69387388  0.01454473  0.69861200  2.14528141 
 #&gt; 
 #&gt; Number of Observations: 128
-#&gt; Number of Groups: 8 </div><div class='input'><span class='fu'>g_REML</span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>returnModel</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; $p_beta
+#&gt; Number of Groups: 8 </div><div class='input'><span class='fu'>g_REML</span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>returnModel</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; $p_beta
 #&gt; [1] 30.68366
 #&gt; 
 #&gt; $r_theta
@@ -335,24 +335,39 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt; -2.39183384 -0.38039239 -0.05394349  0.31227541  4.20104020 
 #&gt; 
 #&gt; Number of Observations: 145
-#&gt; Number of Groups: 13 </div><div class='input'><span class='no'>Schutte_g</span> <span class='kw'>&lt;-</span> <span class='fu'>g_REML</span>(<span class='no'>Schutte_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>7</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>Schutte_g</span>)</div><div class='output co'>#&gt;                                est    se
-#&gt; sigma_sq                     27.89  6.25
-#&gt; phi                           0.40  0.13
-#&gt; case.var((Intercept))       134.56 60.86
-#&gt; case.cov(week,(Intercept))   13.39  7.15
-#&gt; case.var(week)                2.03  1.05
-#&gt; r_theta                     162.45 60.73
-#&gt; (Intercept)                  51.05  4.41
-#&gt; week                          0.16  0.61
-#&gt; treatmenttreatment           -0.27  1.64
-#&gt; trt.week                     -1.41  0.64
-#&gt; p_beta                      -10.17  4.54
-#&gt; unadjusted                   -0.80  0.42
-#&gt; adjusted                     -0.76  0.40
-#&gt; df                           14.31    NA
-#&gt; kappa                         0.36    NA
-#&gt; logLik                     -456.31    NA</div></pre>
+#&gt; Number of Groups: 13 </div><div class='input'><span class='no'>Schutte_g</span> <span class='kw'>&lt;-</span> <span class='fu'>g_REML</span>(<span class='no'>Schutte_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>7</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>Schutte_g</span>)</div><div class='output co'>#&gt;              Length Class      Mode     
+#&gt; p_beta         1    -none-     numeric  
+#&gt; r_theta        1    -none-     numeric  
+#&gt; delta_AB       1    -none-     numeric  
+#&gt; nu             1    -none-     numeric  
+#&gt; kappa          1    -none-     numeric  
+#&gt; g_AB           1    -none-     numeric  
+#&gt; V_g_AB         1    -none-     numeric  
+#&gt; cnvg_warn      1    -none-     logical  
+#&gt; sigma_sq       1    -none-     numeric  
+#&gt; phi            1    -none-     numeric  
+#&gt; Tau            3    -none-     numeric  
+#&gt; I_E_inv       25    -none-     numeric  
+#&gt; p_const        4    -none-     numeric  
+#&gt; r_const        5    -none-     numeric  
+#&gt; modelStruct    2    lmeStruct  list     
+#&gt; dims           5    -none-     list     
+#&gt; contrasts      1    -none-     list     
+#&gt; coefficients   2    -none-     list     
+#&gt; varFix        16    -none-     numeric  
+#&gt; sigma          1    -none-     numeric  
+#&gt; apVar         25    -none-     numeric  
+#&gt; logLik         1    -none-     numeric  
+#&gt; numIter        0    -none-     NULL     
+#&gt; groups         1    data.frame list     
+#&gt; call           5    -none-     call     
+#&gt; terms          3    terms      call     
+#&gt; method         1    -none-     character
+#&gt; fitted       290    -none-     numeric  
+#&gt; residuals    290    -none-     numeric  
+#&gt; fixDF          2    -none-     list     
+#&gt; na.action      0    -none-     NULL     
+#&gt; data           5    data.frame list     </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

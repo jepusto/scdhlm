@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
 <div id="estimating-hierarchical-linear-models-for-single-case-designs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#estimating-hierarchical-linear-models-for-single-case-designs" class="anchor"></a>Estimating Hierarchical Linear Models for Single-Case Designs</h2>
-<p><code>scdhlm</code> provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from ABAB designs (or more general treatment reversal designs) and multiple baseline designs. Two estimation methods are available: moment estimation (Hedges, Pustejovsky, &amp; Shadish, 2012; 2013) and restricted maximum likelihood estimation (Pustejovsky, Hedges, &amp; Shadish, 2014). The package also includes an interactive web interface implemented using Shiny.</p>
+<p><code>scdhlm</code> provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from ABAB designs (or more general treatment reversal designs), multiple baseline designs, and multiple probe designs. Two estimation methods are available: moment estimation (Hedges, Pustejovsky, &amp; Shadish, 2012; 2013) and restricted maximum likelihood estimation (Pustejovsky, Hedges, &amp; Shadish, 2014). The package also includes an interactive web interface implemented using Shiny.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -113,7 +113,89 @@
 <div id="demonstration" class="section level2">
 <h2 class="hasAnchor">
 <a href="#demonstration" class="anchor"></a>Demonstration</h2>
-<p>Here we demonstrate how to use <code>scdhlm</code> to calculate design-comparable SMDs based on data from different single-case designs. We will first demonstrate the older, moment estimation methods, followed by the restricted maximum likelihood estimation method.</p>
+<p>Here we demonstrate how to use <code>scdhlm</code> to calculate design-comparable SMDs based on data from different single-case designs. We will first demonstrate the recommended approach, which uses restricted maximum likelihood (REML) estimation. We will then demonstrate the older, moment estimation methods. The moment estimation methods were the originally proposed approach (described in Hedges, Pustejovsky, &amp; Shadish, 2012, 2013). The package provides these methods for sake of completeness, but we no longer recommend them for general use.</p>
+<div id="estimating-smds-using-reml-with-g_mlm" class="section level3">
+<h3 class="hasAnchor">
+<a href="#estimating-smds-using-reml-with-g_mlm" class="anchor"></a>Estimating SMDs using REML with <code>g_mlm()</code>
+</h3>
+<p>Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included eight children. One child was measured separately with each parent; following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in our analysis.</p>
+<p>For this study, we will estimate a design-comparable SMD using restricted maximum likelihood (REML) methods, as described by Pustejovsky and colleagues (2014). This is a two-step process. The first step is to estimate a hierarchical linear model for the data, treated the measurements as nested within cases. We fit the model using <code><a href="https://rdrr.io/pkg/nlme/man/lme.html">nlme::lme()</a></code></p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">nlme</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">scdhlm</span>)
+<span class="co">#&gt; Loading required package: lmeInfo</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'scdhlm'</span>
+<span class="co">#&gt; The following object is masked from 'package:lmeInfo':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     CI_g</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Laski</span>)
+
+<span class="co"># Pustejovsky, Hedges, &amp; Shadish (2014)</span>
+<span class="no">Laski_RML</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span>(<span class="kw">fixed</span> <span class="kw">=</span> <span class="no">outcome</span> ~ <span class="no">treatment</span>,
+                 <span class="kw">random</span> <span class="kw">=</span> ~ <span class="fl">1</span> <span class="kw">|</span> <span class="no">case</span>,
+                 <span class="kw">correlation</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span>(<span class="fl">0</span>, ~ <span class="no">time</span> <span class="kw">|</span> <span class="no">case</span>),
+                 <span class="kw">data</span> <span class="kw">=</span> <span class="no">Laski</span>)
+<span class="no">Laski_RML</span>
+<span class="co">#&gt; Linear mixed-effects model fit by REML</span>
+<span class="co">#&gt;   Data: Laski </span>
+<span class="co">#&gt;   Log-restricted-likelihood: -519.1424</span>
+<span class="co">#&gt;   Fixed: outcome ~ treatment </span>
+<span class="co">#&gt;        (Intercept) treatmenttreatment </span>
+<span class="co">#&gt;           39.07612           30.68366 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Random effects:</span>
+<span class="co">#&gt;  Formula: ~1 | case</span>
+<span class="co">#&gt;         (Intercept) Residual</span>
+<span class="co">#&gt; StdDev:    15.68278  13.8842</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Correlation Structure: AR(1)</span>
+<span class="co">#&gt;  Formula: ~time | case </span>
+<span class="co">#&gt;  Parameter estimate(s):</span>
+<span class="co">#&gt;      Phi </span>
+<span class="co">#&gt; 0.252769 </span>
+<span class="co">#&gt; Number of Observations: 128</span>
+<span class="co">#&gt; Number of Groups: 8</span></pre></div>
+<p>The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. These estimated components will be used to calculate the effect size in next step.</p>
+<p>The sampling variance-covariance of variance component parameters of model <code>Laski_RML</code> can be estimated using <code><a href="reference/lmeInfo.html">varcomp_vcov()</a></code> in <code>scdhlm</code>. Setting <code>type = "expected"</code> will calculate the sampling variance-covariance of variance component parameters using the inverse expected Fisher information. Setting <code>type = "average"</code> will calculate the inverse of the average Fisher information matrix (Gilmour, Thompson, &amp; Cullis, 1995).</p>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="reference/lmeInfo.html">varcomp_vcov</a></span>(<span class="no">Laski_RML</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"expected"</span>)
+<span class="co">#&gt;                           Tau.case.var((Intercept))  cor_params    sigma_sq</span>
+<span class="co">#&gt; Tau.case.var((Intercept))             20214.7623585 -0.51521261 -132.123458</span>
+<span class="co">#&gt; cor_params                               -0.5152126  0.01002805    1.322354</span>
+<span class="co">#&gt; sigma_sq                               -132.1234582  1.32235408  798.919038</span></pre></div>
+<p>It returns the estimated sampling variance-covariance of the case-level intercept variance <code>Tau.case.var((Intercept))</code>, the first-order autocorrelation <code>cor_params</code>, and the within-case error variance <code>sigma_sq</code>.</p>
+<p>The second step in the process is to estimate a design-comparable SMD using <code><a href="reference/lmeInfo.html">scdhlm::g_mlm()</a></code>. The SMD parameter can be defined as the ratio of a linear combination of the fitted model’s fixed effect parameters over the square root of a linear combination of the model’s variance components. <code><a href="reference/lmeInfo.html">g_mlm()</a></code> takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. Note that <code>r_const</code> is a vector of 0s and 1s which specify whether to use the variance component parameters for calculating the effect size: random effects variances, correlation structure parameters, variance structure parameters, and level-1 error variance. The function calculates an effect size estimate by first substituting maximum likelihood or restricted maximum likelihood estimates in place of the corresponding parameters, then applying a small-sample correction. The small-sample correction and the standard error are based on approximating the distribution of the estimator by a t distribution, with degrees of freedom given by a Satterthwaite approximation (Pustejovsky, Hedges, &amp; Shadish, 2014). The <code><a href="reference/lmeInfo.html">g_mlm()</a></code> function includes an option allowing use of the expected or average form of the Fisher information matrix in the calculations.</p>
+<p>In this example, we use the treatment effect in the numerator of the effect size and the sum of the between-case and within-case variance components in the denominator of the effect size. The constants are therefore given by <code>p_const = c(0, 1)</code> and <code>r_const = c(1, 0, 1)</code>. The effect size estimated is calculated as:</p>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">Laski_ES_RML</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/lmeInfo.html">g_mlm</a></span>(<span class="no">Laski_RML</span>, <span class="kw">p_const</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>), <span class="kw">r_const</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>))
+
+<span class="no">Laski_ES_RML</span>
+<span class="co">#&gt;                           est    se</span>
+<span class="co">#&gt; unadjusted effect size  1.465 0.299</span>
+<span class="co">#&gt; adjusted effect size    1.405 0.286</span>
+<span class="co">#&gt; degree of freedom      18.552</span></pre></div>
+<p>The adjusted SMD effect size estimate is 1.405 with standard error of 0.286 and degree of freedom 18.6.</p>
+<p>A <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> method is included, which returns more detail about the model parameter estimates and effect size estimate when setting <code>returnModel = TRUE</code> (the default) in <code><a href="reference/lmeInfo.html">g_mlm()</a></code>:</p>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">Laski_ES_RML</span>)
+<span class="co">#&gt;                                           est      se</span>
+<span class="co">#&gt; Tau.case.case.var((Intercept))        245.950 142.179</span>
+<span class="co">#&gt; cor_params                              0.253   0.100</span>
+<span class="co">#&gt; sigma_sq                              192.771  28.265</span>
+<span class="co">#&gt; total variance                        438.721 144.047</span>
+<span class="co">#&gt; (Intercept)                            39.076   5.989</span>
+<span class="co">#&gt; treatmenttreatment                     30.684   2.996</span>
+<span class="co">#&gt; treatment effect at a specified time   30.684   2.996</span>
+<span class="co">#&gt; unadjusted effect size                  1.465   0.299</span>
+<span class="co">#&gt; adjusted effect size                    1.405   0.286</span>
+<span class="co">#&gt; degree of freedom                      18.552        </span>
+<span class="co">#&gt; constant kappa                          0.143        </span>
+<span class="co">#&gt; logLik                               -519.142</span></pre></div>
+<p>The <code><a href="reference/CI_g.html">CI_g()</a></code> calculates a symmetric confidence interval using a central t distribution (the default) or an asymmetric confidence interval using non-central t distribution (setting <code>symmetric = FALSE</code>).</p>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="reference/CI_g.html">CI_g</a></span>(<span class="no">Laski_ES_RML</span>)
+<span class="co">#&gt; [1] 0.8046224 2.0051521</span>
+
+<span class="fu"><a href="reference/CI_g.html">CI_g</a></span>(<span class="no">Laski_ES_RML</span>, <span class="kw">symmetric</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="co">#&gt; [1] 0.9143684 2.0046719</span></pre></div>
+<p>The symmetric confidence interval is <br><span class="math display">0.805, 2.005</span><br> and the asymmetric confidence interval is <br><span class="math display">0.914, 2.005</span><br>.</p>
+</div>
 <div id="estimating-smds-using-effect_size_abk" class="section level3">
 <h3 class="hasAnchor">
 <a href="#estimating-smds-using-effect_size_abk" class="anchor"></a>Estimating SMDs using <code>effect_size_ABk()</code>
@@ -127,9 +209,7 @@
 <li>a variable listing the session number.</li>
 </ul>
 <p>In the <code>Lambert</code> dataset, these variables are called respectively <code>outcome</code>, <code>treatment</code>, <code>case</code>, <code>phase</code>, and <code>time</code>. Given these inputs, the design-comparable SMD is calculated as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">nlme</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">scdhlm</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Lambert</span>)
+<div class="sourceCode" id="cb9"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Lambert</span>)
 
 <span class="no">Lambert_ES</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/effect_size_ABk.html">effect_size_ABk</a></span>(<span class="kw">outcome</span> <span class="kw">=</span> <span class="no">outcome</span>, <span class="kw">treatment</span> <span class="kw">=</span> <span class="no">treatment</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="no">case</span>,
                               <span class="kw">phase</span> <span class="kw">=</span> <span class="no">phase</span>, <span class="kw">time</span> <span class="kw">=</span> <span class="no">time</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Lambert</span>)
@@ -141,7 +221,7 @@
 <span class="co">#&gt; degree of freedom      164.492</span></pre></div>
 <p>The adjusted effect size estimate <code>delta_hat</code> is equal to -2.513; its variance <code>V_delta_hat</code> is equal to 0.041. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code><a href="https://rdrr.io/r/base/MathFun.html">sqrt(Lambert_ES$V_delta_hat)</a></code> = 0.201. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 164.5 in this example.</p>
 <p>A summary() method is included to return more detail about the model parameter estimates and effect size estimates:</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">Lambert_ES</span>)
+<div class="sourceCode" id="cb10"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">Lambert_ES</span>)
 <span class="co">#&gt;                                       est    se</span>
 <span class="co">#&gt; within-case variance                4.534      </span>
 <span class="co">#&gt; sample variance                     4.674      </span>
@@ -159,7 +239,7 @@
 </h3>
 <p>Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the intervention’s effect on measures of writing quality, sentence complexity, and use of target constructions.</p>
 <p>Design-comparable SMDs can be estimated based on these data using the <code><a href="reference/effect_size_MB.html">effect_size_MB()</a></code> function. The following code calculates a design-comparable SMD estimate for the measure of writing quality:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Saddler</span>)
+<div class="sourceCode" id="cb11"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Saddler</span>)
 
 <span class="no">Saddler_quality</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">Saddler</span>, <span class="no">measure</span><span class="kw">==</span><span class="st">"writing quality"</span>)
 <span class="no">quality_ES</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/effect_size_MB.html">effect_size_MB</a></span>(<span class="no">outcome</span>, <span class="no">treatment</span>, <span class="no">case</span>, <span class="no">time</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Saddler_quality</span>)
@@ -171,7 +251,7 @@
 <span class="co">#&gt; degree of freedom      8.918</span></pre></div>
 <p>The adjusted effect size estimate <code>delta_hat</code> is equal to 1.963, with sampling variance of <code>V_delta_hat</code> equal to 0.335 and a standard error of 0.579.</p>
 <p><code><a href="https://rdrr.io/r/base/summary.html">summary(quality_ES)</a></code> returns more detail about the model parameter estimates and effect size estimates:</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">quality_ES</span>)
+<div class="sourceCode" id="cb12"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">quality_ES</span>)
 <span class="co">#&gt;                                     est    se</span>
 <span class="co">#&gt; within-case variance              0.349      </span>
 <span class="co">#&gt; sample variance                   0.952      </span>
@@ -183,77 +263,11 @@
 <span class="co">#&gt; degree of freedom                 8.918      </span>
 <span class="co">#&gt; scalar constant                   0.201</span></pre></div>
 </div>
-<div id="estimating-smds-using-g_reml" class="section level3">
-<h3 class="hasAnchor">
-<a href="#estimating-smds-using-g_reml" class="anchor"></a>Estimating SMDs using <code>g_REML()</code>
-</h3>
-<p>Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included <span class="math inline"><em>m</em> = 8</span> children. One child was measured separately with each parent; following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in our analysis.</p>
-<p>For this study, we will estimate a design-comparable SMD using restricted maximum likelihood (REML) methods, as described by Pustejovsky and colleagues (2014). This is a two-step process. The first step is to estimate a hierarchical linear model for the data, treated the measurements as nested within cases. We fit the model using <code><a href="https://rdrr.io/pkg/nlme/man/lme.html">nlme::lme()</a></code></p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Laski</span>)
-
-<span class="co"># Pustejovsky, Hedges, &amp; Shadish (2014)</span>
-<span class="no">Laski_RML</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span>(<span class="kw">fixed</span> <span class="kw">=</span> <span class="no">outcome</span> ~ <span class="no">treatment</span>,
-                 <span class="kw">random</span> <span class="kw">=</span> ~ <span class="fl">1</span> <span class="kw">|</span> <span class="no">case</span>,
-                 <span class="kw">correlation</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span>(<span class="fl">0</span>, ~ <span class="no">time</span> <span class="kw">|</span> <span class="no">case</span>),
-                 <span class="kw">data</span> <span class="kw">=</span> <span class="no">Laski</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">Laski_RML</span>)
-<span class="co">#&gt; Linear mixed-effects model fit by REML</span>
-<span class="co">#&gt;  Data: Laski </span>
-<span class="co">#&gt;        AIC      BIC    logLik</span>
-<span class="co">#&gt;   1048.285 1062.466 -519.1424</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Random effects:</span>
-<span class="co">#&gt;  Formula: ~1 | case</span>
-<span class="co">#&gt;         (Intercept) Residual</span>
-<span class="co">#&gt; StdDev:    15.68278  13.8842</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Correlation Structure: AR(1)</span>
-<span class="co">#&gt;  Formula: ~time | case </span>
-<span class="co">#&gt;  Parameter estimate(s):</span>
-<span class="co">#&gt;      Phi </span>
-<span class="co">#&gt; 0.252769 </span>
-<span class="co">#&gt; Fixed effects: outcome ~ treatment </span>
-<span class="co">#&gt;                       Value Std.Error  DF   t-value p-value</span>
-<span class="co">#&gt; (Intercept)        39.07612  5.989138 119  6.524498       0</span>
-<span class="co">#&gt; treatmenttreatment 30.68366  2.995972 119 10.241637       0</span>
-<span class="co">#&gt;  Correlation: </span>
-<span class="co">#&gt;                    (Intr)</span>
-<span class="co">#&gt; treatmenttreatment -0.272</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Standardized Within-Group Residuals:</span>
-<span class="co">#&gt;         Min          Q1         Med          Q3         Max </span>
-<span class="co">#&gt; -2.72642154 -0.69387388  0.01454473  0.69861200  2.14528141 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Observations: 128</span>
-<span class="co">#&gt; Number of Groups: 8</span></pre></div>
-<p>The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. These estimated components will be used to calculate the effect size in next step.</p>
-<p>The second step in the process is to estimate a design-comparable SMD using <code><a href="reference/g_REML.html">scdhlm::g_REML()</a></code>. The SMD parameter can be defined as the ratio of a linear combination of the fitted model’s fixed effect parameters over the square root of a linear combination of the model’s variance components. <code><a href="reference/g_REML.html">g_REML()</a></code> takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. In this example, we use the treatment effect in the numerator of the effect size and the sum of the within-case and between-case variance components in the denominator of the effect size. The constants are therefore given by <code>p_const = c(0, 1)</code> and <code>r_const = c(1, 0, 1)</code>. The effect size estimated is calculated as:</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="no">Laski_ES_RML</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/g_REML.html">g_REML</a></span>(<span class="no">Laski_RML</span>, <span class="kw">p_const</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">r_const</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">returnModel</span><span class="kw">=</span><span class="fl">FALSE</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">Laski_ES_RML</span>)
-<span class="co">#&gt; List of 14</span>
-<span class="co">#&gt;  $ p_beta   : num 30.7</span>
-<span class="co">#&gt;  $ r_theta  : num 439</span>
-<span class="co">#&gt;  $ delta_AB : num 1.46</span>
-<span class="co">#&gt;  $ nu       : num 18.6</span>
-<span class="co">#&gt;  $ kappa    : num 0.143</span>
-<span class="co">#&gt;  $ g_AB     : num 1.4</span>
-<span class="co">#&gt;  $ V_g_AB   : num 0.082</span>
-<span class="co">#&gt;  $ cnvg_warn: logi FALSE</span>
-<span class="co">#&gt;  $ sigma_sq : num 193</span>
-<span class="co">#&gt;  $ phi      : num 0.253</span>
-<span class="co">#&gt;  $ Tau      : Named num 246</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr "case.var((Intercept))"</span>
-<span class="co">#&gt;  $ I_E_inv  : num [1:3, 1:3] 798.92 1.32 -132.12 1.32 0.01 ...</span>
-<span class="co">#&gt;  $ p_const  : num [1:2] 0 1</span>
-<span class="co">#&gt;  $ r_const  : num [1:3] 1 0 1</span>
-<span class="co">#&gt;  - attr(*, "class")= chr "g_REML"</span></pre></div>
-<p>The function returns a list containing the SMD effect size estimate (<code>g_AB</code> = 1.405), its variance (<code>V_g_AB</code> = 0.082), the estimated auto-correlation (<code>phi</code> = 0.253), estimated degrees of freedom (<code>nu</code> = 18.552), and several other pieces of auxiliary information.</p>
-</div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
+<p>Gilmour, A. R., Thompson, R., &amp; Cullis, B. R. (1995). Average information REML: An efficient algorithm for variance parameter estimation in linear mixed models. <em>Biometrics, 51</em>(4), 1440–1450. <a href="https://doi.org/10.2307/2533274" class="uri">https://doi.org/10.2307/2533274</a></p>
 <p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. <em>Research Synthesis Methods, 3</em>(3), 224-239. doi: <a href="http://doi.org/10.1002/jrsm.1052">10.1002/jrsm.1052</a></p>
 <p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. <em>Research Synthesis Methods, 4</em>(4), 324-341. doi: <a href="http://doi.org/10.1002/jrsm.1086">10.1002/jrsm.1086</a></p>
 <p>Lambert, M. C., Cartledge, G., Heward, W. L., &amp; Lo, Y. (2006). Effects of response cards on disruptive behavior and academic responding during math lessons by fourth-grade urban students. <em>Journal of Positive Behavior Interventions, 8</em>(2), 88-99. doi: <a href="https://doi.org/10.1177/10983007060080020701">10.1177/10983007060080020701</a></p>

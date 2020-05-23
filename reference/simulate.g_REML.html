@@ -73,7 +73,7 @@ specified standardized mean difference effect size. Suitable for parametric boot
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
       </span>
     </div>
 
@@ -173,49 +173,48 @@ of <code>g_REML</code>.</p>
                  <span class='kw'>random</span> <span class='kw'>=</span> ~ <span class='fl'>1</span> <span class='kw'>|</span> <span class='no'>case</span>,
                  <span class='kw'>correlation</span> <span class='kw'>=</span> <span class='fu'>corAR1</span>(<span class='fl'>0</span>, ~ <span class='no'>time</span> <span class='kw'>|</span> <span class='no'>case</span>),
                  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Laski</span>)
-<span class='no'>Laski_g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='g_REML.html'>g_REML</a></span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>))
-<span class='fu'><a href='https://rdrr.io/r/stats/simulate.html'>simulate</a></span>(<span class='no'>Laski_g</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt;      p_beta  r_theta delta_AB       nu     kappa     g_AB     V_g_AB cnvg_warn
-#&gt; 1  27.91413 231.3497 1.835226 62.84880 0.1895701 1.813238 0.06341412         0
-#&gt; 2  28.15247 296.5954 1.634686 25.33358 0.1643169 1.585809 0.08230502         0
-#&gt; 3  30.64176 409.4735 1.514261 21.74377 0.1467005 1.461423 0.07713932         0
-#&gt; 4  29.75714 245.7507 1.898208 55.00905 0.1918268 1.872210 0.07043851         0
-#&gt; 5  31.84569 335.0387 1.739815 45.06316 0.2156754 1.710697 0.08132863         0
-#&gt; 6  33.35475 582.5499 1.381946 12.37202 0.1070272 1.296444 0.09571079         0
-#&gt; 7  30.63356 447.5513 1.448025 19.51455 0.1448515 1.391651 0.07799927         0
-#&gt; 8  35.04613 372.0964 1.816822 18.14557 0.1427747 1.740679 0.11691106         0
-#&gt; 9  30.25815 311.5365 1.714304 26.03515 0.1687058 1.664441 0.08755666         0
-#&gt; 10 34.90246 444.8713 1.654775 20.99774 0.1613597 1.594957 0.09494129         0
-#&gt; 11 34.27794 466.9011 1.586362 17.72346 0.1415603 1.518272 0.09563437         0
-#&gt; 12 26.77094 311.4028 1.517058 31.47264 0.1743650 1.480617 0.06857358         0
-#&gt; 13 29.33925 344.0363 1.581783 25.81397 0.1586417 1.535376 0.07594670         0
-#&gt; 14 32.64121 302.3008 1.877356 25.43998 0.1449966 1.821460 0.09333472         0
-#&gt; 15 31.20308 669.5426 1.205892 12.48450 0.1040672 1.131968 0.07445804         0
-#&gt; 16 32.52040 471.8468 1.497116 16.37316 0.1224953 1.427474 0.08815018         0
-#&gt; 17 32.49222 379.6707 1.667538 19.84503 0.1389390 1.603713 0.09334951         0
-#&gt; 18 32.23549 381.3645 1.650685 18.38926 0.1442646 1.582434 0.09950001         0
-#&gt; 19 29.52360 362.1036 1.551504 19.20266 0.1423170 1.490107 0.08671952         0
-#&gt; 20 30.16129 425.2965 1.462527 20.60758 0.1783740 1.408646 0.08702612         0
-#&gt;    sigma_sq       phi Tau.case.var((Intercept))
-#&gt; 1  185.0289 0.2289391                  46.32084
-#&gt; 2  163.6675 0.2941168                 132.92787
-#&gt; 3  200.6828 0.2079621                 208.79073
-#&gt; 4  190.3177 0.2725999                  55.43304
-#&gt; 5  266.9007 0.4993066                  68.13801
-#&gt; 6  159.9492 0.1696390                 422.60064
-#&gt; 7  204.2868 0.2427341                 243.26454
-#&gt; 8  160.8784 0.2627152                 211.21800
-#&gt; 9  175.9915 0.3196734                 135.54493
-#&gt; 10 221.2342 0.3547933                 223.63709
-#&gt; 11 197.9187 0.2648256                 268.98239
-#&gt; 12 193.2323 0.2959159                 118.17044
-#&gt; 13 189.2403 0.2396875                 154.79602
-#&gt; 14 161.1661 0.1310832                 141.13470
-#&gt; 15 184.9494 0.1260723                 484.59323
-#&gt; 16 180.7021 0.1259603                 291.14468
-#&gt; 17 173.1997 0.1805498                 206.47101
-#&gt; 18 167.0143 0.2691638                 214.35029
-#&gt; 19 162.6503 0.2278041                 199.45333
-#&gt; 20 227.3609 0.5455989                 197.93561</div><div class='input'>
+<span class='no'>Laski_g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='g_REML.html'>g_REML</a></span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/simulate.html'>simulate</a></span>(<span class='no'>Laski_g</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt;      p_beta  r_theta delta_AB        nu     kappa     g_AB     V_g_AB cnvg_warn
+#&gt; 1  33.36864 441.6617 1.587792  15.95256 0.1434818 1.511954 0.10531371         0
+#&gt; 2  26.50308 420.9240 1.291798  17.21299 0.1342450 1.234682 0.06988757         0
+#&gt; 3  26.88072 319.3223 1.504272  20.55738 0.1545083 1.448715 0.08215943         0
+#&gt; 4  32.79179 588.8968 1.351280  15.02601 0.1312064 1.282692 0.08273204         0
+#&gt; 5  34.10034 286.3235 2.015256  29.24011 0.1571609 1.963119 0.09683592         0
+#&gt; 6  31.97919 227.1899 2.121646 101.15925 0.2152791 2.105877 0.06902499         0
+#&gt; 7  32.98463 476.7127 1.510717  16.07787 0.1418482 1.439132 0.09623741         0
+#&gt; 8  31.12981 339.4384 1.689647  23.12126 0.1303135 1.634240 0.08168500         0
+#&gt; 9  26.58612 262.0859 1.642226  28.66291 0.1762119 1.598878 0.08022966         0
+#&gt; 10 27.93117 403.0248 1.391308  23.90579 0.1786138 1.347197 0.07474652         0
+#&gt; 11 28.30483 372.4947 1.466562  21.95602 0.1595229 1.415889 0.07722327         0
+#&gt; 12 27.25688 282.4018 1.621968  48.18767 0.1976684 1.596592 0.06731346         0
+#&gt; 13 30.48443 492.3766 1.373818  20.63651 0.1608860 1.323277 0.07446729         0
+#&gt; 14 27.16876 563.2546 1.144768  11.78348 0.1090104 1.070326 0.07308657         0
+#&gt; 15 32.45888 376.6291 1.672540  23.48230 0.1578312 1.618546 0.08748937         0
+#&gt; 16 28.48125 562.9504 1.200395  12.75090 0.1193511 1.128376 0.07602629         0
+#&gt; 17 30.96545 311.8422 1.753517  36.74109 0.1768900 1.717477 0.07464334         0
+#&gt; 18 32.97416 384.6935 1.681188  16.45995 0.1313344 1.603403 0.10890859         0
+#&gt; 19 30.15666 432.9348 1.449345  17.84308 0.1407044 1.387559 0.08254901         0
+#&gt; 20 40.25750 362.3607 2.114834  32.40080 0.1796133 2.065500 0.10380276         0
+#&gt;    sigma_sq        phi Tau.case.var((Intercept))
+#&gt; 1  173.7922 0.35338389                267.869506
+#&gt; 2  171.7483 0.21191691                249.175756
+#&gt; 3  153.9810 0.30365748                165.341251
+#&gt; 4  212.6730 0.27128542                376.223746
+#&gt; 5  166.4919 0.18405179                119.831552
+#&gt; 6  220.8865 0.28480930                  6.303391
+#&gt; 7  187.7876 0.33086839                288.925133
+#&gt; 8  168.1539 0.03783893                171.284493
+#&gt; 9  157.3778 0.34385020                104.708094
+#&gt; 10 226.5455 0.44643935                176.479296
+#&gt; 11 188.8491 0.31587674                183.645615
+#&gt; 12 213.7139 0.34477217                 68.687819
+#&gt; 13 242.1841 0.35973262                250.192542
+#&gt; 14 145.1284 0.24450158                418.126143
+#&gt; 15 197.1357 0.27086806                179.493411
+#&gt; 16 165.7238 0.28334589                397.226602
+#&gt; 17 206.1835 0.26754187                105.658624
+#&gt; 18 150.4938 0.21054000                234.199680
+#&gt; 19 184.0600 0.25277861                248.874819
+#&gt; 20 230.2726 0.32723156                132.088074</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
