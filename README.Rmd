@@ -110,7 +110,7 @@ CI_g(Laski_ES_RML)
 CI_g(Laski_ES_RML, symmetric = FALSE)
 ```
 
-The symmetric confidence interval is [`r round(CI_g(Laski_ES_RML),3)`] and the asymmetric confidence interval is [`r round(CI_g(Laski_ES_RML, symmetric = FALSE),3)`].
+The symmetric confidence interval is `r paste0("[", round(CI_g(Laski_ES_RML),3)[1], ", ",  round(CI_g(Laski_ES_RML),3)[2], "]")` and the asymmetric confidence interval is `r paste0("[", round(CI_g(Laski_ES_RML, symmetric = FALSE),3)[1], ", ",  round(CI_g(Laski_ES_RML, symmetric = FALSE),3)[2], "]")`.
 
 ### Estimating SMDs using `effect_size_ABk()`
 

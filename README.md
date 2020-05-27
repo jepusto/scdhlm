@@ -85,12 +85,6 @@ the measurements as nested within cases. We fit the model using
 ``` r
 library(nlme)
 library(scdhlm)
-#> Loading required package: lmeInfo
-#> 
-#> Attaching package: 'scdhlm'
-#> The following object is masked from 'package:lmeInfo':
-#> 
-#>     CI_g
 data(Laski)
 
 # Pustejovsky, Hedges, & Shadish (2014)
@@ -126,26 +120,35 @@ deviations, auto-correlation, and (unstandardized) treatment effect
 estimate. These estimated components will be used to calculate the
 effect size in next step.
 
-The sampling variance-covariance of variance component parameters of
-model `Laski_RML` can be estimated using `varcomp_vcov()` in `scdhlm`.
-Setting `type = "expected"` will calculate the sampling
-variance-covariance of variance component parameters using the inverse
-expected Fisher information. Setting `type = "average"` will calculate
-the inverse of the average Fisher information matrix (Gilmour, Thompson,
-& Cullis, 1995).
+The estimated variance components from the fitted model can be obtained
+using `extract_varcomp()`:
 
 ``` r
-varcomp_vcov(Laski_RML, type = "expected")
-#>                           Tau.case.var((Intercept))  cor_params    sigma_sq
-#> Tau.case.var((Intercept))             20214.7623585 -0.51521261 -132.123458
-#> cor_params                               -0.5152126  0.01002805    1.322354
-#> sigma_sq                               -132.1234582  1.32235408  798.919038
+varcomp_Laski_RML <- extract_varcomp(Laski_RML)
+varcomp_Laski_RML
+#> $Tau
+#> $Tau$case
+#> case.var((Intercept)) 
+#>              245.9497 
+#> 
+#> 
+#> $cor_params
+#> [1] 0.252769
+#> 
+#> $var_params
+#> numeric(0)
+#> 
+#> $sigma_sq
+#> [1] 192.7711
+#> 
+#> attr(,"class")
+#> [1] "varcomp"
 ```
 
-It returns the estimated sampling variance-covariance of the case-level
-intercept variance `Tau.case.var((Intercept))`, the first-order
-autocorrelation `cor_params`, and the within-case error variance
-`sigma_sq`.
+The estimated between-case variance is 245.95, the estimated
+auto-correlation is 0.253, the estimated and the estimated within-case
+variance is 192.771. These estimated variance components will be used to
+calculate the effect size in next step.
 
 The second step in the process is to estimate a design-comparable SMD
 using `scdhlm::g_mlm()`. The SMD parameter can be defined as the ratio
