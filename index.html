@@ -6,12 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Estimating Hierarchical Linear Models for Single-Case Designs • scdhlm</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Estimating Hierarchical Linear Models for Single-Case Designs">
+<script src="pkgdown.js"></script><!-- docsearch --><script src="docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
+<link href="docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Estimating Hierarchical Linear Models for Single-Case Designs">
 <meta property="og:description" content="Provides a set of tools for estimating hierarchical linear
     models and effect sizes based on data from single-case designs. 
     Functions are provided for calculating standardized mean difference effect sizes that 
@@ -72,12 +74,18 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/jepusto/scdhlm/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
       </ul>
+<form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
+      </form>
+      
+    </div>
 <!--/.nav-collapse -->
   </div>
 <!--/.container -->
@@ -122,12 +130,6 @@
 <p>For this study, we will estimate a design-comparable SMD using restricted maximum likelihood (REML) methods, as described by Pustejovsky and colleagues (2014). This is a two-step process. The first step is to estimate a hierarchical linear model for the data, treated the measurements as nested within cases. We fit the model using <code><a href="https://rdrr.io/pkg/nlme/man/lme.html">nlme::lme()</a></code></p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">nlme</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">scdhlm</span>)
-<span class="co">#&gt; Loading required package: lmeInfo</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'scdhlm'</span>
-<span class="co">#&gt; The following object is masked from 'package:lmeInfo':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     CI_g</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Laski</span>)
 
 <span class="co"># Pustejovsky, Hedges, &amp; Shadish (2014)</span>
@@ -156,13 +158,27 @@
 <span class="co">#&gt; Number of Observations: 128</span>
 <span class="co">#&gt; Number of Groups: 8</span></pre></div>
 <p>The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. These estimated components will be used to calculate the effect size in next step.</p>
-<p>The sampling variance-covariance of variance component parameters of model <code>Laski_RML</code> can be estimated using <code><a href="reference/lmeInfo.html">varcomp_vcov()</a></code> in <code>scdhlm</code>. Setting <code>type = "expected"</code> will calculate the sampling variance-covariance of variance component parameters using the inverse expected Fisher information. Setting <code>type = "average"</code> will calculate the inverse of the average Fisher information matrix (Gilmour, Thompson, &amp; Cullis, 1995).</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="reference/lmeInfo.html">varcomp_vcov</a></span>(<span class="no">Laski_RML</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"expected"</span>)
-<span class="co">#&gt;                           Tau.case.var((Intercept))  cor_params    sigma_sq</span>
-<span class="co">#&gt; Tau.case.var((Intercept))             20214.7623585 -0.51521261 -132.123458</span>
-<span class="co">#&gt; cor_params                               -0.5152126  0.01002805    1.322354</span>
-<span class="co">#&gt; sigma_sq                               -132.1234582  1.32235408  798.919038</span></pre></div>
-<p>It returns the estimated sampling variance-covariance of the case-level intercept variance <code>Tau.case.var((Intercept))</code>, the first-order autocorrelation <code>cor_params</code>, and the within-case error variance <code>sigma_sq</code>.</p>
+<p>The estimated variance components from the fitted model can be obtained using <code><a href="reference/lmeInfo.html">extract_varcomp()</a></code>:</p>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">varcomp_Laski_RML</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/lmeInfo.html">extract_varcomp</a></span>(<span class="no">Laski_RML</span>)
+<span class="no">varcomp_Laski_RML</span>
+<span class="co">#&gt; $Tau</span>
+<span class="co">#&gt; $Tau$case</span>
+<span class="co">#&gt; case.var((Intercept)) </span>
+<span class="co">#&gt;              245.9497 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $cor_params</span>
+<span class="co">#&gt; [1] 0.252769</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $var_params</span>
+<span class="co">#&gt; numeric(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $sigma_sq</span>
+<span class="co">#&gt; [1] 192.7711</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; attr(,"class")</span>
+<span class="co">#&gt; [1] "varcomp"</span></pre></div>
+<p>The estimated between-case variance is 245.95, the estimated auto-correlation is 0.253, the estimated and the estimated within-case variance is 192.771. These estimated variance components will be used to calculate the effect size in next step.</p>
 <p>The second step in the process is to estimate a design-comparable SMD using <code><a href="reference/lmeInfo.html">scdhlm::g_mlm()</a></code>. The SMD parameter can be defined as the ratio of a linear combination of the fitted model’s fixed effect parameters over the square root of a linear combination of the model’s variance components. <code><a href="reference/lmeInfo.html">g_mlm()</a></code> takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. Note that <code>r_const</code> is a vector of 0s and 1s which specify whether to use the variance component parameters for calculating the effect size: random effects variances, correlation structure parameters, variance structure parameters, and level-1 error variance. The function calculates an effect size estimate by first substituting maximum likelihood or restricted maximum likelihood estimates in place of the corresponding parameters, then applying a small-sample correction. The small-sample correction and the standard error are based on approximating the distribution of the estimator by a t distribution, with degrees of freedom given by a Satterthwaite approximation (Pustejovsky, Hedges, &amp; Shadish, 2014). The <code><a href="reference/lmeInfo.html">g_mlm()</a></code> function includes an option allowing use of the expected or average form of the Fisher information matrix in the calculations.</p>
 <p>In this example, we use the treatment effect in the numerator of the effect size and the sum of the between-case and within-case variance components in the denominator of the effect size. The constants are therefore given by <code>p_const = c(0, 1)</code> and <code>r_const = c(1, 0, 1)</code>. The effect size estimated is calculated as:</p>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="no">Laski_ES_RML</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/lmeInfo.html">g_mlm</a></span>(<span class="no">Laski_RML</span>, <span class="kw">p_const</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>), <span class="kw">r_const</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>))
@@ -338,7 +354,20 @@
 </div>
 
   
-
-
-  </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
+  docsearch({
+    
+    
+    apiKey: '8b78ac1213f63fc369db7bf6b17c4bdd',
+    indexName: 'scdhlm',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+</body>
 </html>
