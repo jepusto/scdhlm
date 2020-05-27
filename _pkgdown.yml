@@ -1,5 +1,19 @@
 destination: docs
 
+template:
+  params:
+    bootswatch: cosmo
+    docsearch:
+      api_key: 8b78ac1213f63fc369db7bf6b17c4bdd
+      index_name: scdhlm
+
+url: https://jepusto.github.io/scdhlm/
+
+navbar:
+  right:
+   - icon: fa-github
+     href: https://github.com/jepusto/scdhlm/
+
 repo:
   url:
     home: https://github.com/jepusto/scdhlm/
@@ -25,6 +39,14 @@ reference:
     desc: "Function to launch shiny app"
     contents:
         - shine_scd
+  - title: "lmeInfo package"
+    desc: "Importing functions from lmeInfo package"
+    contents:
+        - lmeInfo
+  - title: "Deprecated function"
+    desc: "Function that might be removed in a later version of the package"
+    contents:
+        - scdhlm-deprecated      
   - title: "Example Datasets"
     desc: "Example datasets from single-case designs"
     contents:
