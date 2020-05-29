@@ -169,6 +169,10 @@ shinyServer(function(input, output, session) {
         dat <- dat[apply(subset_vals, 1, all),]
       } 
       trt_phase <- input$treatment
+      
+      # remove rows with missing outcome values
+      dat <- dat[!is.na(dat$outcome),]
+      
     }
     
     dat$trt <- as.numeric(dat$phase==trt_phase)
@@ -179,9 +183,8 @@ shinyServer(function(input, output, session) {
       dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
     }
     
-    # remove rows with missing outcome values
-    dat <- dat[!is.na(dat$outcome),]
     dat <- droplevels(dat)
+    
     return(dat)
   })
   
