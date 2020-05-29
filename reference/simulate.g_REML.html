@@ -185,48 +185,48 @@ of <code>g_REML</code>.</p>
                  <span class='kw'>random</span> <span class='kw'>=</span> ~ <span class='fl'>1</span> <span class='kw'>|</span> <span class='no'>case</span>,
                  <span class='kw'>correlation</span> <span class='kw'>=</span> <span class='fu'>corAR1</span>(<span class='fl'>0</span>, ~ <span class='no'>time</span> <span class='kw'>|</span> <span class='no'>case</span>),
                  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Laski</span>)
-<span class='no'>Laski_g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='g_REML.html'>g_REML</a></span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/simulate.html'>simulate</a></span>(<span class='no'>Laski_g</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt;      p_beta  r_theta  delta_AB       nu     kappa      g_AB     V_g_AB
-#&gt; 1  30.10466 560.8861 1.2711486 16.13924 0.1419436 1.2111481 0.07403278
-#&gt; 2  34.51208 405.0252 1.7148658 22.96885 0.1432792 1.6582542 0.08771365
-#&gt; 3  23.26256 426.4743 1.1264476 23.70745 0.1616144 1.0904319 0.05457047
-#&gt; 4  32.08192 388.3042 1.6280748 23.04801 0.1622138 1.5745150 0.08684109
-#&gt; 5  25.92576 199.4509 1.8357498 91.90385 0.2223510 1.8207279 0.06822877
-#&gt; 6  27.40297 460.0600 1.2775868 17.58099 0.1367233 1.2222991 0.06833248
-#&gt; 7  30.71095 260.0416 1.9044596 56.75734 0.2049586 1.8791824 0.07485626
-#&gt; 8  30.74676 278.8470 1.8412654 34.19651 0.1573294 1.8005853 0.07605851
-#&gt; 9  33.30434 386.2851 1.6945207 16.75146 0.1366613 1.6175038 0.11011125
-#&gt; 10 27.52027 770.0078 0.9917567 11.15761 0.1077266 0.9235642 0.06054481
-#&gt; 11 23.64306 284.9651 1.4005794 50.59203 0.1940640 1.3797135 0.05778704
-#&gt; 12 30.92916 516.2233 1.3612859 20.20236 0.1364773 1.3101157 0.06721493
-#&gt; 13 28.01441 171.1864 2.1411488 87.98262 0.1909614 2.1228448 0.06299791
-#&gt; 14 34.12242 671.9210 1.3163785 12.60783 0.1037085 1.2364871 0.08566300
-#&gt; 15 29.28871 636.2312 1.1611620 15.81506 0.1370060 1.1052116 0.06479230
-#&gt; 16 31.27389 680.2184 1.1991063 11.45350 0.1056006 1.1188341 0.08033455
-#&gt; 17 29.98624 398.6186 1.5019076 32.22614 0.1841798 1.4666804 0.07050146
-#&gt; 18 30.87921 442.2397 1.4683760 14.67557 0.1159917 1.3920336 0.09252630
-#&gt; 19 30.91273 498.9013 1.3839807 18.90388 0.1547194 1.3283362 0.07794384
-#&gt; 20 26.03049 446.2731 1.2322022 20.62289 0.1453387 1.1868404 0.06024181
-#&gt;    cnvg_warn sigma_sq       phi Tau.case.var((Intercept))
-#&gt; 1          0 221.6718 0.3291074                339.214314
-#&gt; 2          0 203.6859 0.1550518                201.339238
-#&gt; 3          0 226.3000 0.2990565                200.174328
-#&gt; 4          0 203.3907 0.3167490                184.913511
-#&gt; 5          0 192.5671 0.3466279                  6.883823
-#&gt; 6          0 191.7815 0.2234260                268.278494
-#&gt; 7          0 209.8320 0.3539027                 50.209577
-#&gt; 8          0 173.3165 0.1384959                105.530489
-#&gt; 9          0 155.0902 0.2518165                231.194836
-#&gt; 10         0 181.9385 0.2956818                588.069281
-#&gt; 11         0 216.6412 0.3074265                 68.323959
-#&gt; 12         0 237.2593 0.1497224                278.963996
-#&gt; 13         0 150.3339 0.1727468                 20.852489
-#&gt; 14         0 187.9417 0.1128215                483.979246
-#&gt; 15         0 243.9520 0.2934940                392.279182
-#&gt; 16         0 166.3997 0.2353924                513.818621
-#&gt; 17         0 255.9655 0.3650699                142.653107
-#&gt; 18         0 151.0632 0.1294306                291.176534
-#&gt; 19         0 228.7642 0.3517153                270.137046
-#&gt; 20         0 211.2423 0.2200148                235.030794</div><div class='input'>
+<span class='no'>Laski_g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='g_REML.html'>g_REML</a></span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/simulate.html'>simulate</a></span>(<span class='no'>Laski_g</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt;      p_beta  r_theta delta_AB       nu     kappa      g_AB     V_g_AB cnvg_warn
+#&gt; 1  36.18191 421.4381 1.762482 25.61474 0.1796226 1.7103676 0.09583985         0
+#&gt; 2  30.52067 431.0632 1.470021 22.85246 0.1491808 1.4212424 0.07206179         0
+#&gt; 3  28.50999 478.6313 1.303157 16.27419 0.1195516 1.2421632 0.07017705         0
+#&gt; 4  30.26784 266.7822 1.853118 26.18797 0.1547822 1.7995346 0.09239675         0
+#&gt; 5  27.09972 628.7620 1.080741 15.84209 0.1502666 1.0287560 0.06260894         0
+#&gt; 6  28.87735 415.5545 1.416587 17.46193 0.1346772 1.3548605 0.07944767         0
+#&gt; 7  26.24668 439.9391 1.251348 18.85256 0.1440957 1.2008974 0.06507721         0
+#&gt; 8  32.02866 638.3015 1.267727 15.34815 0.1344681 1.2047530 0.07456230         0
+#&gt; 9  31.66457 394.2488 1.594735 19.26853 0.1290093 1.5318460 0.08647073         0
+#&gt; 10 30.09088 369.5835 1.565231 33.85126 0.1823661 1.5302946 0.07096637         0
+#&gt; 11 27.15917 294.1642 1.583513 48.61776 0.1926280 1.5589586 0.06377869         0
+#&gt; 12 32.10400 419.8607 1.566775 20.15737 0.1549004 1.5077472 0.08849140         0
+#&gt; 13 34.01656 506.3589 1.511684 15.93698 0.1477474 1.4394103 0.09882500         0
+#&gt; 14 28.33014 343.9677 1.527530 21.01414 0.1534154 1.4723561 0.08223928         0
+#&gt; 15 31.25723 539.9590 1.345148 13.68992 0.1272234 1.2700837 0.08792693         0
+#&gt; 16 25.98564 424.5837 1.261106 22.20514 0.1580388 1.2180264 0.06296689         0
+#&gt; 17 30.74471 355.8128 1.629895 25.92566 0.1586256 1.5822850 0.07880325         0
+#&gt; 18 28.49965 404.5152 1.417007 17.31052 0.1433047 1.3547141 0.08253188         0
+#&gt; 19 27.83792 743.8938 1.020660 12.08173 0.1134923 0.9559619 0.06039109         0
+#&gt; 20 30.46350 452.4112 1.432231 14.42245 0.1299283 1.3564383 0.09369943         0
+#&gt;    sigma_sq        phi Tau.case.var((Intercept))
+#&gt; 1  244.4380 0.42065854                 177.00012
+#&gt; 2  218.4237 0.20821052                 212.63944
+#&gt; 3  181.4301 0.09985789                 297.20122
+#&gt; 4  146.7015 0.20247279                 120.08068
+#&gt; 5  252.5504 0.43207292                 376.21162
+#&gt; 6  171.6066 0.20775372                 243.94783
+#&gt; 7  195.9120 0.25389650                 244.02712
+#&gt; 8  236.9440 0.28921663                 401.35750
+#&gt; 9  173.3328 0.10275805                 220.91597
+#&gt; 10 240.3418 0.33413813                 129.24175
+#&gt; 11 220.3422 0.30718671                  73.82199
+#&gt; 12 200.3128 0.31740281                 219.54794
+#&gt; 13 202.1149 0.39919759                 304.24394
+#&gt; 14 167.5804 0.28294514                 176.38730
+#&gt; 15 176.1064 0.30492253                 363.85257
+#&gt; 16 215.7821 0.29752731                 208.80155
+#&gt; 17 196.1238 0.23792700                 159.68902
+#&gt; 18 169.2605 0.29584336                 235.25470
+#&gt; 19 201.0131 0.27089817                 542.88066
+#&gt; 20 156.6679 0.28976670                 295.74331</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
