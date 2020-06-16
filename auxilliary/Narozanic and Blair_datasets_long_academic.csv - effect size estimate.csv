@@ -1,0 +1,2 @@
+"BC-SMD estimate","Std. Error","95% CI (lower)","95% CI (upper)","Degrees of freedom","Auto-correlation","Intra-class correlation","Study design","Estimation method","Baseline specification","Treatment specification","Initial treatment time","Follow-up time"
+3.62103617742795,0.814814866552501,2.22366034864924,5.32169719623781,16.9273548822122,0.5154537709492,4.08121449865388e-09,"Multiple Baseline/Multiple Probe","Restricted Maximum Likelihood","F:0 R:0","F:0 R:",4,9
