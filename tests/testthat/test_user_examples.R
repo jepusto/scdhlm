@@ -2,7 +2,7 @@ library(nlme)
 
 test_that("scdhlm Works with Narozanic and Blair.", {
   
-  skip_on_cran()
+  skip(message = "Auxiliary dataset not included in package.")
   
   Naro <- read.csv("../../auxilliary/Narozanic and Blair_datasets_long_academic.csv", stringsAsFactors = FALSE)
   Naro$Session_int <- round(Naro$Session)
