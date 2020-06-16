@@ -148,15 +148,15 @@ from a multiple baseline design, using adjusted REML method as described in Pust
 &amp; Shadish (2014). Note that the data must contain one row per measurement occasion per case.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>g_REML</span>(
-  <span class='no'>m_fit</span>,
-  <span class='no'>p_const</span>,
-  <span class='no'>r_const</span>,
-  <span class='kw'>X_design</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='no'>m_fit</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>m_fit</span>$<span class='no'>data</span>),
-  <span class='kw'>Z_design</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='no'>m_fit</span>$<span class='no'>modelStruct</span>$<span class='no'>reStruct</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>m_fit</span>$<span class='no'>data</span>),
-  <span class='kw'>block</span> <span class='kw'>=</span> <span class='kw pkg'>nlme</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/nlme/man/getGroups.html'>getGroups</a></span>(<span class='no'>m_fit</span>),
-  <span class='kw'>times</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>m_fit</span>$<span class='no'>modelStruct</span>$<span class='no'>corStruct</span>, <span class='st'>"covariate"</span>),
-  <span class='kw'>returnModel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+    <pre class="usage"><span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/g_REML.html'>g_REML</a></span>(
+  <span class='kw'>m_fit</span>,
+  <span class='kw'>p_const</span>,
+  <span class='kw'>r_const</span>,
+  X_design = <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='kw'>m_fit</span>, data = <span class='kw'>m_fit</span><span class='op'>$</span><span class='kw'>data</span>),
+  Z_design = <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span>(<span class='kw'>m_fit</span><span class='op'>$</span><span class='kw'>modelStruct</span><span class='op'>$</span><span class='kw'>reStruct</span>, data = <span class='kw'>m_fit</span><span class='op'>$</span><span class='kw'>data</span>),
+  block = <span class='kw'>nlme</span>::<span class='fu'><a href='https://rdrr.io/pkg/nlme/man/getGroups.html'>getGroups</a></span>(<span class='kw'>m_fit</span>),
+  times = <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='kw'>m_fit</span><span class='op'>$</span><span class='kw'>modelStruct</span><span class='op'>$</span><span class='kw'>corStruct</span>, <span class='st'>"covariate"</span>),
+  returnModel = <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -223,12 +223,12 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi:<a href='http://doi.org/10.3102/1076998614547577'>10.3102/1076998614547577</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Laski</span>)
-<span class='no'>Laski_RML</span> <span class='kw'>&lt;-</span> <span class='fu'>lme</span>(<span class='kw'>fixed</span> <span class='kw'>=</span> <span class='no'>outcome</span> ~ <span class='no'>treatment</span>,
-                 <span class='kw'>random</span> <span class='kw'>=</span> ~ <span class='fl'>1</span> <span class='kw'>|</span> <span class='no'>case</span>,
-                 <span class='kw'>correlation</span> <span class='kw'>=</span> <span class='fu'>corAR1</span>(<span class='fl'>0</span>, ~ <span class='no'>time</span> <span class='kw'>|</span> <span class='no'>case</span>),
-                 <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Laski</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>Laski_RML</span>)</div><div class='output co'>#&gt; Linear mixed-effects model fit by REML
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Laski</span>)
+<span class='kw'>Laski_RML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/lme.html'>lme</a></span>(fixed = <span class='kw'>outcome</span> <span class='op'>~</span> <span class='kw'>treatment</span>, 
+                 random = <span class='op'>~</span> <span class='fl'>1</span> <span class='op'>|</span> <span class='kw'>case</span>, 
+                 correlation = <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span>(<span class='fl'>0</span>, <span class='op'>~</span> <span class='kw'>time</span> <span class='op'>|</span> <span class='kw'>case</span>), 
+                 data = <span class='kw'>Laski</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>Laski_RML</span>)</div><div class='output co'>#&gt; Linear mixed-effects model fit by REML
 #&gt;  Data: Laski 
 #&gt;        AIC      BIC    logLik
 #&gt;   1048.285 1062.466 -519.1424
@@ -256,7 +256,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt; -2.72642154 -0.69387388  0.01454473  0.69861200  2.14528141 
 #&gt; 
 #&gt; Number of Observations: 128
-#&gt; Number of Groups: 8 </div><div class='input'><span class='fu'>g_REML</span>(<span class='no'>Laski_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), <span class='kw'>returnModel</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; $p_beta
+#&gt; Number of Groups: 8 </div><div class='input'><span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/g_REML.html'>g_REML</a></span>(<span class='kw'>Laski_RML</span>, p_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), r_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), returnModel=<span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; $p_beta
 #&gt; [1] 30.68366
 #&gt; 
 #&gt; $r_theta
@@ -304,15 +304,15 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt; 
 #&gt; attr(,"class")
 #&gt; [1] "g_REML"</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Schutte</span>)
-<span class='no'>Schutte</span>$<span class='no'>trt.week</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(<span class='no'>Schutte</span>, <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span>((<span class='no'>treatment</span><span class='kw'>==</span><span class='st'>"treatment"</span>) * <span class='no'>week</span>,
-         <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>treatment</span>,<span class='no'>case</span>), <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> - <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='no'>x</span>))) + (<span class='no'>treatment</span><span class='kw'>==</span><span class='st'>"treatment"</span>))
-<span class='no'>Schutte</span>$<span class='no'>week</span> <span class='kw'>&lt;-</span> <span class='no'>Schutte</span>$<span class='no'>week</span> - <span class='fl'>9</span>
-<span class='no'>Schutte_RML</span> <span class='kw'>&lt;-</span> <span class='fu'>lme</span>(<span class='kw'>fixed</span> <span class='kw'>=</span> <span class='no'>fatigue</span> ~ <span class='no'>week</span> + <span class='no'>treatment</span> + <span class='no'>trt.week</span>,
-                   <span class='kw'>random</span> <span class='kw'>=</span> ~ <span class='no'>week</span> <span class='kw'>|</span> <span class='no'>case</span>,
-                   <span class='kw'>correlation</span> <span class='kw'>=</span> <span class='fu'>corAR1</span>(<span class='fl'>0</span>, ~ <span class='no'>week</span> <span class='kw'>|</span> <span class='no'>case</span>),
-                   <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span>(<span class='no'>Schutte</span>, <span class='no'>case</span> <span class='kw'>!=</span> <span class='fl'>4</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>Schutte_RML</span>)</div><div class='output co'>#&gt; Linear mixed-effects model fit by REML
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Schutte</span>)
+<span class='kw'>Schutte</span><span class='op'>$</span><span class='kw'>trt.week</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(<span class='kw'>Schutte</span>, <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span>((<span class='kw'>treatment</span><span class='op'>==</span><span class='st'>"treatment"</span>) <span class='op'>*</span> <span class='kw'>week</span>, 
+         <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>treatment</span>,<span class='kw'>case</span>), <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='kw'>x</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>(<span class='kw'>x</span>))) <span class='op'>+</span> (<span class='kw'>treatment</span><span class='op'>==</span><span class='st'>"treatment"</span>))
+<span class='kw'>Schutte</span><span class='op'>$</span><span class='kw'>week</span> <span class='op'>&lt;-</span> <span class='kw'>Schutte</span><span class='op'>$</span><span class='kw'>week</span> <span class='op'>-</span> <span class='fl'>9</span>
+<span class='kw'>Schutte_RML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/lme.html'>lme</a></span>(fixed = <span class='kw'>fatigue</span> <span class='op'>~</span> <span class='kw'>week</span> <span class='op'>+</span> <span class='kw'>treatment</span> <span class='op'>+</span> <span class='kw'>trt.week</span>, 
+                   random = <span class='op'>~</span> <span class='kw'>week</span> <span class='op'>|</span> <span class='kw'>case</span>, 
+                   correlation = <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span>(<span class='fl'>0</span>, <span class='op'>~</span> <span class='kw'>week</span> <span class='op'>|</span> <span class='kw'>case</span>), 
+                   data = <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span>(<span class='kw'>Schutte</span>, <span class='kw'>case</span> != <span class='fl'>4</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>Schutte_RML</span>)</div><div class='output co'>#&gt; Linear mixed-effects model fit by REML
 #&gt;  Data: subset(Schutte, case != 4) 
 #&gt;        AIC      BIC    logLik
 #&gt;   930.6238 957.1627 -456.3119
@@ -347,7 +347,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt; -2.39183384 -0.38039239 -0.05394349  0.31227541  4.20104020 
 #&gt; 
 #&gt; Number of Observations: 145
-#&gt; Number of Groups: 13 </div><div class='input'><span class='no'>Schutte_g</span> <span class='kw'>&lt;-</span> <span class='fu'>g_REML</span>(<span class='no'>Schutte_RML</span>, <span class='kw'>p_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>7</span>), <span class='kw'>r_const</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>Schutte_g</span>)</div><div class='output co'>#&gt;              Length Class      Mode     
+#&gt; Number of Groups: 13 </div><div class='input'><span class='kw'>Schutte_g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/g_REML.html'>g_REML</a></span>(<span class='kw'>Schutte_RML</span>, p_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>7</span>), r_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>Schutte_g</span>)</div><div class='output co'>#&gt;              Length Class      Mode     
 #&gt; p_beta         1    -none-     numeric  
 #&gt; r_theta        1    -none-     numeric  
 #&gt; delta_AB       1    -none-     numeric  
