@@ -87,13 +87,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="Estimating-effect-sizes_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Estimating design-comparable standardized mean differences with scdhlm</h1>
                         <h4 class="author">James E. Pustejovsky</h4>
             
-            <h4 class="date">2020-06-16</h4>
+            <h4 class="date">2020-07-10</h4>
       
       
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -536,8 +536,8 @@
 <pre><code>##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value
 ## hlm1     1  7 884.1744 904.3540 -435.0872                        
 ## hlm2     2  9 875.9526 901.8978 -428.9763 1 vs 2 12.22179  0.0022</code></pre>
-<p>A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit">
+<p>A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
+<div class="sourceCode" id="cb40"><pre class="downlit">
 <span class="kw">Schutte_g2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span>(<span class="kw">hlm2</span>, p_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>, <span class="kw">B</span> <span class="op">-</span> <span class="kw">A</span>), r_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>))
 <span class="kw">Schutte_g2</span>
 </pre></div>
@@ -551,7 +551,7 @@
 <h3 class="hasAnchor">
 <a href="#varying-intercepts-varying-trends-varying-treatment-by-time-interactions" class="anchor"></a>Varying intercepts, varying trends, varying treatment-by-time interactions</h3>
 <p>The final model (Model MB5) is yet more flexible, in that it allows the treatment-by-time interactions to vary across cases. Given that the data contain only twelve cases, fitting a model with three random effects would be questionable if the goal were to make inferences about the full structure of the model. However, simulation evidence from Pustejovsky, Hedges, and Shadish (2014) suggests that using such a flexible parameterization may nonetheless be reasonable for the more limited purpose of effect size estimation.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit">
+<div class="sourceCode" id="cb42"><pre class="downlit">
 <span class="kw">hlm3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="kw">hlm2</span>, random = <span class="op">~</span> <span class="kw">week</span> <span class="op">+</span> <span class="kw">trt_week</span> <span class="op">|</span> <span class="kw">case</span>, 
                control=<span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lmeControl.html">lmeControl</a></span>(msMaxIter = <span class="fl">50</span>, apVar=<span class="fl">FALSE</span>, returnObject=<span class="fl">TRUE</span>))
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">hlm3</span>)
@@ -593,14 +593,14 @@
 ## 
 ## Number of Observations: 136
 ## Number of Groups: 12</code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit">
+<div class="sourceCode" id="cb44"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span>(<span class="kw">hlm2</span>, <span class="kw">hlm3</span>)
 </pre></div>
 <pre><code>##      Model df      AIC      BIC    logLik   Test L.Ratio p-value
 ## hlm2     1  9 875.9526 901.8978 -428.9763                       
 ## hlm3     2 12 873.0245 907.6181 -424.5123 1 vs 2 8.92808  0.0303</code></pre>
-<p>The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit">
+<p>The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<div class="sourceCode" id="cb46"><pre class="downlit">
 <span class="kw">Schutte_g3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span>(<span class="kw">hlm3</span>, p_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="kw">B</span> <span class="op">-</span> <span class="kw">A</span>), r_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>))
 
 <span class="co"># compare effect size estimates</span>
@@ -629,6 +629,25 @@
 <p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href="http://doi.org/10.3102/1076998614547577">10.3102/1076998614547577</a></p>
 <p>Pustejovsky, J. E., Hamilton, B. J., &amp; Chen, M. (2020). <em>scdhlm: Estimating hierarchical linear models for single-case designs</em>. R package version 0.3.2, <a href="https://jepusto.github.io/scdhlm/" class="uri">https://jepusto.github.io/scdhlm/</a>.</p>
 <p>Saddler, B., Behforooz, B., &amp; Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. <em>The Journal of Special Education, 42</em>(2), 79–90. doi: <a href="http://doi.org/10.1177/0022466907310371">10.1177/0022466907310371</a></p>
+</div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1">
+<p>Note that the specification of the <code>r_const</code> argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The arguments appear in a different order than reported in the article because of how the variance components are arranged in the <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> function. To see the order of the variance components used by <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>, use the <code><a href="../reference/lmeInfo.html">extract_varcomp()</a></code> function:</p>
+<div class="sourceCode" id="cb38"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="../reference/lmeInfo.html">extract_varcomp</a></span>(<span class="kw">hlm2</span>))
+</pre></div>
+<pre><code>##      Tau.case.case.var((Intercept)) Tau.case.case.cov(week,(Intercept)) 
+##                          95.7126977                          11.2090726 
+##             Tau.case.case.var(week)                          cor_params 
+##                           1.9938298                           0.3985953 
+##                            sigma_sq 
+##                          29.3943508</code></pre>
+<p>The order of parameter estimates appearing in the result is the same as assumed in <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>. Thus, entries in <code>r_const</code> should correspond to the order of the parameter estimates appearing here.<a href="#fnref1" class="footnote-back">↩︎</a></p>
+</li>
+<li id="fn2"><p>Again, the specification of the <code>r_const</code> argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The entries in <code>r_const</code> should correspond to the order of the parameter estimates appearing in <code><a href="https://rdrr.io/r/base/unlist.html">unlist(extract_varcomp(hlm3))</a></code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
   </div>
 
