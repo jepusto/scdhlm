@@ -223,12 +223,18 @@ hlm2 <- update(hlm1, random = ~ week | case,
 summary(hlm2)
 anova(hlm1, hlm2)
 ```
-A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows.
+A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows[^g-mlm-mb4]:
 ```{r Schutte-ES-Model4, eval = TRUE}
 Schutte_g2 <- g_mlm(hlm2, p_const = c(0,0,1, B - A), r_const = c(1,0,0,0,1))
 Schutte_g2
 ```
 The design-comparable SMD is estimated to be `r round(Schutte_g2$g_AB, 3)`, with a standard error of `r round(Schutte_g2$SE_g_AB, 3)`.
+
+[^g-mlm-mb4]: Note that the specification of the `r_const` argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The arguments appear in a different order than reported in the article because of how the variance components are arranged in the `g_mlm()` function. To see the order of the variance components used by `g_mlm()`, use the `extract_varcomp()` function: 
+    ```{r}
+    unlist(extract_varcomp(hlm2))
+    ```
+    The order of parameter estimates appearing in the result is the same as assumed in `g_mlm()`. Thus, entries in `r_const` should correspond to the order of the parameter estimates appearing here. 
 
 ### Varying intercepts, varying trends, varying treatment-by-time interactions
 
@@ -239,7 +245,7 @@ hlm3 <- update(hlm2, random = ~ week + trt_week | case,
 summary(hlm3)
 anova(hlm2, hlm3)
 ```
-The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.
+The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.[^g-mlm-mb5]
 ```{r Schutte-ES-Model5, eval = TRUE}
 Schutte_g3 <- g_mlm(hlm3, p_const = c(0,0,1,B - A), r_const = c(1,0,0,0,0,0,0,1))
 
@@ -251,6 +257,8 @@ data.frame(
 )
 ```
 The effect size estimate has magnitude comparable to the estimate from Model MB3. However, the variance of the estimate is extremely large, due to the fact that the variance components that go into the denominator of the SMD estimate are estimated with low precision. This final model may represent an outer limit on the complexity of models that can feasibility be estimated, given that most single-case designs have fewer cases than the study examined in this example.
+
+[^g-mlm-mb5]: Again, the specification of the `r_const` argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The entries in `r_const` should correspond to the order of the parameter estimates appearing in `unlist(extract_varcomp(hlm3))`.
 
 ## References
 
