@@ -173,6 +173,17 @@ shinyUI(fluidPage(
           ),
           tableOutput("effect_size_report"),
           downloadButton('download_ES', 'Download')
+        ),
+        
+        tabPanel("Syntax for R",
+               h4("Please copy and paste syntax into script. Make sure to modify the working directory before running"),
+               verbatimTextOutput("syntax")
+                 # h4("Effect size estimates and auxilliary information"),
+                 # div(id = "inline",
+                 #     numericInput("coverage","CI coverage level (%)", value = 95, min = 0, max = 100, step = 0.5)
+                 # ),
+                 # tableOutput("effect_size_report"),
+                 # downloadButton('download_ES', 'Download')
         )
    )
 ))

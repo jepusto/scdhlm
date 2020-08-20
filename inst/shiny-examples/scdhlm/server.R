@@ -356,6 +356,9 @@ shinyServer(function(input, output, session) {
     contentType = "text/csv"
   )
   
+ 
+  
+  
   # Graphs
   
   raw_graph <- reactive({
@@ -384,6 +387,170 @@ shinyServer(function(input, output, session) {
   width = function() 700)
   
   
+  
+  # Synatx for app
+  
+  output$syntax <- renderPrint({
+    cat("library(scdhlm)",  sep = "\n") 
+    
+    cat('setwd("") #paste path to folder containing data between quotes. Use forward slash: /', sep = "\n")
+    
+    cat("\n")
+    #read in file code
+    if(input$dat_type == "example") {
+      cat(paste0("data(",input$example,") \n"))
+    } else if(input$dat_type == "dat"){
+      inFile <- input$dat
+      cat(paste( "dat <-") , paste0("read.table(", '"' ,inFile$name, '"' , ",header=", input$header, 
+                ",sep=", '"', input$sep, '"', ",quote=", input$quote,
+                ",stringsAsFactors = FALSE)"), sep = "\n ")
+    } else{
+      inFile <- input$xlsx
+      cat(paste("dat <-") , paste0("read_xlsx(", '"' , inFile$name, '"' , ",", "col_names =", input$col_names, ",",
+                 "sheet =", "'" , input$inSelect, "'" , ")"), sep = "\n ")
+    }
+    
+    #Clean Data
+    if (input$dat_type == "example"){
+      cat("dat", "<-", paste0("get(",'"',input$example,'"',") \n"))
+      cat("\n")
+      cat("#Clean Data \n")
+      example_parms <- exampleMapping[[input$example]]
+      filter_vars <- example_parms$filters  
+    
+      if (!is.null(filter_vars)) {
+        
+        cat("subset_vals", "<-", paset0("sapply(",paste0('c("', paste(filter_vars, collapse='", "'), '")')), ", function(x)", "dat[[x]]", "%in%", 'input[[paste0("filter_",x)]]) \n', sep = " ")
+        cat("dat", "<-", "dat[apply(subset_vals, 1, all),] \n")
+      }
+      
+      
+      
+      cat("dat", "<-", paste0("dat[,", paste0('c("', paste(example_parms$vars, collapse='", "'), '")'), "] \n"), sep= " ")
+      cat("names(dat)", "<-", 'c("case","session","phase","outcome") \n', sep= " ")
+      cat("trt_phase", "<-",",levels(as.factor(dat$phase))[2] \n", sep = " ")
+      
+      case <- "case"
+      session <- "session"
+      phase <- "phase"
+      outcome <- "outcome"
+      
+      
+      
+    } else {
+      cat("\n")
+      cat("#Clean Data \n")
+      cat( paste0("dat$",input$caseID , "<-", "factor(" , "dat$",input$caseID , ", levels = unique(","dat$",input$caseID ,"))\n"))
+      cat(paste0("dat$",input$session), paste("<-"), paste0("as.numeric(", "dat$",input$session, ") \n"   ))
+      cat( paste0("dat$",input$phaseID , "<-", "factor(" , "dat$",input$phaseID , ", levels = unique(","dat$",input$phaseID ,"))\n"))
+      cat(paste0("dat$",input$outcome), paste("<-"), paste0("as.numeric(", "dat$",input$outcome, ") \n"   ))
+      
+      if (!is.null(input$filters)) {
+        cat("subset_vals", "<-", paset0("sapply(",input$filters), ", function(x)", "dat[[x]]", "%in%", 'input[[paste0("filter_",x)]]) \n', sep = " ")
+        cat("dat", "<-", "dat[apply(subset_vals, 1, all),] \n")
+      } 
+      
+      cat("# remove rows with missing outcome values \n")
+      cat("dat", "<-", paste0("dat[!is.na(",input$outcome, "),] \n"), sep = " ")
+      cat("trt_phase", "<-", paste0('"',paste(input$treatment), '"'), "\n", sep = "")
+      
+     
+      
+      case <- input$caseID
+      session <- input$session
+      phase <- input$phaseID
+      outcome <- input$outcome
+      
+    }
+    
+    cat("dat$trt <- as.numeric(", paste0("dat$", phase, "==trt_phase) \n"))
+    
+    
+    if (studyDesign() == "MB") {
+ #     cat("dat$session_trt", "<-", paste0("unlist(by(dat, dat$",case, ", function(x, trt_phase) pmax(0, x$session - min(x$session[x$phase==trt_phase])), trt_phase = trt_phase)) \n"))
+    } else {
+      
+      cat("phase_pairs <- function(x) {",
+   "\t conditions <- levels(as.factor(x$phase))",
+  "\t n <- length(x$phase)",
+  "\t phase <- x$phase[order(x$session)]",
+  "\t y <- rep(1,n)",
+  "\t for (i in 2:n) {",
+    "\t \t (i <- i + 1)",
+    "\t \t (which_lev <- match(phase[i-1], conditions))",
+    "\t \t (which_conditions <- conditions[c(which_lev, which_lev + 1)])",
+    "\t \t !(phase[i] %in% which_conditions)",
+    "\t \t (y[i] <- y[i - 1] + !(phase[i] %in% which_conditions))",
+  "\t }",
+  "\t y[order(order(x$session))]",
+"}", sep = "\n")
+      
+      
+      cat("dat$phase_pair", "<-", "unlist(by(dat,", paste0("dat$",case,","), "phase_pairs)) \n", sep = " ")
+    }
+    
+    cat("dat", "<-", "droplevels(dat) \n", sep = "")
+    
+    if (input$method=="RML") {
+      cat("dat <-", paste0("dat[order(dat$", case, ", dat$session),] \n"))
+    if (studyDesign() == "MB") {
+      session_FE <- write_formula(input$FE_base, c("0","1","session"))
+      trt_FE <- write_formula(input$FE_trt, c("NULL", "trt", "session_trt"))
+      session_RE <- write_formula(input$RE_base, c("0","1","session"))
+      trt_RE <- write_formula(input$RE_trt, c("NULL","trt","session_trt"))
+      cat(paste("dat$session <-",  paste0("dat$", session), " - ", input$model_center, "\n")) # center
+    
+    } else {
+      session_FE <- if (is.null(FE_base) | !(0 %in% FE_base)) "0" else "1"
+      trt_FE <- if (is.null(FE_trt) | !(0 %in% FE_trt)) NULL else "trt"
+      session_RE <- if (is.null(RE_base) | !(0 %in% RE_base)) "0" else "1"
+      trt_RE <- if (is.null(RE_trt) | !(0 %in% RE_trt)) NULL else "trt"
+    }
+      
+      fixed <- paste("outcome", "~",paste(c(session_FE, trt_FE), collapse = " + "))
+      random <- paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case")
+      cat("\n")
+      cat("#model fit \n")
+      cat(paste("modelfit <-", "lme(fixed =", paste(fixed, collapse = " "),", random =", paste(random, collapse = ""),", \n correlation = corAR1(0.01, ~ session | case), \n data = ", paste(input$example, ",", collapse = ""),"\n control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))", collapse= "")) #model
+      cat("\n summary(modelfit)",  sep = "\n")
+      
+      
+      cat("\n")
+      cat("#Effect Size \n")
+      A <- if (is.null(input$A_time)) 0L else input$A_time
+      B <- if (is.null(input$B_time)) 1L else input$B_time
+      
+      cat("res <- effect_size_RML(design =", paste0(studyDesign(), ","), "dat = dat,
+                             FE_base =",  paste0(input$FE_base, ","), "RE_base =", paste0(input$RE_base, ","), "
+                             FE_trt =", paste0(input$FE_trt, ","), "RE_trt =", paste0(input$RE_trt, ","), "
+                             A =",  paste0(A, ","), "B =", paste(B), ") \n")
+      
+    } else {
+      if (studyDesign()=="MB") {
+        cat("\n")
+        cat("#Effect Size \n")
+        cat( "res <- with(dat, effect_size_MB(outcome =", paste0(outcome, ","), "treatment = trt,", "id =", paste0(case, ","), "time =", paste0(session, ")) \n"))
+      } else {
+        cat("\n")
+        cat("#Effect Size \n")
+        cat( "res <- with(dat, effect_size_ABk(outcome =", paste0(outcome, ","), "treatment = trt,", "id =", paste0(case, ","), "phase = phase_pair,","time =", paste0(session, ")) \n"))
+        
+      }
+    }
+    
+    cat("res \n \n")
+    
+    cat("\n")
+    cat("#Graph \n")
+    
+    cat( "graph_SCD(data = dat, design = ", paste0(studyDesign(), "," ), "case =", paste0(case, ","), "phase =", paste0(phase, ","), "session =", paste0(session, ","), "outcome =", paste0(outcome, ","), "treatment_name =", paste0('"',paste(input$treatment), '"'), ")" )
+
+  }
+  
+  )
+  
+  
  session$onSessionEnded(stopApp)
   
 })
+
