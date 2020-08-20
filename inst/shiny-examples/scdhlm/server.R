@@ -508,10 +508,10 @@ shinyServer(function(input, output, session) {
     }
       
       fixed <- paste("outcome", "~",paste(c(session_FE, trt_FE), collapse = " + "))
-      random <- paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case")
+      random <- paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| ", paste(case))
       cat("\n")
       cat("#model fit \n")
-      cat(paste("modelfit <-", "lme(fixed =", paste(fixed, collapse = " "),", random =", paste(random, collapse = ""),", \n correlation = corAR1(0.01, ~ session | case), \n data = ", paste(input$example, ",", collapse = ""),"\n control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))", collapse= "")) #model
+      cat(paste("modelfit <-", "lme(fixed =", paste(fixed, collapse = " "),", random =", paste(random, collapse = ""),", \n correlation = corAR1(0.01, ~", paste(session), "|", paste(case), "), \n data = ", paste(input$example, ",", collapse = ""),"\n control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))", collapse= "")) #model
       cat("\n summary(modelfit)",  sep = "\n")
       
       
@@ -562,11 +562,10 @@ shinyServer(function(input, output, session) {
     cat("\n")
     cat("#Graph \n")
     
-    cat( "graph_SCD(data = dat, design = ", paste0(studyDesign(), "," ), "case =", paste0(case, ","), "phase =", paste0(phase, ","), "session =", paste0(session, ","), "outcome =", paste0(outcome, ","), "treatment_name =", paste0('"',paste(input$treatment), '"'), ")" )
+    cat("graph_SCD(data = dat, design = ", paste0(studyDesign(), "," ), "case =", paste0(case, ","), "phase =", paste0(phase, ","), "session =", paste0(session, ","), "outcome =", paste0(outcome, ","), "treatment_name =", paste0('"',paste(input$treatment), '"'), ")" )
 
   }
-  
-  )
+)
   
   
  session$onSessionEnded(stopApp)
