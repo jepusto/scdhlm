@@ -557,10 +557,10 @@ shinyServer(function(input, output, session) {
       cat(paste("dat$session <-",  paste0("dat$", session), " - ", input$model_center, "\n")) # center
     
     } else {
-      session_FE <- if (is.null(FE_base) | !(0 %in% FE_base)) "0" else "1"
-      trt_FE <- if (is.null(FE_trt) | !(0 %in% FE_trt)) NULL else "trt"
-      session_RE <- if (is.null(RE_base) | !(0 %in% RE_base)) "0" else "1"
-      trt_RE <- if (is.null(RE_trt) | !(0 %in% RE_trt)) NULL else "trt"
+      session_FE <- if (is.null(input$FE_base) | !(0 %in% input$FE_base)) "0" else "1"
+      trt_FE <- if (is.null(input$FE_trt) | !(0 %in% input$FE_trt)) NULL else "trt"
+      session_RE <- if (is.null(input$RE_base) | !(0 %in% input$RE_base)) "0" else "1"
+      trt_RE <- if (is.null(input$RE_trt) | !(0 %in% input$RE_trt)) NULL else "trt"
     }
       
       fixed <- paste("outcome", "~",paste(c(session_FE, trt_FE), collapse = " + "))
@@ -573,13 +573,32 @@ shinyServer(function(input, output, session) {
       
       cat("\n")
       cat("#Effect Size \n")
+      
+
       A <- if (is.null(input$A_time)) 0L else input$A_time
       B <- if (is.null(input$B_time)) 1L else input$B_time
       
-      cat("res <- effect_size_RML(design =", paste0(studyDesign(), ","), "dat = dat,
-                             FE_base =",  paste0(input$FE_base, ","), "RE_base =", paste0(input$RE_base, ","), "
-                             FE_trt =", paste0(input$FE_trt, ","), "RE_trt =", paste0(input$RE_trt, ","), "
-                             A =",  paste0(A, ","), "B =", paste(B), ") \n")
+      fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[studyDesign()]]
+      m_fit <- do.call(fit_function, 
+                       args = list(dat = datClean(), FE_base = input$FE_base, RE_base = input$RE_base,
+                                   FE_trt = input$FE_trt, RE_trt = input$RE_trt, center = B, phi_init = 0.01))
+      fixed <- m_fit$fixed
+      random <- m_fit$random
+      mod <- m_fit$fit
+      mod$call$fixed <- fixed
+      mod$call$random <- random
+      
+ 
+      p_const <- c(rep(0L, length(input$FE_base)), (B - A - 1)^as.integer(input$FE_trt))
+      r_dim <- length(input$RE_base) + length(input$RE_trt)
+      r_const <- c(as.integer(0 %in% input$RE_base),
+                   rep(0, r_dim * (r_dim + 1) / 2 - 1),
+                   rep(0, length(mod$modelStruct$corStruct)), 
+                   rep(0, length(mod$modelStruct$varStruct)), 
+                   1L)
+      
+      
+     cat("g_mlm(modelfit, p_const =", paste0(paste0('c("', paste(p_const, collapse='", "'), '")'), "," ), "r_const =", paste0(paste0('c("', paste(r_const, collapse='", "'), '")'), "," ), 'infotype = "expected", returnModel = TRUE) \n' )
       
     } else {
       if (studyDesign()=="MB") {
