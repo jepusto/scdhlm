@@ -1,0 +1,30 @@
+---
+output: md_document
+---
+
+### scdhlm
+
+Version `r packageVersion("scdhlm")`
+
+Designed and maintained by James E. Pustejovsky
+
+* pustejovsky@wisc.edu
+* https://jepusto.com
+
+Contributions from 
+
+* Bethany Hamilton
+* Man Chen
+* Daniel Swan
+
+[Source code available on Github](https://github.com/jepusto/scdhlm/tree/master/inst/shiny-examples/scdhlm)
+
+_Your comments, suggestions, and feedback are welcome._
+
+### Suggested citation
+
+Pustejovsky, James E. (`r substr(Sys.Date(),1,4)`). scdhlm: A web-based calculator for between-case standardized mean differences (Version `r packageVersion("scdhlm")`) [Web application]. Retrieved from: https://jepusto.shinyapps.io/scdhlm
+
+### Tutorial paper
+
+Valentine, J. C., Tanner-Smith, E. E., & Pustejovsky, J. E. (2016). [Between-case standardized mean difference effect sizes for single-case designs: A primer and tutorial using the scdhlm web application](https://campbellcollaboration.org/library/effect-sizes-single-case-designs-campbell-discussion-paper-1.html). Oslo, Norway: The Campbell Collaboration. DOI: 10.4073/cmpn.2016.3

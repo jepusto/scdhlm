@@ -80,12 +80,56 @@ shinyServer(function(input, output, session) {
     var_names <- names(datFile())
     n_var <- length(var_names)
     list(
-    #  selectizeInput("filters", label = "Filtering variables (optional)", choices = var_names, selected = NULL, multiple = TRUE),
       selectInput("caseID", label = "Case identifier", choices = var_names, selected = var_names[n_var - 3]),
       selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = var_names[n_var - 2]),
-      selectInput("session", label = "Session number", choices = var_names, selected = var_names[n_var - 1]),
-      selectInput("outcome", label = "Outcome", choices = var_names, selected = var_names[n_var])
+      selectInput("session", label = "Session number", choices = var_names, selected = var_names[n_var - 1])
     )
+  })
+  
+  # Check Session variable
+  
+  output$sessionIssues1 <- renderUI({
+    
+    sessions <- datFile()[,input$session]
+    
+    if (!is.numeric(sessions)) {
+      list(
+        strong(style="color:red", "Session variable contains non-numeric data."),
+        br("")
+      )
+      
+    } else if (!isTRUE(all.equal(sessions, round(sessions)))) {
+      checkboxInput('round_session', 'Round Session variable to nearest integer?', TRUE)
+    }
+  })
+  
+  output$sessionIssues2 <- renderUI({
+  
+    sessions <- datFile()[,input$session]
+    case_var <- datFile()[,input$caseID,drop=FALSE]
+    filter_vars <- datFile()[,input$filters,drop=FALSE]
+    split_vars <- cbind(case_var, filter_vars)
+    
+    if (length(split_vars) > 0 & is.numeric(sessions)) {
+      
+      if (!is.null(input$round_session)) if (input$round_session) sessions <- round(sessions)
+      
+      unique_sessions <- tapply(sessions, split_vars, 
+                                function(x) isTRUE(all.equal(x, unique(x))))
+      
+      if (!all(unique_sessions)) {
+        list(
+          strong(style="color:red", "Session variable contains repeated values. Please ensure that each data point has a unique value within each case."),
+          br("") 
+        )
+      }
+    }
+  })
+  
+  output$outcomeMapping <- renderUI({
+    var_names <- names(datFile())
+    n_var <- length(var_names)
+    selectInput("outcome", label = "Outcome variable", choices = var_names, selected = var_names[n_var])
   })
   
   # Treatment label mapping interface
@@ -157,17 +201,29 @@ shinyServer(function(input, output, session) {
       names(dat) <- c("case","session","phase","outcome")
       trt_phase <- levels(as.factor(dat$phase))[2]
     } else {
+      
       case_vec <- datFile()[,input$caseID]
       caseID <- factor(case_vec, levels = unique(case_vec))
+      
       session <- as.numeric(datFile()[,input$session])
+      if (is.null(input$round_session)) {
+        session <- as.integer(session) 
+      } else if (input$round_session) {
+        session <- as.integer(round(session))
+      }
+        
       phase_vec <- datFile()[,input$phaseID]
       phaseID <- factor(phase_vec, levels = unique(phase_vec))
+      
       outcome <- as.numeric(datFile()[,input$outcome])
+      
       dat <- data.frame(case = caseID, session = session, phase = phaseID, outcome = outcome)
+      
       if (!is.null(input$filters)) {
         subset_vals <- sapply(input$filters, function(x) datFile()[[x]] %in% input[[paste0("filter_",x)]])
         dat <- dat[apply(subset_vals, 1, all),]
       } 
+      
       trt_phase <- input$treatment
       
       # remove rows with missing outcome values
