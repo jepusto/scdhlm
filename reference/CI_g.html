@@ -190,14 +190,19 @@ asymmetric confidence interval.</p></td>
                  correlation = <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span>(<span class='fl'>0</span>, <span class='op'>~</span> <span class='kw'>time</span> <span class='op'>|</span> <span class='kw'>case</span>),
                  data = <span class='kw'>Laski</span>)
 <span class='kw'>Laski_g_REML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span>(
-  <span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/g_REML.html'>g_REML</a></span>(<span class='kw'>Laski_RML</span>, p_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), 
+  <span class='fu'><a href='g_REML.html'>g_REML</a></span>(<span class='kw'>Laski_RML</span>, p_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), 
          r_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), returnModel = <span class='fl'>FALSE</span>)
 )
-<span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/CI_g.html'>CI_g</a></span>(<span class='kw'>Laski_g_REML</span>, symmetric = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] 0.8046224 2.0051521</div><div class='input'><span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/CI_g.html'>CI_g</a></span>(<span class='kw'>Laski_g_REML</span>, symmetric = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
-<span class='kw'>Laski_HPS</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(<span class='kw'>Laski</span>, <span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/effect_size_MB.html'>effect_size_MB</a></span>(<span class='kw'>outcome</span>, <span class='kw'>treatment</span>, <span class='kw'>case</span>, <span class='kw'>time</span>))
-<span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/CI_g.html'>CI_g</a></span>(<span class='kw'>Laski_HPS</span>, symmetric = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 0.8786207 2.0639828</div><div class='input'>
-<span class='kw'>Laski_g_mlm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/lmeInfo.html'>g_mlm</a></span>(<span class='kw'>Laski_RML</span>, p_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), r_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), returnModel = <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/CI_g.html'>CI_g</a></span>(<span class='kw'>Laski_g_mlm</span>, symmetric = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'></div></pre>
+<span class='fu'>CI_g</span>(<span class='kw'>Laski_g_REML</span>, symmetric = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; [1] 0.8046224 2.0051521</div><div class='input'><span class='fu'>CI_g</span>(<span class='kw'>Laski_g_REML</span>, symmetric = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
+<span class='kw'>Laski_HPS</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(<span class='kw'>Laski</span>, <span class='fu'><a href='effect_size_MB.html'>effect_size_MB</a></span>(<span class='kw'>outcome</span>, <span class='kw'>treatment</span>, <span class='kw'>case</span>, <span class='kw'>time</span>))
+<span class='fu'>CI_g</span>(<span class='kw'>Laski_HPS</span>, symmetric = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; [1] 0.8786207 2.0639828</div><div class='input'>
+<span class='kw'>Laski_g_mlm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lmeInfo.html'>g_mlm</a></span>(<span class='kw'>Laski_RML</span>, p_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>), r_const = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>), returnModel = <span class='fl'>TRUE</span>)
+<span class='fu'>CI_g</span>(<span class='kw'>Laski_g_mlm</span>, symmetric = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -146,7 +146,7 @@ model with AR(1) correlation structure in the level-1 errors." />
 model with AR(1) correlation structure in the level-1 errors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/Info_Expected_lmeAR1.html'>Info_Expected_lmeAR1</a></span>(<span class='kw'>m_fit</span>)</pre>
+    <pre class="usage"><span class='fu'>Info_Expected_lmeAR1</span>(<span class='kw'>m_fit</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,7 +167,8 @@ model with AR(1) correlation structure in the level-1 errors.</p>
                  random = <span class='op'>~</span> <span class='fl'>1</span> <span class='op'>|</span> <span class='kw'>case</span>, 
                  correlation = <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span>(<span class='fl'>0</span>, <span class='op'>~</span> <span class='kw'>time</span> <span class='op'>|</span> <span class='kw'>case</span>), 
                  data = <span class='kw'>Laski</span>)
-<span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/Info_Expected_lmeAR1.html'>Info_Expected_lmeAR1</a></span>(<span class='kw'>Laski_RML</span>)</div><div class='output co'>#&gt;               [,1]          [,2]         [,3]
+<span class='fu'>Info_Expected_lmeAR1</span>(<span class='kw'>Laski_RML</span>)
+</div><div class='output co'>#&gt;               [,1]          [,2]         [,3]
 #&gt; [1,]  1.601686e-03  -0.210945594 5.092243e-06
 #&gt; [2,] -2.109456e-01 127.633048124 1.874239e-03
 #&gt; [3,]  5.092243e-06   0.001874239 4.954985e-05</div></pre>

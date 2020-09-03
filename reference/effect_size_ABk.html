@@ -148,7 +148,7 @@ as described in Hedges, Pustejovsky, &amp; Shadish (2012). Note that the data mu
 measurement occasion per subject.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/effect_size_ABk.html'>effect_size_ABk</a></span>(
+    <pre class="usage"><span class='fu'>effect_size_ABk</span>(
   <span class='kw'>outcome</span>,
   <span class='kw'>treatment</span>,
   <span class='kw'>id</span>,
@@ -230,17 +230,20 @@ A standardized mean difference effect size for single case designs.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Lambert</span>)
-<span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/effect_size_ABk.html'>effect_size_ABk</a></span>(outcome = <span class='kw'>outcome</span>, treatment = <span class='kw'>treatment</span>, id = <span class='kw'>case</span>, 
-                phase = <span class='kw'>phase</span>, time = <span class='kw'>time</span>, data = <span class='kw'>Lambert</span>)</div><div class='output co'>#&gt;                            est    se
+<span class='fu'>effect_size_ABk</span>(outcome = <span class='kw'>outcome</span>, treatment = <span class='kw'>treatment</span>, id = <span class='kw'>case</span>, 
+                phase = <span class='kw'>phase</span>, time = <span class='kw'>time</span>, data = <span class='kw'>Lambert</span>)
+</div><div class='output co'>#&gt;                            est    se
 #&gt; unadjusted effect size  -2.525 0.202
 #&gt; adjusted effect size    -2.513 0.201
 #&gt; degree of freedom      164.492      </div><div class='input'>   
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Anglesea</span>)
-<span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/effect_size_ABk.html'>effect_size_ABk</a></span>(outcome = <span class='kw'>outcome</span>, treatment = <span class='kw'>condition</span>, id = <span class='kw'>case</span>, 
-                phase = <span class='kw'>phase</span>, time = <span class='kw'>session</span>, data = <span class='kw'>Anglesea</span>)</div><div class='output co'>#&gt;                          est    se
+<span class='fu'>effect_size_ABk</span>(outcome = <span class='kw'>outcome</span>, treatment = <span class='kw'>condition</span>, id = <span class='kw'>case</span>, 
+                phase = <span class='kw'>phase</span>, time = <span class='kw'>session</span>, data = <span class='kw'>Anglesea</span>)
+</div><div class='output co'>#&gt;                          est    se
 #&gt; unadjusted effect size 1.793 2.436
 #&gt; adjusted effect size   1.150 1.562
-#&gt; degree of freedom      2.340      </div><div class='input'></div></pre>
+#&gt; degree of freedom      2.340      </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

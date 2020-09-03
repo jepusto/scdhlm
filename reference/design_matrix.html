@@ -148,7 +148,7 @@ trend-by-treatment interaction for a single-case design with <code>m</code> case
 measurement occasions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/design_matrix.html'>design_matrix</a></span>(<span class='kw'>m</span>, <span class='kw'>n</span>, treat_times = <span class='kw'>n</span><span class='op'>/</span><span class='fl'>2</span> <span class='op'>+</span> <span class='fl'>1</span>, center = <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>design_matrix</span>(<span class='kw'>m</span>, <span class='kw'>n</span>, treat_times = <span class='kw'>n</span><span class='op'>/</span><span class='fl'>2</span> <span class='op'>+</span> <span class='fl'>1</span>, center = <span class='fl'>0</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,7 +176,8 @@ measurement occasions.</p>
     <p>A design matrix</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://jepusto.github.io/scdhlm//reference/design_matrix.html'>design_matrix</a></span>(<span class='fl'>3</span>, <span class='fl'>16</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>,<span class='fl'>9</span>,<span class='fl'>13</span>))</div><div class='output co'>#&gt;    id constant treatment trend interaction
+    <pre class="examples"><div class='input'><span class='fu'>design_matrix</span>(<span class='fl'>3</span>, <span class='fl'>16</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>,<span class='fl'>9</span>,<span class='fl'>13</span>))
+</div><div class='output co'>#&gt;    id constant treatment trend interaction
 #&gt; 1   1        1         0     1           0
 #&gt; 2   1        1         0     2           0
 #&gt; 3   1        1         0     3           0
