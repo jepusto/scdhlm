@@ -106,8 +106,8 @@ shinyServer(function(input, output, session) {
   output$sessionIssues2 <- renderUI({
   
     sessions <- datFile()[,input$session]
-    case_var <- datFile()[,input$caseID]
-    filter_vars <- datFile()[,input$filters]
+    case_var <- datFile()[,input$caseID,drop=FALSE]
+    filter_vars <- datFile()[,input$filters,drop=FALSE]
     split_vars <- cbind(case_var, filter_vars)
     
     if (length(split_vars) > 0 & is.numeric(sessions)) {
