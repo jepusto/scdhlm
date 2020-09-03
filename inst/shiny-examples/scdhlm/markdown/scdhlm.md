@@ -11,7 +11,6 @@ Contributions from
 
 -   Bethany Hamilton
 -   Man Chen
--   Daniel Swan
 
 [Source code available on
 Github](https://github.com/jepusto/scdhlm/tree/master/inst/shiny-examples/scdhlm)
