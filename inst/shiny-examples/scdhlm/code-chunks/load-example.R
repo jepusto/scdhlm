@@ -1,2 +1,2 @@
 library(scdhlm)
-data({{example_name}})
+data({example_name})
