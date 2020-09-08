@@ -8,7 +8,7 @@
 #' @export
 #' 
 
-shine_scd <- function() {
+shine_scd <- function(dataset = NULL, ...) {
   if (!requireNamespace("shiny", quietly = TRUE)) {
     stop("The scdhlm app requires the shiny package. Please install it.", call. = FALSE)
   }
@@ -19,10 +19,18 @@ shine_scd <- function() {
     stop("The scdhlm app requires the markdown package. Please install it.", call. = FALSE)
   }
   
-  appDir <- system.file("shiny-examples", "scdhlm", package = "scdhlm")
+  appDir <- system.file("shiny-examples/scdhlm", "app.R", package = "scdhlm")
   if (appDir == "") {
     stop("Could not find the application directory. Try re-installing the scdhlm package.", call. = FALSE)
   }
   
-  shiny::runApp(appDir, display.mode = "normal", launch.browser = TRUE)
+  ui <- server <- NULL
+  source(appDir, local = TRUE, chdir = TRUE)
+  server_env <- environment(server)
+  server_env$dataset <- dataset
+  ui_env <- environment(ui)
+  ui_env$dataset <- dataset
+  
+  app <- shiny::shinyApp(ui, server)
+  shiny::runApp(app, display.mode = "normal", launch.browser = TRUE, ...)
 }
