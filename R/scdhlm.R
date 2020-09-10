@@ -10,7 +10,7 @@
 #' @export
 #' 
 
-shine_scd <- function(dataset = NULL, ...) {
+shine_scd <- function(dataset = NULL) {
   if (!requireNamespace("shiny", quietly = TRUE)) {
     stop("The scdhlm app requires the shiny package. Please install it.", call. = FALSE)
   }
@@ -34,5 +34,5 @@ shine_scd <- function(dataset = NULL, ...) {
   ui_env$dataset <- dataset
   
   app <- shiny::shinyApp(ui, server)
-  shiny::runApp(app, display.mode = "normal", launch.browser = TRUE, ...)
+  shiny::runApp(app, display.mode = "normal", launch.browser = TRUE)
 }

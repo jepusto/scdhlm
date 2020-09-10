@@ -4,7 +4,10 @@
 \alias{shine_scd}
 \title{A shiny interface for the scdhlm package}
 \usage{
-shine_scd()
+shine_scd(dataset = NULL)
+}
+\arguments{
+\item{dataset}{If specified, the app will open with the data loaded. Default is NULL.}
 }
 \description{
 An interactive shiny interface for estimating design-comparable
