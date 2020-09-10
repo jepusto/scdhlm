@@ -5,6 +5,8 @@
 #' standardized mean difference effect sizes from single-case designs. Estimation methods
 #' for multiple baseline and treatment reversal designs are available. 
 #' 
+#' @param dataset If specified, the app will open with the data loaded. Default is NULL.
+#' 
 #' @export
 #' 
 
