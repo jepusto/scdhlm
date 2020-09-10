@@ -1,13 +1,3 @@
-library(shiny)
-library(markdown)
-library(ggplot2)
-library(scdhlm)
-library(readxl)
-
-
-# source("mappings.R")
-# source("helper-functions.R")
-# source("lme-fit.R")
 
 server <- 
   shinyServer(function(input, output, session) {
@@ -150,7 +140,7 @@ server <-
         unique_sessions <- tapply(sessions, split_vars, 
                                   function(x) isTRUE(all.equal(x, unique(x))))
         
-        if (!all(unique_sessions)) {
+        if (!all(unique_sessions, na.rm = TRUE)) {
           list(
             strong(style="color:red", "Session variable contains repeated values. Please ensure that each data point has a unique value within each case."),
             br("") 

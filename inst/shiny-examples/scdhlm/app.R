@@ -1,4 +1,8 @@
 library(shiny)
+library(readxl)
+library(markdown)
+library(ggplot2)
+library(scdhlm)
 
 source("helper-functions.R", local = TRUE)
 source("lme-fit.R", local = TRUE)

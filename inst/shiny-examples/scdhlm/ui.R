@@ -1,6 +1,3 @@
-library(shiny)
-# source("mappings.R")
-library(readxl)
 
 numericInput_inline <- function (inputId, label, value, min = NA, max = NA, step = NA, width = NULL) {
   
