@@ -20,7 +20,8 @@ VignetteBuilder: knitr
 LazyData: true
 Imports: 
     stats,
-    lmeInfo
+    lmeInfo,
+    readxl
 Depends: 
     nlme,
     R (>= 3.0.1)

@@ -4,13 +4,21 @@
 \alias{shine_scd}
 \title{A shiny interface for the scdhlm package}
 \usage{
-shine_scd(dataset = NULL)
+shine_scd(dataset = NULL, ...)
 }
 \arguments{
-\item{dataset}{If specified, the app will open with the data loaded. Default is NULL.}
+\item{dataset}{Optionally, a data.frame or path to a file from which to read
+data. If specified, the app will open with the data loaded. Default is
+NULL. If \code{dataset} is a data.frame, then it will be passed directly. If
+a file path with a \code{.xlsx} extension is specified, it will be read using \code{read_excel}.
+If a file path with a \code{.csv} extension is specified, it will be read using \code{read.csv}.
+If a file path with a different extension is specified, it will be read using \code{read.table}.}
+
+\item{...}{Further arguments passed to \code{read_excel}, \code{read.csv}, or \code{read.table}.}
 }
 \description{
 An interactive shiny interface for estimating design-comparable
-standardized mean difference effect sizes from single-case designs. Estimation methods
-for multiple baseline and treatment reversal designs are available.
+  standardized mean difference effect sizes from single-case designs.
+  Estimation methods for multiple baseline and treatment reversal designs are
+  available.
 }

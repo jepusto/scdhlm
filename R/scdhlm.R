@@ -10,10 +10,13 @@
 #'   data. If specified, the app will open with the data loaded. Default is
 #'   NULL. If \code{dataset} is a data.frame, then it will be passed directly. If
 #'   a file path with a \code{.xlsx} extension is specified, it will be read using \code{read_excel}.
+#'   If a file path with a \code{.csv} extension is specified, it will be read using \code{read.csv}.
 #'   If a file path with a different extension is specified, it will be read using \code{read.table}.
-#' @param ... Further arguments passed to \code{read_excel} or \code{read.table}.
+#' @param ... Further arguments passed to \code{read_excel}, \code{read.csv}, or \code{read.table}.
 #'
 #' @export
+#' 
+#' @importFrom readxl read_excel
 #' 
 
 shine_scd <- function(dataset = NULL, ...) {
@@ -40,10 +43,12 @@ shine_scd <- function(dataset = NULL, ...) {
   
   if (!is.null(dataset)) {
     if (!inherits(dataset, "data.frame")) {
-      if (grepl(".xlsx", dataset)) {
+      if (grepl(".xlsx$", dataset)) {
         dataset <- readxl::read_excel(dataset, ...)
+      } else if (grepl(".csv$", dataset)) {
+        dataset <- utils::read.csv(dataset, ...)
       } else {
-        dataset <- read.table(dataset, ...)
+        dataset <- utils::read.table(dataset, ...)
       }
     }
     
