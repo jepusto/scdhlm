@@ -2,74 +2,23 @@
 server <- 
   shinyServer(function(input, output, session) {
     
-    dataset_ext <- reactive({
-      
-      if (!is.null(dataset)) {
-        if (grepl(".xlsx", dataset)) {
-          "xlsx"
-        } else if (grepl(".csv", dataset)) {
-          "csv" 
-        } else if (grepl(".txt", dataset)) {
-          "txt"
-        } else {
-          "other"
-        } 
-      } else {
-        "none"
-      }
-    })
-    
-    output$fileloading <- renderUI({
-      
-      # data loading interface
-      if (input$dat_type == "example") {
-        selectInput("example", label = "Choose an example", choices = exampleChoices)
-      } else if (input$dat_type == "dat") {
-        list(
-          fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv', '.txt')),
-          checkboxInput('header', 'File has a header?', TRUE),
-          radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
-          radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
-        )
-      } else if (input$dat_type == "xlsx") {
-        list(
-          fileInput('xlsx', 'Upload a .xlsx file', accept = c('.xlsx')),
-          checkboxInput('col_names', 'File has a header?', TRUE),
-          selectInput("inSelect", "Select a sheet", "")
-        )
-      } else if (input$dat_type == "loaded") {
-        if (dataset_ext() %in% c("csv","txt")) {
-          default_sep <- if (dataset_ext() == "txt") '\t' else ','
-          list(
-            checkboxInput('header', 'File has a header?', TRUE),
-            radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' '), default_sep),
-            radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
-          ) 
-        } else if (dataset_ext() == "xlsx") {
-          list(
-            checkboxInput('col_names', 'File has a header?', TRUE),
-            selectInput("inSelect", "Select a sheet", "")
-          ) 
-        }
-      }
-    })
-    
     sheetname <- reactive({
       if (input$dat_type == "xlsx") {
         inFile <- input$xlsx
         if (is.null(inFile)) return(NULL)
-        return(excel_sheets(inFile$datapath))
-      } else if (input$dat_type == "loaded" & dataset_ext() == "xlsx") {
-        return(excel_sheets(dataset))
-      } else {
-        return(NULL)
-      }
+        sheetnames <- excel_sheets(inFile$datapath)
+      } else if (input$dat_type == "loaded" & dataset_ext == "xlsx") {
+        sheetnames <- excel_sheets(dataset)
+        if (length(sheetnames) > 0) return(sheetnames)
+      } 
     })
     
     observe({
+      sheets <- sheetname()
+      cat("Sheets:", sheets)
       updateSelectInput(session, "inSelect", label = "Select a sheet",
-                        choices = sheetname(),
-                        selected = NULL)
+                        choices = sheets,
+                        selected = sheets[1])
     })
 
     # Read in data
@@ -96,12 +45,12 @@ server <-
                                 sheet = input$inSelect))
         
       } else if (input$dat_type == "loaded") {
-        if (dataset_ext() %in% c("csv","txt")) {
+        if (dataset_ext %in% c("csv","txt")) {
           if (is.null(input$header)) return(NULL)
           read.table(dataset, header=input$header, 
                      sep=input$sep, quote=input$quote,
                      stringsAsFactors = FALSE)
-        } else if (dataset_ext() == "xlsx") {
+        } else if (dataset_ext == "xlsx") {
           if (is.null(input$inSelect) || nchar(input$inSelect) == 0) return(NULL)
           as.data.frame(read_xlsx(dataset, col_names = input$col_names,
                                   sheet = input$inSelect))
