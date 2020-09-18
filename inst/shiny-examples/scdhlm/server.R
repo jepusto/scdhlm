@@ -14,19 +14,13 @@ server <-
     })
     
     observeEvent(input$inSelect, {
-      updateSelectInput(session, "inSelect", label = "Select a sheet",
-                        choices = sheetname(),
-                        selected = NULL)
-    })
-    
-    observe({
       sheets <- sheetname()
       cat("Sheets:", sheets)
       updateSelectInput(session, "inSelect", label = "Select a sheet",
                         choices = sheets,
                         selected = sheets[1])
     })
-
+    
     # Read in data
     
     datFile <- reactive({ 
