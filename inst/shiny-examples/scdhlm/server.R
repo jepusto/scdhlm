@@ -2,26 +2,56 @@
 server <- 
   shinyServer(function(input, output, session) {
     
+    dataset_ext <- reactive({
+      
+      if (!is.null(dataset)) {
+        if (grepl(".xlsx", dataset)) {
+          "xlsx"
+        } else if (grepl(".csv", dataset)) {
+          "csv" 
+        } else if (grepl(".txt", dataset)) {
+          "txt"
+        } else {
+          "other"
+        } 
+      } else {
+        "none"
+      }
+    })
+    
     output$fileloading <- renderUI({
       
       # data loading interface
       if (input$dat_type == "example") {
         selectInput("example", label = "Choose an example", choices = exampleChoices)
       } else if (input$dat_type == "dat") {
-          list(
-            fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv', '.txt')),
-            checkboxInput('header', 'File has a header?', TRUE),
-            radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
-            radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'")))
+        list(
+          fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv', '.txt')),
+          checkboxInput('header', 'File has a header?', TRUE),
+          radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
+          radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
+        )
       } else if (input$dat_type == "xlsx") {
-          list(
-            fileInput('xlsx', 'Upload a .xlsx file', accept = c('.xlsx')),
-            checkboxInput('col_names', 'File has a header?', TRUE),
-            selectInput("inSelect", "Select a sheet", ""))
+        list(
+          fileInput('xlsx', 'Upload a .xlsx file', accept = c('.xlsx')),
+          checkboxInput('col_names', 'File has a header?', TRUE),
+          selectInput("inSelect", "Select a sheet", "")
+        )
       } else if (input$dat_type == "loaded") {
-        
+        if (dataset_ext() %in% c("csv","txt")) {
+          default_sep <- if (dataset_ext() == "txt") '\t' else ','
+          list(
+            checkboxInput('header', 'File has a header?', TRUE),
+            radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' '), default_sep),
+            radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
+          ) 
+        } else if (dataset_ext() == "xlsx") {
+          list(
+            checkboxInput('col_names', 'File has a header?', TRUE),
+            selectInput("inSelect", "Select a sheet", "")
+          ) 
+        }
       }
-      
     })
     
     sheetname <- reactive({
@@ -40,40 +70,43 @@ server <-
                         choices = sheetname(),
                         selected = NULL)
     })
+
+    # Read in data
     
-    
-    datFile <- reactive({
-      
-        if (input$dat_type == "dat") {
-          inFile <- input$dat
-          if (is.null(inFile)) return(NULL)
-          read.table(inFile$datapath, header = input$header,
-                     sep = input$sep, quote = input$quote,
+    datFile <- reactive({ 
+
+      if (input$dat_type == "dat") {
+        
+        inFile <- input$dat
+        
+        if (is.null(inFile)) return(NULL)
+        
+        read.table(inFile$datapath, header=input$header, 
+                   sep=input$sep, quote=input$quote,
+                   stringsAsFactors = FALSE)
+        
+      } else if (input$dat_type == "xlsx") {
+        
+        inFile <- input$xlsx
+        
+        if (is.null(inFile)) return(NULL)
+        
+        as.data.frame(read_xlsx(inFile$datapath, col_names = input$col_names,
+                                sheet = input$inSelect))
+        
+      } else if (input$dat_type == "loaded") {
+        if (dataset_ext() %in% c("csv","txt")) {
+          if (is.null(input$header)) return(NULL)
+          read.table(dataset, header=input$header, 
+                     sep=input$sep, quote=input$quote,
                      stringsAsFactors = FALSE)
-          
-        } else if (input$dat_type == "xlsx") {
-          inFile <- input$xlsx
-          if (is.null(inFile)) return(NULL)
-          as.data.frame(read_xlsx(inFile$datapath, col_names = input$col_names,
+        } else if (dataset_ext() == "xlsx") {
+          if (is.null(input$col_names)) return(NULL)
+          as.data.frame(read_xlsx(dataset, col_names = input$col_names,
                                   sheet = input$inSelect))
-          
-        } else if (input$dat_type == "loaded") {
-          file_ext <- sub('.*\\.','', dataset)
-          if (file_ext == "xlsx") {
-            as.data.frame(read_xlsx(dataset))
-          } else if (file_ext == "csv") {
-            as.data.frame(read.csv(dataset))
-          } else if (file_ext == "txt") {
-            as.data.frame(read.delim(dataset))
-          } else {
-          }
-          
-        } else {
-          
         }
+      } 
     })
-    
-    
     
     # Check that file is uploaded
     
@@ -86,12 +119,12 @@ server <-
     # Study design with defaults 
     
     studyDesign <- reactive({
-
-        if (input$dat_type == "example") {
-          exampleMapping[[input$example]]$design
-        } else {
-          input$design
-        }
+      
+      if (input$dat_type == "example") {
+        exampleMapping[[input$example]]$design
+      } else {
+        input$design
+      }
       
     })
     
@@ -111,6 +144,8 @@ server <-
     
     output$sessionIssues1 <- renderUI({
       
+      if (is.null(input$session)) return(list())
+      
       sessions <- datFile()[,input$session]
       
       if (!is.numeric(sessions)) {
@@ -126,24 +161,26 @@ server <-
     
     output$sessionIssues2 <- renderUI({
       
-      sessions <- datFile()[,input$session]
-      case_var <- datFile()[,input$caseID,drop=FALSE]
-      filter_vars <- datFile()[,input$filters,drop=FALSE]
-      split_vars <- cbind(case_var, filter_vars)
-      
-      if (length(split_vars) > 0 & is.numeric(sessions)) {
+      if (!is.null(input$session)) {
+        sessions <- datFile()[,input$session]
+        case_var <- datFile()[,input$caseID,drop=FALSE]
+        filter_vars <- datFile()[,input$filters,drop=FALSE]
+        split_vars <- cbind(case_var, filter_vars)
         
-        if (!is.null(input$round_session)) if (input$round_session) sessions <- round(sessions)
-        
-        unique_sessions <- tapply(sessions, split_vars, 
-                                  function(x) isTRUE(all.equal(x, unique(x))))
-        
-        if (!all(unique_sessions, na.rm = TRUE)) {
-          list(
-            strong(style="color:red", "Session variable contains repeated values. Please ensure that each data point has a unique value within each case."),
-            br("") 
-          )
-        }
+        if (length(split_vars) > 0 & is.numeric(sessions)) {
+          
+          if (!is.null(input$round_session)) if (input$round_session) sessions <- round(sessions)
+          
+          unique_sessions <- tapply(sessions, split_vars, 
+                                    function(x) isTRUE(all.equal(x, unique(x))))
+          
+          if (!all(unique_sessions, na.rm = TRUE)) {
+            list(
+              strong(style="color:red", "Session variable contains repeated values. Please ensure that each data point has a unique value within each case."),
+              br("") 
+            )
+          }
+        }        
       }
     })
     
@@ -156,111 +193,117 @@ server <-
     # Treatment label mapping interface
     
     output$phaseMapping <- renderUI({
-      phases <- levels(as.factor(datFile()[,input$phaseID]))
-      list(
-        selectInput("baseline", label = "Baseline level", choices = phases, selected = phases[1]),
-        selectInput("treatment", label = "Treatment level", choices = phases, selected = phases[2])
-      )
+      if (!is.null(input$phaseID) & nchar(input$phaseID) > 0) {
+        phases <- levels(as.factor(datFile()[,input$phaseID]))
+        list(
+          selectInput("baseline", label = "Baseline level", choices = phases, selected = phases[1]),
+          selectInput("treatment", label = "Treatment level", choices = phases, selected = phases[2])
+        )
+      }
     })
     
     # Filtering interface
     
     output$filtervarMapping <- renderUI({
-        if (input$dat_type == "example") {
-        } else {
-          var_names <- names(datFile())
-          n_var <- length(var_names)
-          list(
-            selectizeInput("filters", label = "Filtering variables", choices = var_names, selected = NULL, multiple = TRUE)
-          )
-        }
+      
+      if (input$dat_type == "example") {
+      } else {
+        var_names <- names(datFile())
+        n_var <- length(var_names)
+        list(
+          selectizeInput("filters", label = "Filtering variables", choices = var_names, selected = NULL, multiple = TRUE)
+        )
+      }
+      
     })
     
     output$filterMapping <- renderUI({
-        if (input$dat_type == "example") {
-          example_parms <- exampleMapping[[input$example]]
-          filter_vars <- example_parms$filters  
-          filter_vals <- lapply(filter_vars, function(x) example_parms[[paste0("filter_", x)]])
-          names(filter_vals) <- filter_vars
-          header <- strong("Please select the variables you wish to filter.")
-        } else {
-          filter_vars <- input$filters  
-          filter_vals <- lapply(filter_vars, function(x) levels(as.factor(datFile()[,x])))
-          names(filter_vals) <- filter_vars
-          header <- strong("Values for the filtering variables.")
-        }
-        
-        filter_selects <- lapply(filter_vars, function(x) 
-          selectizeInput(paste0("filter_",x), label = x, choices = filter_vals[[x]], 
-                         selected = filter_vals[[x]][1], multiple = TRUE))
-        
-        if (length(filter_vars) > 0) {
-          filter_selects <- list(header, column(12, br()), filter_selects)
-        }
-        
-        filter_selects
+      
+      if (input$dat_type == "example") {
+        example_parms <- exampleMapping[[input$example]]
+        filter_vars <- example_parms$filters  
+        filter_vals <- lapply(filter_vars, function(x) example_parms[[paste0("filter_", x)]])
+        names(filter_vals) <- filter_vars
+        header <- strong("Please select the variables you wish to filter.")
+      } else {
+        filter_vars <- input$filters  
+        filter_vals <- lapply(filter_vars, function(x) levels(as.factor(datFile()[,x])))
+        names(filter_vals) <- filter_vars
+        header <- strong("Values for the filtering variables.")
+      }
+      
+      filter_selects <- lapply(filter_vars, function(x) 
+        selectizeInput(paste0("filter_",x), label = x, choices = filter_vals[[x]], 
+                       selected = filter_vals[[x]][1], multiple = TRUE))
+      
+      if (length(filter_vars) > 0) {
+        filter_selects <- list(header, column(12, br()), filter_selects)
+      }
+      
+      filter_selects
+    
     })
     
     # Clean the data
     
-      datClean <- reactive({
+    datClean <- reactive({
+      
+      if (input$dat_type == "example") {
+        data(list = input$example)
+        dat <- get(input$example)
+        example_parms <- exampleMapping[[input$example]]
+        filter_vars <- example_parms$filters  
+        if (!is.null(filter_vars)) {
+          subset_vals <- sapply(filter_vars, function(x) levels(dat[[x]])[dat[[x]]] %in% input[[paste0("filter_",x)]])
+          dat <- dat[apply(subset_vals, 1, all),]
+        } 
+        dat <- dat[,example_parms$vars]
+        names(dat) <- c("case","session","phase","outcome")
+        trt_phase <- levels(as.factor(dat$phase))[2]
+      } else {
         
-        if (input$dat_type == "example") {
-          data(list = input$example)
-          dat <- get(input$example)
-          example_parms <- exampleMapping[[input$example]]
-          filter_vars <- example_parms$filters  
-          if (!is.null(filter_vars)) {
-            subset_vals <- sapply(filter_vars, function(x) levels(dat[[x]])[dat[[x]]] %in% input[[paste0("filter_",x)]])
-            dat <- dat[apply(subset_vals, 1, all),]
-          } 
-          dat <- dat[,example_parms$vars]
-          names(dat) <- c("case","session","phase","outcome")
-          trt_phase <- levels(as.factor(dat$phase))[2]
-        } else {
-          
-          case_vec <- datFile()[,input$caseID]
-          caseID <- factor(case_vec, levels = unique(case_vec))
-          
-          session <- as.numeric(datFile()[,input$session])
-          if (is.null(input$round_session)) {
-            session <- as.integer(session) 
-          } else if (input$round_session) {
-            session <- as.integer(round(session))
-          }
-          
-          phase_vec <- datFile()[,input$phaseID]
-          phaseID <- factor(phase_vec, levels = unique(phase_vec))
-          
-          outcome <- as.numeric(datFile()[,input$outcome])
-          
-          dat <- data.frame(case = caseID, session = session, phase = phaseID, outcome = outcome)
-          
-          if (!is.null(input$filters)) {
-            subset_vals <- sapply(input$filters, function(x) datFile()[[x]] %in% input[[paste0("filter_",x)]])
-            dat <- dat[apply(subset_vals, 1, all),]
-          } 
-          
-          trt_phase <- input$treatment
-          
-          # remove rows with missing outcome values
-          dat <- dat[!is.na(dat$outcome),]
+        case_vec <- datFile()[,input$caseID]
+        caseID <- factor(case_vec, levels = unique(case_vec))
+        
+        session <- as.numeric(datFile()[,input$session])
+        if (is.null(input$round_session)) {
+          session <- as.integer(session) 
+        } else if (input$round_session) {
+          session <- as.integer(round(session))
         }
         
-        dat$trt <- as.numeric(dat$phase==trt_phase)
+        phase_vec <- datFile()[,input$phaseID]
+        phaseID <- factor(phase_vec, levels = unique(phase_vec))
         
-        if (studyDesign() == "MB") {
-          dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
-        } else {
-          dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
-        }
+        outcome <- as.numeric(datFile()[,input$outcome])
         
-        dat <- droplevels(dat)
+        dat <- data.frame(case = caseID, session = session, phase = phaseID, outcome = outcome)
         
-        return(dat)
+        if (!is.null(input$filters)) {
+          subset_vals <- sapply(input$filters, function(x) datFile()[[x]] %in% input[[paste0("filter_",x)]])
+          dat <- dat[apply(subset_vals, 1, all),]
+        } 
         
-      })
-    
+        trt_phase <- input$treatment
+        
+        # remove rows with missing outcome values
+        dat <- dat[!is.na(dat$outcome),]
+      }
+      
+      dat$trt <- as.numeric(dat$phase==trt_phase)
+      
+      if (studyDesign() == "MB") {
+        dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
+      } else {
+        dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
+      }
+      
+      dat <- droplevels(dat)
+      
+      return(dat)
+      
+    })
+
     output$datTable <- renderTable(datClean())
     
     # Centering and timing sliders for RML estimation of MBD
