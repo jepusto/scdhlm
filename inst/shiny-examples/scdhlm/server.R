@@ -13,6 +13,12 @@ server <-
       } 
     })
     
+    observeEvent(input$inSelect, {
+      updateSelectInput(session, "inSelect", label = "Select a sheet",
+                        choices = sheetname(),
+                        selected = NULL)
+    })
+    
     observe({
       sheets <- sheetname()
       cat("Sheets:", sheets)
