@@ -13,9 +13,9 @@ server <-
       } 
     })
     
-    observeEvent(input$inSelect, {
+    observeEvent(input$dat_type, {
       sheets <- sheetname()
-      cat("Sheets:", sheets)
+      cat("Sheets:", sheets, "\n")
       updateSelectInput(session, "inSelect", label = "Select a sheet",
                         choices = sheets,
                         selected = sheets[1])
