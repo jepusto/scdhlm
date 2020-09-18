@@ -66,6 +66,12 @@ server <-
       }
     })
     
+    observeEvent(input$inSelect, {
+      updateSelectInput(session, "inSelect", label = "Select a sheet",
+                        choices = sheetname(),
+                        selected = NULL)
+    })
+    
     observe({
       updateSelectInput(session, "inSelect", label = "Select a sheet",
                         choices = sheetname(),
