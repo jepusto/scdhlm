@@ -22,3 +22,13 @@ An interactive shiny interface for estimating design-comparable
   Estimation methods for multiple baseline and treatment reversal designs are
   available.
 }
+\examples{
+\dontrun{
+shine_scd()
+data(Laski)
+shine_scd(dataset = Laski)
+shine_scd(dataset = "SCD_data.xlsx", sheet = "Laski")
+shine_scd(dataset = "Laski.csv") 
+}
+
+}

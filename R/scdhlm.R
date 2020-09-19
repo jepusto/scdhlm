@@ -14,6 +14,15 @@
 #'   If a file path with a different extension is specified, it will be read using \code{read.table}.
 #' @param ... Further arguments passed to \code{read_excel}, \code{read.csv}, or \code{read.table}.
 #'
+#' @examples 
+#' \dontrun{
+#' shine_scd()
+#' data(Laski)
+#' shine_scd(dataset = Laski)
+#' shine_scd(dataset = "SCD_data.xlsx", sheet = "Laski")
+#' shine_scd(dataset = "Laski.csv") 
+#' }
+#' 
 #' @export
 #' 
 #' @importFrom readxl read_excel
