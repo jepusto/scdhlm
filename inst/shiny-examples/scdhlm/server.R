@@ -11,9 +11,6 @@ source("lme-fit.R", local = TRUE)
 server <- 
   shinyServer(function(input, output, session) {
     
-    cat("Exists in server env: ", exists("dataset", where = environment(server)), "\n")
-    if (exists("dataset", where = environment(server))) print(head(dataset))
-
     if (exists("dataset", where = environment(server))) if (!is.null(dataset)) {
       updateRadioButtons(
         session, 
@@ -22,7 +19,7 @@ server <-
         choices = c("Use an example" = "example",
                     "Upload data from a .csv or .txt file" = "dat",
                     "Upload data from a .xlsx file" = "xlsx",
-                    "Use the current dataset" = "loaded"),
+                    "Use the dataset specified at initialization" = "loaded"),
         selected = "loaded"
       )
     }
