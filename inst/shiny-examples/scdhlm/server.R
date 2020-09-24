@@ -1,21 +1,40 @@
+library(shiny)
+library(markdown)
+library(ggplot2)
+library(scdhlm)
+
+source("mappings.R", local = TRUE)
+source("helper-functions.R", local = TRUE)
+source("lme-fit.R", local = TRUE)
 
 server <- 
   shinyServer(function(input, output, session) {
+    
+    if (exists("dataset", where = environment(server))) if (!is.null(dataset)) {
+      updateRadioButtons(
+        session, 
+        inputId = 'dat_type', 
+        label = 'What data do you want to use?',
+        choices = c("Use an example" = "example",
+                    "Upload data from a .csv or .txt file" = "dat",
+                    "Upload data from a .xlsx file" = "xlsx",
+                    "Use the dataset specified at initialization" = "loaded"),
+        selected = "loaded"
+      )
+    }
+    
+    
     
     sheetname <- reactive({
       if (input$dat_type == "xlsx") {
         inFile <- input$xlsx
         if (is.null(inFile)) return(NULL)
         sheetnames <- excel_sheets(inFile$datapath)
-      } else if (input$dat_type == "loaded" & dataset_ext == "xlsx") {
-        sheetnames <- excel_sheets(dataset)
-        if (length(sheetnames) > 0) return(sheetnames)
       } 
     })
     
-    observeEvent(input$dat_type, {
+    observe({
       sheets <- sheetname()
-      cat("Sheets:", sheets, "\n")
       updateSelectInput(session, "inSelect", label = "Select a sheet",
                         choices = sheets,
                         selected = sheets[1])
@@ -41,20 +60,11 @@ server <-
         
         if (is.null(inFile) || is.null(input$inSelect) || nchar(input$inSelect) == 0) return(NULL)
         
-        as.data.frame(read_xlsx(inFile$datapath, col_names = input$col_names,
+        as.data.frame(readxl::read_xlsx(inFile$datapath, col_names = input$col_names,
                                 sheet = input$inSelect))
         
       } else if (input$dat_type == "loaded") {
-        if (dataset_ext %in% c("csv","txt")) {
-          if (is.null(input$header)) return(NULL)
-          read.table(dataset, header=input$header, 
-                     sep=input$sep, quote=input$quote,
-                     stringsAsFactors = FALSE)
-        } else if (dataset_ext == "xlsx") {
-          if (is.null(input$inSelect) || nchar(input$inSelect) == 0) return(NULL)
-          as.data.frame(read_xlsx(dataset, col_names = input$col_names,
-                                  sheet = input$inSelect))
-        }
+        dataset
       } 
     })
     

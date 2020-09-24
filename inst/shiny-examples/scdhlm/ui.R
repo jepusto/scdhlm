@@ -1,3 +1,5 @@
+library(shiny)
+source("mappings.R", local = TRUE)
 
 numericInput_inline <- function (inputId, label, value, min = NA, max = NA, step = NA, width = NULL) {
   
@@ -41,21 +43,11 @@ ui <-
            br(),
              fluidRow(
                column(4,
-                      if (!is.null(dataset)) {
-                        radioButtons('dat_type', 
-                                     'What data do you want to use?',
-                                     c("Use an example" = "example",
-                                       "Upload data from a .csv or .txt file" = "dat",
-                                       "Upload data from a .xlsx file" = "xlsx",
-                                       "Use the current dataset" = "loaded"),
-                                     selected = "loaded")
-                      } else {
-                        radioButtons('dat_type', 
-                                     'What data do you want to use?',
-                                     c("Use an example" = "example",
-                                       "Upload data from a .csv or .txt file" = "dat",
-                                       "Upload data from a .xlsx file" = "xlsx"))
-                      },
+                      radioButtons('dat_type', 
+                                   'What data do you want to use?',
+                                   c("Use an example" = "example",
+                                     "Upload data from a .csv or .txt file" = "dat",
+                                     "Upload data from a .xlsx file" = "xlsx")),
                       conditionalPanel(
                         condition = "input.dat_type == 'example'",
                         selectInput("example", label = "Choose an example", 
@@ -74,22 +66,7 @@ ui <-
                         checkboxInput('col_names', 'File has a header?', TRUE),
                         selectInput("inSelect", "Select a sheet", "")
                       ),
-                      if (!is.null(dataset)) {
-                        if (dataset_ext %in% c("csv","txt")) {
-                          conditionalPanel(
-                            condition = "input.dat_type == 'loaded'",
-                            checkboxInput('header', 'File has a header?', TRUE),
-                            radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
-                            radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
-                          )                          
-                        } else if (dataset_ext == "xlsx") {
-                          conditionalPanel(
-                            condition = "input.dat_type == 'loaded'",
-                            checkboxInput('col_names', 'File has a header?', TRUE),
-                            selectInput("inSelect", "Select a sheet", "")
-                          )
-                        }
-                      }),
+                    ),
                column(8,
                       tableOutput("contents"),
                       conditionalPanel(
