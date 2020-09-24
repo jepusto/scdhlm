@@ -2,6 +2,7 @@ library(shiny)
 library(markdown)
 library(ggplot2)
 library(scdhlm)
+library(readxl)
 
 source("mappings.R", local = TRUE)
 source("helper-functions.R", local = TRUE)
