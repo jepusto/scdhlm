@@ -444,47 +444,46 @@ shinyServer(function(input, output, session) {
   
   
   
-  # Synatx for app
+  # Syntax for app
+  
+  parse_code_chunk <- function(chunk, args) {
+    raw_code <- readLines(paste0("code-chunks/", chunk, ".R"))
+    code_chunk <- paste(raw_code, collapse = "\n")
+    glue::glue_data(.x = args, code_chunk)  
+  }
   
   output$syntax <- renderPrint({
-    cat("library(scdhlm)",  sep = "\n") 
-    
     cat('setwd("") #paste path to folder containing data between quotes. Use forward slash: /', sep = "\n")
     
     cat("\n")
     #read in file code
     if(input$dat_type == "example") {
-      cat(paste0("data(",input$example,") \n"))
+      cat(parse_code_chunk("load-example", args = list(example_name = input$example)))
+      cat("\n")
+      
     } else if(input$dat_type == "dat"){
       inFile <- input$dat
-      cat(paste( "dat <-") , paste0("read.table(", '"' ,inFile$name, '"' , ",header=", input$header, 
-                ",sep=", '"', input$sep, '"', ",quote=", input$quote,
-                ",stringsAsFactors = FALSE)"), sep = "\n ")
+      cat(parse_code_chunk("load-dat", args = list(user_path = inFile$name, user_header = input$header, user_sep = input$sep, user_quote = input$quote)))
+      
     } else{
       inFile <- input$xlsx
-      cat(paste("dat <-") , paste0("read_xlsx(", '"' , inFile$name, '"' , ",", "col_names =", input$col_names, ",",
-                 "sheet =", "'" , input$inSelect, "'" , ")"), sep = "\n ")
+      cat(parse_code_chunk("load-excel", args = list(user_path = inFile$name, user_sheet = input$inSelect)))
     }
     
     #Clean Data
     if (input$dat_type == "example"){
-      cat("dat", "<-", paste0("get(",'"',input$example,'"',") \n"))
-      cat("\n")
-      cat("#Clean Data \n")
+      
       example_parms <- exampleMapping[[input$example]]
-      filter_vars <- example_parms$filters  
-    
+      filter_vars <- example_parms$filters
+      
       if (!is.null(filter_vars)) {
-        
-        cat("subset_vals", "<-", paset0("sapply(",paste0('c("', paste(filter_vars, collapse='", "'), '")')), ", function(x)", "dat[[x]]", "%in%", 'input[[paste0("filter_",x)]]) \n', sep = " ")
-        cat("dat", "<-", "dat[apply(subset_vals, 1, all),] \n")
+        cat("\n")
+        cat(parse_code_chunk("clean-example-filter", args = list(user_filtervars = paste(filter_vars, collapse='", "'), user_parms = paste(example_parms$vars, collapse='", "'))))
+        cat("\n")  
       }
-      
-      
-      
-      cat("dat", "<-", paste0("dat[,", paste0('c("', paste(example_parms$vars, collapse='", "'), '")'), "] \n"), sep= " ")
-      cat("names(dat)", "<-", 'c("case","session","phase","outcome") \n', sep= " ")
-      cat("trt_phase", "<-",",levels(as.factor(dat$phase))[2] \n", sep = " ")
+      cat("\n")
+      cat(parse_code_chunk("clean-example-nofilter", args = list(user_parms = paste(example_parms$vars, collapse='", "'))))  
+      cat("\n")
       
       case <- "case"
       session <- "session"
@@ -494,92 +493,72 @@ shinyServer(function(input, output, session) {
       
       
     } else {
-      cat("\n")
-      cat("#Clean Data \n")
-      cat( paste0("dat$",input$caseID , "<-", "factor(" , "dat$",input$caseID , ", levels = unique(","dat$",input$caseID ,"))\n"))
-      cat(paste0("dat$",input$session), paste("<-"), paste0("as.numeric(", "dat$",input$session, ") \n"   ))
-      cat( paste0("dat$",input$phaseID , "<-", "factor(" , "dat$",input$phaseID , ", levels = unique(","dat$",input$phaseID ,"))\n"))
-      cat(paste0("dat$",input$outcome), paste("<-"), paste0("as.numeric(", "dat$",input$outcome, ") \n"   ))
       
       if (!is.null(input$filters)) {
-        cat("subset_vals", "<-", paset0("sapply(",input$filters), ", function(x)", "dat[[x]]", "%in%", 'input[[paste0("filter_",x)]]) \n', sep = " ")
-        cat("dat", "<-", "dat[apply(subset_vals, 1, all),] \n")
-      } 
-      
-      cat("# remove rows with missing outcome values \n")
-      cat("dat", "<-", paste0("dat[!is.na(",input$outcome, "),] \n"), sep = " ")
-      cat("trt_phase", "<-", paste0('"',paste(input$treatment), '"'), "\n", sep = "")
-      
-     
+        cat("\n")
+        cat(parse_code_chunk("clean-inputdata-filter", args = list(user_caseID = input$caseID, user_session = input$session, user_phaseID = input$phaseID , user_outcome = input$outcome, user_treatment = input$treatment, user_filtervars = paste(input$filters, collapse='", "'))))  
+        cat("\n")
+      }
+      cat("\n")
+      cat(parse_code_chunk("clean-inputdata-nofilter", args = list(user_caseID = input$caseID, user_session = input$session, user_phaseID = input$phaseID , user_outcome = input$outcome, user_treatment = input$treatment)))  
       
       case <- input$caseID
       session <- input$session
       phase <- input$phaseID
       outcome <- input$outcome
+      cat("\n")
       
+      if (is.null(input$round_session)) {
+        cat(parse_code_chunk("session_noround", args = list(user_session = input$session)))  
+      } else if (input$round_session) {
+        cat(parse_code_chunk("session_round", args = list(user_session = input$session)))  
+      }
+      
+      cat("\n")
     }
     
-    cat("dat$trt <- as.numeric(", paste0("dat$", phase, "==trt_phase) \n"))
     
     
     if (studyDesign() == "MB") {
- #     cat("dat$session_trt", "<-", paste0("unlist(by(dat, dat$",case, ", function(x, trt_phase) pmax(0, x$session - min(x$session[x$phase==trt_phase])), trt_phase = trt_phase)) \n"))
+      cat(parse_code_chunk("clean-MB", args = list(user_case = case, user_session=session, user_phase=phase, user_model_center = input$model_center)))  
     } else {
       
-      cat("phase_pairs <- function(x) {",
-   "\t conditions <- levels(as.factor(x$phase))",
-  "\t n <- length(x$phase)",
-  "\t phase <- x$phase[order(x$session)]",
-  "\t y <- rep(1,n)",
-  "\t for (i in 2:n) {",
-    "\t \t (i <- i + 1)",
-    "\t \t (which_lev <- match(phase[i-1], conditions))",
-    "\t \t (which_conditions <- conditions[c(which_lev, which_lev + 1)])",
-    "\t \t !(phase[i] %in% which_conditions)",
-    "\t \t (y[i] <- y[i - 1] + !(phase[i] %in% which_conditions))",
-  "\t }",
-  "\t y[order(order(x$session))]",
-"}", sep = "\n")
+      cat(parse_code_chunk("clean-TR", args = list(user_case = case, user_session=session, user_phase=phase)))  
       
-      
-      cat("dat$phase_pair", "<-", "unlist(by(dat,", paste0("dat$",case,","), "phase_pairs)) \n", sep = " ")
     }
-    
-    cat("dat", "<-", "droplevels(dat) \n", sep = "")
     
     if (input$method=="RML") {
-      cat("dat <-", paste0("dat[order(dat$", case, ", dat$session),] \n"))
-    if (studyDesign() == "MB") {
-      session_FE <- write_formula(input$FE_base, c("0","1","session"))
-      trt_FE <- write_formula(input$FE_trt, c("NULL", "trt", "session_trt"))
-      session_RE <- write_formula(input$RE_base, c("0","1","session"))
-      trt_RE <- write_formula(input$RE_trt, c("NULL","trt","session_trt"))
-      cat(paste("dat$session <-",  paste0("dat$", session), " - ", input$model_center, "\n")) # center
-    
-    } else {
-      session_FE <- if (is.null(input$FE_base) | !(0 %in% input$FE_base)) "0" else "1"
-      trt_FE <- if (is.null(input$FE_trt) | !(0 %in% input$FE_trt)) NULL else "trt"
-      session_RE <- if (is.null(input$RE_base) | !(0 %in% input$RE_base)) "0" else "1"
-      trt_RE <- if (is.null(input$RE_trt) | !(0 %in% input$RE_trt)) NULL else "trt"
-    }
+      
+      if (studyDesign() == "MB") {
+        session_FE <- write_formula(input$FE_base, c("0","1","session"))
+        trt_FE <- write_formula(input$FE_trt, c("NULL", "trt", "session_trt"))
+        session_RE <- write_formula(input$RE_base, c("0","1","session"))
+        trt_RE <- write_formula(input$RE_trt, c("NULL","trt","session_trt"))
+        
+      } else {
+        session_FE <- if (is.null(input$FE_base) | !(0 %in% input$FE_base)) "0" else "1"
+        trt_FE <- if (is.null(input$FE_trt) | !(0 %in% input$FE_trt)) NULL else "trt"
+        session_RE <- if (is.null(input$RE_base) | !(0 %in% input$RE_base)) "0" else "1"
+        trt_RE <- if (is.null(input$RE_trt) | !(0 %in% input$RE_trt)) NULL else "trt"
+      }
       
       fixed <- paste("outcome", "~",paste(c(session_FE, trt_FE), collapse = " + "))
       random <- paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| ", paste(case))
-      cat("\n")
-      cat("#model fit \n")
-      cat(paste("modelfit <-", "lme(fixed =", paste(fixed, collapse = " "),", random =", paste(random, collapse = ""),", \n correlation = corAR1(0.01, ~", paste(session), "|", paste(case), "), \n data = ", paste(input$example, ",", collapse = ""),"\n control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))", collapse= "")) #model
-      cat("\n summary(modelfit)",  sep = "\n")
+      # cat("\n")
+      # cat("#model fit \n")
+      # cat(paste("modelfit <-", "lme(fixed =", paste(fixed, collapse = " "),", random =", paste(random, collapse = ""),", \n correlation = corAR1(0.01, ~", paste(session), "|", paste(case), "), \n data = ", paste(input$example, ",", collapse = ""),"\n control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))", collapse= "")) #model
+      # cat("\n summary(modelfit)",  sep = "\n")
+      # 
+      # 
+      # cat("\n")
+      # cat("#Effect Size \n")
       
       
-      cat("\n")
-      cat("#Effect Size \n")
-      
-
       A <- if (is.null(input$A_time)) 0L else input$A_time
       B <- if (is.null(input$B_time)) 1L else input$B_time
       
       fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[studyDesign()]]
-      m_fit <- do.call(fit_function, 
+      m_fit <- do.call(fit_function,
                        args = list(dat = datClean(), FE_base = input$FE_base, RE_base = input$RE_base,
                                    FE_trt = input$FE_trt, RE_trt = input$RE_trt, center = B, phi_init = 0.01))
       fixed <- m_fit$fixed
@@ -588,40 +567,45 @@ shinyServer(function(input, output, session) {
       mod$call$fixed <- fixed
       mod$call$random <- random
       
- 
+      
       p_const <- c(rep(0L, length(input$FE_base)), (B - A - 1)^as.integer(input$FE_trt))
       r_dim <- length(input$RE_base) + length(input$RE_trt)
       r_const <- c(as.integer(0 %in% input$RE_base),
                    rep(0, r_dim * (r_dim + 1) / 2 - 1),
-                   rep(0, length(mod$modelStruct$corStruct)), 
-                   rep(0, length(mod$modelStruct$varStruct)), 
+                   rep(0, length(mod$modelStruct$corStruct)),
+                   rep(0, length(mod$modelStruct$varStruct)),
                    1L)
       
       
-     cat("g_mlm(modelfit, p_const =", paste0(paste0('c("', paste(p_const, collapse='", "'), '")'), "," ), "r_const =", paste0(paste0('c("', paste(r_const, collapse='", "'), '")'), "," ), 'infotype = "expected", returnModel = TRUE) \n' )
+      #  cat("g_mlm(modelfit, p_const =", paste0(paste0('c("', paste(p_const, collapse='", "'), '")'), "," ), "r_const =", paste0(paste0('c("', paste(r_const, collapse='", "'), '")'), "," ), 'infotype = "expected", returnModel = TRUE) \n' )
+      
+       cat(parse_code_chunk("RML", args = list(user_case = case, user_session=session, user_fixed=fixed, user_random = random, user_pconstant = paste(p_const, collapse='", "'), user_rconstant= paste(r_const, collapse='", "'))))  
+      
       
     } else {
       if (studyDesign()=="MB") {
-        cat("\n")
-        cat("#Effect Size \n")
-        cat( "res <- with(dat, effect_size_MB(outcome =", paste0(outcome, ","), "treatment = trt,", "id =", paste0(case, ","), "time =", paste0(session, ")) \n"))
+        # cat("\n")
+        # cat("#Effect Size \n")
+        # cat( "res <- with(dat, effect_size_MB(outcome =", paste0(outcome, ","), "treatment = trt,", "id =", paste0(case, ","), "time =", paste0(session, ")) \n"))
+        # 
+        cat(parse_code_chunk("MB-effect", args = list(user_outcome = outcome,user_case = case, user_session=session)))
+        
       } else {
-        cat("\n")
-        cat("#Effect Size \n")
-        cat( "res <- with(dat, effect_size_ABk(outcome =", paste0(outcome, ","), "treatment = trt,", "id =", paste0(case, ","), "phase = phase_pair,","time =", paste0(session, ")) \n"))
+        # cat("\n")
+        # cat("#Effect Size \n")
+        # cat( "res <- with(dat, effect_size_ABk(outcome =", paste0(outcome, ","), "treatment = trt,", "id =", paste0(case, ","), "phase = phase_pair,","time =", paste0(session, ")) \n"))
+        cat(parse_code_chunk("TR-effect", args = list(user_outcome = outcome,user_case = case, user_session=session)))
         
       }
     }
     
-    cat("res \n \n")
     
-    cat("\n")
-    cat("#Graph \n")
+    # cat("graph_SCD(data = dat, design = ", paste0(studyDesign(), "," ), "case =", paste0(case, ","), "phase =", paste0(phase, ","), "session =", paste0(session, ","), "outcome =", paste0(outcome, ","), "treatment_name =", paste0('"',paste(input$treatment), '"'), ")" )
     
-    cat("graph_SCD(data = dat, design = ", paste0(studyDesign(), "," ), "case =", paste0(case, ","), "phase =", paste0(phase, ","), "session =", paste0(session, ","), "outcome =", paste0(outcome, ","), "treatment_name =", paste0('"',paste(input$treatment), '"'), ")" )
-
+    cat(parse_code_chunk("Graph", args = list(user_design= studyDesign(),user_case = case, user_session=session, user_phase=phase, user_outcome = outcome, user_treatment = input$treatment)))
+    
   }
-)
+  )
   
   
  session$onSessionEnded(stopApp)
