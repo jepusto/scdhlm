@@ -1,6 +1,5 @@
 library(shiny)
-source("mappings.R")
-library(readxl)
+source("mappings.R", local = TRUE)
 
 numericInput_inline <- function (inputId, label, value, min = NA, max = NA, step = NA, width = NULL) {
   
@@ -23,7 +22,8 @@ numericInput_inline <- function (inputId, label, value, min = NA, max = NA, step
   
 }
 
-shinyUI(fluidPage(
+ui <- 
+  shinyUI(fluidPage(
    tags$head(tags$style(HTML("div#inline label { width: 50%; } div#inline input { display: inline-block; width: 25%;}"))),
    titlePanel("Between-case standardized mean difference estimator"),
    tabsetPanel(type = "tabs",
@@ -41,52 +41,55 @@ shinyUI(fluidPage(
         ),
         tabPanel("Load",
            br(),
-           fluidRow(
-             column(4,
-                radioButtons('dat_type', 'What data do you want to use?', 
-                             c("Use an example" = "example", "Upload data from a .csv or .txt file" = "dat", "Upload data from a .xlsx file" = "xlsx")),
-                conditionalPanel(
-                  condition = "input.dat_type == 'example'",
-                  selectInput("example", label = "Choose an example", 
-                              choices = exampleChoices)
-                ),
-                conditionalPanel(
-                  condition = "input.dat_type == 'dat'",
-                  fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv', '.txt')),
-                  checkboxInput('header', 'File has a header?', TRUE),
-                  radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
-                  radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
-                ),
-                conditionalPanel(
-                  condition = "input.dat_type == 'xlsx'",
-                  fileInput('xlsx', 'Upload a .xlsx file', accept = c('.xlsx')),
-                  checkboxInput('col_names', 'File has a header?', TRUE),
-                  selectInput("inSelect", "Select a sheet", "")
-                )
+             fluidRow(
+               column(4,
+                      radioButtons('dat_type', 
+                                   'What data do you want to use?',
+                                   c("Use an example" = "example",
+                                     "Upload data from a .csv or .txt file" = "dat",
+                                     "Upload data from a .xlsx file" = "xlsx")),
+                      conditionalPanel(
+                        condition = "input.dat_type == 'example'",
+                        selectInput("example", label = "Choose an example", 
+                                    choices = exampleChoices)
+                      ),
+                      conditionalPanel(
+                        condition = "input.dat_type == 'dat'",
+                        fileInput('dat', 'Upload a .csv or .txt file', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv', '.txt')),
+                        checkboxInput('header', 'File has a header?', TRUE),
+                        radioButtons('sep', 'Data seperator', c(Commas=',', Semicolons=';', Tabs='\t', Spaces=' ')),
+                        radioButtons('quote', 'Include quotes?', c('No'='', 'Double Quotes'='"', 'Single Quotes'="'"))
+                      ),
+                      conditionalPanel(
+                        condition = "input.dat_type == 'xlsx'",
+                        fileInput('xlsx', 'Upload a .xlsx file', accept = c('.xlsx')),
+                        checkboxInput('col_names', 'File has a header?', TRUE),
+                        selectInput("inSelect", "Select a sheet", "")
+                      ),
+                    ),
+               column(8,
+                      tableOutput("contents"),
+                      conditionalPanel(
+                        condition = "output.fileUploaded & input.dat_type == 'dat' || output.fileUploaded & input.dat_type == 'xlsx' || input.dat_type == 'loaded'",
+                        selectInput("design", label = "1. Please specify the study design.",
+                                    choices = design_names),
+                        strong("2. Please select the variable containing each type of information."),
+                        column(12, br()),
+                        uiOutput("variableMapping"),
+                        uiOutput("sessionIssues1"),
+                        uiOutput("sessionIssues2"),
+                        uiOutput("outcomeMapping"),
+                        strong("3. Please specify the baseline and treatment levels."),
+                        column(12, br()),
+                        uiOutput("phaseMapping"), 
+                        strong("4. Please select the variables you wish to filter (optional)."),
+                        column(12, br()),
+                        uiOutput("filtervarMapping")
+                      ),
+                      
+                      uiOutput("filterMapping")
+               )
              ),
-             column(8,
-                tableOutput("contents"),
-                conditionalPanel(
-                  condition = "output.fileUploaded & input.dat_type == 'dat' || output.fileUploaded & input.dat_type == 'xlsx'",
-                  selectInput("design", label = "1. Please specify the study design.",
-                              choices = design_names),
-                  strong("2. Please select the variable containing each type of information."),
-                  column(12, br()),
-                  uiOutput("variableMapping"),
-                  uiOutput("sessionIssues1"),
-                  uiOutput("sessionIssues2"),
-                  uiOutput("outcomeMapping"),
-                  strong("3. Please specify the baseline and treatment levels."),
-                  column(12, br()),
-                  uiOutput("phaseMapping"), 
-                  strong("4. Please select the variables you wish to filter (optional)."),
-                  column(12, br()),
-                  uiOutput("filtervarMapping")
-                ),
-  
-                uiOutput("filterMapping")
-              )
-           ),
            fluidRow(br(),br(),br())
         ),
         
@@ -179,14 +182,9 @@ shinyUI(fluidPage(
         ),
         
         tabPanel("Syntax for R",
-               h4("Please copy and paste syntax into script. Make sure to modify the working directory before running"),
-               verbatimTextOutput("syntax")
-                 # h4("Effect size estimates and auxilliary information"),
-                 # div(id = "inline",
-                 #     numericInput("coverage","CI coverage level (%)", value = 95, min = 0, max = 100, step = 0.5)
-                 # ),
-                 # tableOutput("effect_size_report"),
-                 # downloadButton('download_ES', 'Download')
+                 br(),
+                 h4("Please copy and paste syntax into script. Make sure to modify the working directory before running"),
+                 verbatimTextOutput("syntax")
         )
    )
 ))

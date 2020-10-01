@@ -1,3 +1,4 @@
+# Load data
 library(readxl)
 library(scdhlm)
 
