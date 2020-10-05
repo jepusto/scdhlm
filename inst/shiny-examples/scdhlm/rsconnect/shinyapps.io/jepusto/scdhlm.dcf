@@ -5,8 +5,8 @@ account: jepusto
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 124926
-bundleId: 3589766
+bundleId: 3704507
 url: https://jepusto.shinyapps.io/scdhlm/
-when: 1599156809.10364
+when: 1601908289.04401
 asMultiple: FALSE
 asStatic: FALSE
