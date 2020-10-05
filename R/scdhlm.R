@@ -39,6 +39,9 @@ shine_scd <- function(dataset = NULL, ...) {
   if (!requireNamespace("markdown", quietly = TRUE)) {
     stop("The scdhlm app requires the markdown package. Please install it.", call. = FALSE)
   }
+  if (!requireNamespace("readxl", quietly = TRUE)) {
+    stop("The scdhlm app requires the readxl package. Please install it.", call. = FALSE)
+  }
   
   uiDir <- system.file("shiny-examples/scdhlm", "ui.R", package = "scdhlm")
   serveDir <- system.file("shiny-examples/scdhlm", "server.R", package = "scdhlm")
