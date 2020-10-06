@@ -1,5 +1,5 @@
 
-# Clean Data
+# Clean data
 dat <- dat[,c("{user_parms}")]
 names(dat) <- c("case","session","phase","outcome")
 trt_phase <- levels(as.factor(dat$phase))[2]
