@@ -1,6 +1,6 @@
 Package: scdhlm
 Title: Estimating Hierarchical Linear Models for Single-Case Designs
-Version: 0.4.2.9200
+Version: 0.4.2.9300
 Authors@R: c(
     person("James", "Pustejovsky", email = "jepusto@gmail.com", role = c("aut", "cre")),
     person("Bethany", "Hamilton", role = "aut"),
@@ -20,8 +20,8 @@ VignetteBuilder: knitr
 LazyData: true
 Imports: 
     stats,
-    lmeInfo,
-    readxl
+    readxl,
+    lmeInfo
 Depends: 
     nlme,
     R (>= 3.0.1)
@@ -34,6 +34,7 @@ Suggests:
     boot,
     parallel,
     shiny,
+    glue,
     testthat
 RoxygenNote: 7.1.1
 Encoding: UTF-8

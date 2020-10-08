@@ -39,6 +39,9 @@ shine_scd <- function(dataset = NULL, ...) {
   if (!requireNamespace("markdown", quietly = TRUE)) {
     stop("The scdhlm app requires the markdown package. Please install it.", call. = FALSE)
   }
+  if (!requireNamespace("glue", quietly = TRUE)) {
+    stop("The scdhlm app requires the glue package. Please install it.", call. = FALSE)
+  }
   if (!requireNamespace("readxl", quietly = TRUE)) {
     stop("The scdhlm app requires the readxl package. Please install it.", call. = FALSE)
   }

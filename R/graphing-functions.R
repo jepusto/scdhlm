@@ -1,9 +1,23 @@
 
-
+#---------------------------------------------------------------
+# calculate session-by-treatment interaction
+#---------------------------------------------------------------
 
 session_by_treatment <- function(x, trt_phase) {
   pmax(0, x$session - min(x$session[x$phase==trt_phase]))
 }
+
+#---------------------------------------------------------------
+# calculate phase-pairs based on phases and session numbering
+#---------------------------------------------------------------
+
+#' @title Calculate phase-pairs for a unique case
+#' 
+#' @description Calculate phase-pairs based on phases and session numbering. 
+#' 
+#' @param x The subset of a single-case dataset for a unique case.
+#' @export 
+#' 
 
 phase_pairs <- function(x) {
   conditions <- levels(as.factor(x$phase))
@@ -20,6 +34,9 @@ phase_pairs <- function(x) {
   y[order(order(x$session))]
 }
 
+#---------------------------------------------------------------
+# calculate phase border times
+#---------------------------------------------------------------
 
 phase_lines <- function(x) {
   phase <- x$phase[order(x$session)]
@@ -101,7 +118,7 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
   dat$trt <- as.numeric(dat$phase==trt_phase)
   phase_line_dat <- phase_lines_by_case(dat)
   
-  if (design == "MB") {
+  if (design == "MB") { 
     dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
   } else {
     dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))

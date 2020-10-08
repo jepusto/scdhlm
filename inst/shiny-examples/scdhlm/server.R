@@ -24,8 +24,6 @@ server <-
       )
     }
     
-    
-    
     sheetname <- reactive({
       if (input$dat_type == "xlsx") {
         inFile <- input$xlsx
@@ -425,54 +423,242 @@ server <-
                      coverage = input$coverage)
         
       }
-    })  
+    })
+  
+  # Effect size output
+  
+  output$effect_size_report <- renderTable({
+    effect_size()
+  }, digits = 4, include.rownames = FALSE)
+  
+  output$download_ES <- downloadHandler(
+    filename = function() {
+      fname <- if (input$dat_type == "example") input$example else input$dat
+      paste(fname, '- effect size estimate.csv')
+    },
+    content = function(file) {
+      dat <- effect_size()
+      write.csv(dat, file, row.names=FALSE)
+    },
+    contentType = "text/csv"
+  )
+  
+  # Graphs
+  
+  raw_graph <- reactive({
+    graph_SCD(data = datClean(), design = studyDesign(), case=case, phase=phase, session=session, outcome=outcome, treatment_name = NULL, model_fit = NULL) 
+  })
+  
+  output$raw_plot <- renderPlot({
+    raw_graph()
+  }, height = function() 120 * nlevels(datClean()$case),
+  width = function() 700)
+  
+  output$HPS_plot <- renderPlot({
+    raw_graph() + 
+      geom_smooth(formula = y ~ 1, method = "lm", se = FALSE)
+  }, height = function() 120 * nlevels(datClean()$case),
+  width = function() 700)
+  
+  output$RML_plot <- renderPlot({
+    if ("lme" %in% class(model_fit()$fit)) {
+      dat <- datClean()
+      dat$fitted <- predict(model_fit()$fit)
+      raw_graph() + 
+        geom_line(data = dat, aes(session, fitted), size = 0.8)  
+    }
+  }, height = function() 120 * nlevels(datClean()$case),
+  width = function() 700)
+  
+  
+  #------------------------------
+  # Syntax for replication in R
+  #------------------------------
+
+  ES_syntax <- reactive({
     
-    # Effect size output
-    
-    output$effect_size_report <- renderTable({
-      effect_size()
-    }, digits = 4, include.rownames = FALSE)
-    
-    output$download_ES <- downloadHandler(
-      filename = function() {
-        fname <- if (input$dat_type == "example") input$example else input$dat
-        paste(fname, '- effect size estimate.csv')
-      },
-      content = function(file) {
-        dat <- effect_size()
-        write.csv(dat, file, row.names=FALSE)
-      },
-      contentType = "text/csv"
+    header_res <- c(
+      '# Load packages',
+      'library(nlme)',
+      'library(scdhlm)',
+      ''
     )
     
-    # Graphs
+    # read in file code
     
-    raw_graph <- reactive({
-      graph_SCD(data = datClean(), design = studyDesign(), case=case, phase=phase, session=session, outcome=outcome, treatment_name = NULL, model_fit = NULL) 
-    })
+    if(input$dat_type == "example") {
+      read_res <- c(
+        parse_code_chunk("load-example", args = list(example_name = input$example)),
+        ''
+      )
+    } else if(input$dat_type == "dat"){
+      inFile <- input$dat
+      read_res <- c(
+        parse_code_chunk("load-dat", 
+                         args = list(user_path = inFile$name, user_header = input$header, 
+                                     user_sep = input$sep, user_quote = input$quote)),
+        ''
+      )
+    } else if (input$dat_type == "xlsx") {
+      inFile <- input$xlsx
+      read_res <- c(
+        parse_code_chunk("load-excel", args = list(user_path = inFile$name, user_sheet = input$inSelect)),
+        ''
+      )
+    } else {
+      read_res <- c(
+        parse_code_chunk("load-from-function", args = NULL),
+        ''
+      )
+    }
+
+    # Clean the data
     
-    output$raw_plot <- renderPlot({
-      raw_graph()
-    }, height = function() 120 * nlevels(datClean()$case),
-    width = function() 700)
-    
-    output$HPS_plot <- renderPlot({
-      raw_graph() + 
-        geom_smooth(formula = y ~ 1, method = "lm", se = FALSE)
-    }, height = function() 120 * nlevels(datClean()$case),
-    width = function() 700)
-    
-    output$RML_plot <- renderPlot({
-      if ("lme" %in% class(model_fit()$fit)) {
-        dat <- datClean()
-        dat$fitted <- predict(model_fit()$fit)
-        raw_graph() + 
-          geom_line(data = dat, aes(session, fitted), size = 0.8)  
+    if (input$dat_type == "example") {
+      
+      example_parms <- exampleMapping[[input$example]]
+      filter_vars <- example_parms$filters
+      
+      if (!is.null(filter_vars)) {
+        
+        clean_dat_A <- c(
+          '',
+          parse_code_chunk("clean-example-filter", 
+                           args = list(user_filtervars = paste(filter_vars, collapse='", "'), 
+                                       user_parms = paste(example_parms$vars, collapse='", "')))
+        )
+      } else {
+        clean_dat_A <- c()
       }
-    }, height = function() 120 * nlevels(datClean()$case),
-    width = function() 700)
+      
+      
+      clean_dat_A <- c(clean_dat_A, 
+                       '',
+                       parse_code_chunk("clean-example-nofilter", 
+                                        args = list(user_parms = paste(example_parms$vars, collapse='", "')))
+                       )
+      case <- "case"
+      session <- "session"
+      phase <- "phase"
+      outcome <- "outcome"
+
+    } else {
+      
+      if (!is.null(input$filters)) {
+        clean_dat_A <- c(
+          '',
+          parse_code_chunk("clean-inputdata-filter", args = list(user_caseID = input$caseID, 
+                                                                 user_session = input$session, 
+                                                                 user_phaseID = input$phaseID , 
+                                                                 user_outcome = input$outcome, 
+                                                                 user_treatment = input$treatment, 
+                                                                 user_filtervars = paste(input$filters, collapse='", "')))
+        )
+      } else {
+        clean_dat_A <- c(
+          '',
+          parse_code_chunk("clean-inputdata-nofilter", args = list(user_caseID = input$caseID, 
+                                                                       user_session = input$session, 
+                                                                       user_phaseID = input$phaseID , 
+                                                                       user_outcome = input$outcome, 
+                                                                       user_treatment = input$treatment))
+        )
+      }
+      
+      case <- input$caseID
+      session <- input$session
+      phase <- input$phaseID
+      outcome <- input$outcome
+
+      if (is.null(input$round_session)) {
+        clean_dat_A <- c(
+          clean_dat_A,
+          parse_code_chunk("session_noround", args = list(user_session = input$session))
+        )
+      } else if (input$round_session) {
+        clean_dat_A <- c(
+          clean_dat_A,
+          parse_code_chunk("session_round", args = list(user_session = input$session))
+        )
+      }
+    }
     
+    if (studyDesign() == "MB") {
+      clean_dat_B <- parse_code_chunk("clean-MB", args = list(user_case = case, 
+                                                   user_session = session, 
+                                                   user_phase = phase, 
+                                                   user_model_center = input$model_center))
+    } else {
+      clean_dat_B <- parse_code_chunk("clean-TR", args = list(user_case = case))
+    }
     
-    session$onSessionEnded(stopApp)
+    # Fit the model
     
+    if (input$method=="RML") {
+      
+      if (studyDesign() == "MB") {
+        session_FE <- write_formula(input$FE_base, c("0","1","session"))
+        trt_FE <- write_formula(input$FE_trt, c("NULL", "trt", "session_trt"))
+        session_RE <- write_formula(input$RE_base, c("0","1","session"))
+        trt_RE <- write_formula(input$RE_trt, c("NULL","trt","session_trt"))
+        
+      } else {
+        session_FE <- if (is.null(input$FE_base) | !(0 %in% input$FE_base)) "0" else "1"
+        trt_FE <- if (is.null(input$FE_trt) | !(0 %in% input$FE_trt)) NULL else "trt"
+        session_RE <- if (is.null(input$RE_base) | !(0 %in% input$RE_base)) "0" else "1"
+        trt_RE <- if (is.null(input$RE_trt) | !(0 %in% input$RE_trt)) NULL else "trt"
+      }
+      
+      fixed <- paste(outcome, "~",paste(c(session_FE, trt_FE), collapse = " + "))
+      random <- paste("~ ", paste(c(session_RE, trt_RE), collapse = " + "), "| ", case)
+      
+      fit_mod <- parse_code_chunk("fit-RML", args = list(user_fixed = fixed, user_random = random, 
+                                                  user_case = case, user_session = session))
+    } else {
+      fit_mod <- c()
+    }
+    
+    # Calculate effect size
+    
+    if (input$method == "RML") {
+      A <- if (is.null(input$A_time)) 0L else input$A_time
+      B <- if (is.null(input$B_time)) 1L else input$B_time
+      p_const <- c(rep(0L, length(input$FE_base)), (B - A - 1)^as.integer(input$FE_trt))
+      r_dim <- length(input$RE_base) + length(input$RE_trt)
+      r_const <- c(as.integer(0 %in% input$RE_base),
+                   rep(0, r_dim * (r_dim + 1) / 2 - 1),
+                   rep(0, length(model_fit()$fit$modelStruct$corStruct)),
+                   rep(0, length(model_fit()$fit$modelStruct$varStruct)),
+                   1L)
+      
+      calc_ES <- parse_code_chunk("es-RML", args = list(user_pconstant = paste("c(", paste(p_const, collapse = ","), ")", sep = ""),
+                                                        user_rconstant= paste("c(", paste(r_const, collapse = ","), ")", sep = "")))
+      
+    } else {
+      if (studyDesign() == "MB") {
+        calc_ES <- parse_code_chunk("es-MB", args = list(user_outcome = outcome, user_case = case, user_session = session))
+      } else {
+        calc_ES <- parse_code_chunk("es-ABK", args = list(user_outcome = outcome, user_case = case, user_session = session))
+      }
+    }
+    
+    SCD_graph <- parse_code_chunk("graph", args = list(user_design = studyDesign(), user_case = case, 
+                                              user_phase = phase, user_session = session,  
+                                              user_outcome = outcome))
+
+    res <- c(header_res, read_res, clean_dat_A, '', clean_dat_B, '', fit_mod, '', calc_ES, '', SCD_graph, '')
+    paste(res, collapse = "\n")
   })
+  
+  
+  output$syntax <- renderPrint({
+    cat(ES_syntax(), sep = "\n")
+  })
+  
+  output$clip <- renderUI({
+    rclipButton("clipbtn", "Copy", ES_syntax(), icon("clipboard"))
+  })
+  
+  session$onSessionEnded(stopApp)
+    
+})

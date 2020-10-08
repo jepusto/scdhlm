@@ -179,6 +179,13 @@ ui <-
           ),
           tableOutput("effect_size_report"),
           downloadButton('download_ES', 'Download')
+        ),
+        
+        
+        tabPanel("Syntax for R",
+                 rclipboardSetup(),
+                 uiOutput("clip"),
+                 verbatimTextOutput("syntax")
         )
    )
 ))
