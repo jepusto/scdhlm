@@ -1,3 +1,12 @@
+#---------------------------------------------------------------
+# parse code chunks with user-specified arguments
+#---------------------------------------------------------------
+
+parse_code_chunk <- function(chunk, args) {
+  raw_code <- readLines(paste0("inst/shiny-examples/scdhlm/code-chunks/", chunk, ".R"))
+  code_chunk <- paste(raw_code, collapse = "\n")
+  glue::glue_data(.x = args, code_chunk)
+}
 
 #---------------------------------------------------------------
 # calculate timing defaults

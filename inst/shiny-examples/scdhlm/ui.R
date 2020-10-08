@@ -181,9 +181,10 @@ ui <-
           downloadButton('download_ES', 'Download')
         ),
         
+        
         tabPanel("Syntax for R",
-                 br(),
-                 h4("Please copy and paste syntax into script. Make sure to modify the working directory before running"),
+                 rclipboardSetup(),
+                 uiOutput("clip"),
                  verbatimTextOutput("syntax")
         )
    )

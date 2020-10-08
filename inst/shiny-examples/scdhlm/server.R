@@ -474,142 +474,148 @@ server <-
   #------------------------------
   # Syntax for replication in R
   #------------------------------
-  
-  parse_code_chunk <- function(chunk, args) {
-    raw_code <- readLines(paste0("inst/shiny-examples/scdhlm/code-chunks/", chunk, ".R"))
-    code_chunk <- paste(raw_code, collapse = "\n")
-    glue::glue_data(.x = args, code_chunk)
-  }
 
-  output$syntax <- renderPrint({
-    cat('setwd("") # paste path to folder containing data between quotes. Use forward slash: /', sep = "\n")
-    cat("\n")
-    cat('# Load packages', sep = "\n")
-    cat('library(nlme)', sep = "\n")
-    cat('library(scdhlm)', sep = "\n")
-    cat("\n")
+  ES_syntax <- reactive({
+    
+    header_res <- c(
+      '# Load packages',
+      'library(nlme)',
+      'library(scdhlm)',
+      ''
+    )
     
     # read in file code
     
     if(input$dat_type == "example") {
-      cat(parse_code_chunk("load-example", args = list(example_name = input$example)))
-      cat("\n")
-
+      read_res <- c(
+        parse_code_chunk("load-example", args = list(example_name = input$example)),
+        ''
+      )
     } else if(input$dat_type == "dat"){
       inFile <- input$dat
-      cat(parse_code_chunk("load-dat", args = list(user_path = inFile$name, user_header = input$header, 
-                                                   user_sep = input$sep, user_quote = input$quote)))
-      cat("\n")
-
+      read_res <- c(
+        parse_code_chunk("load-dat", 
+                         args = list(user_path = inFile$name, user_header = input$header, 
+                                     user_sep = input$sep, user_quote = input$quote)),
+        ''
+      )
     } else if (input$dat_type == "xlsx") {
       inFile <- input$xlsx
-      cat(parse_code_chunk("load-excel", args = list(user_path = inFile$name, user_sheet = input$inSelect)))
-      cat("\n")
-      
+      read_res <- c(
+        parse_code_chunk("load-excel", args = list(user_path = inFile$name, user_sheet = input$inSelect)),
+        ''
+      )
     } else {
-      cat(parse_code_chunk("load-from-function", args = NULL))
-      cat("\n")
+      read_res <- c(
+        parse_code_chunk("load-from-function", args = NULL),
+        ''
+      )
     }
 
     # Clean the data
     
     if (input$dat_type == "example") {
-
+      
       example_parms <- exampleMapping[[input$example]]
       filter_vars <- example_parms$filters
-
+      
       if (!is.null(filter_vars)) {
-        cat("\n")
-        cat(parse_code_chunk("clean-example-filter", 
-                             args = list(user_filtervars = paste(filter_vars, collapse='", "'), 
-                                         user_parms = paste(example_parms$vars, collapse='", "'))))
-        cat("\n")
+        
+        clean_dat_A <- c(
+          '',
+          parse_code_chunk("clean-example-filter", 
+                           args = list(user_filtervars = paste(filter_vars, collapse='", "'), 
+                                       user_parms = paste(example_parms$vars, collapse='", "')))
+        )
+      } else {
+        clean_dat_A <- c()
       }
-      cat("\n")
-      cat(parse_code_chunk("clean-example-nofilter", 
-                           args = list(user_parms = paste(example_parms$vars, collapse='", "'))))
-      cat("\n")
-
+      
+      
+      clean_dat_A <- c(clean_dat_A, 
+                       '',
+                       parse_code_chunk("clean-example-nofilter", 
+                                        args = list(user_parms = paste(example_parms$vars, collapse='", "')))
+                       )
       case <- "case"
       session <- "session"
       phase <- "phase"
       outcome <- "outcome"
-      cat("\n")
 
     } else {
-
+      
       if (!is.null(input$filters)) {
-        cat("\n")
-        cat(parse_code_chunk("clean-inputdata-filter", args = list(user_caseID = input$caseID, 
-                                                                   user_session = input$session, 
-                                                                   user_phaseID = input$phaseID , 
-                                                                   user_outcome = input$outcome, 
-                                                                   user_treatment = input$treatment, 
-                                                                   user_filtervars = paste(input$filters, collapse='", "'))))
-        cat("\n")
+        clean_dat_A <- c(
+          '',
+          parse_code_chunk("clean-inputdata-filter", args = list(user_caseID = input$caseID, 
+                                                                 user_session = input$session, 
+                                                                 user_phaseID = input$phaseID , 
+                                                                 user_outcome = input$outcome, 
+                                                                 user_treatment = input$treatment, 
+                                                                 user_filtervars = paste(input$filters, collapse='", "')))
+        )
       } else {
-        cat("\n")
-        cat(parse_code_chunk("clean-inputdata-nofilter", args = list(user_caseID = input$caseID, 
-                                                                     user_session = input$session, 
-                                                                     user_phaseID = input$phaseID , 
-                                                                     user_outcome = input$outcome, 
-                                                                     user_treatment = input$treatment)))
-        cat("\n")
+        clean_dat_A <- c(
+          '',
+          parse_code_chunk("clean-inputdata-nofilter", args = list(user_caseID = input$caseID, 
+                                                                       user_session = input$session, 
+                                                                       user_phaseID = input$phaseID , 
+                                                                       user_outcome = input$outcome, 
+                                                                       user_treatment = input$treatment))
+        )
       }
       
       case <- input$caseID
       session <- input$session
       phase <- input$phaseID
       outcome <- input$outcome
-      cat("\n")
 
       if (is.null(input$round_session)) {
-        cat(parse_code_chunk("session_noround", args = list(user_session = input$session)))
-        cat("\n")
+        clean_dat_A <- c(
+          clean_dat_A,
+          parse_code_chunk("session_noround", args = list(user_session = input$session))
+        )
       } else if (input$round_session) {
-        cat(parse_code_chunk("session_round", args = list(user_session = input$session)))
-        cat("\n")
+        clean_dat_A <- c(
+          clean_dat_A,
+          parse_code_chunk("session_round", args = list(user_session = input$session))
+        )
       }
-
-      cat("\n")
     }
-
+    
     if (studyDesign() == "MB") {
-      cat(parse_code_chunk("clean-MB", args = list(user_case = case, 
+      clean_dat_B <- parse_code_chunk("clean-MB", args = list(user_case = case, 
                                                    user_session = session, 
                                                    user_phase = phase, 
-                                                   user_model_center = input$model_center)))
-      cat("\n")
+                                                   user_model_center = input$model_center))
     } else {
-      cat(parse_code_chunk("clean-TR", args = list(user_case = case)))
-      cat("\n")
+      clean_dat_B <- parse_code_chunk("clean-TR", args = list(user_case = case))
     }
-
+    
     # Fit the model
-
+    
     if (input$method=="RML") {
-
+      
       if (studyDesign() == "MB") {
         session_FE <- write_formula(input$FE_base, c("0","1","session"))
         trt_FE <- write_formula(input$FE_trt, c("NULL", "trt", "session_trt"))
         session_RE <- write_formula(input$RE_base, c("0","1","session"))
         trt_RE <- write_formula(input$RE_trt, c("NULL","trt","session_trt"))
-
+        
       } else {
         session_FE <- if (is.null(input$FE_base) | !(0 %in% input$FE_base)) "0" else "1"
         trt_FE <- if (is.null(input$FE_trt) | !(0 %in% input$FE_trt)) NULL else "trt"
         session_RE <- if (is.null(input$RE_base) | !(0 %in% input$RE_base)) "0" else "1"
         trt_RE <- if (is.null(input$RE_trt) | !(0 %in% input$RE_trt)) NULL else "trt"
       }
-
+      
       fixed <- paste(outcome, "~",paste(c(session_FE, trt_FE), collapse = " + "))
       random <- paste("~ ", paste(c(session_RE, trt_RE), collapse = " + "), "| ", case)
       
-      cat("\n")
-      cat(parse_code_chunk("fit-RML", args = list(user_fixed = fixed, user_random = random, 
-                                                  user_case = case, user_session = session)))
-      cat("\n")
-    
+      fit_mod <- parse_code_chunk("fit-RML", args = list(user_fixed = fixed, user_random = random, 
+                                                  user_case = case, user_session = session))
+    } else {
+      fit_mod <- c()
     }
     
     # Calculate effect size
@@ -625,30 +631,34 @@ server <-
                    rep(0, length(model_fit()$fit$modelStruct$varStruct)),
                    1L)
       
-      cat("\n")
-      cat(parse_code_chunk("es-RML", args = list(user_pconstant = paste("c(", paste(p_const, collapse = ","), ")", sep = ""),
-                                                 user_rconstant= paste("c(", paste(r_const, collapse = ","), ")", sep = ""))))
-      cat("\n")
+      calc_ES <- parse_code_chunk("es-RML", args = list(user_pconstant = paste("c(", paste(p_const, collapse = ","), ")", sep = ""),
+                                                        user_rconstant= paste("c(", paste(r_const, collapse = ","), ")", sep = "")))
       
     } else {
       if (studyDesign() == "MB") {
-        cat("\n")
-        cat(parse_code_chunk("es-MB", args = list(user_outcome = outcome, user_case = case, user_session = session)))
-        cat("\n")
+        calc_ES <- parse_code_chunk("es-MB", args = list(user_outcome = outcome, user_case = case, user_session = session))
       } else {
-        cat("\n")
-        cat(parse_code_chunk("es-ABK", args = list(user_outcome = outcome, user_case = case, user_session = session)))
-        cat("\n")
+        calc_ES <- parse_code_chunk("es-ABK", args = list(user_outcome = outcome, user_case = case, user_session = session))
       }
     }
     
-    cat("\n")
-    cat(parse_code_chunk("graph", args = list(user_design = studyDesign(), user_case = case, 
+    SCD_graph <- parse_code_chunk("graph", args = list(user_design = studyDesign(), user_case = case, 
                                               user_phase = phase, user_session = session,  
-                                              user_outcome = outcome)))
-    cat("\n")
+                                              user_outcome = outcome))
 
+    res <- c(header_res, read_res, clean_dat_A, '', clean_dat_B, '', fit_mod, '', calc_ES, '', SCD_graph, '')
+    paste(res, collapse = "\n")
   })
-    session$onSessionEnded(stopApp)
+  
+  
+  output$syntax <- renderPrint({
+    cat(ES_syntax(), sep = "\n")
+  })
+  
+  output$clip <- renderUI({
+    rclipButton("clipbtn", "Copy", ES_syntax(), icon("clipboard"))
+  })
+  
+  session$onSessionEnded(stopApp)
     
 })
