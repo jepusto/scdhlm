@@ -1,4 +1,6 @@
 library(shiny)
+library(rclipboard)
+
 source("mappings.R", local = TRUE)
 
 numericInput_inline <- function (inputId, label, value, min = NA, max = NA, step = NA, width = NULL) {

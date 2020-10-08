@@ -42,6 +42,9 @@ shine_scd <- function(dataset = NULL, ...) {
   if (!requireNamespace("glue", quietly = TRUE)) {
     stop("The scdhlm app requires the glue package. Please install it.", call. = FALSE)
   }
+  if (!requireNamespace("rclipboard", quietly = TRUE)) {
+    stop("The scdhlm app requires the rclipboard package. Please install it.", call. = FALSE)
+  }
   if (!requireNamespace("readxl", quietly = TRUE)) {
     stop("The scdhlm app requires the readxl package. Please install it.", call. = FALSE)
   }
