@@ -32,6 +32,7 @@ reference:
       - effect_size_MB
       - g_REML
       - phase_pairs
+      - scdhlm
   - title: "Graphing Single-Case Design Data"
     desc: "Function for graphing data from single-case designs"
     contents: 
