@@ -20,6 +20,7 @@ VignetteBuilder: knitr
 LazyData: true
 Imports: 
     stats,
+    readxl,
     lmeInfo
 Depends: 
     nlme,
@@ -34,7 +35,6 @@ Suggests:
     parallel,
     shiny,
     glue,
-    readxl,
     testthat
 RoxygenNote: 7.1.1
 Encoding: UTF-8
