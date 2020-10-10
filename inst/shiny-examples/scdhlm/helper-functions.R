@@ -3,7 +3,8 @@
 #---------------------------------------------------------------
 
 parse_code_chunk <- function(chunk, args) {
-  raw_code <- readLines(paste0("inst/shiny-examples/scdhlm/code-chunks/", chunk, ".R"))
+  chunk_path <- system.file("shiny-examples/scdhlm/code-chunks", paste0(chunk,".R"), package = "scdhlm")
+  raw_code <- readLines(chunk_path)
   code_chunk <- paste(raw_code, collapse = "\n")
   glue::glue_data(.x = args, code_chunk)
 }
