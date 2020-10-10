@@ -40,18 +40,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9300</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -111,18 +105,15 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the released version of <code>scdhlm</code> from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"scdhlm"</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"scdhlm"</span><span class="op">)</span></pre></div>
 <p>You can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="co"># install.packages("remotes")</span>
-<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"jepusto/scdhlm"</span>)
-</pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"jepusto/scdhlm"</span><span class="op">)</span></pre></div>
 <p>You can access a local version of the <a href="https://jepusto.shinyapps.io/scdhlm/">interactive web-app</a> by running the commands:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://jepusto.github.io/scdhlm">scdhlm</a></span>)
-<span class="fu"><a href="reference/shine_scd.html">shine_scd</a></span>()
-</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://jepusto.github.io/scdhlm">scdhlm</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/shine_scd.html">shine_scd</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 </div>
 <div id="demonstration" class="section level2">
 <h2 class="hasAnchor">
@@ -135,16 +126,16 @@
 <p>Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included eight children. One child was measured separately with each parent; following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in our analysis.</p>
 <p>For this study, we will estimate a design-comparable SMD using restricted maximum likelihood (REML) methods, as described by Pustejovsky and colleagues (2014). This is a two-step process. The first step is to estimate a hierarchical linear model for the data, treated the measurements as nested within cases. We fit the model using <code><a href="https://rdrr.io/pkg/nlme/man/lme.html">nlme::lme()</a></code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://svn.r-project.org/R-packages/trunk/nlme">nlme</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://jepusto.github.io/scdhlm">scdhlm</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Laski</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/nlme">nlme</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://jepusto.github.io/scdhlm">scdhlm</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span>
 
 <span class="co"># Pustejovsky, Hedges, &amp; Shadish (2014)</span>
-<span class="kw">Laski_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span>(fixed = <span class="kw">outcome</span> <span class="op">~</span> <span class="kw">treatment</span>,
-                 random = <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="kw">case</span>, 
-                 correlation = <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span>(<span class="fl">0</span>, <span class="op">~</span> <span class="kw">time</span> <span class="op">|</span> <span class="kw">case</span>), 
-                 data = <span class="kw">Laski</span>)
-<span class="kw">Laski_RML</span>
+<span class="va">Laski_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">treatment</span>,
+                 random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">case</span>, 
+                 correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>, 
+                 data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span>
+<span class="va">Laski_RML</span>
 <span class="co">#&gt; Linear mixed-effects model fit by REML</span>
 <span class="co">#&gt;   Data: Laski </span>
 <span class="co">#&gt;   Log-restricted-likelihood: -519.1424</span>
@@ -163,13 +154,12 @@
 <span class="co">#&gt;      Phi </span>
 <span class="co">#&gt; 0.252769 </span>
 <span class="co">#&gt; Number of Observations: 128</span>
-<span class="co">#&gt; Number of Groups: 8</span>
-</pre></div>
+<span class="co">#&gt; Number of Groups: 8</span></pre></div>
 <p>The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. These estimated components will be used to calculate the effect size in next step.</p>
 <p>The estimated variance components from the fitted model can be obtained using <code><a href="reference/lmeInfo.html">extract_varcomp()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">varcomp_Laski_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lmeInfo.html">extract_varcomp</a></span>(<span class="kw">Laski_RML</span>)
-<span class="kw">varcomp_Laski_RML</span>
+<span class="va">varcomp_Laski_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lmeInfo.html">extract_varcomp</a></span><span class="op">(</span><span class="va">Laski_RML</span><span class="op">)</span>
+<span class="va">varcomp_Laski_RML</span>
 <span class="co">#&gt; $Tau</span>
 <span class="co">#&gt; $Tau$case</span>
 <span class="co">#&gt; case.var((Intercept)) </span>
@@ -186,24 +176,22 @@
 <span class="co">#&gt; [1] 192.7711</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attr(,"class")</span>
-<span class="co">#&gt; [1] "varcomp"</span>
-</pre></div>
+<span class="co">#&gt; [1] "varcomp"</span></pre></div>
 <p>The estimated between-case variance is 245.95, the estimated auto-correlation is 0.253, the estimated and the estimated within-case variance is 192.771. These estimated variance components will be used to calculate the effect size in next step.</p>
 <p>The second step in the process is to estimate a design-comparable SMD using <code><a href="reference/lmeInfo.html">scdhlm::g_mlm()</a></code>. The SMD parameter can be defined as the ratio of a linear combination of the fitted model’s fixed effect parameters over the square root of a linear combination of the model’s variance components. <code><a href="reference/lmeInfo.html">g_mlm()</a></code> takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. Note that <code>r_const</code> is a vector of 0s and 1s which specify whether to use the variance component parameters for calculating the effect size: random effects variances, correlation structure parameters, variance structure parameters, and level-1 error variance. The function calculates an effect size estimate by first substituting maximum likelihood or restricted maximum likelihood estimates in place of the corresponding parameters, then applying a small-sample correction. The small-sample correction and the standard error are based on approximating the distribution of the estimator by a t distribution, with degrees of freedom given by a Satterthwaite approximation (Pustejovsky, Hedges, &amp; Shadish, 2014). The <code><a href="reference/lmeInfo.html">g_mlm()</a></code> function includes an option allowing use of the expected or average form of the Fisher information matrix in the calculations.</p>
 <p>In this example, we use the treatment effect in the numerator of the effect size and the sum of the between-case and within-case variance components in the denominator of the effect size. The constants are therefore given by <code>p_const = c(0, 1)</code> and <code>r_const = c(1, 0, 1)</code>. The effect size estimated is calculated as:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">Laski_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lmeInfo.html">g_mlm</a></span>(<span class="kw">Laski_RML</span>, p_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>), r_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>))
+<span class="va">Laski_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">Laski_RML</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
-<span class="kw">Laski_ES_RML</span>
+<span class="va">Laski_ES_RML</span>
 <span class="co">#&gt;                           est    se</span>
 <span class="co">#&gt; unadjusted effect size  1.465 0.299</span>
 <span class="co">#&gt; adjusted effect size    1.405 0.286</span>
-<span class="co">#&gt; degree of freedom      18.552</span>
-</pre></div>
+<span class="co">#&gt; degree of freedom      18.552</span></pre></div>
 <p>The adjusted SMD effect size estimate is 1.405 with standard error of 0.286 and degree of freedom 18.6.</p>
 <p>A <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> method is included, which returns more detail about the model parameter estimates and effect size estimate when setting <code>returnModel = TRUE</code> (the default) in <code><a href="reference/lmeInfo.html">g_mlm()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">Laski_ES_RML</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">Laski_ES_RML</span><span class="op">)</span>
 <span class="co">#&gt;                                           est      se</span>
 <span class="co">#&gt; Tau.case.case.var((Intercept))        245.950 142.179</span>
 <span class="co">#&gt; cor_params                              0.253   0.100</span>
@@ -216,16 +204,14 @@
 <span class="co">#&gt; adjusted effect size                    1.405   0.286</span>
 <span class="co">#&gt; degree of freedom                      18.552        </span>
 <span class="co">#&gt; constant kappa                          0.143        </span>
-<span class="co">#&gt; logLik                               -519.142</span>
-</pre></div>
+<span class="co">#&gt; logLik                               -519.142</span></pre></div>
 <p>The <code><a href="reference/CI_g.html">CI_g()</a></code> calculates a symmetric confidence interval using a central t distribution (the default) or an asymmetric confidence interval using non-central t distribution (setting <code>symmetric = FALSE</code>).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="reference/CI_g.html">CI_g</a></span>(<span class="kw">Laski_ES_RML</span>)
+<span class="fu"><a href="reference/CI_g.html">CI_g</a></span><span class="op">(</span><span class="va">Laski_ES_RML</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.8046224 2.0051521</span>
 
-<span class="fu"><a href="reference/CI_g.html">CI_g</a></span>(<span class="kw">Laski_ES_RML</span>, symmetric = <span class="fl">FALSE</span>)
-<span class="co">#&gt; [1] 0.9143684 2.0046719</span>
-</pre></div>
+<span class="fu"><a href="reference/CI_g.html">CI_g</a></span><span class="op">(</span><span class="va">Laski_ES_RML</span>, symmetric <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.9143684 2.0046719</span></pre></div>
 <p>The symmetric confidence interval is <br><span class="math display">0.805, 2.005</span><br> and the asymmetric confidence interval is <br><span class="math display">0.914, 2.005</span><br>.</p>
 </div>
 <div id="estimating-smds-using-effect_size_abk" class="section level3">
@@ -242,21 +228,20 @@
 </ul>
 <p>In the <code>Lambert</code> dataset, these variables are called respectively <code>outcome</code>, <code>treatment</code>, <code>case</code>, <code>phase</code>, and <code>time</code>. Given these inputs, the design-comparable SMD is calculated as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Lambert</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Lambert</span><span class="op">)</span>
 
-<span class="kw">Lambert_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/effect_size_ABk.html">effect_size_ABk</a></span>(outcome = <span class="kw">outcome</span>, treatment = <span class="kw">treatment</span>, id = <span class="kw">case</span>, 
-                              phase = <span class="kw">phase</span>, time = <span class="kw">time</span>, data = <span class="kw">Lambert</span>)
+<span class="va">Lambert_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, id <span class="op">=</span> <span class="va">case</span>, 
+                              phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, data <span class="op">=</span> <span class="va">Lambert</span><span class="op">)</span>
 
-<span class="kw">Lambert_ES</span>
+<span class="va">Lambert_ES</span>
 <span class="co">#&gt;                            est    se</span>
 <span class="co">#&gt; unadjusted effect size  -2.525 0.202</span>
 <span class="co">#&gt; adjusted effect size    -2.513 0.201</span>
-<span class="co">#&gt; degree of freedom      164.492</span>
-</pre></div>
+<span class="co">#&gt; degree of freedom      164.492</span></pre></div>
 <p>The adjusted effect size estimate <code>delta_hat</code> is equal to -2.513; its variance <code>V_delta_hat</code> is equal to 0.041. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code><a href="https://rdrr.io/r/base/MathFun.html">sqrt(Lambert_ES$V_delta_hat)</a></code> = 0.201. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 164.5 in this example.</p>
 <p>A summary() method is included to return more detail about the model parameter estimates and effect size estimates:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">Lambert_ES</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">Lambert_ES</span><span class="op">)</span>
 <span class="co">#&gt;                                       est    se</span>
 <span class="co">#&gt; within-case variance                4.534      </span>
 <span class="co">#&gt; sample variance                     4.674      </span>
@@ -266,8 +251,7 @@
 <span class="co">#&gt; unadjusted effect size             -2.525 0.202</span>
 <span class="co">#&gt; adjusted effect size               -2.513 0.201</span>
 <span class="co">#&gt; degree of freedom                 164.492      </span>
-<span class="co">#&gt; scalar constant                     0.145</span>
-</pre></div>
+<span class="co">#&gt; scalar constant                     0.145</span></pre></div>
 </div>
 <div id="estimating-smds-using-effect_size_mb" class="section level3">
 <h3 class="hasAnchor">
@@ -276,21 +260,20 @@
 <p>Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the intervention’s effect on measures of writing quality, sentence complexity, and use of target constructions.</p>
 <p>Design-comparable SMDs can be estimated based on these data using the <code><a href="reference/effect_size_MB.html">effect_size_MB()</a></code> function. The following code calculates a design-comparable SMD estimate for the measure of writing quality:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Saddler</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Saddler</span><span class="op">)</span>
 
-<span class="kw">Saddler_quality</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">Saddler</span>, <span class="kw">measure</span><span class="op">==</span><span class="st">"writing quality"</span>)
-<span class="kw">quality_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/effect_size_MB.html">effect_size_MB</a></span>(<span class="kw">outcome</span>, <span class="kw">treatment</span>, <span class="kw">case</span>, <span class="kw">time</span>, data = <span class="kw">Saddler_quality</span>)
+<span class="va">Saddler_quality</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">Saddler</span>, <span class="va">measure</span><span class="op">==</span><span class="st">"writing quality"</span><span class="op">)</span>
+<span class="va">quality_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/effect_size_MB.html">effect_size_MB</a></span><span class="op">(</span><span class="va">outcome</span>, <span class="va">treatment</span>, <span class="va">case</span>, <span class="va">time</span>, data <span class="op">=</span> <span class="va">Saddler_quality</span><span class="op">)</span>
 
-<span class="kw">quality_ES</span>
+<span class="va">quality_ES</span>
 <span class="co">#&gt;                          est    se</span>
 <span class="co">#&gt; unadjusted effect size 2.149 0.634</span>
 <span class="co">#&gt; adjusted effect size   1.963 0.579</span>
-<span class="co">#&gt; degree of freedom      8.918</span>
-</pre></div>
+<span class="co">#&gt; degree of freedom      8.918</span></pre></div>
 <p>The adjusted effect size estimate <code>delta_hat</code> is equal to 1.963, with sampling variance of <code>V_delta_hat</code> equal to 0.335 and a standard error of 0.579.</p>
 <p><code><a href="https://rdrr.io/r/base/summary.html">summary(quality_ES)</a></code> returns more detail about the model parameter estimates and effect size estimates:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">quality_ES</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">quality_ES</span><span class="op">)</span>
 <span class="co">#&gt;                                     est    se</span>
 <span class="co">#&gt; within-case variance              0.349      </span>
 <span class="co">#&gt; sample variance                   0.952      </span>
@@ -300,8 +283,7 @@
 <span class="co">#&gt; unadjusted effect size            2.149 0.634</span>
 <span class="co">#&gt; adjusted effect size              1.963 0.579</span>
 <span class="co">#&gt; degree of freedom                 8.918      </span>
-<span class="co">#&gt; scalar constant                   0.201</span>
-</pre></div>
+<span class="co">#&gt; scalar constant                   0.201</span></pre></div>
 </div>
 </div>
 <div id="references" class="section level2">
@@ -371,7 +353,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

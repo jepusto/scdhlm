@@ -80,19 +80,13 @@ measurement occasion per subject." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9300</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -148,16 +142,16 @@ as described in Hedges, Pustejovsky, &amp; Shadish (2012). Note that the data mu
 measurement occasion per subject.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>effect_size_ABk</span>(
-  <span class='kw'>outcome</span>,
-  <span class='kw'>treatment</span>,
-  <span class='kw'>id</span>,
-  <span class='kw'>phase</span>,
-  <span class='kw'>time</span>,
-  data = <span class='kw'>NULL</span>,
-  phi = <span class='kw'>NULL</span>,
-  rho = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>effect_size_ABk</span><span class='op'>(</span>
+  <span class='va'>outcome</span>,
+  <span class='va'>treatment</span>,
+  <span class='va'>id</span>,
+  <span class='va'>phase</span>,
+  <span class='va'>time</span>,
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  phi <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rho <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -229,16 +223,16 @@ A standardized mean difference effect size for single case designs.
 <em>Research Synthesis Methods, 3</em>, 224-239. doi:<a href='http://doi.org/10.1002/jrsm.1052'>10.1002/jrsm.1052</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Lambert</span>)
-<span class='fu'>effect_size_ABk</span>(outcome = <span class='kw'>outcome</span>, treatment = <span class='kw'>treatment</span>, id = <span class='kw'>case</span>, 
-                phase = <span class='kw'>phase</span>, time = <span class='kw'>time</span>, data = <span class='kw'>Lambert</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Lambert</span><span class='op'>)</span>
+<span class='fu'>effect_size_ABk</span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>outcome</span>, treatment <span class='op'>=</span> <span class='va'>treatment</span>, id <span class='op'>=</span> <span class='va'>case</span>, 
+                phase <span class='op'>=</span> <span class='va'>phase</span>, time <span class='op'>=</span> <span class='va'>time</span>, data <span class='op'>=</span> <span class='va'>Lambert</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                            est    se
 #&gt; unadjusted effect size  -2.525 0.202
 #&gt; adjusted effect size    -2.513 0.201
 #&gt; degree of freedom      164.492      </div><div class='input'>   
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>Anglesea</span>)
-<span class='fu'>effect_size_ABk</span>(outcome = <span class='kw'>outcome</span>, treatment = <span class='kw'>condition</span>, id = <span class='kw'>case</span>, 
-                phase = <span class='kw'>phase</span>, time = <span class='kw'>session</span>, data = <span class='kw'>Anglesea</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Anglesea</span><span class='op'>)</span>
+<span class='fu'>effect_size_ABk</span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>outcome</span>, treatment <span class='op'>=</span> <span class='va'>condition</span>, id <span class='op'>=</span> <span class='va'>case</span>, 
+                phase <span class='op'>=</span> <span class='va'>phase</span>, time <span class='op'>=</span> <span class='va'>session</span>, data <span class='op'>=</span> <span class='va'>Anglesea</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                          est    se
 #&gt; unadjusted effect size 1.793 2.436
 #&gt; adjusted effect size   1.150 1.562
@@ -259,7 +253,7 @@ A standardized mean difference effect size for single case designs.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

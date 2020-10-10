@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates a confidence interval for a standardized mean difference
-  effect size — CI_g • scdhlm</title>
+<title>Calculate phase-pairs for a unique case — phase_pairs • scdhlm</title>
 
 
 <!-- jquery -->
@@ -46,12 +45,8 @@
 
 
 
-<meta property="og:title" content="Calculates a confidence interval for a standardized mean difference
-  effect size — CI_g" />
-<meta property="og:description" content="Calculates a confidence interval given a g_REML, a
-  g_HPS, or a g_mlm object using either a central t
-  distribution (for a symmetric interval) or a non-central t distribution
-  (for an asymmetric interval)." />
+<meta property="og:title" content="Calculate phase-pairs for a unique case — phase_pairs" />
+<meta property="og:description" content="Calculate phase-pairs based on phases and session numbering." />
 
 
 
@@ -134,69 +129,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates a confidence interval for a standardized mean difference
-  effect size</h1>
+    <h1>Calculate phase-pairs for a unique case</h1>
     
-    <div class="hidden name"><code>CI_g.Rd</code></div>
+    <div class="hidden name"><code>phase_pairs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates a confidence interval given a <code>g_REML</code>, a
-  <code>g_HPS</code>, or a <code>g_mlm</code> object using either a central t
-  distribution (for a symmetric interval) or a non-central t distribution
-  (for an asymmetric interval).</p>
+    <p>Calculate phase-pairs based on phases and session numbering.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>phase_pairs</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>g</th>
-      <td><p>an estimated effect size object of class <code>g_REML</code>, class
-<code>g_HPS</code>, or class <code>g_mlm</code>.</p></td>
-    </tr>
-    <tr>
-      <th>cover</th>
-      <td><p>confidence level</p></td>
-    </tr>
-    <tr>
-      <th>bound</th>
-      <td><p>numerical tolerance for non-centrality parameter in
-<code><a href='https://rdrr.io/r/stats/TDist.html'>qt</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>symmetric</th>
-      <td><p>If <code>TRUE</code> (the default), use a symmetric confidence
-interval. If <code>FALSE</code>, use a non-central t approximation to obtain an
-asymmetric confidence interval.</p></td>
+      <th>x</th>
+      <td><p>The subset of a single-case dataset for a unique case.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A vector of upper and lower confidence bounds.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Laski</span><span class='op'>)</span>
-<span class='va'>Laski_RML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/lme.html'>lme</a></span><span class='op'>(</span>fixed <span class='op'>=</span> <span class='va'>outcome</span> <span class='op'>~</span> <span class='va'>treatment</span>,
-                 random <span class='op'>=</span> <span class='op'>~</span> <span class='fl'>1</span> <span class='op'>|</span> <span class='va'>case</span>,
-                 correlation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>~</span> <span class='va'>time</span> <span class='op'>|</span> <span class='va'>case</span><span class='op'>)</span>,
-                 data <span class='op'>=</span> <span class='va'>Laski</span><span class='op'>)</span>
-<span class='va'>Laski_g_REML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span>
-  <span class='fu'><a href='g_REML.html'>g_REML</a></span><span class='op'>(</span><span class='va'>Laski_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, 
-         r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, returnModel <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='op'>)</span>
-<span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_g_REML</span>, symmetric <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.8046224 2.0051521</div><div class='input'><span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_g_REML</span>, symmetric <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
-<span class='va'>Laski_HPS</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>Laski</span>, <span class='fu'><a href='effect_size_MB.html'>effect_size_MB</a></span><span class='op'>(</span><span class='va'>outcome</span>, <span class='va'>treatment</span>, <span class='va'>case</span>, <span class='va'>time</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_HPS</span>, symmetric <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.8786207 2.0639828</div><div class='input'>
-<span class='va'>Laski_g_mlm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lmeInfo.html'>g_mlm</a></span><span class='op'>(</span><span class='va'>Laski_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, returnModel <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_g_mlm</span>, symmetric <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -33,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9300</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -93,7 +87,7 @@
       <h1 data-toc-skip>Estimating design-comparable standardized mean differences with scdhlm</h1>
                         <h4 class="author">James E. Pustejovsky</h4>
             
-            <h4 class="date">2020-09-03</h4>
+            <h4 class="date">2020-10-10</h4>
       
       
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -105,8 +99,7 @@
 <p>The scdhlm package (Pustejovsky, Hamilton, &amp; Chen, 2020) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. In principle, a design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases). Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variability.</p>
 <p>The original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the <code>effect_size_ABk</code> and <code>effect_size_MB</code> functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxiliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function <code>lme</code> from the package <code>nlme</code> by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function <code>g_mlm</code> from the <code>scdhlm</code> package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R code presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://jepusto.github.io/scdhlm">scdhlm</a></span>)
-</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://jepusto.github.io/scdhlm">scdhlm</a></span><span class="op">)</span></pre></div>
 <div id="lambert-cartledge-heward-lo-2006" class="section level2">
 <h2 class="hasAnchor">
 <a href="#lambert-cartledge-heward-lo-2006" class="anchor"></a>Lambert, Cartledge, Heward, &amp; Lo (2006)</h2>
@@ -120,14 +113,13 @@
 </ul>
 <p>In the <code>Lambert</code> dataset, these variables are called respectively <code>outcome</code>, <code>treatment</code>, <code>case</code>, <code>phase</code>, and <code>time</code>. Given these inputs, the design-comparable SMD is calculated as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Lambert</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Lambert</span><span class="op">)</span>
 
-<span class="kw">Lambert_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span>(outcome = <span class="kw">outcome</span>, treatment = <span class="kw">treatment</span>, 
-                              id = <span class="kw">case</span>, phase = <span class="kw">phase</span>, time = <span class="kw">time</span>, 
-                              data = <span class="kw">Lambert</span>)
+<span class="va">Lambert_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, 
+                              id <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, 
+                              data <span class="op">=</span> <span class="va">Lambert</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">Lambert_ES</span>, <span class="fl">5</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Lambert_ES</span>, <span class="fl">5</span><span class="op">)</span></pre></div>
 <pre><code>##                              est      se
 ## unadjusted effect size  -2.52460 0.20228
 ## adjusted effect size    -2.51307 0.20136
@@ -135,8 +127,7 @@
 <p>The adjusted effect size estimate <code>delta_hat</code> is equal to -2.513; its variance <code>V_delta_hat</code> is equal to 0.041. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code><a href="https://rdrr.io/r/base/MathFun.html">sqrt(Lambert_ES$V_delta_hat)</a></code> = 0.201. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 164.5 in this example.</p>
 <p>A summary() method is included to return more detail about the model parameter estimates and effect size estimates:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">Lambert_ES</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">Lambert_ES</span><span class="op">)</span></pre></div>
 <pre><code>##                                       est    se
 ## within-case variance                4.534      
 ## sample variance                     4.674      
@@ -149,21 +140,19 @@
 ## scalar constant                     0.145</code></pre>
 <p>By default, the <code>effect_size_ABk</code> function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry <code>phi</code>) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry <code>rho</code>). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimate was 0.225. The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of 0.225.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">Lambert_ES2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span>(outcome = <span class="kw">outcome</span>, treatment = <span class="kw">treatment</span>, 
-                id = <span class="kw">case</span>, phase = <span class="kw">phase</span>, time = <span class="kw">time</span>, 
-                data = <span class="kw">Lambert</span>, phi = <span class="fl">0.10</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">Lambert_ES2</span>, digits = <span class="fl">5</span>)
-</pre></div>
+<span class="va">Lambert_ES2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, 
+                id <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, 
+                data <span class="op">=</span> <span class="va">Lambert</span>, phi <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Lambert_ES2</span>, digits <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></pre></div>
 <pre><code>##                              est      se
 ## unadjusted effect size  -2.52460 0.19376
 ## adjusted effect size    -2.51265 0.19285
 ## degree of freedom      158.73064</code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">Lambert_ES3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span>(outcome = <span class="kw">outcome</span>, treatment = <span class="kw">treatment</span>, 
-                id = <span class="kw">case</span>, phase = <span class="kw">phase</span>, time = <span class="kw">time</span>, 
-                data = <span class="kw">Lambert</span>, phi = <span class="fl">0.35</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">Lambert_ES3</span>, digits = <span class="fl">5</span>)
-</pre></div>
+<span class="va">Lambert_ES3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, 
+                id <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, 
+                data <span class="op">=</span> <span class="va">Lambert</span>, phi <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Lambert_ES3</span>, digits <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></pre></div>
 <pre><code>##                              est      se
 ## unadjusted effect size  -2.52460 0.21697
 ## adjusted effect size    -2.51217 0.21591
@@ -175,10 +164,9 @@
 <a href="#anglesea-hoch-taylor-2008" class="anchor"></a>Anglesea, Hoch, &amp; Taylor (2008)</h2>
 <p>Anglesea, Hoch, and Taylor (2008) used an ABAB design to test the effect of using a pager prompt to reduce the rapid eating of three teenage boys with autism. The primary outcome was a measure of how quickly each participant consumed one serving of a familiar food. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who used it to illustrate the calculation of the design-comparable SMD when based on the minimum required number of cases. Their calculations can be replicated using the following code:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Anglesea</span>)
-<span class="kw">Anglesea_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span>(<span class="kw">outcome</span>, <span class="kw">condition</span>, <span class="kw">case</span>, <span class="kw">phase</span>, <span class="kw">session</span>, data = <span class="kw">Anglesea</span>)
-<span class="kw">Anglesea_ES</span>
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Anglesea</span><span class="op">)</span>
+<span class="va">Anglesea_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span><span class="va">outcome</span>, <span class="va">condition</span>, <span class="va">case</span>, <span class="va">phase</span>, <span class="va">session</span>, data <span class="op">=</span> <span class="va">Anglesea</span><span class="op">)</span>
+<span class="va">Anglesea_ES</span></pre></div>
 <pre><code>##                          est    se
 ## unadjusted effect size 1.793 2.436
 ## adjusted effect size   1.150 1.562
@@ -191,21 +179,20 @@
 <p>Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the intervention’s effect on measures of writing quality, sentence complexity, and use of target constructions.</p>
 <p>Design-comparable SMDs can be estimated based on these data using the <code>effect_size_MB</code> function. The syntax for this function is similar to that of the <code>effect_size_ABk</code> function, but does not require the user to input information about the phase of the design (because in the multiple baseline design, phase exactly corresponds to treatment condition). The following code replicates the calculations reported in Hedges, Pustejovsky, and Shadish (2013):</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Saddler</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Saddler</span><span class="op">)</span>
 
-<span class="kw">quality_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_MB.html">effect_size_MB</a></span>(<span class="kw">outcome</span>, <span class="kw">treatment</span>, <span class="kw">case</span>, <span class="kw">time</span>, 
-                             data = <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">Saddler</span>, <span class="kw">measure</span><span class="op">==</span><span class="st">"writing quality"</span>))
-<span class="kw">complexity_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_MB.html">effect_size_MB</a></span>(<span class="kw">outcome</span>, <span class="kw">treatment</span>, <span class="kw">case</span>, <span class="kw">time</span> , 
-                                data = <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">Saddler</span>, <span class="kw">measure</span><span class="op">==</span><span class="st">"T-unit length"</span>))
-<span class="kw">construction_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_MB.html">effect_size_MB</a></span>(<span class="kw">outcome</span>, <span class="kw">treatment</span>, <span class="kw">case</span>, <span class="kw">time</span>, 
-                                  data = <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">Saddler</span>, <span class="kw">measure</span><span class="op">==</span><span class="st">"number of constructions"</span>))
+<span class="va">quality_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_MB.html">effect_size_MB</a></span><span class="op">(</span><span class="va">outcome</span>, <span class="va">treatment</span>, <span class="va">case</span>, <span class="va">time</span>, 
+                             data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">Saddler</span>, <span class="va">measure</span><span class="op">==</span><span class="st">"writing quality"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">complexity_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_MB.html">effect_size_MB</a></span><span class="op">(</span><span class="va">outcome</span>, <span class="va">treatment</span>, <span class="va">case</span>, <span class="va">time</span> , 
+                                data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">Saddler</span>, <span class="va">measure</span><span class="op">==</span><span class="st">"T-unit length"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">construction_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_MB.html">effect_size_MB</a></span><span class="op">(</span><span class="va">outcome</span>, <span class="va">treatment</span>, <span class="va">case</span>, <span class="va">time</span>, 
+                                  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">Saddler</span>, <span class="va">measure</span><span class="op">==</span><span class="st">"number of constructions"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  quality = <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw">quality_ES</span>), <span class="fl">5</span>),
-  complexity = <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw">complexity_ES</span>), <span class="fl">5</span>),
-  construction = <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw">construction_ES</span>), <span class="fl">5</span>)
-)[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"delta_hat"</span>,<span class="st">"V_delta_hat"</span>,<span class="st">"nu"</span>,<span class="st">"phi"</span>,<span class="st">"rho"</span>),]
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  quality <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">quality_ES</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span>,
+  complexity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">complexity_ES</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span>,
+  construction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">construction_ES</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span>
+<span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"delta_hat"</span>,<span class="st">"V_delta_hat"</span>,<span class="st">"nu"</span>,<span class="st">"phi"</span>,<span class="st">"rho"</span><span class="op">)</span>,<span class="op">]</span></pre></div>
 <pre><code>##             quality complexity construction
 ## delta_hat   1.96307    0.78540      0.74755
 ## V_delta_hat 0.33491    0.08023      0.07847
@@ -214,12 +201,11 @@
 ## rho         0.63321    0.61453      0.73124</code></pre>
 <p>For multiple baseline designs, an alternative to using the <code>effect_size_MB</code> function is to estimate a hierarchical linear model for the data and then use the <code>g_mlm</code> function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a hierarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which we will demonstrate using the writing quality measure. First, we estimate the hierarchical model with an AR(1) within-case error structure using the <code>lme</code> function:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw">quality_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span>(fixed = <span class="kw">outcome</span> <span class="op">~</span> <span class="kw">treatment</span>, 
-                   random = <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="kw">case</span>, 
-                   correlation = <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span>(<span class="fl">0</span>, <span class="op">~</span> <span class="kw">time</span> <span class="op">|</span> <span class="kw">case</span>), 
-                   data = <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">Saddler</span>, <span class="kw">measure</span><span class="op">==</span><span class="st">"writing quality"</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">quality_RML</span>)
-</pre></div>
+<span class="va">quality_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">treatment</span>, 
+                   random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">case</span>, 
+                   correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>, 
+                   data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">Saddler</span>, <span class="va">measure</span><span class="op">==</span><span class="st">"writing quality"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">quality_RML</span><span class="op">)</span></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##  Data: subset(Saddler, measure == "writing quality") 
 ##        AIC      BIC    logLik
@@ -251,10 +237,9 @@
 ## Number of Groups: 6</code></pre>
 <p>The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. The next step is to combine these estimated components into an effect size estimate using the <code>g_mlm</code> function. This function takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. For details on how to choose these constants, see Pustejovsky, Hedges, and Shadish (2014). In this example:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="kw">quality_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span>(<span class="kw">quality_RML</span>, p_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), 
-                         r_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>), returnModel = <span class="fl">TRUE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">quality_ES_RML</span>)
-</pre></div>
+<span class="va">quality_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">quality_RML</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, 
+                         r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, returnModel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">quality_ES_RML</span><span class="op">)</span></pre></div>
 <pre><code>##                                          est    se
 ## Tau.case.case.var((Intercept))         0.438 0.357
 ## cor_params                             0.382 0.230
@@ -276,18 +261,17 @@
 <p>Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included eight children; one child was measured separately with each parent; for purposes of simplicity, and following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in the analysis.</p>
 <p>The following code compares the estimates of the design-comparable SMD effect size based on the Hedges, Pustejovsky, and Shadish (2013) approach (using the <code>effect_size_MB</code> function) to the estimates based on the hierarchical linear modeling approach described in Pustejovsky, Hedges, and Shadish (2014) (using the <code>g_mlm</code> function).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Laski</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span>
 
 <span class="co"># Hedges, Pustejovsky, &amp; Shadish (2013)</span>
-<span class="kw">Laski_ES_HPS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_MB.html">effect_size_MB</a></span>(<span class="kw">outcome</span>, <span class="kw">treatment</span>, <span class="kw">case</span>, <span class="kw">time</span>, data= <span class="kw">Laski</span>)
+<span class="va">Laski_ES_HPS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_MB.html">effect_size_MB</a></span><span class="op">(</span><span class="va">outcome</span>, <span class="va">treatment</span>, <span class="va">case</span>, <span class="va">time</span>, data<span class="op">=</span> <span class="va">Laski</span><span class="op">)</span>
 
 <span class="co"># Pustejovsky, Hedges, &amp; Shadish (2014)</span>
-<span class="kw">Laski_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span>(fixed = <span class="kw">outcome</span> <span class="op">~</span> <span class="kw">treatment</span>,
-                 random = <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="kw">case</span>, 
-                 correlation = <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span>(<span class="fl">0</span>, <span class="op">~</span> <span class="kw">time</span> <span class="op">|</span> <span class="kw">case</span>), 
-                 data = <span class="kw">Laski</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">Laski_RML</span>)
-</pre></div>
+<span class="va">Laski_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">treatment</span>,
+                 random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">case</span>, 
+                 correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>, 
+                 data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">Laski_RML</span><span class="op">)</span></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##  Data: Laski 
 ##        AIC      BIC    logLik
@@ -318,16 +302,15 @@
 ## Number of Observations: 128
 ## Number of Groups: 8</code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="kw">Laski_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span>(<span class="kw">Laski_RML</span>, p_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), r_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>))
+<span class="va">Laski_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">Laski_RML</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># compare the estimates</span>
-<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  HPS = <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(<span class="kw">Laski_ES_HPS</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(SMD = <span class="kw">delta_hat</span>, SE = <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="kw">V_delta_hat</span>), 
-                             phi = <span class="kw">phi</span>, rho = <span class="kw">rho</span>, nu = <span class="kw">nu</span>)),
-  RML = <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(<span class="kw">Laski_ES_RML</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">g_AB</span>, <span class="kw">SE_g_AB</span>, <span class="kw">theta</span><span class="op">$</span><span class="kw">cor_params</span>, 
-                             <span class="kw">theta</span><span class="op">$</span><span class="kw">Tau</span><span class="op">$</span><span class="kw">case</span> <span class="op">/</span> (<span class="kw">theta</span><span class="op">$</span><span class="kw">Tau</span><span class="op">$</span><span class="kw">case</span> <span class="op">+</span> <span class="kw">theta</span><span class="op">$</span><span class="kw">sigma_sq</span>), <span class="kw">nu</span>))
-)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  HPS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">Laski_ES_HPS</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>SMD <span class="op">=</span> <span class="va">delta_hat</span>, SE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">V_delta_hat</span><span class="op">)</span>, 
+                             phi <span class="op">=</span> <span class="va">phi</span>, rho <span class="op">=</span> <span class="va">rho</span>, nu <span class="op">=</span> <span class="va">nu</span><span class="op">)</span><span class="op">)</span>,
+  RML <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">Laski_ES_RML</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">g_AB</span>, <span class="va">SE_g_AB</span>, <span class="va">theta</span><span class="op">$</span><span class="va">cor_params</span>, 
+                             <span class="va">theta</span><span class="op">$</span><span class="va">Tau</span><span class="op">$</span><span class="va">case</span> <span class="op">/</span> <span class="op">(</span><span class="va">theta</span><span class="op">$</span><span class="va">Tau</span><span class="op">$</span><span class="va">case</span> <span class="op">+</span> <span class="va">theta</span><span class="op">$</span><span class="va">sigma_sq</span><span class="op">)</span>, <span class="va">nu</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span></pre></div>
 <pre><code>##             HPS        RML
 ## SMD  1.38838504  1.4048872
 ## SE   0.31701943  0.2863249
@@ -337,12 +320,11 @@
 <p>As in the Saddler example, both methods produce very similar SMD estimates and variance estimates. The RML estimate of auto-correlation is substantially higher than the HPS estimate, while the intra-class correlation estimate is somewhat lower; in combination, these differences lead to larger degrees of freedom.</p>
 <p>An advantage of the RML approach is that it is readily extended to more complex models. The above analysis was based on the assumption that the treatment effect is constant across cases. This assumption can be removed by fitting a model that includes a random treatment effect for each case:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="kw">Laski_RML2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span>(fixed = <span class="kw">outcome</span> <span class="op">~</span> <span class="kw">treatment</span>,
-                 random = <span class="op">~</span> <span class="kw">treatment</span> <span class="op">|</span> <span class="kw">case</span>, 
-                 correlation = <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span>(<span class="fl">0</span>, <span class="op">~</span> <span class="kw">time</span> <span class="op">|</span> <span class="kw">case</span>), 
-                 data = <span class="kw">Laski</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">Laski_RML2</span>)
-</pre></div>
+<span class="va">Laski_RML2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">treatment</span>,
+                 random <span class="op">=</span> <span class="op">~</span> <span class="va">treatment</span> <span class="op">|</span> <span class="va">case</span>, 
+                 correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>, 
+                 data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">Laski_RML2</span><span class="op">)</span></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##  Data: Laski 
 ##        AIC      BIC    logLik
@@ -376,16 +358,14 @@
 ## Number of Observations: 128
 ## Number of Groups: 8</code></pre>
 <div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span>(<span class="kw">Laski_RML</span>, <span class="kw">Laski_RML2</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">Laski_RML</span>, <span class="va">Laski_RML2</span><span class="op">)</span></pre></div>
 <pre><code>##            Model df      AIC      BIC    logLik   Test  L.Ratio p-value
 ## Laski_RML      1  5 1048.285 1062.466 -519.1424                        
 ## Laski_RML2     2  7 1036.014 1055.868 -511.0069 1 vs 2 16.27091   3e-04</code></pre>
 <p>The fit of the two models can be compared using a likelihood ratio test, which rejects the model with a constant treatment effect. The second model, which allows the treatment effect to vary, is to be preferred. The following code estimates a design-comparable SMD based on the better-fitting model.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="kw">Laski_ES_RML2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span>(<span class="kw">Laski_RML2</span>, p_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), r_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>))
-<span class="kw">Laski_ES_RML2</span>
-</pre></div>
+<span class="va">Laski_ES_RML2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">Laski_RML2</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="va">Laski_ES_RML2</span></pre></div>
 <pre><code>##                           est    se
 ## unadjusted effect size  1.271 0.386
 ## adjusted effect size    1.181 0.358
@@ -397,50 +377,47 @@
 <a href="#schutte-malouf-brown-2008" class="anchor"></a>Schutte, Malouf, &amp; Brown (2008)</h2>
 <p>Schutte, Malouf, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">Schutte</span>)
-<span class="kw">Schutte</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">Schutte</span>, <span class="kw">case</span> != <span class="st">"Case 4"</span>)
-<span class="kw">Schutte</span><span class="op">$</span><span class="kw">case</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">Schutte</span><span class="op">$</span><span class="kw">case</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Schutte</span><span class="op">)</span>
+<span class="va">Schutte</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">Schutte</span>, <span class="va">case</span> <span class="op">!=</span> <span class="st">"Case 4"</span><span class="op">)</span>
+<span class="va">Schutte</span><span class="op">$</span><span class="va">case</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Schutte</span><span class="op">$</span><span class="va">case</span><span class="op">)</span>
 
-<span class="kw">change</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(case=<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw">Schutte</span><span class="op">$</span><span class="kw">case</span>),
-                     phase.change = <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">Schutte</span>, <span class="kw">treatment</span><span class="op">==</span> <span class="st">"treatment"</span>), 
-                                         <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(<span class="kw">week</span>, <span class="kw">case</span>, <span class="kw">min</span>)) <span class="op">-</span> <span class="fl">0.5</span>)
+<span class="va">change</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>case<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">Schutte</span><span class="op">$</span><span class="va">case</span><span class="op">)</span>,
+                     phase.change <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">Schutte</span>, <span class="va">treatment</span><span class="op">==</span> <span class="st">"treatment"</span><span class="op">)</span>, 
+                                         <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">week</span>, <span class="va">case</span>, <span class="va">min</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="fl">0.5</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">Schutte</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">week</span>, <span class="kw">fatigue</span>, shape = <span class="kw">treatment</span>, color = <span class="kw">treatment</span>)) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span> <span class="kw">case</span>, ncol = <span class="fl">3</span>) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(color=<span class="st">"Phase"</span>,shape=<span class="st">"Phase"</span>, y =<span class="st">"Fatigue"</span>, x=<span class="st">"Week"</span>) <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span>(data = <span class="kw">change</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(xintercept=<span class="kw">phase.change</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(legend.position = <span class="st">"bottom"</span>)
-</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">Schutte</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">week</span>, <span class="va">fatigue</span>, shape <span class="op">=</span> <span class="va">treatment</span>, color <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">case</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"Phase"</span>,shape<span class="op">=</span><span class="st">"Phase"</span>, y <span class="op">=</span><span class="st">"Fatigue"</span>, x<span class="op">=</span><span class="st">"Week"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">change</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept<span class="op">=</span><span class="va">phase.change</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></pre></div>
 <p><img src="Estimating-effect-sizes_files/figure-html/Schutte-graph-1.png" width="672"></p>
 <p>Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit">
 <span class="co"># create time-by-trt interaction</span>
-<span class="kw">Schutte</span><span class="op">$</span><span class="kw">trt_week</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(<span class="kw">Schutte</span>, 
-                         <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>((<span class="kw">treatment</span><span class="op">==</span><span class="st">"treatment"</span>) <span class="op">*</span> <span class="kw">week</span>, 
-                                        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">treatment</span>,<span class="kw">case</span>), 
-                                        <span class="fu">function</span>(<span class="kw">x</span>) <span class="kw">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="kw">x</span>))) <span class="op">+</span> (<span class="kw">treatment</span><span class="op">==</span><span class="st">"treatment"</span>))
+<span class="va">Schutte</span><span class="op">$</span><span class="va">trt_week</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">Schutte</span>, 
+                         <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="op">(</span><span class="va">treatment</span><span class="op">==</span><span class="st">"treatment"</span><span class="op">)</span> <span class="op">*</span> <span class="va">week</span>, 
+                                        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">treatment</span>,<span class="va">case</span><span class="op">)</span>, 
+                                        <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">treatment</span><span class="op">==</span><span class="st">"treatment"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># time-point constants</span>
-<span class="kw">A</span> <span class="op">&lt;-</span> <span class="fl">2</span>
-<span class="kw">B</span> <span class="op">&lt;-</span> <span class="fl">9</span>
+<span class="va">A</span> <span class="op">&lt;-</span> <span class="fl">2</span>
+<span class="va">B</span> <span class="op">&lt;-</span> <span class="fl">9</span>
 <span class="co"># center at follow-up time</span>
-<span class="kw">Center</span> <span class="op">&lt;-</span> <span class="kw">B</span>
-<span class="kw">Schutte</span><span class="op">$</span><span class="kw">week</span> <span class="op">&lt;-</span> <span class="kw">Schutte</span><span class="op">$</span><span class="kw">week</span> <span class="op">-</span> <span class="kw">Center</span>
-</pre></div>
+<span class="va">Center</span> <span class="op">&lt;-</span> <span class="va">B</span>
+<span class="va">Schutte</span><span class="op">$</span><span class="va">week</span> <span class="op">&lt;-</span> <span class="va">Schutte</span><span class="op">$</span><span class="va">week</span> <span class="op">-</span> <span class="va">Center</span></pre></div>
 <p>Having completed the data-cleaning process, three different models will be considered, again following the example from Pustejovsky, Hedges, and Shadish (2014).</p>
 <div id="varying-intercepts-fixed-treatment-effect-fixed-trends" class="section level3">
 <h3 class="hasAnchor">
 <a href="#varying-intercepts-fixed-treatment-effect-fixed-trends" class="anchor"></a>Varying intercepts, fixed treatment effect, fixed trends</h3>
 <p>The initial model allows for a baseline time trend, treatment effect, and treatment-by-time interaction, all of which are assumed to be constant across the 12 cases; only the baseline intercept is assumed to vary across cases. This specification corresponds to Model MB3 from Pustejovsky, Hedges, and Shadish (2014)</p>
 <div class="sourceCode" id="cb30"><pre class="downlit">
-<span class="kw">hlm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span>(fixed = <span class="kw">fatigue</span> <span class="op">~</span> <span class="kw">week</span> <span class="op">+</span> <span class="kw">treatment</span> <span class="op">+</span> <span class="kw">trt_week</span>, 
-            random = <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="kw">case</span>, 
-            correlation = <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span>(<span class="fl">0</span>, <span class="op">~</span> <span class="kw">week</span> <span class="op">|</span> <span class="kw">case</span>),
-            data = <span class="kw">Schutte</span>,
-            method = <span class="st">"REML"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">hlm1</span>)
-</pre></div>
+<span class="va">hlm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">fatigue</span> <span class="op">~</span> <span class="va">week</span> <span class="op">+</span> <span class="va">treatment</span> <span class="op">+</span> <span class="va">trt_week</span>, 
+            random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">case</span>, 
+            correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">week</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>,
+            data <span class="op">=</span> <span class="va">Schutte</span>,
+            method <span class="op">=</span> <span class="st">"REML"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">hlm1</span><span class="op">)</span></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##  Data: Schutte 
 ##        AIC     BIC    logLik
@@ -476,9 +453,8 @@
 ## Number of Groups: 12</code></pre>
 <p>The design-comparable standardized mean difference corresponds to the treatment effect at week B = 9, after B - A = 7 weeks of treatment. The corresponding values of <code>p_const</code> and <code>r_const</code> are specified below.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit">
-<span class="kw">Schutte_g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span>(<span class="kw">hlm1</span>, p_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="kw">B</span> <span class="op">-</span> <span class="kw">A</span>), r_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>))
-<span class="kw">Schutte_g1</span>
-</pre></div>
+<span class="va">Schutte_g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm1</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="va">Schutte_g1</span></pre></div>
 <pre><code>##                           est    se
 ## unadjusted effect size -1.373 0.644
 ## adjusted effect size   -1.337 0.627
@@ -490,10 +466,9 @@
 <a href="#varying-intercepts-fixed-treatment-effect-varying-trends" class="anchor"></a>Varying intercepts, fixed treatment effect, varying trends</h3>
 <p>The next model (Model MB4) allows the baseline time trend to vary across cases. This can be done by modifying the previous model with the <code>update</code> function.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit">
-<span class="kw">hlm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="kw">hlm1</span>, random = <span class="op">~</span> <span class="kw">week</span> <span class="op">|</span> <span class="kw">case</span>, 
-               control=<span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lmeControl.html">lmeControl</a></span>(msMaxIter = <span class="fl">50</span>, apVar=<span class="fl">FALSE</span>, returnObject=<span class="fl">TRUE</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">hlm2</span>)
-</pre></div>
+<span class="va">hlm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span><span class="op">(</span><span class="va">hlm1</span>, random <span class="op">=</span> <span class="op">~</span> <span class="va">week</span> <span class="op">|</span> <span class="va">case</span>, 
+               control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lmeControl.html">lmeControl</a></span><span class="op">(</span>msMaxIter <span class="op">=</span> <span class="fl">50</span>, apVar<span class="op">=</span><span class="cn">FALSE</span>, returnObject<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">hlm2</span><span class="op">)</span></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##  Data: Schutte 
 ##        AIC      BIC    logLik
@@ -531,16 +506,14 @@
 ## Number of Observations: 136
 ## Number of Groups: 12</code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span>(<span class="kw">hlm1</span>, <span class="kw">hlm2</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">hlm1</span>, <span class="va">hlm2</span><span class="op">)</span></pre></div>
 <pre><code>##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value
 ## hlm1     1  7 884.1744 904.3540 -435.0872                        
 ## hlm2     2  9 875.9526 901.8978 -428.9763 1 vs 2 12.22179  0.0022</code></pre>
 <p>A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
 <div class="sourceCode" id="cb40"><pre class="downlit">
-<span class="kw">Schutte_g2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span>(<span class="kw">hlm2</span>, p_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>, <span class="kw">B</span> <span class="op">-</span> <span class="kw">A</span>), r_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>))
-<span class="kw">Schutte_g2</span>
-</pre></div>
+<span class="va">Schutte_g2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm2</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>, <span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="va">Schutte_g2</span></pre></div>
 <pre><code>##                           est    se
 ## unadjusted effect size -1.070 0.495
 ## adjusted effect size   -1.013 0.469
@@ -552,10 +525,9 @@
 <a href="#varying-intercepts-varying-trends-varying-treatment-by-time-interactions" class="anchor"></a>Varying intercepts, varying trends, varying treatment-by-time interactions</h3>
 <p>The final model (Model MB5) is yet more flexible, in that it allows the treatment-by-time interactions to vary across cases. Given that the data contain only twelve cases, fitting a model with three random effects would be questionable if the goal were to make inferences about the full structure of the model. However, simulation evidence from Pustejovsky, Hedges, and Shadish (2014) suggests that using such a flexible parameterization may nonetheless be reasonable for the more limited purpose of effect size estimation.</p>
 <div class="sourceCode" id="cb42"><pre class="downlit">
-<span class="kw">hlm3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="kw">hlm2</span>, random = <span class="op">~</span> <span class="kw">week</span> <span class="op">+</span> <span class="kw">trt_week</span> <span class="op">|</span> <span class="kw">case</span>, 
-               control=<span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lmeControl.html">lmeControl</a></span>(msMaxIter = <span class="fl">50</span>, apVar=<span class="fl">FALSE</span>, returnObject=<span class="fl">TRUE</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">hlm3</span>)
-</pre></div>
+<span class="va">hlm3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span><span class="op">(</span><span class="va">hlm2</span>, random <span class="op">=</span> <span class="op">~</span> <span class="va">week</span> <span class="op">+</span> <span class="va">trt_week</span> <span class="op">|</span> <span class="va">case</span>, 
+               control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lmeControl.html">lmeControl</a></span><span class="op">(</span>msMaxIter <span class="op">=</span> <span class="fl">50</span>, apVar<span class="op">=</span><span class="cn">FALSE</span>, returnObject<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">hlm3</span><span class="op">)</span></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##  Data: Schutte 
 ##        AIC      BIC    logLik
@@ -594,22 +566,20 @@
 ## Number of Observations: 136
 ## Number of Groups: 12</code></pre>
 <div class="sourceCode" id="cb44"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span>(<span class="kw">hlm2</span>, <span class="kw">hlm3</span>)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span></pre></div>
 <pre><code>##      Model df      AIC      BIC    logLik   Test L.Ratio p-value
 ## hlm2     1  9 875.9526 901.8978 -428.9763                       
 ## hlm3     2 12 873.0245 907.6181 -424.5123 1 vs 2 8.92808  0.0303</code></pre>
 <p>The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
 <div class="sourceCode" id="cb46"><pre class="downlit">
-<span class="kw">Schutte_g3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span>(<span class="kw">hlm3</span>, p_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="kw">B</span> <span class="op">-</span> <span class="kw">A</span>), r_const = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>))
+<span class="va">Schutte_g3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm3</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># compare effect size estimates</span>
-<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  MB3 = <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw">Schutte_g1</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span>)]), <span class="fl">3</span>), 
-  MB4 = <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw">Schutte_g2</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span>)]), <span class="fl">3</span>),
-  MB5 = <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="kw">Schutte_g3</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span>)]), <span class="fl">3</span>)
-)
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  MB3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">Schutte_g1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, 
+  MB4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">Schutte_g2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>,
+  MB5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">Schutte_g3</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>
+<span class="op">)</span></pre></div>
 <pre><code>##            MB3    MB4    MB5
 ## g_AB    -1.337 -1.013 -1.326
 ## SE_g_AB  0.627  0.469  0.827
@@ -636,8 +606,7 @@
 <li id="fn1">
 <p>Note that the specification of the <code>r_const</code> argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The arguments appear in a different order than reported in the article because of how the variance components are arranged in the <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> function. To see the order of the variance components used by <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>, use the <code><a href="../reference/lmeInfo.html">extract_varcomp()</a></code> function:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="../reference/lmeInfo.html">extract_varcomp</a></span>(<span class="kw">hlm2</span>))
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/lmeInfo.html">extract_varcomp</a></span><span class="op">(</span><span class="va">hlm2</span><span class="op">)</span><span class="op">)</span></pre></div>
 <pre><code>##      Tau.case.case.var((Intercept)) Tau.case.case.cov(week,(Intercept)) 
 ##                          95.7126977                          11.2090726 
 ##             Tau.case.case.var(week)                          cor_params 
@@ -666,7 +635,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
