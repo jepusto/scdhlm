@@ -3,6 +3,18 @@
 # calculate session-by-treatment interaction
 #---------------------------------------------------------------
 
+#' @title Calculate session-by-treatment interactions for a unique case
+#'
+#' @description Calculate session-by-treatment interactions based on phases and
+#'   session numbering.
+#'
+#' @param x The subset of a single-case dataset for a unique case.
+#' @param trt_phase character string indicating the phase value corresponding to
+#'   the treatment condition.
+#'   
+#' @export
+#' 
+
 session_by_treatment <- function(x, trt_phase) {
   pmax(0, x$session - min(x$session[x$phase==trt_phase]))
 }
