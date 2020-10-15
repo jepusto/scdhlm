@@ -26,7 +26,7 @@ lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, center = 0, phi_in
   
   session_RE <- write_formula(RE_base, c("0","1","session"))
   trt_RE <- write_formula(RE_trt, c("NULL","trt","session_trt"))
-  random <- as.formula(paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
+  random <- as.formula(paste(" ~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
   
   W <- TRUE
   E <- NULL
@@ -55,7 +55,7 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, phi_init = 0.01, .
   
   session_RE <- if (is.null(RE_base) | !(0 %in% RE_base)) "0" else "1"
   trt_RE <- if (is.null(RE_trt) | !(0 %in% RE_trt)) NULL else "trt"
-  random <- as.formula(paste("~",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
+  random <- as.formula(paste(" ~",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
   
   W <- TRUE
   E <- NULL
