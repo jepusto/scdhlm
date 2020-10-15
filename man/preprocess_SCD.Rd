@@ -10,7 +10,7 @@ preprocess_SCD(
   phase,
   session,
   outcome,
-  design = c("MB", "TR"),
+  design,
   center,
   treatment_name = NULL,
   round_session = TRUE
@@ -46,7 +46,9 @@ If treatment_name is left null it will choose the second level of the phase vari
 }
 \examples{
 data(Laski)
-preprocess_SCD(data = Laski, case = case, phase = treatment, session = time, outcome = outcome, design = "MB", center = 4)
+preprocess_SCD(data = Laski, case = case, 
+               phase = treatment, session = time, 
+               outcome = outcome, design = "MB", center = 4)
 
           
 }
