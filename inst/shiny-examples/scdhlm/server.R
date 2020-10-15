@@ -624,6 +624,10 @@ server <-
                    rep(0, length(model_fit()$fit$modelStruct$varStruct)),
                    1L)
       
+      bc_vec <- (input$B_time - input$model_center)^input$RE_base
+      bc_mat <- 2 * tcrossprod(bc_vec) - diag(bc_vec^2)
+      r_const <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
+      
       calc_ES <- parse_code_chunk("es-RML", args = list(user_A = A,
                                                         user_B = B,
                                                         user_FE_base = paste("c(", paste(input$FE_base, collapse = ","), ")", sep = ""), 
