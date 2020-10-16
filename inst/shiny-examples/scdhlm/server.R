@@ -404,7 +404,7 @@ server <-
           res <- effect_size_RML(design = studyDesign(), dat = datClean(), 
                                  FE_base = input$FE_base, RE_base = input$RE_base,
                                  FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
-                                 A = A, B = B)
+                                 A = A, B = B, center = input$model_center)
         } else {
           if (studyDesign()=="MB") {
             res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
@@ -617,25 +617,28 @@ server <-
       A <- effect_size()$`Initial treatment time`
       B <- effect_size()$`Follow-up time`
       p_const <- c(rep(0L, length(input$FE_base)), (B - A - 1)^as.integer(input$FE_trt))
-      r_dim <- length(input$RE_base) + length(input$RE_trt)
-      r_const <- c(as.integer(0 %in% input$RE_base),
-                   rep(0, r_dim * (r_dim + 1) / 2 - 1),
-                   rep(0, length(model_fit()$fit$modelStruct$corStruct)),
-                   rep(0, length(model_fit()$fit$modelStruct$varStruct)),
-                   1L)
       
-      bc_vec <- (input$B_time - input$model_center)^input$RE_base
+      # get r_const when centering at an arbitrary time instead of B
+      r_dim <- length(input$RE_base) + length(input$RE_trt)
+      r_const_dim <- r_dim * (r_dim + 1) / 2
+      bc_vec <- (input$B_time - input$model_center)^as.integer(input$RE_base)
       bc_mat <- 2 * tcrossprod(bc_vec) - diag(bc_vec^2)
-      r_const <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
+      r_const_base <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
+      r_const_trt <- rep(0, (r_const_dim - length(r_const_base)))
+      r_const_cor <- rep(0, length(model_fit()$fit$modelStruct$corStruct))
+      r_const_var <- rep(0, length(model_fit()$fit$modelStruct$varStruct))
+      r_const <- c(r_const_base, r_const_trt, r_const_cor, r_const_var, 1L)
       
       calc_ES <- parse_code_chunk("es-RML", args = list(user_A = A,
                                                         user_B = B,
-                                                        user_FE_base = paste("c(", paste(input$FE_base, collapse = ","), ")", sep = ""), 
-                                                        user_FE_trt = paste("c(", paste(input$FE_trt, collapse = ","), ")", sep = ""),
-                                                        # user_RE_base = input$RE_base,
-                                                        # user_RE_trt = input$RE_trt,
-                                                        user_pconstant = paste("c(", paste(p_const, collapse = ","), ")", sep = ""),
-                                                        user_rconstant= paste("c(", paste(r_const, collapse = ","), ")", sep = "")))
+                                                        user_FE_base = paste_object(input$FE_base), 
+                                                        user_FE_trt = paste_object(input$FE_trt),
+                                                        user_rconst_base = paste_object(r_const_base),
+                                                        user_rconst_trt = paste_object(r_const_trt),
+                                                        user_rconst_cor = paste_object(r_const_cor),
+                                                        user_rconst_var = paste_object(r_const_var),
+                                                        user_pconstant = paste_object(p_const),
+                                                        user_rconstant= paste_object(r_const)))
       
     } else {
       if (studyDesign() == "MB") {
