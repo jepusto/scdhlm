@@ -3,15 +3,15 @@
 #' 
 #' @description Clean single case design data for treatment reversal and multiple baseline designs. 
 #' 
-#' @param data dataset to be cleaned. Must be data.frame. 
-#' @param case factor vector indicating unique cases or name of variable within \code{data}.
-#' @param phase vector of treatment indicators or name of variable within \code{data}.
-#' @param session vector of measurement occasion times or name of variable within \code{data}.
-#' @param outcome vector of outcome data or name of variable within \code{data}.
-#' @param design Specify whether it is a treatment reversal, "TR", or multiple baseline, "MB", design
-#' @param center Specify the centering value for session.
-#' @param treatment_name (Optional) value of the name of the treatment phase
-#' @param round_session Default is rounding session to nearest integer.
+#' @param data dataset to be cleaned. Must be a \code{data.frame}. 
+#' @param case name of a character or factor vector within \code{data} indicating unique cases.
+#' @param phase name of a character or factor vector within \code{data} indicating unique treatment phases.
+#' @param session name of numeric vector within \code{data} of measurement times.
+#' @param outcome name of numeric vector of outcome data within \code{data}.
+#' @param design Character string to specify whether data comes from a treatment reversal, "TR", or multiple baseline, "MB", design.
+#' @param center Numeric value for the centering value for session.
+#' @param treatment_name (Optional) Character string corresponding to the name of the treatment phase.
+#' @param round_session Logical indicating whether to round \code{session} to the nearest integer. Defaults to \code{TRUE}.
 #' 
 #' @note If treatment_name is left null it will choose the second level of the phase variable to be the treatment phase.
 #' 
@@ -27,7 +27,19 @@
 #' 
 #'           
 
-preprocess_SCD <- function(data, case, phase, session, outcome, design, center, treatment_name = NULL, round_session = TRUE) {
+preprocess_SCD <- function(data, 
+                           case, phase, session, outcome, 
+                           design, 
+                           center = NULL, 
+                           treatment_name = NULL, 
+                           round_session = TRUE) {
+  
+  if (missing(data) || !inherits(data, "data.frame")) stop("Please specify a data.frame in the data argument.")
+  if (missing(case)) stop("Please specify a case variable.")
+  if (missing(phase)) stop("Please specify a phase variable.")
+  if (missing(session)) stop("Please specify a session variable.")
+  if (missing(outcome)) stop("Please specify an outcome variable.")
+  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline) or 'TR' (treatment reversal).")
   
   # get variables
   case_call <- substitute(case)
@@ -61,14 +73,13 @@ preprocess_SCD <- function(data, case, phase, session, outcome, design, center, 
   # remove rows with missing outcome variables
   dat <- dat[!is.na(dat$outcome), ]
   
-  trt_phase <- treatment_name # create trt_phase variable
-  dat$trt <- as.numeric(dat$phase==trt_phase) # create trt variable
+  dat$trt <- as.numeric(dat$phase==treatment_name) # create trt variable
   
   if (design == "MB") { 
-    dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
+    dat$session_trt <- unsplit(by(dat, dat$case, session_by_treatment, trt_phase = treatment_name), dat$case)
     dat$session <- dat$session - center
   } else {
-    dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
+    dat$phase_pair <- unsplit(by(dat, dat$case, phase_pairs), dat$case)
   }
   
   dat <- droplevels(dat)
