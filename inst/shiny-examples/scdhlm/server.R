@@ -517,13 +517,15 @@ server <-
     if (input$dat_type == "example") {
       
       example_parms <- exampleMapping[[input$example]]
-      filter_vars <- example_parms$filters
+      filter_vars <- grep("filter_", names(input), value = TRUE)
+      filter_vals <- if(length(filter_vars) > 0) lapply(filter_vars, function(x) input[[x]]) else NULL
+      filter_vals <- unlist(filter_vals)
       
       if (!is.null(filter_vars)) {
         clean_dat_A <- c(
           parse_code_chunk("clean-example-filter", 
-                           args = list(user_filtervars = paste(filter_vars, collapse='", "'), 
-                                       user_parms = paste(example_parms$vars, collapse='", "')))
+                           args = list(user_filtervars = paste(example_parms$filters, collapse='", "'),
+                                       user_filtervals = paste(filter_vals, sep = "")))
         )
       } else {
         clean_dat_A <- c()
@@ -533,14 +535,6 @@ server <-
       session <- "session"
       phase <- "phase"
       outcome <- "outcome"
-      
-      clean_dat <- c(clean_dat_A,
-                     '',
-                     parse_code_chunk("clean-example-nofilter",
-                                      args = list(user_parms = paste(example_parms$vars, collapse='", "'),
-                                                  user_design = studyDesign(),
-                                                  user_model_center = input$model_center))
-      )
       
       if (studyDesign() == "TR") {
         clean_dat <- c(clean_dat_A,
@@ -569,44 +563,69 @@ server <-
       
       filter_vars <- grep("filter_", names(input), value = TRUE)
       filter_vals <- if(length(filter_vars) > 0) lapply(filter_vars, function(x) input[[x]]) else NULL
+      filter_vals <- unlist(filter_vals)
       
       if (!is.null(input$filters)) {
-        clean_dat <- c(
+        clean_dat_B <- c(
           '',
-          parse_code_chunk("clean-inputdata-filter", args = list(user_caseID = case, 
-                                                                 user_session = session, 
-                                                                 user_phaseID = phase, 
-                                                                 user_outcome = outcome, 
-                                                                 user_design = studyDesign(),
-                                                                 user_model_center = input$model_center,
-                                                                 user_treatment = input$treatment,
-                                                                 user_round = round_session,
-                                                                 user_filtervars = input$filters,
-                                                                 user_filtervals = filter_vals))
+          parse_code_chunk("clean-inputdata-filter", args = list(user_filtervars = input$filters,
+                                                                 user_filtervals = paste(filter_vals, sep = "")))
         )
       } else {
-        clean_dat <- c(
-          '',
-          parse_code_chunk("clean-inputdata-nofilter", args = list(user_caseID = case, 
-                                                                   user_session = session, 
-                                                                   user_phaseID = phase, 
-                                                                   user_outcome = outcome, 
-                                                                   user_design = studyDesign(),
-                                                                   user_model_center = input$model_center,
-                                                                   user_treatment = input$treatment,
-                                                                   user_round = round_session))
-          )
+        clean_dat_B <- c()
       }
-    }
+        
+      if (studyDesign() == "TR") {
+          clean_dat <- c(clean_dat_B,
+                         '',
+                         parse_code_chunk("clean-inputdata-nofilter-TR", 
+                                          args = list(user_caseID = case, 
+                                                      user_session = session,
+                                                      user_phaseID = phase,
+                                                      user_outcome = outcome,
+                                                      user_design = studyDesign(),
+                                                      user_treatment = input$treatment,
+                                                      user_round = round_session))
+          )
+        } else {
+          clean_dat <- c(clean_dat_B,
+                         '',
+                         parse_code_chunk("clean-inputdata-nofilter", 
+                                          args = list(user_caseID = case,
+                                                      user_session = session,
+                                                      user_phaseID = phase,
+                                                      user_outcome = outcome,
+                                                      user_design = studyDesign(),
+                                                      user_model_center = input$model_center,
+                                                      user_treatment = input$treatment,
+                                                      user_round = round_session))
+          )
+        }
+      }
     
     # Fit the model
     
     if (input$method=="RML") {
       
-      fixed <- deparse(model_fit()$fixed)
-      random <- deparse(model_fit()$random)
+      if (studyDesign() == "MB") {
+        session_FE <- write_formula(input$FE_base, c("0","1", session))
+        trt_FE <- write_formula(input$FE_trt, c("NULL", "trt", paste0(session, "_trt")))
+        session_RE <- write_formula(input$RE_base, c("0","1", session))
+        trt_RE <- write_formula(input$RE_trt, c("NULL","trt", paste0(session, "_trt")))
+      } else {
+        session_FE <- if (is.null(input$FE_base) | !(0 %in% input$FE_base)) "0" else "1"
+        trt_FE <- if (is.null(input$FE_trt) | !(0 %in% input$FE_trt)) NULL else "trt"
+        session_RE <- if (is.null(input$RE_base) | !(0 %in% input$RE_base)) "0" else "1"
+        trt_RE <- if (is.null(input$RE_trt) | !(0 %in% input$RE_trt)) NULL else "trt"
+      }
       
-      fit_mod <- parse_code_chunk("fit-RML", args = list(user_fixed = fixed, user_random = random))
+      fixed <- paste(outcome, "~", paste(c(session_FE, trt_FE), collapse = " + "))
+      random <- paste("~", paste(c(session_RE, trt_RE), collapse = " + "), "|", case)
+      
+      fit_mod <- parse_code_chunk("fit-RML", args = list(user_case = case,
+                                                         user_session = session,
+                                                         user_fixed = fixed, 
+                                                         user_random = random))
     } else {
       fit_mod <- c()
     }
@@ -642,13 +661,23 @@ server <-
       
     } else {
       if (studyDesign() == "MB") {
-        calc_ES <- parse_code_chunk("es-MB", args = NULL)
+        calc_ES <- parse_code_chunk("es-MB", args = list(user_case = case,
+                                                         user_session = session,
+                                                         user_outcome = outcome))
       } else {
-        calc_ES <- parse_code_chunk("es-ABK", args = NULL)
+        phase_pair <- paste0(phase, "_pair")
+        calc_ES <- parse_code_chunk("es-ABK", args = list(user_case = case,
+                                                          user_session = session,
+                                                          user_outcome = outcome,
+                                                          user_phase_pair = phase_pair))
       }
     }
     
-    SCD_graph <- parse_code_chunk("graph", args = list(user_design = studyDesign()))
+    SCD_graph <- parse_code_chunk("graph", args = list(user_case = case,
+                                                       user_phase = phase,
+                                                       user_session = session,
+                                                       user_outcome = outcome,
+                                                       user_design = studyDesign()))
 
     res <- c(header_res, read_res, clean_dat, '', fit_mod, '', calc_ES, '', SCD_graph, '')
     paste(res, collapse = "\n")

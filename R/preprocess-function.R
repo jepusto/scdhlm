@@ -9,7 +9,7 @@
 #' @param session name of numeric vector within \code{data} of measurement times.
 #' @param outcome name of numeric vector of outcome data within \code{data}.
 #' @param design Character string to specify whether data comes from a treatment reversal, "TR", or multiple baseline, "MB", design.
-#' @param center Numeric value for the centering value for session.
+#' @param center Numeric value for the centering value for session. Default is 0.
 #' @param treatment_name (Optional) Character string corresponding to the name of the treatment phase.
 #' @param round_session Logical indicating whether to round \code{session} to the nearest integer. Defaults to \code{TRUE}.
 #' 
@@ -30,7 +30,7 @@
 preprocess_SCD <- function(data, 
                            case, phase, session, outcome, 
                            design, 
-                           center = NULL, 
+                           center = 0, 
                            treatment_name = NULL, 
                            round_session = TRUE) {
   
@@ -73,16 +73,22 @@ preprocess_SCD <- function(data,
   # remove rows with missing outcome variables
   dat <- dat[!is.na(dat$outcome), ]
   
-  dat$trt <- as.numeric(dat$phase==treatment_name) # create trt variable
+  dat$trt <- as.numeric(dat$phase == treatment_name) # create trt variable
   
   if (design == "MB") { 
     dat$session_trt <- unsplit(by(dat, dat$case, session_by_treatment, trt_phase = treatment_name), dat$case)
     dat$session <- dat$session - center
+    names(dat)[6] <- paste0(as.character(session_call), "_trt")
   } else {
     dat$phase_pair <- unsplit(by(dat, dat$case, phase_pairs), dat$case)
+    names(dat)[6] <- paste0(as.character(phase_call), "_pair")
   }
   
   dat <- droplevels(dat)
+  names(dat)[1] <- as.character(case_call)
+  names(dat)[2] <- as.character(phase_call)
+  names(dat)[3] <- as.character(session_call)
+  names(dat)[4] <- as.character(outcome_call)
   
   return(dat)
   
