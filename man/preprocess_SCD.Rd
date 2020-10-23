@@ -11,29 +11,29 @@ preprocess_SCD(
   session,
   outcome,
   design,
-  center,
+  center = 0,
   treatment_name = NULL,
   round_session = TRUE
 )
 }
 \arguments{
-\item{data}{dataset to be cleaned. Must be data.frame.}
+\item{data}{dataset to be cleaned. Must be a \code{data.frame}.}
 
-\item{case}{factor vector indicating unique cases or name of variable within \code{data}.}
+\item{case}{name of a character or factor vector within \code{data} indicating unique cases.}
 
-\item{phase}{vector of treatment indicators or name of variable within \code{data}.}
+\item{phase}{name of a character or factor vector within \code{data} indicating unique treatment phases.}
 
-\item{session}{vector of measurement occasion times or name of variable within \code{data}.}
+\item{session}{name of numeric vector within \code{data} of measurement times.}
 
-\item{outcome}{vector of outcome data or name of variable within \code{data}.}
+\item{outcome}{name of numeric vector of outcome data within \code{data}.}
 
-\item{design}{Specify whether it is a treatment reversal, "TR", or multiple baseline, "MB", design}
+\item{design}{Character string to specify whether data comes from a treatment reversal, "TR", or multiple baseline, "MB", design.}
 
-\item{center}{Specify the centering value for session.}
+\item{center}{Numeric value for the centering value for session. Default is 0.}
 
-\item{treatment_name}{(Optional) value of the name of the treatment phase}
+\item{treatment_name}{(Optional) Character string corresponding to the name of the treatment phase.}
 
-\item{round_session}{Default is rounding session to nearest integer.}
+\item{round_session}{Logical indicating whether to round \code{session} to the nearest integer. Defaults to \code{TRUE}.}
 }
 \value{
 A cleaned SCD dataset that can be used for model fitting and effect size calculation.

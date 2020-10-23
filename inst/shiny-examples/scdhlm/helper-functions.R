@@ -10,6 +10,13 @@ parse_code_chunk <- function(chunk, args) {
 }
 
 #---------------------------------------------------------------
+# paste an object in server for code chunks
+#---------------------------------------------------------------
+paste_object <- function(object) {
+  paste("c(", paste(object, collapse = ","), ")", sep = "")
+}
+
+#---------------------------------------------------------------
 # calculate timing defaults
 #---------------------------------------------------------------
 
