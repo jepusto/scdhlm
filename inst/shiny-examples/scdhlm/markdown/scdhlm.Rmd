@@ -13,8 +13,8 @@ Designed and maintained by James E. Pustejovsky
 
 Contributions from 
 
-* Bethany Hamilton
 * Man Chen
+* Bethany Hamilton
 
 [Source code available on Github](https://github.com/jepusto/scdhlm/tree/master/inst/shiny-examples/scdhlm)
 
@@ -22,7 +22,7 @@ _Your comments, suggestions, and feedback are welcome._
 
 ### Suggested citation
 
-Pustejovsky, James E. (`r substr(Sys.Date(),1,4)`). scdhlm: A web-based calculator for between-case standardized mean differences (Version `r packageVersion("scdhlm")`) [Web application]. Retrieved from: https://jepusto.shinyapps.io/scdhlm
+Pustejovsky, J. E., Chen, M., & Hamilton, B. (`r substr(Sys.Date(),1,4)`). scdhlm: A web-based calculator for between-case standardized mean differences (Version `r packageVersion("scdhlm")`) [Web application]. Retrieved from: https://jepusto.shinyapps.io/scdhlm
 
 ### Tutorial paper
 

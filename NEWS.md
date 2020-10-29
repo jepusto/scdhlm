@@ -1,3 +1,9 @@
+# scdhlm 0.4.2.9300
+
+* Added a new function `preprocess_SCD()` which handles initial data-cleaning steps for multiple baseline and treatment reversal designs.
+
+* The `scdhlm` Shiny app now includes a tab with R code for replicating the app calculations.
+
 # scdhlm 0.4.2
 
 * Imported `g_mlm()` from `lmeInfo`.
