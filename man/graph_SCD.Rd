@@ -24,7 +24,7 @@ graph_SCD(
 
 \item{outcome}{vector of outcome data or name of variable within \code{data}. May not contain any missing values.}
 
-\item{design}{Specify wheter it is a treatment reversal, "TR", or multiple baseline, "MB", design}
+\item{design}{Specify whether it is a treatment reversal, "TR", or multiple baseline, "MB", design}
 
 \item{treatment_name}{(Optional) value of the name of the treatment phase}
 

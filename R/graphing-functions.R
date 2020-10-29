@@ -71,7 +71,7 @@ phase_lines_by_case <- function(x) {
 #' @param case factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param session vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.
 #' @param data (Optional) dataset to use for analysis. Must be data.frame. 
-#' @param design Specify wheter it is a treatment reversal, "TR", or multiple baseline, "MB", design
+#' @param design Specify whether it is a treatment reversal, "TR", or multiple baseline, "MB", design
 #' @param treatment_name (Optional) value of the name of the treatment phase
 #' @param model_fit (Optional) lme fitted model that adds predicted values to graph
 #' 

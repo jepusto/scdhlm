@@ -26,7 +26,7 @@ lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, center = 0, phi_in
   
   session_RE <- write_formula(RE_base, c("0","1","session"))
   trt_RE <- write_formula(RE_trt, c("NULL","trt","session_trt"))
-  random <- as.formula(paste("~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
+  random <- as.formula(paste(" ~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
   
   W <- TRUE
   E <- NULL
@@ -55,7 +55,7 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, phi_init = 0.01, .
   
   session_RE <- if (is.null(RE_base) | !(0 %in% RE_base)) "0" else "1"
   trt_RE <- if (is.null(RE_trt) | !(0 %in% RE_trt)) NULL else "trt"
-  random <- as.formula(paste("~",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
+  random <- as.formula(paste(" ~",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
   
   W <- TRUE
   E <- NULL
@@ -79,22 +79,29 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, phi_init = 0.01, .
 # calculate effect sizes
 #---------------------------------------------------------------
 
-effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B, phi_init = 0.01) {
+effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B, center, phi_init = 0.01) {
   fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[design]]
   m_fit <- do.call(fit_function, 
                    args = list(dat = dat, FE_base = FE_base, RE_base = RE_base,
-                               FE_trt = FE_trt, RE_trt = RE_trt, center = B, phi_init = phi_init))
+                               FE_trt = FE_trt, RE_trt = RE_trt, center = center, phi_init = phi_init))
   fixed <- m_fit$fixed
   random <- m_fit$random
   mod <- m_fit$fit
   mod$call$fixed <- fixed
   mod$call$random <- random
   p_const <- c(rep(0L, length(FE_base)), (B - A - 1)^as.integer(FE_trt))
+  
   r_dim <- length(RE_base) + length(RE_trt)
-  r_const <- c(as.integer(0 %in% RE_base),
-               rep(0, r_dim * (r_dim + 1) / 2 - 1),
-               rep(0, length(mod$modelStruct$corStruct)), 
-               rep(0, length(mod$modelStruct$varStruct)), 
+  r_const_dim <- r_dim * (r_dim + 1) / 2
+  bc_vec <- (B - center)^as.integer(RE_base)
+  bc_mat <- 2 * tcrossprod(bc_vec) - diag(bc_vec^2)
+  r_const_base <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
+  r_const_trt <- rep(0L, r_const_dim - length(r_const_base))
+  
+  r_const <- c(r_const_base, 
+               r_const_trt,
+               rep(0, length(mod$modelStruct$corStruct)),
+               rep(0, length(mod$modelStruct$varStruct)),
                1L)
   
   g_mlm(mod, p_const = p_const, r_const = r_const, infotype = "expected", returnModel = TRUE)

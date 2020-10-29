@@ -9,8 +9,8 @@ Designed and maintained by James E. Pustejovsky
 
 Contributions from
 
--   Bethany Hamilton
 -   Man Chen
+-   Bethany Hamilton
 
 [Source code available on
 Github](https://github.com/jepusto/scdhlm/tree/master/inst/shiny-examples/scdhlm)
@@ -19,9 +19,9 @@ Github](https://github.com/jepusto/scdhlm/tree/master/inst/shiny-examples/scdhlm
 
 ### Suggested citation
 
-Pustejovsky, James E. (2020). scdhlm: A web-based calculator for
-between-case standardized mean differences (Version 0.4.2.9300) \[Web
-application\]. Retrieved from:
+Pustejovsky, J. E., Chen, M., & Hamilton, B. (2020). scdhlm: A web-based
+calculator for between-case standardized mean differences (Version
+0.4.2.9300) \[Web application\]. Retrieved from:
 <a href="https://jepusto.shinyapps.io/scdhlm" class="uri">https://jepusto.shinyapps.io/scdhlm</a>
 
 ### Tutorial paper

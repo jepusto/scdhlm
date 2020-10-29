@@ -1,0 +1,46 @@
+context("Preprocess_SCD function")
+
+# MB design
+MB_dat <- data.frame(
+  Student = rep(LETTERS[1:4], each = 10),
+  Phase = rep(rep(c("Base","Trt"), each = 5), 4),
+  Time = rep(1:10, 4),
+  Behavior = rnorm(40)
+)
+
+MB_dat_clean <- preprocess_SCD(MB_dat, case = Student, phase = Phase, 
+                               session = Time, outcome = Behavior, design = "MB")
+data("Laski")
+
+dat1_Laski <- preprocess_SCD(data = Laski, case = case, phase = treatment, 
+                             session = time, outcome = outcome, design = "MB")
+
+dat2_Laski <- preprocess_SCD(data = Laski, case = case, phase = treatment, 
+                             session = time, outcome = outcome, design = "MB", center = 4)
+
+# TR design
+data("Anglesea")
+
+dat1_Ang <- preprocess_SCD(data = Anglesea, case = case, phase = condition,
+                           session = session, outcome = outcome, design = "TR")
+
+test_that("The returned dataset is consistent with the input dataset.", {
+  
+  # MB design
+  expect_equal(names(MB_dat), names(MB_dat_clean)[1:4])
+  
+  expect_error(preprocess_SCD(data = Laski))
+  expect_equal(Laski$case, dat1_Laski$case)
+  expect_equal(Laski$treatment, dat1_Laski$treatment)
+  expect_equal(Laski$time, dat1_Laski$time)
+  expect_equal(Laski$outcome, dat1_Laski$outcome)
+  expect_equal(Laski$time, dat2_Laski$time + 4)
+  
+  # TR design
+  expect_equal(Anglesea$case, dat1_Ang$case)
+  expect_equal(Anglesea$condition, dat1_Ang$condition)
+  expect_equal(Anglesea$session, dat1_Ang$session)
+  expect_equal(Anglesea$outcome, dat1_Ang$outcome)
+  
+})
+
