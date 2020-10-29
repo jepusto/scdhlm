@@ -30,9 +30,7 @@ reference:
       - CI_g
       - effect_size_ABk
       - effect_size_MB
-      - g_REML
-      - phase_pairs
-      - session_by_treatment
+      - preprocess_SCD
   - title: "Graphing Single-Case Design Data"
     desc: "Function for graphing data from single-case designs"
     contents: 
@@ -48,7 +46,9 @@ reference:
   - title: "Deprecated function"
     desc: "Function that might be removed in a later version of the package"
     contents:
-        - scdhlm-deprecated      
+      - g_REML
+      - phase_pairs
+      - session_by_treatment
   - title: "Example Datasets"
     desc: "Example datasets from single-case designs"
     contents:
