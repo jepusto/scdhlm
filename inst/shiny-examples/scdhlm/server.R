@@ -412,10 +412,27 @@ server <-
             res <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = trt, id = case, phase = phase_pair, time = session))
           }
         }
-        filter_vars <- grep("filter_", names(input), value=TRUE)
-        filter_vals <- if (length(filter_vars) > 0) lapply(filter_vars, function(x) input[[x]]) else NULL
+        
+        example_parms <- exampleMapping[[input$example]]
+        if (input$dat_type == "example" & !is.null(example_parms$filters)) {
+          filter_vars <- example_parms$filters
+          filter_vals <- if(length(filter_vars) > 0) lapply(paste0("filter_", filter_vars), 
+                                                            function(x) paste0(input[[x]], collapse = ",")) else NULL
+          names(filter_vals) <- filter_vars
+          filter_vals <- as.data.frame(filter_vals)
+        } else if (input$dat_type %in% c("dat", "xlsx") & !is.null(input$filters)) {
+          filter_vars <- input$filters
+          filter_vals <- if(length(filter_vars) > 0) lapply(paste0("filter_", filter_vars), 
+                                                            function(x) paste0(input[[x]], collapse = ",")) else NULL
+          names(filter_vals) <- filter_vars
+          filter_vals <- as.data.frame(filter_vals)
+        } else {
+          filter_vars <- NULL
+          filter_vals <- NULL
+        } 
+        
         summarize_ES(res, 
-                     filter_vars = filter_vars, filter_vals = filter_vals, 
+                     filter_vals = filter_vals, 
                      design = studyDesign(), method = input$method, 
                      FE_base = input$FE_base, RE_base = input$RE_base,
                      FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
@@ -517,15 +534,16 @@ server <-
     if (input$dat_type == "example") {
       
       example_parms <- exampleMapping[[input$example]]
-      filter_vars <- grep("filter_", names(input), value = TRUE)
-      filter_vals <- if(length(filter_vars) > 0) lapply(filter_vars, function(x) input[[x]]) else NULL
-      filter_vals <- unlist(filter_vals)
+      filter_vars <- example_parms$filters
+      filter_vals <- if(length(filter_vars) > 0) lapply(paste0("filter_", filter_vars), 
+                                                        function(x) paste0('"', input[[x]], '"', collapse = ",")) else NULL
+      filter_vals <- paste0("%in% c(", filter_vals, ")")
+      filter_string <- paste(example_parms$filters, filter_vals, collapse = " & ")
       
-      if (!is.null(filter_vars)) {
+      if (!is.null(example_parms$filters)) {
         clean_dat_A <- c(
           parse_code_chunk("clean-example-filter", 
-                           args = list(user_filtervars = paste(example_parms$filters, collapse='", "'),
-                                       user_filtervals = paste(filter_vals, sep = "")))
+                           args = list(user_filterString = filter_string))
         )
       } else {
         clean_dat_A <- c()
@@ -561,15 +579,16 @@ server <-
       outcome <- input$outcome
       round_session <- if (!is.null(input$round_session)) TRUE else FALSE
       
-      filter_vars <- grep("filter_", names(input), value = TRUE)
-      filter_vals <- if(length(filter_vars) > 0) lapply(filter_vars, function(x) input[[x]]) else NULL
-      filter_vals <- unlist(filter_vals)
+      filter_vars <- input$filters
+      filter_vals <- if(length(filter_vars) > 0) lapply(paste0("filter_", filter_vars), 
+                                                        function(x) paste0('"', input[[x]], '"', collapse = ",")) else NULL
+      filter_vals <- paste0("%in% c(", filter_vals, ")")
+      filter_string <- paste(input$filters, filter_vals, collapse = " & ")
       
       if (!is.null(input$filters)) {
         clean_dat_B <- c(
           '',
-          parse_code_chunk("clean-inputdata-filter", args = list(user_filtervars = input$filters,
-                                                                 user_filtervals = paste(filter_vals, sep = "")))
+          parse_code_chunk("clean-inputdata-filter", args = list(user_filterString = filter_string))
         )
       } else {
         clean_dat_B <- c()
@@ -648,16 +667,25 @@ server <-
       r_const_var <- rep(0, length(model_fit()$fit$modelStruct$varStruct))
       r_const <- c(r_const_base, r_const_trt, r_const_cor, r_const_var, 1L)
       
-      calc_ES <- parse_code_chunk("es-RML", args = list(user_A = A,
-                                                        user_B = B,
-                                                        user_FE_base = paste_object(input$FE_base), 
-                                                        user_FE_trt = paste_object(input$FE_trt),
-                                                        user_rconst_base = paste_object(r_const_base),
-                                                        user_rconst_trt = paste_object(r_const_trt),
-                                                        user_rconst_cor = paste_object(r_const_cor),
-                                                        user_rconst_var = paste_object(r_const_var),
-                                                        user_pconstant = paste_object(p_const),
-                                                        user_rconstant= paste_object(r_const)))
+      if (studyDesign() == "MB") {
+        calc_ES <- parse_code_chunk("es-RML-MB", args = list(user_A = A,
+                                                          user_B = B,
+                                                          user_FE_base = paste_object(input$FE_base), 
+                                                          user_FE_trt = paste_object(input$FE_trt),
+                                                          user_rconst_base = paste_object(r_const_base),
+                                                          user_rconst_trt = paste_object(r_const_trt),
+                                                          user_rconst_cor = paste_object(r_const_cor),
+                                                          user_rconst_var = paste_object(r_const_var),
+                                                          user_pconstant = paste_object(p_const),
+                                                          user_rconstant= paste_object(r_const)))
+      } else {
+        calc_ES <- parse_code_chunk("es-RML-TR", args = list(user_rconst_base = paste_object(r_const_base),
+                                                          user_rconst_trt = paste_object(r_const_trt),
+                                                          user_rconst_cor = paste_object(r_const_cor),
+                                                          user_rconst_var = paste_object(r_const_var),
+                                                          user_pconstant = paste_object(p_const),
+                                                          user_rconstant= paste_object(r_const)))
+      }
       
     } else {
       if (studyDesign() == "MB") {
