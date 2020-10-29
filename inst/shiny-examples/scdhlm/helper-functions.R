@@ -65,11 +65,11 @@ validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt, case) {
 # effect size report table
 #---------------------------------------------------------------
 
-summarize_ES <- function(res, filter_vars, filter_vals, 
+summarize_ES <- function(res, filter_vals, 
                          design, method, 
                          FE_base, RE_base, FE_trt, RE_trt,
                          A, B, coverage = 95L) {
-
+  
   if (method=="RML") {
     ES_summary <- data.frame(
       ES = as.numeric(res$g_AB),
@@ -116,12 +116,10 @@ summarize_ES <- function(res, filter_vars, filter_vals,
                          "Initial treatment time","Follow-up time")
   
   if (!is.null(filter_vals)) {
-    filter_vals <- lapply(filter_vals, paste, collapse = ", ")
-    names(filter_vals) <- substr(filter_vars, 8, nchar(filter_vars))
-    filter_vals <- as.data.frame(filter_vals)
     ES_summary <- cbind(ES_summary, filter_vals)
-  } 
+  } else {
+    ES_summary <- ES_summary
+  }
   
   ES_summary  
 }
-
