@@ -230,46 +230,34 @@ server <-
         } 
         dat <- dat[,example_parms$vars]
         names(dat) <- c("case","session","phase","outcome")
-        trt_phase <- levels(as.factor(dat$phase))[2]
+        dat <- preprocess_SCD(case = case, phase = phase, 
+                              session = session, outcome = outcome, 
+                              design = studyDesign(), data = dat)
       } else {
         
-        case_vec <- datFile()[,input$caseID]
-        caseID <- factor(case_vec, levels = unique(case_vec))
-        
+        case <- datFile()[,input$caseID]
+        phase <- datFile()[,input$phaseID]
         session <- as.numeric(datFile()[,input$session])
-        if (is.null(input$round_session)) {
-          session <- as.integer(session) 
-        } else if (input$round_session) {
-          session <- as.integer(round(session))
-        }
-        
-        phase_vec <- datFile()[,input$phaseID]
-        phaseID <- factor(phase_vec, levels = unique(phase_vec))
-        
         outcome <- as.numeric(datFile()[,input$outcome])
-        
-        dat <- data.frame(case = caseID, session = session, phase = phaseID, outcome = outcome)
+        design <- studyDesign()
+        round_session <- if (!is.null(input$round_session)) TRUE else FALSE
+        treatment_name <- input$treatment
+        dat <- preprocess_SCD(case = case, phase = phase, 
+                              session = session, outcome = outcome, 
+                              design = design, round_session = round_session, treatment_name = treatment_name)
         
         if (!is.null(input$filters)) {
           subset_vals <- sapply(input$filters, function(x) datFile()[[x]] %in% input[[paste0("filter_",x)]])
           dat <- dat[apply(subset_vals, 1, all),]
         } 
-        
-        trt_phase <- input$treatment
-        
-        # remove rows with missing outcome values
-        dat <- dat[!is.na(dat$outcome),]
       }
       
-      dat$trt <- as.numeric(dat$phase==trt_phase)
-      
+      names(dat)[1:4] <- c("case", "phase", "session", "outcome")
       if (studyDesign() == "MB") {
-        dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
+        names(dat)[6] <- "session_trt"
       } else {
-        dat$phase_pair <- unlist(by(dat, dat$case, phase_pairs))
+        names(dat)[6] <- "phase_pair"
       }
-      
-      dat <- droplevels(dat)
       
       return(dat)
       
