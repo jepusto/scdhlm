@@ -16,21 +16,21 @@ graph_SCD(
 )
 }
 \arguments{
-\item{case}{factor vector indicating unique cases or name of variable within \code{data}. Must be the same length as \code{outcome}.}
+\item{case}{vector of case indicators or name of a character or factor vector within \code{data} indicating unique cases.}
 
-\item{phase}{vector of treatment indicators or name of variable within \code{data}. Must be the same length as \code{outcome}.}
+\item{phase}{vector of treatment indicators or name of a character or factor vector within \code{data} indicating unique treatment phases.}
 
-\item{session}{vector of measurement occasion times or name of variable within \code{data}. Must be the same length as \code{outcome}.}
+\item{session}{vector of measurement occasions or name of numeric vector within \code{data} of measurement times.}
 
-\item{outcome}{vector of outcome data or name of variable within \code{data}. May not contain any missing values.}
+\item{outcome}{vector of outcome data or name of numeric vector of outcome data within \code{data}.}
 
-\item{design}{Specify whether it is a treatment reversal, "TR", or multiple baseline, "MB", design}
+\item{design}{Character string to specify whether data comes from a treatment reversal, "TR", or multiple baseline, "MB", design.}
 
-\item{treatment_name}{(Optional) value of the name of the treatment phase}
+\item{treatment_name}{(Optional) character string corresponding to the name of the treatment phase.}
 
 \item{model_fit}{(Optional) lme fitted model that adds predicted values to graph}
 
-\item{data}{(Optional) dataset to use for analysis. Must be data.frame.}
+\item{data}{(Optional) dataset to use for analysis. Must be a \code{data.frame}.}
 }
 \value{
 A ggplot graph

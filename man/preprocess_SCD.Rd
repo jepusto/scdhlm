@@ -5,35 +5,35 @@
 \title{Clean Single Case Design Data}
 \usage{
 preprocess_SCD(
-  data,
   case,
   phase,
   session,
   outcome,
   design,
   center = 0,
+  round_session = TRUE,
   treatment_name = NULL,
-  round_session = TRUE
+  data = NULL
 )
 }
 \arguments{
-\item{data}{dataset to be cleaned. Must be a \code{data.frame}.}
+\item{case}{vector of case indicators or name of a character or factor vector within \code{data} indicating unique cases.}
 
-\item{case}{name of a character or factor vector within \code{data} indicating unique cases.}
+\item{phase}{vector of treatment indicators or name of a character or factor vector within \code{data} indicating unique treatment phases.}
 
-\item{phase}{name of a character or factor vector within \code{data} indicating unique treatment phases.}
+\item{session}{vector of measurement occasions or name of numeric vector within \code{data} of measurement times.}
 
-\item{session}{name of numeric vector within \code{data} of measurement times.}
-
-\item{outcome}{name of numeric vector of outcome data within \code{data}.}
+\item{outcome}{vector of outcome data or name of numeric vector of outcome data within \code{data}.}
 
 \item{design}{Character string to specify whether data comes from a treatment reversal, "TR", or multiple baseline, "MB", design.}
 
 \item{center}{Numeric value for the centering value for session. Default is 0.}
 
-\item{treatment_name}{(Optional) Character string corresponding to the name of the treatment phase.}
-
 \item{round_session}{Logical indicating whether to round \code{session} to the nearest integer. Defaults to \code{TRUE}.}
+
+\item{treatment_name}{(Optional) character string corresponding to the name of the treatment phase.}
+
+\item{data}{(Optional) dataset to be cleaned. Must be a \code{data.frame}.}
 }
 \value{
 A cleaned SCD dataset that can be used for model fitting and effect size calculation.
@@ -46,9 +46,9 @@ If treatment_name is left null it will choose the second level of the phase vari
 }
 \examples{
 data(Laski)
-preprocess_SCD(data = Laski, case = case, 
-               phase = treatment, session = time, 
-               outcome = outcome, design = "MB", center = 4)
+preprocess_SCD(case = case, phase = treatment,
+               session = time, outcome = outcome, 
+               design = "MB", center = 4, data = Laski)
 
           
 }
