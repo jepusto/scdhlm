@@ -34,8 +34,6 @@ session_by_treatment <- function(x, trt_phase) {
 
 phase_pairs <- function(x) {
   
-  .Deprecated("preprocess_SCD", msg = "'phase_pairs()' is deprecated and may be removed in a later version of the package. Please use 'preprocess_SCD()' instead.")
-  
   conditions <- levels(as.factor(x$phase))
   n <- length(x$phase)
   phase <- x$phase[order(x$session)]

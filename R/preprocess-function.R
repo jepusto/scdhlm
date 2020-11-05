@@ -82,7 +82,9 @@ preprocess_SCD <- function(case, phase, session, outcome,
   dat$trt <- as.numeric(dat$phase == treatment_name) # create trt variable
 
   if (design == "MB") {
-    dat$session_trt <- unsplit(by(dat, dat$case, session_by_treatment, trt_phase = treatment_name), dat$case)
+    dat$session_trt <- suppressWarnings(
+      unsplit(by(dat, dat$case, session_by_treatment, trt_phase = treatment_name), dat$case)
+    ) 
     dat$session <- dat$session - center
     if (!is.null(data)) {
       names(dat)[6] <- paste0(as.character(session_call), "_trt")
