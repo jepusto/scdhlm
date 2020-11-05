@@ -8,6 +8,9 @@ MB_dat <- data.frame(
   Behavior = rnorm(40)
 )
 
+dat_dup_session <- MB_dat
+dat_dup_session$Time <- rep(1:8, 5)
+
 MB_dat_clean <- preprocess_SCD(case = Student, phase = Phase, 
                                session = Time, outcome = Behavior, 
                                design = "MB", data = MB_dat)
@@ -37,6 +40,10 @@ dat2_Ang <- preprocess_SCD(case = Anglesea$case, phase = Anglesea$condition,
                            design = "TR")
 
 test_that("The returned dataset is consistent with the input dataset.", {
+  
+  expect_error(preprocess_SCD(case = Student, phase = Phase, 
+                              session = Time, outcome = Behavior, 
+                              design = "MB", data = dat_dup_session))
   
   # MB design
   expect_equal(names(MB_dat), names(MB_dat_clean)[1:4])

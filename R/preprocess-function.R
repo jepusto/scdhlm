@@ -70,6 +70,14 @@ preprocess_SCD <- function(case, phase, session, outcome,
     dat$session <- as.integer(dat$session)
   }
   
+  unique_sessions <- tapply(dat$session, dat$case, function(x) isTRUE(all.equal(x, unique(x))))
+  
+  if (!all(unique_sessions, na.rm = TRUE)) {
+    
+    stop("Session variable contains repeated values. Please ensure that each data point has a unique value within each case.")
+    
+  }   
+  
   dat <- dat[!is.na(dat$outcome), ]
   dat$trt <- as.numeric(dat$phase == treatment_name) # create trt variable
 
