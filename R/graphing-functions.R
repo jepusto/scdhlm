@@ -52,16 +52,25 @@ phase_pairs <- function(x) {
 # calculate phase border times
 #---------------------------------------------------------------
 
-phase_lines <- function(x) {
-  phase <- x$phase[order(x$session)]
+phase_lines <- function(phase, session) {
+  phase <- phase[order(session)]
   n <- length(phase)
   switches <- which(phase[2:n] != phase[1:(n-1)])
-  (x$session[switches] + x$session[switches + 1]) / 2
+  (session[switches] + session[switches + 1]) / 2
 }
 
-phase_lines_by_case <- function(x) {
-  phase_line <- by(x, x$case, phase_lines)
-  data.frame(case = rep(names(phase_line), lengths(phase_line)), phase_time = as.vector(unlist(phase_line)))
+phase_lines_by_case <- function(case, phase, session) {
+  phases_by <- split(phase, case)
+  sessions_by <- split(session, case)
+  phase_line <- mapply(phase_lines, phase = phases_by, session = sessions_by)
+  
+  if (is.null(dim(phase_line))) {
+    case_name <- names(phase_line)
+  } else {
+    case_name <- rep(names(phases_by), each = dim(phase_line)[1])
+  }
+  
+  data.frame(case = case_name, phase_time = as.vector(unlist(phase_line)))
 }
 
 #' @title Graph Single Case Design Data
@@ -121,7 +130,7 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
                              data = data))
   names(dat)[1:4] <- c("case", "phase", "session", "outcome")
   
-  phase_line_dat <- phase_lines_by_case(dat)
+  phase_line_dat <- phase_lines_by_case(dat$case, dat$phase, dat$session)
 
   if (design=="MB") {
     p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = phase, shape = phase))
@@ -130,13 +139,26 @@ graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NU
     p <- ggplot2::ggplot(dat, ggplot2::aes(session, outcome, color = phase, shape = phase, group = interaction(phase, phase_pair)))
   }
 
-  p <- p +
+  p <- 
+    p +
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::facet_grid(case ~ .) +
     ggplot2::theme_bw() +
     ggplot2::labs(color = "", shape = "") +
     ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed")
+  
+  if (!is.null(data)) {
+    p <- 
+      p + 
+      ggplot2::xlab(as.character(session_call)) +
+      ggplot2::ylab(as.character(outcome_call))
+  } else {
+    p <- 
+      p + 
+      ggplot2::xlab(as.character(session_call)[3]) +
+      ggplot2::ylab(as.character(outcome_call)[3])
+  }
 
   # With model fit
   if (!is.null(model_fit)) {
