@@ -140,14 +140,18 @@
   session numbering.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>session_by_treatment</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>trt_phase</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>session_by_treatment</span><span class='op'>(</span><span class='va'>phase</span>, <span class='va'>session</span>, <span class='va'>trt_phase</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>The subset of a single-case dataset for a unique case.</p></td>
+      <th>phase</th>
+      <td><p>vector of treatment indicators or a character or factor vector indicating unique treatment phases.</p></td>
+    </tr>
+    <tr>
+      <th>session</th>
+      <td><p>numeric vector of measurement occasions.</p></td>
     </tr>
     <tr>
       <th>trt_phase</th>

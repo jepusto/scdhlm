@@ -154,27 +154,27 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>case</th>
-      <td><p>factor vector indicating unique cases or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></td>
+      <td><p>vector of case indicators or name of a character or factor vector within <code>data</code> indicating unique cases.</p></td>
     </tr>
     <tr>
       <th>phase</th>
-      <td><p>vector of treatment indicators or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></td>
+      <td><p>vector of treatment indicators or name of a character or factor vector within <code>data</code> indicating unique treatment phases.</p></td>
     </tr>
     <tr>
       <th>session</th>
-      <td><p>vector of measurement occasion times or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></td>
+      <td><p>vector of measurement occasions or name of numeric vector within <code>data</code> of measurement times.</p></td>
     </tr>
     <tr>
       <th>outcome</th>
-      <td><p>vector of outcome data or name of variable within <code>data</code>. May not contain any missing values.</p></td>
+      <td><p>vector of outcome data or name of numeric vector of outcome data within <code>data</code>.</p></td>
     </tr>
     <tr>
       <th>design</th>
-      <td><p>Specify wheter it is a treatment reversal, "TR", or multiple baseline, "MB", design</p></td>
+      <td><p>Character string to specify whether data comes from a treatment reversal, "TR", or multiple baseline, "MB", design.</p></td>
     </tr>
     <tr>
       <th>treatment_name</th>
-      <td><p>(Optional) value of the name of the treatment phase</p></td>
+      <td><p>(Optional) character string corresponding to the name of the treatment phase.</p></td>
     </tr>
     <tr>
       <th>model_fit</th>
@@ -182,7 +182,7 @@
     </tr>
     <tr>
       <th>data</th>
-      <td><p>(Optional) dataset to use for analysis. Must be data.frame.</p></td>
+      <td><p>(Optional) dataset to use for analysis. Must be a <code>data.frame</code>.</p></td>
     </tr>
     </table>
 
