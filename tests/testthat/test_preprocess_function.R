@@ -39,6 +39,8 @@ dat2_Ang <- preprocess_SCD(case = Anglesea$case, phase = Anglesea$condition,
                            session = Anglesea$session, outcome = Anglesea$outcome, 
                            design = "TR")
 
+data("Lambert")
+
 test_that("The returned dataset is consistent with the input dataset.", {
   
   expect_error(preprocess_SCD(case = Student, phase = Phase, 

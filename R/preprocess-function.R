@@ -49,8 +49,7 @@ session_by_treatment <- function(phase, session, trt_phase) {
 #' 
 
 phase_pairs <- function(phase, session = seq_along(phase)) {
-  phase <- phase[order(session)]
-  conditions <- unique(phase)
+  phase <- as.character(phase[order(session)])
   n <- length(phase)
   y <- rep(1L, n)
   condition_list <- phase[1]
