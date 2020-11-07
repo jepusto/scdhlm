@@ -1,4 +1,55 @@
 
+#---------------------------------------------------------------
+# calculate session-by-treatment interaction
+#---------------------------------------------------------------
+
+#' @title Calculate session-by-treatment interactions for a unique case
+#'
+#' @description Calculate session-by-treatment interactions based on phases and
+#'   session numbering.
+#'
+#' @param phase vector of treatment indicators or a character or factor vector indicating unique treatment phases.
+#' @param session numeric vector of measurement occasions.
+#' @param trt_phase character string indicating the phase value corresponding to
+#'   the treatment condition.
+#'   
+#' @export
+#' 
+
+session_by_treatment <- function(phase, session, trt_phase) {
+  pmax(0, session - min(session[phase==trt_phase]))
+}
+
+
+
+#---------------------------------------------------------------
+# calculate phase-pairs based on phases and session numbering
+#---------------------------------------------------------------
+
+#' @title Calculate phase-pairs for a unique case
+#' 
+#' @description Calculate phase-pairs based on phases and session numbering. 
+#' 
+#' @param x The subset of a single-case dataset for a unique case.
+#' @export 
+#' 
+
+phase_pairs <- function(x) {
+  
+  conditions <- levels(as.factor(x$phase))
+  n <- length(x$phase)
+  phase <- x$phase[order(x$session)]
+  y <- rep(1,n)
+  for (i in 2:n) {
+    (i <- i + 1)
+    (which_lev <- match(phase[i-1], conditions))
+    (which_conditions <- conditions[c(which_lev, which_lev + 1)])
+    !(phase[i] %in% which_conditions)
+    (y[i] <- y[i - 1] + !(phase[i] %in% which_conditions))
+  }
+  y[order(order(x$session))]
+}
+
 #' @title Clean Single Case Design Data
 #' 
 #' @description Clean single case design data for treatment reversal and multiple baseline designs. 
@@ -82,9 +133,13 @@ preprocess_SCD <- function(case, phase, session, outcome,
   dat$trt <- as.numeric(dat$phase == treatment_name) # create trt variable
 
   if (design == "MB") {
-    dat$session_trt <- suppressWarnings(
-      unsplit(by(dat, dat$case, session_by_treatment, trt_phase = treatment_name), dat$case)
-    ) 
+    session_by <- split(dat$session, dat$case)
+    phase_by <- split(dat$phase, dat$case)
+    session_trt_by <- mapply(session_by_treatment, 
+                             phase = phase_by, 
+                             session = session_by,
+                             MoreArgs = list(trt_phase = treatment_name), SIMPLIFY = FALSE)
+    dat$session_trt <- unsplit(session_trt_by, dat$case)
     dat$session <- dat$session - center
     if (!is.null(data)) {
       names(dat)[6] <- paste0(as.character(session_call), "_trt")

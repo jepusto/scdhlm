@@ -1,53 +1,3 @@
-
-#---------------------------------------------------------------
-# calculate session-by-treatment interaction
-#---------------------------------------------------------------
-
-#' @title Calculate session-by-treatment interactions for a unique case
-#'
-#' @description Calculate session-by-treatment interactions based on phases and
-#'   session numbering.
-#'
-#' @param x The subset of a single-case dataset for a unique case.
-#' @param trt_phase character string indicating the phase value corresponding to
-#'   the treatment condition.
-#'   
-#' @export
-#' 
-
-session_by_treatment <- function(x, trt_phase) {
-  .Deprecated("preprocess_SCD", msg = "'session_by_treatment()' is deprecated and may be removed in a later version of the package. Please use 'preprocess_SCD()' instead.")
-  pmax(0, x$session - min(x$session[x$phase==trt_phase]))
-}
-
-#---------------------------------------------------------------
-# calculate phase-pairs based on phases and session numbering
-#---------------------------------------------------------------
-
-#' @title Calculate phase-pairs for a unique case
-#' 
-#' @description Calculate phase-pairs based on phases and session numbering. 
-#' 
-#' @param x The subset of a single-case dataset for a unique case.
-#' @export 
-#' 
-
-phase_pairs <- function(x) {
-  
-  conditions <- levels(as.factor(x$phase))
-  n <- length(x$phase)
-  phase <- x$phase[order(x$session)]
-  y <- rep(1,n)
-  for (i in 2:n) {
-    (i <- i + 1)
-    (which_lev <- match(phase[i-1], conditions))
-    (which_conditions <- conditions[c(which_lev, which_lev + 1)])
-    !(phase[i] %in% which_conditions)
-    (y[i] <- y[i - 1] + !(phase[i] %in% which_conditions))
-  }
-  y[order(order(x$session))]
-}
-
 #---------------------------------------------------------------
 # calculate phase border times
 #---------------------------------------------------------------
@@ -108,6 +58,10 @@ phase_lines_by_case <- function(case, phase, session) {
 #' 
 
 graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NULL, model_fit = NULL, data = NULL) {
+  
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("This function requires the ggplot2 package. Please install it.", call. = FALSE)
+  }
   
   phase_pair <-  phase_time  <- NULL
   
