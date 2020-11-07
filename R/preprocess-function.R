@@ -30,24 +30,42 @@ session_by_treatment <- function(phase, session, trt_phase) {
 #' 
 #' @description Calculate phase-pairs based on phases and session numbering. 
 #' 
-#' @param x The subset of a single-case dataset for a unique case.
+#' @param phase vector of treatment indicators or a character or factor vector indicating unique treatment phases.
+#' @param session numeric vector of measurement occasions.
 #' @export 
 #' 
+#' @examples 
+#' 
+#' phases <- rep(c("A","B","A","B"), each = 4)
+#' sessions <- 1:length(phases)
+#' 
+#' phase_pairs(phases, sessions)
+#' 
+#' phases <- rep(c("A","B","C","A","B","C","D"), each = 4)
+#' phase_pairs(phases)
+#' 
+#' phases <- rep(c("B","A","C","B","A","B","C","A"), each = 4)
+#' phase_pairs(phases)
+#' 
 
-phase_pairs <- function(x) {
-  
-  conditions <- levels(as.factor(x$phase))
-  n <- length(x$phase)
-  phase <- x$phase[order(x$session)]
-  y <- rep(1,n)
+phase_pairs <- function(phase, session = seq_along(phase)) {
+  phase <- phase[order(session)]
+  conditions <- unique(phase)
+  n <- length(phase)
+  y <- rep(1L, n)
+  condition_list <- phase[1]
   for (i in 2:n) {
-    (i <- i + 1)
-    (which_lev <- match(phase[i-1], conditions))
-    (which_conditions <- conditions[c(which_lev, which_lev + 1)])
-    !(phase[i] %in% which_conditions)
-    (y[i] <- y[i - 1] + !(phase[i] %in% which_conditions))
+    if (phase[i] == phase[i - 1]) {
+      y[i] <- y[i - 1]
+    } else if (!(phase[i] %in% condition_list)) {
+      y[i] <- y[i - 1]
+      condition_list <- c(condition_list, phase[i])
+    } else {
+      y[i] <- y[i - 1] + 1L
+      condition_list <- phase[i]
+    }
   }
-  y[order(order(x$session))]
+  y[order(order(session))]
 }
 
 #' @title Clean Single Case Design Data
@@ -147,7 +165,10 @@ preprocess_SCD <- function(case, phase, session, outcome,
       names(dat)[6] <- paste0(as.character(session_call)[3], "_trt")
     }
   } else {
-    dat$phase_pair <- unsplit(by(dat, dat$case, phase_pairs), dat$case)
+    session_by <- split(dat$session, dat$case)
+    phase_by <- split(dat$phase, dat$case)
+    phase_pairs_by <- mapply(phase_pairs, phase = phase_by, session = session_by, SIMPLIFY = FALSE)
+    dat$phase_pair <- unsplit(phase_pairs_by, dat$case)
     if (!is.null(data)) {
       names(dat)[6] <- paste0(as.character(phase_call), "_pair")
     } else {
