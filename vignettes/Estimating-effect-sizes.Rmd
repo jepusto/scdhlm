@@ -4,7 +4,7 @@ author: "James E. Pustejovsky"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"Estimating design-comparable standardized mean differences"}
+  %\VignetteIndexEntry{"Estimating design-comparable standardized mean differences with scdhlm"}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
