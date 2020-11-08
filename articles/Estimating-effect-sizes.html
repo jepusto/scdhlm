@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9300</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
       <h1 data-toc-skip>Estimating design-comparable standardized mean differences with scdhlm</h1>
                         <h4 class="author">James E. Pustejovsky</h4>
             
-            <h4 class="date">2020-11-07</h4>
+            <h4 class="date">2020-11-08</h4>
       
       
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -99,7 +99,7 @@
 <p>The scdhlm package (Pustejovsky, Hamilton, &amp; Chen, 2020) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. In principle, a design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases). Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variability.</p>
 <p>The original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the <code>effect_size_ABk</code> and <code>effect_size_MB</code> functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxiliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function <code>lme</code> from the package <code>nlme</code> by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function <code>g_mlm</code> from the <code>scdhlm</code> package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R code presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://jepusto.github.io/scdhlm">scdhlm</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jepusto.github.io/scdhlm/">scdhlm</a></span><span class="op">)</span></code></pre></div>
 <div id="lambert-cartledge-heward-lo-2006" class="section level2">
 <h2 class="hasAnchor">
 <a href="#lambert-cartledge-heward-lo-2006" class="anchor"></a>Lambert, Cartledge, Heward, &amp; Lo (2006)</h2>
@@ -590,15 +590,15 @@
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<p>Anglesea, M. M., Hoch, H., &amp; Taylor, B. A. (2008). Reducing rapid eating in teenagers with autism: Use of a pager prompt. <em>Journal of Applied Behavior Analysis, 41</em>(1), 107–111. doi: <a href="http://doi.org/10.1901/jaba.2008.41-107">10.1901/jaba.2008.41-107</a></p>
-<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. <em>Research Synthesis Methods, 3</em>, 224-239. doi: <a href="http://doi.org/10.1002/jrsm.1052">10.1002/jrsm.1052</a></p>
-<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. <em>Research Synthesis Methods, 4</em>(4), 324-341. doi: <a href="http://doi.org/10.1002/jrsm.1086">10.1002/jrsm.1086</a></p>
+<p>Anglesea, M. M., Hoch, H., &amp; Taylor, B. A. (2008). Reducing rapid eating in teenagers with autism: Use of a pager prompt. <em>Journal of Applied Behavior Analysis, 41</em>(1), 107–111. doi: <a href="https://doi.org/10.1901/jaba.2008.41-107">10.1901/jaba.2008.41-107</a></p>
+<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. <em>Research Synthesis Methods, 3</em>, 224-239. doi: <a href="https://doi.org/10.1002/jrsm.1052">10.1002/jrsm.1052</a></p>
+<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. <em>Research Synthesis Methods, 4</em>(4), 324-341. doi: <a href="https://doi.org/10.1002/jrsm.1086">10.1002/jrsm.1086</a></p>
 <p>Lambert, M. C., Cartledge, G., Heward, W. L., &amp; Lo, Y. (2006). Effects of response cards on disruptive behavior and academic responding during math lessons by fourth-grade urban students. <em>Journal of Positive Behavior Interventions, 8</em>(2), 88-99.</p>
 <p>Laski, K. E., Charlop, M. H., &amp; Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic children’s speech. <em>Journal of Applied Behavior Analysis, 21</em>(4), 391–400.</p>
 <p>Pinheiro J., Bates D., DebRoy S., Sarkar D. and R Core Team (2015). <em>nlme: Linear and Nonlinear Mixed Effects Models</em>. R package version 3.1-119. <a href="https://CRAN.R-project.org/package=nlme" class="uri">https://CRAN.R-project.org/package=nlme</a></p>
-<p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href="http://doi.org/10.3102/1076998614547577">10.3102/1076998614547577</a></p>
+<p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href="https://doi.org/10.3102/1076998614547577">10.3102/1076998614547577</a></p>
 <p>Pustejovsky, J. E., Hamilton, B. J., &amp; Chen, M. (2020). <em>scdhlm: Estimating hierarchical linear models for single-case designs</em>. R package version 0.3.2, <a href="https://jepusto.github.io/scdhlm/" class="uri">https://jepusto.github.io/scdhlm/</a>.</p>
-<p>Saddler, B., Behforooz, B., &amp; Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. <em>The Journal of Special Education, 42</em>(2), 79–90. doi: <a href="http://doi.org/10.1177/0022466907310371">10.1177/0022466907310371</a></p>
+<p>Saddler, B., Behforooz, B., &amp; Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. <em>The Journal of Special Education, 42</em>(2), 79–90. doi: <a href="https://doi.org/10.1177/0022466907310371">10.1177/0022466907310371</a></p>
 </div>
 <div class="footnotes">
 <hr>
@@ -631,7 +631,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.jepusto.com/">James Pustejovsky</a>, Bethany Hamilton, Man Chen.</p>
+  <p>Developed by <a href="https://www.jepusto.com/">James Pustejovsky</a>, Man Chen, Bethany Hamilton.</p>
 </div>
 
 <div class="pkgdown">

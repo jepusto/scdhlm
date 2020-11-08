@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2.9300</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -112,7 +112,7 @@
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"jepusto/scdhlm"</span><span class="op">)</span></code></pre></div>
 <p>You can access a local version of the <a href="https://jepusto.shinyapps.io/scdhlm/">interactive web-app</a> by running the commands:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://jepusto.github.io/scdhlm">scdhlm</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jepusto.github.io/scdhlm/">scdhlm</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/shine_scd.html">shine_scd</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="demonstration" class="section level2">
@@ -127,7 +127,7 @@
 <p>For this study, we will estimate a design-comparable SMD using restricted maximum likelihood (REML) methods, as described by Pustejovsky and colleagues (2014). This is a two-step process. The first step is to estimate a hierarchical linear model for the data, treated the measurements as nested within cases. We fit the model using <code><a href="https://rdrr.io/pkg/nlme/man/lme.html">nlme::lme()</a></code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/nlme/">nlme</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://jepusto.github.io/scdhlm">scdhlm</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jepusto.github.io/scdhlm/">scdhlm</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span>
 
 <span class="co"># Pustejovsky, Hedges, &amp; Shadish (2014)</span>
@@ -329,8 +329,8 @@
 <ul class="list-unstyled">
 <li>
 <a href="https://www.jepusto.com/">James Pustejovsky</a> <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Bethany Hamilton <br><small class="roles"> Author </small>  </li>
 <li>Man Chen <br><small class="roles"> Author </small>  </li>
+<li>Bethany Hamilton <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
@@ -349,7 +349,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.jepusto.com/">James Pustejovsky</a>, Bethany Hamilton, Man Chen.</p>
+  <p>Developed by <a href="https://www.jepusto.com/">James Pustejovsky</a>, Man Chen, Bethany Hamilton.</p>
 </div>
 
 <div class="pkgdown">
