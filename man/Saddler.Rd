@@ -12,7 +12,7 @@ Saddler, B., Behforooz, B., & Asaro, K. (2008).
 The effects of sentence-combining instruction on the writing of 
 fourth-grade students with writing difficulties. 
 \emph{The Journal of Special Education, 42}(2), 79-90. 
-doi:\href{http://doi.org/10.1177/0022466907310371}{10.1177/0022466907310371}
+doi:\href{https://doi.org/10.1177/0022466907310371}{10.1177/0022466907310371}
 }
 \description{
 Data from a multiple baseline design conducted by 
@@ -28,6 +28,6 @@ Saddler, Behforooz, & Asaro, (2008). The variables are as follows:
 \references{
 Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 A standardized mean difference effect size for multiple baseline designs across individuals. 
-\emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{http://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
+\emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{https://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
 }
 \keyword{datasets}

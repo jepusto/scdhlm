@@ -10,7 +10,7 @@ A data frame with 136 rows and 4 variables
 \source{
 Schutte, N. S., Malouff, J. M., & Brown, R. F. (2008). 
 Efficacy of an emotion-focused treatment for prolonged fatigue. 
-\emph{Behavior Modification, 32}(5), 699-713. doi:\href{http://doi.org/10.1177/0145445508317133}{10.1177/0145445508317133}
+\emph{Behavior Modification, 32}(5), 699-713. doi:\href{https://doi.org/10.1177/0145445508317133}{10.1177/0145445508317133}
 }
 \description{
 Data from a multiple baseline design conducted by 
@@ -25,6 +25,6 @@ Schutte, Malouff, & Brown (2008). The variables are as follows:
 \references{
 Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
-\emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{http://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+\emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{https://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
 }
 \keyword{datasets}

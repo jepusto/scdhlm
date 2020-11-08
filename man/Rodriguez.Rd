@@ -11,7 +11,7 @@ A data frame with 148 rows and 4 variables
 Rodriguez, B. J., & Anderson, C. M. (2014). Integrating a social
   behavior intervention during small group academic instruction using a total
   group criterion intervention. \emph{Journal of Positive Behavior Interventions,
-  16}(4), 234-245. doi:\href{http://dx.doi.org/10.1177/1098300713492858}{10.1177/1098300713492858}
+  16}(4), 234-245. doi:\href{https://dx.doi.org/10.1177/1098300713492858}{10.1177/1098300713492858}
 }
 \description{
 Data from a multiple baseline design conducted by Rodriguez and Anderson (2014). 

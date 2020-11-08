@@ -27,6 +27,6 @@ Laski, Charlop, & Schreibman (1988). The variables are as follows:
 \references{
 Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 A standardized mean difference effect size for multiple baseline designs across individuals. 
-\emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{http://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
+\emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{https://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
 }
 \keyword{datasets}

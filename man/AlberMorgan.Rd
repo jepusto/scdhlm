@@ -12,7 +12,7 @@ Alber-Morgan, S. R., Ramp, E. M., Anderson, L. L., & Martin, C. M.
   (2007). Effects of repeated readings, error correction, and performance
   feedback on the fluency and comprehension of middle school students with
   behavior problems. Journal of Special Education, 41(1), 17-30.
-  doi:\href{http://dx.doi.org/10.1177/00224669070410010201}{10.1177/00224669070410010201}
+  doi:\href{https://dx.doi.org/10.1177/00224669070410010201}{10.1177/00224669070410010201}
 }
 \description{
 Data from a multiple baseline design conducted by Alber-Morgan, Ramp,

@@ -12,7 +12,7 @@ Romaniuk, C., Miltenberger, R., Conyers, C., Jenner, N., Jurgens, M.,
   & Ringenberg, C. (2002). The influence of activity choice on problem
   behaviors maintained by escape versus attention. \emph{Journal of Applied
   Behavior Analysis, 35}(4), 349-62. 
-  doi:\href{http://dx.doi.org/10.1901/jaba.2002.35-349}{10.1901/jaba.2002.35-349}
+  doi:\href{https://dx.doi.org/10.1901/jaba.2002.35-349}{10.1901/jaba.2002.35-349}
 }
 \description{
 Data from a treatment reversal design conducted by Romaniuk and colleagues (2002).
