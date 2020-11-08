@@ -2,15 +2,20 @@
 
 This is a re-submission. In this version we have:
 
-* Updated included functions to work with datasets instead of vectors only.
+* Add functions for pre-processing data prior to estimating effect sizes.
 * Added features and fixed bugs in the included shiny app
-* Added additional example datasets
 
 ## Test environments
 
-* local Windows 7 Enterprise, R 3.6.3
-* ubuntu 16.04.6 (on travis-ci), R 3.6.2
+* local Windows 10 Pro, R 4.0.2
+* local Windows 10 Education, R 4.0.2
+* ubuntu 16.04.6 LTS (on travis-ci), R-release, R-devel
 * win-builder (devel, release, oldrelease)
+* r-hub:
+  * Windows Server 2008 R2 SP1, R-devel, 32/64 bit
+  * Ubuntu Linux 16.04 LTS, R-release, GCC
+  * Fedora Linux, R-devel, clang, gfortran
+  * Debian Linux, R-devel, GCC
 
 ## R CMD check results
 
