@@ -1,3 +1,5 @@
+# scdhlm 0.5.0.9999
+
 # scdhlm 0.5.0
 
 * Added a new function `preprocess_SCD()` which handles initial data-cleaning steps for multiple baseline and treatment reversal designs.
