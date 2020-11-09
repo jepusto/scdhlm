@@ -2,13 +2,12 @@ bibentry("Manual",
    title = "scdhlm: Estimating hierarchical linear models for single-case designs",
    author = c(
    person("James E. Pustejovsky", role = c("aut", "cre")), 
-   person("Bethany J. Hamilton", role = "aut"),
-   person("Man Chen", role = "aut")
-
+   person("Man Chen", role = "aut"),
+   person("Bethany J. Hamilton", role = "aut")
 ),
-   organization = "University of Texas at Austin",
-   address = "Austin, TX",
+   organization = "University of Wisconsin - Madison",
+   address = "Madison, WI",
    year = 2020,
-   note = "R package version 0.3.2", 
-   url = "https://jepusto.github.io/scdhlm/index.html"
+   note = "R package version 0.5.0", 
+   url = "https://jepusto.github.io/scdhlm/"
 )
