@@ -59,8 +59,8 @@ test_that("g_mlm() is imported appropriately.", {
   expect_equal(CI_g(Laski_g1_REML), CI_g(Laski_g1_mlm))
   expect_equal(CI_g(Laski_g1_REML), lmeInfo:::CI_g.g_mlm(Laski_g1_mlm))
   expect_equal(CI_g(Laski_g1_REML, symmetric = FALSE), CI_g(Laski_g1_mlm, symmetric = FALSE))
-  expect_equal(CI_g(Bryant2016_g1_mlm, symmetric = TRUE)[1], 0.2180581, tol = 1e-7)
-  expect_equal(CI_g(Bryant2016_g1_mlm, symmetric = TRUE)[2], 0.7085557, tol = 1e-7)
+  expect_equal(CI_g(Bryant2016_g1_mlm, symmetric = TRUE)[1], 0.2180581, tol = 1e-6)
+  expect_equal(CI_g(Bryant2016_g1_mlm, symmetric = TRUE)[2], 0.7085557, tol = 1e-6)
   
   
 })
