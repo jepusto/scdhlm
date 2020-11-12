@@ -689,11 +689,11 @@ server <-
       }
     }
     
-    SCD_graph <- parse_code_chunk("graph", args = list(user_case = case,
-                                                       user_phase = phase,
-                                                       user_session = session,
-                                                       user_outcome = outcome,
-                                                       user_design = studyDesign()))
+    SCD_graph <- parse_code_chunk("graph-scd", args = list(user_case = case,
+                                                           user_phase = phase,
+                                                           user_session = session,
+                                                           user_outcome = outcome,
+                                                           user_design = studyDesign()))
 
     res <- c(header_res, read_res, clean_dat, '', fit_mod, '', calc_ES, '', SCD_graph, '')
     paste(res, collapse = "\n")
