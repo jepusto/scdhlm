@@ -80,7 +80,7 @@ from a multiple baseline design, using adjusted REML method as described in Pust
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0.9999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -312,39 +312,39 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </div><div class='output co'>#&gt; Linear mixed-effects model fit by REML
 #&gt;  Data: subset(Schutte, case != 4) 
 #&gt;        AIC      BIC    logLik
-#&gt;   930.6238 957.1627 -456.3119
+#&gt;   875.9526 901.8978 -428.9763
 #&gt; 
 #&gt; Random effects:
 #&gt;  Formula: ~week | case
 #&gt;  Structure: General positive-definite, Log-Cholesky parametrization
-#&gt;             StdDev    Corr  
-#&gt; (Intercept) 11.599933 (Intr)
-#&gt; week         1.425220 0.81  
-#&gt; Residual     5.281218       
+#&gt;             StdDev   Corr  
+#&gt; (Intercept) 9.783287 (Intr)
+#&gt; week        1.412030 0.811 
+#&gt; Residual    5.421656       
 #&gt; 
 #&gt; Correlation Structure: AR(1)
 #&gt;  Formula: ~week | case 
 #&gt;  Parameter estimate(s):
 #&gt;       Phi 
-#&gt; 0.4043875 
+#&gt; 0.3985953 
 #&gt; Fixed effects: fatigue ~ week + treatment + trt.week 
 #&gt;                       Value Std.Error  DF   t-value p-value
-#&gt; (Intercept)        51.04822  4.405226 129 11.588106  0.0000
-#&gt; week                0.15649  0.610215 129  0.256450  0.7980
-#&gt; treatmenttreatment -0.26693  1.638464 129 -0.162913  0.8708
-#&gt; trt.week           -1.41456  0.642067 129 -2.203139  0.0294
+#&gt; (Intercept)        50.29150  4.073625 121 12.345637  0.0000
+#&gt; week                0.20271  0.616194 121  0.328968  0.7427
+#&gt; treatmenttreatment -0.54218  1.751668 121 -0.309520  0.7575
+#&gt; trt.week           -1.63198  0.655256 121 -2.490607  0.0141
 #&gt;  Correlation: 
 #&gt;                    (Intr) week   trtmnt
-#&gt; week                0.879              
-#&gt; treatmenttreatment -0.239 -0.199       
-#&gt; trt.week           -0.555 -0.623 -0.153
+#&gt; week                0.883              
+#&gt; treatmenttreatment -0.258 -0.200       
+#&gt; trt.week           -0.567 -0.596 -0.178
 #&gt; 
 #&gt; Standardized Within-Group Residuals:
 #&gt;         Min          Q1         Med          Q3         Max 
-#&gt; -2.39183384 -0.38039239 -0.05394349  0.31227541  4.20104020 
+#&gt; -2.33194245 -0.46272153 -0.05348694  0.32878028  4.08749914 
 #&gt; 
-#&gt; Number of Observations: 145
-#&gt; Number of Groups: 13 </div><div class='input'><span class='va'>Schutte_g</span> <span class='op'>&lt;-</span> <span class='fu'>g_REML</span><span class='op'>(</span><span class='va'>Schutte_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>7</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+#&gt; Number of Observations: 136
+#&gt; Number of Groups: 12 </div><div class='input'><span class='va'>Schutte_g</span> <span class='op'>&lt;-</span> <span class='fu'>g_REML</span><span class='op'>(</span><span class='va'>Schutte_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>7</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Schutte_g</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;              Length Class      Mode     
 #&gt; p_beta         1    -none-     numeric  
@@ -374,8 +374,8 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt; call           5    -none-     call     
 #&gt; terms          3    terms      call     
 #&gt; method         1    -none-     character
-#&gt; fitted       290    -none-     numeric  
-#&gt; residuals    290    -none-     numeric  
+#&gt; fitted       272    -none-     numeric  
+#&gt; residuals    272    -none-     numeric  
 #&gt; fixDF          2    -none-     list     
 #&gt; na.action      0    -none-     NULL     
 #&gt; data           5    data.frame list     </div></pre>
