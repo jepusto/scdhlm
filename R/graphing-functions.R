@@ -19,6 +19,7 @@ phase_lines_by_case <- function(case, phase, session) {
   } else {
     case_name <- rep(names(phases_by), each = dim(phase_line)[1])
   }
+  case_name <- factor(case_name, levels = levels(case))
   
   data.frame(case = case_name, phase_time = as.vector(unlist(phase_line)))
 }
