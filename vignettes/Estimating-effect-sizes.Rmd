@@ -162,7 +162,7 @@ The adjusted effect size estimate that is `r round(100 * (1 - Laski_ES_RML2$g_AB
 
 Schutte, Malouf, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.
 
-```{r Schutte-graph, message = FALSE, fig.width = 7, fig.height = 7}
+```{r Schutte-graph, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 7}
 library(ggplot2)
 
 data(Schutte)
@@ -173,33 +173,27 @@ graph_SCD(case = case, phase = treatment,
   facet_wrap(~ case, ncol = 3) + 
   theme(legend.position = "bottom")
 
-change <- data.frame(case=unique(Schutte$case),
-                     phase.change = with(subset(Schutte, treatment== "treatment"), 
-                                         tapply(week, case, min)) - 0.5)
-
-ggplot(Schutte, aes(week, fatigue, shape = treatment, color = treatment)) + 
-  geom_point() + facet_wrap(~ case, ncol = 3) + 
-  labs(color="Phase",shape="Phase", y ="Fatigue", x="Week") + 
-  geom_vline(data = change, aes(xintercept=phase.change)) +
-  theme_bw() + theme(legend.position = "bottom")
-
 ```
 
 Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations. 
 
 ```{r Schutte-center}
-# create time-by-trt interaction
-Schutte$trt_week <- with(Schutte, 
-                         unlist(tapply((treatment=="treatment") * week, 
-                                        list(treatment,case), 
-                                        function(x) x - min(x))) + (treatment=="treatment"))
-
 # time-point constants
 A <- 2
 B <- 9
 # center at follow-up time
-Center <- B
-Schutte$week <- Schutte$week - Center
+
+# create time-by-trt interaction
+Schutte <- 
+  preprocess_SCD(case = case, phase = treatment,
+                 session = week, outcome = fatigue,
+                 design = "MB", center = B, data = Schutte)
+
+Schutte$trt_week_orig <- with(Schutte, 
+                         unlist(tapply((treatment=="treatment") * week, 
+                                        list(treatment,case), 
+                                        function(x) x - min(x))) + (treatment=="treatment"))
+
 ```
 Having completed the data-cleaning process, three different models will be considered, again following the example from Pustejovsky, Hedges, and Shadish (2014).
 
@@ -207,14 +201,14 @@ Having completed the data-cleaning process, three different models will be consi
 
 The initial model allows for a baseline time trend, treatment effect, and treatment-by-time interaction, all of which are assumed to be constant across the 12 cases; only the baseline intercept is assumed to vary across cases. This specification corresponds to Model MB3 from Pustejovsky, Hedges, and Shadish (2014)
 ```{r Schutte-Model3}
-hlm1 <- lme(fixed = fatigue ~ week + treatment + trt_week, 
+hlm1 <- lme(fixed = fatigue ~ week + treatment + week_trt, 
             random = ~ 1 | case, 
             correlation = corAR1(0, ~ week | case),
             data = Schutte,
             method = "REML")
 summary(hlm1)
 ```
-The design-comparable standardized mean difference corresponds to the treatment effect at week B = 9, after B - A = 7 weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.
+The design-comparable standardized mean difference corresponds to the treatment effect at week $B = 9$, after $B - A = 7$ weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.
 ```{r Schutte-ES-Model3, eval = TRUE}
 Schutte_g1 <- g_mlm(hlm1, p_const = c(0,0,1,B - A), r_const = c(1,0,1))
 Schutte_g1
@@ -247,7 +241,7 @@ The design-comparable SMD is estimated to be `r round(Schutte_g2$g_AB, 3)`, with
 
 The final model (Model MB5) is yet more flexible, in that it allows the treatment-by-time interactions to vary across cases. Given that the data contain only twelve cases, fitting a model with three random effects would be questionable if the goal were to make inferences about the full structure of the model. However, simulation evidence from Pustejovsky, Hedges, and Shadish (2014) suggests that using such a flexible parameterization may nonetheless be reasonable for the more limited purpose of effect size estimation. 
 ```{r Schutte-Model5, warning = FALSE}
-hlm3 <- update(hlm2, random = ~ week + trt_week | case, 
+hlm3 <- update(hlm2, random = ~ week + week_trt | case, 
                control=lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))
 summary(hlm3)
 anova(hlm2, hlm3)
