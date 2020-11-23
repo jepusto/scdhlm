@@ -189,11 +189,6 @@ Schutte <-
                  session = week, outcome = fatigue,
                  design = "MB", center = B, data = Schutte)
 
-Schutte$trt_week_orig <- with(Schutte, 
-                         unlist(tapply((treatment=="treatment") * week, 
-                                        list(treatment,case), 
-                                        function(x) x - min(x))) + (treatment=="treatment"))
-
 ```
 Having completed the data-cleaning process, three different models will be considered, again following the example from Pustejovsky, Hedges, and Shadish (2014).
 
@@ -208,12 +203,14 @@ hlm1 <- lme(fixed = fatigue ~ week + treatment + week_trt,
             method = "REML")
 summary(hlm1)
 ```
-The design-comparable standardized mean difference corresponds to the treatment effect at week $B = 9$, after $B - A = 7$ weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.
+The design-comparable standardized mean difference corresponds to the treatment effect at week $B = 9$, after $B - A = 7$ weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.[^pconst]
 ```{r Schutte-ES-Model3, eval = TRUE}
-Schutte_g1 <- g_mlm(hlm1, p_const = c(0,0,1,B - A), r_const = c(1,0,1))
+Schutte_g1 <- g_mlm(hlm1, p_const = c(0,0,1, B - A - 1), r_const = c(1,0,1))
 Schutte_g1
 ```
 It will be seen below that this initial model provides a poor fit to the data; thus, the effect size estimate based on it should not be trusted.
+
+[^pconst]: The coding of the `p_const` argument differs from that given in Pustejovsky, Hedges, & Shadish (2014) due to a small difference in the parameterization of the treatment-by-time interaction. In the original paper, this term was computed so that the coefficient on the treatment indicator corresponds to the _instantaneous_ change in level upon introduction of the treatment. In the `scdhlm` package, the treatment-by-time interaction is coded so that the coefficient on the treatment indicator corresponds to the change in level after a single session of treatment. 
 
 ### Varying intercepts, fixed treatment effect, varying trends
 
@@ -226,12 +223,12 @@ anova(hlm1, hlm2)
 ```
 A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows[^g-mlm-mb4]:
 ```{r Schutte-ES-Model4, eval = TRUE}
-Schutte_g2 <- g_mlm(hlm2, p_const = c(0,0,1, B - A), r_const = c(1,0,0,0,1))
+Schutte_g2 <- g_mlm(hlm2, p_const = c(0,0,1, B - A - 1), r_const = c(1,0,0,0,1))
 Schutte_g2
 ```
 The design-comparable SMD is estimated to be `r round(Schutte_g2$g_AB, 3)`, with a standard error of `r round(Schutte_g2$SE_g_AB, 3)`.
 
-[^g-mlm-mb4]: Note that the specification of the `r_const` argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The arguments appear in a different order than reported in the article because of how the variance components are arranged in the `g_mlm()` function. To see the order of the variance components used by `g_mlm()`, use the `extract_varcomp()` function: 
+[^g-mlm-mb4]: Note that the specification of the `p_const` and `r_const` arguments here differ from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The `p_const` argument differs because of a small difference in the definition of the treatment-by-time interaction. The `r_const` argument appears in a different order than reported in the article because of how the variance components are arranged in the `g_mlm()` function. To see the order of the variance components used by `g_mlm()`, use the `extract_varcomp()` function: 
     ```{r}
     unlist(extract_varcomp(hlm2))
     ```
@@ -246,9 +243,10 @@ hlm3 <- update(hlm2, random = ~ week + week_trt | case,
 summary(hlm3)
 anova(hlm2, hlm3)
 ```
-The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.[^g-mlm-mb5]
+The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test fails to rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.[^g-mlm-mb5]
 ```{r Schutte-ES-Model5, eval = TRUE}
-Schutte_g3 <- g_mlm(hlm3, p_const = c(0,0,1,B - A), r_const = c(1,0,0,0,0,0,0,1))
+Schutte_g3 <- g_mlm(hlm3, p_const = c(0,0,1,B - A - 1), r_const = c(1,0,0,0,0,0,0,1))
+Schutte_g3
 
 # compare effect size estimates
 data.frame(
