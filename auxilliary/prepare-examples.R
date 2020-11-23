@@ -176,10 +176,12 @@ save(Saddler, file = "data/Saddler.RData", compress = TRUE, version = 2)
 
 Schutte <- read.csv("auxilliary/Schutte.csv", stringsAsFactors = FALSE)
 str(Schutte)
+
 Schutte <- within(Schutte, {
   case <- factor(case, levels = 1:13, labels = paste("Case",1:13))
   treatment <- factor(treatment, levels = c("baseline","treatment"))
 })
+Schutte <- droplevels(subset(Schutte, case != "Case 4"))
 
 save(Schutte, file = "data/Schutte.RData", compress = TRUE, version = 2)
 

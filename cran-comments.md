@@ -2,8 +2,8 @@
 
 This is a re-submission. In this version we have:
 
-* Add functions for pre-processing data prior to estimating effect sizes.
-* Added features and fixed bugs in the included shiny app
+* Corrected a unit test that led to an error in the CRAN MKL test.
+* Modified one of the example datasets for consistency with a published analysis.
 
 ## Test environments
 

@@ -47,12 +47,15 @@ Simulates data from a linear mixed effects model, then calculates
 REML effect size estimator as described in Pustejovsky, Hedges, & Shadish (2014).
 }
 \examples{
+
 set.seed(8)
-simulate_MB2(iterations = 10, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, 
+simulate_MB2(iterations = 5, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, 
              tau1_ratio = 0.5, tau_corr = -0.4, design = design_matrix(m=3, n=8))
+             
 set.seed(8)
-simulate_MB2(iterations = 10, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, 
+simulate_MB2(iterations = 5, beta = c(0,1,0,0), rho = 0.4, phi = 0.5, 
              tau1_ratio = 0.5, tau_corr = -0.4, m = 3, n = 8, MB = FALSE)
+             
 }
 \references{
 Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 

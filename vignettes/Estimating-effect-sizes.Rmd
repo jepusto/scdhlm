@@ -1,6 +1,6 @@
 ---
-title: "Estimating design-comparable standardized mean differences with scdhlm"
-author: "James E. Pustejovsky"
+title: Estimating design-comparable standardized mean differences with scdhlm
+author: James E. Pustejovsky
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -9,9 +9,9 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-The scdhlm package (Pustejovsky, Hamilton, & Chen, 2020) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. In principle, a design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases). Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variability. 
+The scdhlm package (Pustejovsky, Chen, & Hamilton, 2020) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. In principle, a design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases). Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variation in treatment effects and time trends.
 
-The original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the `effect_size_ABk` and `effect_size_MB` functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxiliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function `lme` from the package `nlme` by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function `g_mlm` from the `scdhlm` package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R code presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:
+In the scdhlm package, the original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the `effect_size_ABk` and `effect_size_MB` functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxiliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; and second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function `lme` from the package `nlme` by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function `g_mlm` from the `scdhlm` package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R code presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:
 
 ```{r, message = FALSE}
 library(scdhlm)
@@ -84,10 +84,11 @@ construction_ES <- effect_size_MB(outcome, treatment, case, time,
                                   data = subset(Saddler, measure=="number of constructions"))
 
 data.frame(
-  quality = round(unlist(quality_ES), 5),
-  complexity = round(unlist(complexity_ES), 5),
-  construction = round(unlist(construction_ES), 5)
+  quality = unlist(quality_ES),
+  complexity = unlist(complexity_ES), 
+  construction = unlist(construction_ES) 
 )[c("delta_hat","V_delta_hat","nu","phi","rho"),]
+
 ```
 
 For multiple baseline designs, an alternative to using the `effect_size_MB` function is to estimate a hierarchical linear model for the data and then use the `g_mlm` function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a hierarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which we will demonstrate using the writing quality measure. First, we estimate the hierarchical model with an AR(1) within-case error structure using the `lme` function:
@@ -155,27 +156,33 @@ Laski_ES_RML2 <- g_mlm(Laski_RML2, p_const = c(0,1), r_const = c(1,0,0,0,1))
 Laski_ES_RML2
 ```
 
-The adjusted effect size estimate that is `r round(100 * (1 - Laski_ES_RML2$g_AB / Laski_ES_RML$g_AB))`% smaller than the estimate from the simpler model; with a standard error that is `r round(100 * (Laski_ES_RML2$SE_g_AB / Laski_ES_RML$SE_g_AB - 1))`% larger. The difference between the two models is due to a difference in between-case variance across phases not captured by the assumptions of the simpler model. The between-case variation in the outcome appears to be substantially larger in the baseline phase than in the treatment phase. Maintaining the constant treatment effect assumption constrains the between-case variance to be constant across phases, and so the between-case variance is estimated by pooling across both phases. The constant treatment effect assumption therefore leads to a smaller estimate than one based on the baseline phase alone. 
-
+The adjusted effect size estimate that is `r round(100 * (1 - Laski_ES_RML2$g_AB / Laski_ES_RML$g_AB))`% smaller than the estimate from the simpler model; with a standard error that is `r round(100 * (Laski_ES_RML2$SE_g_AB / Laski_ES_RML$SE_g_AB - 1))`% larger. The difference between the two models is due to a difference in between-case variance across phases not captured by the assumptions of the simpler model. The between-case variation in the outcome appears to be substantially larger in the baseline phase than in the treatment phase. Maintaining the constant treatment effect assumption constrains the between-case variance to be constant across phases, and so the between-case variance is estimated by pooling across both phases. The constant treatment effect assumption therefore leads to a smaller variance estimate than the estimate based on allowing the between-case variance to differ by phase. 
 
 ## Schutte, Malouf, & Brown (2008)
 
 Schutte, Malouf, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.
+
 ```{r Schutte-graph, message = FALSE, fig.width = 7, fig.height = 7}
+library(ggplot2)
+
 data(Schutte)
-Schutte <- subset(Schutte, case != "Case 4")
-Schutte$case <- factor(Schutte$case)
+
+graph_SCD(case = case, phase = treatment,
+          session = week, outcome = fatigue,
+          design = "MB", data = Schutte) + 
+  facet_wrap(~ case, ncol = 3) + 
+  theme(legend.position = "bottom")
 
 change <- data.frame(case=unique(Schutte$case),
                      phase.change = with(subset(Schutte, treatment== "treatment"), 
                                          tapply(week, case, min)) - 0.5)
 
-library(ggplot2)
 ggplot(Schutte, aes(week, fatigue, shape = treatment, color = treatment)) + 
   geom_point() + facet_wrap(~ case, ncol = 3) + 
   labs(color="Phase",shape="Phase", y ="Fatigue", x="Week") + 
   geom_vline(data = change, aes(xintercept=phase.change)) +
   theme_bw() + theme(legend.position = "bottom")
+
 ```
 
 Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations. 

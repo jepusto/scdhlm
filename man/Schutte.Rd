@@ -14,7 +14,8 @@ Efficacy of an emotion-focused treatment for prolonged fatigue.
 }
 \description{
 Data from a multiple baseline design conducted by 
-Schutte, Malouff, & Brown (2008). The variables are as follows:
+Schutte, Malouff, & Brown (2008). Case 4 is excluded because nearly all 
+of these measurements are at the upper extreme of the scale. The variables are as follows:
 \itemize{
   \item \code{case}. Participant identifier.  
   \item \code{week}. Measurement occasion.
