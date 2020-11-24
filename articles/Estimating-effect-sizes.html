@@ -87,7 +87,7 @@
       <h1 data-toc-skip>Estimating design-comparable standardized mean differences with scdhlm</h1>
                         <h4 class="author">James E. Pustejovsky</h4>
             
-            <h4 class="date">2020-11-23</h4>
+            <h4 class="date">2020-11-24</h4>
       
       
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -398,12 +398,7 @@
 <span class="va">Schutte</span> <span class="op">&lt;-</span> 
   <span class="fu"><a href="../reference/preprocess_SCD.html">preprocess_SCD</a></span><span class="op">(</span>case <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">treatment</span>,
                  session <span class="op">=</span> <span class="va">week</span>, outcome <span class="op">=</span> <span class="va">fatigue</span>,
-                 design <span class="op">=</span> <span class="st">"MB"</span>, center <span class="op">=</span> <span class="va">B</span>, data <span class="op">=</span> <span class="va">Schutte</span><span class="op">)</span>
-
-<span class="va">Schutte</span><span class="op">$</span><span class="va">trt_week_orig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">Schutte</span>, 
-                         <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="op">(</span><span class="va">treatment</span><span class="op">==</span><span class="st">"treatment"</span><span class="op">)</span> <span class="op">*</span> <span class="va">week</span>, 
-                                        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">treatment</span>,<span class="va">case</span><span class="op">)</span>, 
-                                        <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="va">treatment</span><span class="op">==</span><span class="st">"treatment"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+                 design <span class="op">=</span> <span class="st">"MB"</span>, center <span class="op">=</span> <span class="va">B</span>, data <span class="op">=</span> <span class="va">Schutte</span><span class="op">)</span></code></pre></div>
 <p>Having completed the data-cleaning process, three different models will be considered, again following the example from Pustejovsky, Hedges, and Shadish (2014).</p>
 <div id="varying-intercepts-fixed-treatment-effect-fixed-trends" class="section level3">
 <h3 class="hasAnchor">
@@ -435,13 +430,13 @@
 ##                       Value Std.Error  DF   t-value p-value
 ## (Intercept)        52.93290  4.422164 121 11.969907  0.0000
 ## week                0.48856  0.622153 121  0.785274  0.4338
-## treatmenttreatment -3.26880  1.947488 121 -1.678471  0.0958
+## treatmenttreatment -1.37267  1.971510 121 -0.696253  0.4876
 ## week_trt           -1.89613  0.938154 121 -2.021131  0.0455
 ##  Correlation: 
 ##                    (Intr) week   trtmnt
 ## week                0.805              
-## treatmenttreatment -0.488 -0.444       
-## week_trt           -0.761 -0.777  0.215
+## treatmenttreatment -0.119 -0.069       
+## week_trt           -0.761 -0.777 -0.263
 ## 
 ## Standardized Within-Group Residuals:
 ##         Min          Q1         Med          Q3         Max 
@@ -451,11 +446,11 @@
 ## Number of Groups: 12</code></pre>
 <p>The design-comparable standardized mean difference corresponds to the treatment effect at week <span class="math inline">\(B = 9\)</span>, after <span class="math inline">\(B - A = 7\)</span> weeks of treatment. The corresponding values of <code>p_const</code> and <code>r_const</code> are specified below.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Schutte_g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm1</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">Schutte_g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm1</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>, <span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">Schutte_g1</span></code></pre></div>
 <pre><code>##                           est    se
-## unadjusted effect size -1.551 0.735
-## adjusted effect size   -1.511 0.716
+## unadjusted effect size -1.373 0.644
+## adjusted effect size   -1.337 0.627
 ## degree of freedom      29.152</code></pre>
 <p>It will be seen below that this initial model provides a poor fit to the data; thus, the effect size estimate based on it should not be trusted.</p>
 </div>
@@ -489,13 +484,13 @@
 ##                       Value Std.Error  DF   t-value p-value
 ## (Intercept)        50.29150  4.073625 121 12.345637  0.0000
 ## week                0.20271  0.616194 121  0.328968  0.7427
-## treatmenttreatment -2.17416  1.757307 121 -1.237212  0.2184
+## treatmenttreatment -0.54218  1.751668 121 -0.309520  0.7575
 ## week_trt           -1.63198  0.655256 121 -2.490607  0.0141
 ##  Correlation: 
 ##                    (Intr) week   trtmnt
 ## week                0.883              
-## treatmenttreatment -0.469 -0.421       
-## week_trt           -0.567 -0.596  0.195
+## treatmenttreatment -0.258 -0.200       
+## week_trt           -0.567 -0.596 -0.178
 ## 
 ## Standardized Within-Group Residuals:
 ##         Min          Q1         Med          Q3         Max 
@@ -513,10 +508,10 @@
 <code class="sourceCode R"><span class="va">Schutte_g2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm2</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>, <span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">Schutte_g2</span></code></pre></div>
 <pre><code>##                           est    se
-## unadjusted effect size -1.216 0.561
-## adjusted effect size   -1.151 0.531
+## unadjusted effect size -1.070 0.495
+## adjusted effect size   -1.013 0.469
 ## degree of freedom      14.302</code></pre>
-<p>The design-comparable SMD is estimated to be -1.151, with a standard error of 0.531.</p>
+<p>The design-comparable SMD is estimated to be -1.013, with a standard error of 0.469.</p>
 </div>
 <div id="varying-intercepts-varying-trends-varying-treatment-by-time-interactions" class="section level3">
 <h3 class="hasAnchor">
@@ -529,59 +524,64 @@
 <pre><code>## Linear mixed-effects model fit by REML
 ##  Data: Schutte 
 ##        AIC      BIC    logLik
-##   874.5061 909.0997 -425.2531
+##   873.0245 907.6181 -424.5123
 ## 
 ## Random effects:
 ##  Formula: ~week + week_trt | case
 ##  Structure: General positive-definite, Log-Cholesky parametrization
 ##             StdDev    Corr        
-## (Intercept) 6.6209637 (Intr) week 
-## week        0.5963038 0.389       
-## week_trt    1.6774046 0.356  0.993
-## Residual    4.7627012             
+## (Intercept) 6.1884596 (Intr) week 
+## week        0.3832993 0.162       
+## week_trt    1.7351247 0.162  0.999
+## Residual    4.7477472             
 ## 
 ## Correlation Structure: AR(1)
 ##  Formula: ~week | case 
 ##  Parameter estimate(s):
 ##       Phi 
-## 0.2278529 
+## 0.2396137 
 ## Fixed effects: fatigue ~ week + treatment + week_trt 
 ##                       Value Std.Error  DF   t-value p-value
-## (Intercept)        50.60694 2.9317032 121 17.261958  0.0000
-## week                0.25259 0.3912995 121  0.645510  0.5198
-## treatmenttreatment -1.66250 1.5869590 121 -1.047599  0.2969
-## week_trt           -1.74275 0.7358635 121 -2.368308  0.0195
+## (Intercept)        50.52566 2.8214130 121 17.907928  0.0000
+## week                0.21901 0.3640857 121  0.601537  0.5486
+## treatmenttreatment  0.02697 1.5999246 121  0.016855  0.9866
+## week_trt           -1.67113 0.7406249 121 -2.256378  0.0258
 ##  Correlation: 
 ##                    (Intr) week   trtmnt
-## week                0.752              
-## treatmenttreatment -0.530 -0.534       
-## week_trt           -0.231 -0.181  0.099
+## week                0.722              
+## treatmenttreatment -0.357 -0.331       
+## week_trt           -0.312 -0.283 -0.154
 ## 
 ## Standardized Within-Group Residuals:
-##        Min         Q1        Med         Q3        Max 
-## -2.6136745 -0.4352720 -0.0206143  0.3289974  4.4573332 
+##          Min           Q1          Med           Q3          Max 
+## -2.559123387 -0.446173508 -0.004457334  0.366743786  4.597278939 
 ## 
 ## Number of Observations: 136
 ## Number of Groups: 12</code></pre>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span></code></pre></div>
-<pre><code>##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value
-## hlm2     1  9 875.9526 901.8978 -428.9763                        
-## hlm3     2 12 874.5061 909.0997 -425.2531 1 vs 2 7.446482  0.0589</code></pre>
-<p>The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<pre><code>##      Model df      AIC      BIC    logLik   Test L.Ratio p-value
+## hlm2     1  9 875.9526 901.8978 -428.9763                       
+## hlm3     2 12 873.0245 907.6181 -424.5123 1 vs 2 8.92808  0.0303</code></pre>
+<p>The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test fails to rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test may be inaccurate with a such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Schutte_g3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm3</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># compare effect size estimates</span>
+<span class="va">Schutte_g3</span></code></pre></div>
+<pre><code>##                           est    se
+## unadjusted effect size -1.496 0.933
+## adjusted effect size   -1.326 0.827
+## degree of freedom       6.848</code></pre>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># compare effect size estimates</span>
 <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   MB3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">Schutte_g1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>, 
   MB4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">Schutte_g2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>,
   MB5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">Schutte_g3</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <pre><code>##            MB3    MB4    MB5
-## g_AB    -1.511 -1.151 -1.561
-## SE_g_AB  0.716  0.531  0.815
-## nu      29.152 14.302  9.421</code></pre>
+## g_AB    -1.337 -1.013 -1.326
+## SE_g_AB  0.627  0.469  0.827
+## nu      29.152 14.302  6.848</code></pre>
 <p>The effect size estimate has magnitude comparable to the estimate from Model MB3. However, the variance of the estimate is extremely large, due to the fact that the variance components that go into the denominator of the SMD estimate are estimated with low precision. This final model may represent an outer limit on the complexity of models that can feasibility be estimated, given that most single-case designs have fewer cases than the study examined in this example.</p>
 </div>
 </div>
@@ -602,7 +602,7 @@
 <hr>
 <ol>
 <li id="fn1">
-<p>Note that the specification of the <code>r_const</code> argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The arguments appear in a different order than reported in the article because of how the variance components are arranged in the <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> function. To see the order of the variance components used by <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>, use the <code><a href="../reference/lmeInfo.html">extract_varcomp()</a></code> function:</p>
+<p>Note that the specification of the <code>r_const</code> argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The argument appears in a different order than reported in the article because of how the variance components are arranged in the <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> function. To see the order of the variance components used by <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>, use the <code><a href="../reference/lmeInfo.html">extract_varcomp()</a></code> function:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/lmeInfo.html">extract_varcomp</a></span><span class="op">(</span><span class="va">hlm2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##      Tau.case.case.var((Intercept)) Tau.case.case.cov(week,(Intercept)) 
