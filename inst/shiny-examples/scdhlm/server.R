@@ -642,7 +642,7 @@ server <-
     if (input$method == "RML") {
       A <- effect_size()$`Initial treatment time`
       B <- effect_size()$`Follow-up time`
-      p_const <- c(rep(0L, length(input$FE_base)), (B - A - 1)^as.integer(input$FE_trt))
+      p_const <- c(rep(0L, length(input$FE_base)), (B - A)^as.integer(input$FE_trt))
       
       # get r_const when centering at an arbitrary time instead of B
       r_dim <- length(input$RE_base) + length(input$RE_trt)

@@ -89,7 +89,7 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B,
   mod <- m_fit$fit
   mod$call$fixed <- fixed
   mod$call$random <- random
-  p_const <- c(rep(0L, length(FE_base)), (B - A - 1)^as.integer(FE_trt))
+  p_const <- c(rep(0L, length(FE_base)), (B - A)^as.integer(FE_trt))
   
   r_dim <- length(RE_base) + length(RE_trt)
   r_const_dim <- r_dim * (r_dim + 1) / 2
