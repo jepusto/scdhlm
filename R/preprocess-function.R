@@ -17,7 +17,7 @@
 #' 
 
 session_by_treatment <- function(phase, session, trt_phase) {
-  pmax(0, session - min(session[phase==trt_phase]))
+  pmax(0, session - min(session[phase==trt_phase]) + 1)
 }
 
 
