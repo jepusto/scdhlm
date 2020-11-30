@@ -4,6 +4,7 @@ This is a re-submission. In this version we have:
 
 * Corrected a unit test that led to an error in the CRAN MKL test.
 * Modified one of the example datasets for consistency with a published analysis.
+* Revised the pre-processing function for consistency with published examples.
 
 ## Test environments
 
