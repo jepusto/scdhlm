@@ -239,17 +239,21 @@ server <-
         phase <- datFile()[,input$phaseID]
         session <- as.numeric(datFile()[,input$session])
         outcome <- as.numeric(datFile()[,input$outcome])
-        design <- studyDesign()
-        round_session <- if (!is.null(input$round_session)) TRUE else FALSE
-        treatment_name <- input$treatment
-        dat <- preprocess_SCD(case = case, phase = phase, 
-                              session = session, outcome = outcome, 
-                              design = design, round_session = round_session, treatment_name = treatment_name)
+        dat <- data.frame(case = case, phase = phase, session = session, outcome = outcome)
         
         if (!is.null(input$filters)) {
           subset_vals <- sapply(input$filters, function(x) datFile()[[x]] %in% input[[paste0("filter_",x)]])
           dat <- dat[apply(subset_vals, 1, all),]
         } 
+        
+        design <- studyDesign()
+        round_session <- if (!is.null(input$round_session)) TRUE else FALSE
+        treatment_name <- input$treatment
+        dat <- preprocess_SCD(case = dat$case, phase = dat$phase, 
+                              session = dat$session, outcome = dat$outcome, 
+                              design = design, round_session = round_session, treatment_name = treatment_name)
+        
+        
       }
       
       names(dat)[1:4] <- c("case", "phase", "session", "outcome")
