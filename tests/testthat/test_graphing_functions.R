@@ -32,9 +32,9 @@ test_that("graph is a ggplot2 graph", {
   expect_s3_class(Ang_graph4, "ggplot")
   
   keys <- setdiff(names(Ang_graph1), c("plot_env", "labels"))
-  expect_equal(Ang_graph1[keys], Ang_graph2[keys])
-  expect_equal(Ang_graph1[keys], Ang_graph3[keys])
-  expect_equal(Ang_graph1[keys], Ang_graph4[keys])
+  expect_equal(Ang_graph1$keys, Ang_graph2$keys)
+  expect_equal(Ang_graph1$keys, Ang_graph3$keys)
+  expect_equal(Ang_graph1$keys, Ang_graph4$keys)
   
   
   Laski_graph1 <- graph_SCD(case=case, phase=treatment, session=time, outcome=outcome, 
@@ -45,7 +45,7 @@ test_that("graph is a ggplot2 graph", {
                          design="MB", treatment_name = "treatment", model_fit=Laski_RML)
   expect_s3_class(Laski_graph2, "ggplot")
   
-  expect_equal(Laski_graph1[keys], Laski_graph2[keys])
+  expect_equal(Laski_graph1$keys, Laski_graph2$keys)
   
 })
 
