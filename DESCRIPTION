@@ -36,6 +36,7 @@ Suggests:
     parallel,
     shiny,
     glue,
+    janitor,
     rclipboard,
     testthat
 RoxygenNote: 7.1.1

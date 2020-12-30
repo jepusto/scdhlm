@@ -48,6 +48,9 @@ shine_scd <- function(dataset = NULL, ...) {
   if (!requireNamespace("readxl", quietly = TRUE)) {
     stop("The scdhlm app requires the readxl package. Please install it.", call. = FALSE)
   }
+  if (!requireNamespace("janitor", quietly = TRUE)) {
+    stop("The scdhlm app requires the janitor package. Please install it.", call. = FALSE)
+  }
   
   uiDir <- system.file("shiny-examples/scdhlm", "ui.R", package = "scdhlm")
   serveDir <- system.file("shiny-examples/scdhlm", "server.R", package = "scdhlm")
@@ -79,4 +82,5 @@ shine_scd <- function(dataset = NULL, ...) {
   
   app <- shiny::shinyApp(ui, server)
   shiny::runApp(app, display.mode = "normal", launch.browser = TRUE)
+  
 }
