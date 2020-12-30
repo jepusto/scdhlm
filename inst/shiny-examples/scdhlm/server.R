@@ -52,7 +52,8 @@ server <-
         
         read.table(inFile$datapath, header=input$header, 
                    sep=input$sep, quote=input$quote,
-                   stringsAsFactors = FALSE) %>% clean_names(case = "parsed")
+                   stringsAsFactors = FALSE) %>% 
+          clean_names(case = "parsed")
         
       } else if (input$dat_type == "xlsx") {
         
@@ -60,11 +61,16 @@ server <-
         
         if (is.null(inFile) || is.null(input$inSelect) || nchar(input$inSelect) == 0) return(NULL)
         
-        as.data.frame(readxl::read_xlsx(inFile$datapath, col_names = input$col_names,
-                                sheet = input$inSelect)) %>% clean_names(case = "parsed")
+        readxl::read_xlsx(inFile$datapath, col_names = input$col_names,
+                          sheet = input$inSelect) %>% 
+          clean_names(case = "parsed") %>%
+          as.data.frame()
         
       } else if (input$dat_type == "loaded") {
-        dataset %>% clean_names(case = "parsed")
+        
+        dataset %>% 
+          clean_names(case = "parsed")
+        
       } 
     })
     
