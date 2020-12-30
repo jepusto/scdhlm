@@ -3,6 +3,7 @@ library(markdown)
 library(ggplot2)
 library(scdhlm)
 library(readxl)
+library(janitor)
 
 source("mappings.R", local = TRUE)
 source("helper-functions.R", local = TRUE)
@@ -51,7 +52,7 @@ server <-
         
         read.table(inFile$datapath, header=input$header, 
                    sep=input$sep, quote=input$quote,
-                   stringsAsFactors = FALSE)
+                   stringsAsFactors = FALSE) %>% clean_names(case = "parsed")
         
       } else if (input$dat_type == "xlsx") {
         
@@ -60,10 +61,10 @@ server <-
         if (is.null(inFile) || is.null(input$inSelect) || nchar(input$inSelect) == 0) return(NULL)
         
         as.data.frame(readxl::read_xlsx(inFile$datapath, col_names = input$col_names,
-                                sheet = input$inSelect))
+                                sheet = input$inSelect)) %>% clean_names(case = "parsed")
         
       } else if (input$dat_type == "loaded") {
-        dataset
+        dataset %>% clean_names(case = "parsed")
       } 
     })
     
