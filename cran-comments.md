@@ -2,7 +2,7 @@
 
 This is a re-submission. In this version we have:
 
-* Corrected a unit test that led to errors in the CRAN checks.
+* Corrected a unit test that led to errors in the CRAN checks under R-devel.
 * Fixed a bug in shiny app when filtering variable(s) of the input data set.
 * Updated shiny app to clean the variable names in the data read-in process.
 
