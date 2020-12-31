@@ -158,9 +158,9 @@ Laski_ES_RML2
 
 The adjusted effect size estimate that is `r round(100 * (1 - Laski_ES_RML2$g_AB / Laski_ES_RML$g_AB))`% smaller than the estimate from the simpler model; with a standard error that is `r round(100 * (Laski_ES_RML2$SE_g_AB / Laski_ES_RML$SE_g_AB - 1))`% larger. The difference between the two models is due to a difference in between-case variance across phases not captured by the assumptions of the simpler model. The between-case variation in the outcome appears to be substantially larger in the baseline phase than in the treatment phase. Maintaining the constant treatment effect assumption constrains the between-case variance to be constant across phases, and so the between-case variance is estimated by pooling across both phases. The constant treatment effect assumption therefore leads to a smaller variance estimate than the estimate based on allowing the between-case variance to differ by phase. 
 
-## Schutte, Malouf, & Brown (2008)
+## Schutte, Malouff, & Brown (2008)
 
-Schutte, Malouf, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.
+Schutte, Malouff, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.
 
 ```{r Schutte-graph, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 7}
 library(ggplot2)
