@@ -1,3 +1,9 @@
+# scdhlm 0.5.2
+
+* Fixed bug in shiny app occurring when filtering variable(s) of the input data set.
+
+* Updated shiny app to clean the variable names of the input data.
+
 # scdhlm 0.5.1
 
 * Modified the `Schutte` example dataset to exclude the fourth case, for consistency with the analysis presented in Pustejovsky, Hedges, & Shadish (2014).
