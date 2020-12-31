@@ -41,6 +41,7 @@ faster speeds than over the web.
         install.packages("shiny")
         install.packages("markdown")
         install.packages("readxl")
+        install.packages("janitor")
         install.packages("scdhlm")
 
 4.  After all of these packages are installed, type the following

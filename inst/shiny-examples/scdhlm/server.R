@@ -3,6 +3,7 @@ library(markdown)
 library(ggplot2)
 library(scdhlm)
 library(readxl)
+library(janitor)
 
 source("mappings.R", local = TRUE)
 source("helper-functions.R", local = TRUE)
@@ -51,7 +52,8 @@ server <-
         
         read.table(inFile$datapath, header=input$header, 
                    sep=input$sep, quote=input$quote,
-                   stringsAsFactors = FALSE)
+                   stringsAsFactors = FALSE) %>% 
+          clean_names(case = "parsed")
         
       } else if (input$dat_type == "xlsx") {
         
@@ -59,11 +61,16 @@ server <-
         
         if (is.null(inFile) || is.null(input$inSelect) || nchar(input$inSelect) == 0) return(NULL)
         
-        as.data.frame(readxl::read_xlsx(inFile$datapath, col_names = input$col_names,
-                                sheet = input$inSelect))
+        readxl::read_xlsx(inFile$datapath, col_names = input$col_names,
+                          sheet = input$inSelect) %>% 
+          clean_names(case = "parsed") %>%
+          as.data.frame()
         
       } else if (input$dat_type == "loaded") {
-        dataset
+        
+        dataset %>% 
+          clean_names(case = "parsed")
+        
       } 
     })
     
@@ -239,17 +246,21 @@ server <-
         phase <- datFile()[,input$phaseID]
         session <- as.numeric(datFile()[,input$session])
         outcome <- as.numeric(datFile()[,input$outcome])
-        design <- studyDesign()
-        round_session <- if (!is.null(input$round_session)) TRUE else FALSE
-        treatment_name <- input$treatment
-        dat <- preprocess_SCD(case = case, phase = phase, 
-                              session = session, outcome = outcome, 
-                              design = design, round_session = round_session, treatment_name = treatment_name)
+        dat <- data.frame(case = case, phase = phase, session = session, outcome = outcome)
         
         if (!is.null(input$filters)) {
           subset_vals <- sapply(input$filters, function(x) datFile()[[x]] %in% input[[paste0("filter_",x)]])
           dat <- dat[apply(subset_vals, 1, all),]
         } 
+        
+        design <- studyDesign()
+        round_session <- if (!is.null(input$round_session)) TRUE else FALSE
+        treatment_name <- input$treatment
+        dat <- preprocess_SCD(case = dat$case, phase = dat$phase, 
+                              session = dat$session, outcome = dat$outcome, 
+                              design = design, round_session = round_session, treatment_name = treatment_name)
+        
+        
       }
       
       names(dat)[1:4] <- c("case", "phase", "session", "outcome")

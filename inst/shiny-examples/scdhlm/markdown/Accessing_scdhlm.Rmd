@@ -23,6 +23,7 @@ In order to run the app on your own computer, you will need to install two piece
     install.packages("shiny")
     install.packages("markdown")
     install.packages("readxl")
+    install.packages("janitor")
     install.packages("scdhlm")
     ```
 

@@ -30,25 +30,16 @@
 
 shine_scd <- function(dataset = NULL, ...) {
   
-  if (!requireNamespace("shiny", quietly = TRUE)) {
-    stop("The scdhlm app requires the shiny package. Please install it.", call. = FALSE)
-  }
-  if (!requireNamespace("ggplot2", quietly = TRUE)) {
-    stop("The scdhlm app requires the ggplot2 package. Please install it.", call. = FALSE)
-  }
-  if (!requireNamespace("markdown", quietly = TRUE)) {
-    stop("The scdhlm app requires the markdown package. Please install it.", call. = FALSE)
-  }
-  if (!requireNamespace("glue", quietly = TRUE)) {
-    stop("The scdhlm app requires the glue package. Please install it.", call. = FALSE)
-  }
-  if (!requireNamespace("rclipboard", quietly = TRUE)) {
-    stop("The scdhlm app requires the rclipboard package. Please install it.", call. = FALSE)
-  }
-  if (!requireNamespace("readxl", quietly = TRUE)) {
-    stop("The scdhlm app requires the readxl package. Please install it.", call. = FALSE)
-  }
+  req_pkgs <- c("shiny","ggplot2","markdown","glue","rclipboard","readxl","janitor")
+  missing_pkgs <- unlist(lapply(req_pkgs, check_for_package))
   
+  if (length(missing_pkgs) > 1) {
+    missing_pkgs <- paste(missing_pkgs, collapse = ", ")
+    stop(paste0("The scdhlm app requires the following packages: ", missing_pkgs,". Please install them."), call. = FALSE)
+  } else if (length(missing_pkgs) == 1) {
+    stop(paste("The scdhlm app requires the", missing_pkgs,"package. Please install it."), call. = FALSE)
+  }
+    
   uiDir <- system.file("shiny-examples/scdhlm", "ui.R", package = "scdhlm")
   serveDir <- system.file("shiny-examples/scdhlm", "server.R", package = "scdhlm")
   if (uiDir == "" | serveDir == "") {
@@ -79,4 +70,10 @@ shine_scd <- function(dataset = NULL, ...) {
   
   app <- shiny::shinyApp(ui, server)
   shiny::runApp(app, display.mode = "normal", launch.browser = TRUE)
+  
+}
+
+check_for_package <- function(pkg) {
+  req <- requireNamespace(pkg, quietly = TRUE)
+  if (!req) pkg else NULL
 }
