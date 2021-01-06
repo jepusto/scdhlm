@@ -38,5 +38,5 @@ compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3,
 \references{
 Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
-\emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{https://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+\emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. \doi{10.3102/1076998614547577}
 }

@@ -11,7 +11,7 @@ A data frame with 55 rows and 5 variables
 Anglesea, M. M., Hoch, H., & Taylor, B. A. (2008). 
 Reducing rapid eating in teenagers with autism: Use of a pager prompt. 
 \emph{Journal of Applied Behavior Analysis, 41}(1), 107-111. 
-doi:\href{https://doi.org/10.1901/jaba.2008.41-107}{10.1901/jaba.2008.41-107}
+\doi{10.1901/jaba.2008.41-107}
 }
 \description{
 Data from an ABAB design conducted by Anglesea, Hoch, & Taylor (2008). 
@@ -27,6 +27,6 @@ The variables are as follows:
 \references{
 Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
 A standardized mean difference effect size for single case designs. 
-\emph{Research Synthesis Methods, 3}, 224-239. doi:\href{https://doi.org/10.1002/jrsm.1052}{10.1002/jrsm.1052}
+\emph{Research Synthesis Methods, 3}, 224-239. \doi{10.1002/jrsm.1052}
 }
 \keyword{datasets}

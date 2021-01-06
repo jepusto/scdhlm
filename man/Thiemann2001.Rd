@@ -11,7 +11,7 @@ A data frame with 221 rows and 8 variables
 Thiemann, K.S., & Goldstein, H. (2001).
 Social stories, written text cues, and video feedback: effects on social communication
 of children with Autism. \emph{Journal of Applied Behavior Analysis, 34}(4), 425-446.
-doi:\href{https://doi.org/10.1901/jaba.2001.34-425}{10.1901/jaba.2001.34-425}
+\doi{10.1901/jaba.2001.34-425}
 }
 \description{
 Data from a multiple baseline across behaviors design conducted by

@@ -12,7 +12,7 @@ Bryant, D. R., Bryant, B. R., Sorelle-Miner, D. A., Falcomata, T. S.
 & Nozari, M. (2018).
 Tier 3 intensified intervention for second grade students with severe
 mathematics difficulties. \emph{Archives of Psychology, 2}(11), 1-24.
-doi:\href{https://doi.org/10.31296/aop.v2i11.86}{10.31296/aop.v2i11.86}
+\doi{10.31296/aop.v2i11.86}
 }
 \description{
 Data from a multiple baseline across clusters design conducted by

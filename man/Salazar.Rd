@@ -11,7 +11,7 @@ A data frame with 324 rows and 5 variables
 Salazar, D., Ruiz, F., Ramírez, E., & Cardona-Betancourt, V. (2020).
   Acceptance and Commitment Therapy Focused on Repetitive Negative Thinking for
   Child Depression: A Randomized Multiple-Baseline Evaluation. The Psychological
-  Record. doi:\href{https://doi.org/10.1007/s40732-019-00362-5}{10.1007/s40732-019-00362-5}
+  Record. \doi{10.1007/s40732-019-00362-5}
 }
 \description{
 Data from a multiple baseline design conducted by Salazar, Ruiz,

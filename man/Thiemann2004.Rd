@@ -11,7 +11,7 @@ A data frame with 408 rows and 8 variables
 Thiemann, K.S., & Goldstein, H. (2004).
 Effects of peer training and written text cueing on social communication of
 school-age children with pervasive developmental disorder. \emph{Journal of Speech Language 
-and Hearing Research, 47}(1), 126-144. doi:\href{https://doi.org/10.1044/1092-4388(2004/012)}{10.1044/1092-4388(2004/012)}
+and Hearing Research, 47}(1), 126-144. \doi{10.1044/1092-4388(2004/012)}
 }
 \description{
 Data from a multiple baseline across behaviors design conducted by

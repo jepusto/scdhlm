@@ -11,7 +11,7 @@ A data frame with 840 rows and 5 variables
 Ruiz, F., Luciano, C., Florez, C., Suarez-Falcon, J., & Cardona-Betancourt, V. (2020).
   A Multiple-Baseline Evaluation of Acceptance and Commitment Therapy Focused on Repetitive Negative 
   Thinking for Comorbid Generalized Anxiety Disorder and Depression. Frontiers in Psychology, 11. 
-  doi: \href{https://doi.org/10.3389/fpsyg.2020.00356}{10.3389/fpsyg.2020.00356}
+  \doi{10.3389/fpsyg.2020.00356}
 }
 \description{
 Data from a multiple baseline design conducted by  Ruiz,
