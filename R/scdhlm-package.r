@@ -28,7 +28,7 @@ NULL
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
 #' A standardized mean difference effect size for single case designs. 
-#' \emph{Research Synthesis Methods, 3}, 224-239. doi:\href{https://doi.org/10.1002/jrsm.1052}{10.1002/jrsm.1052}
+#' \emph{Research Synthesis Methods, 3}, 224-239. \doi{10.1002/jrsm.1052}
 NULL
 
 #' Example 2 from Hedges, Pustejovsky, & Shadish (2012)
@@ -50,11 +50,11 @@ NULL
 #' @source Anglesea, M. M., Hoch, H., & Taylor, B. A. (2008). 
 #' Reducing rapid eating in teenagers with autism: Use of a pager prompt. 
 #' \emph{Journal of Applied Behavior Analysis, 41}(1), 107-111. 
-#' doi:\href{https://doi.org/10.1901/jaba.2008.41-107}{10.1901/jaba.2008.41-107}
+#' \doi{10.1901/jaba.2008.41-107}
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
 #' A standardized mean difference effect size for single case designs. 
-#' \emph{Research Synthesis Methods, 3}, 224-239. doi:\href{https://doi.org/10.1002/jrsm.1052}{10.1002/jrsm.1052}
+#' \emph{Research Synthesis Methods, 3}, 224-239. \doi{10.1002/jrsm.1052}
 NULL
 
 #' Example 1 from Hedges, Pustejovsky, & Shadish (2013)
@@ -77,11 +77,11 @@ NULL
 #' The effects of sentence-combining instruction on the writing of 
 #' fourth-grade students with writing difficulties. 
 #' \emph{The Journal of Special Education, 42}(2), 79-90. 
-#' doi:\href{https://doi.org/10.1177/0022466907310371}{10.1177/0022466907310371}
+#' \doi{10.1177/0022466907310371}
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 #' A standardized mean difference effect size for multiple baseline designs across individuals. 
-#' \emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{https://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
+#' \emph{Research Synthesis Methods, 4}(4), 324-341. \doi{10.1002/jrsm.1086}
 
 NULL
 
@@ -108,7 +108,7 @@ NULL
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 #' A standardized mean difference effect size for multiple baseline designs across individuals. 
-#' \emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{https://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
+#' \emph{Research Synthesis Methods, 4}(4), 324-341. \doi{10.1002/jrsm.1086}
 
 NULL
 
@@ -131,11 +131,11 @@ NULL
 #' @name Schutte
 #' @source Schutte, N. S., Malouff, J. M., & Brown, R. F. (2008). 
 #' Efficacy of an emotion-focused treatment for prolonged fatigue. 
-#' \emph{Behavior Modification, 32}(5), 699-713. doi:\href{https://doi.org/10.1177/0145445508317133}{10.1177/0145445508317133}
+#' \emph{Behavior Modification, 32}(5), 699-713. \doi{10.1177/0145445508317133}
 #' 
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 #' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
-#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{https://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. \doi{10.3102/1076998614547577}
 NULL
 
 #' Thorne (2005)
@@ -217,7 +217,7 @@ NULL
 #' @source Barton-Arwood, S. M., Wehby, J. H., & Falk, K. B. (2005). Reading
 #'   instruction for elementary-age students with emotional and behavioral
 #'   disorders: Academic and behavioral outcomes. \emph{Exceptional Children, 72}(1),
-#'   7-27. doi:10.1177/001440290507200101
+#'   7-27. \doi{10.1177/001440290507200101}
 #'   
 NULL
 
@@ -238,7 +238,7 @@ NULL
 #' @source Rodriguez, B. J., & Anderson, C. M. (2014). Integrating a social
 #'   behavior intervention during small group academic instruction using a total
 #'   group criterion intervention. \emph{Journal of Positive Behavior Interventions,
-#'   16}(4), 234-245. doi:\href{https://dx.doi.org/10.1177/1098300713492858}{10.1177/1098300713492858}
+#'   16}(4), 234-245. \doi{10.1177/1098300713492858}
 #'   
 NULL
 
@@ -261,8 +261,7 @@ NULL
 #' @source Romaniuk, C., Miltenberger, R., Conyers, C., Jenner, N., Jurgens, M.,
 #'   & Ringenberg, C. (2002). The influence of activity choice on problem
 #'   behaviors maintained by escape versus attention. \emph{Journal of Applied
-#'   Behavior Analysis, 35}(4), 349-62. 
-#'   doi:\href{https://dx.doi.org/10.1901/jaba.2002.35-349}{10.1901/jaba.2002.35-349}
+#'   Behavior Analysis, 35}(4), 349-62. \doi{10.1901/jaba.2002.35-349}
 #'   
 #'   
 NULL
@@ -284,7 +283,7 @@ NULL
 #'   (2007). Effects of repeated readings, error correction, and performance
 #'   feedback on the fluency and comprehension of middle school students with
 #'   behavior problems. Journal of Special Education, 41(1), 17-30.
-#'   doi:\href{https://dx.doi.org/10.1177/00224669070410010201}{10.1177/00224669070410010201}
+#'   \doi{10.1177/00224669070410010201}
 #'   
 #'   
 NULL
@@ -310,7 +309,7 @@ NULL
 #' @source Salazar, D., Ruiz, F., Ramírez, E., & Cardona-Betancourt, V. (2020).
 #'   Acceptance and Commitment Therapy Focused on Repetitive Negative Thinking for
 #'   Child Depression: A Randomized Multiple-Baseline Evaluation. The Psychological
-#'   Record. doi:\href{https://doi.org/10.1007/s40732-019-00362-5}{10.1007/s40732-019-00362-5}
+#'   Record. \doi{10.1007/s40732-019-00362-5}
 #'
 NULL
 
@@ -337,7 +336,7 @@ NULL
 #' & Nozari, M. (2018).
 #' Tier 3 intensified intervention for second grade students with severe
 #' mathematics difficulties. \emph{Archives of Psychology, 2}(11), 1-24.
-#' doi:\href{https://doi.org/10.31296/aop.v2i11.86}{10.31296/aop.v2i11.86}
+#' \doi{10.31296/aop.v2i11.86}
 #'
 NULL
 
@@ -366,7 +365,7 @@ NULL
 #' @source Thiemann, K.S., & Goldstein, H. (2001).
 #' Social stories, written text cues, and video feedback: effects on social communication
 #' of children with Autism. \emph{Journal of Applied Behavior Analysis, 34}(4), 425-446.
-#' doi:\href{https://doi.org/10.1901/jaba.2001.34-425}{10.1901/jaba.2001.34-425}
+#' \doi{10.1901/jaba.2001.34-425}
 #'
 NULL
 
@@ -390,7 +389,7 @@ NULL
 #' @source Ruiz, F., Luciano, C., Florez, C., Suarez-Falcon, J., & Cardona-Betancourt, V. (2020).
 #'   A Multiple-Baseline Evaluation of Acceptance and Commitment Therapy Focused on Repetitive Negative 
 #'   Thinking for Comorbid Generalized Anxiety Disorder and Depression. Frontiers in Psychology, 11. 
-#'   doi: \href{https://doi.org/10.3389/fpsyg.2020.00356}{10.3389/fpsyg.2020.00356}
+#'   \doi{10.3389/fpsyg.2020.00356}
 #'
 #'
 NULL
@@ -420,7 +419,7 @@ NULL
 #' @source Thiemann, K.S., & Goldstein, H. (2004).
 #' Effects of peer training and written text cueing on social communication of
 #' school-age children with pervasive developmental disorder. \emph{Journal of Speech Language 
-#' and Hearing Research, 47}(1), 126-144. doi:\href{https://doi.org/10.1044/1092-4388(2004/012)}{10.1044/1092-4388(2004/012)}
+#' and Hearing Research, 47}(1), 126-144. \doi{10.1044/1092-4388(2004/012)}
 #'
 NULL
 
@@ -442,7 +441,7 @@ NULL
 #' 
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 #' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
-#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{https://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. \doi{10.3102/1076998614547577}
 NULL
 
 #' MB2 simulation results
@@ -456,7 +455,7 @@ NULL
 #' 
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 #' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
-#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{https://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. \doi{10.3102/1076998614547577}
 NULL
 
 #' MB4 simulation results
@@ -470,7 +469,7 @@ NULL
 #' 
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 #' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
-#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{https://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. \doi{10.3102/1076998614547577}
 NULL
 
 #' MB1 simulation time

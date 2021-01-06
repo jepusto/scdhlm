@@ -70,7 +70,7 @@ auto_SS <- function(x, n = length(x)) {
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 #' A standardized mean difference effect size for multiple baseline designs across individuals. 
-#' \emph{Research Synthesis Methods, 4}(4), 324-341. doi:\href{https://doi.org/10.1002/jrsm.1086}{10.1002/jrsm.1086}
+#' \emph{Research Synthesis Methods, 4}(4), 324-341. \doi{10.1002/jrsm.1086}
 #' 
 #' @examples
 #' data(Saddler)
@@ -262,7 +262,7 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
 #' A standardized mean difference effect size for single case designs. 
-#' \emph{Research Synthesis Methods, 3}, 224-239. doi:\href{https://doi.org/10.1002/jrsm.1052}{10.1002/jrsm.1052}
+#' \emph{Research Synthesis Methods, 3}, 224-239. \doi{10.1002/jrsm.1052}
 #' 
 #' @examples
 #' data(Lambert)

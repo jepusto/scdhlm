@@ -115,7 +115,7 @@ lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
 #' 
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 #' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
-#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{https://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. \doi{10.3102/1076998614547577}
 #' 
 #' @examples
 #' compare_RML_HPS(iterations=10, beta = c(0,1,0,0), rho = 0.3, 
@@ -213,7 +213,7 @@ convergence_handler_MB2 <- function(design, y, method="REML") {
 #' 
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 #' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
-#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{https://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. \doi{10.3102/1076998614547577}
 #' 
 #' @examples
 #' 
@@ -306,7 +306,7 @@ convergence_handler_MB4 <- function(design, y, p_const, r_const) {
 #' 
 #' @references Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). 
 #' Design-comparable effect sizes in multiple baseline designs: A general modeling framework.
-#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. doi:\href{https://doi.org/10.3102/1076998614547577}{10.3102/1076998614547577}
+#' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. \doi{10.3102/1076998614547577}
 #' 
 #' @examples
 #' 
@@ -390,7 +390,6 @@ fit_g <- function(y, object) {
 #' @examples
 #' data(Laski)
 #' Laski_RML <- lme(fixed = outcome ~ treatment, 
-#'                  random = ~ 1 | case, 
 #'                  correlation = corAR1(0, ~ time | case), 
 #'                  data = Laski)
 #' Laski_g <- g_REML(Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
