@@ -4,8 +4,8 @@ Version 0.5.2
 
 Designed and maintained by James E. Pustejovsky
 
--   <a href="mailto:pustejovsky@wisc.edu" class="email">pustejovsky@wisc.edu</a>
--   <a href="https://jepusto.com" class="uri">https://jepusto.com</a>
+-   <pustejovsky@wisc.edu>
+-   <https://jepusto.com>
 
 Contributions from
 
@@ -19,10 +19,10 @@ Github](https://github.com/jepusto/scdhlm/tree/master/inst/shiny-examples/scdhlm
 
 ### Suggested citation
 
-Pustejovsky, J. E., Chen, M., & Hamilton, B. (2020). scdhlm: A web-based
+Pustejovsky, J. E., Chen, M., & Hamilton, B. (2021). scdhlm: A web-based
 calculator for between-case standardized mean differences (Version
 0.5.2) \[Web application\]. Retrieved from:
-<a href="https://jepusto.shinyapps.io/scdhlm" class="uri">https://jepusto.shinyapps.io/scdhlm</a>
+<https://jepusto.shinyapps.io/scdhlm>
 
 ### Tutorial paper
 

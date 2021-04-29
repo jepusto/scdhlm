@@ -3,6 +3,24 @@ context("Graphing functions")
 
 ## Actual Test
 
+
+test_that("graph_SCD works with example dataset.", {
+  
+  skip(message = "Auxiliary dataset not included in package.")
+  
+  Kattenberg <- read.csv("auxilliary/Kattenberg-data.csv")
+  
+  Kat_graph <- graph_SCD(case = ID_participant, 
+                         phase = Daytype,
+                         session = Workday,
+                         outcome = SRL_SCORE_MEAN,
+                         design = "TR",
+                         data = Kattenberg)  
+  
+  expect_s3_class(Kat_graph, "ggplot")
+})
+
+
 data("Anglesea")
 data("AlberMorgan")
 data("Laski")
@@ -11,7 +29,6 @@ Laski_RML <- lme(fixed = outcome ~ 1 + treatment,
                  random = ~ 1 | case, 
                  correlation = corAR1(0, ~ time | case), 
                  data = Laski)
-
 
 test_that("graph is a ggplot2 graph", {
   

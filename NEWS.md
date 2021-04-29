@@ -1,3 +1,7 @@
+# scdhlm 0.5.2.999
+
+* Fixed bug in graph_SCD() function that occurred in treatment reversal designs with cases that had varying numbers of reversals.
+
 # scdhlm 0.5.2
 
 * Fixed bug in shiny app occurring when filtering variable(s) of the input data set.

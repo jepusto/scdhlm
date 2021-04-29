@@ -10,15 +10,13 @@ phase_lines <- function(phase, session) {
 }
 
 phase_lines_by_case <- function(case, phase, session) {
+  
   phases_by <- split(phase, case)
   sessions_by <- split(session, case)
-  phase_line <- mapply(phase_lines, phase = phases_by, session = sessions_by)
   
-  if (is.null(dim(phase_line))) {
-    case_name <- names(phase_line)
-  } else {
-    case_name <- rep(names(phases_by), each = dim(phase_line)[1])
-  }
+  phase_line <- mapply(phase_lines, phase = phases_by, session = sessions_by, SIMPLIFY = FALSE)
+  
+  case_name <- rep(names(phase_line), times = lengths(phase_line))
   case_name <- factor(case_name, levels = levels(case))
   
   data.frame(case = case_name, phase_time = as.vector(unlist(phase_line)))
