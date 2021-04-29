@@ -2,21 +2,21 @@
   "index_name": "scdhlm",
   "start_urls": [
     {
-      "url": "https://jepusto.github.io/scdhlm//index.html",
+      "url": "https://jepusto.github.io/scdhlm/index.html",
       "selectors_key": "homepage",
       "tags": [
         "homepage"
       ]
     },
     {
-      "url": "https://jepusto.github.io/scdhlm//reference",
+      "url": "https://jepusto.github.io/scdhlm/reference",
       "selectors_key": "reference",
       "tags": [
         "reference"
       ]
     },
     {
-      "url": "https://jepusto.github.io/scdhlm//articles",
+      "url": "https://jepusto.github.io/scdhlm/articles",
       "selectors_key": "articles",
       "tags": [
         "articles"
@@ -30,7 +30,7 @@
     "/articles/index.html"
   ],
   "sitemap_urls": [
-    "https://jepusto.github.io/scdhlm//sitemap.xml"
+    "https://jepusto.github.io/scdhlm/sitemap.xml"
   ],
   "selectors": {
     "homepage": {

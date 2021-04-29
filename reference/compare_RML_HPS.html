@@ -52,6 +52,8 @@ REML and HPS effect size estimators as described in Pustejovsky, Hedges, &amp;am
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -63,9 +65,18 @@ REML and HPS effect size estimators as described in Pustejovsky, Hedges, &amp;am
 
 
 
+<!-- dependencies from examples -->
+
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +90,7 @@ REML and HPS effect size estimators as described in Pustejovsky, Hedges, &amp;am
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.999</span>
       </span>
     </div>
 
@@ -192,7 +203,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>compare_RML_HPS</span><span class='op'>(</span>iterations<span class='op'>=</span><span class='fl'>10</span>, beta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, rho <span class='op'>=</span> <span class='fl'>0.3</span>, 
                  phi <span class='op'>=</span> <span class='fl'>0.5</span>, design<span class='op'>=</span><span class='fu'><a href='design_matrix.html'>design_matrix</a></span><span class='op'>(</span>m<span class='op'>=</span><span class='fl'>3</span>,n<span class='op'>=</span><span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt;                           mean          var
+</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt;                           mean          var
 #&gt; p_beta               1.0737095  0.135935072
 #&gt; r_theta              1.0092672  0.369981663
 #&gt; delta_AB             1.1529924  0.165081738
@@ -230,11 +241,11 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://www.jepusto.com/'>James Pustejovsky</a>, Man Chen, Bethany Hamilton.</p>
+  <p><p>Developed by <a href="https://www.jepusto.com/" class="external-link">James Pustejovsky</a>, Man Chen, Bethany Hamilton.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -259,6 +270,8 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </script>
 
 
+
+  
 
   </body>
 </html>

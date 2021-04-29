@@ -53,6 +53,8 @@ from a multiple baseline design, using adjusted REML method as described in Pust
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,18 @@ from a multiple baseline design, using adjusted REML method as described in Pust
 
 
 
+<!-- dependencies from examples -->
+
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +91,7 @@ from a multiple baseline design, using adjusted REML method as described in Pust
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.999</span>
       </span>
     </div>
 
@@ -223,8 +234,8 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
                  correlation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>~</span> <span class='va'>time</span> <span class='op'>|</span> <span class='va'>case</span><span class='op'>)</span>, 
                  data <span class='op'>=</span> <span class='va'>Laski</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Laski_RML</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Linear mixed-effects model fit by REML
-#&gt;  Data: Laski 
+</div><div class='co'>#&gt; Linear mixed-effects model fit by REML
+#&gt;   Data: Laski 
 #&gt;        AIC      BIC    logLik
 #&gt;   1048.285 1062.466 -519.1424
 #&gt; 
@@ -238,7 +249,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt;  Parameter estimate(s):
 #&gt;      Phi 
 #&gt; 0.252769 
-#&gt; Fixed effects: outcome ~ treatment 
+#&gt; Fixed effects:  outcome ~ treatment 
 #&gt;                       Value Std.Error  DF   t-value p-value
 #&gt; (Intercept)        39.07612  5.989138 119  6.524498       0
 #&gt; treatmenttreatment 30.68366  2.995972 119 10.241637       0
@@ -252,7 +263,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt; 
 #&gt; Number of Observations: 128
 #&gt; Number of Groups: 8 </div><div class='input'><span class='fu'>g_REML</span><span class='op'>(</span><span class='va'>Laski_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, returnModel<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='output co'>#&gt; $p_beta
+</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; $p_beta
 #&gt; [1] 30.68366
 #&gt; 
 #&gt; $r_theta
@@ -309,8 +320,8 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
                    correlation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>~</span> <span class='va'>week</span> <span class='op'>|</span> <span class='va'>case</span><span class='op'>)</span>, 
                    data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>Schutte</span>, <span class='va'>case</span> <span class='op'>!=</span> <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Schutte_RML</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Linear mixed-effects model fit by REML
-#&gt;  Data: subset(Schutte, case != 4) 
+</div><div class='co'>#&gt; Linear mixed-effects model fit by REML
+#&gt;   Data: subset(Schutte, case != 4) 
 #&gt;        AIC      BIC    logLik
 #&gt;   875.9526 901.8978 -428.9763
 #&gt; 
@@ -327,7 +338,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt;  Parameter estimate(s):
 #&gt;       Phi 
 #&gt; 0.3985953 
-#&gt; Fixed effects: fatigue ~ week + treatment + trt.week 
+#&gt; Fixed effects:  fatigue ~ week + treatment + trt.week 
 #&gt;                       Value Std.Error  DF   t-value p-value
 #&gt; (Intercept)        50.29150  4.073625 121 12.345637  0.0000
 #&gt; week                0.20271  0.616194 121  0.328968  0.7427
@@ -345,8 +356,8 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 #&gt; 
 #&gt; Number of Observations: 136
 #&gt; Number of Groups: 12 </div><div class='input'><span class='va'>Schutte_g</span> <span class='op'>&lt;-</span> <span class='fu'>g_REML</span><span class='op'>(</span><span class='va'>Schutte_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>7</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: 'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Schutte_g</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              Length Class      Mode     
+</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Schutte_g</span><span class='op'>)</span>
+</div><div class='co'>#&gt;              Length Class      Mode     
 #&gt; p_beta         1    -none-     numeric  
 #&gt; r_theta        1    -none-     numeric  
 #&gt; delta_AB       1    -none-     numeric  
@@ -390,11 +401,11 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://www.jepusto.com/'>James Pustejovsky</a>, Man Chen, Bethany Hamilton.</p>
+  <p><p>Developed by <a href="https://www.jepusto.com/" class="external-link">James Pustejovsky</a>, Man Chen, Bethany Hamilton.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -419,6 +430,8 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </script>
 
 
+
+  
 
   </body>
 </html>
