@@ -63,7 +63,6 @@
 
 
 
-
   
 
   
@@ -86,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.2.999</span>
       </span>
     </div>
 
@@ -114,7 +113,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jepusto/scdhlm/">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -143,106 +142,73 @@
 
     <div id="scdhlm-052999" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.2.999">
-<a href="#scdhlm-052999" class="anchor" aria-hidden="true"></a>scdhlm 0.5.2.999<small> Unreleased </small>
-</h1>
-<ul>
-<li>Fixed bug in graph_SCD() function that occurred in treatment reversal designs with cases that had varying numbers of reversals.</li>
-</ul>
-</div>
+<a href="#scdhlm-052999" class="anchor" aria-hidden="true"></a>scdhlm 0.5.2.999<small> Unreleased </small></h1>
+<ul><li>Fixed bug in graph_SCD() function that occurred in treatment reversal designs with cases that had varying numbers of reversals.</li>
+</ul></div>
     <div id="scdhlm-052" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.2">
-<a href="#scdhlm-052" class="anchor" aria-hidden="true"></a>scdhlm 0.5.2<small> 2021-01-07 </small>
-</h1>
-<ul>
-<li><p>Fixed bug in shiny app occurring when filtering variable(s) of the input data set.</p></li>
+<a href="#scdhlm-052" class="anchor" aria-hidden="true"></a>scdhlm 0.5.2<small> 2021-01-07 </small></h1>
+<ul><li><p>Fixed bug in shiny app occurring when filtering variable(s) of the input data set.</p></li>
 <li><p>Updated shiny app to clean the variable names of the input data.</p></li>
-</ul>
-</div>
+</ul></div>
     <div id="scdhlm-051" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.1">
-<a href="#scdhlm-051" class="anchor" aria-hidden="true"></a>scdhlm 0.5.1<small> 2020-11-30 </small>
-</h1>
-<ul>
-<li><p>Modified the <code>Schutte</code> example dataset to exclude the fourth case, for consistency with the analysis presented in Pustejovsky, Hedges, &amp; Shadish (2014).</p></li>
+<a href="#scdhlm-051" class="anchor" aria-hidden="true"></a>scdhlm 0.5.1<small> 2020-11-30 </small></h1>
+<ul><li><p>Modified the <code>Schutte</code> example dataset to exclude the fourth case, for consistency with the analysis presented in Pustejovsky, Hedges, &amp; Shadish (2014).</p></li>
 <li><p>Revised the definition of the treatment-by-time interaction variable calculated in <code><a href="../reference/preprocess_SCD.html">preprocess_SCD()</a></code> and in the shiny app, for consistency with Pustejovsky, Hedges, &amp; Shadish (2014).</p></li>
-</ul>
-</div>
+</ul></div>
     <div id="scdhlm-050" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.0">
-<a href="#scdhlm-050" class="anchor" aria-hidden="true"></a>scdhlm 0.5.0<small> 2020-11-08 </small>
-</h1>
-<ul>
-<li><p>Added a new function <code><a href="../reference/preprocess_SCD.html">preprocess_SCD()</a></code> which handles initial data-cleaning steps for multiple baseline and treatment reversal designs.</p></li>
+<a href="#scdhlm-050" class="anchor" aria-hidden="true"></a>scdhlm 0.5.0<small> 2020-11-08 </small></h1>
+<ul><li><p>Added a new function <code><a href="../reference/preprocess_SCD.html">preprocess_SCD()</a></code> which handles initial data-cleaning steps for multiple baseline and treatment reversal designs.</p></li>
 <li><p>The <code>scdhlm</code> Shiny app now includes a tab with R code for replicating the app calculations.</p></li>
-</ul>
-</div>
+</ul></div>
     <div id="scdhlm-042" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.2">
-<a href="#scdhlm-042" class="anchor" aria-hidden="true"></a>scdhlm 0.4.2<small> Unreleased </small>
-</h1>
-<ul>
-<li><p>Imported <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> from <code>lmeInfo</code>.</p></li>
+<a href="#scdhlm-042" class="anchor" aria-hidden="true"></a>scdhlm 0.4.2<small> Unreleased </small></h1>
+<ul><li><p>Imported <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> from <code>lmeInfo</code>.</p></li>
 <li><p>Updated vignette using <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>.</p></li>
 <li><p>Updated README using <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>.</p></li>
 <li><p>Updated shiny app using <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>.</p></li>
 <li><p>Imported <code><a href="../reference/lmeInfo.html">extract_varcomp()</a></code> from <code>lmeInfo</code>. This function extracts variance components from a fitted <code>lme</code> model, which can then be used for <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>.</p></li>
 <li><p>Updated <code><a href="../reference/CI_g.html">CI_g()</a></code> to allow calculating symmetric and asymmetric confidence intervals for <code>g_HPS</code> objects, <code>g_REML</code> objects, and <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> objects. Note that symmetric confidence interval is the default.</p></li>
-</ul>
-</div>
+</ul></div>
     <div id="scdhlm-032" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.2">
-<a href="#scdhlm-032" class="anchor" aria-hidden="true"></a>scdhlm 0.3.2<small> 2020-04-09 </small>
-</h1>
-<ul>
-<li><p>Updated HPS estimation functions to work with datasets (issue #2 from austinj).</p></li>
+<a href="#scdhlm-032" class="anchor" aria-hidden="true"></a>scdhlm 0.3.2<small> 2020-04-09 </small></h1>
+<ul><li><p>Updated HPS estimation functions to work with datasets (issue #2 from austinj).</p></li>
 <li><p>Added additional example datasets (Ruiz, Salazar, Thiemann2001, Thiemann2004, Bryant2018).</p></li>
 <li><p>Updated web-app to allow use of .xlsx files.</p></li>
 <li><p>Fixed bug in web-app occurring when cases were listed out of alphabetical order.</p></li>
 <li><p>Fixed bug in web-app occurring when auto-correlation is very weakly identified.</p></li>
-</ul>
-</div>
+</ul></div>
     <div id="scdhlm-031" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.1">
-<a href="#scdhlm-031" class="anchor" aria-hidden="true"></a>scdhlm 0.3.1<small> 2016-12-20 </small>
-</h1>
-<ul>
-<li><p>Updated shiny app with additional documentation.</p></li>
+<a href="#scdhlm-031" class="anchor" aria-hidden="true"></a>scdhlm 0.3.1<small> 2016-12-20 </small></h1>
+<ul><li><p>Updated shiny app with additional documentation.</p></li>
 <li><p>Added additional example datasets (BartonArwood, Rodriguez, Romaniuk, AlberMorgan).</p></li>
-</ul>
-</div>
+</ul></div>
     <div id="scdhlm-03" class="section level1">
 <h1 class="page-header" data-toc-text="0.3">
-<a href="#scdhlm-03" class="anchor" aria-hidden="true"></a>scdhlm 0.3<small> 2016-09-27 </small>
-</h1>
-<ul>
-<li>Shiny app for calculating between-case standardized mean difference effect sizes.</li>
-</ul>
-</div>
+<a href="#scdhlm-03" class="anchor" aria-hidden="true"></a>scdhlm 0.3<small> 2016-09-27 </small></h1>
+<ul><li>Shiny app for calculating between-case standardized mean difference effect sizes.</li>
+</ul></div>
     <div id="scdhlm-022" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.2">
-<a href="#scdhlm-022" class="anchor" aria-hidden="true"></a>scdhlm 0.2.2<small> Unreleased </small>
-</h1>
-<ul>
-<li><p>Bug fix in lme_AR1_cov_block_inv.</p></li>
+<a href="#scdhlm-022" class="anchor" aria-hidden="true"></a>scdhlm 0.2.2<small> Unreleased </small></h1>
+<ul><li><p>Bug fix in lme_AR1_cov_block_inv.</p></li>
 <li><p>Fixed bug in HPS effect size functions so that results are not dependent on order of data.</p></li>
-</ul>
-</div>
+</ul></div>
     <div id="scdhlm-021" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.1">
-<a href="#scdhlm-021" class="anchor" aria-hidden="true"></a>scdhlm 0.2.1<small> Unreleased </small>
-</h1>
-<ul>
-<li>Added vignette demonstrating use of g_REML.</li>
-</ul>
-</div>
+<a href="#scdhlm-021" class="anchor" aria-hidden="true"></a>scdhlm 0.2.1<small> Unreleased </small></h1>
+<ul><li>Added vignette demonstrating use of g_REML.</li>
+</ul></div>
     <div id="scdhlm-02" class="section level1">
 <h1 class="page-header" data-toc-text="0.2">
-<a href="#scdhlm-02" class="anchor" aria-hidden="true"></a>scdhlm 0.2<small> Unreleased </small>
-</h1>
-<ul>
-<li>Initial release.</li>
-</ul>
-</div>
+<a href="#scdhlm-02" class="anchor" aria-hidden="true"></a>scdhlm 0.2<small> Unreleased </small></h1>
+<ul><li>Initial release.</li>
+</ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -260,7 +226,7 @@
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>

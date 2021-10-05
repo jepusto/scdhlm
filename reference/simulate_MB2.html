@@ -65,9 +65,6 @@ REML effect size estimator as described in Pustejovsky, Hedges, &amp;amp; Shadis
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -90,7 +87,7 @@ REML effect size estimator as described in Pustejovsky, Hedges, &amp;amp; Shadis
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.2.999</span>
       </span>
     </div>
 
@@ -118,7 +115,7 @@ REML effect size estimator as described in Pustejovsky, Hedges, &amp;amp; Shadis
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jepusto/scdhlm/">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -151,7 +148,7 @@ REML effect size estimator as described in Pustejovsky, Hedges, &amp;amp; Shadis
 REML effect size estimator as described in Pustejovsky, Hedges, &amp; Shadish (2014).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>simulate_MB2</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>simulate_MB2</span><span class='op'>(</span>
   <span class='va'>iterations</span>,
   <span class='va'>beta</span>,
   <span class='va'>rho</span>,
@@ -162,7 +159,7 @@ REML effect size estimator as described in Pustejovsky, Hedges, &amp; Shadish (2
   <span class='va'>m</span>,
   <span class='va'>n</span>,
   MB <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,50 +217,66 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href='https://doi.org/10.3102/1076998614547577'>10.3102/1076998614547577</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span>
-<span class='fu'>simulate_MB2</span><span class='op'>(</span>iterations <span class='op'>=</span> <span class='fl'>5</span>, beta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, rho <span class='op'>=</span> <span class='fl'>0.4</span>, phi <span class='op'>=</span> <span class='fl'>0.5</span>, 
-             tau1_ratio <span class='op'>=</span> <span class='fl'>0.5</span>, tau_corr <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.4</span>, design <span class='op'>=</span> <span class='fu'><a href='design_matrix.html'>design_matrix</a></span><span class='op'>(</span>m<span class='op'>=</span><span class='fl'>3</span>, n<span class='op'>=</span><span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>nlminb problem, convergence error code = 1
-#&gt;   message = iteration limit reached without convergence (10)</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>nlminb problem, convergence error code = 1
-#&gt;   message = iteration limit reached without convergence (10)</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt;                                      mean        var
-#&gt; p_beta                          0.9388914 0.16476996
-#&gt; r_theta                         1.6971957 1.32455481
-#&gt; delta_AB                        0.7970308 0.13807232
-#&gt; nu                              3.4958949 0.73276819
-#&gt; kappa                           0.4161736 0.01666201
-#&gt; g_AB                            0.6111397 0.10416382
-#&gt; V_g_AB                          0.5168009 0.10671954
-#&gt; cnvg_warn                       0.4000000 0.30000000
-#&gt; sigma_sq                        0.4672461 0.01517582
-#&gt; phi                             0.1993965 0.04850646
-#&gt; Tau.id.var(constant)            1.2299495 1.35869787
-#&gt; Tau.id.cov(treatment,constant) -0.8827947 1.18307730
-#&gt; Tau.id.var(treatment)           0.8139623 1.06938258
-#&gt; RML_coverage1                   1.0000000 0.00000000
-#&gt; RML_coverage2                   1.0000000 0.00000000</div><div class='input'>             
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span>
-<span class='fu'>simulate_MB2</span><span class='op'>(</span>iterations <span class='op'>=</span> <span class='fl'>5</span>, beta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, rho <span class='op'>=</span> <span class='fl'>0.4</span>, phi <span class='op'>=</span> <span class='fl'>0.5</span>, 
-             tau1_ratio <span class='op'>=</span> <span class='fl'>0.5</span>, tau_corr <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.4</span>, m <span class='op'>=</span> <span class='fl'>3</span>, n <span class='op'>=</span> <span class='fl'>8</span>, MB <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>nlminb problem, convergence error code = 1
-#&gt;   message = iteration limit reached without convergence (10)</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>nlminb problem, convergence error code = 1
-#&gt;   message = iteration limit reached without convergence (10)</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt;                                      mean        var
-#&gt; p_beta                          0.9388914 0.16476996
-#&gt; r_theta                         1.6971957 1.32455481
-#&gt; delta_AB                        0.7970308 0.13807232
-#&gt; nu                              3.4958949 0.73276819
-#&gt; kappa                           0.4161736 0.01666201
-#&gt; g_AB                            0.6111397 0.10416382
-#&gt; V_g_AB                          0.5168009 0.10671954
-#&gt; cnvg_warn                       0.4000000 0.30000000
-#&gt; sigma_sq                        0.4672461 0.01517582
-#&gt; phi                             0.1993965 0.04850646
-#&gt; Tau.id.var(constant)            1.2299495 1.35869787
-#&gt; Tau.id.cov(treatment,constant) -0.8827947 1.18307730
-#&gt; Tau.id.var(treatment)           0.8139623 1.06938258
-#&gt; RML_coverage1                   1.0000000 0.00000000
-#&gt; RML_coverage2                   1.0000000 0.00000000</div><div class='input'>             
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>simulate_MB2</span><span class='op'>(</span>iterations <span class='op'>=</span> <span class='fl'>5</span>, beta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, rho <span class='op'>=</span> <span class='fl'>0.4</span>, phi <span class='op'>=</span> <span class='fl'>0.5</span>, </span>
+<span class='r-in'>             tau1_ratio <span class='op'>=</span> <span class='fl'>0.5</span>, tau_corr <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.4</span>, design <span class='op'>=</span> <span class='fu'><a href='design_matrix.html'>design_matrix</a></span><span class='op'>(</span>m<span class='op'>=</span><span class='fl'>3</span>, n<span class='op'>=</span><span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>nlminb problem, convergence error code = 1</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   message = iteration limit reached without convergence (10)</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>nlminb problem, convergence error code = 1</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   message = iteration limit reached without convergence (10)</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      mean        var</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p_beta                          0.9388914 0.16476996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> r_theta                         1.6971957 1.32455481</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> delta_AB                        0.7970308 0.13807232</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> nu                              3.4958949 0.73276819</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> kappa                           0.4161736 0.01666201</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> g_AB                            0.6111397 0.10416382</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> V_g_AB                          0.5168009 0.10671954</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cnvg_warn                       0.4000000 0.30000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> sigma_sq                        0.4672461 0.01517582</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phi                             0.1993965 0.04850646</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Tau.id.var(constant)            1.2299495 1.35869787</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Tau.id.cov(treatment,constant) -0.8827947 1.18307730</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Tau.id.var(treatment)           0.8139623 1.06938258</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RML_coverage1                   1.0000000 0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RML_coverage2                   1.0000000 0.00000000</span>
+<span class='r-in'>             </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>simulate_MB2</span><span class='op'>(</span>iterations <span class='op'>=</span> <span class='fl'>5</span>, beta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, rho <span class='op'>=</span> <span class='fl'>0.4</span>, phi <span class='op'>=</span> <span class='fl'>0.5</span>, </span>
+<span class='r-in'>             tau1_ratio <span class='op'>=</span> <span class='fl'>0.5</span>, tau_corr <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.4</span>, m <span class='op'>=</span> <span class='fl'>3</span>, n <span class='op'>=</span> <span class='fl'>8</span>, MB <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>nlminb problem, convergence error code = 1</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   message = iteration limit reached without convergence (10)</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>nlminb problem, convergence error code = 1</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   message = iteration limit reached without convergence (10)</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                      mean        var</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p_beta                          0.9388914 0.16476996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> r_theta                         1.6971957 1.32455481</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> delta_AB                        0.7970308 0.13807232</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> nu                              3.4958949 0.73276819</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> kappa                           0.4161736 0.01666201</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> g_AB                            0.6111397 0.10416382</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> V_g_AB                          0.5168009 0.10671954</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cnvg_warn                       0.4000000 0.30000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> sigma_sq                        0.4672461 0.01517582</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phi                             0.1993965 0.04850646</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Tau.id.var(constant)            1.2299495 1.35869787</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Tau.id.cov(treatment,constant) -0.8827947 1.18307730</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Tau.id.var(treatment)           0.8139623 1.06938258</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RML_coverage1                   1.0000000 0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RML_coverage2                   1.0000000 0.00000000</span>
+<span class='r-in'>             </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -279,7 +292,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>

@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jepusto.github.io/scdhlm/404.html</loc>
+  </url>
+  <url>
+    <loc>https://jepusto.github.io/scdhlm/articles/Estimating-effect-sizes.html</loc>
+  </url>
+  <url>
+    <loc>https://jepusto.github.io/scdhlm/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jepusto.github.io/scdhlm/authors.html</loc>
+  </url>
+  <url>
     <loc>https://jepusto.github.io/scdhlm/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jepusto.github.io/scdhlm/news/index.html</loc>
   </url>
   <url>
     <loc>https://jepusto.github.io/scdhlm/reference/AlberMorgan.html</loc>
@@ -97,6 +112,9 @@
     <loc>https://jepusto.github.io/scdhlm/reference/graph_SCD.html</loc>
   </url>
   <url>
+    <loc>https://jepusto.github.io/scdhlm/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://jepusto.github.io/scdhlm/reference/lmeInfo.html</loc>
   </url>
   <url>
@@ -119,8 +137,5 @@
   </url>
   <url>
     <loc>https://jepusto.github.io/scdhlm/reference/simulate_MB4.html</loc>
-  </url>
-  <url>
-    <loc>https://jepusto.github.io/scdhlm/articles/Estimating-effect-sizes.html</loc>
   </url>
 </urlset>

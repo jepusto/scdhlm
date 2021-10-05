@@ -66,9 +66,6 @@ measurement occasions." />
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -91,7 +88,7 @@ measurement occasions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.2.999</span>
       </span>
     </div>
 
@@ -119,7 +116,7 @@ measurement occasions." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jepusto/scdhlm/">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -153,7 +150,7 @@ trend-by-treatment interaction for a single-case design with <code>m</code> case
 measurement occasions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>design_matrix</span><span class='op'>(</span><span class='va'>m</span>, <span class='va'>n</span>, treat_times <span class='op'>=</span> <span class='va'>n</span><span class='op'>/</span><span class='fl'>2</span> <span class='op'>+</span> <span class='fl'>1</span>, center <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>design_matrix</span><span class='op'>(</span><span class='va'>m</span>, <span class='va'>n</span>, treat_times <span class='op'>=</span> <span class='va'>n</span><span class='op'>/</span><span class='fl'>2</span> <span class='op'>+</span> <span class='fl'>1</span>, center <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,56 +178,57 @@ measurement occasions.</p>
     <p>A design matrix</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>design_matrix</span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>16</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>9</span>,<span class='fl'>13</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt;    id constant treatment trend interaction
-#&gt; 1   1        1         0     1           0
-#&gt; 2   1        1         0     2           0
-#&gt; 3   1        1         0     3           0
-#&gt; 4   1        1         0     4           0
-#&gt; 5   1        1         1     5           1
-#&gt; 6   1        1         1     6           2
-#&gt; 7   1        1         1     7           3
-#&gt; 8   1        1         1     8           4
-#&gt; 9   1        1         1     9           5
-#&gt; 10  1        1         1    10           6
-#&gt; 11  1        1         1    11           7
-#&gt; 12  1        1         1    12           8
-#&gt; 13  1        1         1    13           9
-#&gt; 14  1        1         1    14          10
-#&gt; 15  1        1         1    15          11
-#&gt; 16  1        1         1    16          12
-#&gt; 17  2        1         0     1           0
-#&gt; 18  2        1         0     2           0
-#&gt; 19  2        1         0     3           0
-#&gt; 20  2        1         0     4           0
-#&gt; 21  2        1         0     5           0
-#&gt; 22  2        1         0     6           0
-#&gt; 23  2        1         0     7           0
-#&gt; 24  2        1         0     8           0
-#&gt; 25  2        1         1     9           1
-#&gt; 26  2        1         1    10           2
-#&gt; 27  2        1         1    11           3
-#&gt; 28  2        1         1    12           4
-#&gt; 29  2        1         1    13           5
-#&gt; 30  2        1         1    14           6
-#&gt; 31  2        1         1    15           7
-#&gt; 32  2        1         1    16           8
-#&gt; 33  3        1         0     1           0
-#&gt; 34  3        1         0     2           0
-#&gt; 35  3        1         0     3           0
-#&gt; 36  3        1         0     4           0
-#&gt; 37  3        1         0     5           0
-#&gt; 38  3        1         0     6           0
-#&gt; 39  3        1         0     7           0
-#&gt; 40  3        1         0     8           0
-#&gt; 41  3        1         0     9           0
-#&gt; 42  3        1         0    10           0
-#&gt; 43  3        1         0    11           0
-#&gt; 44  3        1         0    12           0
-#&gt; 45  3        1         1    13           1
-#&gt; 46  3        1         1    14           2
-#&gt; 47  3        1         1    15           3
-#&gt; 48  3        1         1    16           4</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>design_matrix</span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>16</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>9</span>,<span class='fl'>13</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    id constant treatment trend interaction</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1   1        1         0     1           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2   1        1         0     2           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   1        1         0     3           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4   1        1         0     4           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   1        1         1     5           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6   1        1         1     6           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7   1        1         1     7           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8   1        1         1     8           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9   1        1         1     9           5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  1        1         1    10           6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11  1        1         1    11           7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12  1        1         1    12           8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13  1        1         1    13           9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14  1        1         1    14          10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  1        1         1    15          11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16  1        1         1    16          12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17  2        1         0     1           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18  2        1         0     2           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19  2        1         0     3           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  2        1         0     4           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21  2        1         0     5           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22  2        1         0     6           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23  2        1         0     7           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24  2        1         0     8           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  2        1         1     9           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26  2        1         1    10           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27  2        1         1    11           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28  2        1         1    12           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29  2        1         1    13           5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  2        1         1    14           6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31  2        1         1    15           7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32  2        1         1    16           8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33  3        1         0     1           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34  3        1         0     2           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  3        1         0     3           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36  3        1         0     4           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37  3        1         0     5           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38  3        1         0     6           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 39  3        1         0     7           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  3        1         0     8           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 41  3        1         0     9           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 42  3        1         0    10           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 43  3        1         0    11           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 44  3        1         0    12           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  3        1         1    13           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 46  3        1         1    14           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 47  3        1         1    15           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 48  3        1         1    16           4</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -246,7 +244,7 @@ measurement occasions.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>

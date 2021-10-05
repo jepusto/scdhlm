@@ -65,9 +65,6 @@ REML and HPS effect size estimators as described in Pustejovsky, Hedges, &amp;am
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -90,7 +87,7 @@ REML and HPS effect size estimators as described in Pustejovsky, Hedges, &amp;am
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.2.999</span>
       </span>
     </div>
 
@@ -118,7 +115,7 @@ REML and HPS effect size estimators as described in Pustejovsky, Hedges, &amp;am
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jepusto/scdhlm/">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -151,7 +148,7 @@ REML and HPS effect size estimators as described in Pustejovsky, Hedges, &amp;am
 REML and HPS effect size estimators as described in Pustejovsky, Hedges, &amp; Shadish (2014).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compare_RML_HPS</span><span class='op'>(</span><span class='va'>iterations</span>, <span class='va'>beta</span>, <span class='va'>rho</span>, <span class='va'>phi</span>, <span class='va'>design</span>, <span class='va'>m</span>, <span class='va'>n</span>, MB <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>compare_RML_HPS</span><span class='op'>(</span><span class='va'>iterations</span>, <span class='va'>beta</span>, <span class='va'>rho</span>, <span class='va'>phi</span>, <span class='va'>design</span>, <span class='va'>m</span>, <span class='va'>n</span>, MB <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,35 +198,46 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href='https://doi.org/10.3102/1076998614547577'>10.3102/1076998614547577</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>compare_RML_HPS</span><span class='op'>(</span>iterations<span class='op'>=</span><span class='fl'>10</span>, beta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, rho <span class='op'>=</span> <span class='fl'>0.3</span>, 
-                 phi <span class='op'>=</span> <span class='fl'>0.5</span>, design<span class='op'>=</span><span class='fu'><a href='design_matrix.html'>design_matrix</a></span><span class='op'>(</span>m<span class='op'>=</span><span class='fl'>3</span>,n<span class='op'>=</span><span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt;                           mean          var
-#&gt; p_beta               1.0737095  0.135935072
-#&gt; r_theta              1.0092672  0.369981663
-#&gt; delta_AB             1.1529924  0.165081738
-#&gt; nu                   8.6143473 14.802054691
-#&gt; kappa                0.3753481  0.006263534
-#&gt; g_AB                 1.0289415  0.145255955
-#&gt; V_g_AB               0.2831985  0.005106134
-#&gt; cnvg_warn            0.0000000  0.000000000
-#&gt; sigma_sq             0.6816939  0.275395460
-#&gt; phi                  0.3306837  0.051785447
-#&gt; Tau.id.var(constant) 0.3275733  0.192661873
-#&gt; rho                  0.2733742  0.064907633
-#&gt; RML_coverage1        1.0000000  0.000000000
-#&gt; RML_coverage2        1.0000000  0.000000000
-#&gt; D_bar                1.0750218  0.155374582
-#&gt; S_sq                 1.0964351  0.543470922
-#&gt; delta_hat_unadj      1.1057702  0.151944786
-#&gt; phi_hat              0.1974794  0.014208809
-#&gt; rho_hat              0.4017487  0.043323184
-#&gt; kappa_hat            0.3495513  0.005186405
-#&gt; df                   7.2505458  9.229465331
-#&gt; delta_hat            0.9694831  0.132003621
-#&gt; V_delta_hat          0.2727806  0.005590721
-#&gt; HPS_coverage1        1.0000000  0.000000000
-#&gt; HPS_coverage2        1.0000000  0.000000000
-#&gt; cov                         NA  0.132859737</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>compare_RML_HPS</span><span class='op'>(</span>iterations<span class='op'>=</span><span class='fl'>10</span>, beta <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, rho <span class='op'>=</span> <span class='fl'>0.3</span>, </span>
+<span class='r-in'>                 phi <span class='op'>=</span> <span class='fl'>0.5</span>, design<span class='op'>=</span><span class='fu'><a href='design_matrix.html'>design_matrix</a></span><span class='op'>(</span>m<span class='op'>=</span><span class='fl'>3</span>,n<span class='op'>=</span><span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                           mean          var</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p_beta               0.8985740  0.084432041</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> r_theta              0.9017913  0.423140364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> delta_AB             1.1009262  0.237635063</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> nu                   8.5698738 26.230181713</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> kappa                0.3569570  0.012979935</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> g_AB                 0.9620034  0.194238830</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> V_g_AB               0.3104977  0.025130627</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cnvg_warn            0.0000000  0.000000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> sigma_sq             0.5351957  0.135807239</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phi                  0.3620871  0.078971388</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Tau.id.var(constant) 0.3665956  0.270639210</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> rho                  0.3145262  0.099295955</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RML_coverage1        0.9000000  0.100000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RML_coverage2        1.0000000  0.000000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> D_bar                0.8667823  0.103913360</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> S_sq                 0.9053680  0.418739361</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> delta_hat_unadj      1.0731100  0.273662086</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phi_hat              0.1407116  0.033251837</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> rho_hat              0.5021455  0.071024641</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> kappa_hat            0.3013052  0.008537331</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> df                   6.4798377 15.683300788</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> delta_hat            0.9116487  0.219613589</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> V_delta_hat          0.2948193  0.022516136</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> HPS_coverage1        0.9000000  0.100000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> HPS_coverage2        1.0000000  0.000000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cov                         NA  0.199501170</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -245,7 +253,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>

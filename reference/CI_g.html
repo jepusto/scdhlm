@@ -69,9 +69,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -94,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.2.999</span>
       </span>
     </div>
 
@@ -122,7 +119,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jepusto/scdhlm/">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -189,25 +186,29 @@ asymmetric confidence interval.</p></td>
     <p>A vector of upper and lower confidence bounds.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Laski</span><span class='op'>)</span>
-<span class='va'>Laski_RML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/lme.html'>lme</a></span><span class='op'>(</span>fixed <span class='op'>=</span> <span class='va'>outcome</span> <span class='op'>~</span> <span class='va'>treatment</span>,
-                 random <span class='op'>=</span> <span class='op'>~</span> <span class='fl'>1</span> <span class='op'>|</span> <span class='va'>case</span>,
-                 correlation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>~</span> <span class='va'>time</span> <span class='op'>|</span> <span class='va'>case</span><span class='op'>)</span>,
-                 data <span class='op'>=</span> <span class='va'>Laski</span><span class='op'>)</span>
-<span class='va'>Laski_g_REML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span>
-  <span class='fu'><a href='g_REML.html'>g_REML</a></span><span class='op'>(</span><span class='va'>Laski_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, 
-         r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, returnModel <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='op'>)</span>
-<span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_g_REML</span>, symmetric <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 0.8046224 2.0051521</div><div class='input'><span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_g_REML</span>, symmetric <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
-<span class='va'>Laski_HPS</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>Laski</span>, <span class='fu'><a href='effect_size_MB.html'>effect_size_MB</a></span><span class='op'>(</span><span class='va'>outcome</span>, <span class='va'>treatment</span>, <span class='va'>case</span>, <span class='va'>time</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_HPS</span>, symmetric <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 0.8786207 2.0639828</div><div class='input'>
-<span class='va'>Laski_g_mlm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lmeInfo.html'>g_mlm</a></span><span class='op'>(</span><span class='va'>Laski_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, returnModel <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_g_mlm</span>, symmetric <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 0.9143684 2.0046719</div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Laski</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Laski_RML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/lme.html'>lme</a></span><span class='op'>(</span>fixed <span class='op'>=</span> <span class='va'>outcome</span> <span class='op'>~</span> <span class='va'>treatment</span>,</span>
+<span class='r-in'>                 random <span class='op'>=</span> <span class='op'>~</span> <span class='fl'>1</span> <span class='op'>|</span> <span class='va'>case</span>,</span>
+<span class='r-in'>                 correlation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>~</span> <span class='va'>time</span> <span class='op'>|</span> <span class='va'>case</span><span class='op'>)</span>,</span>
+<span class='r-in'>                 data <span class='op'>=</span> <span class='va'>Laski</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Laski_g_REML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='fu'><a href='g_REML.html'>g_REML</a></span><span class='op'>(</span><span class='va'>Laski_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, </span>
+<span class='r-in'>         r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, returnModel <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_g_REML</span>, symmetric <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.8046224 2.0051521</span>
+<span class='r-in'><span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_g_REML</span>, symmetric <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9143684 2.0046719</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>Laski_HPS</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>Laski</span>, <span class='fu'><a href='effect_size_MB.html'>effect_size_MB</a></span><span class='op'>(</span><span class='va'>outcome</span>, <span class='va'>treatment</span>, <span class='va'>case</span>, <span class='va'>time</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_HPS</span>, symmetric <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.8786207 2.0639828</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>Laski_g_mlm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lmeInfo.html'>g_mlm</a></span><span class='op'>(</span><span class='va'>Laski_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, returnModel <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>CI_g</span><span class='op'>(</span><span class='va'>Laski_g_mlm</span>, symmetric <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9143684 2.0046719</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -223,7 +224,7 @@ asymmetric confidence interval.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>

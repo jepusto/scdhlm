@@ -66,9 +66,6 @@ from a multiple baseline design, using adjusted REML method as described in Pust
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -91,7 +88,7 @@ from a multiple baseline design, using adjusted REML method as described in Pust
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.2.999</span>
       </span>
     </div>
 
@@ -119,7 +116,7 @@ from a multiple baseline design, using adjusted REML method as described in Pust
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jepusto/scdhlm/">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -153,7 +150,7 @@ from a multiple baseline design, using adjusted REML method as described in Pust
 &amp; Shadish (2014). Note that the data must contain one row per measurement occasion per case.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>g_REML</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>g_REML</span><span class='op'>(</span>
   <span class='va'>m_fit</span>,
   <span class='va'>p_const</span>,
   <span class='va'>r_const</span>,
@@ -162,7 +159,7 @@ from a multiple baseline design, using adjusted REML method as described in Pust
   block <span class='op'>=</span> <span class='fu'>nlme</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/nlme/man/getGroups.html'>getGroups</a></span><span class='op'>(</span><span class='va'>m_fit</span><span class='op'>)</span>,
   times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>m_fit</span><span class='op'>$</span><span class='va'>modelStruct</span><span class='op'>$</span><span class='va'>corStruct</span>, <span class='st'>"covariate"</span><span class='op'>)</span>,
   returnModel <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -228,168 +225,174 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href='https://doi.org/10.3102/1076998614547577'>10.3102/1076998614547577</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Laski</span><span class='op'>)</span>
-<span class='va'>Laski_RML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/lme.html'>lme</a></span><span class='op'>(</span>fixed <span class='op'>=</span> <span class='va'>outcome</span> <span class='op'>~</span> <span class='va'>treatment</span>, 
-                 random <span class='op'>=</span> <span class='op'>~</span> <span class='fl'>1</span> <span class='op'>|</span> <span class='va'>case</span>, 
-                 correlation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>~</span> <span class='va'>time</span> <span class='op'>|</span> <span class='va'>case</span><span class='op'>)</span>, 
-                 data <span class='op'>=</span> <span class='va'>Laski</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Laski_RML</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Linear mixed-effects model fit by REML
-#&gt;   Data: Laski 
-#&gt;        AIC      BIC    logLik
-#&gt;   1048.285 1062.466 -519.1424
-#&gt; 
-#&gt; Random effects:
-#&gt;  Formula: ~1 | case
-#&gt;         (Intercept) Residual
-#&gt; StdDev:    15.68278  13.8842
-#&gt; 
-#&gt; Correlation Structure: AR(1)
-#&gt;  Formula: ~time | case 
-#&gt;  Parameter estimate(s):
-#&gt;      Phi 
-#&gt; 0.252769 
-#&gt; Fixed effects:  outcome ~ treatment 
-#&gt;                       Value Std.Error  DF   t-value p-value
-#&gt; (Intercept)        39.07612  5.989138 119  6.524498       0
-#&gt; treatmenttreatment 30.68366  2.995972 119 10.241637       0
-#&gt;  Correlation: 
-#&gt;                    (Intr)
-#&gt; treatmenttreatment -0.272
-#&gt; 
-#&gt; Standardized Within-Group Residuals:
-#&gt;         Min          Q1         Med          Q3         Max 
-#&gt; -2.72642154 -0.69387388  0.01454473  0.69861200  2.14528141 
-#&gt; 
-#&gt; Number of Observations: 128
-#&gt; Number of Groups: 8 </div><div class='input'><span class='fu'>g_REML</span><span class='op'>(</span><span class='va'>Laski_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, returnModel<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='co'>#&gt; $p_beta
-#&gt; [1] 30.68366
-#&gt; 
-#&gt; $r_theta
-#&gt; [1] 438.7208
-#&gt; 
-#&gt; $delta_AB
-#&gt; [1] 1.464917
-#&gt; 
-#&gt; $nu
-#&gt; [1] 18.55241
-#&gt; 
-#&gt; $kappa
-#&gt; [1] 0.1430354
-#&gt; 
-#&gt; $g_AB
-#&gt; [1] 1.404887
-#&gt; 
-#&gt; $V_g_AB
-#&gt; [1] 0.08198192
-#&gt; 
-#&gt; $cnvg_warn
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $sigma_sq
-#&gt; [1] 192.7711
-#&gt; 
-#&gt; $phi
-#&gt; [1] 0.252769
-#&gt; 
-#&gt; $Tau
-#&gt; case.var((Intercept)) 
-#&gt;              245.9497 
-#&gt; 
-#&gt; $I_E_inv
-#&gt;             [,1]        [,2]          [,3]
-#&gt; [1,]  798.919038  1.32235408  -132.1234582
-#&gt; [2,]    1.322354  0.01002805    -0.5152126
-#&gt; [3,] -132.123458 -0.51521261 20214.7623585
-#&gt; 
-#&gt; $p_const
-#&gt; [1] 0 1
-#&gt; 
-#&gt; $r_const
-#&gt; [1] 1 0 1
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "g_REML"</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Schutte</span><span class='op'>)</span>
-<span class='va'>Schutte</span><span class='op'>$</span><span class='va'>trt.week</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>Schutte</span>, <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>treatment</span><span class='op'>==</span><span class='st'>"treatment"</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>week</span>, 
-         <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>treatment</span>,<span class='va'>case</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='va'>x</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>treatment</span><span class='op'>==</span><span class='st'>"treatment"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>Schutte</span><span class='op'>$</span><span class='va'>week</span> <span class='op'>&lt;-</span> <span class='va'>Schutte</span><span class='op'>$</span><span class='va'>week</span> <span class='op'>-</span> <span class='fl'>9</span>
-<span class='va'>Schutte_RML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/lme.html'>lme</a></span><span class='op'>(</span>fixed <span class='op'>=</span> <span class='va'>fatigue</span> <span class='op'>~</span> <span class='va'>week</span> <span class='op'>+</span> <span class='va'>treatment</span> <span class='op'>+</span> <span class='va'>trt.week</span>, 
-                   random <span class='op'>=</span> <span class='op'>~</span> <span class='va'>week</span> <span class='op'>|</span> <span class='va'>case</span>, 
-                   correlation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>~</span> <span class='va'>week</span> <span class='op'>|</span> <span class='va'>case</span><span class='op'>)</span>, 
-                   data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>Schutte</span>, <span class='va'>case</span> <span class='op'>!=</span> <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Schutte_RML</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Linear mixed-effects model fit by REML
-#&gt;   Data: subset(Schutte, case != 4) 
-#&gt;        AIC      BIC    logLik
-#&gt;   875.9526 901.8978 -428.9763
-#&gt; 
-#&gt; Random effects:
-#&gt;  Formula: ~week | case
-#&gt;  Structure: General positive-definite, Log-Cholesky parametrization
-#&gt;             StdDev   Corr  
-#&gt; (Intercept) 9.783287 (Intr)
-#&gt; week        1.412030 0.811 
-#&gt; Residual    5.421656       
-#&gt; 
-#&gt; Correlation Structure: AR(1)
-#&gt;  Formula: ~week | case 
-#&gt;  Parameter estimate(s):
-#&gt;       Phi 
-#&gt; 0.3985953 
-#&gt; Fixed effects:  fatigue ~ week + treatment + trt.week 
-#&gt;                       Value Std.Error  DF   t-value p-value
-#&gt; (Intercept)        50.29150  4.073625 121 12.345637  0.0000
-#&gt; week                0.20271  0.616194 121  0.328968  0.7427
-#&gt; treatmenttreatment -0.54218  1.751668 121 -0.309520  0.7575
-#&gt; trt.week           -1.63198  0.655256 121 -2.490607  0.0141
-#&gt;  Correlation: 
-#&gt;                    (Intr) week   trtmnt
-#&gt; week                0.883              
-#&gt; treatmenttreatment -0.258 -0.200       
-#&gt; trt.week           -0.567 -0.596 -0.178
-#&gt; 
-#&gt; Standardized Within-Group Residuals:
-#&gt;         Min          Q1         Med          Q3         Max 
-#&gt; -2.33194245 -0.46272153 -0.05348694  0.32878028  4.08749914 
-#&gt; 
-#&gt; Number of Observations: 136
-#&gt; Number of Groups: 12 </div><div class='input'><span class='va'>Schutte_g</span> <span class='op'>&lt;-</span> <span class='fu'>g_REML</span><span class='op'>(</span><span class='va'>Schutte_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>7</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Schutte_g</span><span class='op'>)</span>
-</div><div class='co'>#&gt;              Length Class      Mode     
-#&gt; p_beta         1    -none-     numeric  
-#&gt; r_theta        1    -none-     numeric  
-#&gt; delta_AB       1    -none-     numeric  
-#&gt; nu             1    -none-     numeric  
-#&gt; kappa          1    -none-     numeric  
-#&gt; g_AB           1    -none-     numeric  
-#&gt; V_g_AB         1    -none-     numeric  
-#&gt; cnvg_warn      1    -none-     logical  
-#&gt; sigma_sq       1    -none-     numeric  
-#&gt; phi            1    -none-     numeric  
-#&gt; Tau            3    -none-     numeric  
-#&gt; I_E_inv       25    -none-     numeric  
-#&gt; p_const        4    -none-     numeric  
-#&gt; r_const        5    -none-     numeric  
-#&gt; modelStruct    2    lmeStruct  list     
-#&gt; dims           5    -none-     list     
-#&gt; contrasts      1    -none-     list     
-#&gt; coefficients   2    -none-     list     
-#&gt; varFix        16    -none-     numeric  
-#&gt; sigma          1    -none-     numeric  
-#&gt; apVar         25    -none-     numeric  
-#&gt; logLik         1    -none-     numeric  
-#&gt; numIter        0    -none-     NULL     
-#&gt; groups         1    data.frame list     
-#&gt; call           5    -none-     call     
-#&gt; terms          3    terms      call     
-#&gt; method         1    -none-     character
-#&gt; fitted       272    -none-     numeric  
-#&gt; residuals    272    -none-     numeric  
-#&gt; fixDF          2    -none-     list     
-#&gt; na.action      0    -none-     NULL     
-#&gt; data           5    data.frame list     </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Laski</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Laski_RML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/lme.html'>lme</a></span><span class='op'>(</span>fixed <span class='op'>=</span> <span class='va'>outcome</span> <span class='op'>~</span> <span class='va'>treatment</span>, </span>
+<span class='r-in'>                 random <span class='op'>=</span> <span class='op'>~</span> <span class='fl'>1</span> <span class='op'>|</span> <span class='va'>case</span>, </span>
+<span class='r-in'>                 correlation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>~</span> <span class='va'>time</span> <span class='op'>|</span> <span class='va'>case</span><span class='op'>)</span>, </span>
+<span class='r-in'>                 data <span class='op'>=</span> <span class='va'>Laski</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Laski_RML</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Linear mixed-effects model fit by REML</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Data: Laski </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        AIC      BIC    logLik</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1048.285 1062.466 -519.1424</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Random effects:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Formula: ~1 | case</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         (Intercept) Residual</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> StdDev:    15.68278  13.8842</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Correlation Structure: AR(1)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Formula: ~time | case </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Parameter estimate(s):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      Phi </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0.252769 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Fixed effects:  outcome ~ treatment </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       Value Std.Error  DF   t-value p-value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (Intercept)        39.07612  5.989138 119  6.524498       0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> treatmenttreatment 30.68366  2.995972 119 10.241637       0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Correlation: </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    (Intr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> treatmenttreatment -0.272</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Standardized Within-Group Residuals:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Min          Q1         Med          Q3         Max </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -2.72642154 -0.69387388  0.01454473  0.69861200  2.14528141 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of Observations: 128</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of Groups: 8 </span>
+<span class='r-in'><span class='fu'>g_REML</span><span class='op'>(</span><span class='va'>Laski_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, returnModel<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $p_beta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 30.68366</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $r_theta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 438.7208</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $delta_AB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1.464917</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $nu</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 18.55241</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $kappa</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.1430354</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $g_AB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1.404887</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $V_g_AB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.08198192</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $cnvg_warn</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $sigma_sq</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 192.7711</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $phi</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.252769</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $Tau</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> case.var((Intercept)) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              245.9497 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $I_E_inv</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             [,1]        [,2]          [,3]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,]  798.919038  1.32235408  -132.1234582</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,]    1.322354  0.01002805    -0.5152126</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] -132.123458 -0.51521261 20214.7623585</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $p_const</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $r_const</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1 0 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "g_REML"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>Schutte</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Schutte</span><span class='op'>$</span><span class='va'>trt.week</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>Schutte</span>, <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>treatment</span><span class='op'>==</span><span class='st'>"treatment"</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>week</span>, </span>
+<span class='r-in'>         <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>treatment</span>,<span class='va'>case</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='va'>x</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>treatment</span><span class='op'>==</span><span class='st'>"treatment"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Schutte</span><span class='op'>$</span><span class='va'>week</span> <span class='op'>&lt;-</span> <span class='va'>Schutte</span><span class='op'>$</span><span class='va'>week</span> <span class='op'>-</span> <span class='fl'>9</span></span>
+<span class='r-in'><span class='va'>Schutte_RML</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/lme.html'>lme</a></span><span class='op'>(</span>fixed <span class='op'>=</span> <span class='va'>fatigue</span> <span class='op'>~</span> <span class='va'>week</span> <span class='op'>+</span> <span class='va'>treatment</span> <span class='op'>+</span> <span class='va'>trt.week</span>, </span>
+<span class='r-in'>                   random <span class='op'>=</span> <span class='op'>~</span> <span class='va'>week</span> <span class='op'>|</span> <span class='va'>case</span>, </span>
+<span class='r-in'>                   correlation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/nlme/man/corAR1.html'>corAR1</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>~</span> <span class='va'>week</span> <span class='op'>|</span> <span class='va'>case</span><span class='op'>)</span>, </span>
+<span class='r-in'>                   data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>Schutte</span>, <span class='va'>case</span> <span class='op'>!=</span> <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Schutte_RML</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Linear mixed-effects model fit by REML</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Data: subset(Schutte, case != 4) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        AIC      BIC    logLik</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   875.9526 901.8978 -428.9763</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Random effects:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Formula: ~week | case</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Structure: General positive-definite, Log-Cholesky parametrization</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             StdDev   Corr  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (Intercept) 9.783287 (Intr)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> week        1.412030 0.811 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Residual    5.421656       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Correlation Structure: AR(1)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Formula: ~week | case </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Parameter estimate(s):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       Phi </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0.3985953 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Fixed effects:  fatigue ~ week + treatment + trt.week </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       Value Std.Error  DF   t-value p-value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (Intercept)        50.29150  4.073625 121 12.345637  0.0000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> week                0.20271  0.616194 121  0.328968  0.7427</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> treatmenttreatment -0.54218  1.751668 121 -0.309520  0.7575</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> trt.week           -1.63198  0.655256 121 -2.490607  0.0141</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Correlation: </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    (Intr) week   trtmnt</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> week                0.883              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> treatmenttreatment -0.258 -0.200       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> trt.week           -0.567 -0.596 -0.178</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Standardized Within-Group Residuals:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Min          Q1         Med          Q3         Max </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -2.33194245 -0.46272153 -0.05348694  0.32878028  4.08749914 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of Observations: 136</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of Groups: 12 </span>
+<span class='r-in'><span class='va'>Schutte_g</span> <span class='op'>&lt;-</span> <span class='fu'>g_REML</span><span class='op'>(</span><span class='va'>Schutte_RML</span>, p_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>7</span><span class='op'>)</span>, r_const <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>Schutte_g</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              Length Class      Mode     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p_beta         1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> r_theta        1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> delta_AB       1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> nu             1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> kappa          1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> g_AB           1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> V_g_AB         1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cnvg_warn      1    -none-     logical  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> sigma_sq       1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phi            1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Tau            3    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> I_E_inv       25    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p_const        4    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> r_const        5    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> modelStruct    2    lmeStruct  list     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dims           5    -none-     list     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> contrasts      1    -none-     list     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> coefficients   2    -none-     list     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> varFix        16    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> sigma          1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> apVar         25    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> logLik         1    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> numIter        0    -none-     NULL     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> groups         1    data.frame list     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> call           5    -none-     call     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> terms          3    terms      call     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> method         1    -none-     character</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> fitted       272    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> residuals    272    -none-     numeric  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> fixDF          2    -none-     list     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> na.action      0    -none-     NULL     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> data           5    data.frame list     </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -405,7 +408,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>
