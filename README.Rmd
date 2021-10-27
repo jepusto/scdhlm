@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
 # scdhlm
 
 <!-- badges: start -->
-[![Build Status](https://travis-ci.org/jepusto/scdhlm.svg?branch=master)](https://travis-ci.org/jepusto/scdhlm)
-[![Coverage Status](https://img.shields.io/codecov/c/github/jepusto/scdhlm/master.svg)](https://codecov.io/github/jepusto/scdhlm?branch=master)
+[![R-CMD-check](https://github.com/jepusto/scdhlm/workflows/R-CMD-check/badge.svg)](https://github.com/jepusto/scdhlm/actions)
+[![Codecov Status](https://codecov.io/gh/jepusto/scdhlm/branch/master/graph/badge.svg)](https://codecov.io/gh/jepusto/scdhlm?branch=master)
 [![](http://www.r-pkg.org/badges/version/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
 [![](http://cranlogs.r-pkg.org/badges/last-month/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
