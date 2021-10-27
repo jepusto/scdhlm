@@ -29,6 +29,15 @@ Shadish, 2012; 2013) and restricted maximum likelihood estimation
 (Pustejovsky, Hedges, & Shadish, 2014). The package also includes an
 interactive web interface implemented using Shiny.
 
+## Acknowledgement
+
+The development of this R package was supported in part by the Institute
+of Education Sciences, U.S. Department of Education, through [Grant
+R324U190002](https://ies.ed.gov/funding/grantsearch/details.asp?ID=3358)
+to the University of Oregon. The contents of the package do not
+necessarily represent the views of the Institute or the U.S. Department
+of Education.
+
 ## Installation
 
 You can install the released version of `scdhlm` from
