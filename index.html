@@ -69,7 +69,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/jepusto/scdhlm/">
+  <a href="https://github.com/jepusto/scdhlm/" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -92,19 +92,24 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="scdhlm" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#scdhlm" class="anchor" aria-hidden="true"></a>scdhlm</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="scdhlm">scdhlm<a class="anchor" aria-label="anchor" href="#scdhlm"></a>
+</h1></div>
 <!-- badges: start -->
 
-<div id="estimating-hierarchical-linear-models-for-single-case-designs" class="section level2">
-<h2 class="hasAnchor">
-<a href="#estimating-hierarchical-linear-models-for-single-case-designs" class="anchor" aria-hidden="true"></a>Estimating Hierarchical Linear Models for Single-Case Designs</h2>
+<div class="section level2">
+<h2 id="estimating-hierarchical-linear-models-for-single-case-designs">Estimating Hierarchical Linear Models for Single-Case Designs<a class="anchor" aria-label="anchor" href="#estimating-hierarchical-linear-models-for-single-case-designs"></a>
+</h2>
 <p><code>scdhlm</code> provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from ABAB designs (or more general treatment reversal designs), multiple baseline designs, and multiple probe designs. Two estimation methods are available: moment estimation (Hedges, Pustejovsky, &amp; Shadish, 2012; 2013) and restricted maximum likelihood estimation (Pustejovsky, Hedges, &amp; Shadish, 2014). The package also includes an interactive web interface implemented using Shiny.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
+<div class="section level2">
+<h2 id="acknowledgement">Acknowledgement<a class="anchor" aria-label="anchor" href="#acknowledgement"></a>
+</h2>
+<p>The development of this R package was supported in part by the Institute of Education Sciences, U.S. Department of Education, through <a href="https://ies.ed.gov/funding/grantsearch/details.asp?ID=3358" class="external-link">Grant R324U190002</a> to the University of Oregon. The contents of the package do not necessarily represent the views of the Institute or the U.S. Department of Education.</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install the released version of <code>scdhlm</code> from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"scdhlm"</span><span class="op">)</span></code></pre></div>
@@ -117,13 +122,13 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jepusto.github.io/scdhlm/">scdhlm</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/shine_scd.html">shine_scd</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="demonstration" class="section level2">
-<h2 class="hasAnchor">
-<a href="#demonstration" class="anchor" aria-hidden="true"></a>Demonstration</h2>
+<div class="section level2">
+<h2 id="demonstration">Demonstration<a class="anchor" aria-label="anchor" href="#demonstration"></a>
+</h2>
 <p>Here we demonstrate how to use <code>scdhlm</code> to calculate design-comparable SMDs based on data from different single-case designs. We will first demonstrate the recommended approach, which uses restricted maximum likelihood (REML) estimation. We will then demonstrate the older, moment estimation methods. The moment estimation methods were the originally proposed approach (described in Hedges, Pustejovsky, &amp; Shadish, 2012, 2013). The package provides these methods for sake of completeness, but we no longer recommend them for general use.</p>
-<div id="estimating-smds-using-reml-with-g_mlm" class="section level3">
-<h3 class="hasAnchor">
-<a href="#estimating-smds-using-reml-with-g_mlm" class="anchor" aria-hidden="true"></a>Estimating SMDs using REML with <code>g_mlm()</code>
+<div class="section level3">
+<h3 id="estimating-smds-using-reml-with-g_mlm">Estimating SMDs using REML with <code>g_mlm()</code>
+<a class="anchor" aria-label="anchor" href="#estimating-smds-using-reml-with-g_mlm"></a>
 </h3>
 <p>Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included eight children. One child was measured separately with each parent; following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in our analysis.</p>
 <p>For this study, we will estimate a design-comparable SMD using restricted maximum likelihood (REML) methods, as described by Pustejovsky and colleagues (2014). This is a two-step process. The first step is to estimate a hierarchical linear model for the data, treated the measurements as nested within cases. We fit the model using <code><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">nlme::lme()</a></code></p>
@@ -180,7 +185,7 @@
 <span class="co">#&gt; attr(,"class")</span>
 <span class="co">#&gt; [1] "varcomp"</span></code></pre></div>
 <p>The estimated between-case variance is 245.95, the estimated auto-correlation is 0.253, the estimated and the estimated within-case variance is 192.771. These estimated variance components will be used to calculate the effect size in next step.</p>
-<p>The second step in the process is to estimate a design-comparable SMD using <code><a href="reference/lmeInfo.html">scdhlm::g_mlm()</a></code>. The SMD parameter can be defined as the ratio of a linear combination of the fitted modelâs fixed effect parameters over the square root of a linear combination of the modelâs variance components. <code><a href="reference/lmeInfo.html">g_mlm()</a></code> takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. Note that <code>r_const</code> is a vector of 0s and 1s which specify whether to use the variance component parameters for calculating the effect size: random effects variances, correlation structure parameters, variance structure parameters, and level-1 error variance. The function calculates an effect size estimate by first substituting maximum likelihood or restricted maximum likelihood estimates in place of the corresponding parameters, then applying a small-sample correction. The small-sample correction and the standard error are based on approximating the distribution of the estimator by a t distribution, with degrees of freedom given by a Satterthwaite approximation (Pustejovsky, Hedges, &amp; Shadish, 2014). The <code><a href="reference/lmeInfo.html">g_mlm()</a></code> function includes an option allowing use of the expected or average form of the Fisher information matrix in the calculations.</p>
+<p>The second step in the process is to estimate a design-comparable SMD using <code><a href="reference/lmeInfo.html">scdhlm::g_mlm()</a></code>. The SMD parameter can be defined as the ratio of a linear combination of the fitted model’s fixed effect parameters over the square root of a linear combination of the model’s variance components. <code><a href="reference/lmeInfo.html">g_mlm()</a></code> takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. Note that <code>r_const</code> is a vector of 0s and 1s which specify whether to use the variance component parameters for calculating the effect size: random effects variances, correlation structure parameters, variance structure parameters, and level-1 error variance. The function calculates an effect size estimate by first substituting maximum likelihood or restricted maximum likelihood estimates in place of the corresponding parameters, then applying a small-sample correction. The small-sample correction and the standard error are based on approximating the distribution of the estimator by a t distribution, with degrees of freedom given by a Satterthwaite approximation (Pustejovsky, Hedges, &amp; Shadish, 2014). The <code><a href="reference/lmeInfo.html">g_mlm()</a></code> function includes an option allowing use of the expected or average form of the Fisher information matrix in the calculations.</p>
 <p>In this example, we use the treatment effect in the numerator of the effect size and the sum of the between-case and within-case variance components in the denominator of the effect size. The constants are therefore given by <code>p_const = c(0, 1)</code> and <code>r_const = c(1, 0, 1)</code>. The effect size estimated is calculated as:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Laski_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">Laski_RML</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
@@ -216,9 +221,9 @@
 <span class="co">#&gt; [1] 0.9143684 2.0046719</span></code></pre></div>
 <p>The symmetric confidence interval is [0.805, 2.005] and the asymmetric confidence interval is [0.914, 2.005].</p>
 </div>
-<div id="estimating-smds-using-effect_size_abk" class="section level3">
-<h3 class="hasAnchor">
-<a href="#estimating-smds-using-effect_size_abk" class="anchor" aria-hidden="true"></a>Estimating SMDs using <code>effect_size_ABk()</code>
+<div class="section level3">
+<h3 id="estimating-smds-using-effect_size_abk">Estimating SMDs using <code>effect_size_ABk()</code>
+<a class="anchor" aria-label="anchor" href="#estimating-smds-using-effect_size_abk"></a>
 </h3>
 <p>Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the <code><a href="reference/effect_size_ABk.html">effect_size_ABk()</a></code> function. To use this function, the user must provide the names of five variables:</p>
 <ul>
@@ -240,7 +245,7 @@
 <span class="co">#&gt; unadjusted effect size  -2.525 0.202</span>
 <span class="co">#&gt; adjusted effect size    -2.513 0.201</span>
 <span class="co">#&gt; degree of freedom      164.492</span></code></pre></div>
-<p>The adjusted effect size estimate <code>delta_hat</code> is equal to -2.513; its variance <code>V_delta_hat</code> is equal to 0.041. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code>sqrt(Lambert_ES$V_delta_hat)</code> = 0.201. The effect size estimate is bias-corrected in a manner analogous to Hedgesâ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 164.5 in this example.</p>
+<p>The adjusted effect size estimate <code>delta_hat</code> is equal to -2.513; its variance <code>V_delta_hat</code> is equal to 0.041. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code>sqrt(Lambert_ES$V_delta_hat)</code> = 0.201. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 164.5 in this example.</p>
 <p>A summary() method is included to return more detail about the model parameter estimates and effect size estimates:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">Lambert_ES</span><span class="op">)</span>
@@ -255,11 +260,11 @@
 <span class="co">#&gt; degree of freedom                 164.492      </span>
 <span class="co">#&gt; scalar constant                     0.145</span></code></pre></div>
 </div>
-<div id="estimating-smds-using-effect_size_mb" class="section level3">
-<h3 class="hasAnchor">
-<a href="#estimating-smds-using-effect_size_mb" class="anchor" aria-hidden="true"></a>Estimating SMDs using <code>effect_size_MB()</code>
+<div class="section level3">
+<h3 id="estimating-smds-using-effect_size_mb">Estimating SMDs using <code>effect_size_MB()</code>
+<a class="anchor" aria-label="anchor" href="#estimating-smds-using-effect_size_mb"></a>
 </h3>
-<p>Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the interventionâs effect on measures of writing quality, sentence complexity, and use of target constructions.</p>
+<p>Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the intervention’s effect on measures of writing quality, sentence complexity, and use of target constructions.</p>
 <p>Design-comparable SMDs can be estimated based on these data using the <code><a href="reference/effect_size_MB.html">effect_size_MB()</a></code> function. The following code calculates a design-comparable SMD estimate for the measure of writing quality:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Saddler</span><span class="op">)</span>
@@ -288,16 +293,16 @@
 <span class="co">#&gt; scalar constant                   0.201</span></code></pre></div>
 </div>
 </div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor" aria-hidden="true"></a>References</h2>
-<p>Gilmour, A. R., Thompson, R., &amp; Cullis, B. R. (1995). Average information REML: An efficient algorithm for variance parameter estimation in linear mixed models. <em>Biometrics, 51</em>(4), 1440â1450. <a href="https://doi.org/10.2307/2533274" class="external-link uri">https://doi.org/10.2307/2533274</a></p>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<p>Gilmour, A. R., Thompson, R., &amp; Cullis, B. R. (1995). Average information REML: An efficient algorithm for variance parameter estimation in linear mixed models. <em>Biometrics, 51</em>(4), 1440–1450. <a href="https://doi.org/10.2307/2533274" class="external-link uri">https://doi.org/10.2307/2533274</a></p>
 <p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. <em>Research Synthesis Methods, 3</em>(3), 224-239. doi: <a href="http://doi.org/10.1002/jrsm.1052" class="external-link">10.1002/jrsm.1052</a></p>
 <p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. <em>Research Synthesis Methods, 4</em>(4), 324-341. doi: <a href="http://doi.org/10.1002/jrsm.1086" class="external-link">10.1002/jrsm.1086</a></p>
 <p>Lambert, M. C., Cartledge, G., Heward, W. L., &amp; Lo, Y. (2006). Effects of response cards on disruptive behavior and academic responding during math lessons by fourth-grade urban students. <em>Journal of Positive Behavior Interventions, 8</em>(2), 88-99. doi: <a href="https://doi.org/10.1177/10983007060080020701" class="external-link">10.1177/10983007060080020701</a></p>
-<p>Laski, K. E., Charlop, M. H., &amp; Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic childrenâs speech. <em>Journal of Applied Behavior Analysis, 21</em>(4), 391â400. doi: <a href="https://doi.org/10.1901/jaba.1988.21-391" class="external-link">10.1901/jaba.1988.21-391</a></p>
+<p>Laski, K. E., Charlop, M. H., &amp; Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic children’s speech. <em>Journal of Applied Behavior Analysis, 21</em>(4), 391–400. doi: <a href="https://doi.org/10.1901/jaba.1988.21-391" class="external-link">10.1901/jaba.1988.21-391</a></p>
 <p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href="http://doi.org/10.3102/1076998614547577" class="external-link">10.3102/1076998614547577</a></p>
-<p>Saddler, B., Behforooz, B., &amp; Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. <em>The Journal of Special Education, 42</em>(2), 79â90. doi: <a href="http://doi.org/10.1177/0022466907310371" class="external-link">10.1177/0022466907310371</a></p>
+<p>Saddler, B., Behforooz, B., &amp; Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. <em>The Journal of Special Education, 42</em>(2), 79–90. doi: <a href="http://doi.org/10.1177/0022466907310371" class="external-link">10.1177/0022466907310371</a></p>
 </div>
 </div>
   </div>
@@ -306,19 +311,16 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=scdhlm">https://​cloud.r-project.org/​package=scdhlm</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/jepusto/scdhlm/">https://​github.com/​jepusto/​scdhlm/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/jepusto/scdhlm/issues">https://​github.com/​jepusto/​scdhlm/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=scdhlm" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/jepusto/scdhlm/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/jepusto/scdhlm/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
 <div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
 
@@ -334,7 +336,7 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://www.jepusto.com/">James Pustejovsky</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<a href="https://www.jepusto.com/" class="external-link">James Pustejovsky</a> <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Man Chen <br><small class="roles"> Author </small>  </li>
 <li>Bethany Hamilton <br><small class="roles"> Author </small>  </li>
 </ul>
