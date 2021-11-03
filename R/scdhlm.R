@@ -59,7 +59,9 @@ shine_scd <- function(dataset = NULL, ...) {
       } else {
         dataset <- utils::read.table(dataset, ...)
       }
-    }
+    } else if (inherits(dataset, "tbl")) {
+      dataset <- as.data.frame(dataset)
+    } 
     
     server_env <- environment(server)
     ui_env <- environment(ui)

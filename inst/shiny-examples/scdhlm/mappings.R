@@ -51,10 +51,16 @@ exampleMapping <- list(
 # Polynomial degree names
 #------------------------------------------------
 
-degree_names <- c("level","linear","quadratic","cubic","quartic","quintic","sextic")
+degree_names_baseline <- c("level", "linear trend", "quadratic trend", "cubic trend","
+                           quartic trend", "quintic trend", "sextic trend")
+degree_names_treatment <- c("change in level", "change in linear trend", "change in quadratic trend", 
+                            "change in cubic trend", "change in quartic trend",
+                            "change in quintic trend", "change in sextic trend")
 
-time_trends <- 0:6
-names(time_trends) <- degree_names
+time_trends_baseline <- 0:6
+time_trends_treatment <- 0:6
+names(time_trends_baseline) <- degree_names_baseline
+names(time_trends_treatment) <- degree_names_treatment
 
 #------------------------------------------------
 # Design names
