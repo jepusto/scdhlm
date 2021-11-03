@@ -89,7 +89,7 @@
       <h1 data-toc-skip>Estimating design-comparable standardized mean differences with scdhlm</h1>
                         <h4 data-toc-skip class="author">James E. Pustejovsky</h4>
             
-            <h4 data-toc-skip class="date">2021-10-27</h4>
+            <h4 data-toc-skip class="date">2021-11-03</h4>
       
       
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -122,43 +122,43 @@
                               data <span class="op">=</span> <span class="va">Lambert</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Lambert_ES</span>, <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<pre><code>##                              est      se
-## unadjusted effect size  -2.52460 0.20228
-## adjusted effect size    -2.51307 0.20136
-## degree of freedom      164.49227</code></pre>
+<pre><code><span class="co">##                              est      se</span>
+<span class="co">## unadjusted effect size  -2.52460 0.20228</span>
+<span class="co">## adjusted effect size    -2.51307 0.20136</span>
+<span class="co">## degree of freedom      164.49227</span></code></pre>
 <p>The adjusted effect size estimate <code>delta_hat</code> is equal to -2.513; its variance <code>V_delta_hat</code> is equal to 0.041. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code>sqrt(Lambert_ES$V_delta_hat)</code> = 0.201. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 164.5 in this example.</p>
 <p>A summary() method is included to return more detail about the model parameter estimates and effect size estimates:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">Lambert_ES</span><span class="op">)</span></code></pre></div>
-<pre><code>##                                       est    se
-## within-case variance                4.534      
-## sample variance                     4.674      
-## intra-class correlation             0.030      
-## auto-correlation                    0.225      
-## numerator of effect size estimate  -5.458      
-## unadjusted effect size             -2.525 0.202
-## adjusted effect size               -2.513 0.201
-## degree of freedom                 164.492      
-## scalar constant                     0.145</code></pre>
+<pre><code><span class="co">##                                       est    se</span>
+<span class="co">## within-case variance                4.534      </span>
+<span class="co">## sample variance                     4.674      </span>
+<span class="co">## intra-class correlation             0.030      </span>
+<span class="co">## auto-correlation                    0.225      </span>
+<span class="co">## numerator of effect size estimate  -5.458      </span>
+<span class="co">## unadjusted effect size             -2.525 0.202</span>
+<span class="co">## adjusted effect size               -2.513 0.201</span>
+<span class="co">## degree of freedom                 164.492      </span>
+<span class="co">## scalar constant                     0.145</span></code></pre>
 <p>By default, the <code>effect_size_ABk</code> function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry <code>phi</code>) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry <code>rho</code>). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimate was 0.225. The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of 0.225.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Lambert_ES2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, 
                 id <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, 
                 data <span class="op">=</span> <span class="va">Lambert</span>, phi <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Lambert_ES2</span>, digits <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<pre><code>##                              est      se
-## unadjusted effect size  -2.52460 0.19376
-## adjusted effect size    -2.51265 0.19285
-## degree of freedom      158.73064</code></pre>
+<pre><code><span class="co">##                              est      se</span>
+<span class="co">## unadjusted effect size  -2.52460 0.19376</span>
+<span class="co">## adjusted effect size    -2.51265 0.19285</span>
+<span class="co">## degree of freedom      158.73064</span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Lambert_ES3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, 
                 id <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, 
                 data <span class="op">=</span> <span class="va">Lambert</span>, phi <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Lambert_ES3</span>, digits <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<pre><code>##                              est      se
-## unadjusted effect size  -2.52460 0.21697
-## adjusted effect size    -2.51217 0.21591
-## degree of freedom      152.57482</code></pre>
+<pre><code><span class="co">##                              est      se</span>
+<span class="co">## unadjusted effect size  -2.52460 0.21697</span>
+<span class="co">## adjusted effect size    -2.51217 0.21591</span>
+<span class="co">## degree of freedom      152.57482</span></code></pre>
 <p>The estimated auto-correlation has only a trivial effect on the effect size estimate and a minor effect on its estimated variance.</p>
 </div>
 <div class="section level2">
@@ -169,10 +169,10 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Anglesea</span><span class="op">)</span>
 <span class="va">Anglesea_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span><span class="va">outcome</span>, <span class="va">condition</span>, <span class="va">case</span>, <span class="va">phase</span>, <span class="va">session</span>, data <span class="op">=</span> <span class="va">Anglesea</span><span class="op">)</span>
 <span class="va">Anglesea_ES</span></code></pre></div>
-<pre><code>##                          est    se
-## unadjusted effect size 1.793 2.436
-## adjusted effect size   1.150 1.562
-## degree of freedom      2.340</code></pre>
+<pre><code><span class="co">##                          est    se</span>
+<span class="co">## unadjusted effect size 1.793 2.436</span>
+<span class="co">## adjusted effect size   1.150 1.562</span>
+<span class="co">## degree of freedom      2.340</span></code></pre>
 <p>Note that the standard error of the effect size estimate is quite large and the degrees of freedom corresponding to the denominator of the SMD estimate are very low. Both quantities are extreme due to the small number of cases used in this example.</p>
 </div>
 <div class="section level2">
@@ -195,12 +195,12 @@
   complexity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">complexity_ES</span><span class="op">)</span>, 
   construction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">construction_ES</span><span class="op">)</span> 
 <span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"delta_hat"</span>,<span class="st">"V_delta_hat"</span>,<span class="st">"nu"</span>,<span class="st">"phi"</span>,<span class="st">"rho"</span><span class="op">)</span>,<span class="op">]</span></code></pre></div>
-<pre><code>##                quality  complexity construction
-## delta_hat   1.96307272  0.78540043   0.74755356
-## V_delta_hat 0.33491289  0.08023320   0.07847359
-## nu          8.91814603  9.60204004   7.57981360
-## phi         0.09965017 -0.07542229  -0.11159420
-## rho         0.63321198  0.61453091   0.73123744</code></pre>
+<pre><code><span class="co">##                quality  complexity construction</span>
+<span class="co">## delta_hat   1.96307272  0.78540043   0.74755356</span>
+<span class="co">## V_delta_hat 0.33491289  0.08023320   0.07847359</span>
+<span class="co">## nu          8.91814603  9.60204004   7.57981360</span>
+<span class="co">## phi         0.09965017 -0.07542229  -0.11159420</span>
+<span class="co">## rho         0.63321198  0.61453091   0.73123744</span></code></pre>
 <p>For multiple baseline designs, an alternative to using the <code>effect_size_MB</code> function is to estimate a hierarchical linear model for the data and then use the <code>g_mlm</code> function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a hierarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which we will demonstrate using the writing quality measure. First, we estimate the hierarchical model with an AR(1) within-case error structure using the <code>lme</code> function:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">quality_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">treatment</span>, 
@@ -208,53 +208,53 @@
                    correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html" class="external-link">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>, 
                    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">Saddler</span>, <span class="va">measure</span><span class="op">==</span><span class="st">"writing quality"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">quality_RML</span><span class="op">)</span></code></pre></div>
-<pre><code>## Linear mixed-effects model fit by REML
-##   Data: subset(Saddler, measure == "writing quality") 
-##        AIC      BIC    logLik
-##   97.31383 105.6316 -43.65692
-## 
-## Random effects:
-##  Formula: ~1 | case
-##         (Intercept)  Residual
-## StdDev:   0.6621631 0.6656806
-## 
-## Correlation Structure: ARMA(1,0)
-##  Formula: ~time | case 
-##  Parameter estimate(s):
-##      Phi1 
-## 0.3819756 
-## Fixed effects:  outcome ~ treatment 
-##                       Value Std.Error DF  t-value p-value
-## (Intercept)        2.437206 0.3187517 34 7.646094       0
-## treatmenttreatment 2.181029 0.2340101 34 9.320237       0
-##  Correlation: 
-##                    (Intr)
-## treatmenttreatment -0.308
-## 
-## Standardized Within-Group Residuals:
-##        Min         Q1        Med         Q3        Max 
-## -1.4700055 -0.4627404 -0.1907942  0.4286209  1.8063844 
-## 
-## Number of Observations: 41
-## Number of Groups: 6</code></pre>
+<pre><code><span class="co">## Linear mixed-effects model fit by REML</span>
+<span class="co">##   Data: subset(Saddler, measure == "writing quality") </span>
+<span class="co">##        AIC      BIC    logLik</span>
+<span class="co">##   97.31383 105.6316 -43.65692</span>
+<span class="co">## </span>
+<span class="co">## Random effects:</span>
+<span class="co">##  Formula: ~1 | case</span>
+<span class="co">##         (Intercept)  Residual</span>
+<span class="co">## StdDev:   0.6621631 0.6656806</span>
+<span class="co">## </span>
+<span class="co">## Correlation Structure: ARMA(1,0)</span>
+<span class="co">##  Formula: ~time | case </span>
+<span class="co">##  Parameter estimate(s):</span>
+<span class="co">##      Phi1 </span>
+<span class="co">## 0.3819756 </span>
+<span class="co">## Fixed effects:  outcome ~ treatment </span>
+<span class="co">##                       Value Std.Error DF  t-value p-value</span>
+<span class="co">## (Intercept)        2.437206 0.3187517 34 7.646094       0</span>
+<span class="co">## treatmenttreatment 2.181029 0.2340101 34 9.320237       0</span>
+<span class="co">##  Correlation: </span>
+<span class="co">##                    (Intr)</span>
+<span class="co">## treatmenttreatment -0.308</span>
+<span class="co">## </span>
+<span class="co">## Standardized Within-Group Residuals:</span>
+<span class="co">##        Min         Q1        Med         Q3        Max </span>
+<span class="co">## -1.4700055 -0.4627404 -0.1907942  0.4286209  1.8063844 </span>
+<span class="co">## </span>
+<span class="co">## Number of Observations: 41</span>
+<span class="co">## Number of Groups: 6</span></code></pre>
 <p>The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. The next step is to combine these estimated components into an effect size estimate using the <code>g_mlm</code> function. This function takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. For details on how to choose these constants, see Pustejovsky, Hedges, and Shadish (2014). In this example:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">quality_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">quality_RML</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, 
                          r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, returnModel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">quality_ES_RML</span><span class="op">)</span></code></pre></div>
-<pre><code>##                                          est    se
-## Tau.case.case.var((Intercept))         0.438 0.357
-## cor_params                             0.382 0.230
-## sigma_sq                               0.443 0.154
-## total variance                         0.882 0.360
-## (Intercept)                            2.437 0.319
-## treatmenttreatment                     2.181 0.234
-## treatment effect at a specified time   2.181 0.234
-## unadjusted effect size                 2.323 0.595
-## adjusted effect size                   2.174 0.557
-## degree of freedom                     11.963      
-## constant kappa                         0.249      
-## logLik                               -43.657</code></pre>
+<pre><code><span class="co">##                                          est    se</span>
+<span class="co">## Tau.case.case.var((Intercept))         0.438 0.357</span>
+<span class="co">## cor_params                             0.382 0.230</span>
+<span class="co">## sigma_sq                               0.443 0.154</span>
+<span class="co">## total variance                         0.882 0.360</span>
+<span class="co">## (Intercept)                            2.437 0.319</span>
+<span class="co">## treatmenttreatment                     2.181 0.234</span>
+<span class="co">## treatment effect at a specified time   2.181 0.234</span>
+<span class="co">## unadjusted effect size                 2.323 0.595</span>
+<span class="co">## adjusted effect size                   2.174 0.557</span>
+<span class="co">## degree of freedom                     11.963      </span>
+<span class="co">## constant kappa                         0.249      </span>
+<span class="co">## logLik                               -43.657</span></code></pre>
 <p>The adjusted SMD effect size is estimated as <code>g_AB</code> = 2.174; its standard error is <code>SE_g_AB</code> = 0.557; the estimated auto-correlation is <code>phi</code> = 0.382; and the estimated degrees of freedom is <code>nu</code> = 12. In this example, the RML effect size estimate is about 10% larger than the estimate from <code>effect_size_MB</code>, with a slightly smaller variance estimate. The RML estimate of the auto-correlation is substantially higher than before, but <code>effect_size_MB</code> uses a moment estimator that is known to be biased towards zero and that does not perform well when outcomes are intermittently missing for some sessions (as is the case here).</p>
 </div>
 <div class="section level2">
@@ -274,35 +274,35 @@
                  correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html" class="external-link">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>, 
                  data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">Laski_RML</span><span class="op">)</span></code></pre></div>
-<pre><code>## Linear mixed-effects model fit by REML
-##   Data: Laski 
-##        AIC      BIC    logLik
-##   1048.285 1062.466 -519.1424
-## 
-## Random effects:
-##  Formula: ~1 | case
-##         (Intercept) Residual
-## StdDev:    15.68278  13.8842
-## 
-## Correlation Structure: AR(1)
-##  Formula: ~time | case 
-##  Parameter estimate(s):
-##      Phi 
-## 0.252769 
-## Fixed effects:  outcome ~ treatment 
-##                       Value Std.Error  DF   t-value p-value
-## (Intercept)        39.07612  5.989138 119  6.524498       0
-## treatmenttreatment 30.68366  2.995972 119 10.241637       0
-##  Correlation: 
-##                    (Intr)
-## treatmenttreatment -0.272
-## 
-## Standardized Within-Group Residuals:
-##         Min          Q1         Med          Q3         Max 
-## -2.72642154 -0.69387388  0.01454473  0.69861200  2.14528141 
-## 
-## Number of Observations: 128
-## Number of Groups: 8</code></pre>
+<pre><code><span class="co">## Linear mixed-effects model fit by REML</span>
+<span class="co">##   Data: Laski </span>
+<span class="co">##        AIC      BIC    logLik</span>
+<span class="co">##   1048.285 1062.466 -519.1424</span>
+<span class="co">## </span>
+<span class="co">## Random effects:</span>
+<span class="co">##  Formula: ~1 | case</span>
+<span class="co">##         (Intercept) Residual</span>
+<span class="co">## StdDev:    15.68278  13.8842</span>
+<span class="co">## </span>
+<span class="co">## Correlation Structure: AR(1)</span>
+<span class="co">##  Formula: ~time | case </span>
+<span class="co">##  Parameter estimate(s):</span>
+<span class="co">##      Phi </span>
+<span class="co">## 0.252769 </span>
+<span class="co">## Fixed effects:  outcome ~ treatment </span>
+<span class="co">##                       Value Std.Error  DF   t-value p-value</span>
+<span class="co">## (Intercept)        39.07612  5.989138 119  6.524498       0</span>
+<span class="co">## treatmenttreatment 30.68366  2.995972 119 10.241637       0</span>
+<span class="co">##  Correlation: </span>
+<span class="co">##                    (Intr)</span>
+<span class="co">## treatmenttreatment -0.272</span>
+<span class="co">## </span>
+<span class="co">## Standardized Within-Group Residuals:</span>
+<span class="co">##         Min          Q1         Med          Q3         Max </span>
+<span class="co">## -2.72642154 -0.69387388  0.01454473  0.69861200  2.14528141 </span>
+<span class="co">## </span>
+<span class="co">## Number of Observations: 128</span>
+<span class="co">## Number of Groups: 8</span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Laski_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">Laski_RML</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
@@ -313,12 +313,12 @@
   RML <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">Laski_ES_RML</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">g_AB</span>, <span class="va">SE_g_AB</span>, <span class="va">theta</span><span class="op">$</span><span class="va">cor_params</span>, 
                              <span class="va">theta</span><span class="op">$</span><span class="va">Tau</span><span class="op">$</span><span class="va">case</span> <span class="op">/</span> <span class="op">(</span><span class="va">theta</span><span class="op">$</span><span class="va">Tau</span><span class="op">$</span><span class="va">case</span> <span class="op">+</span> <span class="va">theta</span><span class="op">$</span><span class="va">sigma_sq</span><span class="op">)</span>, <span class="va">nu</span><span class="op">)</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<pre><code>##             HPS        RML
-## SMD  1.38838504  1.4048872
-## SE   0.31701943  0.2863249
-## phi  0.01652579  0.2527690
-## rho  0.69396648  0.5606064
-## nu  13.10041496 18.5524061</code></pre>
+<pre><code><span class="co">##             HPS        RML</span>
+<span class="co">## SMD  1.38838504  1.4048872</span>
+<span class="co">## SE   0.31701943  0.2863249</span>
+<span class="co">## phi  0.01652579  0.2527690</span>
+<span class="co">## rho  0.69396648  0.5606064</span>
+<span class="co">## nu  13.10041496 18.5524061</span></code></pre>
 <p>As in the Saddler example, both methods produce very similar SMD estimates and variance estimates. The RML estimate of auto-correlation is substantially higher than the HPS estimate, while the intra-class correlation estimate is somewhat lower; in combination, these differences lead to larger degrees of freedom.</p>
 <p>An advantage of the RML approach is that it is readily extended to more complex models. The above analysis was based on the assumption that the treatment effect is constant across cases. This assumption can be removed by fitting a model that includes a random treatment effect for each case:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
@@ -327,51 +327,51 @@
                  correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html" class="external-link">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>, 
                  data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">Laski_RML2</span><span class="op">)</span></code></pre></div>
-<pre><code>## Linear mixed-effects model fit by REML
-##   Data: Laski 
-##        AIC      BIC    logLik
-##   1036.014 1055.868 -511.0069
-## 
-## Random effects:
-##  Formula: ~treatment | case
-##  Structure: General positive-definite, Log-Cholesky parametrization
-##                    StdDev   Corr  
-## (Intercept)        21.79581 (Intr)
-## treatmenttreatment 13.24108 -0.869
-## Residual           11.94109       
-## 
-## Correlation Structure: AR(1)
-##  Formula: ~time | case 
-##  Parameter estimate(s):
-##        Phi 
-## 0.02267299 
-## Fixed effects:  outcome ~ treatment 
-##                       Value Std.Error  DF  t-value p-value
-## (Intercept)        38.45243  7.881197 119 4.879008       0
-## treatmenttreatment 31.59161  5.178366 119 6.100691       0
-##  Correlation: 
-##                    (Intr)
-## treatmenttreatment -0.835
-## 
-## Standardized Within-Group Residuals:
-##         Min          Q1         Med          Q3         Max 
-## -3.12357773 -0.50574784 -0.01605527  0.65004147  2.05388331 
-## 
-## Number of Observations: 128
-## Number of Groups: 8</code></pre>
+<pre><code><span class="co">## Linear mixed-effects model fit by REML</span>
+<span class="co">##   Data: Laski </span>
+<span class="co">##        AIC      BIC    logLik</span>
+<span class="co">##   1036.014 1055.868 -511.0069</span>
+<span class="co">## </span>
+<span class="co">## Random effects:</span>
+<span class="co">##  Formula: ~treatment | case</span>
+<span class="co">##  Structure: General positive-definite, Log-Cholesky parametrization</span>
+<span class="co">##                    StdDev   Corr  </span>
+<span class="co">## (Intercept)        21.79581 (Intr)</span>
+<span class="co">## treatmenttreatment 13.24108 -0.869</span>
+<span class="co">## Residual           11.94109       </span>
+<span class="co">## </span>
+<span class="co">## Correlation Structure: AR(1)</span>
+<span class="co">##  Formula: ~time | case </span>
+<span class="co">##  Parameter estimate(s):</span>
+<span class="co">##        Phi </span>
+<span class="co">## 0.02267299 </span>
+<span class="co">## Fixed effects:  outcome ~ treatment </span>
+<span class="co">##                       Value Std.Error  DF  t-value p-value</span>
+<span class="co">## (Intercept)        38.45243  7.881197 119 4.879008       0</span>
+<span class="co">## treatmenttreatment 31.59161  5.178366 119 6.100691       0</span>
+<span class="co">##  Correlation: </span>
+<span class="co">##                    (Intr)</span>
+<span class="co">## treatmenttreatment -0.835</span>
+<span class="co">## </span>
+<span class="co">## Standardized Within-Group Residuals:</span>
+<span class="co">##         Min          Q1         Med          Q3         Max </span>
+<span class="co">## -3.12357773 -0.50574784 -0.01605527  0.65004147  2.05388331 </span>
+<span class="co">## </span>
+<span class="co">## Number of Observations: 128</span>
+<span class="co">## Number of Groups: 8</span></code></pre>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="va">Laski_RML</span>, <span class="va">Laski_RML2</span><span class="op">)</span></code></pre></div>
-<pre><code>##            Model df      AIC      BIC    logLik   Test  L.Ratio p-value
-## Laski_RML      1  5 1048.285 1062.466 -519.1424                        
-## Laski_RML2     2  7 1036.014 1055.868 -511.0069 1 vs 2 16.27091   3e-04</code></pre>
+<pre><code><span class="co">##            Model df      AIC      BIC    logLik   Test  L.Ratio p-value</span>
+<span class="co">## Laski_RML      1  5 1048.285 1062.466 -519.1424                        </span>
+<span class="co">## Laski_RML2     2  7 1036.014 1055.868 -511.0069 1 vs 2 16.27091   3e-04</span></code></pre>
 <p>The fit of the two models can be compared using a likelihood ratio test, which rejects the model with a constant treatment effect. The second model, which allows the treatment effect to vary, is to be preferred. The following code estimates a design-comparable SMD based on the better-fitting model.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Laski_ES_RML2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">Laski_RML2</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">Laski_ES_RML2</span></code></pre></div>
-<pre><code>##                           est    se
-## unadjusted effect size  1.271 0.386
-## adjusted effect size    1.181 0.358
-## degree of freedom      10.776</code></pre>
+<pre><code><span class="co">##                           est    se</span>
+<span class="co">## unadjusted effect size  1.271 0.386</span>
+<span class="co">## adjusted effect size    1.181 0.358</span>
+<span class="co">## degree of freedom      10.776</span></code></pre>
 <p>The adjusted effect size estimate that is 16% smaller than the estimate from the simpler model; with a standard error that is 25% larger. The difference between the two models is due to a difference in between-case variance across phases not captured by the assumptions of the simpler model. The between-case variation in the outcome appears to be substantially larger in the baseline phase than in the treatment phase. Maintaining the constant treatment effect assumption constrains the between-case variance to be constant across phases, and so the between-case variance is estimated by pooling across both phases. The constant treatment effect assumption therefore leads to a smaller variance estimate than the estimate based on allowing the between-case variance to differ by phase.</p>
 </div>
 <div class="section level2">
@@ -413,47 +413,47 @@
             data <span class="op">=</span> <span class="va">Schutte</span>,
             method <span class="op">=</span> <span class="st">"REML"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">hlm1</span><span class="op">)</span></code></pre></div>
-<pre><code>## Linear mixed-effects model fit by REML
-##   Data: Schutte 
-##        AIC     BIC    logLik
-##   884.1744 904.354 -435.0872
-## 
-## Random effects:
-##  Formula: ~1 | case
-##         (Intercept) Residual
-## StdDev:    3.842612 9.950088
-## 
-## Correlation Structure: AR(1)
-##  Formula: ~week | case 
-##  Parameter estimate(s):
-##       Phi 
-## 0.8092339 
-## Fixed effects:  fatigue ~ week + treatment + week_trt 
-##                       Value Std.Error  DF   t-value p-value
-## (Intercept)        52.93290  4.422164 121 11.969907  0.0000
-## week                0.48856  0.622153 121  0.785274  0.4338
-## treatmenttreatment -1.37267  1.971510 121 -0.696253  0.4876
-## week_trt           -1.89613  0.938154 121 -2.021131  0.0455
-##  Correlation: 
-##                    (Intr) week   trtmnt
-## week                0.805              
-## treatmenttreatment -0.119 -0.069       
-## week_trt           -0.761 -0.777 -0.263
-## 
-## Standardized Within-Group Residuals:
-##         Min          Q1         Med          Q3         Max 
-## -2.69578897 -0.64000820 -0.06285371  0.65265931  2.01491696 
-## 
-## Number of Observations: 136
-## Number of Groups: 12</code></pre>
+<pre><code><span class="co">## Linear mixed-effects model fit by REML</span>
+<span class="co">##   Data: Schutte </span>
+<span class="co">##        AIC     BIC    logLik</span>
+<span class="co">##   884.1744 904.354 -435.0872</span>
+<span class="co">## </span>
+<span class="co">## Random effects:</span>
+<span class="co">##  Formula: ~1 | case</span>
+<span class="co">##         (Intercept) Residual</span>
+<span class="co">## StdDev:    3.842612 9.950088</span>
+<span class="co">## </span>
+<span class="co">## Correlation Structure: AR(1)</span>
+<span class="co">##  Formula: ~week | case </span>
+<span class="co">##  Parameter estimate(s):</span>
+<span class="co">##       Phi </span>
+<span class="co">## 0.8092339 </span>
+<span class="co">## Fixed effects:  fatigue ~ week + treatment + week_trt </span>
+<span class="co">##                       Value Std.Error  DF   t-value p-value</span>
+<span class="co">## (Intercept)        52.93290  4.422164 121 11.969907  0.0000</span>
+<span class="co">## week                0.48856  0.622153 121  0.785274  0.4338</span>
+<span class="co">## treatmenttreatment -1.37267  1.971510 121 -0.696253  0.4876</span>
+<span class="co">## week_trt           -1.89613  0.938154 121 -2.021131  0.0455</span>
+<span class="co">##  Correlation: </span>
+<span class="co">##                    (Intr) week   trtmnt</span>
+<span class="co">## week                0.805              </span>
+<span class="co">## treatmenttreatment -0.119 -0.069       </span>
+<span class="co">## week_trt           -0.761 -0.777 -0.263</span>
+<span class="co">## </span>
+<span class="co">## Standardized Within-Group Residuals:</span>
+<span class="co">##         Min          Q1         Med          Q3         Max </span>
+<span class="co">## -2.69578897 -0.64000820 -0.06285371  0.65265931  2.01491696 </span>
+<span class="co">## </span>
+<span class="co">## Number of Observations: 136</span>
+<span class="co">## Number of Groups: 12</span></code></pre>
 <p>The design-comparable standardized mean difference corresponds to the treatment effect at week <span class="math inline">\(B = 9\)</span>, after <span class="math inline">\(B - A = 7\)</span> weeks of treatment. The corresponding values of <code>p_const</code> and <code>r_const</code> are specified below.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Schutte_g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm1</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>, <span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">Schutte_g1</span></code></pre></div>
-<pre><code>##                           est    se
-## unadjusted effect size -1.373 0.644
-## adjusted effect size   -1.337 0.627
-## degree of freedom      29.152</code></pre>
+<pre><code><span class="co">##                           est    se</span>
+<span class="co">## unadjusted effect size -1.373 0.644</span>
+<span class="co">## adjusted effect size   -1.337 0.627</span>
+<span class="co">## degree of freedom      29.152</span></code></pre>
 <p>It will be seen below that this initial model provides a poor fit to the data; thus, the effect size estimate based on it should not be trusted.</p>
 </div>
 <div class="section level3">
@@ -464,55 +464,55 @@
 <code class="sourceCode R"><span class="va">hlm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">hlm1</span>, random <span class="op">=</span> <span class="op">~</span> <span class="va">week</span> <span class="op">|</span> <span class="va">case</span>, 
                control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lmeControl.html" class="external-link">lmeControl</a></span><span class="op">(</span>msMaxIter <span class="op">=</span> <span class="fl">50</span>, apVar<span class="op">=</span><span class="cn">FALSE</span>, returnObject<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">hlm2</span><span class="op">)</span></code></pre></div>
-<pre><code>## Linear mixed-effects model fit by REML
-##   Data: Schutte 
-##        AIC      BIC    logLik
-##   875.9526 901.8978 -428.9763
-## 
-## Random effects:
-##  Formula: ~week | case
-##  Structure: General positive-definite, Log-Cholesky parametrization
-##             StdDev   Corr  
-## (Intercept) 9.783287 (Intr)
-## week        1.412030 0.811 
-## Residual    5.421656       
-## 
-## Correlation Structure: AR(1)
-##  Formula: ~week | case 
-##  Parameter estimate(s):
-##       Phi 
-## 0.3985953 
-## Fixed effects:  fatigue ~ week + treatment + week_trt 
-##                       Value Std.Error  DF   t-value p-value
-## (Intercept)        50.29150  4.073625 121 12.345637  0.0000
-## week                0.20271  0.616194 121  0.328968  0.7427
-## treatmenttreatment -0.54218  1.751668 121 -0.309520  0.7575
-## week_trt           -1.63198  0.655256 121 -2.490607  0.0141
-##  Correlation: 
-##                    (Intr) week   trtmnt
-## week                0.883              
-## treatmenttreatment -0.258 -0.200       
-## week_trt           -0.567 -0.596 -0.178
-## 
-## Standardized Within-Group Residuals:
-##         Min          Q1         Med          Q3         Max 
-## -2.33194245 -0.46272153 -0.05348694  0.32878028  4.08749914 
-## 
-## Number of Observations: 136
-## Number of Groups: 12</code></pre>
+<pre><code><span class="co">## Linear mixed-effects model fit by REML</span>
+<span class="co">##   Data: Schutte </span>
+<span class="co">##        AIC      BIC    logLik</span>
+<span class="co">##   875.9526 901.8978 -428.9763</span>
+<span class="co">## </span>
+<span class="co">## Random effects:</span>
+<span class="co">##  Formula: ~week | case</span>
+<span class="co">##  Structure: General positive-definite, Log-Cholesky parametrization</span>
+<span class="co">##             StdDev   Corr  </span>
+<span class="co">## (Intercept) 9.783287 (Intr)</span>
+<span class="co">## week        1.412030 0.811 </span>
+<span class="co">## Residual    5.421656       </span>
+<span class="co">## </span>
+<span class="co">## Correlation Structure: AR(1)</span>
+<span class="co">##  Formula: ~week | case </span>
+<span class="co">##  Parameter estimate(s):</span>
+<span class="co">##       Phi </span>
+<span class="co">## 0.3985953 </span>
+<span class="co">## Fixed effects:  fatigue ~ week + treatment + week_trt </span>
+<span class="co">##                       Value Std.Error  DF   t-value p-value</span>
+<span class="co">## (Intercept)        50.29150  4.073625 121 12.345637  0.0000</span>
+<span class="co">## week                0.20271  0.616194 121  0.328968  0.7427</span>
+<span class="co">## treatmenttreatment -0.54218  1.751668 121 -0.309520  0.7575</span>
+<span class="co">## week_trt           -1.63198  0.655256 121 -2.490607  0.0141</span>
+<span class="co">##  Correlation: </span>
+<span class="co">##                    (Intr) week   trtmnt</span>
+<span class="co">## week                0.883              </span>
+<span class="co">## treatmenttreatment -0.258 -0.200       </span>
+<span class="co">## week_trt           -0.567 -0.596 -0.178</span>
+<span class="co">## </span>
+<span class="co">## Standardized Within-Group Residuals:</span>
+<span class="co">##         Min          Q1         Med          Q3         Max </span>
+<span class="co">## -2.33194245 -0.46272153 -0.05348694  0.32878028  4.08749914 </span>
+<span class="co">## </span>
+<span class="co">## Number of Observations: 136</span>
+<span class="co">## Number of Groups: 12</span></code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="va">hlm1</span>, <span class="va">hlm2</span><span class="op">)</span></code></pre></div>
-<pre><code>##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value
-## hlm1     1  7 884.1744 904.3540 -435.0872                        
-## hlm2     2  9 875.9526 901.8978 -428.9763 1 vs 2 12.22179  0.0022</code></pre>
+<pre><code><span class="co">##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value</span>
+<span class="co">## hlm1     1  7 884.1744 904.3540 -435.0872                        </span>
+<span class="co">## hlm2     2  9 875.9526 901.8978 -428.9763 1 vs 2 12.22179  0.0022</span></code></pre>
 <p>A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Schutte_g2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm2</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>, <span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">Schutte_g2</span></code></pre></div>
-<pre><code>##                           est    se
-## unadjusted effect size -1.070 0.495
-## adjusted effect size   -1.013 0.469
-## degree of freedom      14.302</code></pre>
+<pre><code><span class="co">##                           est    se</span>
+<span class="co">## unadjusted effect size -1.070 0.495</span>
+<span class="co">## adjusted effect size   -1.013 0.469</span>
+<span class="co">## degree of freedom      14.302</span></code></pre>
 <p>The design-comparable SMD is estimated to be -1.013, with a standard error of 0.469.</p>
 </div>
 <div class="section level3">
@@ -523,56 +523,56 @@
 <code class="sourceCode R"><span class="va">hlm3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">hlm2</span>, random <span class="op">=</span> <span class="op">~</span> <span class="va">week</span> <span class="op">+</span> <span class="va">week_trt</span> <span class="op">|</span> <span class="va">case</span>, 
                control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lmeControl.html" class="external-link">lmeControl</a></span><span class="op">(</span>msMaxIter <span class="op">=</span> <span class="fl">50</span>, apVar<span class="op">=</span><span class="cn">FALSE</span>, returnObject<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">hlm3</span><span class="op">)</span></code></pre></div>
-<pre><code>## Linear mixed-effects model fit by REML
-##   Data: Schutte 
-##        AIC      BIC    logLik
-##   873.0245 907.6181 -424.5123
-## 
-## Random effects:
-##  Formula: ~week + week_trt | case
-##  Structure: General positive-definite, Log-Cholesky parametrization
-##             StdDev    Corr        
-## (Intercept) 6.1884596 (Intr) week 
-## week        0.3832993 0.162       
-## week_trt    1.7351247 0.162  0.999
-## Residual    4.7477472             
-## 
-## Correlation Structure: AR(1)
-##  Formula: ~week | case 
-##  Parameter estimate(s):
-##       Phi 
-## 0.2396137 
-## Fixed effects:  fatigue ~ week + treatment + week_trt 
-##                       Value Std.Error  DF   t-value p-value
-## (Intercept)        50.52566 2.8214130 121 17.907928  0.0000
-## week                0.21901 0.3640857 121  0.601537  0.5486
-## treatmenttreatment  0.02697 1.5999246 121  0.016855  0.9866
-## week_trt           -1.67113 0.7406249 121 -2.256378  0.0258
-##  Correlation: 
-##                    (Intr) week   trtmnt
-## week                0.722              
-## treatmenttreatment -0.357 -0.331       
-## week_trt           -0.312 -0.283 -0.154
-## 
-## Standardized Within-Group Residuals:
-##          Min           Q1          Med           Q3          Max 
-## -2.559123387 -0.446173508 -0.004457334  0.366743786  4.597278939 
-## 
-## Number of Observations: 136
-## Number of Groups: 12</code></pre>
+<pre><code><span class="co">## Linear mixed-effects model fit by REML</span>
+<span class="co">##   Data: Schutte </span>
+<span class="co">##        AIC      BIC    logLik</span>
+<span class="co">##   873.0245 907.6181 -424.5123</span>
+<span class="co">## </span>
+<span class="co">## Random effects:</span>
+<span class="co">##  Formula: ~week + week_trt | case</span>
+<span class="co">##  Structure: General positive-definite, Log-Cholesky parametrization</span>
+<span class="co">##             StdDev    Corr        </span>
+<span class="co">## (Intercept) 6.1884596 (Intr) week </span>
+<span class="co">## week        0.3832993 0.162       </span>
+<span class="co">## week_trt    1.7351247 0.162  0.999</span>
+<span class="co">## Residual    4.7477472             </span>
+<span class="co">## </span>
+<span class="co">## Correlation Structure: AR(1)</span>
+<span class="co">##  Formula: ~week | case </span>
+<span class="co">##  Parameter estimate(s):</span>
+<span class="co">##       Phi </span>
+<span class="co">## 0.2396137 </span>
+<span class="co">## Fixed effects:  fatigue ~ week + treatment + week_trt </span>
+<span class="co">##                       Value Std.Error  DF   t-value p-value</span>
+<span class="co">## (Intercept)        50.52566 2.8214130 121 17.907928  0.0000</span>
+<span class="co">## week                0.21901 0.3640857 121  0.601537  0.5486</span>
+<span class="co">## treatmenttreatment  0.02697 1.5999246 121  0.016855  0.9866</span>
+<span class="co">## week_trt           -1.67113 0.7406249 121 -2.256378  0.0258</span>
+<span class="co">##  Correlation: </span>
+<span class="co">##                    (Intr) week   trtmnt</span>
+<span class="co">## week                0.722              </span>
+<span class="co">## treatmenttreatment -0.357 -0.331       </span>
+<span class="co">## week_trt           -0.312 -0.283 -0.154</span>
+<span class="co">## </span>
+<span class="co">## Standardized Within-Group Residuals:</span>
+<span class="co">##          Min           Q1          Med           Q3          Max </span>
+<span class="co">## -2.559123387 -0.446173508 -0.004457334  0.366743786  4.597278939 </span>
+<span class="co">## </span>
+<span class="co">## Number of Observations: 136</span>
+<span class="co">## Number of Groups: 12</span></code></pre>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span></code></pre></div>
-<pre><code>##      Model df      AIC      BIC    logLik   Test L.Ratio p-value
-## hlm2     1  9 875.9526 901.8978 -428.9763                       
-## hlm3     2 12 873.0245 907.6181 -424.5123 1 vs 2 8.92808  0.0303</code></pre>
+<pre><code><span class="co">##      Model df      AIC      BIC    logLik   Test L.Ratio p-value</span>
+<span class="co">## hlm2     1  9 875.9526 901.8978 -428.9763                       </span>
+<span class="co">## hlm3     2 12 873.0245 907.6181 -424.5123 1 vs 2 8.92808  0.0303</span></code></pre>
 <p>The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test cannot be trusted with such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Schutte_g3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm3</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">Schutte_g3</span></code></pre></div>
-<pre><code>##                           est    se
-## unadjusted effect size -1.496 0.933
-## adjusted effect size   -1.326 0.827
-## degree of freedom       6.848</code></pre>
+<pre><code><span class="co">##                           est    se</span>
+<span class="co">## unadjusted effect size -1.496 0.933</span>
+<span class="co">## adjusted effect size   -1.326 0.827</span>
+<span class="co">## degree of freedom       6.848</span></code></pre>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># compare effect size estimates</span>
 <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
@@ -580,10 +580,10 @@
   MB4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">Schutte_g2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>,
   MB5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">Schutte_g3</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"g_AB"</span>,<span class="st">"SE_g_AB"</span>,<span class="st">"nu"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<pre><code>##            MB3    MB4    MB5
-## g_AB    -1.337 -1.013 -1.326
-## SE_g_AB  0.627  0.469  0.827
-## nu      29.152 14.302  6.848</code></pre>
+<pre><code><span class="co">##            MB3    MB4    MB5</span>
+<span class="co">## g_AB    -1.337 -1.013 -1.326</span>
+<span class="co">## SE_g_AB  0.627  0.469  0.827</span>
+<span class="co">## nu      29.152 14.302  6.848</span></code></pre>
 <p>The effect size estimate has magnitude comparable to the estimate from Model MB3. However, the variance of the estimate is extremely large, due to the fact that the variance components that go into the denominator of the SMD estimate are estimated with low precision. This final model may represent an outer limit on the complexity of models that can feasibility be estimated, given that most single-case designs have fewer cases than the study examined in this example.</p>
 </div>
 </div>
@@ -607,12 +607,12 @@
 <p>Note that the specification of the <code>r_const</code> argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The argument appears in a different order than reported in the article because of how the variance components are arranged in the <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> function. To see the order of the variance components used by <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>, use the <code><a href="../reference/lmeInfo.html">extract_varcomp()</a></code> function:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/lmeInfo.html">extract_varcomp</a></span><span class="op">(</span><span class="va">hlm2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##      Tau.case.case.var((Intercept)) Tau.case.case.cov(week,(Intercept)) 
-##                          95.7126977                          11.2090726 
-##             Tau.case.case.var(week)                          cor_params 
-##                           1.9938298                           0.3985953 
-##                            sigma_sq 
-##                          29.3943508</code></pre>
+<pre><code><span class="co">##      Tau.case.case.var((Intercept)) Tau.case.case.cov(week,(Intercept)) </span>
+<span class="co">##                          95.7126977                          11.2090726 </span>
+<span class="co">##             Tau.case.case.var(week)                          cor_params </span>
+<span class="co">##                           1.9938298                           0.3985953 </span>
+<span class="co">##                            sigma_sq </span>
+<span class="co">##                          29.3943508</span></code></pre>
 <p>The order of parameter estimates appearing in the result is the same as assumed in <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>. Thus, entries in <code>r_const</code> should correspond to the order of the parameter estimates appearing here.<a href="#fnref1" class="footnote-back">↩︎</a></p>
 </li>
 <li id="fn2"><p>Again, the specification of the <code>r_const</code> argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The entries in <code>r_const</code> should correspond to the order of the parameter estimates appearing in <code>unlist(extract_varcomp(hlm3))</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
