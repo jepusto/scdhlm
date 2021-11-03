@@ -98,7 +98,7 @@ summarize_ES <- function(res, filter_vals,
   ES_summary$trt <- paste0("F:", paste(FE_trt, collapse = ""), 
                            " R:", paste(RE_trt, collapse = ""))
   
-  if (method=="RML" & design=="MB") {
+  if (method=="RML" & design=="MB" & !is.null(A) & !is.null(B)) {
     ES_summary$A <- A
     ES_summary$B <- B
   } else {

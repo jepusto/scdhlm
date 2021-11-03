@@ -292,14 +292,15 @@ server <-
     })
     
     output$ES_timing <- renderUI({
-      if (studyDesign()=="MB" & input$method=="RML") {
+      if (studyDesign()=="MB" & input$method=="RML" & 
+          any(input$degree_trt != 0, (input$degree_base != 0 & input$RE_base > 0))) {
         timings <- time_range()
         wellPanel(
           fluidRow(
-            column(12, 
+            column(12,
                    h4("Hypothetical experimental parameters")
             ),
-            column(6, 
+            column(6,
                    sliderInput("A_time", "Initial treatment time",
                                min = timings$range[1], max = timings$range[2],
                                value = timings$A, step = 1)
@@ -310,22 +311,22 @@ server <-
                                value = timings$B, step = 1)
             )
           )
-        )  
+        )
       }
     })
-    
+
     
     # Model degree
     
     output$modelDegree_baseline <- renderUI({
       if (studyDesign() == "MB") {
-        selectInput("degree_base", label = "Type of time trend", choices = time_trends, width = "40%")  
+        selectInput("degree_base", label = "Type of time trend", choices = time_trends_baseline, width = "40%")  
       }
     })
     
     output$modelDegree_treatment <- renderUI({
       if (studyDesign() == "MB") {
-        selectInput("degree_trt", label = "Type of time trend", choices = time_trends, width = "40%")  
+        selectInput("degree_trt", label = "Type of time trend", choices = time_trends_treatment, width = "40%")  
       }
     })
     
@@ -334,7 +335,7 @@ server <-
     output$modelSpec_baseline <- renderUI({
       deg_base <- if (is.null(input$degree_base)) 0 else as.numeric(input$degree_base)
       degree_base_list <- 0:deg_base
-      names(degree_base_list) <- degree_names[1:(deg_base + 1)]
+      names(degree_base_list) <- degree_names_baseline[1:(deg_base + 1)]
       fluidRow(
         column(6,
                checkboxGroupInput("FE_base", "Include fixed effect", degree_base_list, selected = degree_base_list)
@@ -348,7 +349,7 @@ server <-
     output$modelSpec_treatment <- renderUI({
       deg_trt <- if (is.null(input$degree_trt)) 0 else as.numeric(input$degree_trt)
       degree_trt_list <- 0:deg_trt
-      names(degree_trt_list) <- degree_names[1:(deg_trt + 1)]
+      names(degree_trt_list) <- degree_names_treatment[1:(deg_trt + 1)]
       fluidRow(
         column(6,
                checkboxGroupInput("FE_trt", "Include fixed effect", degree_trt_list, selected = degree_trt_list)
@@ -371,12 +372,13 @@ server <-
     # Fit model 
     
     model_fit <- reactive({
+      center <- if (is.null(input$model_center)) 0L else input$model_center
       fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[studyDesign()]]
       do.call(fit_function,
               args = list(dat = datClean(), 
                           FE_base = input$FE_base, RE_base = input$RE_base,
                           FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
-                          center = input$model_center))
+                          center = center))
       
     })
     

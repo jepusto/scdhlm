@@ -125,7 +125,8 @@ ui <-
                             selected = "RML")
              ),
              column(6,
-                uiOutput("model_centering")
+                    conditionalPanel(condition = "input.degree_base != 0",
+                                     uiOutput("model_centering"))
              )
            ),
            conditionalPanel(condition = "input.method == 'HPS'",
