@@ -1,5 +1,9 @@
 # scdhlm 0.5.2.999
 
+* Revisions to shiny app: 
+  * The centering, initial treatment time, and follow-up time sliders now only appear when they are relevant.
+  * More informative labels for the baseline trend and treatment phase trend options.
+* Fixed a bug so that shine_scd() can take a tibble in the dataset argument.
 * Fixed bug in graph_SCD() function that occurred in treatment reversal designs with cases that had varying numbers of reversals.
 
 # scdhlm 0.5.2
