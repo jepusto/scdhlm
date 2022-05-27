@@ -13,8 +13,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# scdhlm
-
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/jepusto/scdhlm/workflows/R-CMD-check/badge.svg)](https://github.com/jepusto/scdhlm/actions)
 [![Codecov Status](https://codecov.io/gh/jepusto/scdhlm/branch/master/graph/badge.svg)](https://codecov.io/gh/jepusto/scdhlm?branch=master)
@@ -23,15 +21,27 @@ knitr::opts_chunk$set(
 [![](http://cranlogs.r-pkg.org/badges/last-month/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
 <!-- badges: end -->
 
-## Estimating Hierarchical Linear Models for Single-Case Designs
+# Estimating Hierarchical Linear Models for Single-Case Designs
 
 `scdhlm` provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from ABAB designs (or more general treatment reversal designs), multiple baseline designs, and multiple probe designs. Two estimation methods are available: moment estimation (Hedges, Pustejovsky, & Shadish, 2012; 2013) and restricted maximum likelihood estimation (Pustejovsky, Hedges, & Shadish, 2014). The package also includes an interactive web interface implemented using Shiny.
 
-## Acknowledgement
+# Acknowledgement
+
+<img src="https://raw.githubusercontent.com/jepusto/scdhlm/master/images/IES_InstituteOfEducationSciences_RGB.svg" width="40%" align = "right" alt = "Institute of Education Sciences logo"/>
 
 The development of this R package was supported in part by the Institute of Education Sciences, U.S. Department of Education, through [Grant R324U190002](https://ies.ed.gov/funding/grantsearch/details.asp?ID=3358) to the University of Oregon. The contents of the package do not necessarily represent the views of the Institute or the U.S. Department of Education.
 
-## Installation
+# Citations
+
+Please cite this R package as follows:
+
+> Pustejovsky, J. E., Chen, M., & Hamilton, B. J. (2020). SingleCaseES: A calculator for single-case effect size indices (Version `r packageVersion("scdhlm")`) [R package]. https://CRAN.R-project.org/package=scdhlm
+
+Please cite the web application as follows:
+
+> Pustejovsky, J. E., Chen, M., & Hamilton, B. (2020). scdhlm: A web-based calculator for between-case standardized mean differences (Version `r packageVersion("scdhlm")`) [Web application]. https://jepusto.shinyapps.io/scdhlm
+
+# Installation
 
 You can install the released version of `scdhlm` from [CRAN](https://CRAN.R-project.org) with:
 
@@ -53,11 +63,11 @@ library(scdhlm)
 shine_scd()
 ```
 
-## Demonstration
+# Demonstration
 
 Here we demonstrate how to use `scdhlm` to calculate design-comparable SMDs based on data from different single-case designs. We will first demonstrate the recommended approach, which uses restricted maximum likelihood (REML) estimation. We will then demonstrate the older, moment estimation methods. The moment estimation methods were the originally proposed approach (described in Hedges, Pustejovsky, & Shadish, 2012, 2013). The package provides these methods for sake of completeness, but we no longer recommend them for general use. 
 
-### Estimating SMDs using REML with `g_mlm()`
+## Estimating SMDs using REML with `g_mlm()`
 
 Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included eight children. One child was measured separately with each parent; following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in our analysis.
 
@@ -116,7 +126,7 @@ CI_g(Laski_ES_RML, symmetric = FALSE)
 
 The symmetric confidence interval is `r paste0("[", round(CI_g(Laski_ES_RML),3)[1], ", ",  round(CI_g(Laski_ES_RML),3)[2], "]")` and the asymmetric confidence interval is `r paste0("[", round(CI_g(Laski_ES_RML, symmetric = FALSE),3)[1], ", ",  round(CI_g(Laski_ES_RML, symmetric = FALSE),3)[2], "]")`.
 
-### Estimating SMDs using `effect_size_ABk()`
+## Estimating SMDs using `effect_size_ABk()`
 
 Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the `effect_size_ABk()` function. To use this function, the user must provide the names of five variables: 
 
@@ -145,7 +155,7 @@ A summary() method is included to return more detail about the model parameter e
 summary(Lambert_ES)
 ```
 
-### Estimating SMDs using `effect_size_MB()`
+## Estimating SMDs using `effect_size_MB()`
 
 Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the intervention's effect on measures of writing quality, sentence complexity, and use of target constructions. 
 
@@ -169,7 +179,7 @@ summary(quality_ES)
 ```
 
 
-## References
+# References
 
 Gilmour, A. R., Thompson, R., & Cullis, B. R. (1995). Average information REML: An efficient algorithm for variance parameter estimation in linear mixed models. _Biometrics, 51_(4), 1440–1450. https://doi.org/10.2307/2533274
 

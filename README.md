@@ -1,8 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# scdhlm
-
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/jepusto/scdhlm/workflows/R-CMD-check/badge.svg)](https://github.com/jepusto/scdhlm/actions)
@@ -13,7 +10,7 @@ Status](https://codecov.io/gh/jepusto/scdhlm/branch/master/graph/badge.svg)](htt
 [![](http://cranlogs.r-pkg.org/badges/last-month/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
 <!-- badges: end -->
 
-## Estimating Hierarchical Linear Models for Single-Case Designs
+# Estimating Hierarchical Linear Models for Single-Case Designs
 
 `scdhlm` provides a set of tools for estimating hierarchical linear
 models and effect sizes based on data from single-case designs. The
@@ -28,7 +25,9 @@ Shadish, 2012; 2013) and restricted maximum likelihood estimation
 (Pustejovsky, Hedges, & Shadish, 2014). The package also includes an
 interactive web interface implemented using Shiny.
 
-## Acknowledgement
+# Acknowledgement
+
+<img src="https://raw.githubusercontent.com/jepusto/scdhlm/master/images/IES_InstituteOfEducationSciences_RGB.svg" width="40%" align = "right" alt = "Institute of Education Sciences logo"/>
 
 The development of this R package was supported in part by the Institute
 of Education Sciences, U.S. Department of Education, through [Grant
@@ -37,7 +36,22 @@ to the University of Oregon. The contents of the package do not
 necessarily represent the views of the Institute or the U.S. Department
 of Education.
 
-## Installation
+# Citations
+
+Please cite this R package as follows:
+
+> Pustejovsky, J. E., Chen, M., & Hamilton, B. J. (2020). SingleCaseES:
+> A calculator for single-case effect size indices (Version 0.5.2) \[R
+> package\]. <https://CRAN.R-project.org/package=scdhlm>
+
+Please cite the web application as follows:
+
+> Pustejovsky, J. E., Chen, M., & Hamilton, B. (2020). scdhlm: A
+> web-based calculator for between-case standardized mean differences
+> (Version 0.5.2) \[Web application\].
+> <https://jepusto.shinyapps.io/scdhlm>
+
+# Installation
 
 You can install the released version of `scdhlm` from
 [CRAN](https://CRAN.R-project.org) with:
@@ -62,7 +76,7 @@ library(scdhlm)
 shine_scd()
 ```
 
-## Demonstration
+# Demonstration
 
 Here we demonstrate how to use `scdhlm` to calculate design-comparable
 SMDs based on data from different single-case designs. We will first
@@ -73,7 +87,7 @@ proposed approach (described in Hedges, Pustejovsky, & Shadish, 2012,
 2013). The package provides these methods for sake of completeness, but
 we no longer recommend them for general use.
 
-### Estimating SMDs using REML with `g_mlm()`
+## Estimating SMDs using REML with `g_mlm()`
 
 Laski, Charlop, and Schreibman (1988) used a multiple baseline across
 individuals to evaluate the effect of a training program for parents on
@@ -234,7 +248,7 @@ CI_g(Laski_ES_RML, symmetric = FALSE)
 The symmetric confidence interval is \[0.805, 2.005\] and the asymmetric
 confidence interval is \[0.914, 2.005\].
 
-### Estimating SMDs using `effect_size_ABk()`
+## Estimating SMDs using `effect_size_ABk()`
 
 Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using
 response cards (compared to single-student responding) during math
@@ -246,12 +260,12 @@ used a relatively large number of cases. Their calculations can be
 replicated using the `effect_size_ABk()` function. To use this function,
 the user must provide the names of five variables:
 
-  - the outcome variable,
-  - a variable indicating the treatment condition,
-  - a variable listing the case on which the outcome was measured,
-  - a variable indicating the phase of treatment (i.e., each replication
+-   the outcome variable,
+-   a variable indicating the treatment condition,
+-   a variable listing the case on which the outcome was measured,
+-   a variable indicating the phase of treatment (i.e., each replication
     of a baseline and treatment condition), and
-  - a variable listing the session number.
+-   a variable listing the session number.
 
 In the `Lambert` dataset, these variables are called respectively
 `outcome`, `treatment`, `case`, `phase`, and `time`. Given these inputs,
@@ -296,7 +310,7 @@ summary(Lambert_ES)
 #> scalar constant                     0.145
 ```
 
-### Estimating SMDs using `effect_size_MB()`
+## Estimating SMDs using `effect_size_MB()`
 
 Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to
 investigate the effect of an instructional technique on the writing of
@@ -342,7 +356,7 @@ summary(quality_ES)
 #> scalar constant                   0.201
 ```
 
-## References
+# References
 
 Gilmour, A. R., Thompson, R., & Cullis, B. R. (1995). Average
 information REML: An efficient algorithm for variance parameter
