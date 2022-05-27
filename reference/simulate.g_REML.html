@@ -27,7 +27,7 @@ specified standardized mean difference effect size. Suitable for parametric boot
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -69,10 +69,11 @@ specified standardized mean difference effect size. Suitable for parametric boot
 specified standardized mean difference effect size. Suitable for parametric bootstrapping.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for g_REML</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for g_REML</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate</a></span><span class="op">(</span><span class="va">object</span>, nsim <span class="op">=</span> <span class="fl">1</span>, seed <span class="op">=</span> <span class="cn">NULL</span>, parallel <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>object</dt>
@@ -91,11 +92,10 @@ specified standardized mean difference effect size. Suitable for parametric boot
     <p>A matrix with one row per simulation, with columns corresponding to the output
 of <code>g_REML</code>.</p>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">Laski_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">treatment</span>,</span>
 <span class="r-in">                 random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">case</span>,</span>
 <span class="r-in">                 correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html" class="external-link">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>, </span>
@@ -123,48 +123,48 @@ of <code>g_REML</code>.</p>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      p_beta  r_theta delta_AB       nu     kappa      g_AB     V_g_AB cnvg_warn</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  28.43456 622.2975 1.139850 15.79368 0.1518839 1.0848505 0.06766583         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  29.98378 453.5843 1.407853 17.34863 0.1374396 1.3461003 0.07989805         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  29.21906 587.2765 1.205716 15.51327 0.1383478 1.1464699 0.06975357         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  27.33197 305.0051 1.565011 33.65516 0.1759340 1.5298739 0.06884054         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  32.56226 477.0307 1.490876 12.46785 0.1116838 1.3993572 0.10966958         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  31.72335 455.2377 1.486825 16.05964 0.1306844 1.4162913 0.09080790         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  27.63340 330.0273 1.521106 22.61015 0.1559001 1.4700851 0.07824275         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  30.19317 204.0075 2.113906 79.68142 0.1957333 2.0939463 0.06691554         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  28.98608 411.2954 1.429264 19.82727 0.1413870 1.3745096 0.07460437         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 32.47785 495.6775 1.458773 14.57606 0.1193512 1.3824031 0.09289881         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 32.32056 308.5035 1.840131 44.95243 0.1867681 1.8092585 0.07372198         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 30.36592 537.3000 1.310020 14.65333 0.1397673 1.2418060 0.08293291         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 27.66378 234.2525 1.807463 84.59737 0.1878143 1.7913913 0.05500189         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 25.12745 261.1768 1.554824 45.26883 0.1931352 1.5289208 0.06497714         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 26.46227 449.9145 1.247562 20.83184 0.1660365 1.2021007 0.06740553         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 30.84847 886.4966 1.036084 11.95117 0.1112076 0.9696751 0.06186505         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 33.56389 277.9135 2.013342 53.88367 0.1777545 1.9851877 0.07015147         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 31.56461 714.4332 1.180918 12.40074 0.1178853 1.1080261 0.07554171         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 35.06524 298.9051 2.028197 24.89380 0.1644057 1.9664718 0.11340850         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 33.90565 907.5064 1.125505 11.26880 0.1080028 1.0488966 0.07382278         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    sigma_sq       phi Tau.case.var((Intercept))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  251.3723 0.4535469                 370.92513</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  187.4700 0.2380345                 266.11431</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  222.4033 0.3212265                 364.87320</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  194.8923 0.2864955                 110.11277</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  133.7728 0.2167293                 343.25785</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  174.1873 0.2197337                 281.05035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  168.5497 0.2707429                 161.47758</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  175.9944 0.2217976                  28.01305</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  188.3786 0.2032629                 222.91675</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 169.2355 0.1698846                 326.44203</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 222.7242 0.2854605                  85.77933</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 194.7866 0.3829227                 342.51335</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 202.3846 0.1601280                  31.86793</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 191.8343 0.3290195                  69.34252</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 226.2324 0.4028161                 223.68211</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 234.4725 0.2553696                 652.02411</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 208.3311 0.1802812                  69.58234</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 202.3466 0.2950070                 512.08662</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 163.5931 0.3020222                 135.31199</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 217.9906 0.2861158                 689.51579</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      p_beta  r_theta  delta_AB       nu     kappa      g_AB     V_g_AB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  29.27735 406.8405 1.4515087 35.20815 0.1828738 1.4203678 0.06466046</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  28.46779 497.3780 1.2764695 12.83805 0.1149796 1.2004171 0.08242667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  35.98914 346.4347 1.9335739 33.56030 0.1863289 1.8900384 0.09252024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  28.33041 457.4630 1.3245701 19.02720 0.1488579 1.2716640 0.07129576</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  36.11315 471.4602 1.6631941 21.47939 0.1518707 1.6044361 0.09095131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  32.60691 566.9572 1.3694133 12.97737 0.1192331 1.2887163 0.09289055</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  31.55111 297.2502 1.8300107 27.61893 0.1708204 1.7798623 0.09245498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  32.37322 262.9307 1.9964811 33.49584 0.1644728 1.9514420 0.08863743</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  32.71495 482.9440 1.4886680 14.58391 0.1160691 1.4107757 0.09527988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 30.58187 712.7901 1.1454685 12.87733 0.1248330 1.0774334 0.07136253</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 31.19823 431.1203 1.5025563 23.85208 0.1657876 1.4548098 0.07734587</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 21.10715 489.5865 0.9539263 14.96938 0.1221903 0.9053207 0.04796523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 30.41520 430.3361 1.4661785 20.29737 0.1430696 1.4113267 0.07652512</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 31.10771 213.8554 2.1271981 73.62848 0.1942453 2.1054560 0.06909973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 30.03276 260.3470 1.8613107 25.56517 0.1671644 1.8061666 0.09881895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 28.57733 444.3771 1.3556443 17.74492 0.1291158 1.2975284 0.07187150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 30.36712 525.5436 1.3246443 12.43536 0.1118913 1.2431134 0.08960106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 35.15465 430.8990 1.6935384 20.35549 0.1415308 1.6303639 0.09439377</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 30.45527 689.7625 1.1596119 13.00761 0.1179299 1.0914402 0.07035280</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 33.87915 250.2766 2.1415212 66.00648 0.2136329 2.1170956 0.08121237</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    cnvg_warn sigma_sq       phi Tau.case.var((Intercept))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          0 268.6249 0.3254667                 138.21555</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          0 145.9344 0.2265913                 351.44361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          0 227.0696 0.3679319                 119.36505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4          0 207.2839 0.2929791                 250.17915</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5          0 231.8405 0.2588834                 239.61970</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          0 170.3877 0.2648184                 396.56950</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7          0 173.2991 0.3139752                 123.95113</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8          0 163.9575 0.1998636                  98.97321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9          0 163.9369 0.1346744                 319.00703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10         0 215.9238 0.3369552                 496.86629</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11         0 231.9051 0.3321707                 199.21519</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12         0 172.6120 0.1806609                 316.97460</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13         0 200.7678 0.2071975                 229.56834</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14         0 180.1097 0.2278056                  33.74575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15         0 145.2807 0.3142100                 115.06633</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16         0 183.8630 0.1454597                 260.51414</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17         0 146.9491 0.2217433                 378.59450</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18         0 200.8111 0.1919883                 230.08784</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19         0 207.1525 0.2478456                 482.60995</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20         0 215.2862 0.3745339                  34.99034</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
@@ -180,7 +180,7 @@ of <code>g_REML</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
       </footer></div>

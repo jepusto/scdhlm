@@ -52,7 +52,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -92,24 +92,30 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div class="section level1">
-<div class="page-header"><h1 id="scdhlm">scdhlm<a class="anchor" aria-label="anchor" href="#scdhlm"></a>
-</h1></div>
-<!-- badges: start -->
 
-<div class="section level2">
-<h2 id="estimating-hierarchical-linear-models-for-single-case-designs">Estimating Hierarchical Linear Models for Single-Case Designs<a class="anchor" aria-label="anchor" href="#estimating-hierarchical-linear-models-for-single-case-designs"></a>
-</h2>
+
+<div class="section level1">
+<div class="page-header"><h1 id="estimating-hierarchical-linear-models-for-single-case-designs">Estimating Hierarchical Linear Models for Single-Case Designs<a class="anchor" aria-label="anchor" href="#estimating-hierarchical-linear-models-for-single-case-designs"></a>
+</h1></div>
 <p><code>scdhlm</code> provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from ABAB designs (or more general treatment reversal designs), multiple baseline designs, and multiple probe designs. Two estimation methods are available: moment estimation (Hedges, Pustejovsky, &amp; Shadish, 2012; 2013) and restricted maximum likelihood estimation (Pustejovsky, Hedges, &amp; Shadish, 2014). The package also includes an interactive web interface implemented using Shiny.</p>
 </div>
-<div class="section level2">
-<h2 id="acknowledgement">Acknowledgement<a class="anchor" aria-label="anchor" href="#acknowledgement"></a>
-</h2>
+<div class="section level1">
+<h1 id="acknowledgement">Acknowledgement<a class="anchor" aria-label="anchor" href="#acknowledgement"></a>
+</h1>
+<p><img src="https://raw.githubusercontent.com/jepusto/scdhlm/master/images/IES_InstituteOfEducationSciences_RGB.svg" width="40%" align="right" alt="Institute of Education Sciences logo"></p>
 <p>The development of this R package was supported in part by the Institute of Education Sciences, U.S. Department of Education, through <a href="https://ies.ed.gov/funding/grantsearch/details.asp?ID=3358" class="external-link">Grant R324U190002</a> to the University of Oregon. The contents of the package do not necessarily represent the views of the Institute or the U.S. Department of Education.</p>
 </div>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
+<div class="section level1">
+<h1 id="citations">Citations<a class="anchor" aria-label="anchor" href="#citations"></a>
+</h1>
+<p>Please cite this R package as follows:</p>
+<blockquote><p>Pustejovsky, J. E., Chen, M., &amp; Hamilton, B. J. (2020). SingleCaseES: A calculator for single-case effect size indices (Version 0.5.2) [R package]. <a href="https://CRAN.R-project.org/package=scdhlm" class="external-link uri">https://CRAN.R-project.org/package=scdhlm</a></p></blockquote>
+<p>Please cite the web application as follows:</p>
+<blockquote><p>Pustejovsky, J. E., Chen, M., &amp; Hamilton, B. (2020). scdhlm: A web-based calculator for between-case standardized mean differences (Version 0.5.2) [Web application]. <a href="https://jepusto.shinyapps.io/scdhlm" class="external-link uri">https://jepusto.shinyapps.io/scdhlm</a></p></blockquote>
+</div>
+<div class="section level1">
+<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h1>
 <p>You can install the released version of <code>scdhlm</code> from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"scdhlm"</span><span class="op">)</span></code></pre></div>
@@ -122,14 +128,14 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jepusto.github.io/scdhlm/">scdhlm</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/shine_scd.html">shine_scd</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="demonstration">Demonstration<a class="anchor" aria-label="anchor" href="#demonstration"></a>
-</h2>
+<div class="section level1">
+<h1 id="demonstration">Demonstration<a class="anchor" aria-label="anchor" href="#demonstration"></a>
+</h1>
 <p>Here we demonstrate how to use <code>scdhlm</code> to calculate design-comparable SMDs based on data from different single-case designs. We will first demonstrate the recommended approach, which uses restricted maximum likelihood (REML) estimation. We will then demonstrate the older, moment estimation methods. The moment estimation methods were the originally proposed approach (described in Hedges, Pustejovsky, &amp; Shadish, 2012, 2013). The package provides these methods for sake of completeness, but we no longer recommend them for general use.</p>
-<div class="section level3">
-<h3 id="estimating-smds-using-reml-with-g_mlm">Estimating SMDs using REML with <code>g_mlm()</code>
+<div class="section level2">
+<h2 id="estimating-smds-using-reml-with-g_mlm">Estimating SMDs using REML with <code>g_mlm()</code>
 <a class="anchor" aria-label="anchor" href="#estimating-smds-using-reml-with-g_mlm"></a>
-</h3>
+</h2>
 <p>Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included eight children. One child was measured separately with each parent; following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in our analysis.</p>
 <p>For this study, we will estimate a design-comparable SMD using restricted maximum likelihood (REML) methods, as described by Pustejovsky and colleagues (2014). This is a two-step process. The first step is to estimate a hierarchical linear model for the data, treated the measurements as nested within cases. We fit the model using <code><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">nlme::lme()</a></code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -221,10 +227,10 @@
 <span class="co">#&gt; [1] 0.9143684 2.0046719</span></code></pre></div>
 <p>The symmetric confidence interval is [0.805, 2.005] and the asymmetric confidence interval is [0.914, 2.005].</p>
 </div>
-<div class="section level3">
-<h3 id="estimating-smds-using-effect_size_abk">Estimating SMDs using <code>effect_size_ABk()</code>
+<div class="section level2">
+<h2 id="estimating-smds-using-effect_size_abk">Estimating SMDs using <code>effect_size_ABk()</code>
 <a class="anchor" aria-label="anchor" href="#estimating-smds-using-effect_size_abk"></a>
-</h3>
+</h2>
 <p>Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the <code><a href="reference/effect_size_ABk.html">effect_size_ABk()</a></code> function. To use this function, the user must provide the names of five variables:</p>
 <ul>
 <li>the outcome variable,</li>
@@ -260,10 +266,10 @@
 <span class="co">#&gt; degree of freedom                 164.492      </span>
 <span class="co">#&gt; scalar constant                     0.145</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="estimating-smds-using-effect_size_mb">Estimating SMDs using <code>effect_size_MB()</code>
+<div class="section level2">
+<h2 id="estimating-smds-using-effect_size_mb">Estimating SMDs using <code>effect_size_MB()</code>
 <a class="anchor" aria-label="anchor" href="#estimating-smds-using-effect_size_mb"></a>
-</h3>
+</h2>
 <p>Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the intervention’s effect on measures of writing quality, sentence complexity, and use of target constructions.</p>
 <p>Design-comparable SMDs can be estimated based on these data using the <code><a href="reference/effect_size_MB.html">effect_size_MB()</a></code> function. The following code calculates a design-comparable SMD estimate for the measure of writing quality:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -293,9 +299,9 @@
 <span class="co">#&gt; scalar constant                   0.201</span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
+<div class="section level1">
+<h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h1>
 <p>Gilmour, A. R., Thompson, R., &amp; Cullis, B. R. (1995). Average information REML: An efficient algorithm for variance parameter estimation in linear mixed models. <em>Biometrics, 51</em>(4), 1440–1450. <a href="https://doi.org/10.2307/2533274" class="external-link uri">https://doi.org/10.2307/2533274</a></p>
 <p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. <em>Research Synthesis Methods, 3</em>(3), 224-239. doi: <a href="http://doi.org/10.1002/jrsm.1052" class="external-link">10.1002/jrsm.1052</a></p>
 <p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. <em>Research Synthesis Methods, 4</em>(4), 324-341. doi: <a href="http://doi.org/10.1002/jrsm.1086" class="external-link">10.1002/jrsm.1086</a></p>
@@ -304,7 +310,7 @@
 <p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href="http://doi.org/10.3102/1076998614547577" class="external-link">10.3102/1076998614547577</a></p>
 <p>Saddler, B., Behforooz, B., &amp; Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. <em>The Journal of Special Education, 42</em>(2), 79–90. doi: <a href="http://doi.org/10.1177/0022466907310371" class="external-link">10.1177/0022466907310371</a></p>
 </div>
-</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -328,7 +334,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing scdhlm</a></li>
+<li><a href="authors.html#citation">Citing scdhlm</a></li>
 </ul>
 </div>
 
@@ -364,7 +370,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
       </footer>
