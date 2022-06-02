@@ -86,29 +86,20 @@ measurement occasion per subject.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>outcome</dt>
-<dd><p>vector of outcome data or name of variable within <code>data</code>. May not contain any missing values.</p></dd>
-<dt>treatment</dt>
-<dd><p>vector of treatment indicators or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></dd>
-<dt>id</dt>
-<dd><p>factor vector indicating unique cases or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></dd>
-<dt>phase</dt>
-<dd><p>factor vector indicating unique phases (each containing one contiguous control 
-condition and one contiguous treatment condition) or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></dd>
-<dt>time</dt>
-<dd><p>vector of measurement occasion times or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></dd>
-<dt>data</dt>
-<dd><p>(Optional) dataset to use for analysis. Must be data.frame.</p></dd>
-<dt>phi</dt>
-<dd><p>(Optional) value of the auto-correlation nuisance parameter, to be used 
-in calculating the small-sample adjusted effect size</p></dd>
-<dt>rho</dt>
-<dd><p>(Optional) value of the intra-class correlation nuisance parameter, to be used 
-in calculating the small-sample adjusted effect size</p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with the following components</p><table class="table table"><tr><td><code>M_a</code></td><td>Matrix reporting the total number of time points with data for all ids, 
+    
+
+<p>A list with the following components</p><table class="table table"><tr><td><code>M_a</code></td><td>Matrix reporting the total number of time points with data for all ids, 
 by phase and treatment condition</td></tr><tr><td><code>M_dot</code></td><td>Total number of time points used to calculate the total variance (the sum of <code>M_a</code>)</td></tr><tr><td><code>D_bar</code></td><td>numerator of effect size estimate</td></tr><tr><td><code>S_sq</code></td><td>sample variance, pooled across time points and treatment groups</td></tr><tr><td><code>delta_hat_unadj</code></td><td>unadjusted effect size estimate</td></tr><tr><td><code>phi</code></td><td>corrected estimate of first-order auto-correlation</td></tr><tr><td><code>sigma_sq_w</code></td><td>corrected estimate of within-case variance</td></tr><tr><td><code>rho</code></td><td>estimated intra-class correlation</td></tr><tr><td><code>theta</code></td><td>estimated scalar constant</td></tr><tr><td><code>nu</code></td><td>estimated degrees of freedom</td></tr><tr><td><code>delta_hat</code></td><td>corrected effect size estimate</td></tr><tr><td><code>V_delta_hat</code></td><td>estimated variance of the effect size</td></tr></table></div>
     <div id="note">
     <h2>Note</h2>

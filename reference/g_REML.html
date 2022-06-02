@@ -86,28 +86,20 @@ from a multiple baseline design, using adjusted REML method as described in Pust
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>m_fit</dt>
-<dd><p>Fitted model of class lme, with AR(1) correlation structure at level 1.</p></dd>
-<dt>p_const</dt>
-<dd><p>Vector of constants for calculating numerator of effect size. 
-Must be the same length as fixed effects in <code>m_fit</code>.</p></dd>
-<dt>r_const</dt>
-<dd><p>Vector of constants for calculating denominator of effect size. 
-Must be the same length as the number of variance component parameters in <code>m_fit</code>.</p></dd>
-<dt>X_design</dt>
-<dd><p>(Optional) Design matrix for fixed effects. Will be extracted from <code>m_fit</code> if not specified.</p></dd>
-<dt>Z_design</dt>
-<dd><p>(Optional) Design matrix for random effects. Will be extracted from <code>m_fit</code> if not specified.</p></dd>
-<dt>block</dt>
-<dd><p>(Optional) Factor variable describing the blocking structure. Will be extracted from <code>m_fit</code> if not specified.</p></dd>
-<dt>times</dt>
-<dd><p>(Optional) list of times used to describe AR(1) structure. Will be extracted from <code>m_fit</code> if not specified.</p></dd>
-<dt>returnModel</dt>
-<dd><p>(Optional) If true, the fitted input model is included in the return.</p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with the following components</p><table class="table table"><tr><td><code>p_beta</code></td><td>Numerator of effect size</td></tr><tr><td><code>r_theta</code></td><td>Squared denominator of effect size</td></tr><tr><td><code>delta_AB</code></td><td>Unadjusted (REML) effect size estimate</td></tr><tr><td><code>nu</code></td><td>Estimated denominator degrees of freedom</td></tr><tr><td><code>kappa</code></td><td>Scaled standard error of numerator</td></tr><tr><td><code>g_AB</code></td><td>Corrected effect size estimate</td></tr><tr><td><code>V_g_AB</code></td><td>Approximate variance estimate</td></tr><tr><td><code>cnvg_warn</code></td><td>Indicator that model did not converge</td></tr><tr><td><code>sigma_sq</code></td><td>Estimated level-1 variance</td></tr><tr><td><code>phi</code></td><td>Estimated autocorrelation</td></tr><tr><td><code>Tau</code></td><td>Vector of level-2 variance components</td></tr><tr><td><code>I_E_inv</code></td><td>Expected information matrix</td></tr></table></div>
+    
+
+<p>A list with the following components</p><table class="table table"><tr><td><code>p_beta</code></td><td>Numerator of effect size</td></tr><tr><td><code>r_theta</code></td><td>Squared denominator of effect size</td></tr><tr><td><code>delta_AB</code></td><td>Unadjusted (REML) effect size estimate</td></tr><tr><td><code>nu</code></td><td>Estimated denominator degrees of freedom</td></tr><tr><td><code>kappa</code></td><td>Scaled standard error of numerator</td></tr><tr><td><code>g_AB</code></td><td>Corrected effect size estimate</td></tr><tr><td><code>V_g_AB</code></td><td>Approximate variance estimate</td></tr><tr><td><code>cnvg_warn</code></td><td>Indicator that model did not converge</td></tr><tr><td><code>sigma_sq</code></td><td>Estimated level-1 variance</td></tr><tr><td><code>phi</code></td><td>Estimated autocorrelation</td></tr><tr><td><code>Tau</code></td><td>Vector of level-2 variance components</td></tr><tr><td><code>I_E_inv</code></td><td>Expected information matrix</td></tr></table></div>
     <div id="references">
     <h2>References</h2>
     <p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014). 
