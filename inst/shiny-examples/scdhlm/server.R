@@ -291,6 +291,14 @@ server <-
       }
     })
     
+    output$ES_timing_message <- renderText({
+      if (studyDesign()=="MB" & input$method=="RML" & 
+          any(input$degree_trt != 0, (input$degree_base != 0 & input$RE_base > 0))) {
+        note_txt <- "Note: Options for selecting an initial treatment time and follow-up time can be modified on the next page." 
+        HTML(note_txt)
+      }
+    })
+    
     output$ES_timing <- renderUI({
       if (studyDesign()=="MB" & input$method=="RML" & 
           any(input$degree_trt != 0, (input$degree_base != 0 & input$RE_base > 0))) {
@@ -377,7 +385,8 @@ server <-
       do.call(fit_function,
               args = list(dat = datClean(), 
                           FE_base = input$FE_base, RE_base = input$RE_base,
-                          FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
+                          FE_trt = input$FE_trt, RE_trt = input$RE_trt,
+                          corStruct = input$corStruct,
                           center = center))
       
     })
@@ -400,12 +409,14 @@ server <-
     effect_size <- reactive({
       if ("lme" %in% class(model_fit()$fit)) {
         if (input$method=="RML") {
+          center <- if (is.null(input$model_center)) 0L else input$model_center
           A <- if (is.null(input$A_time)) 0L else input$A_time
           B <- if (is.null(input$B_time)) 1L else input$B_time
           res <- effect_size_RML(design = studyDesign(), dat = datClean(), 
                                  FE_base = input$FE_base, RE_base = input$RE_base,
-                                 FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
-                                 A = A, B = B, center = input$model_center)
+                                 FE_trt = input$FE_trt, RE_trt = input$RE_trt,
+                                 corStruct = input$corStruct,
+                                 A = A, B = B, center = center)
         } else {
           if (studyDesign()=="MB") {
             res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
@@ -436,7 +447,8 @@ server <-
                      filter_vals = filter_vals, 
                      design = studyDesign(), method = input$method, 
                      FE_base = input$FE_base, RE_base = input$RE_base,
-                     FE_trt = input$FE_trt, RE_trt = input$RE_trt, 
+                     FE_trt = input$FE_trt, RE_trt = input$RE_trt,
+                     corStruct = input$corStruct,
                      A = input$A_time, B = input$B_time,
                      coverage = input$coverage)
         
@@ -642,10 +654,20 @@ server <-
       fixed <- paste(outcome, "~", paste(c(session_FE, trt_FE), collapse = " + "))
       random <- paste("~", paste(c(session_RE, trt_RE), collapse = " + "), "|", case)
       
-      fit_mod <- parse_code_chunk("fit-RML", args = list(user_case = case,
-                                                         user_session = session,
-                                                         user_fixed = fixed, 
-                                                         user_random = random))
+      if (input$corStruct == "MA(1)") {
+        fit_mod <- parse_code_chunk("fit-RML-MA1", args = list(user_case = case,
+                                                               user_session = session,
+                                                               user_fixed = fixed, 
+                                                               user_random = random))
+      } else if (input$corStruct == "Independence") {
+        fit_mod <- parse_code_chunk("fit-RML-IID", args = list(user_fixed = fixed, 
+                                                               user_random = random))
+      } else {
+        fit_mod <- parse_code_chunk("fit-RML-AR1", args = list(user_case = case,
+                                                               user_session = session,
+                                                               user_fixed = fixed, 
+                                                               user_random = random))
+      }
     } else {
       fit_mod <- c()
     }
@@ -718,7 +740,7 @@ server <-
   })
   
   output$clip <- renderUI({
-    rclipButton("clipbtn", "Copy", ES_syntax(), icon("clipboard"))
+    rclipButton("clipbtn", "Copy", ES_syntax(), modal = FALSE, icon("clipboard"))
   })
   
   session$onSessionEnded(stopApp)

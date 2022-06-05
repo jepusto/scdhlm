@@ -67,7 +67,7 @@ validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt, case) {
 
 summarize_ES <- function(res, filter_vals, 
                          design, method, 
-                         FE_base, RE_base, FE_trt, RE_trt,
+                         FE_base, RE_base, FE_trt, RE_trt, corStruct,
                          A, B, coverage = 95L) {
   
   if (method=="RML") {
@@ -76,7 +76,7 @@ summarize_ES <- function(res, filter_vals,
       SE = as.numeric(res$SE_g_AB)
     )
     res$rho <- with(res, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
-    res$phi <- res$theta$cor_params
+    res$phi <- if (corStruct == "Independence") "NA" else res$theta$cor_params
   } else {
     ES_summary <- data.frame(
       ES = res$delta_hat,
