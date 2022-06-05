@@ -354,3 +354,99 @@ Center <- B
 Thiemann2004$time_c <- Thiemann2004$time - Center
 
 save(Thiemann2004, file = "data/Thiemann2004.RData", compress = TRUE, version = 2)
+
+
+#-------------------------
+# methods guide datasets
+#-------------------------
+
+Case <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 1-2.xlsx", sheet = "Case Harris for App rev2")
+str(Case)
+Case <- 
+  Case %>% 
+  mutate(
+    case = factor(`Case identifier`, levels = c("Ben","Abernathy","Willow","Paladin")),
+    condition = factor(`Phase identifier`, levels = c("b", "i"), labels = c("baseline", "treatment"))
+  ) %>% 
+  dplyr::filter(!is.na(`Outcome variable`)) %>% 
+  rename(session = `Session number`, outcome = `Outcome variable`) %>% 
+  select(case, session, condition, outcome)
+
+save(Case, file = "data/Case.RData", compress = TRUE, version = 2)
+
+
+Peltier <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 1-2.xlsx", sheet = 3)
+str(Peltier)
+Peltier <- 
+  Peltier %>% 
+  mutate(
+    case = as.factor(case),
+    condition = factor(phase, levels = c("b", "i"), labels = c("baseline", "treatment"))
+  ) %>% 
+  dplyr::filter(!is.na(outcome)) %>% 
+  select(case, session, condition, outcome)
+
+save(Peltier, file = "data/Peltier.RData", compress = TRUE, version = 2)
+
+
+GunningEspie <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 3-4.xlsx", sheet = 3)
+str(GunningEspie)
+GunningEspie <- 
+  GunningEspie %>% 
+  mutate(
+    case = factor(Case, levels = c("A", "D", "E", "H", "C", "F", "I"),
+                  labels = c("A", "D", "E", "H", "C", "F", "I")),
+    condition = factor(Phase, levels = c("b","i","f"), labels = c("baseline","treatment","follow-up"))
+  ) %>% 
+  rename(session = Session, outcome = `DV value`) %>% 
+  dplyr::filter(condition != "follow-up", case %in% c("A", "H", "C")) %>% 
+  select(case, session, condition, outcome)
+
+save(GunningEspie, file = "data/GunningEspie.RData", compress = TRUE, version = 2)
+
+
+DelemereDounavi <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 3-4.xlsx", sheet = 2)
+str(DelemereDounavi)
+DelemereDounavi <- 
+  DelemereDounavi %>% 
+  mutate(
+    case = factor(Case, levels = c("Martin", "Niamh", "Alan", "John", "Mary", "Thomas"), 
+                  labels = c("Martin", "Niamh", "Alan", "John", "Mary", "Thomas")),
+    condition = factor(Phase, levels = c("b", "i"), labels = c("baseline", "treatment"))
+  ) %>% 
+  rename(session = Session, outcome = `DV value`) %>% 
+  select(case, session, condition, outcome)
+
+save(DelemereDounavi, file = "data/DelemereDounavi.RData", compress = TRUE, version = 2)
+
+
+Datchuk <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 7-8.xlsx", sheet = 2)
+str(Datchuk)
+Datchuk <- 
+  Datchuk %>% 
+  mutate(
+    case = as.factor(case),
+    condition = as.factor(phase),
+    session = round(session)
+  ) %>%
+  select(case, session, condition, outcome)
+
+save(Datchuk, file = "data/Datchuk.RData", compress = TRUE, version = 2)
+
+
+Rodgers <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 7-8.xlsx", sheet = 1)
+str(Rodgers)
+Rodgers <- 
+  Rodgers %>% 
+  mutate(
+    case = as.factor(case),
+    condition = as.factor(phase),
+    session = round(session)
+  ) %>%
+  select(case, session, condition, outcome)
+
+save(Rodgers, file = "data/Rodgers.RData", compress = TRUE, version = 2)
+
+
+
+

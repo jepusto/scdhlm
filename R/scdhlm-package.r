@@ -424,6 +424,131 @@ NULL
 NULL
 
 
+#' Case et al. (1992)
+#'
+#' Data from a multiple baseline design conducted by Case, Harris, & Graham
+#' (1992). The variables are as follows: \itemize{ \item \code{case}.
+#' Participant identifier. \item \code{session}. Measurement occasion. \item
+#' \code{condition}. Factor identifying the phase of the design (baseline or
+#' treatment). \item \code{outcome}. Number of subtraction equations and answers
+#' correct on each word problem probe. }
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 56 rows and 4 variables
+#' @name Case
+#' @source Case, L. P., Harris, K. R., & Graham, S. (1992). Improving the
+#'   mathematical problem-solving skills of students with learning disabilities:
+#'   Self-regulated strategy development. \emph{The journal of special education,
+#'   26}(1), 1-1. \doi{10.1177/002246699202600101}
+#'
+#'   
+NULL
+
+#' Peltier et al. (2020)
+#'
+#' Data from a multiple baseline design conducted by Peltier, Sinclair, Pulos, &
+#' Suk (2020). The variables are as follows: \itemize{ \item \code{case}.
+#' Participant identifier. \item \code{session}. Measurement occasion. \item
+#' \code{condition}. Factor identifying the phase of the design (baseline or
+#' treatment). \item \code{outcome}. Mathematical problem-solving performance
+#' (percentage). }
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 232 rows and 4 variables
+#' @name Peltier
+#' @source Peltier, C., Sinclair, T. E., Pulos, J. M., & Suk, A. (2020). Effects
+#'   of schema-based instruction on immediate, generalized, and combined
+#'   structured word problems. \emph{The Journal of Special Education, 54}(2),
+#'   101-112. \doi{10.1177/0022466919883397}
+#'
+#'   
+NULL
+
+#' Delemere & Dounavi (2018)
+#'
+#' Data from a multiple baseline design conducted by Delemere & Dounavi (2018).
+#' The variables are as follows: \itemize{ \item \code{case}. Participant
+#' identifier. \item \code{session}. Measurement occasion. \item
+#' \code{condition}. Factor identifying the phase of the design (baseline or
+#' treatment). \item \code{outcome}. Sleep onset latency in minutes across
+#' nights for bedtime fading. }
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 187 rows and 4 variables
+#' @name DelemereDounavi
+#' @source Delemere, E., & Dounavi, K. (2018). Parent-implemented bedtime fading
+#'   and positive routines for children with autism spectrum disorders.
+#'   \emph{Journal of Autism and Developmental Disorders, 48}(4), 1002-1019.
+#'   \doi{10.1007/s10803-017-3398-4}
+#'
+#'   
+NULL
+
+#' Gunning & Espie (2003)
+#'
+#' Data from a multiple baseline design conducted by Gunning & Espie (2003). The
+#' variables are as follows: \itemize{ \item \code{case}. Participant
+#' identifier. Note that data for case A, C, and H were extracted. \item
+#' \code{session}. Measurement occasion. \item \code{condition}. Factor
+#' identifying the phase of the design (baseline or treatment). \item
+#' \code{outcome}. Sleep onset latency in minutes. }
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 126 rows and 4 variables
+#' @name GunningEspie
+#' @source Gunning, M. J., & Espie, C.A. (2003). Psychological treatment of
+#'   reported sleep disorder in adults with intellectual disability using a
+#'   multiple baseline design. \emph{Journal of Intellectual Disability
+#'   Research, 47}(3), 191-202. \doi{10.1046/j.1365-2788.2003.00461.x}
+#'
+#'   
+NULL
+
+#' Datchuk (2016)
+#'
+#' Data from a multiple baseline design conducted by Datchuk (2016). The
+#' variables are as follows: \itemize{ \item \code{case}. Participant
+#' identifier. \item \code{session}. Measurement occasion. \item
+#' \code{condition}. Factor identifying the phase of the design (baseline or
+#' treatment). \item \code{outcome}. Correct word sequences per minute. }
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 74 rows and 4 variables
+#' @name Datchuk
+#' @source Datchuk, S. M. (2016). Writing simple sentences and descriptive
+#'   paragraphs: Effects of an intervention on adolescents with writing
+#'   difficulties. \emph{Journal of Behavioral Education, 25}(2), 166-188.
+#'   \doi{10.1007/s10864-015-9236-x}
+#'   
+NULL
+
+#' Rodgers et al. (2021)
+#'
+#' Data from a multiple baseline design conducted by Rodgers, Datchuk, & Rila
+#' (2021). The variables are as follows: \itemize{ \item \code{case}.
+#' Participant identifier. \item \code{session}. Measurement occasion. \item
+#' \code{condition}. Factor identifying the phase of the design (baseline or
+#' treatment). \item \code{outcome}. The number of correct writing sequences in
+#' 1 minute. }
+#'
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 83 rows and 4 variables
+#' @name Rodgers
+#' @source Rodgers, D. B., Datchuk, S. M., & Rila, A. L. (2021). Effects of a
+#'   Text-Writing Fluency Intervention for Postsecondary Students with
+#'   Intellectual and Developmental Disabilities. \emph{Exceptionality, 29}(4),
+#'   310-325. \doi{10.1080/09362835.2020.1850451}
+#'   
+NULL
+
+
+
 #--------------------------
 # Simulation results
 #--------------------------
