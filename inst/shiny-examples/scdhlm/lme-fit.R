@@ -14,7 +14,7 @@ write_formula <- function(powers, var_names) {
   }
 }
 
-lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, center = 0, phi_init = 0.01) {
+lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)", center = 0, phi_init = 0.01) {
   require(nlme)
   # sort the data
   dat <- dat[order(dat$case, dat$session),]
@@ -28,11 +28,19 @@ lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, center = 0, phi_in
   trt_RE <- write_formula(RE_trt, c("NULL","trt","session_trt"))
   random <- as.formula(paste(" ~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
   
+  if (corStruct == "MA(1)") {
+    cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | case, p = 0, q = 1)")))
+  } else if (corStruct == "Independence") {
+    cor_struct <- NULL
+  } else {
+    cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
+  }
+  
   W <- TRUE
   E <- NULL
   RML_fit <- withCallingHandlers(
     tryCatch(lme(fixed = fixed, random = random,
-                 correlation = corAR1(phi_init, ~ session | case),
+                 correlation = cor_struct,
                  data = dat, 
                  control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
              error = function(e) E <<- e),
@@ -44,7 +52,7 @@ lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, center = 0, phi_in
        converged = if (is.null(E)) W else E)
 }
 
-lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, phi_init = 0.01, ...) {
+lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)", phi_init = 0.01, ...) {
   require(nlme)
   
   dat <- dat[order(dat$case, dat$session),]
@@ -57,11 +65,19 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, phi_init = 0.01, .
   trt_RE <- if (is.null(RE_trt) | !(0 %in% RE_trt)) NULL else "trt"
   random <- as.formula(paste(" ~",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
   
+  if (corStruct == "MA(1)") {
+    cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | case, p = 0, q = 1)")))
+  } else if (corStruct == "Independence") {
+    cor_struct <- NULL
+  } else {
+    cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
+  }
+  
   W <- TRUE
   E <- NULL
   RML_fit <- withCallingHandlers(
     tryCatch(lme(fixed = fixed, random = random,
-                 correlation = corAR1(phi_init, ~ session | case),
+                 correlation = corStruct,
                  data = dat, 
                  control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
              error = function(e) E <<- e),
@@ -79,11 +95,12 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, phi_init = 0.01, .
 # calculate effect sizes
 #---------------------------------------------------------------
 
-effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B, center, phi_init = 0.01) {
+effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, corStruct, A, B, center = 0, phi_init = 0.01) {
   fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[design]]
   m_fit <- do.call(fit_function, 
                    args = list(dat = dat, FE_base = FE_base, RE_base = RE_base,
-                               FE_trt = FE_trt, RE_trt = RE_trt, center = center, phi_init = phi_init))
+                               FE_trt = FE_trt, RE_trt = RE_trt, corStruct = corStruct, 
+                               center = center, phi_init = phi_init))
   fixed <- m_fit$fixed
   random <- m_fit$random
   mod <- m_fit$fit

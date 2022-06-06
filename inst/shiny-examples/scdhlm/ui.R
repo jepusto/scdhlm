@@ -124,9 +124,12 @@ ui <-
                             choices = estimation_names, 
                             selected = "RML")
              ),
-             column(6,
-                    conditionalPanel(condition = "input.degree_base != 0",
-                                     uiOutput("model_centering"))
+             conditionalPanel(condition = "input.method == 'RML'",
+                    column(6,
+                           selectInput("corStruct", 
+                                       label = "Dependence structure of level-1 errors",
+                                       choices = c("AR(1)", "MA(1)", "Independence"),
+                                       selected = "AR(1)"))
              )
            ),
            conditionalPanel(condition = "input.method == 'HPS'",
@@ -136,23 +139,30 @@ ui <-
            conditionalPanel(condition = "input.method == 'RML'",
               fluidRow(
                 column(6,
-                   wellPanel(
-                     h4("Baseline phase"),
-                     uiOutput("modelDegree_baseline"),
-                     uiOutput("modelSpec_baseline")
-                   )
+                       wellPanel(
+                         h4("Baseline phase"),
+                         uiOutput("modelDegree_baseline"),
+                         uiOutput("modelSpec_baseline")
+                       )
                 ),
                 column(6,
-                   wellPanel(
-                     h4("Treatment phase"),
-                     uiOutput("modelDegree_treatment"),
-                     uiOutput("modelSpec_treatment")
-                   )
+                       wellPanel(
+                         h4("Treatment phase"),
+                         uiOutput("modelDegree_treatment"),
+                         uiOutput("modelSpec_treatment")
+                       )
                 )
               ),
               fluidRow(
                 column(12, 
                 htmlOutput("model_spec")
+                )
+              ),
+              fluidRow(
+                column(12,
+                       br(),
+                       textOutput("ES_timing_message"),
+                       br()
                 )
               ),
               tabsetPanel(type = "tabs",
@@ -163,6 +173,8 @@ ui <-
                 ),
                 tabPanel("Model estimates",
                   column(12, br()),
+                  conditionalPanel(condition = "input.degree_base != 0",
+                                   uiOutput("model_centering")),
                   verbatimTextOutput("model_fit")
                 )
               )
