@@ -1,10 +1,14 @@
 # scdhlm 0.5.2.999
 
+* Six more example datasets added to the package and the `scdhlm` web app.
 * Revisions to shiny app: 
-  * The centering, initial treatment time, and follow-up time sliders now only appear when they are relevant.
+  * The app now includes several options for modeling the dependence structure of level-1 error terms, including AR(1) (the default), MA(1), or independent errors.
   * More informative labels for the baseline trend and treatment phase trend options.
+  * The centering, initial treatment time, and follow-up time sliders now only appear when they are relevant. 
+  * The centering slider now appears in the "Model estimates" tab because it is only relevant for interpreting the raw estimates from the fitted model (i.e., it does not affect the graph of fitted values). 
+  * The "Model" tab now includes a note regarding initial treatment time and follow-up time sliders, which only appears when relevant.
 * Fixed a bug so that shine_scd() can take a tibble in the dataset argument.
-* Fixed bug in graph_SCD() function that occurred in treatment reversal designs with cases that had varying numbers of reversals.
+* Fixed a bug in graph_SCD() function that occurred in treatment reversal designs with cases that had varying numbers of reversals.
 
 # scdhlm 0.5.2
 
