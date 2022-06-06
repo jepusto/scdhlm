@@ -130,10 +130,6 @@ ui <-
                                        label = "Dependence structure of level-1 errors",
                                        choices = c("AR(1)", "MA(1)", "Independence"),
                                        selected = "AR(1)"))
-             )),
-           fluidRow(
-             column(6,
-                    textOutput("ES_timing_message")
              )
            ),
            conditionalPanel(condition = "input.method == 'HPS'",
@@ -160,6 +156,13 @@ ui <-
               fluidRow(
                 column(12, 
                 htmlOutput("model_spec")
+                )
+              ),
+              fluidRow(
+                column(12,
+                       br(),
+                       textOutput("ES_timing_message"),
+                       br()
                 )
               ),
               tabsetPanel(type = "tabs",
