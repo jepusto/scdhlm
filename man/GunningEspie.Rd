@@ -5,7 +5,7 @@
 \alias{GunningEspie}
 \title{Gunning & Espie (2003)}
 \format{
-A data frame with 126 rows and 4 variables
+A data frame with 301 rows and 4 variables
 }
 \source{
 Gunning, M. J., & Espie, C.A. (2003). Psychological treatment of
@@ -15,10 +15,12 @@ Gunning, M. J., & Espie, C.A. (2003). Psychological treatment of
 }
 \description{
 Data from a multiple baseline design conducted by Gunning & Espie (2003). The
-variables are as follows: \itemize{ \item \code{case}. Participant
-identifier. Note that data for case A, C, and H were extracted. \item
-\code{session}. Measurement occasion. \item \code{condition}. Factor
-identifying the phase of the design (baseline or treatment). \item
-\code{outcome}. Sleep onset latency in minutes. }
+variables are as follows: 
+\itemize{ 
+  \item \code{case}. Participant identifier.  
+  \item \code{session}. Measurement occasion. 
+  \item \code{condition}. Factor identifying the phase of the design (baseline or treatment). 
+  \item \code{outcome}. Sleep onset latency in minutes. 
+}
 }
 \keyword{datasets}

@@ -424,9 +424,9 @@ NULL
 NULL
 
 
-#' Case et al. (1992)
+#' Case, Harris, and Graham (1992)
 #'
-#' Data from a multiple baseline design conducted by Case, Harris, & Graham
+#' Data from a multiple baseline design conducted by Case, Harris, and Graham
 #' (1992). The variables are as follows: \itemize{ \item \code{case}.
 #' Participant identifier. \item \code{session}. Measurement occasion. \item
 #' \code{condition}. Factor identifying the phase of the design (baseline or
@@ -436,11 +436,11 @@ NULL
 #' @docType data
 #' @keywords datasets
 #' @format A data frame with 56 rows and 4 variables
-#' @name Case
+#' @name CaseHarrisGraham
 #' @source Case, L. P., Harris, K. R., & Graham, S. (1992). Improving the
 #'   mathematical problem-solving skills of students with learning disabilities:
-#'   Self-regulated strategy development. \emph{The journal of special education,
-#'   26}(1), 1-1. \doi{10.1177/002246699202600101}
+#'   Self-regulated strategy development. \emph{The Journal of Special Education,
+#'   26}(1), 1-19. \doi{10.1177/002246699202600101}
 #'
 #'   
 NULL
@@ -469,15 +469,18 @@ NULL
 #' Delemere & Dounavi (2018)
 #'
 #' Data from a multiple baseline design conducted by Delemere & Dounavi (2018).
-#' The variables are as follows: \itemize{ \item \code{case}. Participant
-#' identifier. \item \code{session}. Measurement occasion. \item
-#' \code{condition}. Factor identifying the phase of the design (baseline or
-#' treatment). \item \code{outcome}. Sleep onset latency in minutes across
-#' nights for bedtime fading. }
+#' The variables are as follows: 
+#' \itemize{ 
+#'   \item \code{intervention}. Type of intervention received: bedtime fading or positive routines.
+#'   \item \code{case}. Participant identifier. 
+#'   \item \code{session}. Measurement occasion. 
+#'   \item \code{condition}. Factor identifying the phase of the design (baseline or treatment). 
+#'   \item \code{outcome}. Total sleep onset latency in minutes across nights. 
+#' }
 #'
 #' @docType data
 #' @keywords datasets
-#' @format A data frame with 187 rows and 4 variables
+#' @format A data frame with 187 rows and 5 variables
 #' @name DelemereDounavi
 #' @source Delemere, E., & Dounavi, K. (2018). Parent-implemented bedtime fading
 #'   and positive routines for children with autism spectrum disorders.
@@ -490,15 +493,17 @@ NULL
 #' Gunning & Espie (2003)
 #'
 #' Data from a multiple baseline design conducted by Gunning & Espie (2003). The
-#' variables are as follows: \itemize{ \item \code{case}. Participant
-#' identifier. Note that data for case A, C, and H were extracted. \item
-#' \code{session}. Measurement occasion. \item \code{condition}. Factor
-#' identifying the phase of the design (baseline or treatment). \item
-#' \code{outcome}. Sleep onset latency in minutes. }
+#' variables are as follows: 
+#' \itemize{ 
+#'   \item \code{case}. Participant identifier.  
+#'   \item \code{session}. Measurement occasion. 
+#'   \item \code{condition}. Factor identifying the phase of the design (baseline or treatment). 
+#'   \item \code{outcome}. Sleep onset latency in minutes. 
+#' }
 #'
 #' @docType data
 #' @keywords datasets
-#' @format A data frame with 126 rows and 4 variables
+#' @format A data frame with 301 rows and 4 variables
 #' @name GunningEspie
 #' @source Gunning, M. J., & Espie, C.A. (2003). Psychological treatment of
 #'   reported sleep disorder in adults with intellectual disability using a
@@ -540,9 +545,9 @@ NULL
 #' @keywords datasets
 #' @format A data frame with 83 rows and 4 variables
 #' @name Rodgers
-#' @source Rodgers, D. B., Datchuk, S. M., & Rila, A. L. (2021). Effects of a
-#'   Text-Writing Fluency Intervention for Postsecondary Students with
-#'   Intellectual and Developmental Disabilities. \emph{Exceptionality, 29}(4),
+#' @source Rodgers, D. B., Datchuk, S. M., & Rila, A. L. (2021).  Effects of a
+#'   text-writing fluency intervention for postsecondary students with
+#'   intellectual and developmental disabilities. \emph{Exceptionality, 29}(4),
 #'   310-325. \doi{10.1080/09362835.2020.1850451}
 #'   
 NULL

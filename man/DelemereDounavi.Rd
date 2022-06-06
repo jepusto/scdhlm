@@ -5,7 +5,7 @@
 \alias{DelemereDounavi}
 \title{Delemere & Dounavi (2018)}
 \format{
-A data frame with 187 rows and 4 variables
+A data frame with 187 rows and 5 variables
 }
 \source{
 Delemere, E., & Dounavi, K. (2018). Parent-implemented bedtime fading
@@ -15,10 +15,13 @@ Delemere, E., & Dounavi, K. (2018). Parent-implemented bedtime fading
 }
 \description{
 Data from a multiple baseline design conducted by Delemere & Dounavi (2018).
-The variables are as follows: \itemize{ \item \code{case}. Participant
-identifier. \item \code{session}. Measurement occasion. \item
-\code{condition}. Factor identifying the phase of the design (baseline or
-treatment). \item \code{outcome}. Sleep onset latency in minutes across
-nights for bedtime fading. }
+The variables are as follows: 
+\itemize{ 
+  \item \code{intervention}. Type of intervention received: bedtime fading or positive routines.
+  \item \code{case}. Participant identifier. 
+  \item \code{session}. Measurement occasion. 
+  \item \code{condition}. Factor identifying the phase of the design (baseline or treatment). 
+  \item \code{outcome}. Total sleep onset latency in minutes across nights. 
+}
 }
 \keyword{datasets}

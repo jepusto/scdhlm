@@ -8,9 +8,9 @@
 A data frame with 83 rows and 4 variables
 }
 \source{
-Rodgers, D. B., Datchuk, S. M., & Rila, A. L. (2021). Effects of a
-  Text-Writing Fluency Intervention for Postsecondary Students with
-  Intellectual and Developmental Disabilities. \emph{Exceptionality, 29}(4),
+Rodgers, D. B., Datchuk, S. M., & Rila, A. L. (2021).  Effects of a
+  text-writing fluency intervention for postsecondary students with
+  intellectual and developmental disabilities. \emph{Exceptionality, 29}(4),
   310-325. \doi{10.1080/09362835.2020.1850451}
 }
 \description{
