@@ -14,7 +14,7 @@ write_formula <- function(powers, var_names) {
   }
 }
 
-lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)", center = 0, phi_init = 0.01) {
+lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)", varStruct = "hom", center = 0, phi_init = 0.01) {
   require(nlme)
   # sort the data
   dat <- dat[order(dat$case, dat$session),]
@@ -36,11 +36,18 @@ lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
     cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
   }
   
+  if (varStruct == "het") {
+    var_struct <- eval(parse(text = "varIdent(form = ~ 1 | phase)"))
+  } else {
+    var_struct <- NULL
+  }
+  
   W <- TRUE
   E <- NULL
   RML_fit <- withCallingHandlers(
     tryCatch(lme(fixed = fixed, random = random,
                  correlation = cor_struct,
+                 weights = var_struct,
                  data = dat, 
                  control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
              error = function(e) E <<- e),
@@ -52,7 +59,7 @@ lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
        converged = if (is.null(E)) W else E)
 }
 
-lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)", phi_init = 0.01, ...) {
+lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)", varStruct = "hom", phi_init = 0.01, ...) {
   require(nlme)
   
   dat <- dat[order(dat$case, dat$session),]
@@ -73,11 +80,18 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
     cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
   }
   
+  if (varStruct == "het") {
+    var_struct <- eval(parse(text = "varIdent(form = ~ 1 | phase)"))
+  } else {
+    var_struct <- NULL
+  }
+  
   W <- TRUE
   E <- NULL
   RML_fit <- withCallingHandlers(
     tryCatch(lme(fixed = fixed, random = random,
-                 correlation = corStruct,
+                 correlation = cor_struct,
+                 weights = var_struct,
                  data = dat, 
                  control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
              error = function(e) E <<- e),
@@ -95,11 +109,12 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
 # calculate effect sizes
 #---------------------------------------------------------------
 
-effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, corStruct, A, B, center = 0, phi_init = 0.01) {
+effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, corStruct, varStruct, A, B, center = 0, phi_init = 0.01) {
   fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[design]]
   m_fit <- do.call(fit_function, 
                    args = list(dat = dat, FE_base = FE_base, RE_base = RE_base,
-                               FE_trt = FE_trt, RE_trt = RE_trt, corStruct = corStruct, 
+                               FE_trt = FE_trt, RE_trt = RE_trt, 
+                               corStruct = corStruct, varStruct = varStruct,
                                center = center, phi_init = phi_init))
   fixed <- m_fit$fixed
   random <- m_fit$random

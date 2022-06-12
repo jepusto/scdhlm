@@ -81,6 +81,7 @@ ui <-
                         uiOutput("sessionIssues1"),
                         uiOutput("sessionIssues2"),
                         uiOutput("outcomeMapping"),
+                        uiOutput("outcomeIssue"),
                         strong("3. Please specify the baseline and treatment levels."),
                         column(12, br()),
                         uiOutput("phaseMapping"), 
@@ -123,13 +124,6 @@ ui <-
                 selectInput("method", label = "Estimation method",
                             choices = estimation_names, 
                             selected = "RML")
-             ),
-             conditionalPanel(condition = "input.method == 'RML'",
-                    column(6,
-                           selectInput("corStruct", 
-                                       label = "Dependence structure of level-1 errors",
-                                       choices = c("AR(1)", "MA(1)", "Independence"),
-                                       selected = "AR(1)"))
              )
            ),
            conditionalPanel(condition = "input.method == 'HPS'",
@@ -161,9 +155,26 @@ ui <-
               fluidRow(
                 column(12,
                        br(),
-                       textOutput("ES_timing_message"),
-                       br()
+                       textOutput("ES_timing_message")
                 )
+              ),
+              fluidRow(
+                column(6, h4("Within-case error structure assumptions"))
+              ),
+              fluidRow(
+                column(6, 
+                       selectInput("corStruct",
+                                   label = "Dependence structure of level-1 errors",
+                                   choices = c("AR(1)", "MA(1)", "Independence"),
+                                   selected = "AR(1)")
+                ),
+                column(6,
+                       selectInput("varStruct",
+                                   label = "Assumption of level-1 error variances",
+                                   choices = c("Homoskedasticity" = "hom",
+                                               "Heteroskedasticity by treatment condition" = "het"),
+                                   selected = "Homoskedasticity")
+                      )
               ),
               tabsetPanel(type = "tabs",
                 tabPanel("Graph",

@@ -165,6 +165,22 @@ server <-
       selectInput("outcome", label = "Outcome variable", choices = var_names, selected = var_names[n_var])
     })
     
+    # Check Outcome variable
+    
+    output$outcomeIssue <- renderUI({
+      
+      if (!variablesLoaded()) return(NULL)
+      
+      outcomes <- datFile()[,input$outcome]
+      if (!is.numeric(outcomes)) {
+        list(
+          strong(style="color:red", "Outcome variable contains non-numeric data. Please use a numeric outcome variable."),
+          br("")
+        )
+      } 
+      
+    })
+    
     # Treatment label mapping interface
     
     output$phaseMapping <- renderUI({
@@ -386,6 +402,7 @@ server <-
               args = list(dat = datClean(), 
                           FE_base = input$FE_base, RE_base = input$RE_base,
                           FE_trt = input$FE_trt, RE_trt = input$RE_trt,
+                          varStruct = input$varStruct,
                           corStruct = input$corStruct,
                           center = center))
       
@@ -415,6 +432,7 @@ server <-
           res <- effect_size_RML(design = studyDesign(), dat = datClean(), 
                                  FE_base = input$FE_base, RE_base = input$RE_base,
                                  FE_trt = input$FE_trt, RE_trt = input$RE_trt,
+                                 varStruct = input$varStruct,
                                  corStruct = input$corStruct,
                                  A = A, B = B, center = center)
         } else {
@@ -449,6 +467,7 @@ server <-
                      FE_base = input$FE_base, RE_base = input$RE_base,
                      FE_trt = input$FE_trt, RE_trt = input$RE_trt,
                      corStruct = input$corStruct,
+                     varStruct = input$varStruct,
                      A = input$A_time, B = input$B_time,
                      coverage = input$coverage)
         
@@ -567,6 +586,12 @@ server <-
       phase <- "phase"
       outcome <- "outcome"
       
+      if (is.null(input$model_center)) {
+        model_center <- 0
+      } else {
+        model_center <- input$model_center
+      }
+      
       if (studyDesign() == "TR") {
         clean_dat <- c(clean_dat_A,
                        '',
@@ -574,13 +599,13 @@ server <-
                                         args = list(user_parms = paste(example_parms$vars, collapse='", "'),
                                                     user_design = studyDesign()))
         )
-      } else {
+      } else if (studyDesign() == "MB") {
         clean_dat <- c(clean_dat_A,
                        '',
                        parse_code_chunk("clean-example-nofilter",
                                         args = list(user_parms = paste(example_parms$vars, collapse='", "'),
                                                     user_design = studyDesign(),
-                                                    user_model_center = input$model_center))
+                                                    user_model_center = model_center))
         )
       }
       
@@ -606,6 +631,12 @@ server <-
       } else {
         clean_dat_B <- c()
       }
+      
+      if (is.null(input$model_center)) {
+        model_center <- 0
+      } else {
+        model_center <- input$model_center
+      }
         
       if (studyDesign() == "TR") {
           clean_dat <- c(clean_dat_B,
@@ -619,7 +650,7 @@ server <-
                                                       user_treatment = input$treatment,
                                                       user_round = round_session))
           )
-        } else {
+        } else if (studyDesign() == "MB") {
           clean_dat <- c(clean_dat_B,
                          '',
                          parse_code_chunk("clean-inputdata-nofilter", 
@@ -628,7 +659,7 @@ server <-
                                                       user_phaseID = phase,
                                                       user_outcome = outcome,
                                                       user_design = studyDesign(),
-                                                      user_model_center = input$model_center,
+                                                      user_model_center = model_center,
                                                       user_treatment = input$treatment,
                                                       user_round = round_session))
           )
@@ -654,20 +685,41 @@ server <-
       fixed <- paste(outcome, "~", paste(c(session_FE, trt_FE), collapse = " + "))
       random <- paste("~", paste(c(session_RE, trt_RE), collapse = " + "), "|", case)
       
-      if (input$corStruct == "MA(1)") {
-        fit_mod <- parse_code_chunk("fit-RML-MA1", args = list(user_case = case,
-                                                               user_session = session,
-                                                               user_fixed = fixed, 
-                                                               user_random = random))
-      } else if (input$corStruct == "Independence") {
-        fit_mod <- parse_code_chunk("fit-RML-IID", args = list(user_fixed = fixed, 
-                                                               user_random = random))
-      } else {
-        fit_mod <- parse_code_chunk("fit-RML-AR1", args = list(user_case = case,
-                                                               user_session = session,
-                                                               user_fixed = fixed, 
-                                                               user_random = random))
+      if (input$varStruct == "hom") {
+        if (input$corStruct == "MA(1)") {
+          fit_mod <- parse_code_chunk("fit-RML-MA1", args = list(user_case = case,
+                                                                 user_session = session,
+                                                                 user_fixed = fixed, 
+                                                                 user_random = random))
+        } else if (input$corStruct == "Independence") {
+          fit_mod <- parse_code_chunk("fit-RML-IID", args = list(user_fixed = fixed, 
+                                                                 user_random = random))
+        } else {
+          fit_mod <- parse_code_chunk("fit-RML-AR1", args = list(user_case = case,
+                                                                 user_session = session,
+                                                                 user_fixed = fixed, 
+                                                                 user_random = random))
+        }
+      } else if (input$varStruct == "het") {
+        if (input$corStruct == "MA(1)") {
+          fit_mod <- parse_code_chunk("fit-RML-MA1-varIdent", args = list(user_case = case,
+                                                                 user_session = session,
+                                                                 user_fixed = fixed, 
+                                                                 user_random = random,
+                                                                 user_phase = phase))
+        } else if (input$corStruct == "Independence") {
+          fit_mod <- parse_code_chunk("fit-RML-IID-varIdent", args = list(user_fixed = fixed, 
+                                                                 user_random = random,
+                                                                 user_phase = phase))
+        } else {
+          fit_mod <- parse_code_chunk("fit-RML-AR1-varIdent", args = list(user_case = case,
+                                                                 user_session = session,
+                                                                 user_fixed = fixed, 
+                                                                 user_random = random,
+                                                                 user_phase = phase))
+        }
       }
+      
     } else {
       fit_mod <- c()
     }
@@ -675,14 +727,15 @@ server <-
     # Calculate effect size
     
     if (input$method == "RML") {
-      A <- effect_size()$`Initial treatment time`
-      B <- effect_size()$`Follow-up time`
+      center <- if (is.null(input$model_center)) 0L else input$model_center
+      A <- if (is.null(input$A_time)) 0L else input$A_time
+      B <- if (is.null(input$B_time)) 1L else input$B_time
       p_const <- c(rep(0L, length(input$FE_base)), (B - A)^as.integer(input$FE_trt))
       
       # get r_const when centering at an arbitrary time instead of B
       r_dim <- length(input$RE_base) + length(input$RE_trt)
       r_const_dim <- r_dim * (r_dim + 1) / 2
-      bc_vec <- (input$B_time - input$model_center)^as.integer(input$RE_base)
+      bc_vec <- (B - center)^as.integer(input$RE_base)
       bc_mat <- 2 * tcrossprod(bc_vec) - diag(bc_vec^2)
       r_const_base <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
       r_const_trt <- rep(0, (r_const_dim - length(r_const_base)))

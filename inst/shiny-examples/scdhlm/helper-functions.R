@@ -67,7 +67,7 @@ validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt, case) {
 
 summarize_ES <- function(res, filter_vals, 
                          design, method, 
-                         FE_base, RE_base, FE_trt, RE_trt, corStruct,
+                         FE_base, RE_base, FE_trt, RE_trt, corStruct, varStruct,
                          A, B, coverage = 95L) {
   
   if (method=="RML") {
@@ -77,6 +77,7 @@ summarize_ES <- function(res, filter_vals,
     )
     res$rho <- with(res, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
     res$phi <- if (corStruct == "Independence") "NA" else res$theta$cor_params
+    res$var_param <- if (varStruct == "hom") "NA" else res$theta$var_params
   } else {
     ES_summary <- data.frame(
       ES = res$delta_hat,
@@ -90,6 +91,7 @@ summarize_ES <- function(res, filter_vals,
   ES_summary$CI_U <- CI[2]
   ES_summary$df <- res$nu
   ES_summary$phi <- res$phi
+  ES_summary$var_param <- if (method == "RML") res$var_param else "NA"
   ES_summary$rho <- res$rho
   ES_summary$design <- names(design_names[which(design_names==design)])
   ES_summary$method <- names(estimation_names[which(estimation_names==method)])
@@ -110,7 +112,7 @@ summarize_ES <- function(res, filter_vals,
   
   row.names(ES_summary) <- NULL
   names(ES_summary) <- c("BC-SMD estimate","Std. Error", CI_names,
-                         "Degrees of freedom","Auto-correlation","Intra-class correlation",
+                         "Degrees of freedom","Auto-correlation", "Variance parameter", "Intra-class correlation",
                          "Study design","Estimation method",
                          "Baseline specification", "Treatment specification",
                          "Initial treatment time","Follow-up time")
