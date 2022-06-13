@@ -3,6 +3,7 @@
 * Six more example datasets added to the package and the `scdhlm` web app.
 * Revisions to shiny app: 
   * The app now includes several options for modeling the dependence structure of level-1 error terms, including AR(1) (the default), MA(1), or independent errors.
+  * The app now includes an option for allowing the variance of the level-1 errors to differ by phase.
   * More informative labels for the baseline trend and treatment phase trend options.
   * The centering, initial treatment time, and follow-up time sliders now only appear when they are relevant. 
   * The centering slider now appears in the "Model estimates" tab because it is only relevant for interpreting the raw estimates from the fitted model (i.e., it does not affect the graph of fitted values). 
