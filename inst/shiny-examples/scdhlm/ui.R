@@ -159,22 +159,21 @@ ui <-
                 )
               ),
               fluidRow(
-                column(6, h4("Within-case error structure assumptions"))
-              ),
-              fluidRow(
+                column(3),
                 column(6, 
-                       selectInput("corStruct",
-                                   label = "Dependence structure of level-1 errors",
-                                   choices = c("AR(1)", "MA(1)", "Independence"),
-                                   selected = "AR(1)")
-                ),
-                column(6,
-                       selectInput("varStruct",
-                                   label = "Assumption of level-1 error variances",
-                                   choices = c("Homoskedasticity" = "hom",
-                                               "Heteroskedasticity by treatment condition" = "het"),
-                                   selected = "Homoskedasticity")
-                      )
+                       wellPanel(
+                         h4("Session-level error structure assumptions"),
+                         selectInput("corStruct",
+                                     label = "Dependence structure of session-level errors",
+                                     choices = c("Auto-regressive (AR1)" = "AR(1)", "Moving average (MA1)" = "MA(1)", "Independent" = "IID"),
+                                     selected = "AR(1)"),
+                         selectInput("varStruct",
+                                     label = "Assumption of session-level error variances",
+                                     choices = c("Constant" = "hom",
+                                                 "Variance differs by phase" = "het"),
+                                     selected = "Homoskedasticity"),
+                         br()
+                       ))
               ),
               tabsetPanel(type = "tabs",
                 tabPanel("Graph",

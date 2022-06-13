@@ -122,7 +122,7 @@ server <-
       
       sessions <- datFile()[,input$session]
       
-      if (!is.numeric(sessions)) {
+      if (!is.numeric(sessions) && !is.integer(sessions)) {
         list(
           strong(style="color:red", "Session variable contains non-numeric data."),
           br("")
@@ -172,7 +172,8 @@ server <-
       if (!variablesLoaded()) return(NULL)
       
       outcomes <- datFile()[,input$outcome]
-      if (!is.numeric(outcomes)) {
+      
+      if (!is.numeric(outcomes) && !is.integer(outcomes)) {
         list(
           strong(style="color:red", "Outcome variable contains non-numeric data. Please use a numeric outcome variable."),
           br("")
@@ -562,6 +563,12 @@ server <-
     }
 
     # Clean the data
+  
+    if (is.null(input$model_center)) {
+      model_center <- 0
+    } else {
+      model_center <- input$model_center
+    }
     
     if (input$dat_type == "example") {
       
@@ -585,12 +592,6 @@ server <-
       session <- "session"
       phase <- "phase"
       outcome <- "outcome"
-      
-      if (is.null(input$model_center)) {
-        model_center <- 0
-      } else {
-        model_center <- input$model_center
-      }
       
       if (studyDesign() == "TR") {
         clean_dat <- c(clean_dat_A,
@@ -632,12 +633,7 @@ server <-
         clean_dat_B <- c()
       }
       
-      if (is.null(input$model_center)) {
-        model_center <- 0
-      } else {
-        model_center <- input$model_center
-      }
-        
+
       if (studyDesign() == "TR") {
           clean_dat <- c(clean_dat_B,
                          '',
@@ -685,40 +681,22 @@ server <-
       fixed <- paste(outcome, "~", paste(c(session_FE, trt_FE), collapse = " + "))
       random <- paste("~", paste(c(session_RE, trt_RE), collapse = " + "), "|", case)
       
-      if (input$varStruct == "hom") {
-        if (input$corStruct == "MA(1)") {
-          fit_mod <- parse_code_chunk("fit-RML-MA1", args = list(user_case = case,
-                                                                 user_session = session,
-                                                                 user_fixed = fixed, 
-                                                                 user_random = random))
-        } else if (input$corStruct == "Independence") {
-          fit_mod <- parse_code_chunk("fit-RML-IID", args = list(user_fixed = fixed, 
-                                                                 user_random = random))
-        } else {
-          fit_mod <- parse_code_chunk("fit-RML-AR1", args = list(user_case = case,
-                                                                 user_session = session,
-                                                                 user_fixed = fixed, 
-                                                                 user_random = random))
-        }
-      } else if (input$varStruct == "het") {
-        if (input$corStruct == "MA(1)") {
-          fit_mod <- parse_code_chunk("fit-RML-MA1-varIdent", args = list(user_case = case,
-                                                                 user_session = session,
-                                                                 user_fixed = fixed, 
-                                                                 user_random = random,
-                                                                 user_phase = phase))
-        } else if (input$corStruct == "Independence") {
-          fit_mod <- parse_code_chunk("fit-RML-IID-varIdent", args = list(user_fixed = fixed, 
-                                                                 user_random = random,
-                                                                 user_phase = phase))
-        } else {
-          fit_mod <- parse_code_chunk("fit-RML-AR1-varIdent", args = list(user_case = case,
-                                                                 user_session = session,
-                                                                 user_fixed = fixed, 
-                                                                 user_random = random,
-                                                                 user_phase = phase))
-        }
-      }
+
+      corr_struct <- switch(input$corStruct,
+                            "AR(1)" = paste0("\n               correlation = corAR1(0.01, ~ ", session, " | ", case, "),"),
+                            "MA(1)" = paste0("\n               correlation = corARMA(0, ~ ", session, " | ", case, ", p = 0, q = 1),"),
+                            "IID" = "",
+                            c())
+      
+      var_struct <- switch(input$varStruct,
+                           "hom" = "",
+                           "het" = paste0("\n               weights = varIdent(form = ~ 1 | ", phase, "),"),
+                           c())
+      
+      fit_mod <- parse_code_chunk("fit-RML", args = list(user_fixed = fixed, 
+                                                         user_random = random,
+                                                         corr_struct = corr_struct,
+                                                         var_struct = var_struct))
       
     } else {
       fit_mod <- c()

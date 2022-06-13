@@ -30,10 +30,10 @@ lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
   
   if (corStruct == "MA(1)") {
     cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | case, p = 0, q = 1)")))
-  } else if (corStruct == "Independence") {
-    cor_struct <- NULL
-  } else {
+  } else if (corStruct == "AR(1)") {
     cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
+  } else {
+    cor_struct <- NULL
   }
   
   if (varStruct == "het") {
@@ -74,10 +74,10 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
   
   if (corStruct == "MA(1)") {
     cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | case, p = 0, q = 1)")))
-  } else if (corStruct == "Independence") {
-    cor_struct <- NULL
-  } else {
+  } else if (corStruct == "AR(1)") {
     cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
+  } else {
+    cor_struct <- NULL
   }
   
   if (varStruct == "het") {
