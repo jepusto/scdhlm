@@ -155,7 +155,8 @@ ui <-
               fluidRow(
                 column(12,
                        br(),
-                       textOutput("ES_timing_message")
+                       textOutput("ES_timing_message"),
+                       br()
                 )
               ),
               fluidRow(
@@ -171,7 +172,7 @@ ui <-
                                      label = "Assumption of session-level error variances",
                                      choices = c("Constant" = "hom",
                                                  "Variance differs by phase" = "het"),
-                                     selected = "Homoskedasticity"),
+                                     selected = "hom"),
                          br()
                        ))
               ),
