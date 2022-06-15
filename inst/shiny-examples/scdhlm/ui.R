@@ -81,6 +81,7 @@ ui <-
                         uiOutput("sessionIssues1"),
                         uiOutput("sessionIssues2"),
                         uiOutput("outcomeMapping"),
+                        uiOutput("outcomeIssue"),
                         strong("3. Please specify the baseline and treatment levels."),
                         column(12, br()),
                         uiOutput("phaseMapping"), 
@@ -123,13 +124,6 @@ ui <-
                 selectInput("method", label = "Estimation method",
                             choices = estimation_names, 
                             selected = "RML")
-             ),
-             conditionalPanel(condition = "input.method == 'RML'",
-                    column(6,
-                           selectInput("corStruct", 
-                                       label = "Dependence structure of level-1 errors",
-                                       choices = c("AR(1)", "MA(1)", "Independence"),
-                                       selected = "AR(1)"))
              )
            ),
            conditionalPanel(condition = "input.method == 'HPS'",
@@ -155,15 +149,34 @@ ui <-
               ),
               fluidRow(
                 column(12, 
-                htmlOutput("model_spec")
+                  htmlOutput("model_spec")
                 )
               ),
               fluidRow(
                 column(12,
-                       br(),
-                       textOutput("ES_timing_message"),
-                       br()
+                  textOutput("ES_timing_message")
                 )
+              ),
+              fluidRow(
+                column(12, 
+                       wellPanel(
+                         h4("Session-level error structure assumptions"),
+                         fluidRow(
+                           column(6,
+                                  radioButtons("corStruct",
+                                               label = "Dependence structure of session-level errors",
+                                               choices = c("Auto-regressive (AR1)" = "AR(1)", "Moving average (MA1)" = "MA(1)", "Independent" = "IID"),
+                                               selected = "AR(1)")
+                           ),
+                           column(6,
+                                  radioButtons("varStruct",
+                                               label = "Session-level error variances",
+                                               choices = c("Constant variance" = "hom",
+                                                           "Variance differs by phase" = "het"),
+                                               selected = "hom")
+                           )                           
+                         )
+                       ))
               ),
               tabsetPanel(type = "tabs",
                 tabPanel("Graph",
