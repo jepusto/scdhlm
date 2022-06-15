@@ -86,15 +86,40 @@ from a multiple baseline design, using adjusted REML method as described in Pust
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>m_fit</dt>
+<dd><p>Fitted model of class lme, with AR(1) correlation structure at level 1.</p></dd>
+
+
+<dt>p_const</dt>
+<dd><p>Vector of constants for calculating numerator of effect size. 
+Must be the same length as fixed effects in <code>m_fit</code>.</p></dd>
+
+
+<dt>r_const</dt>
+<dd><p>Vector of constants for calculating denominator of effect size. 
+Must be the same length as the number of variance component parameters in <code>m_fit</code>.</p></dd>
+
+
+<dt>X_design</dt>
+<dd><p>(Optional) Design matrix for fixed effects. Will be extracted from <code>m_fit</code> if not specified.</p></dd>
+
+
+<dt>Z_design</dt>
+<dd><p>(Optional) Design matrix for random effects. Will be extracted from <code>m_fit</code> if not specified.</p></dd>
+
+
+<dt>block</dt>
+<dd><p>(Optional) Factor variable describing the blocking structure. Will be extracted from <code>m_fit</code> if not specified.</p></dd>
+
+
+<dt>times</dt>
+<dd><p>(Optional) list of times used to describe AR(1) structure. Will be extracted from <code>m_fit</code> if not specified.</p></dd>
+
+
+<dt>returnModel</dt>
+<dd><p>(Optional) If true, the fitted input model is included in the return.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -290,7 +315,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

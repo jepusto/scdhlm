@@ -86,15 +86,41 @@ measurement occasion per subject.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>outcome</dt>
+<dd><p>vector of outcome data or name of variable within <code>data</code>. May not contain any missing values.</p></dd>
+
+
+<dt>treatment</dt>
+<dd><p>vector of treatment indicators or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></dd>
+
+
+<dt>id</dt>
+<dd><p>factor vector indicating unique cases or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></dd>
+
+
+<dt>phase</dt>
+<dd><p>factor vector indicating unique phases (each containing one contiguous control 
+condition and one contiguous treatment condition) or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></dd>
+
+
+<dt>time</dt>
+<dd><p>vector of measurement occasion times or name of variable within <code>data</code>. Must be the same length as <code>outcome</code>.</p></dd>
+
+
+<dt>data</dt>
+<dd><p>(Optional) dataset to use for analysis. Must be data.frame.</p></dd>
+
+
+<dt>phi</dt>
+<dd><p>(Optional) value of the auto-correlation nuisance parameter, to be used 
+in calculating the small-sample adjusted effect size</p></dd>
+
+
+<dt>rho</dt>
+<dd><p>(Optional) value of the intra-class correlation nuisance parameter, to be used 
+in calculating the small-sample adjusted effect size</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -145,7 +171,7 @@ A standardized mean difference effect size for single case designs.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>

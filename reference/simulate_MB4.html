@@ -88,19 +88,54 @@ REML effect size estimator as described in Pustejovsky, Hedges, &amp; Shadish (2
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>iterations</dt>
+<dd><p>number of independent iterations of the simulation</p></dd>
+
+
+<dt>beta</dt>
+<dd><p>vector of fixed effect parameters</p></dd>
+
+
+<dt>rho</dt>
+<dd><p>intra-class correlation parameter</p></dd>
+
+
+<dt>phi</dt>
+<dd><p>autocorrelation parameter</p></dd>
+
+
+<dt>tau2_ratio</dt>
+<dd><p>ratio of trend variance to intercept variance</p></dd>
+
+
+<dt>tau_corr</dt>
+<dd><p>correlation between case-specific trends and intercepts</p></dd>
+
+
+<dt>p_const</dt>
+<dd><p>vector of constants for calculating numerator of effect size</p></dd>
+
+
+<dt>r_const</dt>
+<dd><p>vector of constants for calculating denominator of effect size</p></dd>
+
+
+<dt>design</dt>
+<dd><p>design matrix. If not specified, it will be calculated based on <code>m</code>, <code>n</code>, and <code>MB</code>.</p></dd>
+
+
+<dt>m</dt>
+<dd><p>number of cases. Not used if <code>design</code> is specified.</p></dd>
+
+
+<dt>n</dt>
+<dd><p>number of measurement occasions. Not used if <code>design</code> is specified.</p></dd>
+
+
+<dt>MB</dt>
+<dd><p>If true, a multiple baseline design will be used; otherwise, an AB design will be used. Not used if <code>design</code> is specified.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -192,7 +227,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
       </footer></div>
