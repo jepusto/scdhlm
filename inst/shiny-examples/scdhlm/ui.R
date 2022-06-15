@@ -149,31 +149,33 @@ ui <-
               ),
               fluidRow(
                 column(12, 
-                htmlOutput("model_spec")
+                  htmlOutput("model_spec")
                 )
               ),
               fluidRow(
                 column(12,
-                       br(),
-                       textOutput("ES_timing_message"),
-                       br()
+                  textOutput("ES_timing_message")
                 )
               ),
               fluidRow(
-                column(3),
-                column(6, 
+                column(12, 
                        wellPanel(
                          h4("Session-level error structure assumptions"),
-                         selectInput("corStruct",
-                                     label = "Dependence structure of session-level errors",
-                                     choices = c("Auto-regressive (AR1)" = "AR(1)", "Moving average (MA1)" = "MA(1)", "Independent" = "IID"),
-                                     selected = "AR(1)"),
-                         selectInput("varStruct",
-                                     label = "Assumption of session-level error variances",
-                                     choices = c("Constant" = "hom",
-                                                 "Variance differs by phase" = "het"),
-                                     selected = "hom"),
-                         br()
+                         fluidRow(
+                           column(6,
+                                  radioButtons("corStruct",
+                                               label = "Dependence structure of session-level errors",
+                                               choices = c("Auto-regressive (AR1)" = "AR(1)", "Moving average (MA1)" = "MA(1)", "Independent" = "IID"),
+                                               selected = "AR(1)")
+                           ),
+                           column(6,
+                                  radioButtons("varStruct",
+                                               label = "Session-level error variances",
+                                               choices = c("Constant variance" = "hom",
+                                                           "Variance differs by phase" = "het"),
+                                               selected = "hom")
+                           )                           
+                         )
                        ))
               ),
               tabsetPanel(type = "tabs",
