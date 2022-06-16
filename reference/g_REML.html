@@ -171,54 +171,10 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Groups: 8 </span>
 <span class="r-in"><span class="fu">g_REML</span><span class="op">(</span><span class="va">Laski_RML</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, returnModel<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p_beta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30.68366</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $r_theta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 438.7208</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $delta_AB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.464917</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $nu</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 18.55241</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $kappa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1430354</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $g_AB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.404887</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $V_g_AB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.08198192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $cnvg_warn</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sigma_sq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 192.7711</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $phi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.252769</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Tau</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> case.var((Intercept)) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              245.9497 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $I_E_inv</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]        [,2]          [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  798.919038  1.32235408  -132.1234582</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1.322354  0.01002805    -0.5152126</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -132.123458 -0.51521261 20214.7623585</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p_const</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $r_const</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g_REML"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                           est    se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unadjusted effect size  1.465 0.299</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjusted effect size    1.405 0.286</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> degree of freedom      18.552      </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Schutte</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">Schutte</span><span class="op">$</span><span class="va">trt.week</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">Schutte</span>, <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="op">(</span><span class="va">treatment</span><span class="op">==</span><span class="st">"treatment"</span><span class="op">)</span> <span class="op">*</span> <span class="va">week</span>, </span>
@@ -268,39 +224,23 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 <span class="r-in"><span class="va">Schutte_g</span> <span class="op">&lt;-</span> <span class="fu">g_REML</span><span class="op">(</span><span class="va">Schutte_RML</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">7</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">Schutte_g</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              Length Class      Mode     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> p_beta         1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> r_theta        1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> delta_AB       1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> nu             1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> kappa          1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g_AB           1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V_g_AB         1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cnvg_warn      1    -none-     logical  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma_sq       1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> phi            1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tau            3    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> I_E_inv       25    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> p_const        4    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> r_const        5    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> modelStruct    2    lmeStruct  list     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dims           5    -none-     list     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> contrasts      1    -none-     list     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> coefficients   2    -none-     list     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> varFix        16    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma          1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> apVar         25    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> logLik         1    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> numIter        0    -none-     NULL     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> groups         1    data.frame list     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> call           5    -none-     call     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> terms          3    terms      call     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> method         1    -none-     character</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fitted       272    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> residuals    272    -none-     numeric  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fixDF          2    -none-     list     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> na.action      0    -none-     NULL     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> data           5    data.frame list     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           est     se</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma_sq                               29.394  6.670</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phi                                     0.399  0.132</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> case.var((Intercept))                  95.713 46.939</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> case.cov(week,(Intercept))             11.209  6.372</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> case.var(week)                          1.994  1.076</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> total variance                        125.107 46.784</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)                            50.291  4.074</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> week                                    0.203  0.616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatmenttreatment                     -0.542  1.752</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> trt.week                               -1.632  0.655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment effect at a specified time  -11.966  4.609</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> unadjusted effect size                 -1.070  0.495</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjusted effect size                   -1.013  0.469</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> degree of freedom                      14.302       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> kappa                                   0.412       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> logLik                               -428.976       </span>
 </code></pre></div>
     </div>
   </div>
@@ -315,7 +255,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
