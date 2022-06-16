@@ -3,17 +3,24 @@
 on:
   push:
     branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  release:
+    types: [published]
+  workflow_dispatch:
 
 name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: macOS-latest    
+    runs-on: ubuntu-latest
+    # Only restrict concurrency for non-PR jobs
+    concurrency:
+      group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
-       uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -37,4 +44,3 @@ jobs:
           clean: false
           branch: gh-pages
           folder: docs
-          
