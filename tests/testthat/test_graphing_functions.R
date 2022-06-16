@@ -31,6 +31,8 @@ Laski_RML <- lme(fixed = outcome ~ 1 + treatment,
                  data = Laski)
 
 test_that("graph is a ggplot2 graph", {
+
+  skip_if_not_installed("ggplot2")
   
   Ang_graph1 <- graph_SCD(case=case, phase=condition, session=session, outcome=outcome, 
                         design="TR", treatment_name = NULL, model_fit=NULL, data=Anglesea)

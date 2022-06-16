@@ -43,6 +43,9 @@ phase_lines_by_case <- function(case, phase, session) {
 #' 
 #' 
 #' @examples
+#' 
+#' if (requireNamespace("ggplot2", quietly = TRUE)) {
+#' 
 #' data(Anglesea)
 #' graph_SCD(case=case, phase=condition, 
 #'           session=session, outcome=outcome, 
@@ -54,7 +57,8 @@ phase_lines_by_case <- function(case, phase, session) {
 #'           session=session, outcome=outcome, 
 #'           design="MB", treatment_name = "B",  
 #'           data=BartonArwood)
-#' 
+#'           
+#' }
 
 graph_SCD <- function(case, phase, session, outcome, design, treatment_name = NULL, model_fit = NULL, data = NULL) {
   

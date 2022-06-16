@@ -42,6 +42,9 @@ Graphs single case design data for treatment reversal and multiple baseline desi
 If treatment_name is left null it will choose the second level of the phase variable to be the treatment phase.
 }
 \examples{
+
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+
 data(Anglesea)
 graph_SCD(case=case, phase=condition, 
           session=session, outcome=outcome, 
@@ -53,5 +56,6 @@ graph_SCD(case=case, phase=condition,
           session=session, outcome=outcome, 
           design="MB", treatment_name = "B",  
           data=BartonArwood)
-
+          
+}
 }

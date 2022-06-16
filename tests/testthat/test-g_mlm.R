@@ -2,20 +2,14 @@
 
 library(nlme)
 
-data(Laski)
-data(Bryant2016, package = "lmeInfo")
-
-Laski_RML1 <- lme(fixed = outcome ~ treatment, 
-                  random = ~ 1 | case, 
-                  correlation = corAR1(0, ~ time | case), 
-                  data = Laski)
-
-Bryant2016_RML1 <- lme(fixed = outcome ~ treatment,
-                       random = ~ 1 | school/case,
-                       correlation = corAR1(0, ~ session | school/case),
-                       data = Bryant2016)
-
-test_that("g_mlm() is imported appropriately.", {
+test_that("g_mlm() is imported appropriately for Laski data.", {
+  
+  data(Laski)
+  
+  Laski_RML1 <- lme(fixed = outcome ~ treatment, 
+                    random = ~ 1 | case, 
+                    correlation = corAR1(0, ~ time | case), 
+                    data = Laski)
   
   # two-level data
   Laski_g1_REML <- suppressWarnings(g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE))
@@ -47,6 +41,23 @@ test_that("g_mlm() is imported appropriately.", {
   expect_equal(Laski_g1_mlm$theta$Tau$case, Laski_g1_REML$Tau) # Vector of level-2 variance components
   expect_equal(det(Laski_g1_mlm$info_inv), det(Laski_g1_REML$I_E_inv)) # Expected information matrix
   
+  # confidence interval
+  expect_equal(CI_g(Laski_g1_REML), CI_g(Laski_g1_mlm))
+  expect_equal(CI_g(Laski_g1_REML), lmeInfo:::CI_g.g_mlm(Laski_g1_mlm))
+  expect_equal(CI_g(Laski_g1_REML, symmetric = FALSE), CI_g(Laski_g1_mlm, symmetric = FALSE))
+  
+})
+
+test_that("g_mlm() is imported appropriately for Bryant 2016 data.", {
+  
+  skip_if_not_installed("lmeInfo")
+  
+  data(Bryant2016, package = "lmeInfo")
+  Bryant2016_RML1 <- lme(fixed = outcome ~ treatment,
+                         random = ~ 1 | school/case,
+                         correlation = corAR1(0, ~ session | school/case),
+                         data = Bryant2016)
+  
   # three-level data
   suppressWarnings(expect_error(g_REML(Bryant2016_RML1, p_const = c(0, 1), r_const = c(1, 0, 1, 1)))) # g_REML not available for 3-level data
   Bryant2016_g1_mlm <- g_mlm(Bryant2016_RML1, p_const = c(0, 1), r_const = c(1, 1, 0, 1),
@@ -56,9 +67,6 @@ test_that("g_mlm() is imported appropriately.", {
   expect_output(print(Bryant2016_g1_mlm))
   
   # confidence interval
-  expect_equal(CI_g(Laski_g1_REML), CI_g(Laski_g1_mlm))
-  expect_equal(CI_g(Laski_g1_REML), lmeInfo:::CI_g.g_mlm(Laski_g1_mlm))
-  expect_equal(CI_g(Laski_g1_REML, symmetric = FALSE), CI_g(Laski_g1_mlm, symmetric = FALSE))
   expect_equal(CI_g(Bryant2016_g1_mlm, symmetric = TRUE)[1], 0.2180581, tol = 1e-6)
   expect_equal(CI_g(Bryant2016_g1_mlm, symmetric = TRUE)[2], 0.7085557, tol = 1e-6)
   
