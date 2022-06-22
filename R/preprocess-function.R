@@ -110,6 +110,8 @@ preprocess_SCD <- function(design,
                            treatment_name = NULL,
                            data = NULL) {
   
+  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
+  
   if (missing(case)) stop("Please specify a case variable.")
   if (missing(phase)) stop("Please specify a phase variable.")
   if (missing(session)) stop("Please specify a session variable.")
@@ -127,7 +129,13 @@ preprocess_SCD <- function(design,
   outcome_call <- substitute(outcome)
   cluster_call <- substitute(cluster)
   series_call <- substitute(series)
-  
+
+  case_name <- deparse(case_call)
+  phase_name <- deparse(phase_call)
+  session_name <- deparse(session_call)
+  outcome_name <- deparse(outcome_call)
+  cluster_name <- deparse(cluster_call)
+  series_name <- deparse(series_call)
   
   if (!is.null(data)) {
     env <- list2env(data, parent = parent.frame())
@@ -138,21 +146,8 @@ preprocess_SCD <- function(design,
     cluster <- eval(cluster_call, env)
     series <- eval(series_call, env)
     
-    case_name <- as.character(case_call)
-    phase_name <- as.character(phase_call)
-    session_name <- as.character(session_call)
-    outcome_name <- as.character(outcome_call)
-    cluster_name <- as.character(cluster_call)
-    series_name <- as.character(series_call)
-    
-  } else {
-    case_name <- as.character(case_call)[3]
-    phase_name <- as.character(phase_call)[3]
-    session_name <- as.character(session_call)[3]
-    outcome_name <- as.character(outcome_call)[3]
-    cluster_name <- as.character(cluster_call)[3]
-    series_name <- as.character(series_call)[3]
-  }
+  } 
+  
   
   # get treatment name
   if (is.null(treatment_name)) {

@@ -92,5 +92,6 @@ graph_SCD(design="CMB",
           session=session, outcome=outcome,
           treatment_name = "treatment",
           data=Bryant2018)
-
+          
+}
 }

@@ -89,7 +89,8 @@ phase_lines_by_case <- function(case, phase, session) {
 #'           session=session, outcome=outcome,
 #'           treatment_name = "treatment",
 #'           data=Bryant2018)
-#' 
+#'           
+#' }
 
 
 graph_SCD <- function(design, case, phase, session, outcome, 
@@ -112,12 +113,12 @@ graph_SCD <- function(design, case, phase, session, outcome,
   series_call <- substitute(series)
   cluster_call <- substitute(cluster)
   
-  case_name <- as.character(case_call)
-  phase_name <- as.character(phase_call)
-  session_name <- as.character(session_call)
-  outcome_name <- as.character(outcome_call)
-  cluster_name <- as.character(cluster_call)
-  series_name <- as.character(series_call)
+  case_name <- deparse(case_call)
+  phase_name <- deparse(phase_call)
+  session_name <- deparse(session_call)
+  outcome_name <- deparse(outcome_call)
+  cluster_name <- deparse(cluster_call)
+  series_name <- deparse(series_call)
   
   if (!is.null(model_fit) & is.null(data)) {
     data <- nlme::getData(model_fit)
@@ -136,6 +137,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
   
   if (design %in% c("MBP", "TR")) {
     phase_line_dat <- phase_lines_by_case(dat[[case_name]], dat[[phase_name]], dat[[session_name]])
+    names(phase_line_dat)[1] <- case_name
   } else if (design == "RMBB") {
     dat$caseSeries <- as.factor(paste(dat[[case_name]], dat[[series_name]], sep = "-"))
     phase_line_dat <- phase_lines_by_case(dat$caseSeries, dat[[phase_name]], dat[[session_name]])
@@ -176,20 +178,8 @@ graph_SCD <- function(design, case, phase, session, outcome,
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::theme_bw() +
-    ggplot2::labs(color = "", shape = "") +
+    ggplot2::labs(color = "", shape = "", x = session_name, y = outcome_name) + 
     ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed")
-  
-  if (!is.null(data)) {
-    p <- 
-      p + 
-      ggplot2::xlab(as.character(session_call)) +
-      ggplot2::ylab(as.character(outcome_call))
-  } else {
-    p <- 
-      p + 
-      ggplot2::xlab(as.character(session_call)[3]) +
-      ggplot2::ylab(as.character(outcome_call)[3])
-  }
 
   # With model fit
   if (!is.null(model_fit)) {
