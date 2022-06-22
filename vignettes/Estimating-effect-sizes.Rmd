@@ -101,8 +101,7 @@ summary(quality_RML)
 ```
 The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. The next step is to combine these estimated components into an effect size estimate using the `g_mlm` function. This function takes the fitted `lme` model object as input, followed by the vectors `p_const` and `r_const`, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. For details on how to choose these constants, see Pustejovsky, Hedges, and Shadish (2014). In this example:
 ```{r quality-g-mlm, eval=TRUE}
-quality_ES_RML <- g_mlm(quality_RML, p_const = c(0,1), 
-                         r_const = c(1,0,1), returnModel = TRUE)
+quality_ES_RML <- g_mlm(mod = quality_RML, p_const = c(0,1), r_const = c(1,0,1))
 summary(quality_ES_RML)
 ```
 The adjusted SMD effect size is estimated as `g_AB` = `r round(quality_ES_RML$g_AB, 3)`; its standard error is `SE_g_AB` = `r round(quality_ES_RML$SE_g_AB, 3)`; the estimated auto-correlation is `phi` = `r round(quality_ES_RML$theta$cor_params, 3)`; and the estimated degrees of freedom is `nu` = `r round(quality_ES_RML$nu, 1)`. In this example, the RML effect size estimate is about 10% larger than the estimate from `effect_size_MB`, with a slightly smaller variance estimate. The RML estimate of the auto-correlation is substantially higher than before, but `effect_size_MB` uses a moment estimator that is known to be biased towards zero and that does not perform well when outcomes are intermittently missing for some sessions (as is the case here). 
@@ -128,7 +127,7 @@ summary(Laski_RML)
 ```
 
 ```{r Laski-ES-RML, eval = TRUE}
-Laski_ES_RML <- g_mlm(Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
+Laski_ES_RML <- g_mlm(mod = Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
 
 # compare the estimates
 data.frame(
@@ -152,7 +151,7 @@ anova(Laski_RML, Laski_RML2)
 ```
 The fit of the two models can be compared using a likelihood ratio test, which rejects the model with a constant treatment effect. The second model, which allows the treatment effect to vary, is to be preferred. The following code estimates a design-comparable SMD based on the better-fitting model.
 ```{r Laski-ES-RML2, eval=TRUE}
-Laski_ES_RML2 <- g_mlm(Laski_RML2, p_const = c(0,1), r_const = c(1,0,0,0,1))
+Laski_ES_RML2 <- g_mlm(mod = Laski_RML2, p_const = c(0,1), r_const = c(1,0,0,0,1))
 Laski_ES_RML2
 ```
 
@@ -205,7 +204,7 @@ summary(hlm1)
 ```
 The design-comparable standardized mean difference corresponds to the treatment effect at week $B = 9$, after $B - A = 7$ weeks of treatment. The corresponding values of `p_const` and `r_const` are specified below.
 ```{r Schutte-ES-Model3, eval = TRUE}
-Schutte_g1 <- g_mlm(hlm1, p_const = c(0,0,1, B - A), r_const = c(1,0,1))
+Schutte_g1 <- g_mlm(mod = hlm1, p_const = c(0,0,1, B - A), r_const = c(1,0,1))
 Schutte_g1
 ```
 It will be seen below that this initial model provides a poor fit to the data; thus, the effect size estimate based on it should not be trusted.
@@ -221,7 +220,7 @@ anova(hlm1, hlm2)
 ```
 A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows[^g-mlm-mb4]:
 ```{r Schutte-ES-Model4, eval = TRUE}
-Schutte_g2 <- g_mlm(hlm2, p_const = c(0,0,1, B - A), r_const = c(1,0,0,0,1))
+Schutte_g2 <- g_mlm(mod = hlm2, p_const = c(0,0,1, B - A), r_const = c(1,0,0,0,1))
 Schutte_g2
 ```
 The design-comparable SMD is estimated to be `r round(Schutte_g2$g_AB, 3)`, with a standard error of `r round(Schutte_g2$SE_g_AB, 3)`.
@@ -243,7 +242,7 @@ anova(hlm2, hlm3)
 ```
 The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test cannot be trusted with such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.[^g-mlm-mb5]
 ```{r Schutte-ES-Model5, eval = TRUE}
-Schutte_g3 <- g_mlm(hlm3, p_const = c(0,0,1,B - A), r_const = c(1,0,0,0,0,0,0,1))
+Schutte_g3 <- g_mlm(mod = hlm3, p_const = c(0,0,1,B - A), r_const = c(1,0,0,0,0,0,0,1))
 Schutte_g3
 
 # compare effect size estimates
