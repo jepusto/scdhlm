@@ -7,4 +7,6 @@ dat <- preprocess_SCD(case = {user_caseID},
                       center = {user_model_center}, 
                       round_session = {user_round}, 
                       treatment_name = "{user_treatment}", 
+                      cluster = {user_clusterID},
+                      series = {user_seriesID},
                       data = dat)
