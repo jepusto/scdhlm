@@ -1,4 +1,8 @@
 
 # Calculate effect size
-res <- with(dat, effect_size_MB(outcome = {user_outcome}, treatment = trt, id = {user_case}, time = {user_session})) 
+res <- effect_size_MB(outcome = {user_outcome}, 
+                      treatment = trt, 
+                      id = {user_case}, 
+                      time = {user_session},
+                      data = dat) 
 res
