@@ -62,6 +62,9 @@ If treatment_name is left null it will choose the second level of the
   phase variable to be the treatment phase.
 }
 \examples{
+
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+
 data(Anglesea)
 graph_SCD(design="TR",
           case=case, phase=condition,

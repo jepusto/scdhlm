@@ -309,6 +309,8 @@ g_REML <- function(m_fit, p_const, r_const,
   return(res)
 }
 
+#' @export 
+
 summary.g_REML <- function(object, digits = 3, ...) {
   
   if (is.null(object$modelStruct)) {
@@ -328,6 +330,8 @@ summary.g_REML <- function(object, digits = 3, ...) {
   print(round(rbind(varcomp, betas, ES), digits), na.print = "")
 
 }
+
+#' @export 
 
 print.g_REML <- function(x, digits = 3, ...) {
   ES <- with(x, cbind(est = c("unadjusted effect size" = delta_AB,

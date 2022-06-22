@@ -162,6 +162,8 @@ The adjusted effect size estimate that is `r round(100 * (1 - Laski_ES_RML2$g_AB
 Schutte, Malouff, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.
 
 ```{r Schutte-graph, warning = FALSE, message = FALSE, fig.width = 7, fig.height = 7}
+
+if (requireNamespace("ggplot2", quietly = TRUE)) {
 library(ggplot2)
 
 data(Schutte)
@@ -171,6 +173,7 @@ graph_SCD(case = case, phase = treatment,
           design = "MB", data = Schutte) + 
   facet_wrap(~ case, ncol = 3) + 
   theme(legend.position = "bottom")
+}
 
 ```
 

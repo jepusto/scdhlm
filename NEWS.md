@@ -10,6 +10,7 @@
   * The "Model" tab now includes a note regarding initial treatment time and follow-up time sliders, which only appears when relevant.
 * Fixed a bug so that shine_scd() can take a tibble in the dataset argument.
 * Fixed a bug in graph_SCD() function that occurred in treatment reversal designs with cases that had varying numbers of reversals.
+* Updated vignette, examples, and unit tests so that the package can be compiled without any packages from SUGGESTS.
 
 # scdhlm 0.5.2
 
