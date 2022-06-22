@@ -288,10 +288,12 @@ server <-
           series <- NULL
         }
         
-        dat <- preprocess_SCD(case = case, phase = phase, 
+        dat <- preprocess_SCD(design = studyDesign(), 
+                              cluster = cluster, 
+                              case = case, series = series, 
+                              phase = phase, 
                               session = session, outcome = outcome, 
-                              design = studyDesign(), cluster = cluster, 
-                              series = series, data = dat)
+                              data = dat)
         
       } else {
         
@@ -300,12 +302,11 @@ server <-
         session <- as.numeric(datFile()[,input$session])
         outcome <- as.numeric(datFile()[,input$outcome])
         dat <- data.frame(case = case, phase = phase, session = session, outcome = outcome)
+        
         if (studyDesign() == "RMBB") {
-          series <- datFile()[,input$seriesID]
-          dat <- data.frame(case = case, series = series, phase = phase, session = session, outcome = outcome)
+          dat$series <- datFile()[,input$seriesID]
         } else if (studyDesign() == "CMB") {
-          cluster <- datFile()[,input$clusterID]
-          dat <- data.frame(cluster = cluster, case = case, phase = phase, session = session, outcome = outcome)
+          dat$cluster <- datFile()[,input$clusterID]
         }
         
         if (!is.null(input$filters)) {
@@ -316,32 +317,22 @@ server <-
         design <- studyDesign()
         round_session <- if (!is.null(input$round_session)) TRUE else FALSE
         treatment_name <- input$treatment
-        if (studyDesign() %in% c("MBP", "TR")) {
-          dat <- preprocess_SCD(case = dat$case, phase = dat$phase, 
-                                session = dat$session, outcome = dat$outcome, 
-                                design = design, round_session = round_session, treatment_name = treatment_name)
-          names(dat)[1:4] <- c("case", "phase", "session", "outcome")
-        } else if (studyDesign() == "RMBB") {
-          dat <- preprocess_SCD(case = dat$case, series = dat$series, phase = dat$phase, 
-                                session = dat$session, outcome = dat$outcome, 
-                                design = design, round_session = round_session, treatment_name = treatment_name)
-          names(dat)[1:5] <- c("case", "series", "phase", "session", "outcome")
-        } else if (studyDesign() == "CMB") {
-          dat <- preprocess_SCD(cluster = dat$cluster, case = dat$case, phase = dat$phase, 
-                                session = dat$session, outcome = dat$outcome, 
-                                design = design, round_session = round_session, treatment_name = treatment_name)
-          names(dat)[1:5] <- c("cluster", "case", "phase", "session", "outcome")
-        }
         
+        dat <- preprocess_SCD(design = design, 
+                              cluster = cluster, case = case, series = series,
+                              phase = phase, session = session, outcome = outcome, 
+                              round_session = round_session, treatment_name = treatment_name,
+                              data = dat)
+
       }
       
-      if (studyDesign() == "MBP") {
-        names(dat)[6] <- "session_trt"
-      } else if (studyDesign() == "TR") {
-        names(dat)[6] <- "phase_pair"
-      } else if (studyDesign() %in% c("RMBB", "CMB")) {
-        names(dat)[7] <- "session_trt"
-      } 
+      # if (studyDesign() == "MBP") {
+      #   names(dat)[6] <- "session_trt"
+      # } else if (studyDesign() == "TR") {
+      #   names(dat)[6] <- "phase_pair"
+      # } else if (studyDesign() %in% c("RMBB", "CMB")) {
+      #   names(dat)[7] <- "session_trt"
+      # } 
       
       return(dat)
       
@@ -352,15 +343,15 @@ server <-
     # Estimation method
     
     output$estMethod <- renderUI({
-      if (studyDesign() %in% c("MBP", "TR")) {
-        selectInput("method", label = "Estimation method",
-                    choices = estimation_names, 
-                    selected = "RML")
+      estimation_choices <- if (studyDesign() %in% c("MBP", "TR")) {
+        estimation_names 
       } else {
-        selectInput("method", label = "Estimation method",
-                    choices = c("Restricted Maximum Likelihood" = "RML"), 
-                    selected = "RML")
+        c("Restricted Maximum Likelihood" = "RML")
       }
+      
+      selectInput("method", label = "Estimation method",
+                  choices = estimation_choices, 
+                  selected = "RML")
     })
     
     # Centering and timing sliders for RML estimation of MBD
@@ -437,7 +428,7 @@ server <-
                  checkboxGroupInput("FE_base", "Include fixed effect", degree_base_list, selected = degree_base_list)
           ),
           column(6,
-                 checkboxGroupInput("RE_base", "Include random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base", "Include case-level random effect", degree_base_list, selected = 0)
           )
         )
       } else if (studyDesign() == "RMBB") {
@@ -446,22 +437,22 @@ server <-
                  checkboxGroupInput("FE_base", "Include fixed effect", degree_base_list, selected = degree_base_list)
           ),
           column(4,
-                 checkboxGroupInput("RE_base", "Include series random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base", "Include series-level random effect", degree_base_list, selected = 0)
           ),
           column(4,
-                 checkboxGroupInput("RE_base2", "Include case random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base2", "Include case-level random effect", degree_base_list, selected = 0)
           )
         )
-      } else {
+      } else if (studyDesign() == "CMB") {
         fluidRow(
           column(4,
                  checkboxGroupInput("FE_base", "Include fixed effect", degree_base_list, selected = degree_base_list)
           ),
           column(4,
-                 checkboxGroupInput("RE_base", "Include case random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base", "Include case-level random effect", degree_base_list, selected = 0)
           ),
           column(4,
-                 checkboxGroupInput("RE_base2", "Include cluster random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base2", "Include cluster-level random effect", degree_base_list, selected = 0)
           )
         )
       }
@@ -478,7 +469,7 @@ server <-
                  checkboxGroupInput("FE_trt", "Include fixed effect", degree_trt_list, selected = degree_trt_list)
           ),
           column(6,
-                 checkboxGroupInput("RE_trt", "Include random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt", "Include case-level random effect", degree_trt_list, selected = NULL)
           )
         )
       } else if (studyDesign() == "RMBB") {
@@ -487,22 +478,22 @@ server <-
                  checkboxGroupInput("FE_trt", "Include fixed effect", degree_trt_list, selected = degree_trt_list)
           ),
           column(4,
-                 checkboxGroupInput("RE_trt", "Include series random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt", "Include series-level random effect", degree_trt_list, selected = NULL)
           ),
           column(4,
-                 checkboxGroupInput("RE_trt2", "Include case random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt2", "Include case-level random effect", degree_trt_list, selected = NULL)
           )
         )
-      } else {
+      } else if (studyDesign() == "CMB") {
         fluidRow(
           column(4,
                  checkboxGroupInput("FE_trt", "Include fixed effect", degree_trt_list, selected = degree_trt_list)
           ),
           column(4,
-                 checkboxGroupInput("RE_trt", "Include case random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt", "Include case-level random effect", degree_trt_list, selected = NULL)
           ),
           column(4,
-                 checkboxGroupInput("RE_trt2", "Include cluster random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt2", "Include cluster-level random effect", degree_trt_list, selected = NULL)
           )
         )
       }
@@ -513,16 +504,19 @@ server <-
     
     model_validation <- reactive({
       if (studyDesign() %in% c("MBP", "TR")) {
-        validate_specification(studyDesign(), input$FE_base, input$RE_base, 
-                               input$FE_trt, input$RE_trt, datClean()$case)
+        validate_specification(design = studyDesign(), n_outer_levels = nlevels(datClean()$case),
+                               FE_base = input$FE_base, RE_base = input$RE_base, 
+                               FE_trt = input$FE_trt, RE_trt = input$RE_trt)
       } else if (studyDesign() == "RMBB") {
-        validate_specification(studyDesign(), input$FE_base, input$RE_base,  
-                               input$FE_trt, input$RE_trt, datClean()$case,
-                               input$RE_base2, input$RE_trt2)
+        validate_specification(design = studyDesign(), n_outer_levels = nlevels(datClean()$case),
+                               FE_base = input$FE_base, RE_base = input$RE_base,  
+                               FE_trt = input$FE_trt, RE_trt = input$RE_trt,
+                               RE_base2 = input$RE_base2, RE_trt2 = input$RE_trt2)
       } else {
-        validate_specification(studyDesign(), input$FE_base, input$RE_base, 
-                               input$FE_trt, input$RE_trt, datClean()$case, 
-                               input$RE_base2, input$RE_trt2)
+        validate_specification(design = studyDesign(), n_outer_levels = nlevels(datClean()$cluster),
+                               FE_base = input$FE_base, RE_base = input$RE_base,  
+                               FE_trt = input$FE_trt, RE_trt = input$RE_trt,
+                               RE_base2 = input$RE_base2, RE_trt2 = input$RE_trt2)
       }
       
     })
@@ -532,8 +526,15 @@ server <-
     # Fit model 
     
     model_fit <- reactive({
+      
       center <- if (input$degree_base == 0 || is.null(input$model_center)) 0L else input$model_center
-      fit_function <- list(MBP = "lme_fit_MB", RMBB = "lme_fit_MB", CMB = "lme_fit_MB", TR = "lme_fit_TR")[[studyDesign()]]
+      
+      fit_function <- switch(studyDesign(), 
+                             MBP = "lme_fit_MB", 
+                             RMBB = "lme_fit_MB", 
+                             CMB = "lme_fit_MB", 
+                             TR = "lme_fit_TR")
+      
       if (studyDesign() %in% c("MBP", "TR")) {
         RE_base2 <- RE_trt2 <- NULL
       } else {
@@ -543,7 +544,7 @@ server <-
       do.call(fit_function,
               args = list(design = studyDesign(), dat = datClean(), 
                           FE_base = input$FE_base, RE_base = input$RE_base, RE_base_2 = RE_base2,
-                          FE_trt = input$FE_trt, RE_trt = input$RE_trt, RE_trt_2 = input$RE_trt2,
+                          FE_trt = input$FE_trt, RE_trt = input$RE_trt, RE_trt_2 = RE_trt2,
                           varStruct = input$varStruct,
                           corStruct = input$corStruct,
                           center = center))
@@ -589,7 +590,7 @@ server <-
         } else {
           if (studyDesign()=="MBP") {
             res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
-          } else {
+          } else if (studyDesign()=="TR") {
             res <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = trt, id = case, phase = phase_pair, time = session))
           } 
         } 
@@ -649,8 +650,10 @@ server <-
   raw_graph <- reactive({
     cluster <- if (studyDesign() == "CMB") substitute(cluster) else NULL
     series <- if (studyDesign() == "RMBB") substitute(series) else NULL
-    graph_SCD(design = studyDesign(), case=case, phase=phase, session=session, outcome=outcome, 
-              cluster = cluster, series = series, treatment_name = NULL, model_fit = NULL, data = datClean())
+    graph_SCD(design = studyDesign(), 
+              cluster = cluster, case = case, series = series, 
+              phase = phase, session = session, outcome = outcome, 
+              treatment_name = NULL, model_fit = NULL, data = datClean())
 
   })
   
@@ -666,16 +669,13 @@ server <-
   width = function() 700)
   
   output$RML_plot <- renderPlot({
+    
     if ("lme" %in% class(model_fit()$fit)) {
-      # dat <- datClean()
-      # dat$fitted <- predict(model_fit()$fit)
-      # raw_graph() + 
-      #   geom_line(data = dat, aes(session, fitted), size = 0.8) 
       cluster <- if (studyDesign() == "CMB") substitute(cluster) else NULL
       series <- if (studyDesign() == "RMBB") substitute(series) else NULL
       graph_SCD(design = studyDesign(), 
-                case=case, phase=phase, session=session, outcome=outcome, 
-                cluster = cluster, series = series, 
+                cluster = cluster, case = case, series = series, 
+                phase = phase, session = session, outcome = outcome, 
                 model_fit = model_fit()$fit, 
                 data = datClean())
     }

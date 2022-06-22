@@ -33,7 +33,8 @@ default_times <- function(x) {
 # model validation
 #---------------------------------------------------------------
 
-validate_specification <- function(design, FE_base, RE_base, FE_trt, RE_trt, case, 
+validate_specification <- function(design, n_outer_levels, 
+                                   FE_base, RE_base, FE_trt, RE_trt, 
                                    RE_base2 = NULL, RE_trt2 = NULL) {
   
   errors <- vector(mode = "character")
@@ -49,8 +50,8 @@ validate_specification <- function(design, FE_base, RE_base, FE_trt, RE_trt, cas
   if (length(FE_trt)==0) {
     errors <- c(errors, "<font color='red'>Model must include at least one fixed effect for the treatment phase.</font>")
   }
-  
-  if(design %in% c("MBP", "TR") && nlevels(case) < 3) {
+
+  if (n_outer_levels < 3L) {
     errors <- c(errors, "<font color='red'>Model must include at least three cases. Currently, you have less than three cases.</font>")
   }
   
@@ -81,6 +82,7 @@ summarize_ES <- function(res, filter_vals,
       ES = as.numeric(res$g_AB),
       SE = as.numeric(res$SE_g_AB)
     )
+    
     if (design %in% c("RMBB", "CMB")) {
       rho_level2 <- round(with(res, (theta$Tau[[1]][1] + theta$Tau[[2]][1]) / 
                            (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
@@ -90,13 +92,17 @@ summarize_ES <- function(res, filter_vals,
     } else {
       res$rho <- with(res, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
     }
+    
     res$phi <- if (corStruct == "IID") NA_real_ else res$theta$cor_params
     res$var_param <- if (varStruct == "hom") NA_real_ else res$theta$var_params
+    
   } else {
+    
     ES_summary <- data.frame(
       ES = res$delta_hat,
       SE = sqrt(res$V_delta_hat)
     )
+    
   }
   
   CI <- CI_g(res, cover = coverage / 100L)
