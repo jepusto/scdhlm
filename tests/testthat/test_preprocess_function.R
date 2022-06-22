@@ -13,20 +13,20 @@ dat_dup_session$Time <- rep(1:8, 5)
 
 MB_dat_clean <- preprocess_SCD(case = Student, phase = Phase, 
                                session = Time, outcome = Behavior, 
-                               design = "MB", data = MB_dat)
+                               design = "MBP", data = MB_dat)
 data("Laski")
 
 dat1_Laski <- preprocess_SCD(case = case, phase = treatment, 
                              session = time, outcome = outcome, 
-                             design = "MB", data = Laski)
+                             design = "MBP", data = Laski)
 
 dat2_Laski <- preprocess_SCD(case = case, phase = treatment, 
                              session = time, outcome = outcome, 
-                             design = "MB", center = 4, data = Laski)
+                             design = "MBP", center = 4, data = Laski)
 
 dat3_Laski <- preprocess_SCD(case = Laski$case, phase = Laski$treatment,
                              session = Laski$time, outcome = Laski$outcome,
-                             design = "MB")
+                             design = "MBP")
 
 # TR design
 data("Anglesea")

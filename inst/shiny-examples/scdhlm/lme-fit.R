@@ -168,7 +168,7 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, RE_base_2, FE_trt, RE
   r_const_base <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
   r_const_trt <- rep(0L, r_const_dim - length(r_const_base))
   
-  if (design %in% c("MB", "TR")) {
+  if (design %in% c("MBP", "TR")) {
     r_const <- c(r_const_base,
                  r_const_trt,
                  rep(0L, length(mod$modelStruct$corStruct)),

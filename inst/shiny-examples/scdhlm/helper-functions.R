@@ -50,7 +50,7 @@ validate_specification <- function(design, FE_base, RE_base, FE_trt, RE_trt, cas
     errors <- c(errors, "<font color='red'>Model must include at least one fixed effect for the treatment phase.</font>")
   }
   
-  if(design %in% c("MB", "TR") && nlevels(case) < 3) {
+  if(design %in% c("MBP", "TR") && nlevels(case) < 3) {
     errors <- c(errors, "<font color='red'>Model must include at least three cases. Currently, you have less than three cases.</font>")
   }
   
@@ -116,7 +116,7 @@ summarize_ES <- function(res, filter_vals,
                            " R1:", paste(RE_trt, collapse = ""),
                            " R2:", paste(RE_trt_2, collapse = ""))
   
-  if (method=="RML" & design %in% c("MB", "RMBB", "CMB") & !is.null(A) & !is.null(B)) {
+  if (method=="RML" & design %in% c("MBP", "RMBB", "CMB") & !is.null(A) & !is.null(B)) {
     ES_summary$A <- A
     ES_summary$B <- B
   } else {

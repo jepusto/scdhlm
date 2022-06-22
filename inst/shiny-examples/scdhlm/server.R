@@ -99,7 +99,7 @@ server <-
     output$variableMapping <- renderUI({
       var_names <- names(datFile())
       n_var <- length(var_names)
-      if (studyDesign() %in% c("MB", "TR")) {
+      if (studyDesign() %in% c("MBP", "TR")) {
         list(
           selectInput("caseID", label = "Case identifier", choices = var_names, selected = var_names[n_var - 3]),
           selectInput("phaseID", label = "Phase identifier", choices = var_names, selected = var_names[n_var - 2]),
@@ -277,7 +277,7 @@ server <-
           dat <- dat[apply(subset_vals, 1, all),]
         } 
         dat <- dat[,example_parms$vars]
-        if (studyDesign() %in% c("MB", "TR")) {
+        if (studyDesign() %in% c("MBP", "TR")) {
           names(dat) <- c("case","session","phase","outcome")
           cluster <- series <- NULL
         } else if (studyDesign() == "RMBB"){
@@ -316,7 +316,7 @@ server <-
         design <- studyDesign()
         round_session <- if (!is.null(input$round_session)) TRUE else FALSE
         treatment_name <- input$treatment
-        if (studyDesign() %in% c("MB", "TR")) {
+        if (studyDesign() %in% c("MBP", "TR")) {
           dat <- preprocess_SCD(case = dat$case, phase = dat$phase, 
                                 session = dat$session, outcome = dat$outcome, 
                                 design = design, round_session = round_session, treatment_name = treatment_name)
@@ -335,7 +335,7 @@ server <-
         
       }
       
-      if (studyDesign() == "MB") {
+      if (studyDesign() == "MBP") {
         names(dat)[6] <- "session_trt"
       } else if (studyDesign() == "TR") {
         names(dat)[6] <- "phase_pair"
@@ -352,7 +352,7 @@ server <-
     # Estimation method
     
     output$estMethod <- renderUI({
-      if (studyDesign() %in% c("MB", "TR")) {
+      if (studyDesign() %in% c("MBP", "TR")) {
         selectInput("method", label = "Estimation method",
                     choices = estimation_names, 
                     selected = "RML")
@@ -370,7 +370,7 @@ server <-
     })
     
     output$model_centering <- renderUI({
-      if (studyDesign() %in% c("MB", "RMBB", "CMB") & input$method=="RML") {
+      if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method=="RML") {
         session_range <- time_range()$range
         sliderInput("model_center", "Center session at", 
                     min=session_range[1], max=session_range[2], 
@@ -379,7 +379,7 @@ server <-
     })
     
     output$ES_timing_message <- renderText({
-      if (studyDesign() %in% c("MB", "RMBB", "CMB") & input$method=="RML" &
+      if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method=="RML" &
           any(input$degree_trt != 0, (input$degree_base != 0 & input$RE_base > 0))) {
         note_txt <- "Note: Options for selecting an initial treatment time and follow-up time can be modified on the next page." 
         HTML(note_txt)
@@ -387,7 +387,7 @@ server <-
     })
     
     output$ES_timing <- renderUI({
-      if (studyDesign() %in% c("MB", "RMBB", "CMB") & input$method=="RML" & 
+      if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method=="RML" & 
           any(input$degree_trt != 0, (input$degree_base != 0 & input$RE_base > 0))) {
         timings <- time_range()
         wellPanel(
@@ -414,13 +414,13 @@ server <-
     # Model degree
     
     output$modelDegree_baseline <- renderUI({
-      if (studyDesign() %in% c("MB", "RMBB", "CMB")) {
+      if (studyDesign() %in% c("MBP", "RMBB", "CMB")) {
         selectInput("degree_base", label = "Type of time trend", choices = time_trends_baseline, width = "40%")  
       }
     })
     
     output$modelDegree_treatment <- renderUI({
-      if (studyDesign() %in% c("MB", "RMBB", "CMB")) {
+      if (studyDesign() %in% c("MBP", "RMBB", "CMB")) {
         selectInput("degree_trt", label = "Type of time trend", choices = time_trends_treatment, width = "40%")  
       }
     })
@@ -431,7 +431,7 @@ server <-
       deg_base <- if (is.null(input$degree_base)) 0 else as.numeric(input$degree_base)
       degree_base_list <- 0:deg_base
       names(degree_base_list) <- degree_names_baseline[1:(deg_base + 1)]
-      if (studyDesign() %in% c("MB", "TR")) {
+      if (studyDesign() %in% c("MBP", "TR")) {
         fluidRow(
           column(6,
                  checkboxGroupInput("FE_base", "Include fixed effect", degree_base_list, selected = degree_base_list)
@@ -472,7 +472,7 @@ server <-
       deg_trt <- if (is.null(input$degree_trt)) 0 else as.numeric(input$degree_trt)
       degree_trt_list <- 0:deg_trt
       names(degree_trt_list) <- degree_names_treatment[1:(deg_trt + 1)]
-      if (studyDesign() %in% c("MB", "TR")) {
+      if (studyDesign() %in% c("MBP", "TR")) {
         fluidRow(
           column(6,
                  checkboxGroupInput("FE_trt", "Include fixed effect", degree_trt_list, selected = degree_trt_list)
@@ -512,7 +512,7 @@ server <-
     # Validate model specification
     
     model_validation <- reactive({
-      if (studyDesign() %in% c("MB", "TR")) {
+      if (studyDesign() %in% c("MBP", "TR")) {
         validate_specification(studyDesign(), input$FE_base, input$RE_base, 
                                input$FE_trt, input$RE_trt, datClean()$case)
       } else if (studyDesign() == "RMBB") {
@@ -533,8 +533,8 @@ server <-
     
     model_fit <- reactive({
       center <- if (input$degree_base == 0 || is.null(input$model_center)) 0L else input$model_center
-      fit_function <- list(MB = "lme_fit_MB", RMBB = "lme_fit_MB", CMB = "lme_fit_MB", TR = "lme_fit_TR")[[studyDesign()]]
-      if (studyDesign() %in% c("MB", "TR")) {
+      fit_function <- list(MBP = "lme_fit_MB", RMBB = "lme_fit_MB", CMB = "lme_fit_MB", TR = "lme_fit_TR")[[studyDesign()]]
+      if (studyDesign() %in% c("MBP", "TR")) {
         RE_base2 <- RE_trt2 <- NULL
       } else {
         RE_base2 <- input$RE_base2
@@ -569,7 +569,7 @@ server <-
       
       if ("lme" %in% class(model_fit()$fit)) {
         
-        if (studyDesign() %in% c("MB", "TR")) {
+        if (studyDesign() %in% c("MBP", "TR")) {
           RE_base2 <- RE_trt2 <- NULL
         } else {
           RE_base2 <- input$RE_base2
@@ -587,7 +587,7 @@ server <-
                                  corStruct = input$corStruct,
                                  A = A, B = B, center = center)
         } else {
-          if (studyDesign()=="MB") {
+          if (studyDesign()=="MBP") {
             res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
           } else {
             res <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = trt, id = case, phase = phase_pair, time = session))
@@ -649,17 +649,9 @@ server <-
   raw_graph <- reactive({
     cluster <- if (studyDesign() == "CMB") substitute(cluster) else NULL
     series <- if (studyDesign() == "RMBB") substitute(series) else NULL
-    graph_SCD(case=case, phase=phase, session=session, outcome=outcome, design = studyDesign(),
-              treatment_name = NULL, model_fit = NULL, cluster = cluster, series = series, data = datClean())
-    
-    # if (studyDesign() %in% c("MB", "TR")) {
-    #   graph_SCD(data = datClean(), design = studyDesign(), case=case, phase=phase, session=session, outcome=outcome, treatment_name = NULL, model_fit = NULL)
-    # } else if (studyDesign() == "RMBB") {
-    #   graph_SCD(data = datClean(), design = studyDesign(), case=case, phase=phase, session=session, outcome=outcome, treatment_name = NULL, model_fit = NULL, series = series)
-    # } else if (studyDesign() == "CMB") {
-    #   graph_SCD(data = datClean(), design = studyDesign(), case=case, phase=phase, session=session, outcome=outcome, treatment_name = NULL, model_fit = NULL, cluster = cluster)
-    # }
-    
+    graph_SCD(design = studyDesign(), case=case, phase=phase, session=session, outcome=outcome, 
+              cluster = cluster, series = series, treatment_name = NULL, model_fit = NULL, data = datClean())
+
   })
   
   output$raw_plot <- renderPlot({
@@ -681,8 +673,11 @@ server <-
       #   geom_line(data = dat, aes(session, fitted), size = 0.8) 
       cluster <- if (studyDesign() == "CMB") substitute(cluster) else NULL
       series <- if (studyDesign() == "RMBB") substitute(series) else NULL
-      graph_SCD(case=case, phase=phase, session=session, outcome=outcome, design = studyDesign(), 
-                model_fit = model_fit()$fit, cluster = cluster, series = series, data = datClean())
+      graph_SCD(design = studyDesign(), 
+                case=case, phase=phase, session=session, outcome=outcome, 
+                cluster = cluster, series = series, 
+                model_fit = model_fit()$fit, 
+                data = datClean())
     }
   }, height = function() 120 * nlevels(datClean()[[1]]),
   width = function() 700)
@@ -769,7 +764,7 @@ server <-
                                         args = list(user_parms = paste(example_parms$vars, collapse='", "'),
                                                     user_design = studyDesign()))
         )
-      } else if (studyDesign() == "MB") {
+      } else if (studyDesign() == "MBP") {
         clean_dat <- c(clean_dat_A,
                        '',
                        parse_code_chunk("clean-example-nofilter",
@@ -832,7 +827,7 @@ server <-
                                                       user_treatment = input$treatment,
                                                       user_round = round_session))
           )
-        } else if (studyDesign() %in% c("MB", "RMBB", "CMB")) {
+        } else if (studyDesign() %in% c("MBP", "RMBB", "CMB")) {
           clean_dat <- c(clean_dat_B,
                          '',
                          parse_code_chunk("clean-inputdata-nofilter", 
@@ -932,7 +927,7 @@ server <-
       r_const_trt <- rep(0L, (r_const_dim - length(r_const_base)))
       r_const_cor <- rep(0L, length(model_fit()$fit$modelStruct$corStruct))
       r_const_var <- rep(0L, length(model_fit()$fit$modelStruct$varStruct))
-      if (studyDesign() %in% c("MB", "TR")) {
+      if (studyDesign() %in% c("MBP", "TR")) {
         r_const <- c(r_const_base, r_const_trt, r_const_cor, r_const_var, 1L)
       } else {
         r_dim2 <- length(input$RE_base2) + length(input$RE_trt2)
@@ -944,7 +939,7 @@ server <-
         r_const <- c(r_const_base, r_const_trt, r_const_base2, r_const_trt2, r_const_cor, r_const_var, 1L)
       }
       
-      if (studyDesign() == "MB") {
+      if (studyDesign() == "MBP") {
         calc_ES <- parse_code_chunk("es-RML-MB", args = list(user_A = A,
                                                           user_B = B,
                                                           user_FE_base = paste_object(input$FE_base), 
@@ -978,7 +973,7 @@ server <-
       }
       
     } else {
-      if (studyDesign() == "MB") {
+      if (studyDesign() == "MBP") {
         calc_ES <- parse_code_chunk("es-MB", args = list(user_case = case,
                                                          user_session = session,
                                                          user_outcome = outcome))
@@ -994,7 +989,7 @@ server <-
     furtherArg_design <- switch(studyDesign(),
                                 "RMBB" = paste0("series = ", series, ","),
                                 "CMB" = paste0("cluster = ", cluster, ","),
-                                "MB" = "",
+                                "MBP" = "",
                                 "TR" = "",
                                 c())
     
