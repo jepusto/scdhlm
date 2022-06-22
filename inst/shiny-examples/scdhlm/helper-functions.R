@@ -33,7 +33,8 @@ default_times <- function(x) {
 # model validation
 #---------------------------------------------------------------
 
-validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt, case) {
+validate_specification <- function(design, FE_base, RE_base, FE_trt, RE_trt, case, 
+                                   RE_base2 = NULL, RE_trt2 = NULL) {
   
   errors <- vector(mode = "character")
   if (!("0" %in% FE_base)) {
@@ -42,11 +43,14 @@ validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt, case) {
   if (!("0" %in% RE_base)) {
     errors <- c(errors, "<font color='red'>Model must include a random effect for baseline level.</font>")
   }
+  if (design %in% c("RMBB", "CMB") && !("0" %in% RE_base2)) {
+    errors <- c(errors, "<font color='red'>Model must include a random effect for baseline level.</font>")
+  }
   if (length(FE_trt)==0) {
     errors <- c(errors, "<font color='red'>Model must include at least one fixed effect for the treatment phase.</font>")
   }
   
-  if(nlevels(case) < 3) {
+  if(design %in% c("MB", "TR") && nlevels(case) < 3) {
     errors <- c(errors, "<font color='red'>Model must include at least three cases. Currently, you have less than three cases.</font>")
   }
   
@@ -67,7 +71,9 @@ validate_specification <- function(FE_base, RE_base, FE_trt, RE_trt, case) {
 
 summarize_ES <- function(res, filter_vals, 
                          design, method, 
-                         FE_base, RE_base, FE_trt, RE_trt, corStruct, varStruct,
+                         FE_base, RE_base, RE_base_2, 
+                         FE_trt, RE_trt, RE_trt_2, 
+                         corStruct, varStruct,
                          A, B, coverage = 95L) {
   
   if (method=="RML") {
@@ -75,7 +81,15 @@ summarize_ES <- function(res, filter_vals,
       ES = as.numeric(res$g_AB),
       SE = as.numeric(res$SE_g_AB)
     )
-    res$rho <- with(res, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
+    if (design %in% c("RMBB", "CMB")) {
+      rho_level2 <- round(with(res, (theta$Tau[[1]][1] + theta$Tau[[2]][1]) / 
+                           (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
+      rho_level3 <- round(with(res, theta$Tau[[2]][1] / 
+                           (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
+      res$rho <- paste0("Level2:", rho_level2, "  Level3:", rho_level3)
+    } else {
+      res$rho <- with(res, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
+    }
     res$phi <- if (corStruct == "IID") NA_real_ else res$theta$cor_params
     res$var_param <- if (varStruct == "hom") NA_real_ else res$theta$var_params
   } else {
@@ -87,8 +101,8 @@ summarize_ES <- function(res, filter_vals,
   
   CI <- CI_g(res, cover = coverage / 100L)
   
-  ES_summary$CI_L <- CI[1]
-  ES_summary$CI_U <- CI[2]
+  ES_summary$CI_L <- if (CI[1] < 100 & CI[1] > -100) CI[1] else format(CI[1], scientific = TRUE)
+  ES_summary$CI_U <- if (CI[1] < 100 & CI[1] > -100) CI[2] else format(CI[2], scientific = TRUE)
   ES_summary$df <- res$nu
   ES_summary$phi <- res$phi
   ES_summary$var_param <- if (method == "RML") res$var_param else NA_real_
@@ -96,11 +110,13 @@ summarize_ES <- function(res, filter_vals,
   ES_summary$design <- names(design_names[which(design_names==design)])
   ES_summary$method <- names(estimation_names[which(estimation_names==method)])
   ES_summary$baseline <- paste0("F:", paste(FE_base, collapse = ""), 
-                                " R:", paste(RE_base, collapse = ""))
+                                " R1:", paste(RE_base, collapse = ""),
+                                " R2:", paste(RE_base_2, collapse = ""))
   ES_summary$trt <- paste0("F:", paste(FE_trt, collapse = ""), 
-                           " R:", paste(RE_trt, collapse = ""))
+                           " R1:", paste(RE_trt, collapse = ""),
+                           " R2:", paste(RE_trt_2, collapse = ""))
   
-  if (method=="RML" & design=="MB" & !is.null(A) & !is.null(B)) {
+  if (method=="RML" & design %in% c("MB", "RMBB", "CMB") & !is.null(A) & !is.null(B)) {
     ES_summary$A <- A
     ES_summary$B <- B
   } else {

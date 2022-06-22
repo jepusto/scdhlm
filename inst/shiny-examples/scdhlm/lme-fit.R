@@ -14,10 +14,18 @@ write_formula <- function(powers, var_names) {
   }
 }
 
-lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)", varStruct = "hom", center = 0, phi_init = 0.01) {
+lme_fit_MB <- function(design, dat, FE_base, RE_base, RE_base_2, FE_trt, RE_trt, RE_trt_2, 
+                       corStruct = "AR(1)", varStruct = "hom", center = 0, phi_init = 0.01) {
   require(nlme)
   # sort the data
-  dat <- dat[order(dat$case, dat$session),]
+  if (design == "RMBB") {
+    dat <- dat[order(dat$case, dat$series, dat$session),]
+  } else if (design == "CMB") {
+    dat <- dat[order(dat$cluster, dat$case, dat$session),]
+  } else {
+    dat <- dat[order(dat$case, dat$session),]
+  }
+  
   dat$session <- dat$session - center
   
   session_FE <- write_formula(FE_base, c("0","1","session"))
@@ -26,12 +34,40 @@ lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
   
   session_RE <- write_formula(RE_base, c("0","1","session"))
   trt_RE <- write_formula(RE_trt, c("NULL","trt","session_trt"))
-  random <- as.formula(paste(" ~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
+  if (design %in% c("MB", "TR")) {
+    random <- as.formula(paste(" ~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
+  } else {
+    session_RE_2 <- write_formula(RE_base_2, c("0","1","session"))
+    trt_RE_2 <- write_formula(RE_trt_2, c("NULL","trt","session_trt"))
+    if (design == "RMBB") {
+      random <- eval(parse(text = paste0("list(case = ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
+                                         ", series = ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")))
+    } else {
+      random <- eval(parse(text = paste0("list(cluster = ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
+                                         ", case = ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")))
+    }
+    
+  }
+  
   
   if (corStruct == "MA(1)") {
-    cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | case, p = 0, q = 1)")))
+    if (design == "RMBB") {
+      cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | case/series, p = 0, q = 1)")))
+    } else if (design == "CMB") {
+      cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | cluster/case, p = 0, q = 1)")))
+    } else {
+      cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | case, p = 0, q = 1)")))
+    }
+    
   } else if (corStruct == "AR(1)") {
-    cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
+    if (design == "RMBB") {
+      cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case/series)")))
+    } else if (design == "CMB") {
+      cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | cluster/case)")))
+    } else {
+      cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
+    }
+    
   } else {
     cor_struct <- NULL
   }
@@ -109,11 +145,13 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
 # calculate effect sizes
 #---------------------------------------------------------------
 
-effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, corStruct, varStruct, A, B, center = 0, phi_init = 0.01) {
-  fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[design]]
+effect_size_RML <- function(design, dat, FE_base, RE_base, RE_base_2, FE_trt, RE_trt, RE_trt_2, 
+                            corStruct, varStruct, A, B, center = 0, phi_init = 0.01) {
+  fit_function <- list(MB = "lme_fit_MB", RMBB = "lme_fit_MB", CMB = "lme_fit_MB", TR = "lme_fit_TR")[[design]]
   m_fit <- do.call(fit_function, 
-                   args = list(dat = dat, FE_base = FE_base, RE_base = RE_base,
-                               FE_trt = FE_trt, RE_trt = RE_trt, 
+                   args = list(design = design, dat = dat, 
+                               FE_base = FE_base, RE_base = RE_base, RE_base_2 = RE_base_2,
+                               FE_trt = FE_trt, RE_trt = RE_trt, RE_trt_2 = RE_trt_2,
                                corStruct = corStruct, varStruct = varStruct,
                                center = center, phi_init = phi_init))
   fixed <- m_fit$fixed
@@ -130,13 +168,31 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, corSt
   r_const_base <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
   r_const_trt <- rep(0L, r_const_dim - length(r_const_base))
   
-  r_const <- c(r_const_base, 
-               r_const_trt,
-               rep(0, length(mod$modelStruct$corStruct)),
-               rep(0, length(mod$modelStruct$varStruct)),
-               1L)
+  if (design %in% c("MB", "TR")) {
+    r_const <- c(r_const_base,
+                 r_const_trt,
+                 rep(0L, length(mod$modelStruct$corStruct)),
+                 rep(0L, length(mod$modelStruct$varStruct)),
+                 1L)
+  } else {
+    
+    r_dim2 <- length(RE_base_2) + length(RE_trt_2)
+    r_const_dim2 <- r_dim2 * (r_dim2 + 1) / 2
+    bc_vec2 <- (B - center)^as.integer(RE_base_2)
+    bc_mat2 <- 2 * tcrossprod(bc_vec2) - diag(bc_vec2^2)
+    r_const_base2 <- bc_mat2[upper.tri(bc_mat2, diag = TRUE)]
+    r_const_trt2 <- rep(0L, r_const_dim2 - length(r_const_base2))
+    
+    r_const <- c(r_const_base,
+                 r_const_trt,
+                 r_const_base2,
+                 r_const_trt2,
+                 rep(0L, length(mod$modelStruct$corStruct)),
+                 rep(0L, length(mod$modelStruct$varStruct)),
+                 1L)
+  }
   
-  g_mlm(mod, p_const = p_const, r_const = r_const, infotype = "expected", returnModel = TRUE)
+  g_mlm(mod = mod, p_const = p_const, r_const = r_const, infotype = "expected")
   
 }
 

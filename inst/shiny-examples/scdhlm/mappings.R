@@ -5,6 +5,7 @@
 exampleChoices <- c("Alber-Morgan (multiple baseline design)" = "AlberMorgan",
                     "Anglesea (ABAB design)" = "Anglesea", 
                     "Barton-Arwood (multiple baseline design)" = "BartonArwood",
+                    "Bryant-et-al. (clustered multiple baseline)" = "Bryant2018",
                     "Case-Harris-Graham (multiple baseline design)" = "CaseHarrisGraham",
                     "Datchuk (multiple baseline design)" = "Datchuk",
                     "Delemere-Dounavi (multiple baseline design)" = "DelemereDounavi",
@@ -16,21 +17,25 @@ exampleChoices <- c("Alber-Morgan (multiple baseline design)" = "AlberMorgan",
                     "Rodriguez (multiple baseline design)" = "Rodriguez",
                     "Saddler (multiple probe design)" = "Saddler",
                     "Schutte (multiple baseline design)" = "Schutte",
+                    "Thiemann-Goldstein (replicated multiple baseline across behaviors)" = "Thiemann2001",
                     "Thorne (ABAB design)" = "Thorne")
 
 exampleMapping <- list(
   AlberMorgan = list(design = "MB",
-                      vars = c("case","session","condition","outcome"),
-                      phases = c("baseline","treatment")),
+                     vars = c("case","session","condition","outcome"),
+                     phases = c("baseline","treatment")),
   Anglesea = list(design = "TR",
                   vars = c("case","session","condition","outcome"),
                   phases = c("baseline","treatment")),
   BartonArwood = list(design = "MB",
                       vars = c("case","session","condition","outcome"),
                       phases = c("A","B")),
+  Bryant2018 = list(design = "CMB",
+                    vars = c("Study_ID", "school", "case", "treatment", "session", "session_trt", "outcome", "session_c"),
+                    phases = c("baseline", "treatment")),
   CaseHarrisGraham = list(design = "MB",
-              vars = c("case","session","condition","outcome"),
-              phases = c("baseline","treatment")),
+                          vars = c("case","session","condition","outcome"),
+                          phases = c("baseline","treatment")),
   Datchuk = list(design = "MB",
                  vars = c("case","session","condition","outcome"),
                  phases = c("baseline","treatment")),
@@ -63,6 +68,9 @@ exampleMapping <- list(
   Schutte = list(design = "MB",
                  vars = c("case","week","treatment","fatigue"),
                  phases = c("baseline","treatment")),
+  Thiemann2001 = list(design = "RMBB",
+                      vars = c("Study_ID","case", "series", "outcome", "time", "treatment", "trt_time", "time_c"),
+                      phases = c("baseline", "treatment")),
   Thorne = list(design = "TR",
                 vars = c("case","session","condition","outcome"),
                 phases = c("A","B"),
@@ -90,7 +98,10 @@ names(time_trends_treatment) <- degree_names_treatment
 # Design names
 #------------------------------------------------
 
-design_names <- c("Treatment Reversal" = "TR", "Multiple Baseline/Multiple Probe" = "MB")
+design_names <- c("Treatment Reversal" = "TR", 
+                  "Multiple Baseline/Multiple Probe" = "MB",
+                  "Replicated multiple baseline across behaviors" = "RMBB",
+                  "Clustered multiple baseline across" = "CMB")
 
 #------------------------------------------------
 # Estimation names
