@@ -13,6 +13,8 @@ preprocess_SCD(
   center = 0,
   round_session = TRUE,
   treatment_name = NULL,
+  cluster = NULL,
+  series = NULL,
   data = NULL
 )
 }
@@ -33,6 +35,10 @@ preprocess_SCD(
 
 \item{treatment_name}{(Optional) character string corresponding to the name of the treatment phase.}
 
+\item{cluster}{(Optional) vector of cluster indicators or name of a character or factor vector within \code{data} indicating clusters.}
+
+\item{series}{(Optional) vector of series indicators or name of a character or factor vector within \code{data} indicating series.}
+
 \item{data}{(Optional) dataset to be cleaned. Must be a \code{data.frame}.}
 }
 \value{
@@ -49,6 +55,10 @@ data(Laski)
 preprocess_SCD(case = case, phase = treatment,
                session = time, outcome = outcome, 
                design = "MB", center = 4, data = Laski)
-
+               
+data(Thiemann2001)
+preprocess_SCD(case = case, phase = treatment, 
+               session = time, outcome = outcome, 
+               design = "RMBB", series = series, data = Thiemann2001)
           
 }

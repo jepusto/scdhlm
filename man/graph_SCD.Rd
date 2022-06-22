@@ -12,6 +12,8 @@ graph_SCD(
   design,
   treatment_name = NULL,
   model_fit = NULL,
+  cluster = NULL,
+  series = NULL,
   data = NULL
 )
 }
@@ -29,6 +31,10 @@ graph_SCD(
 \item{treatment_name}{(Optional) character string corresponding to the name of the treatment phase.}
 
 \item{model_fit}{(Optional) lme fitted model that adds predicted values to graph}
+
+\item{cluster}{(Optional) vector of cluster indicators or name of a character or factor vector within \code{data} indicating clusters.}
+
+\item{series}{(Optional) vector of series indicators or name of a character or factor vector within \code{data} indicating series.}
 
 \item{data}{(Optional) dataset to use for analysis. Must be a \code{data.frame}.}
 }
@@ -53,5 +59,17 @@ graph_SCD(case=case, phase=condition,
           session=session, outcome=outcome, 
           design="MB", treatment_name = "B",  
           data=BartonArwood)
+          
+data(Thiemann2001)
+graph_SCD(case=case, phase=treatment, 
+          session=time, outcome=outcome, 
+          design="RMBB", treatment_name = "treatment",  
+          series = series, data=Thiemann2001)
+
+data(Bryant2018)
+graph_SCD(case=case, phase=treatment, 
+          session=session, outcome=outcome, 
+          design="CMB", treatment_name = "treatment",  
+          cluster=school, data=Bryant2018)            
 
 }
