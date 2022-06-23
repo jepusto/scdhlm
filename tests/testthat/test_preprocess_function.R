@@ -60,12 +60,23 @@ test_that("The returned dataset is consistent with the input dataset for TR desi
                              session = Anglesea$session, outcome = Anglesea$outcome, 
                              design = "TR")
   
-  
   expect_equivalent(dat1_Ang, dat2_Ang)
   expect_equal(Anglesea$case, dat1_Ang$case)
   expect_equal(Anglesea$condition, dat1_Ang$condition)
   expect_equal(Anglesea$session, dat1_Ang$session)
   expect_equal(Anglesea$outcome, dat1_Ang$outcome)
+  
+  Ang_case <- Anglesea$case
+  Ang_condition <- Anglesea$condition
+  Ang_session <- Anglesea$session
+  Ang_outcome <- Anglesea$outcome
+  
+  dat3_Ang <- preprocess_SCD(case = Ang_case, phase = Ang_condition,
+                             session = Ang_session, outcome = Ang_outcome, 
+                             design = "TR")
+  expect_equivalent(dat1_Ang, dat3_Ang)
+  
+  
   
 })
 

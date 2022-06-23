@@ -20,8 +20,6 @@ test_that("graph_SCD works with example dataset.", {
   expect_s3_class(Kat_graph, "ggplot")
 })
 
-
-
 test_that("graph_SCD works for design = 'TR'", {
   skip_if_not_installed("ggplot2")
   
@@ -47,14 +45,23 @@ test_that("graph_SCD works for design = 'TR'", {
   expect_s3_class(Ang_graph4, "ggplot")
   expect_invisible(print(Ang_graph4))
   
-  keys <- setdiff(names(Ang_graph1), c("plot_env", "labels","mapping","data","layers"))
-  expect_equal(Ang_graph1$data, Ang_graph2$data)
-  expect_equal(Ang_graph1$mapping, Ang_graph2$mapping)
-  expect_equal(Ang_graph1$layers, Ang_graph2$layers)
-  expect_equal(Ang_graph1[keys], Ang_graph2[keys])
+  Ang_case <- Anglesea$case
+  Ang_condition <- Anglesea$condition
+  Ang_session <- Anglesea$session
+  Ang_outcome <- Anglesea$outcome
+  
+  Ang_graph5 <- graph_SCD(case=Ang_case, phase=Ang_condition, session=Ang_session, 
+                          outcome=Ang_outcome, design="TR")
+  expect_s3_class(Ang_graph5, "ggplot")
+  expect_invisible(print(Ang_graph5))
+  
+  expect_equivalent(Ang_graph1$data, Ang_graph2$data)
+  
+  keys <- c("scales","theme","coordinates")
   expect_equal(Ang_graph1[keys], Ang_graph3[keys])
   expect_equal(Ang_graph1[keys], Ang_graph4[keys])
-
+  expect_equal(Ang_graph1[keys], Ang_graph5[keys])
+  
 })
 
 test_that("graph_SCD works for design = 'MBP'", {

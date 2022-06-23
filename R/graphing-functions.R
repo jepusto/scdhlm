@@ -101,48 +101,44 @@ graph_SCD <- function(design, case, phase, session, outcome,
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("This function requires the ggplot2 package. Please install it.", call. = FALSE)
   }
+
   
-  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
-  
-  phase_pair <-  phase_time  <- NULL
-  
-  case_call <- substitute(case)
-  phase_call <- substitute(phase)
-  session_call <- substitute(session)
-  outcome_call <- substitute(outcome)
-  series_call <- substitute(series)
-  cluster_call <- substitute(cluster)
-  
-  case_name <- deparse(case_call)
-  phase_name <- deparse(phase_call)
-  session_name <- deparse(session_call)
-  outcome_name <- deparse(outcome_call)
-  cluster_name <- deparse(cluster_call)
-  series_name <- deparse(series_call)
+  # preprocess_SCD() using the passed arguments
+  mf <- match.call()
+  m <- match(c("design", "case", "phase","session","outcome","cluster","series","treatment_name","data"), names(mf), 0L)
+  mf <- mf[c(1L, m)]
+  mf[[1L]] <- quote(preprocess_SCD)
   
   if (!is.null(model_fit) & is.null(data)) {
-    data <- nlme::getData(model_fit)
+    env <- new.env(parent = parent.frame())
+    env$data <- nlme::getData(model_fit)
+    mf$data <- quote(data)
+  } else {
+    env <- parent.frame()
   }
   
-  dat <- do.call(preprocess_SCD,
-                 args = list(case = case_call, 
-                             phase = phase_call,
-                             session = session_call,
-                             outcome = outcome_call, 
-                             design = design,
-                             treatment_name = treatment_name,
-                             data = data,
-                             cluster = cluster_call,
-                             series = series_call))
+  dat <- eval(mf, envir = env)
+
+  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
   
+  phase_pair <- phase_time <- NULL
+
+  case_name <- deparse(substitute(case))
+  phase_name <- deparse(substitute(phase))
+  session_name <- deparse(substitute(session))
+  
+  
+
   if (design %in% c("MBP", "TR")) {
     phase_line_dat <- phase_lines_by_case(dat[[case_name]], dat[[phase_name]], dat[[session_name]])
     names(phase_line_dat)[1] <- case_name
   } else if (design == "RMBB") {
+    series_name <- deparse(substitute(cluster))
     dat$caseSeries <- as.factor(paste(dat[[case_name]], dat[[series_name]], sep = "-"))
     phase_line_dat <- phase_lines_by_case(dat$caseSeries, dat[[phase_name]], dat[[session_name]])
     names(phase_line_dat)[1] <- "caseSeries"
   } else if (design == "CMB") {
+    cluster_name <- deparse(substitute(series))
     dat$clusterCase <- as.factor(paste(dat[[cluster_name]], dat[[case_name]], sep = "-"))
     phase_line_dat <- phase_lines_by_case(dat$clusterCase, dat[[phase_name]], dat[[session_name]])
     phase_line_dat[[cluster_name]] <- sub("\\-.*", "", phase_line_dat[[case_name]])
@@ -153,12 +149,12 @@ graph_SCD <- function(design, case, phase, session, outcome,
   if (design=="MBP") {
     p <- 
       ggplot2::ggplot(dat, ggplot2::aes({{session}}, {{outcome}}, color = {{phase}}, shape = {{phase}})) +
-      ggplot2::facet_grid({{case}} ~ .)
+      ggplot2::facet_wrap(ggplot2::sym(case_name), ncol = 1)
   } else if (design == "TR") {
     names(dat)[6] <- "phase_pair"
     p <- 
       ggplot2::ggplot(dat, ggplot2::aes({{session}}, {{outcome}}, color = {{phase}}, shape = {{phase}}, group = interaction({{phase}}, phase_pair))) +
-      ggplot2::facet_grid({{case}} ~ .)
+      ggplot2::facet_wrap(ggplot2::sym(case_name), ncol = 1)
   } else if (design == "RMBB") {
     p <- 
       ggplot2::ggplot(dat, ggplot2::aes({{session}}, {{outcome}}, color = {{case}}, group = {{phase}})) +
@@ -167,7 +163,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
   } else if (design == "CMB") {
     p <- 
       ggplot2::ggplot(dat, ggplot2::aes({{session}}, {{outcome}}, shape = {{phase}}, color = {{case}})) +
-      ggplot2::facet_wrap(ggplot2::vars({{cluster}}), dir = "v", ncol = 1) + 
+      ggplot2::facet_wrap(ggplot2::sym(cluster_name), ncol = 1) + 
       ggplot2::guides(color = "none")
   } else {
     stop("The `design` argument must be one of 'TR', 'MBP', 'RMBB', or 'CMB'.")
@@ -178,8 +174,8 @@ graph_SCD <- function(design, case, phase, session, outcome,
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::theme_bw() +
-    ggplot2::labs(color = "", shape = "", x = session_name, y = outcome_name) + 
-    ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time), linetype = "dashed")
+    ggplot2::labs(color = "", shape = "", x = session_name) + 
+    ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time, color = NULL, group = NULL), linetype = "dashed")
 
   # With model fit
   if (!is.null(model_fit)) {

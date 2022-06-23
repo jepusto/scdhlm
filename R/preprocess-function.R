@@ -137,16 +137,13 @@ preprocess_SCD <- function(design,
   cluster_name <- deparse(cluster_call)
   series_name <- deparse(series_call)
   
-  if (!is.null(data)) {
-    env <- list2env(data, parent = parent.frame())
-    case <- eval(case_call, env)
-    phase <- eval(phase_call, env)
-    session <- eval(session_call, env)
-    outcome <- eval(outcome_call, env)
-    cluster <- eval(cluster_call, env)
-    series <- eval(series_call, env)
-    
-  } 
+  env <- if (!is.null(data)) list2env(data, parent = parent.frame()) else env <- parent.frame()
+  case <- eval(case_call, env)
+  phase <- eval(phase_call, env)
+  session <- eval(session_call, env)
+  outcome <- eval(outcome_call, env)
+  cluster <- eval(cluster_call, env)
+  series <- eval(series_call, env)
   
   
   # get treatment name
