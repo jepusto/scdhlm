@@ -100,8 +100,35 @@ test_that("graph_SCD works for design = 'RMBB'", {
                           data = Thiemann2001)
   
   # graph using data = 
+  Thiemann_graph1 <- graph_SCD(design = "RMBB",
+                               case = case, series = series,
+                               phase = treatment, session = time, outcome = outcome,
+                               treatment_name = "treatment", model_fit = Thiemann2001_RML, 
+                               data = Thiemann2001)
+  expect_s3_class(Thiemann_graph1, "ggplot")
+  expect_invisible(print(Thiemann_graph1))
+  
   # graph using vectors only
+  Thiemann_graph2 <- graph_SCD(design = "RMBB",
+                               case = Thiemann2001$case, series = Thiemann2001$series,
+                               phase = Thiemann2001$treatment, session = Thiemann2001$time, 
+                               outcome = Thiemann2001$outcome,
+                               treatment_name = "treatment", model_fit = Thiemann2001_RML)
+  expect_s3_class(Thiemann_graph2, "ggplot")
+  expect_invisible(print(Thiemann_graph2))
+  keys <- c("scales","theme","coordinates")
+  expect_equal(Thiemann_graph1[keys], Thiemann_graph2[keys])
+  
   # graph with model_fit = Thiemann2001_RML (without data)
+  Thiemann_graph3 <- graph_SCD(design = "RMBB",
+                               case = case, series = series,
+                               phase = treatment, session = time, outcome = outcome,
+                               treatment_name = "treatment", model_fit = Thiemann2001_RML)
+  expect_s3_class(Thiemann_graph3, "ggplot")
+  expect_invisible(print(Thiemann_graph3))
+  
+  keys <- setdiff(names(Thiemann_graph1), c("plot_env", "labels"))
+  expect_equal(Thiemann_graph1[keys], Thiemann_graph3[keys])
   
 })
 
@@ -118,8 +145,35 @@ test_that("graph_SCD works for design = 'CMB'", {
                        data = Bryant2018)
 
   # graph using data = 
+  Bry_graph1 <- graph_SCD(design = "CMB",
+                          cluster = school, case = case,
+                          phase = treatment, session = session, outcome = outcome,
+                          treatment_name = "treatment", model_fit = Bryant2018_RML,
+                          data = Bryant2018)
+  expect_s3_class(Bry_graph1, "ggplot")
+  expect_invisible(print(Bry_graph1))
+  
   # graph using vectors only
-  # graph with model_fit = Bryant2018_RML (without data)
+  Bry_graph2 <- graph_SCD(design = "CMB",
+                          cluster = Bryant2018$school, case = Bryant2018$case,
+                          phase = Bryant2018$treatment, session = Bryant2018$session, 
+                          outcome = Bryant2018$outcome,
+                          treatment_name = "treatment", model_fit = Bryant2018_RML)
+  expect_s3_class(Bry_graph2, "ggplot")
+  expect_invisible(print(Bry_graph2))
+  keys <- c("scales","theme","coordinates")
+  expect_equal(Bry_graph1[keys], Bry_graph2[keys])
+  
+  # graph with model_fit (without data)
+  Bry_graph3 <- graph_SCD(design = "CMB",
+                          cluster = school, case = case,
+                          phase = treatment, session = session, outcome = outcome,
+                          treatment_name = "treatment", model_fit = Bryant2018_RML)
+  expect_s3_class(Bry_graph3, "ggplot")
+  expect_invisible(print(Bry_graph3))
+  
+  keys <- setdiff(names(Bry_graph1), c("plot_env", "labels"))
+  expect_equal(Bry_graph1[keys], Bry_graph3[keys])
   
 })
 

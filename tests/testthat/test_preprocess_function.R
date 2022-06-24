@@ -82,12 +82,46 @@ test_that("The returned dataset is consistent with the input dataset for TR desi
 
 test_that("The returned dataset is consistent with the input dataset for RMBB designs.", {
   
- 
+  data("Thiemann2001")
+  
+  dat1_Thiemann <- preprocess_SCD(design = "RMBB",
+                                  case = case, series = series,
+                                  phase = treatment, session = time,
+                                  outcome = outcome, data = Thiemann2001)
+  
+  dat2_Thiemann <- preprocess_SCD(design = "RMBB",
+                                  case = Thiemann2001$case, series = Thiemann2001$series,
+                                  phase = Thiemann2001$treatment, session = Thiemann2001$time,
+                                  outcome = Thiemann2001$outcome)
+  
+  expect_equivalent(dat1_Thiemann, dat2_Thiemann)
+  expect_equal(Thiemann2001$case, dat1_Thiemann$case)
+  expect_equal(Thiemann2001$series, dat1_Thiemann$series)
+  expect_equal(Thiemann2001$treatment, dat1_Thiemann$treatment)
+  expect_equal(Thiemann2001$time, dat1_Thiemann$time)
+  expect_equal(Thiemann2001$outcome, dat1_Thiemann$outcome)
   
 })
 
 test_that("The returned dataset is consistent with the input dataset for CMB designs.", {
   
+  data("Bryant2018")
   
+  dat1_Bry <- preprocess_SCD(design = "CMB",
+                             cluster = school, case = case,
+                             phase = treatment, session = session,
+                             outcome = outcome, data = Bryant2018)
+  
+  dat2_Bry <- preprocess_SCD(design = "CMB",
+                             cluster = Bryant2018$school, case = Bryant2018$case,
+                             phase = Bryant2018$treatment, session = Bryant2018$session,
+                             outcome = Bryant2018$outcome)
+  
+  expect_equivalent(dat1_Bry, dat2_Bry)
+  expect_equal(Bryant2018$school, dat1_Bry$school)
+  expect_equal(Bryant2018$case, dat1_Bry$case)
+  expect_equal(Bryant2018$treatment, dat1_Bry$treatment)
+  expect_equal(Bryant2018$session, dat1_Bry$session)
+  expect_equal(Bryant2018$outcome, dat1_Bry$outcome)
   
 })
