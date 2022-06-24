@@ -304,9 +304,13 @@ server <-
         dat <- data.frame(case = case, phase = phase, session = session, outcome = outcome)
         
         if (studyDesign() == "RMBB") {
+          cluster <- NULL
           dat$series <- datFile()[,input$seriesID]
+          dat <- dat[order(dat$case, dat$series, dat$session),]
         } else if (studyDesign() == "CMB") {
+          series <- NULL
           dat$cluster <- datFile()[,input$clusterID]
+          dat <- dat[order(dat$cluster, dat$case, dat$session),]
         }
         
         if (!is.null(input$filters)) {
@@ -867,11 +871,11 @@ server <-
       
       fixed <- paste(outcome, "~", paste(c(session_FE, trt_FE), collapse = " + "))
       if (studyDesign() == "RMBB") {
-        random <- paste0("list(", case, "= ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
-                         ", ", series, "= ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")
+        random <- paste0("list(", case, " = ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
+                         ", ", series, " = ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")
       } else if (studyDesign() == "CMB") {
-        random <- paste0("list(",cluster, "= ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
-                         ", ", case, "= ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")
+        random <- paste0("list(",cluster, " = ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
+                         ", ", case, " = ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")
       } else {
         random <- paste("~", paste(c(session_RE, trt_RE), collapse = " + "), "|", case)
       }

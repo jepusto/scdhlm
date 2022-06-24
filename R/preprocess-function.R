@@ -153,20 +153,20 @@ preprocess_SCD <- function(design,
   
   # get the data
   if (design == "RMBB") {
-    dat <- data.frame(case = factor(case, levels = unique(case)),
-                      series = factor(series, levels = unique(series)),
-                      phase = factor(phase, levels = unique(phase)),
+    dat <- data.frame(case = as.factor(case),
+                      series = as.factor(series),
+                      phase = as.factor(phase),
                       session, 
                       outcome)
   } else if (design == "CMB") {
-    dat <- data.frame(cluster = factor(cluster, levels = unique(cluster)),
-                      case = factor(case, levels = unique(case)),
-                      phase = factor(phase, levels = unique(phase)),
+    dat <- data.frame(cluster = as.factor(cluster),
+                      case = as.factor(case),
+                      phase = as.factor(phase),
                       session, 
                       outcome)
   } else {
-    dat <- data.frame(case = factor(case, levels = unique(case)),
-                      phase = factor(phase, levels = unique(phase)),
+    dat <- data.frame(case = as.factor(case),
+                      phase = as.factor(phase),
                       session, 
                       outcome)
   }

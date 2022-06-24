@@ -133,15 +133,15 @@ graph_SCD <- function(design, case, phase, session, outcome,
     phase_line_dat <- phase_lines_by_case(dat[[case_name]], dat[[phase_name]], dat[[session_name]])
     names(phase_line_dat)[1] <- case_name
   } else if (design == "RMBB") {
-    series_name <- deparse(substitute(cluster))
+    series_name <- deparse(substitute(series))
     dat$caseSeries <- as.factor(paste(dat[[case_name]], dat[[series_name]], sep = "-"))
     phase_line_dat <- phase_lines_by_case(dat$caseSeries, dat[[phase_name]], dat[[session_name]])
     names(phase_line_dat)[1] <- "caseSeries"
   } else if (design == "CMB") {
-    cluster_name <- deparse(substitute(series))
+    cluster_name <- deparse(substitute(cluster))
     dat$clusterCase <- as.factor(paste(dat[[cluster_name]], dat[[case_name]], sep = "-"))
     phase_line_dat <- phase_lines_by_case(dat$clusterCase, dat[[phase_name]], dat[[session_name]])
-    phase_line_dat[[cluster_name]] <- sub("\\-.*", "", phase_line_dat[[case_name]])
+    phase_line_dat[[cluster_name]] <- sub("\\-.*", "", phase_line_dat$case)
     phase_line_dat <- do.call(rbind, by(phase_line_dat, phase_line_dat[[cluster_name]], function(x) x[which.min(x$phase_time), ] ))
     phase_line_dat <- phase_line_dat[,-1]
   }
@@ -180,7 +180,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
   # With model fit
   if (!is.null(model_fit)) {
     
-    dat$fitted <- predict(model_fit)
+    dat$fitted <- if(design == "CMB") predict(model_fit, level = 1) else predict(model_fit)
 
     p <- p + ggplot2::geom_line(data = dat, ggplot2::aes(y = fitted), size = 0.8)
 

@@ -108,7 +108,7 @@ summarize_ES <- function(res, filter_vals,
   CI <- CI_g(res, cover = coverage / 100L)
   
   ES_summary$CI_L <- if (CI[1] < 100 & CI[1] > -100) CI[1] else format(CI[1], scientific = TRUE)
-  ES_summary$CI_U <- if (CI[1] < 100 & CI[1] > -100) CI[2] else format(CI[2], scientific = TRUE)
+  ES_summary$CI_U <- if (CI[2] < 100 & CI[2] > -100) CI[2] else format(CI[2], scientific = TRUE)
   ES_summary$df <- res$nu
   ES_summary$phi <- res$phi
   ES_summary$var_param <- if (method == "RML") res$var_param else NA_real_
