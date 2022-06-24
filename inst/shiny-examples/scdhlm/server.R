@@ -429,34 +429,34 @@ server <-
       if (studyDesign() %in% c("MBP", "TR")) {
         fluidRow(
           column(6,
-                 checkboxGroupInput("FE_base", "Include fixed effect", degree_base_list, selected = degree_base_list)
+                 checkboxGroupInput("FE_base", labs_MBP$fixed, degree_base_list, selected = degree_base_list)
           ),
           column(6,
-                 checkboxGroupInput("RE_base", "Include case-level random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base", labs_MBP$random, degree_base_list, selected = 0)
           )
         )
       } else if (studyDesign() == "RMBB") {
         fluidRow(
           column(4,
-                 checkboxGroupInput("FE_base", "Include fixed effect", degree_base_list, selected = degree_base_list)
+                 checkboxGroupInput("FE_base", labs_RMBB$fixed, degree_base_list, selected = degree_base_list)
           ),
           column(4,
-                 checkboxGroupInput("RE_base", "Include series-level random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base", labs_RMBB$random_series, degree_base_list, selected = 0)
           ),
           column(4,
-                 checkboxGroupInput("RE_base2", "Include case-level random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base2", labs_RMBB$random_case, degree_base_list, selected = 0)
           )
         )
       } else if (studyDesign() == "CMB") {
         fluidRow(
           column(4,
-                 checkboxGroupInput("FE_base", "Include fixed effect", degree_base_list, selected = degree_base_list)
+                 checkboxGroupInput("FE_base", labs_CMB$fixed, degree_base_list, selected = degree_base_list)
           ),
           column(4,
-                 checkboxGroupInput("RE_base", "Include case-level random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base", labs_CMB$random_case, degree_base_list, selected = 0)
           ),
           column(4,
-                 checkboxGroupInput("RE_base2", "Include cluster-level random effect", degree_base_list, selected = 0)
+                 checkboxGroupInput("RE_base2", labs_CMB$random_cluster, degree_base_list, selected = 0)
           )
         )
       }
@@ -470,34 +470,34 @@ server <-
       if (studyDesign() %in% c("MBP", "TR")) {
         fluidRow(
           column(6,
-                 checkboxGroupInput("FE_trt", "Include fixed effect", degree_trt_list, selected = degree_trt_list)
+                 checkboxGroupInput("FE_trt", labs_MBP$fixed, degree_trt_list, selected = degree_trt_list)
           ),
           column(6,
-                 checkboxGroupInput("RE_trt", "Include case-level random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt", labs_MBP$random, degree_trt_list, selected = NULL)
           )
         )
       } else if (studyDesign() == "RMBB") {
         fluidRow(
           column(4,
-                 checkboxGroupInput("FE_trt", "Include fixed effect", degree_trt_list, selected = degree_trt_list)
+                 checkboxGroupInput("FE_trt", labs_RMBB$fixed, degree_trt_list, selected = degree_trt_list)
           ),
           column(4,
-                 checkboxGroupInput("RE_trt", "Include series-level random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt", labs_RMBB$random_series, degree_trt_list, selected = NULL)
           ),
           column(4,
-                 checkboxGroupInput("RE_trt2", "Include case-level random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt2", labs_RMBB$random_case, degree_trt_list, selected = NULL)
           )
         )
       } else if (studyDesign() == "CMB") {
         fluidRow(
           column(4,
-                 checkboxGroupInput("FE_trt", "Include fixed effect", degree_trt_list, selected = degree_trt_list)
+                 checkboxGroupInput("FE_trt", labs_CMB$fixed, degree_trt_list, selected = degree_trt_list)
           ),
           column(4,
-                 checkboxGroupInput("RE_trt", "Include case-level random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt", labs_CMB$random_case, degree_trt_list, selected = NULL)
           ),
           column(4,
-                 checkboxGroupInput("RE_trt2", "Include cluster-level random effect", degree_trt_list, selected = NULL)
+                 checkboxGroupInput("RE_trt2", labs_CMB$random_cluster, degree_trt_list, selected = NULL)
           )
         )
       }

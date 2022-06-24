@@ -80,6 +80,33 @@ exampleMapping <- list(
 
 
 #------------------------------------------------
+# Model term labels
+#------------------------------------------------
+
+labs_MBP <- list(
+  fixed =  "Include fixed effect            ",
+  random = "Include case-level random effect"
+)
+
+labs_RMBB <- list(
+  fixed         = "Include fixed effect              ",
+  random_series = "Include series-level random effect",
+  random_case   = "Include case-level random effect  "
+)
+
+labs_CMB <- list(
+  fixed          = "Include fixed effect               ",
+  random_case    = "Include case-level random effect   ",
+  random_cluster = "Include cluster-level random effect"
+)
+
+handle_white_space <- function(x) span(HTML(x), style="white-space: break-spaces;")
+
+labs_MBP <- lapply(labs_MBP, handle_white_space)
+labs_RMBB <- lapply(labs_RMBB, handle_white_space)
+labs_CMB <- lapply(labs_CMB, handle_white_space)
+
+#------------------------------------------------
 # Polynomial degree names
 #------------------------------------------------
 
