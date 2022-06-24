@@ -60,7 +60,7 @@ NULL
 #' Laski_HPS <- with(Laski, effect_size_MB(outcome, treatment, case, time))
 #' CI_g(Laski_HPS, symmetric = FALSE)
 #'
-#' Laski_g_mlm <- g_mlm(Laski_RML, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE)
+#' Laski_g_mlm <- g_mlm(mod = Laski_RML, p_const = c(0,1), r_const = c(1,0,1))
 #' CI_g(Laski_g_mlm, symmetric = FALSE)
 #' 
 NULL

@@ -119,13 +119,7 @@ ui <-
         #--------------------
         tabPanel("Model", 
            br(),
-           fluidRow(
-             column(6,
-                selectInput("method", label = "Estimation method",
-                            choices = estimation_names, 
-                            selected = "RML")
-             )
-           ),
+           uiOutput("estMethod"), 
            conditionalPanel(condition = "input.method == 'HPS'",
               plotOutput("HPS_plot", height = "auto")   
            ),

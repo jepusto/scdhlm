@@ -5,6 +5,7 @@
 exampleChoices <- c("Alber-Morgan (multiple baseline design)" = "AlberMorgan",
                     "Anglesea (ABAB design)" = "Anglesea", 
                     "Barton-Arwood (multiple baseline design)" = "BartonArwood",
+                    "Bryant-et-al. (clustered multiple baseline)" = "Bryant2018",
                     "Case-Harris-Graham (multiple baseline design)" = "CaseHarrisGraham",
                     "Datchuk (multiple baseline design)" = "Datchuk",
                     "Delemere-Dounavi (multiple baseline design)" = "DelemereDounavi",
@@ -16,53 +17,60 @@ exampleChoices <- c("Alber-Morgan (multiple baseline design)" = "AlberMorgan",
                     "Rodriguez (multiple baseline design)" = "Rodriguez",
                     "Saddler (multiple probe design)" = "Saddler",
                     "Schutte (multiple baseline design)" = "Schutte",
+                    "Thiemann-Goldstein (replicated multiple baseline across behaviors)" = "Thiemann2001",
                     "Thorne (ABAB design)" = "Thorne")
 
 exampleMapping <- list(
-  AlberMorgan = list(design = "MB",
-                      vars = c("case","session","condition","outcome"),
-                      phases = c("baseline","treatment")),
+  AlberMorgan = list(design = "MBP",
+                     vars = c("case","session","condition","outcome"),
+                     phases = c("baseline","treatment")),
   Anglesea = list(design = "TR",
                   vars = c("case","session","condition","outcome"),
                   phases = c("baseline","treatment")),
-  BartonArwood = list(design = "MB",
+  BartonArwood = list(design = "MBP",
                       vars = c("case","session","condition","outcome"),
                       phases = c("A","B")),
-  CaseHarrisGraham = list(design = "MB",
-              vars = c("case","session","condition","outcome"),
-              phases = c("baseline","treatment")),
-  Datchuk = list(design = "MB",
+  Bryant2018 = list(design = "CMB",
+                    vars = c("Study_ID", "school", "case", "treatment", "session", "session_trt", "outcome", "session_c"),
+                    phases = c("baseline", "treatment")),
+  CaseHarrisGraham = list(design = "MBP",
+                          vars = c("case","session","condition","outcome"),
+                          phases = c("baseline","treatment")),
+  Datchuk = list(design = "MBP",
                  vars = c("case","session","condition","outcome"),
                  phases = c("baseline","treatment")),
-  DelemereDounavi = list(design = "MB",
+  DelemereDounavi = list(design = "MBP",
                          vars = c("case","session","condition","outcome"),
                          phases = c("baseline","treatment")),
-  GunningEspie = list(design = "MB",
+  GunningEspie = list(design = "MBP",
                       vars = c("case","session","condition","outcome"),
                       phases = c("baseline","treatment", "follow-up")),
   Lambert = list(design = "TR",
                  vars = c("case","time","treatment","outcome"),
                  phases = c("SSR","RC")),
-  Laski = list(design = "MB",
+  Laski = list(design = "MBP",
                vars = c("case","time","treatment","outcome"),
                phases = c(0,1)),
-  Rodgers = list(design = "MB",
+  Rodgers = list(design = "MBP",
                  vars = c("case","session","condition","outcome"),
                  phases = c("baseline","treatment")),
-  Peltier = list(design = "MB",
+  Peltier = list(design = "MBP",
                  vars = c("case","session","condition","outcome"),
                  phases = c("baseline","treatment")),
-  Rodriguez = list(design = "MB",
+  Rodriguez = list(design = "MBP",
                    vars = c("case","session","condition","outcome"),
                    phases = c("A","B")),
-  Saddler = list(design = "MB",
+  Saddler = list(design = "MBP",
                  vars = c("case","time","treatment","outcome"),
                  phases = c(0,1),
                  filters = "measure",
                  filter_measure = c("writing quality", "T-unit length", "number of constructions")),
-  Schutte = list(design = "MB",
+  Schutte = list(design = "MBP",
                  vars = c("case","week","treatment","fatigue"),
                  phases = c("baseline","treatment")),
+  Thiemann2001 = list(design = "RMBB",
+                      vars = c("Study_ID","case", "series", "outcome", "time", "treatment", "trt_time", "time_c"),
+                      phases = c("baseline", "treatment")),
   Thorne = list(design = "TR",
                 vars = c("case","session","condition","outcome"),
                 phases = c("A","B"),
@@ -70,6 +78,33 @@ exampleMapping <- list(
                 filter_measure = c("Academic Engagement","Inappropriate Verbalizations"))
 )
 
+
+#------------------------------------------------
+# Model term labels
+#------------------------------------------------
+
+labs_MBP <- list(
+  fixed =  "Include fixed effect            ",
+  random = "Include case-level random effect"
+)
+
+labs_RMBB <- list(
+  fixed         = "Include fixed effect              ",
+  random_series = "Include series-level random effect",
+  random_case   = "Include case-level random effect  "
+)
+
+labs_CMB <- list(
+  fixed          = "Include fixed effect               ",
+  random_case    = "Include case-level random effect   ",
+  random_cluster = "Include cluster-level random effect"
+)
+
+handle_white_space <- function(x) span(HTML(x), style="white-space: break-spaces;")
+
+labs_MBP <- lapply(labs_MBP, handle_white_space)
+labs_RMBB <- lapply(labs_RMBB, handle_white_space)
+labs_CMB <- lapply(labs_CMB, handle_white_space)
 
 #------------------------------------------------
 # Polynomial degree names
@@ -90,7 +125,10 @@ names(time_trends_treatment) <- degree_names_treatment
 # Design names
 #------------------------------------------------
 
-design_names <- c("Treatment Reversal" = "TR", "Multiple Baseline/Multiple Probe" = "MB")
+design_names <- c("Treatment Reversal" = "TR", 
+                  "Multiple Baseline/Multiple Probe across participants" = "MBP",
+                  "Replicated multiple baseline across behaviors" = "RMBB",
+                  "Clustered multiple baseline across participants" = "CMB")
 
 #------------------------------------------------
 # Estimation names

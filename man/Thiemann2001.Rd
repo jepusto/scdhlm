@@ -5,7 +5,7 @@
 \alias{Thiemann2001}
 \title{Thiemann & Goldstein (2001)}
 \format{
-A data frame with 221 rows and 8 variables
+A data frame with 363 rows and 8 variables
 }
 \source{
 Thiemann, K.S., & Goldstein, H. (2001).

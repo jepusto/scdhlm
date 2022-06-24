@@ -14,28 +14,53 @@ write_formula <- function(powers, var_names) {
   }
 }
 
-lme_fit_MB <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)", varStruct = "hom", center = 0, phi_init = 0.01) {
+lme_fit_MB <- function(design, dat, FE_base, RE_base, RE_base_2, FE_trt, RE_trt, RE_trt_2, 
+                       corStruct = "AR(1)", varStruct = "hom", center = 0, phi_init = 0.01) {
+  
   require(nlme)
+  
   # sort the data
-  dat <- dat[order(dat$case, dat$session),]
+  if (design == "RMBB") {
+    dat <- dat[order(dat$case, dat$series, dat$session),]
+  } else if (design == "CMB") {
+    dat <- dat[order(dat$cluster, dat$case, dat$session),]
+  } else {
+    dat <- dat[order(dat$case, dat$session),]
+  }
+  
   dat$session <- dat$session - center
   
   session_FE <- write_formula(FE_base, c("0","1","session"))
   trt_FE <- write_formula(FE_trt, c("NULL", "trt", "session_trt"))
-  fixed <- as.formula(paste("outcome ~",paste(c(session_FE, trt_FE), collapse = " + ")))
+  fixed <- as.formula(paste("outcome ~", paste(c(session_FE, trt_FE), collapse = " + ")))
   
   session_RE <- write_formula(RE_base, c("0","1","session"))
   trt_RE <- write_formula(RE_trt, c("NULL","trt","session_trt"))
-  random <- as.formula(paste(" ~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
-  
-  if (corStruct == "MA(1)") {
-    cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | case, p = 0, q = 1)")))
-  } else if (corStruct == "AR(1)") {
-    cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
+  if (design %in% c("MBP", "TR")) {
+    random <- as.formula(paste(" ~ ",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
   } else {
-    cor_struct <- NULL
+    session_RE_2 <- write_formula(RE_base_2, c("0","1","session"))
+    trt_RE_2 <- write_formula(RE_trt_2, c("NULL","trt","session_trt"))
+    if (design == "RMBB") {
+      random <- eval(parse(text = paste0("list(case = ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
+                                         ", series = ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")))
+    } else {
+      random <- eval(parse(text = paste0("list(cluster = ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
+                                         ", case = ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")))
+    }
+    
   }
   
+  nesting_str <- switch(design, 
+                        MBP = "case",
+                        RMBB = "case/series",
+                        CMB = "cluster/case")
+  
+  cor_struct <- switch(corStruct,
+                       `MA(1)` = eval(parse(text = paste0("corARMA(0, ~ session | ",nesting_str,", p = 0, q = 1)"))),
+                       `AR(1)` = eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | ", nesting_str, ")"))),
+                       `IID` = NULL)
+
   if (varStruct == "het") {
     var_struct <- eval(parse(text = "varIdent(form = ~ 1 | phase)"))
   } else {
@@ -72,13 +97,10 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
   trt_RE <- if (is.null(RE_trt) | !(0 %in% RE_trt)) NULL else "trt"
   random <- as.formula(paste(" ~",paste(c(session_RE, trt_RE), collapse = " + "), "| case"))
   
-  if (corStruct == "MA(1)") {
-    cor_struct <- eval(parse(text = paste0("corARMA(0, ~ session | case, p = 0, q = 1)")))
-  } else if (corStruct == "AR(1)") {
-    cor_struct <- eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)")))
-  } else {
-    cor_struct <- NULL
-  }
+  cor_struct <- switch(corStruct,
+                       `MA(1)` = eval(parse(text = paste0("corARMA(0, ~ session | case, p = 0, q = 1)"))),
+                       `AR(1)` = eval(parse(text = paste0("corAR1(", phi_init, ", ~ session | case)"))),
+                       `IID` = NULL)
   
   if (varStruct == "het") {
     var_struct <- eval(parse(text = "varIdent(form = ~ 1 | phase)"))
@@ -109,11 +131,19 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
 # calculate effect sizes
 #---------------------------------------------------------------
 
-effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, corStruct, varStruct, A, B, center = 0, phi_init = 0.01) {
-  fit_function <- list(MB = "lme_fit_MB", TR = "lme_fit_TR")[[design]]
+effect_size_RML <- function(design, dat, FE_base, RE_base, RE_base_2, FE_trt, RE_trt, RE_trt_2, 
+                            corStruct, varStruct, A, B, center = 0, phi_init = 0.01) {
+  
+  fit_function <- switch(design, 
+                         MBP = "lme_fit_MB", 
+                         RMBB = "lme_fit_MB", 
+                         CMB = "lme_fit_MB", 
+                         TR = "lme_fit_TR")
+  
   m_fit <- do.call(fit_function, 
-                   args = list(dat = dat, FE_base = FE_base, RE_base = RE_base,
-                               FE_trt = FE_trt, RE_trt = RE_trt, 
+                   args = list(design = design, dat = dat, 
+                               FE_base = FE_base, RE_base = RE_base, RE_base_2 = RE_base_2,
+                               FE_trt = FE_trt, RE_trt = RE_trt, RE_trt_2 = RE_trt_2,
                                corStruct = corStruct, varStruct = varStruct,
                                center = center, phi_init = phi_init))
   fixed <- m_fit$fixed
@@ -130,81 +160,30 @@ effect_size_RML <- function(design, dat, FE_base, RE_base, FE_trt, RE_trt, corSt
   r_const_base <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
   r_const_trt <- rep(0L, r_const_dim - length(r_const_base))
   
-  r_const <- c(r_const_base, 
-               r_const_trt,
-               rep(0, length(mod$modelStruct$corStruct)),
-               rep(0, length(mod$modelStruct$varStruct)),
-               1L)
+  if (design %in% c("MBP", "TR")) {
+    r_const <- c(r_const_base,
+                 r_const_trt,
+                 rep(0L, length(mod$modelStruct$corStruct)),
+                 rep(0L, length(mod$modelStruct$varStruct)),
+                 1L)
+  } else {
+    
+    r_dim2 <- length(RE_base_2) + length(RE_trt_2)
+    r_const_dim2 <- r_dim2 * (r_dim2 + 1) / 2
+    bc_vec2 <- (B - center)^as.integer(RE_base_2)
+    bc_mat2 <- 2 * tcrossprod(bc_vec2) - diag(bc_vec2^2)
+    r_const_base2 <- bc_mat2[upper.tri(bc_mat2, diag = TRUE)]
+    r_const_trt2 <- rep(0L, r_const_dim2 - length(r_const_base2))
+    
+    r_const <- c(r_const_base,
+                 r_const_trt,
+                 r_const_base2,
+                 r_const_trt2,
+                 rep(0L, length(mod$modelStruct$corStruct)),
+                 rep(0L, length(mod$modelStruct$varStruct)),
+                 1L)
+  }
   
-  g_mlm(mod, p_const = p_const, r_const = r_const, infotype = "expected", returnModel = TRUE)
+  g_mlm(mod = mod, p_const = p_const, r_const = r_const, infotype = "expected")
   
 }
-
-# input <- list(example = "Laski")
-# design <- "MB"
-# data(list = input$example)
-# dat <- get(input$example)
-# dat <- dat[,exampleMapping[[input$example]]$vars]
-# names(dat) <- c("case","session","phase","outcome")
-# trt_phase <- levels(as.factor(dat$phase))[2]
-# dat$trt <- as.numeric(dat$phase==trt_phase)
-# dat$session_trt <- unlist(by(dat, dat$case, session_by_treatment, trt_phase = trt_phase))
-# 
-# FE_base <- c(0)
-# RE_base <- c(0)
-# FE_trt <- c(0)
-# RE_trt <- NULL
-# center <- default_times(dat)$A
-# 
-# lme_fit <- lme_fit_MB(dat = dat, FE_base, RE_base, FE_trt, RE_trt, center = center)
-# dat$fitted <- predict(lme_fit$fit)
-# graph_SCD(dat = dat, design = design)
-# last_plot() + geom_line(data = dat, aes(session, fitted), size = 0.8)
-# 
-# A <- default_times(dat)$A
-# B <- default_times(dat)$B
-# res <- effect_size_RML(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B)
-# summarize_ES(res, filter_vars = NULL, filter_vals = NULL, design = design, method = "RML",
-#              FE_base = FE_base, RE_base = RE_base, FE_trt = FE_trt, RE_trt = RE_trt, A = A, B = B)
-
-# 
-
-# cases <- levels(dat$case)
-# range <- default_times(dat)$range
-# A <- default_times(dat)$A
-# B <- default_times(dat)$B
-# sessions <- seq(range[1], range[2])
-# dat_RCT <- data.frame(case = rep(cases, each = length(sessions)),
-#                       session = sessions,
-#                       trt = as.integer(sessions > A),
-#                       session_trt = ifelse(sessions > A, sessions - A - 1, 0))
-# dat_RCT <- lme_fit_MB(dat, FE_base = FE_base, RE_base = RE_base,
-#                       FE_trt = FE_trt, RE_trt = RE_trt, center = B, newdata = dat_RCT)
-# dat_RCT <- dat_RCT$preds
-# dat_RCT$phase <- levels(dat$phase)[dat_RCT$trt + 1]
-# graph_SCD(dat_RCT, design = "MB")
-
-# 
-# input <- list(example = "Lambert")
-# design <- "TR"
-# data(list = input$example)
-# dat <- get(input$example)
-# dat <- dat[,exampleMapping[[input$example]]$vars]
-# names(dat) <- c("case","session","phase","outcome")
-# trt_phase <- levels(as.factor(dat$phase))[2]
-# dat$trt <- as.numeric(dat$phase==trt_phase)
-# 
-# lme_fit_TR(dat = dat, FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = 0)
-# lme_fit <- lme_fit_TR(dat = dat, FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = NULL)
-# lme_fit_TR(dat = dat, FE_base = 0, RE_base = NULL, FE_trt = 0, RE_trt = NULL)
-# dat$fitted <- predict(lme_fit$fit)
-# 
-# FE_base <- 0
-# RE_base <- 0
-# FE_trt <- 0
-# RE_trt <- NULL
-# A <- default_times(dat)$A
-# B <- default_times(dat)$B
-# res <- effect_size_RML(design, dat, FE_base, RE_base, FE_trt, RE_trt, A, B)
-# summarize_ES(res, filter_vars = NULL, filter_vals = NULL, design = design, method = "RML",
-#              FE_base = FE_base, RE_base = RE_base, FE_trt = FE_trt, RE_trt = RE_trt, A = A, B = B)

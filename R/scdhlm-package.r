@@ -360,7 +360,7 @@ NULL
 #'
 #' @docType data
 #' @keywords datasets
-#' @format A data frame with 221 rows and 8 variables
+#' @format A data frame with 363 rows and 8 variables
 #' @name Thiemann2001
 #' @source Thiemann, K.S., & Goldstein, H. (2001).
 #' Social stories, written text cues, and video feedback: effects on social communication

@@ -5,57 +5,93 @@
 \title{Graph Single Case Design Data}
 \usage{
 graph_SCD(
+  design,
   case,
   phase,
   session,
   outcome,
-  design,
+  cluster = NULL,
+  series = NULL,
   treatment_name = NULL,
   model_fit = NULL,
   data = NULL
 )
 }
 \arguments{
-\item{case}{vector of case indicators or name of a character or factor vector within \code{data} indicating unique cases.}
+\item{design}{Character string to specify whether data comes from a treatment
+reversal (\code{"TR"}), multiple baseline across participants
+(\code{"MBP"}), replicated multiple baseline across behaviors
+(\code{"RMBB"}), or clustered multiple baseline across participants (\code{"CMB"}).}
 
-\item{phase}{vector of treatment indicators or name of a character or factor vector within \code{data} indicating unique treatment phases.}
+\item{case}{vector of case indicators or name of a character or factor vector
+within \code{data} indicating unique cases.}
 
-\item{session}{vector of measurement occasions or name of numeric vector within \code{data} of measurement times.}
+\item{phase}{vector of treatment indicators or name of a character or factor
+vector within \code{data} indicating unique treatment phases.}
 
-\item{outcome}{vector of outcome data or name of numeric vector of outcome data within \code{data}.}
+\item{session}{vector of measurement occasions or name of numeric vector
+within \code{data} of measurement times.}
 
-\item{design}{Character string to specify whether data comes from a treatment reversal, "TR", or multiple baseline, "MB", design.}
+\item{outcome}{vector of outcome data or name of numeric vector of outcome
+data within \code{data}.}
 
-\item{treatment_name}{(Optional) character string corresponding to the name of the treatment phase.}
+\item{cluster}{(Optional) vector of cluster indicators or name of a character
+or factor vector within \code{data} indicating clusters.}
 
-\item{model_fit}{(Optional) lme fitted model that adds predicted values to graph}
+\item{series}{(Optional) vector of series indicators or name of a character
+or factor vector within \code{data} indicating series.}
 
-\item{data}{(Optional) dataset to use for analysis. Must be a \code{data.frame}.}
+\item{treatment_name}{(Optional) character string corresponding to the name
+of the treatment phase.}
+
+\item{model_fit}{(Optional) lme fitted model that adds predicted values to
+graph}
+
+\item{data}{(Optional) dataset to use for analysis. Must be a
+\code{data.frame}.}
 }
 \value{
 A ggplot graph
 }
 \description{
-Graphs single case design data for treatment reversal and multiple baseline designs.
+Graphs single case design data for treatment reversal and
+  multiple baseline designs.
 }
 \note{
-If treatment_name is left null it will choose the second level of the phase variable to be the treatment phase.
+If treatment_name is left null it will choose the second level of the
+  phase variable to be the treatment phase.
 }
 \examples{
 
 if (requireNamespace("ggplot2", quietly = TRUE)) {
 
 data(Anglesea)
-graph_SCD(case=case, phase=condition, 
-          session=session, outcome=outcome, 
-          design="TR", treatment_name = "treatment", 
+graph_SCD(design="TR",
+          case=case, phase=condition,
+          session=session, outcome=outcome,
+          treatment_name = "treatment",
           data=Anglesea)
-          
+
 data(BartonArwood)
-graph_SCD(case=case, phase=condition, 
-          session=session, outcome=outcome, 
-          design="MB", treatment_name = "B",  
+graph_SCD(design="MBP",
+          case=case, phase=condition,
+          session=session, outcome=outcome,
+          treatment_name = "B",
           data=BartonArwood)
+
+data(Thiemann2001)
+graph_SCD(design="RMBB",
+          case=case, series = series, phase=treatment,
+          session=time, outcome=outcome,
+          treatment_name = "treatment",
+          data=Thiemann2001)
+
+data(Bryant2018)
+graph_SCD(design="CMB",
+          cluster=school, case=case, phase=treatment,
+          session=session, outcome=outcome,
+          treatment_name = "treatment",
+          data=Bryant2018)
           
 }
 }

@@ -71,15 +71,9 @@ phase_pairs <- function(phase, session = seq_along(phase)) {
 #' 
 #' @description Clean single case design data for treatment reversal and multiple baseline designs. 
 #' 
-#' @param case vector of case indicators or name of a character or factor vector within \code{data} indicating unique cases.
-#' @param phase vector of treatment indicators or name of a character or factor vector within \code{data} indicating unique treatment phases.
-#' @param session vector of measurement occasions or name of numeric vector within \code{data} of measurement times.
-#' @param outcome vector of outcome data or name of numeric vector of outcome data within \code{data}.
-#' @param design Character string to specify whether data comes from a treatment reversal, "TR", or multiple baseline, "MB", design.
 #' @param center Numeric value for the centering value for session. Default is 0.
 #' @param round_session Logical indicating whether to round \code{session} to the nearest integer. Defaults to \code{TRUE}.
-#' @param treatment_name (Optional) character string corresponding to the name of the treatment phase.
-#' @param data (Optional) dataset to be cleaned. Must be a \code{data.frame}. 
+#' @inheritParams graph_SCD
 #' 
 #' @note If treatment_name is left null it will choose the second level of the phase variable to be the treatment phase.
 #' 
@@ -89,37 +83,68 @@ phase_pairs <- function(phase, session = seq_along(phase)) {
 #' 
 #' @examples
 #' data(Laski)
-#' preprocess_SCD(case = case, phase = treatment,
+#' preprocess_SCD(design = "MBP", 
+#'                case = case, phase = treatment,
 #'                session = time, outcome = outcome, 
-#'                design = "MB", center = 4, data = Laski)
-#' 
+#'                center = 4, data = Laski)
+#'                
+#' data(Anglesea) 
+#' preprocess_SCD(design="TR",
+#'                case=case, phase=condition,
+#'                session=session, outcome=outcome,
+#'                treatment_name = "treatment",
+#'                data=Anglesea)
+#'                
+#' data(Thiemann2001)
+#' preprocess_SCD(design = "RMBB", 
+#'                case = case, series = series, phase = treatment, 
+#'                session = time, outcome = outcome, 
+#'                data = Thiemann2001)
 #'           
 
-preprocess_SCD <- function(case, phase, session, outcome, 
-                           design, 
+preprocess_SCD <- function(design, 
+                           case, phase, session, outcome, 
+                           cluster = NULL, series = NULL,
                            center = 0, 
                            round_session = TRUE,
-                           treatment_name = NULL, 
+                           treatment_name = NULL,
                            data = NULL) {
+  
+  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
   
   if (missing(case)) stop("Please specify a case variable.")
   if (missing(phase)) stop("Please specify a phase variable.")
   if (missing(session)) stop("Please specify a session variable.")
   if (missing(outcome)) stop("Please specify an outcome variable.")
-  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline) or 'TR' (treatment reversal).")
+  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 
+                            'TR' (treatment reversal),
+                            'RMBB' (replicated multiple baseline across behaviors),
+                            'CMB' (clustered multiple baseline).")
+  if (design == "CMB" & missing(cluster)) stop("Please specify a cluster variable.")
+  if (design == "RMBB" & missing(series)) stop("Please specify a series variable.")
   
   case_call <- substitute(case)
   phase_call <- substitute(phase)
   session_call <- substitute(session)
   outcome_call <- substitute(outcome)
+  cluster_call <- substitute(cluster)
+  series_call <- substitute(series)
+
+  case_name <- deparse(case_call)
+  phase_name <- deparse(phase_call)
+  session_name <- deparse(session_call)
+  outcome_name <- deparse(outcome_call)
+  cluster_name <- deparse(cluster_call)
+  series_name <- deparse(series_call)
   
-  if (!is.null(data)) {
-    env <- list2env(data, parent = parent.frame())
-    case <- eval(case_call, env)
-    phase <- eval(phase_call, env)
-    session <- eval(session_call, env)
-    outcome <- eval(outcome_call, env)
-  }
+  env <- if (!is.null(data)) list2env(data, parent = parent.frame()) else env <- parent.frame()
+  case <- eval(case_call, env)
+  phase <- eval(phase_call, env)
+  session <- eval(session_call, env)
+  outcome <- eval(outcome_call, env)
+  cluster <- eval(cluster_call, env)
+  series <- eval(series_call, env)
+  
   
   # get treatment name
   if (is.null(treatment_name)) {
@@ -127,9 +152,24 @@ preprocess_SCD <- function(case, phase, session, outcome,
   }
   
   # get the data
-  dat <- data.frame(case = factor(case, levels = unique(case)),
-                    phase = factor(phase, levels = unique(phase)),
-                    session, outcome)
+  if (design == "RMBB") {
+    dat <- data.frame(case = as.factor(case),
+                      series = as.factor(series),
+                      phase = as.factor(phase),
+                      session, 
+                      outcome)
+  } else if (design == "CMB") {
+    dat <- data.frame(cluster = as.factor(cluster),
+                      case = as.factor(case),
+                      phase = as.factor(phase),
+                      session, 
+                      outcome)
+  } else {
+    dat <- data.frame(case = as.factor(case),
+                      phase = as.factor(phase),
+                      session, 
+                      outcome)
+  }
   
   # round session
   if (round_session == TRUE) {
@@ -138,51 +178,52 @@ preprocess_SCD <- function(case, phase, session, outcome,
     dat$session <- as.integer(dat$session)
   }
   
-  unique_sessions <- tapply(dat$session, dat$case, function(x) isTRUE(all.equal(x, unique(x))))
-  
-  if (!all(unique_sessions, na.rm = TRUE)) {
-    
-    stop("Session variable contains repeated values. Please ensure that each data point has a unique value within each case.")
-    
-  }   
   
   dat <- dat[!is.na(dat$outcome), ]
   dat$trt <- as.numeric(dat$phase == treatment_name) # create trt variable
 
-  if (design == "MB") {
-    session_by <- split(dat$session, dat$case)
-    phase_by <- split(dat$phase, dat$case)
+  by_var <- switch(design,
+                   MBP = dat$case,
+                   TR = dat$case,
+                   RMBB = as.factor(paste(dat$case, dat$series, sep = "-")),
+                   CMB = as.factor(paste(dat$cluster, dat$case, sep = "-")))
+
+  session_by <- split(dat$session, by_var)
+  phase_by <- split(dat$phase, by_var)
+  
+  if (design %in% c("MBP","RMBB","CMB")) {
+    
+    # calculate session-by-treatment interaction
     session_trt_by <- mapply(session_by_treatment, 
                              phase = phase_by, 
                              session = session_by,
                              MoreArgs = list(trt_phase = treatment_name), SIMPLIFY = FALSE)
-    dat$session_trt <- unsplit(session_trt_by, dat$case)
+    dat$session_trt <- unsplit(session_trt_by, by_var)
     dat$session <- dat$session - center
-    if (!is.null(data)) {
-      names(dat)[6] <- paste0(as.character(session_call), "_trt")
-    } else {
-      names(dat)[6] <- paste0(as.character(session_call)[3], "_trt")
-    }
-  } else {
-    session_by <- split(dat$session, dat$case)
-    phase_by <- split(dat$phase, dat$case)
+    names(dat)[which(names(dat) == "session_trt")] <- paste0(session_name, "_trt")
+    
+  } else if (design == "TR") {
+    
+    # calculate phase pairs for treatment reversal designs
     phase_pairs_by <- mapply(phase_pairs, phase = phase_by, session = session_by, SIMPLIFY = FALSE)
     dat$phase_pair <- unsplit(phase_pairs_by, dat$case)
-    if (!is.null(data)) {
-      names(dat)[6] <- paste0(as.character(phase_call), "_pair")
-    } else {
-      names(dat)[6] <- paste0(as.character(phase_call)[3], "_pair")
-    }
+    names(dat)[which(names(dat) == "phase_pair")] <- paste0(phase_name, "_pair")
+    
   }
 
   dat <- droplevels(dat)
+  unique_sessions <- tapply(dat$session, by_var, function(x) isTRUE(all.equal(x, unique(x))))
+  
+  if (!all(unique_sessions, na.rm = TRUE)) {
+    stop("Session variable contains repeated values. Please ensure that each data point has a unique value within each case.")
+  }
 
-  if (!is.null(data)) {
-    names(dat)[1:4] <- c(as.character(case_call), as.character(phase_call),
-                         as.character(session_call), as.character(outcome_call))
-  } else {
-    names(dat)[1:4] <- c(as.character(case_call)[3], as.character(phase_call)[3],
-                         as.character(session_call)[3], as.character(outcome_call)[3])
+  if (design %in% c("MBP", "TR")) {
+    names(dat)[1:4] <- c(case_name, phase_name, session_name, outcome_name)
+  } else if (design == "RMBB") {
+    names(dat)[1:5] <- c(case_name, series_name, phase_name, session_name, outcome_name)
+  } else if (design == "CMB") {
+    names(dat)[1:5] <- c(cluster_name, case_name, phase_name, session_name, outcome_name)
   }
   
   return(dat)
