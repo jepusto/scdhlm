@@ -68,39 +68,58 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">preprocess_SCD</span><span class="op">(</span>
-  <span class="va">case</span>,
-  <span class="va">phase</span>,
-  <span class="va">session</span>,
-  <span class="va">outcome</span>,
-  <span class="va">design</span>,
-  center <span class="op">=</span> <span class="fl">0</span>,
-  round_session <span class="op">=</span> <span class="cn">TRUE</span>,
-  treatment_name <span class="op">=</span> <span class="cn">NULL</span>,
-  data <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">preprocess_SCD</span><span class="op">(</span></span>
+<span>  <span class="va">design</span>,</span>
+<span>  <span class="va">case</span>,</span>
+<span>  <span class="va">phase</span>,</span>
+<span>  <span class="va">session</span>,</span>
+<span>  <span class="va">outcome</span>,</span>
+<span>  cluster <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  series <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  center <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  round_session <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  treatment_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>case</dt>
-<dd><p>vector of case indicators or name of a character or factor vector within <code>data</code> indicating unique cases.</p></dd>
+    <dl><dt>design</dt>
+<dd><p>Character string to specify whether data comes from a treatment
+reversal (<code>"TR"</code>), multiple baseline across participants
+(<code>"MBP"</code>), replicated multiple baseline across behaviors
+(<code>"RMBB"</code>), or clustered multiple baseline across participants (<code>"CMB"</code>).</p></dd>
+
+
+<dt>case</dt>
+<dd><p>vector of case indicators or name of a character or factor vector
+within <code>data</code> indicating unique cases.</p></dd>
 
 
 <dt>phase</dt>
-<dd><p>vector of treatment indicators or name of a character or factor vector within <code>data</code> indicating unique treatment phases.</p></dd>
+<dd><p>vector of treatment indicators or name of a character or factor
+vector within <code>data</code> indicating unique treatment phases.</p></dd>
 
 
 <dt>session</dt>
-<dd><p>vector of measurement occasions or name of numeric vector within <code>data</code> of measurement times.</p></dd>
+<dd><p>vector of measurement occasions or name of numeric vector
+within <code>data</code> of measurement times.</p></dd>
 
 
 <dt>outcome</dt>
-<dd><p>vector of outcome data or name of numeric vector of outcome data within <code>data</code>.</p></dd>
+<dd><p>vector of outcome data or name of numeric vector of outcome
+data within <code>data</code>.</p></dd>
 
 
-<dt>design</dt>
-<dd><p>Character string to specify whether data comes from a treatment reversal, "TR", or multiple baseline, "MB", design.</p></dd>
+<dt>cluster</dt>
+<dd><p>(Optional) vector of cluster indicators or name of a character
+or factor vector within <code>data</code> indicating clusters.</p></dd>
+
+
+<dt>series</dt>
+<dd><p>(Optional) vector of series indicators or name of a character
+or factor vector within <code>data</code> indicating series.</p></dd>
 
 
 <dt>center</dt>
@@ -112,11 +131,13 @@
 
 
 <dt>treatment_name</dt>
-<dd><p>(Optional) character string corresponding to the name of the treatment phase.</p></dd>
+<dd><p>(Optional) character string corresponding to the name
+of the treatment phase.</p></dd>
 
 
 <dt>data</dt>
-<dd><p>(Optional) dataset to be cleaned. Must be a <code>data.frame</code>.</p></dd>
+<dd><p>(Optional) dataset to use for analysis. Must be a
+<code>data.frame</code>.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -132,10 +153,11 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">preprocess_SCD</span><span class="op">(</span>case <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">treatment</span>,</span>
-<span class="r-in">               session <span class="op">=</span> <span class="va">time</span>, outcome <span class="op">=</span> <span class="va">outcome</span>, </span>
-<span class="r-in">               design <span class="op">=</span> <span class="st">"MB"</span>, center <span class="op">=</span> <span class="fl">4</span>, data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">preprocess_SCD</span><span class="op">(</span>design <span class="op">=</span> <span class="st">"MBP"</span>, </span></span>
+<span class="r-in"><span>               case <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">treatment</span>,</span></span>
+<span class="r-in"><span>               session <span class="op">=</span> <span class="va">time</span>, outcome <span class="op">=</span> <span class="va">outcome</span>, </span></span>
+<span class="r-in"><span>               center <span class="op">=</span> <span class="fl">4</span>, data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       case treatment time outcome trt time_trt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   Case 1  baseline   -3   27.60   0        0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   Case 1  baseline   -2   23.96   0        0</span>
@@ -265,8 +287,440 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 126 Case 9 treatment   14   67.47   1        7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 127 Case 9 treatment   15   84.53   1        8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 128 Case 9 treatment   16   81.00   1        9</span>
-<span class="r-in"></span>
-<span class="r-in">          </span>
+<span class="r-in"><span>               </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Anglesea</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="fu">preprocess_SCD</span><span class="op">(</span>design<span class="op">=</span><span class="st">"TR"</span>,</span></span>
+<span class="r-in"><span>               case<span class="op">=</span><span class="va">case</span>, phase<span class="op">=</span><span class="va">condition</span>,</span></span>
+<span class="r-in"><span>               session<span class="op">=</span><span class="va">session</span>, outcome<span class="op">=</span><span class="va">outcome</span>,</span></span>
+<span class="r-in"><span>               treatment_name <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
+<span class="r-in"><span>               data<span class="op">=</span><span class="va">Anglesea</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      case condition session outcome trt condition_pair</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Case 1  baseline       1  103.72   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Case 1  baseline       2  105.32   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Case 1  baseline       3   77.39   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Case 1  baseline       4  117.29   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Case 1  baseline       5  102.93   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Case 1  baseline       6   99.73   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  Case 1  baseline       7   49.47   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  Case 1 treatment       8  183.51   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Case 1 treatment       9  152.39   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Case 1 treatment      10  170.74   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Case 1 treatment      11  169.95   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Case 1 treatment      12  154.79   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Case 1 treatment      13  153.99   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Case 1  baseline      14   97.34   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Case 1  baseline      15   57.45   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Case 1  baseline      16   67.82   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Case 1  baseline      17  107.71   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Case 1  baseline      18  103.72   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Case 1  baseline      19   90.16   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Case 1  baseline      20   93.35   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Case 1 treatment      21  153.19   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Case 1 treatment      22  149.20   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Case 1 treatment      23  149.20   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Case 1 treatment      24  142.02   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Case 1 treatment      25  143.62   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Case 1 treatment      26  176.33   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 Case 1 treatment      27  173.94   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 Case 2  baseline       1   64.00   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 Case 2  baseline       2   62.80   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 Case 2  baseline       3   43.60   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31 Case 2  baseline       4   63.40   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32 Case 2 treatment       5  213.20   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33 Case 2 treatment       6  220.01   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34 Case 2 treatment       7  212.80   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 Case 2 treatment       8  217.60   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36 Case 2  baseline       9   62.40   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37 Case 2  baseline      10   72.20   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38 Case 2  baseline      11   62.01   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39 Case 2 treatment      12  189.81   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40 Case 2 treatment      13  178.60   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41 Case 2 treatment      14  181.41   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42 Case 3  baseline       1   24.02   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43 Case 3  baseline       2   26.38   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44 Case 3  baseline       3   29.92   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45 Case 3  baseline       4   23.62   0              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46 Case 3 treatment       5   84.65   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47 Case 3 treatment       6   89.76   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48 Case 3 treatment       7   83.46   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49 Case 3 treatment       8   89.76   1              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50 Case 3  baseline       9   30.71   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51 Case 3  baseline      10   41.73   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52 Case 3  baseline      11   29.92   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53 Case 3  baseline      12   33.86   0              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54 Case 3 treatment      13   84.25   1              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55 Case 3 treatment      14   78.74   1              2</span>
+<span class="r-in"><span>               </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Thiemann2001</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">preprocess_SCD</span><span class="op">(</span>design <span class="op">=</span> <span class="st">"RMBB"</span>, </span></span>
+<span class="r-in"><span>               case <span class="op">=</span> <span class="va">case</span>, series <span class="op">=</span> <span class="va">series</span>, phase <span class="op">=</span> <span class="va">treatment</span>, </span></span>
+<span class="r-in"><span>               session <span class="op">=</span> <span class="va">time</span>, outcome <span class="op">=</span> <span class="va">outcome</span>, </span></span>
+<span class="r-in"><span>               data <span class="op">=</span> <span class="va">Thiemann2001</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      case                          series treatment time outcome trt time_trt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Casey            contingent responses  baseline    1     1.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Casey            contingent responses  baseline    2     4.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   Casey            contingent responses  baseline    3     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Casey            contingent responses  baseline    4     2.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Casey            contingent responses  baseline    5     0.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   Casey            contingent responses  baseline    6     2.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   Casey            contingent responses  baseline    7     4.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   Casey            contingent responses  baseline    8     8.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   Casey            contingent responses  baseline    9     4.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Casey            contingent responses  baseline   10     3.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  Casey            contingent responses  baseline   11     3.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  Casey            contingent responses  baseline   12     4.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13  Casey            contingent responses  baseline   13     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  Casey            contingent responses  baseline   14     4.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15  Casey            contingent responses  baseline   15     3.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16  Casey            contingent responses  baseline   16     3.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17  Casey            contingent responses  baseline   17     3.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  Casey            contingent responses  baseline   18     1.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  Casey            contingent responses  baseline   19    16.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  Casey            contingent responses  baseline   20     5.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21  Casey            contingent responses  baseline   21     5.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22  Casey            contingent responses  baseline   22     1.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23  Casey            contingent responses  baseline   23     1.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24  Casey            contingent responses  baseline   24     3.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25  Casey            contingent responses  baseline   25     5.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26  Casey            contingent responses treatment   26    30.5   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27  Casey            contingent responses treatment   27    20.0   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28  Casey            contingent responses treatment   28    22.0   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29  Casey            contingent responses treatment   29    31.5   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30  Casey            contingent responses treatment   30    25.9   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31  Casey initiates comments and requests  baseline    1     0.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32  Casey initiates comments and requests  baseline    2     0.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33  Casey initiates comments and requests  baseline    3     4.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34  Casey initiates comments and requests  baseline    4     0.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35  Casey initiates comments and requests  baseline    5     3.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36  Casey initiates comments and requests  baseline    6     8.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37  Casey initiates comments and requests  baseline    7     3.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38  Casey initiates comments and requests  baseline    8     4.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39  Casey initiates comments and requests  baseline    9     2.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40  Casey initiates comments and requests treatment   10    11.3   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41  Casey initiates comments and requests treatment   11    10.3   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42  Casey initiates comments and requests treatment   12     9.7   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43  Casey initiates comments and requests treatment   13    21.7   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44  Casey initiates comments and requests treatment   14    23.4   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45  Casey initiates comments and requests treatment   15    20.8   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46  Casey               secures attention  baseline    1     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47  Casey               secures attention  baseline    2     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48  Casey               secures attention  baseline    3     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49  Casey               secures attention  baseline    4     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50  Casey               secures attention  baseline    5     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51  Casey               secures attention  baseline    6     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52  Casey               secures attention  baseline    7     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53  Casey               secures attention  baseline    8     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54  Casey               secures attention  baseline    9     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55  Casey               secures attention  baseline   10     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56  Casey               secures attention  baseline   11     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57  Casey               secures attention  baseline   12     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58  Casey               secures attention  baseline   13     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59  Casey               secures attention  baseline   14     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60  Casey               secures attention  baseline   15     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61  Casey               secures attention treatment   16    13.7   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62  Casey               secures attention treatment   17    11.8   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63  Casey               secures attention treatment   18    12.1   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64  Casey               secures attention treatment   19     8.9   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65  Casey               secures attention treatment   20    10.8   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66  Casey               secures attention treatment   21    12.7   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67  Casey               secures attention treatment   22    10.1   1        7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68  Casey               secures attention treatment   23     9.1   1        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69  Casey               secures attention treatment   24     9.4   1        9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70  Casey               secures attention treatment   25     9.7   1       10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71    Dan              initiates comments  baseline    1     0.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72    Dan              initiates comments  baseline    2     1.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 73    Dan              initiates comments  baseline    3     4.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74    Dan              initiates comments  baseline    4    11.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75    Dan              initiates comments  baseline    5     9.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76    Dan              initiates comments  baseline    6     2.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77    Dan              initiates comments  baseline    7     8.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78    Dan              initiates comments  baseline    8     5.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79    Dan              initiates comments  baseline    9     6.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 80    Dan              initiates comments  baseline   10    10.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 81    Dan              initiates comments  baseline   11     7.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 82    Dan              initiates comments  baseline   12     5.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 83    Dan              initiates comments  baseline   13     3.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 84    Dan              initiates comments  baseline   14     7.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 85    Dan              initiates comments  baseline   15     5.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 86    Dan              initiates comments  baseline   16    10.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 87    Dan              initiates comments  baseline   17     8.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 88    Dan              initiates comments  baseline   18     9.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 89    Dan              initiates comments  baseline   19    10.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90    Dan              initiates comments  baseline   20     8.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 91    Dan              initiates comments treatment   21    19.3   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 92    Dan              initiates comments treatment   22    12.5   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 93    Dan              initiates comments treatment   23    15.3   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 94    Dan              initiates comments treatment   24    14.4   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95    Dan              initiates comments treatment   25    13.5   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 96    Dan              initiates comments treatment   26    20.6   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97    Dan              initiates comments treatment   27    24.4   1        7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98    Dan              initiates comments treatment   28    16.7   1        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 99    Dan              initiates comments treatment   29    13.7   1        9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100   Dan              initiates comments treatment   30    39.4   1       10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 101   Dan              initiates requests  baseline    1     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 102   Dan              initiates requests  baseline    2     1.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 103   Dan              initiates requests  baseline    3     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 104   Dan              initiates requests  baseline    4     0.8   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 105   Dan              initiates requests  baseline    5     1.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 106   Dan              initiates requests  baseline    6     8.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 107   Dan              initiates requests  baseline    7     3.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 108   Dan              initiates requests  baseline    8     5.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 109   Dan              initiates requests  baseline    9     0.8   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 110   Dan              initiates requests  baseline   10     5.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 111   Dan              initiates requests  baseline   11     4.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 112   Dan              initiates requests  baseline   12     1.8   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 113   Dan              initiates requests  baseline   13     8.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 114   Dan              initiates requests  baseline   14     0.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 115   Dan              initiates requests  baseline   15     9.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 116   Dan              initiates requests  baseline   16     8.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 117   Dan              initiates requests  baseline   17    10.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 118   Dan              initiates requests  baseline   18     8.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 119   Dan              initiates requests  baseline   19    22.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 120   Dan              initiates requests  baseline   20     9.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 121   Dan              initiates requests  baseline   21     8.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 122   Dan              initiates requests  baseline   22     6.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 123   Dan              initiates requests  baseline   23    14.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 124   Dan              initiates requests  baseline   24     7.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 125   Dan              initiates requests  baseline   25    16.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 126   Dan              initiates requests  baseline   26    16.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 127   Dan              initiates requests  baseline   27    13.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 128   Dan              initiates requests  baseline   28     2.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 129   Dan              initiates requests  baseline   29     8.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 130   Dan              initiates requests  baseline   30    17.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 131   Dan              initiates requests treatment   31    12.3   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 132   Dan              initiates requests treatment   32    25.6   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 133   Dan              initiates requests treatment   33    23.6   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 134   Dan              initiates requests treatment   34    19.7   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 135   Dan              initiates requests treatment   35    17.2   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 136   Dan              initiates requests treatment   36    30.7   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 137   Dan               secures attention  baseline    1     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 138   Dan               secures attention  baseline    2     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 139   Dan               secures attention  baseline    3     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 140   Dan               secures attention  baseline    4     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 141   Dan               secures attention  baseline    5     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 142   Dan               secures attention  baseline    6     2.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 143   Dan               secures attention  baseline    7     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 144   Dan               secures attention  baseline    8     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 145   Dan               secures attention  baseline    9     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 146   Dan               secures attention  baseline   10     4.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 147   Dan               secures attention  baseline   11     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 148   Dan               secures attention  baseline   12     1.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 149   Dan               secures attention  baseline   13     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 150   Dan               secures attention  baseline   14     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 151   Dan               secures attention treatment   15    12.1   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 152   Dan               secures attention treatment   16    15.1   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 153   Dan               secures attention treatment   17     9.2   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 154   Dan               secures attention treatment   18    13.1   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 155   Dan               secures attention treatment   19    20.1   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 156   Dan               secures attention treatment   20    14.2   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 157  Greg              initiates comments  baseline    1     1.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 158  Greg              initiates comments  baseline    2     6.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 159  Greg              initiates comments  baseline    3     3.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 160  Greg              initiates comments  baseline    4     3.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 161  Greg              initiates comments  baseline    5     6.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 162  Greg              initiates comments  baseline    6     9.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 163  Greg              initiates comments  baseline    7    11.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 164  Greg              initiates comments  baseline    8     5.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 165  Greg              initiates comments  baseline    9     9.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 166  Greg              initiates comments  baseline   10    15.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 167  Greg              initiates comments  baseline   11     5.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 168  Greg              initiates comments  baseline   12     4.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 169  Greg              initiates comments  baseline   13    18.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 170  Greg              initiates comments  baseline   14    10.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 171  Greg              initiates comments  baseline   15     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 172  Greg              initiates comments  baseline   16    13.8   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 173  Greg              initiates comments  baseline   17     5.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 174  Greg              initiates comments  baseline   18     5.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 175  Greg              initiates comments  baseline   19     7.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 176  Greg              initiates comments  baseline   20     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 177  Greg              initiates comments  baseline   21     3.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 178  Greg              initiates comments  baseline   22    13.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 179  Greg              initiates comments treatment   23    16.5   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 180  Greg              initiates comments treatment   24    14.9   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 181  Greg              initiates comments treatment   25    16.2   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 182  Greg              initiates comments treatment   26    10.0   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 183  Greg              initiates comments treatment   27    11.0   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 184  Greg              initiates comments treatment   28    21.1   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 185  Greg              initiates comments treatment   29    13.3   1        7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 186  Greg              initiates comments treatment   30    16.3   1        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 187  Greg              initiates requests  baseline    1    11.8   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 188  Greg              initiates requests  baseline    2     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 189  Greg              initiates requests  baseline    3     9.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 190  Greg              initiates requests  baseline    4     2.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 191  Greg              initiates requests  baseline    5     1.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 192  Greg              initiates requests  baseline    6     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 193  Greg              initiates requests  baseline    7     7.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 194  Greg              initiates requests  baseline    8     8.8   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 195  Greg              initiates requests  baseline    9    13.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 196  Greg              initiates requests  baseline   10     5.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 197  Greg              initiates requests  baseline   11     5.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 198  Greg              initiates requests  baseline   12     2.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 199  Greg              initiates requests  baseline   13     4.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 200  Greg              initiates requests  baseline   14    11.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 201  Greg              initiates requests  baseline   15    11.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 202  Greg              initiates requests  baseline   16     7.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 203  Greg              initiates requests  baseline   17    10.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 204  Greg              initiates requests  baseline   18     9.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 205  Greg              initiates requests  baseline   19    12.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 206  Greg              initiates requests  baseline   20     1.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 207  Greg              initiates requests  baseline   21    14.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 208  Greg              initiates requests  baseline   22    10.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 209  Greg              initiates requests  baseline   23     4.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 210  Greg              initiates requests  baseline   24    10.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 211  Greg              initiates requests  baseline   25     2.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 212  Greg              initiates requests  baseline   26     0.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 213  Greg              initiates requests  baseline   27     2.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 214  Greg              initiates requests  baseline   28     6.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 215  Greg              initiates requests  baseline   29     4.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 216  Greg              initiates requests  baseline   30     8.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 217  Greg              initiates requests treatment   31    19.7   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 218  Greg              initiates requests treatment   32    17.4   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 219  Greg              initiates requests treatment   33    31.8   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 220  Greg              initiates requests treatment   34    15.1   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 221  Greg               secures attention  baseline    1     1.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 222  Greg               secures attention  baseline    2     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 223  Greg               secures attention  baseline    3     7.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 224  Greg               secures attention  baseline    4     2.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 225  Greg               secures attention  baseline    5     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 226  Greg               secures attention  baseline    6     2.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 227  Greg               secures attention  baseline    7     7.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 228  Greg               secures attention  baseline    8     4.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 229  Greg               secures attention  baseline    9     2.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 230  Greg               secures attention  baseline   10    18.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 231  Greg               secures attention  baseline   11     8.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 232  Greg               secures attention  baseline   12     8.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 233  Greg               secures attention  baseline   13     7.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 234  Greg               secures attention  baseline   14     2.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 235  Greg               secures attention treatment   15    26.8   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 236  Greg               secures attention treatment   16    15.8   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 237  Greg               secures attention treatment   17    14.5   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 238  Greg               secures attention treatment   18    16.1   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 239  Greg               secures attention treatment   19    17.4   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 240  Greg               secures attention treatment   20    10.0   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 241  Greg               secures attention treatment   21    13.2   1        7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 242  Greg               secures attention treatment   22    18.7   1        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 243  Greg               secures attention treatment   23     9.7   1        9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 244  Ivan              initiates comments  baseline    1    13.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 245  Ivan              initiates comments  baseline    2     8.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 246  Ivan              initiates comments  baseline    3     9.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 247  Ivan              initiates comments  baseline    4     4.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 248  Ivan              initiates comments  baseline    5    14.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 249  Ivan              initiates comments  baseline    6     4.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 250  Ivan              initiates comments  baseline    7    13.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 251  Ivan              initiates comments  baseline    8    18.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 252  Ivan              initiates comments  baseline    9     4.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 253  Ivan              initiates comments  baseline   10     5.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 254  Ivan              initiates comments  baseline   11     4.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 255  Ivan              initiates comments  baseline   12    10.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 256  Ivan              initiates comments  baseline   13     5.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 257  Ivan              initiates comments treatment   14    12.1   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 258  Ivan              initiates comments treatment   15     8.3   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 259  Ivan              initiates comments treatment   16     0.0   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 260  Ivan              initiates comments treatment   17     9.0   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 261  Ivan              initiates comments treatment   18    14.1   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 262  Ivan              initiates comments treatment   19     9.4   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 263  Ivan              initiates comments treatment   20     9.4   1        7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 264  Ivan              initiates comments treatment   21     5.2   1        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 265  Ivan              initiates comments treatment   22    19.3   1        9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 266  Ivan              initiates comments treatment   23    12.4   1       10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 267  Ivan              initiates comments treatment   24    23.2   1       11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 268  Ivan              initiates comments treatment   25    16.2   1       12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 269  Ivan              initiates comments treatment   26    17.2   1       13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 270  Ivan               secures attention  baseline    1     2.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 271  Ivan               secures attention  baseline    2     1.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 272  Ivan               secures attention  baseline    3     2.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 273  Ivan               secures attention  baseline    4     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 274  Ivan               secures attention  baseline    5     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 275  Ivan               secures attention  baseline    6     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 276  Ivan               secures attention  baseline    7     5.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 277  Ivan               secures attention  baseline    8     6.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 278  Ivan               secures attention  baseline    9     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 279  Ivan               secures attention  baseline   10     1.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 280  Ivan               secures attention  baseline   11     2.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 281  Ivan               secures attention  baseline   12     5.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 282  Ivan               secures attention  baseline   13     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 283  Ivan               secures attention  baseline   14     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 284  Ivan               secures attention  baseline   15     0.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 285  Ivan               secures attention  baseline   16     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 286  Ivan               secures attention  baseline   17     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 287  Ivan               secures attention  baseline   18     0.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 288  Ivan               secures attention  baseline   19     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 289  Ivan               secures attention  baseline   20     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 290  Ivan               secures attention  baseline   21     0.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 291  Ivan               secures attention  baseline   22     5.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 292  Ivan               secures attention  baseline   23     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 293  Ivan               secures attention  baseline   24    15.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 294  Ivan               secures attention  baseline   25     4.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 295  Ivan               secures attention  baseline   26     1.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 296  Ivan               secures attention treatment   27     7.9   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 297  Ivan               secures attention treatment   28    13.0   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 298  Ivan               secures attention treatment   29    11.9   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 299  Ivan               secures attention treatment   30    16.8   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 300  John            contingent responses  baseline    1    24.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 301  John            contingent responses  baseline    2     8.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 302  John            contingent responses  baseline    3    25.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 303  John            contingent responses  baseline    4    10.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 304  John            contingent responses  baseline    5     3.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 305  John            contingent responses  baseline    6    14.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 306  John            contingent responses  baseline    7     7.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 307  John            contingent responses  baseline    8    12.8   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 308  John            contingent responses  baseline    9    33.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 309  John            contingent responses  baseline   10     6.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 310  John            contingent responses  baseline   11     5.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 311  John            contingent responses  baseline   12     8.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 312  John            contingent responses  baseline   13    20.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 313  John            contingent responses  baseline   14    16.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 314  John            contingent responses  baseline   15     3.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 315  John            contingent responses  baseline   16    13.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 316  John            contingent responses  baseline   17    13.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 317  John            contingent responses  baseline   18    23.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 318  John            contingent responses  baseline   19    19.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 319  John            contingent responses  baseline   20     9.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 320  John            contingent responses  baseline   21     9.9   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 321  John            contingent responses treatment   22    16.2   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 322  John            contingent responses treatment   23    17.6   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 323  John            contingent responses treatment   24    16.6   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 324  John            contingent responses treatment   25    14.1   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 325  John            contingent responses treatment   26    21.4   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 326  John            contingent responses treatment   27    15.5   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 327  John            contingent responses treatment   28    12.1   1        7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 328  John initiates comments and requests  baseline    1    24.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 329  John initiates comments and requests  baseline    2    19.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 330  John initiates comments and requests  baseline    3    15.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 331  John initiates comments and requests  baseline    4     9.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 332  John initiates comments and requests  baseline    5    17.4   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 333  John initiates comments and requests  baseline    6    15.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 334  John initiates comments and requests  baseline    7     9.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 335  John initiates comments and requests  baseline    8     2.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 336  John initiates comments and requests  baseline    9    11.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 337  John initiates comments and requests treatment   10    32.8   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 338  John initiates comments and requests treatment   11    18.8   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 339  John initiates comments and requests treatment   12    15.4   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 340  John initiates comments and requests treatment   13    50.6   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 341  John initiates comments and requests treatment   14    22.4   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 342  John initiates comments and requests treatment   15    32.2   1        6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 343  John               secures attention  baseline    1    24.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 344  John               secures attention  baseline    2    12.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 345  John               secures attention  baseline    3     2.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 346  John               secures attention  baseline    4     8.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 347  John               secures attention  baseline    5     6.5   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 348  John               secures attention  baseline    6     6.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 349  John               secures attention  baseline    7     0.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 350  John               secures attention  baseline    8     0.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 351  John               secures attention  baseline    9     5.1   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 352  John               secures attention  baseline   10     6.6   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 353  John               secures attention  baseline   11     0.0   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 354  John               secures attention  baseline   12     2.7   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 355  John               secures attention  baseline   13     8.2   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 356  John               secures attention  baseline   14     1.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 357  John               secures attention  baseline   15     1.3   0        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 358  John               secures attention treatment   16    17.6   1        1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 359  John               secures attention treatment   17    11.7   1        2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 360  John               secures attention treatment   18    14.7   1        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 361  John               secures attention treatment   19    11.3   1        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 362  John               secures attention treatment   20     8.8   1        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 363  John               secures attention treatment   21    14.3   1        6</span>
+<span class="r-in"><span>          </span></span>
 </code></pre></div>
     </div>
   </div>
@@ -281,7 +735,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

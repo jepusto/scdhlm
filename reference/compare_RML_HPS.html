@@ -70,7 +70,7 @@ REML and HPS effect size estimators as described in Pustejovsky, Hedges, &amp; S
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">compare_RML_HPS</span><span class="op">(</span><span class="va">iterations</span>, <span class="va">beta</span>, <span class="va">rho</span>, <span class="va">phi</span>, <span class="va">design</span>, <span class="va">m</span>, <span class="va">n</span>, MB <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">compare_RML_HPS</span><span class="op">(</span><span class="va">iterations</span>, <span class="va">beta</span>, <span class="va">rho</span>, <span class="va">phi</span>, <span class="va">design</span>, <span class="va">m</span>, <span class="va">n</span>, MB <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -123,8 +123,8 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">compare_RML_HPS</span><span class="op">(</span>iterations<span class="op">=</span><span class="fl">10</span>, beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, rho <span class="op">=</span> <span class="fl">0.3</span>, </span>
-<span class="r-in">                 phi <span class="op">=</span> <span class="fl">0.5</span>, design<span class="op">=</span><span class="fu"><a href="design_matrix.html">design_matrix</a></span><span class="op">(</span>m<span class="op">=</span><span class="fl">3</span>,n<span class="op">=</span><span class="fl">8</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">compare_RML_HPS</span><span class="op">(</span>iterations<span class="op">=</span><span class="fl">10</span>, beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, rho <span class="op">=</span> <span class="fl">0.3</span>, </span></span>
+<span class="r-in"><span>                 phi <span class="op">=</span> <span class="fl">0.5</span>, design<span class="op">=</span><span class="fu"><a href="design_matrix.html">design_matrix</a></span><span class="op">(</span>m<span class="op">=</span><span class="fl">3</span>,n<span class="op">=</span><span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
@@ -136,32 +136,32 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           mean          var</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> p_beta               1.0138399  0.202420065</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> r_theta              0.8661961  0.176606497</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> delta_AB             1.1465741  0.244094931</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> nu                   8.8713124 12.878837565</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> kappa                0.4137731  0.003828282</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> g_AB                 1.0137587  0.171134003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V_g_AB               0.3480216  0.026221792</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> p_beta               1.0221038  0.091645228</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> r_theta              1.1269197  0.309443264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> delta_AB             1.0271546  0.124652913</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> nu                   8.4625709 18.102485895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> kappa                0.3651190  0.009677486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> g_AB                 0.9023748  0.117338707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V_g_AB               0.2741901  0.002151941</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cnvg_warn            0.0000000  0.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma_sq             0.7471499  0.200619733</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> phi                  0.5242678  0.020948088</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tau.id.var(constant) 0.1190461  0.052837292</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rho                  0.1410940  0.047624547</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma_sq             0.7545316  0.126661272</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phi                  0.3897536  0.079369476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Tau.id.var(constant) 0.3723881  0.276447041</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rho                  0.2580305  0.076965343</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> RML_coverage1        1.0000000  0.000000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> RML_coverage2        1.0000000  0.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> D_bar                1.1027077  0.168058534</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S_sq                 0.7935491  0.110513882</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> delta_hat_unadj      1.2884340  0.194167288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> phi_hat              0.1863145  0.041940123</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rho_hat              0.3659952  0.067766354</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> kappa_hat            0.3583867  0.012194641</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> df                   7.4001615  8.700037380</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> delta_hat            1.1172979  0.137769731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V_delta_hat          0.3779846  0.039139084</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> HPS_coverage1        1.0000000  0.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> HPS_coverage2        1.0000000  0.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cov                         NA  0.131001485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> D_bar                0.9774614  0.143089409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> S_sq                 1.1360224  0.310341252</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> delta_hat_unadj      0.9781592  0.184831379</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phi_hat              0.1481858  0.050095710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rho_hat              0.4834019  0.030598862</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> kappa_hat            0.3128830  0.004486697</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> df                   6.1763107  7.408297489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> delta_hat            0.8424506  0.166877478</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V_delta_hat          0.2415627  0.007297517</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> HPS_coverage1        0.9000000  0.100000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> HPS_coverage2        0.9000000  0.100000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cov                         NA  0.135236776</span>
 </code></pre></div>
     </div>
   </div>
@@ -176,7 +176,7 @@ Design-comparable effect sizes in multiple baseline designs: A general modeling 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

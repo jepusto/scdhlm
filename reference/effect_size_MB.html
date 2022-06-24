@@ -72,15 +72,15 @@ measurement occasion per subject.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">effect_size_MB</span><span class="op">(</span>
-  <span class="va">outcome</span>,
-  <span class="va">treatment</span>,
-  <span class="va">id</span>,
-  <span class="va">time</span>,
-  data <span class="op">=</span> <span class="cn">NULL</span>,
-  phi <span class="op">=</span> <span class="cn">NULL</span>,
-  rho <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">effect_size_MB</span><span class="op">(</span></span>
+<span>  <span class="va">outcome</span>,</span>
+<span>  <span class="va">treatment</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">time</span>,</span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  phi <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rho <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -134,22 +134,22 @@ A standardized mean difference effect size for multiple baseline designs across 
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Saddler</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">effect_size_MB</span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, id <span class="op">=</span> <span class="va">case</span>, </span>
-<span class="r-in">               time <span class="op">=</span> <span class="va">time</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">Saddler</span>, <span class="va">measure</span><span class="op">==</span><span class="st">"writing quality"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Saddler</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">effect_size_MB</span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, id <span class="op">=</span> <span class="va">case</span>, </span></span>
+<span class="r-in"><span>               time <span class="op">=</span> <span class="va">time</span>, data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">Saddler</span>, <span class="va">measure</span><span class="op">==</span><span class="st">"writing quality"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                          est    se</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> unadjusted effect size 2.149 0.634</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> adjusted effect size   1.963 0.579</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> degree of freedom      8.918      </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">effect_size_MB</span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, id <span class="op">=</span> <span class="va">case</span>, </span>
-<span class="r-in">               time <span class="op">=</span> <span class="va">time</span>, data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">effect_size_MB</span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, id <span class="op">=</span> <span class="va">case</span>, </span></span>
+<span class="r-in"><span>               time <span class="op">=</span> <span class="va">time</span>, data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           est    se</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> unadjusted effect size  1.474 0.337</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> adjusted effect size    1.388 0.317</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> degree of freedom      13.100      </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -164,7 +164,7 @@ A standardized mean difference effect size for multiple baseline designs across 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
