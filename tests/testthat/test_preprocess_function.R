@@ -89,17 +89,40 @@ test_that("The returned dataset is consistent with the input dataset for RMBB de
                                   phase = treatment, session = time,
                                   outcome = outcome, data = Thiemann2001)
   
+  expect_equal(Thiemann2001$case, dat1_Thiemann$case)
+  expect_equal(Thiemann2001$series, dat1_Thiemann$series)
+  expect_equal(Thiemann2001$treatment, dat1_Thiemann$treatment)
+  expect_equal(Thiemann2001$time, dat1_Thiemann$time)
+  expect_equal(Thiemann2001$outcome, dat1_Thiemann$outcome)
+
   dat2_Thiemann <- preprocess_SCD(design = "RMBB",
                                   case = Thiemann2001$case, series = Thiemann2001$series,
                                   phase = Thiemann2001$treatment, session = Thiemann2001$time,
                                   outcome = Thiemann2001$outcome)
   
   expect_equivalent(dat1_Thiemann, dat2_Thiemann)
-  expect_equal(Thiemann2001$case, dat1_Thiemann$case)
-  expect_equal(Thiemann2001$series, dat1_Thiemann$series)
-  expect_equal(Thiemann2001$treatment, dat1_Thiemann$treatment)
-  expect_equal(Thiemann2001$time, dat1_Thiemann$time)
-  expect_equal(Thiemann2001$outcome, dat1_Thiemann$outcome)
+  
+  Thi_case <- Thiemann2001$case
+  Thi_series <- Thiemann2001$series
+  Thi_phase <- Thiemann2001$treatment
+  Thi_session <- Thiemann2001$time
+  Thi_outcome <- Thiemann2001$outcome
+  
+  dat3_Thiemann <- preprocess_SCD(design = "RMBB",
+                                  case = Thi_case, series = Thi_series,
+                                  phase = Thi_phase, session = Thi_session,
+                                  outcome = Thi_outcome)
+  
+  expect_equivalent(dat1_Thiemann, dat3_Thiemann)
+  
+  scramble <- sample(1:nrow(Thiemann2001))
+  
+  dat4_Thiemann <- preprocess_SCD(design = "RMBB",
+                                  case = case, series = series,
+                                  phase = treatment, session = time,
+                                  outcome = outcome, data = Thiemann2001[scramble,])
+  
+  expect_equivalent(dat1_Thiemann[scramble,], dat4_Thiemann)
   
 })
 
@@ -112,16 +135,39 @@ test_that("The returned dataset is consistent with the input dataset for CMB des
                              phase = treatment, session = session,
                              outcome = outcome, data = Bryant2018)
   
+  expect_equal(Bryant2018$school, dat1_Bry$school)
+  expect_equal(Bryant2018$case, dat1_Bry$case)
+  expect_equal(Bryant2018$treatment, dat1_Bry$treatment)
+  expect_equal(Bryant2018$session, dat1_Bry$session)
+  expect_equal(Bryant2018$outcome, dat1_Bry$outcome)
+
   dat2_Bry <- preprocess_SCD(design = "CMB",
                              cluster = Bryant2018$school, case = Bryant2018$case,
                              phase = Bryant2018$treatment, session = Bryant2018$session,
                              outcome = Bryant2018$outcome)
   
   expect_equivalent(dat1_Bry, dat2_Bry)
-  expect_equal(Bryant2018$school, dat1_Bry$school)
-  expect_equal(Bryant2018$case, dat1_Bry$case)
-  expect_equal(Bryant2018$treatment, dat1_Bry$treatment)
-  expect_equal(Bryant2018$session, dat1_Bry$session)
-  expect_equal(Bryant2018$outcome, dat1_Bry$outcome)
   
+  Bry_school <- Bryant2018$school
+  Bry_case <- Bryant2018$case
+  Bry_treatment <- Bryant2018$treatment
+  Bry_session <- Bryant2018$session
+  Bry_outcome <- Bryant2018$outcome
+  
+  dat3_Bry <- preprocess_SCD(design = "CMB",
+                             cluster = Bry_school, case = Bry_case,
+                             phase = Bry_treatment, session = Bry_session,
+                             outcome = Bry_outcome)
+  
+  expect_equivalent(dat1_Bry, dat3_Bry)
+  
+  scramble <- sample(1:nrow(Bryant2018))
+  
+  dat4_Bry <- preprocess_SCD(design = "CMB",
+                             cluster = school, case = case,
+                             phase = treatment, session = session,
+                             outcome = outcome, data = Bryant2018[scramble,])
+  
+  expect_equivalent(dat1_Bry, dat4_Bry[order(scramble),])
+    
 })
