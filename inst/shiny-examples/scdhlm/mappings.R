@@ -84,19 +84,19 @@ exampleMapping <- list(
 #------------------------------------------------
 
 labs_MBP <- list(
-  fixed =  "Include fixed effect            ",
+  fixed =  "Include fixed effect &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;",
   random = "Include case-level random effect"
 )
 
 labs_RMBB <- list(
-  fixed         = "Include fixed effect              ",
+  fixed         = "Include fixed effect &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;",
   random_series = "Include series-level random effect",
-  random_case   = "Include case-level random effect  "
+  random_case   = "Include case-level random effect &nbsp; &nbsp; &nbsp; &nbsp;"
 )
 
 labs_CMB <- list(
-  fixed          = "Include fixed effect               ",
-  random_case    = "Include case-level random effect   ",
+  fixed          = "Include fixed effect &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;",
+  random_case    = "Include case-level random effect &nbsp; &nbsp; &nbsp; &nbsp;",
   random_cluster = "Include cluster-level random effect"
 )
 
