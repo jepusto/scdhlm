@@ -157,14 +157,14 @@ ui <-
                          h4("Session-level error structure assumptions"),
                          fluidRow(
                            column(6,
-                                  radioButtons("corStruct",
-                                               label = "Dependence structure of session-level errors",
+                                  selectInput("corStruct",
+                                               label = "Correlation structure of session-level errors",
                                                choices = c("Auto-regressive (AR1)" = "AR(1)", "Moving average (MA1)" = "MA(1)", "Independent" = "IID"),
                                                selected = "AR(1)")
                            ),
                            column(6,
-                                  radioButtons("varStruct",
-                                               label = "Session-level error variances",
+                                  selectInput("varStruct",
+                                               label = "Variance of session-level errors",
                                                choices = c("Constant variance" = "hom",
                                                            "Variance differs by phase" = "het"),
                                                selected = "hom")
