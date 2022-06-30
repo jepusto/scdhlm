@@ -40,15 +40,15 @@ of Education.
 
 Please cite this R package as follows:
 
-> Pustejovsky, J. E., Chen, M., & Hamilton, B. J. (2020). SingleCaseES:
-> A calculator for single-case effect size indices (Version 0.5.2) \[R
-> package\]. <https://CRAN.R-project.org/package=scdhlm>
+> Pustejovsky, J. E., Chen, M., & Hamilton, B. J. (2020). scdhlm:
+> Estimating hierarchical linear models for single-case designs (Version
+> 0.5.2.999) \[R package\]. <https://CRAN.R-project.org/package=scdhlm>
 
 Please cite the web application as follows:
 
 > Pustejovsky, J. E., Chen, M., & Hamilton, B. (2020). scdhlm: A
 > web-based calculator for between-case standardized mean differences
-> (Version 0.5.2) \[Web application\].
+> (Version 0.5.2.999) \[Web application\].
 > <https://jepusto.shinyapps.io/scdhlm>
 
 # Installation
