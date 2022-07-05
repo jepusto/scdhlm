@@ -28,7 +28,7 @@ ui <-
   shinyUI(fluidPage(
    tags$head(tags$style(HTML("div#inline label { width: 50%; } div#inline input { display: inline-block; width: 25%;}"))),
    titlePanel("Between-case standardized mean difference estimator"),
-   tabsetPanel(type = "tabs",
+   tabsetPanel(id = "scdhlm_calculator", type = "tabs",
         
         #--------------------
         # Load the data

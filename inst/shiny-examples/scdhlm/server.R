@@ -1020,7 +1020,7 @@ server <-
   })
   
   output$clip <- renderUI({
-    rclipButton("clipbtn", "Copy", ES_syntax(), modal = FALSE, icon("clipboard"))
+    rclipboard::rclipButton("clipbtn", "Copy", ES_syntax(), modal = FALSE, icon("clipboard"))
   })
   
   session$onSessionEnded(stopApp)
