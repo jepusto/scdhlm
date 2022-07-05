@@ -14,7 +14,6 @@ suppressWarnings(library(shiny))
 suppressWarnings(library(shinytest))
 suppressWarnings(library(dplyr))
 suppressWarnings(library(rvest))
-suppressWarnings(library(purrr))
 suppressWarnings(library(nlme))
 
 skip_if_not(dependenciesInstalled())
@@ -129,14 +128,17 @@ test_that("App output matches README example output", {
 })
 
 # test the app output vs syntax output (RML)
-check_syntax <- function(data, digits = 4L) {
+check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L) {
   app <- ShinyDriver$new(appDir, loadTimeout = 6e+05)
   
   app$setInputs(scdhlm_calculator = "Load")
   app$setInputs(example = data)
   app$setInputs(scdhlm_calculator = "Inspect")
   app$setInputs(scdhlm_calculator = "Model")
-  app$setInputs(corStruct = "AR(1)")
+  # app$setInputs(degree_base = degree_base) # consider using if
+  # app$setInputs(degree_trt = degree_trt)
+  app$setInputs(corStruct = corStruct)
+  app$setInputs(varStruct = varStruct)
   app$setInputs(scdhlm_calculator = "Effect size")
   app$setInputs(scdhlm_calculator = "Syntax for R")
   app$setInputs(clipbtn = "click")
@@ -152,8 +154,6 @@ check_syntax <- function(data, digits = 4L) {
   
   raw_syntax <- app$getValue(name = "syntax")
   raw_syntax_cut <- sub("summary\\(ES_RML).*", "", raw_syntax)
-  # cat(raw_syntax, file = "C:\\Users\\C-ama\\OneDrive\\Desktop\\shh.txt")
-  # source("C:\\Users\\C-ama\\OneDrive\\Desktop\\shh.txt")
   code_file <- tempfile(fileext = ".R")
   cat(raw_syntax_cut, file = code_file)
   source(code_file)
@@ -171,9 +171,53 @@ check_syntax <- function(data, digits = 4L) {
 
 test_that("The summary table output matches the syntax results", {
   skip_on_cran()
-  expect_true(check_syntax("AlberMorgan")) # how to round up
+  # AlberMorgan
+  expect_true(check_syntax("AlberMorgan"))
+  expect_true(check_syntax("AlberMorgan", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("AlberMorgan", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("AlberMorgan", corStruct = "MA1", varStruct = "het"))
+  expect_true(check_syntax("AlberMorgan", corStruct = "IID", varStruct = "hom"))
+  expect_true(check_syntax("AlberMorgan", corStruct = "IID", varStruct = "het"))
+  
+  # BartonArwood
   expect_true(check_syntax("BartonArwood"))
+  expect_true(check_syntax("BartonArwood", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("BartonArwood", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("BartonArwood", corStruct = "MA1", varStruct = "het"))
+  expect_true(check_syntax("BartonArwood", corStruct = "IID", varStruct = "hom"))
+  expect_true(check_syntax("BartonArwood", corStruct = "IID", varStruct = "het"))
+  
+  # Anglese
+  expect_true(check_syntax("Anglese"))
+  expect_true(check_syntax("Anglese", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("Anglese", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("Anglese", corStruct = "MA1", varStruct = "het"))
+  expect_true(check_syntax("Anglese", corStruct = "IID", varStruct = "hom"))
+  expect_true(check_syntax("Anglese", corStruct = "IID", varStruct = "het"))
+  
+  # GunningEspie
+  expect_true(check_syntax("GunningEspie"))
+  expect_true(check_syntax("GunningEspie", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("GunningEspie", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("GunningEspie", corStruct = "MA1", varStruct = "het"))
+  expect_true(check_syntax("GunningEspie", corStruct = "IID", varStruct = "hom"))
+  expect_true(check_syntax("GunningEspie", corStruct = "IID", varStruct = "het"))
+  
+  # Thiemann2001
   expect_true(check_syntax("Thiemann2001"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "MA1", varStruct = "het"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "IID", varStruct = "hom"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "IID", varStruct = "het"))
+  
+  # Bryant2018
   expect_true(check_syntax("Bryant2018"))
+  expect_true(check_syntax("Bryant2018", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("Bryant2018", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("Bryant2018", corStruct = "MA1", varStruct = "het"))
+  expect_true(check_syntax("Bryant2018", corStruct = "IID", varStruct = "hom"))
+  expect_true(check_syntax("Bryant2018", corStruct = "IID", varStruct = "het"))
+  
 })
 
