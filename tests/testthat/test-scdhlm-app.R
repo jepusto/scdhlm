@@ -129,7 +129,7 @@ test_that("App output matches README example output", {
 })
 
 # test the app output vs syntax output (RML)
-check_syntax <- function(data, digits = 3) {
+check_syntax <- function(data, digits = 4L) {
   app <- ShinyDriver$new(appDir, loadTimeout = 6e+05)
   
   app$setInputs(scdhlm_calculator = "Load")
@@ -154,9 +154,9 @@ check_syntax <- function(data, digits = 3) {
   raw_syntax_cut <- sub("summary\\(ES_RML).*", "", raw_syntax)
   # cat(raw_syntax, file = "C:\\Users\\C-ama\\OneDrive\\Desktop\\shh.txt")
   # source("C:\\Users\\C-ama\\OneDrive\\Desktop\\shh.txt")
-  tempfile("syntax", fileext = ".txt")
-  cat(raw_syntax_cut, file = "syntax.txt")
-  source("syntax.txt")
+  code_file <- tempfile(fileext = ".R")
+  cat(raw_syntax_cut, file = code_file)
+  source(code_file)
   
   pkg_output <- 
     data.frame(
@@ -171,7 +171,7 @@ check_syntax <- function(data, digits = 3) {
 
 test_that("The summary table output matches the syntax results", {
   skip_on_cran()
-  # expect_true(check_syntax("AlberMorgan")) # how to round up
+  expect_true(check_syntax("AlberMorgan")) # how to round up
   expect_true(check_syntax("BartonArwood"))
   expect_true(check_syntax("Thiemann2001"))
   expect_true(check_syntax("Bryant2018"))
