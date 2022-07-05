@@ -3,7 +3,6 @@ context("Test scdhlm Shiny app")
 skip_if_not_installed("shiny")
 skip_if_not_installed("shinytest")
 skip_if_not_installed("rvest")
-skip_if_not_installed("xml2")
 skip_if_not_installed("ggplot2")
 skip_if_not_installed("markdown")
 skip_if_not_installed("readxl")
@@ -13,10 +12,7 @@ skip_if_not_installed("rclipboard")
 
 suppressWarnings(library(shiny))
 suppressWarnings(library(shinytest))
-suppressWarnings(library(dplyr))
 suppressWarnings(library(rvest))
-suppressWarnings(library(xml2))
-suppressWarnings(library(purrr))
 suppressWarnings(library(nlme))
 
 skip_if_not(dependenciesInstalled())
@@ -56,11 +52,12 @@ check_readme <- function(data, estMethod, digits = 3) {
   Sys.sleep(0.5)
   output <- app$getValue(name = "effect_size_report")
   app_output <- 
-    read_html(output) %>% 
-    html_table(fill = TRUE) %>%
-    as.data.frame() %>% 
-    mutate_if(is.numeric, ~ round(., digits))
+    read_html(output) |> 
+    html_table(fill = TRUE) |>
+    as.data.frame()
   
+  app_output <- lapply(app_output, \(x) if (is.numeric(x)) round(x, digits) else x)
+
   return(app_output)
 }
 
@@ -82,8 +79,8 @@ test_that("App output matches README example output", {
       g_AB = Laski_ES_RML$g_AB,
       SE_g_AB = Laski_ES_RML$SE_g_AB,
       df = Laski_ES_RML$nu
-    ) %>% 
-    mutate_if(is.numeric, ~ round(., 3))
+    ) |> 
+    round(digits = 3)
     
   # CI_Laski_RML <- CI_g(Laski_ES_RML, symmetric = TRUE)
   
@@ -103,8 +100,8 @@ test_that("App output matches README example output", {
       g_AB = Lambert_ES$delta_hat,
       SE_g_AB = sqrt(Lambert_ES$V_delta_hat),
       df = Lambert_ES$nu
-    ) %>% 
-    mutate_if(is.numeric, ~ round(., 3))
+    ) |> 
+    round(digits = 3)
   
   expect_equal(app_output_Lambert$BC.SMD.estimate, pkg_output_Lambert$g_AB)
   expect_equal(app_output_Lambert$Std..Error, pkg_output_Lambert$SE_g_AB)
@@ -121,8 +118,8 @@ test_that("App output matches README example output", {
       g_AB = quality_ES$delta_hat,
       SE_g_AB = sqrt(quality_ES$V_delta_hat),
       df = quality_ES$nu
-    ) %>% 
-    mutate_if(is.numeric, ~ round(., 3))
+    ) |> 
+    round(digits = 3)
   
   expect_equal(app_output_S$BC.SMD.estimate, pkg_output_S$g_AB)
   expect_equal(app_output_S$Std..Error, pkg_output_S$SE_g_AB)
@@ -131,14 +128,17 @@ test_that("App output matches README example output", {
 })
 
 # test the app output vs syntax output (RML)
-check_syntax <- function(data, digits = 4L) {
+check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L) {
   app <- ShinyDriver$new(appDir, loadTimeout = 6e+05)
   
   app$setInputs(scdhlm_calculator = "Load")
   app$setInputs(example = data)
   app$setInputs(scdhlm_calculator = "Inspect")
   app$setInputs(scdhlm_calculator = "Model")
-  app$setInputs(corStruct = "AR(1)")
+  # app$setInputs(degree_base = degree_base) # consider using if
+  # app$setInputs(degree_trt = degree_trt)
+  app$setInputs(corStruct = corStruct)
+  app$setInputs(varStruct = varStruct)
   app$setInputs(scdhlm_calculator = "Effect size")
   app$setInputs(scdhlm_calculator = "Syntax for R")
   app$setInputs(clipbtn = "click")
@@ -146,16 +146,16 @@ check_syntax <- function(data, digits = 4L) {
   Sys.sleep(0.5)
   output <- app$getValue(name = "effect_size_report")
   summary_output <- 
-    read_html(output) %>% 
-    html_table(fill = TRUE) %>%
-    as.data.frame() %>% 
-    mutate_if(is.numeric, ~ round(., digits)) %>% 
-    select(g_AB = BC.SMD.estimate, SE_g_AB = Std..Error, df = Degrees.of.freedom)
+    read_html(output) |>
+    html_table(fill = TRUE) |>
+    as.data.frame() |> 
+    subset(select = c(g_AB = BC.SMD.estimate, SE_g_AB = Std..Error, df = Degrees.of.freedom)) |>
+    round(digits = digits)
+
+  names(summary_output) <- c("g_AB","SE_g_AB","df")
   
   raw_syntax <- app$getValue(name = "syntax")
   raw_syntax_cut <- sub("summary\\(ES_RML).*", "", raw_syntax)
-  # cat(raw_syntax, file = "C:\\Users\\C-ama\\OneDrive\\Desktop\\shh.txt")
-  # source("C:\\Users\\C-ama\\OneDrive\\Desktop\\shh.txt")
   code_file <- tempfile(fileext = ".R")
   cat(raw_syntax_cut, file = code_file)
   source(code_file)
@@ -165,17 +165,44 @@ check_syntax <- function(data, digits = 4L) {
       g_AB = ES_RML$g_AB,
       SE_g_AB = ES_RML$SE_g_AB,
       df = ES_RML$nu
-    ) %>% 
-    mutate_if(is.numeric, ~ round(., digits))
+    ) |> 
+    round(digits = digits)
   
   return(identical(summary_output, pkg_output))
 }
 
 test_that("The summary table output matches the syntax results", {
   skip_on_cran()
-  expect_true(check_syntax("AlberMorgan")) # how to round up
-  expect_true(check_syntax("BartonArwood"))
+  # AlberMorgan
+  expect_true(check_syntax("AlberMorgan"))
+  expect_true(check_syntax("AlberMorgan", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("AlberMorgan", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("AlberMorgan", corStruct = "IID", varStruct = "het"))
+  
+  # BartonArwood
+  expect_true(check_syntax("BartonArwood", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("BartonArwood", corStruct = "IID", varStruct = "hom"))
+
+  # Anglese
+  expect_true(check_syntax("Anglese"))
+  expect_true(check_syntax("Anglese", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("Anglese", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("Anglese", corStruct = "IID", varStruct = "hom"))
+
+  # GunningEspie
+  expect_true(check_syntax("GunningEspie", corStruct = "AR1", varStruct = "het"))
+
+  # Thiemann2001
   expect_true(check_syntax("Thiemann2001"))
-  expect_true(check_syntax("Bryant2018"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "MA1", varStruct = "hom"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "MA1", varStruct = "het"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "IID", varStruct = "hom"))
+  expect_true(check_syntax("Thiemann2001", corStruct = "IID", varStruct = "het"))
+  
+  # Bryant2018
+  expect_true(check_syntax("Bryant2018", corStruct = "AR1", varStruct = "het"))
+  expect_true(check_syntax("Bryant2018", corStruct = "MA1", varStruct = "hom"))
+
 })
 
