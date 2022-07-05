@@ -3,6 +3,7 @@ context("Test scdhlm Shiny app")
 skip_if_not_installed("shiny")
 skip_if_not_installed("shinytest")
 skip_if_not_installed("rvest")
+skip_if_not_installed("xml2")
 skip_if_not_installed("ggplot2")
 skip_if_not_installed("markdown")
 skip_if_not_installed("readxl")
@@ -14,6 +15,7 @@ suppressWarnings(library(shiny))
 suppressWarnings(library(shinytest))
 suppressWarnings(library(dplyr))
 suppressWarnings(library(rvest))
+suppressWarnings(library(xml2))
 suppressWarnings(library(purrr))
 suppressWarnings(library(nlme))
 
@@ -54,8 +56,8 @@ check_readme <- function(data, estMethod, digits = 3) {
   Sys.sleep(0.5)
   output <- app$getValue(name = "effect_size_report")
   app_output <- 
-    xml2::read_html(output) %>% 
-    rvest::html_table(fill = TRUE) %>%
+    read_html(output) %>% 
+    html_table(fill = TRUE) %>%
     as.data.frame() %>% 
     mutate_if(is.numeric, ~ round(., digits))
   
@@ -144,11 +146,11 @@ check_syntax <- function(data, digits = 4L) {
   Sys.sleep(0.5)
   output <- app$getValue(name = "effect_size_report")
   summary_output <- 
-    xml2::read_html(output) %>% 
-    rvest::html_table(fill = TRUE) %>%
+    read_html(output) %>% 
+    html_table(fill = TRUE) %>%
     as.data.frame() %>% 
     mutate_if(is.numeric, ~ round(., digits)) %>% 
-    dplyr::select(g_AB = BC.SMD.estimate, SE_g_AB = Std..Error, df = Degrees.of.freedom)
+    select(g_AB = BC.SMD.estimate, SE_g_AB = Std..Error, df = Degrees.of.freedom)
   
   raw_syntax <- app$getValue(name = "syntax")
   raw_syntax_cut <- sub("summary\\(ES_RML).*", "", raw_syntax)

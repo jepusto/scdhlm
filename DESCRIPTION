@@ -39,6 +39,7 @@ Suggests:
     glue,
     janitor,
     rclipboard,
+    xml2
     testthat
 RoxygenNote: 7.1.2
 Encoding: UTF-8
