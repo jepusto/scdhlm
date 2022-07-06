@@ -16,8 +16,82 @@ There were no ERRORs and no WARNINGs.
 
 There was 1 NOTE:
 
-Possibly mis-spelled words in DESCRIPTION:
-  Pustejovsky (9:29, 9:70)
-  Shadish (9:46, 9:95)
-  
-  All of the identified words are spelled correctly. 
+Found the following (possibly) invalid URLs:
+  URL: https://doi.org/10.1002/jrsm.1052
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1002/jrsm.1086
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1177/0022466907310371
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1901/jaba.2008.41-107
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.3102/1076998614547577
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1177/001440290507200101
+    From: man/BartonArwood.Rd
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1177/00224669070410010201
+    From: man/AlberMorgan.Rd
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1177/0022466907310371
+    From: man/Saddler.Rd
+          inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1177/0022466919883397
+    From: man/Peltier.Rd
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1177/002246699202600101
+    From: man/CaseHarrisGraham.Rd
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1177/0145445508317133
+    From: man/Schutte.Rd
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1177/1098300713492858
+    From: man/Rodriguez.Rd
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.3102/1076998614547577
+    From: man/MB1results.Rd
+          man/MB2results.Rd
+          man/MB4results.Rd
+          man/Schutte.Rd
+          man/compare_RML_HPS.Rd
+          man/g_REML.Rd
+          man/simulate_MB2.Rd
+          man/simulate_MB4.Rd
+          inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+    
+    The flagged URLs are correct.
+
+Found the following (possibly) invalid DOIs:
+  DOI: 10.3102/1076998614547577
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+    
+    The flagged DOIs are correct.
+    
+## revdepcheck results
+
+We checked 1 reverse dependencies (0 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 0 packages
