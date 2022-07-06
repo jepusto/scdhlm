@@ -1,23 +1,14 @@
 ## Resubmission
 
-This is a re-submission. In this version we have:
-
-* Revised the .Rd files by replacing hand-coded URLs with the \doi markup.
-* Corrected a unit test that led to errors in the CRAN checks under R-devel (change in behavior of all.equal()).
-* Fixed a bug in shiny app when filtering variable(s) of the input data set.
-* Updated shiny app to clean the variable names in the data read-in process.
+This is a re-submission. This version includes extensive user-interface and back-end updates to the built-in shiny app (invoked by `shine_scd()`), as well as a few bug fixes. The vignette, examples, and unit tests have been updated so that the package can be compiled without any Suggested packages.
 
 ## Test environments
 
-* local Windows 10 Pro, R 4.0.2
-* local Windows 10 Education, R 4.0.2
-* ubuntu 16.04.6 LTS (on travis-ci), R-release, R-devel
+* local Windows 10 Education, R 4.2.0
+* ubuntu 20.04.3 LTS (on Github), R devel, release, oldrelease
+* macOS-latest (on Github), R release
+* windows-latest (on Github), R release
 * win-builder (devel, release, oldrelease)
-* r-hub:
-  * Windows Server 2008 R2 SP1, R-devel, 32/64 bit
-  * Ubuntu Linux 16.04 LTS, R-release, GCC
-  * Fedora Linux, R-devel, clang, gfortran
-  * Debian Linux, R-devel, GCC
 
 ## R CMD check results
 
