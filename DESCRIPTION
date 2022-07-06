@@ -22,7 +22,7 @@ LazyData: true
 Imports: 
     stats,
     readxl,
-    lmeInfo
+    lmeInfo (> 0.2.0)
 Depends: 
     nlme,
     R (>= 3.0.1)
