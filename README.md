@@ -40,15 +40,15 @@ of Education.
 
 Please cite this R package as follows:
 
-> Pustejovsky, J. E., Chen, M., & Hamilton, B. J. (2020). scdhlm:
+> Pustejovsky, J. E., Chen, M., & Hamilton, B. J. (2022). scdhlm:
 > Estimating hierarchical linear models for single-case designs (Version
-> 0.5.2.999) \[R package\]. <https://CRAN.R-project.org/package=scdhlm>
+> 0.6.0) \[R package\]. <https://CRAN.R-project.org/package=scdhlm>
 
 Please cite the web application as follows:
 
-> Pustejovsky, J. E., Chen, M., & Hamilton, B. (2020). scdhlm: A
+> Pustejovsky, J. E., Chen, M., & Hamilton, B. (2022). scdhlm: A
 > web-based calculator for between-case standardized mean differences
-> (Version 0.5.2.999) \[Web application\].
+> (Version 0.6.0) \[Web application\].
 > <https://jepusto.shinyapps.io/scdhlm>
 
 # Installation

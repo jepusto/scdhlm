@@ -24,7 +24,7 @@ The development of this application was supported in part by the Institute of Ed
 
 ### Suggested citation
 
-Pustejovsky, J. E., Chen, M., & Hamilton, B. (`r substr(Sys.Date(),1,4)`). scdhlm: A web-based calculator for between-case standardized mean differences (Version `r packageVersion("scdhlm")`) [Web application]. https://jepusto.shinyapps.io/scdhlm
+Pustejovsky, J. E., Chen, M., & Hamilton, B. (`r substr(packageDate("scdhlm"),1,4)`). scdhlm: A web-based calculator for between-case standardized mean differences (Version `r packageVersion("scdhlm")`) [Web application]. https://jepusto.shinyapps.io/scdhlm
 
 ### Tutorial paper
 
