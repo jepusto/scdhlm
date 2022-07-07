@@ -82,6 +82,14 @@ Found the following (possibly) invalid URLs:
     The flagged URLs are correct.
 
 Found the following (possibly) invalid DOIs:
+  DOI: 10.1002/jrsm.1052
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.1002/jrsm.1086
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
   DOI: 10.3102/1076998614547577
     From: DESCRIPTION
     Status: Service Unavailable
@@ -91,7 +99,7 @@ Found the following (possibly) invalid DOIs:
     
 ## revdepcheck results
 
-We checked 1 reverse dependencies (0 from CRAN + 1 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 1 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 0 new problems
  * We failed to check 0 packages
