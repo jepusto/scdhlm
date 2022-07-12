@@ -681,8 +681,7 @@ server <-
       graph_SCD(design = studyDesign(), 
                 cluster = cluster, case = case, series = series, 
                 phase = phase, session = session, outcome = outcome, 
-                model_fit = model_fit()$fit, 
-                data = datClean())
+                model_fit = model_fit()$fit)
     }
   }, height = function() 120 * nlevels(datClean()[[1]]),
   width = function() 700)
