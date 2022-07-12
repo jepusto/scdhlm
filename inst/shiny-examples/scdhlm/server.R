@@ -310,6 +310,8 @@ server <-
         } else if (studyDesign() == "CMB") {
           dat$cluster <- datFile()[,input$clusterID]
           dat <- dat[order(dat$cluster, dat$case, dat$session),]
+        } else {
+          dat <- dat[order(dat$case, dat$session),]
         }
         
         if (!is.null(input$filters)) {
