@@ -1,4 +1,7 @@
 # scdhlm 0.6.0.9999
+* Fixed bug in shiny app that occurred when uploading a multiple baseline design or a treatment reversal design.
+* Added `rclipboard` package to the installation instructio of the shiny app.
+* Added Bryant et al. (2018) and Thiemann & Goldstein (2001) to the references in the shiny app.
 
 # scdhlm 0.6.0
 

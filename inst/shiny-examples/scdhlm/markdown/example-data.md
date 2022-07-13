@@ -5,7 +5,9 @@ DOI: [10.1177/00224669070410010201](http://dx.doi.org/10.1177/002246690704100102
 
 * Anglesea, M. M., Hoch, H., & Taylor, B. A. (2008). Reducing rapid eating in teenagers with autism: Use of a pager prompt. *Journal of Applied Behavior Analysis, 41*(1), 107-111. DOI: [10.1901/jaba.2008.41-107](http://dx.doi.org/10.1901/jaba.2008.41-107)
 
-* Barton-Arwood, S. M., Wehby, J. H., & Falk, K. B. (2005). Reading instruction for elementary-age students with emotional and behavioral disorders: Academic and behavioral outcomes. *Exceptional Children, 72*(1), 7-27. DOI: [10.1177/001440290507200101] (https://doi.org/10.1177/001440290507200101)
+* Barton-Arwood, S. M., Wehby, J. H., & Falk, K. B. (2005). Reading instruction for elementary-age students with emotional and behavioral disorders: Academic and behavioral outcomes. *Exceptional Children, 72*(1), 7-27. DOI: [10.1177/001440290507200101](https://doi.org/10.1177/001440290507200101)
+
+* Bryant, D. R., Bryant, B. R., Sorelle-Miner, D. A., Falcomata, T. S. & Nozari, M. (2018). Tier 3 intensified intervention for second grade students with severe mathematics difficulties. *Archives of Psychology, 2*(11), 1-24. DOI:[10.31296/aop.v2i11.86] (https://archivesofpsychology.org/index.php/aop/article/view/86)
 
 * Case, L. P., Harris, K. R., & Graham, S. (1992). Improving the mathematical problem-solving skills of students with learning disabilities: Self-regulated strategy development. *The Journal of Special Education, 26*(1), 1-19. DOI: [10.1177/002246699202600101](https://doi.org/10.1177/002246699202600101)
 
@@ -28,5 +30,7 @@ DOI: [10.1177/00224669070410010201](http://dx.doi.org/10.1177/002246690704100102
 * Saddler, B., Behforooz, B., & Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. *The Journal of Special Education, 42*(2), 79-90. DOI: [10.1177/0022466907310371](http://dx.doi.org/10.1177/0022466907310371)
 
 * Schutte, N. S., Malouff, J. M., & Brown, R. F. (2008). Efficacy of an emotion-focused treatment for prolonged fatigue. *Behavior Modification, 32*(5), 699-713. DOI: [10.1177/0145445508317133](http://dx.doi.org/10.1177/0145445508317133)
+
+* Thiemann, K.S., & Goldstein, H. (2001). Social stories, written text cues, and video feedback: effects on social communication of children with Autism. *Journal of Applied Behavior Analysis, 34*(4), 425-446. DOI: [10.1901/jaba.2001.34-425](https://onlinelibrary.wiley.com/doi/abs/10.1901/jaba.2001.34-425)
 
 * Thorne, S., & Kamps, D. (2008). The effects of a group contingency intervention on academic engagement and problem behavior of at-risk students. *Behavior Analysis in Practice, 1*(2), 12-18.

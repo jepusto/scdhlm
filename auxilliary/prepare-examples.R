@@ -413,8 +413,7 @@ str(DelemereDounavi)
 DelemereDounavi <- 
   DelemereDounavi %>% 
   mutate(
-    case = factor(Case, levels = c("Martin", "Alan", "John", "Niamh", "Mary", "Thomas"), 
-                  labels = c("Martin", "Alan", "John", "Niamh", "Mary", "Thomas")),
+    case = factor(Case, levels = c("Niamh", "Mary", "Thomas", "Martin", "Alan", "John")),
     intervention = if_else(case %in% c("Martin","Alan","John"), "Positive routines", "Bedtime fading"),
     condition = factor(Phase, levels = c("b", "i"), labels = c("baseline", "treatment"))
   ) %>% 
@@ -430,7 +429,7 @@ str(Datchuk)
 Datchuk <- 
   Datchuk %>% 
   mutate(
-    case = as.factor(case),
+    case = factor(case, levels = c("Nathan", "Richard", "Danyell", "Kendrick")),
     condition = as.factor(phase),
     session = round(session)
   ) %>%
@@ -444,7 +443,7 @@ str(Rodgers)
 Rodgers <- 
   Rodgers %>% 
   mutate(
-    case = as.factor(case),
+    case = factor(case, levels = c("Brett", "Steve", "Barb", "Denny")),
     condition = as.factor(phase),
     session = round(session)
   ) %>%
