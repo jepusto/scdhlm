@@ -41,6 +41,7 @@ faster speeds than over the web.
         install.packages("readxl")
         install.packages("janitor")
         install.packages("scdhlm")
+        install.packages("rclipboard")
 
 4.  After all of these packages are installed, type the following
     commands at the console prompt to start the app (which should then
