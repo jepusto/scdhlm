@@ -84,7 +84,6 @@ Laski_RML <- lme(fixed = outcome ~ treatment,
                  correlation = corAR1(0, ~ time | case), 
                  data = Laski)
 Laski_RML
-
 ```
 
 The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. These estimated components will be used to calculate the effect size in next step.
