@@ -89,7 +89,7 @@
       <h1 data-toc-skip>Estimating design-comparable standardized mean differences with scdhlm</h1>
                         <h4 data-toc-skip class="author">James E. Pustejovsky</h4>
             
-            <h4 data-toc-skip class="date">2022-07-13</h4>
+            <h4 data-toc-skip class="date">2022-07-26</h4>
       
       
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -107,11 +107,16 @@
 </h2>
 <p>Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the <code>effect_size_ABk</code> function. To use this function, the user must provide five pieces of data:</p>
 <ul>
-<li>the outcome variable,</li>
-<li>a variable indicating the treatment condition,</li>
-<li>a variable listing the case on which the outcome was measured,</li>
-<li>a variable indicating the phase of treatment (i.e., each replication of a baseline and treatment condition), and</li>
-<li>a variable listing the session number.</li>
+<li>
+<code>outcome</code>: the outcome variable,</li>
+<li>
+<code>treatment</code>: a variable indicating the treatment condition,</li>
+<li>
+<code>id</code>: a variable listing the case on which the outcome was measured,</li>
+<li>
+<code>phase</code>: a variable indicating the phase of treatment (i.e., each replication of a baseline and treatment condition), and</li>
+<li>
+<code>time</code>: a variable listing the session number.</li>
 </ul>
 <p>In the <code>Lambert</code> dataset, these variables are called respectively <code>outcome</code>, <code>treatment</code>, <code>case</code>, <code>phase</code>, and <code>time</code>. Given these inputs, the design-comparable SMD is calculated as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -638,7 +643,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
