@@ -12,7 +12,7 @@ The simplest way to access the app is via the web, at https://jepusto.shinyapps.
 
 #### Access through RStudio
 
-To access the app on your own computer, you will need to install two pieces of open-source and freely available software (R and RStudio) and follow further steps to configure the software. Details for installation and RStudio access are described below. A video walk-through is available at https://www.youtube.com/watch?v=obO-diHV_Sk (Mac) or https://www.youtube.com/watch?v=tzrJfmAWW4s (Windows).
+To access the app on your own computer, you will need to install two pieces of open-source and freely available software (R and RStudio) and follow further steps to configure the software. Details for installation and RStudio access are described below. A video walk-through is available at https://www.youtube.com/watch?v=obO-diHV_Sk (Mac) or https://www.youtube.com/watch?v=9i5Rnrvbgpo (Windows).
 
 1.	Install R via http://cran.r-project.org/
     1.1. Navigate to the “Download and Install R” section and select the relevant download for your computer.
@@ -30,6 +30,8 @@ To access the app on your own computer, you will need to install two pieces of o
     install.packages("ggplot2")
     install.packages("shiny")
     install.packages("markdown")
+    install.packages("glue")
+    install.packages("rclipboard")
     install.packages("readxl")
     install.packages("janitor")
     install.packages("scdhlm")
