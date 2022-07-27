@@ -55,6 +55,7 @@ available at <https://www.youtube.com/watch?v=obO-diHV_Sk> (Mac) or
         install.packages("readxl")
         install.packages("janitor")
         install.packages("scdhlm")
+        install.packages("rclipboard")
 
 5.  After all of these packages are installed, type the following
     commands at the console prompt to start the app (which should then

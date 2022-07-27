@@ -301,16 +301,17 @@ server <-
         phase <- datFile()[,input$phaseID]
         session <- as.numeric(datFile()[,input$session])
         outcome <- as.numeric(datFile()[,input$outcome])
+        cluster <- series <- NULL
         dat <- data.frame(case = case, phase = phase, session = session, outcome = outcome)
         
         if (studyDesign() == "RMBB") {
-          cluster <- NULL
           dat$series <- datFile()[,input$seriesID]
           dat <- dat[order(dat$case, dat$series, dat$session),]
         } else if (studyDesign() == "CMB") {
-          series <- NULL
           dat$cluster <- datFile()[,input$clusterID]
           dat <- dat[order(dat$cluster, dat$case, dat$session),]
+        } else {
+          dat <- dat[order(dat$case, dat$session),]
         }
         
         if (!is.null(input$filters)) {
@@ -680,8 +681,7 @@ server <-
       graph_SCD(design = studyDesign(), 
                 cluster = cluster, case = case, series = series, 
                 phase = phase, session = session, outcome = outcome, 
-                model_fit = model_fit()$fit, 
-                data = datClean())
+                model_fit = model_fit()$fit)
     }
   }, height = function() 120 * nlevels(datClean()[[1]]),
   width = function() 700)
