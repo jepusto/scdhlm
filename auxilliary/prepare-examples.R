@@ -61,7 +61,9 @@ Lambert <- read.csv("auxilliary/Lambert.csv", stringsAsFactors = FALSE)
 Lambert <- subset(Lambert, !is.na(outcome))
 Lambert <- within(Lambert, {
   case <- factor(paste("case",case))
+  measure <- factor(measure, labels = c("academic response", "disruptive behavior"))
   treatment <- factor(treatment, levels = c("SSR","RC"))
+  outcome <- round(outcome, 6)
 })
 str(Lambert)
 

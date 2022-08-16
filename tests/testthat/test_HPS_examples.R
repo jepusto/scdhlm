@@ -1,6 +1,7 @@
 context("Examples from HPS (2012,2013)")
 
 data(Lambert)
+Lambert <- subset(Lambert, measure == "disruptive behavior")
 
 test_that("Example 1 from HPS 2012", {
   

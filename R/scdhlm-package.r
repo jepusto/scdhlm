@@ -8,23 +8,24 @@ NULL
 #' Data from an ABAB design conducted by Lambert, Cartledge, Heward, & Lo (2008). 
 #' The variables are as follows:
 #' \itemize{
+#'   \item \code{measure}. Outcome measure description (disruptive behavior or academic response).
 #'   \item \code{case}. Student identifier.  
 #'   \item \code{treatment}. Factor indicating treatment or control condition. 
 #'         SSR = single-subject responding. RC = response cards.
 #'   \item \code{phase}. Study phase (including both control and treatment condition)
 #'   \item \code{time}. Measurement occasion.
-#'   \item \code{outcome}. Intervals with disruptive behavior, as measured by a partial
-#'   interval recording procedure with 10 ten-second intervals per session.
+#'   \item \code{outcome}. Outcome scores.
 #' }
 #' 
 #' @docType data
 #' @keywords datasets
-#' @format A data frame with 264 rows and 5 variables
+#' @format A data frame with 461 rows and 6 variables
 #' @name Lambert
 #' @source Lambert, M. C., Cartledge, G., Heward, W. L., & Lo, Y. (2006). 
 #' Effects of response cards on disruptive behavior and academic responding 
 #' during math lessons by fourth-grade urban students. 
-#' \emph{Journal of Positive Behavior Interventions, 8}(2), 88-99.
+#' \emph{Journal of Positive Behavior Interventions, 8}(2), 88-99. 
+#' \doi{10.1177/10983007060080020701}
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012).
 #' A standardized mean difference effect size for single case designs. 
@@ -105,6 +106,7 @@ NULL
 #' Training parents to use the natural language paradigm to increase 
 #' their autistic children's speech. 
 #' \emph{Journal of Applied Behavior Analysis, 21}(4), 391-400.
+#' \doi{10.1901/jaba.1988.21-391}
 #' 
 #' @references Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). 
 #' A standardized mean difference effect size for multiple baseline designs across individuals. 
@@ -139,24 +141,27 @@ NULL
 NULL
 
 #' Thorne (2005)
-#' 
-#' Data from an ABAB design conducted by Thorne and Kamps (2008). The variables are as follows:
-#' \itemize{
-#'   \item \code{case}. Participant identifier.  
+#'
+#' Data from an ABAB design conducted by Thorne and Kamps (2008). The variables
+#' are as follows: 
+#' \itemize{ 
+#'   \item \code{case}. Participant identifier. 
 #'   \item \code{measure}. Outcome measure description (academic engagement or inappropriate verbalizations). 
 #'   \item \code{session}. Measurement occasion.
-#'   \item \code{phase_id}. Categorical variable describing the phase of the study design for each case.
-#'   \item \code{condition} Categorical variable describing whether each phase is a baseline (A) phase or intervention (B) phase.
-#'   \item \code{phase_indicator}. Indicator variable equal to 1 during intervention phases.
-#'   \item \code{outcome}. Outcome scores
+#'   \item \code{phase_id}. Categorical variable describing the phase of the study design for each case. 
+#'   \item \code{condition} Categorical variable describing whether each phase is a baseline (A) phase or intervention (B) phase. 
+#'   \item \code{phase_indicator}. Indicator variable equal to 1 during intervention phases. 
+#'   \item \code{outcome}. Outcome scores 
 #' }
-#' 
+#'
 #' @docType data
 #' @keywords datasets
 #' @format A data frame with 776 rows and 7 variables
 #' @name Thorne
-#' @source Thorne, S., & Kamps, D. (2008). The effects of a group contingency intervention on academic engagement and problem 
-#' behavior of at-risk students. \emph{Behavior Analysis in Practice, 1}(2), 12-18.
+#' @source Thorne, S., & Kamps, D. (2008). The effects of a group contingency
+#'   intervention on academic engagement and problem behavior of at-risk
+#'   students. \emph{Behavior Analysis in Practice, 1}(2), 12-18.
+#'   \doi{10.1007/BF03391723}
 NULL
 
 #' Carson (2008)

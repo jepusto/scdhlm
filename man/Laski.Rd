@@ -12,6 +12,7 @@ Laski, K. E., Charlop, M. H., & Schreibman, L. (1988).
 Training parents to use the natural language paradigm to increase 
 their autistic children's speech. 
 \emph{Journal of Applied Behavior Analysis, 21}(4), 391-400.
+\doi{10.1901/jaba.1988.21-391}
 }
 \description{
 Data from a multiple baseline design conducted by 
