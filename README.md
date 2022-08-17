@@ -253,12 +253,12 @@ confidence interval is \[0.914, 2.005\].
 Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using
 response cards (compared to single-student responding) during math
 lessons in two fourth-grade classrooms. The investigators collected data
-on rates of disruptive behavior for nine focal students, using an ABAB
-design. This example is discussed in Hedges, Pustejovsky, and Shadish
-(2012), who selected it because the design was close to balanced and
-used a relatively large number of cases. Their calculations can be
-replicated using the `effect_size_ABk()` function. To use this function,
-the user must provide the names of five variables:
+on rates of disruptive behavior and academic response for nine focal
+students, using an ABAB design. This example is discussed in Hedges,
+Pustejovsky, and Shadish (2012), who selected it because the design was
+close to balanced and used a relatively large number of cases. Their
+calculations can be replicated using the `effect_size_ABk()` function.
+To use this function, the user must provide the names of five variables:
 
 -   the outcome variable,
 -   a variable indicating the treatment condition,
@@ -269,29 +269,31 @@ the user must provide the names of five variables:
 
 In the `Lambert` dataset, these variables are called respectively
 `outcome`, `treatment`, `case`, `phase`, and `time`. Given these inputs,
-the design-comparable SMD is calculated as follows:
+the design-comparable SMD is calculated as follows for the measure of
+academic response:
 
 ``` r
 data(Lambert)
 
+Lambert_academic <- subset(Lambert, measure == "academic response")
 Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
-                              phase = phase, time = time, data = Lambert)
+                              phase = phase, time = time, data = Lambert_academic)
 
 Lambert_ES
 #>                            est    se
-#> unadjusted effect size  -2.525 0.202
-#> adjusted effect size    -2.513 0.201
-#> degree of freedom      164.492
+#> unadjusted effect size   7.171 0.484
+#> adjusted effect size     7.128 0.482
+#> degree of freedom      126.671
 ```
 
-The adjusted effect size estimate `delta_hat` is equal to -2.513; its
-variance `V_delta_hat` is equal to 0.041. A standard error for
+The adjusted effect size estimate `delta_hat` is equal to 7.128; its
+variance `V_delta_hat` is equal to 0.232. A standard error for
 `delta_hat` can be calculated by taking the square root of
-`V_delta_hat`: `sqrt(Lambert_ES$V_delta_hat)` = 0.201. The effect size
+`V_delta_hat`: `sqrt(Lambert_ES$V_delta_hat)` = 0.482. The effect size
 estimate is bias-corrected in a manner analogous to Hedges’ g correction
 for SMDs from a between-subjects design. The degrees of freedom `nu` are
 estimated based on a Satterthwaite-type approximation, which is equal to
-164.5 in this example.
+126.7 in this example.
 
 A summary() method is included to return more detail about the model
 parameter estimates and effect size estimates:
@@ -299,15 +301,15 @@ parameter estimates and effect size estimates:
 ``` r
 summary(Lambert_ES)
 #>                                       est    se
-#> within-case variance                4.534      
-#> sample variance                     4.674      
-#> intra-class correlation             0.030      
-#> auto-correlation                    0.225      
-#> numerator of effect size estimate  -5.458      
-#> unadjusted effect size             -2.525 0.202
-#> adjusted effect size               -2.513 0.201
-#> degree of freedom                 164.492      
-#> scalar constant                     0.145
+#> within-case variance                0.018      
+#> sample variance                     0.014      
+#> intra-class correlation             0.000      
+#> auto-correlation                    0.091      
+#> numerator of effect size estimate   0.858      
+#> unadjusted effect size              7.171 0.484
+#> adjusted effect size                7.128 0.482
+#> degree of freedom                 126.671      
+#> scalar constant                     0.166
 ```
 
 ## Estimating SMDs using `effect_size_MB()`

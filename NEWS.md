@@ -1,8 +1,9 @@
 # scdhlm 0.6.0.9999
+
 * Fixed bug in shiny app that occurred when uploading a multiple baseline design or a treatment reversal design.
 * Added `rclipboard` package to the installation instruction of the shiny app.
 * Added Bryant et al. (2018) and Thiemann & Goldstein (2001) to the references in the shiny app.
-* Added the academic response outcome data in Lambert et al. (2006) to the package and the app.
+* Added the academic response outcome data from Lambert et al. (2006) to the package and the shiny app.
 
 # scdhlm 0.6.0
 
