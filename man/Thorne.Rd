@@ -15,13 +15,15 @@ Thorne, S., & Kamps, D. (2008). The effects of a group contingency
 }
 \description{
 Data from an ABAB design conducted by Thorne and Kamps (2008). The variables
-are as follows: \itemize{ \item \code{case}. Participant identifier. \item
-\code{measure}. Outcome measure description (academic engagement or
-inappropriate verbalizations). \item \code{session}. Measurement occasion.
-\item \code{phase_id}. Categorical variable describing the phase of the study
-design for each case. \item \code{condition} Categorical variable describing
-whether each phase is a baseline (A) phase or intervention (B) phase. \item
-\code{phase_indicator}. Indicator variable equal to 1 during intervention
-phases. \item \code{outcome}. Outcome scores }
+are as follows: 
+\itemize{ 
+  \item \code{case}. Participant identifier. 
+  \item \code{measure}. Outcome measure description (academic engagement or inappropriate verbalizations). 
+  \item \code{session}. Measurement occasion.
+  \item \code{phase_id}. Categorical variable describing the phase of the study design for each case. 
+  \item \code{condition} Categorical variable describing whether each phase is a baseline (A) phase or intervention (B) phase. 
+  \item \code{phase_indicator}. Indicator variable equal to 1 during intervention phases. 
+  \item \code{outcome}. Outcome scores 
+}
 }
 \keyword{datasets}

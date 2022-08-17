@@ -127,7 +127,7 @@ The symmetric confidence interval is `r paste0("[", round(CI_g(Laski_ES_RML),3)[
 
 ## Estimating SMDs using `effect_size_ABk()`
 
-Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the `effect_size_ABk()` function. To use this function, the user must provide the names of five variables: 
+Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior and academic response for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the `effect_size_ABk()` function. To use this function, the user must provide the names of five variables: 
 
 * the outcome variable, 
 * a variable indicating the treatment condition, 
@@ -135,13 +135,14 @@ Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response ca
 * a variable indicating the phase of treatment (i.e., each replication of a baseline and treatment condition), and 
 * a variable listing the session number.
 
-In the `Lambert` dataset, these variables are called respectively `outcome`, `treatment`, `case`, `phase`, and `time`. Given these inputs, the design-comparable SMD is calculated as follows:
+In the `Lambert` dataset, these variables are called respectively `outcome`, `treatment`, `case`, `phase`, and `time`. Given these inputs, the design-comparable SMD is calculated as follows for the measure of academic response:
 
 ```{r}
 data(Lambert)
 
+Lambert_academic <- subset(Lambert, measure == "academic response")
 Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
-                              phase = phase, time = time, data = Lambert)
+                              phase = phase, time = time, data = Lambert_academic)
 
 Lambert_ES
 ```
