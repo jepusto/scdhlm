@@ -93,8 +93,9 @@ test_that("App output matches README example output", {
   app_output_Lambert <- check_readme("Lambert", estMethod = "HPS")
   
   data("Lambert")
+  Lambert_academic <- subset(Lambert, measure == "academic response")
   Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
-                                phase = phase, time = time, data = Lambert)
+                                phase = phase, time = time, data = Lambert_academic)
   pkg_output_Lambert <- 
     data.frame(
       g_AB = Lambert_ES$delta_hat,
