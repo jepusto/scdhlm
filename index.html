@@ -231,7 +231,7 @@
 <h2 id="estimating-smds-using-effect_size_abk">Estimating SMDs using <code>effect_size_ABk()</code>
 <a class="anchor" aria-label="anchor" href="#estimating-smds-using-effect_size_abk"></a>
 </h2>
-<p>Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the <code><a href="reference/effect_size_ABk.html">effect_size_ABk()</a></code> function. To use this function, the user must provide the names of five variables:</p>
+<p>Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior and academic response for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the <code><a href="reference/effect_size_ABk.html">effect_size_ABk()</a></code> function. To use this function, the user must provide the names of five variables:</p>
 <ul>
 <li>the outcome variable,</li>
 <li>a variable indicating the treatment condition,</li>
@@ -239,32 +239,33 @@
 <li>a variable indicating the phase of treatment (i.e., each replication of a baseline and treatment condition), and</li>
 <li>a variable listing the session number.</li>
 </ul>
-<p>In the <code>Lambert</code> dataset, these variables are called respectively <code>outcome</code>, <code>treatment</code>, <code>case</code>, <code>phase</code>, and <code>time</code>. Given these inputs, the design-comparable SMD is calculated as follows:</p>
+<p>In the <code>Lambert</code> dataset, these variables are called respectively <code>outcome</code>, <code>treatment</code>, <code>case</code>, <code>phase</code>, and <code>time</code>. Given these inputs, the design-comparable SMD is calculated as follows for the measure of academic response:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Lambert</span><span class="op">)</span></span>
 <span></span>
+<span><span class="va">Lambert_academic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">Lambert</span>, <span class="va">measure</span> <span class="op">==</span> <span class="st">"academic response"</span><span class="op">)</span></span>
 <span><span class="va">Lambert_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, id <span class="op">=</span> <span class="va">case</span>, </span>
-<span>                              phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, data <span class="op">=</span> <span class="va">Lambert</span><span class="op">)</span></span>
+<span>                              phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, data <span class="op">=</span> <span class="va">Lambert_academic</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">Lambert_ES</span></span>
 <span><span class="co">#&gt;                            est    se</span></span>
-<span><span class="co">#&gt; unadjusted effect size  -2.525 0.202</span></span>
-<span><span class="co">#&gt; adjusted effect size    -2.513 0.201</span></span>
-<span><span class="co">#&gt; degree of freedom      164.492</span></span></code></pre></div>
-<p>The adjusted effect size estimate <code>delta_hat</code> is equal to -2.513; its variance <code>V_delta_hat</code> is equal to 0.041. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code>sqrt(Lambert_ES$V_delta_hat)</code> = 0.201. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 164.5 in this example.</p>
+<span><span class="co">#&gt; unadjusted effect size   7.171 0.484</span></span>
+<span><span class="co">#&gt; adjusted effect size     7.128 0.482</span></span>
+<span><span class="co">#&gt; degree of freedom      126.671</span></span></code></pre></div>
+<p>The adjusted effect size estimate <code>delta_hat</code> is equal to 7.128; its variance <code>V_delta_hat</code> is equal to 0.232. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code>sqrt(Lambert_ES$V_delta_hat)</code> = 0.482. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 126.7 in this example.</p>
 <p>A summary() method is included to return more detail about the model parameter estimates and effect size estimates:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">Lambert_ES</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                       est    se</span></span>
-<span><span class="co">#&gt; within-case variance                4.534      </span></span>
-<span><span class="co">#&gt; sample variance                     4.674      </span></span>
-<span><span class="co">#&gt; intra-class correlation             0.030      </span></span>
-<span><span class="co">#&gt; auto-correlation                    0.225      </span></span>
-<span><span class="co">#&gt; numerator of effect size estimate  -5.458      </span></span>
-<span><span class="co">#&gt; unadjusted effect size             -2.525 0.202</span></span>
-<span><span class="co">#&gt; adjusted effect size               -2.513 0.201</span></span>
-<span><span class="co">#&gt; degree of freedom                 164.492      </span></span>
-<span><span class="co">#&gt; scalar constant                     0.145</span></span></code></pre></div>
+<span><span class="co">#&gt; within-case variance                0.018      </span></span>
+<span><span class="co">#&gt; sample variance                     0.014      </span></span>
+<span><span class="co">#&gt; intra-class correlation             0.000      </span></span>
+<span><span class="co">#&gt; auto-correlation                    0.091      </span></span>
+<span><span class="co">#&gt; numerator of effect size estimate   0.858      </span></span>
+<span><span class="co">#&gt; unadjusted effect size              7.171 0.484</span></span>
+<span><span class="co">#&gt; adjusted effect size                7.128 0.482</span></span>
+<span><span class="co">#&gt; degree of freedom                 126.671      </span></span>
+<span><span class="co">#&gt; scalar constant                     0.166</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="estimating-smds-using-effect_size_mb">Estimating SMDs using <code>effect_size_MB()</code>

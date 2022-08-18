@@ -89,7 +89,7 @@
       <h1 data-toc-skip>Estimating design-comparable standardized mean differences with scdhlm</h1>
                         <h4 data-toc-skip class="author">James E. Pustejovsky</h4>
             
-            <h4 data-toc-skip class="date">2022-07-27</h4>
+            <h4 data-toc-skip class="date">2022-08-18</h4>
       
       
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -128,42 +128,42 @@
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Lambert_ES</span>, <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                              est      se</span></span>
-<span><span class="co">## unadjusted effect size  -2.52460 0.20228</span></span>
-<span><span class="co">## adjusted effect size    -2.51307 0.20136</span></span>
-<span><span class="co">## degree of freedom      164.49227</span></span></code></pre>
-<p>The adjusted effect size estimate <code>delta_hat</code> is equal to -2.513; its variance <code>V_delta_hat</code> is equal to 0.041. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code>sqrt(Lambert_ES$V_delta_hat)</code> = 0.201. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 164.5 in this example.</p>
+<span><span class="co">## unadjusted effect size  -1.16204 0.12345</span></span>
+<span><span class="co">## adjusted effect size    -1.15660 0.12287</span></span>
+<span><span class="co">## degree of freedom      160.23777</span></span></code></pre>
+<p>The adjusted effect size estimate <code>delta_hat</code> is equal to -1.157; its variance <code>V_delta_hat</code> is equal to 0.015. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code>sqrt(Lambert_ES$V_delta_hat)</code> = 0.123. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 160.2 in this example.</p>
 <p>A summary() method is included to return more detail about the model parameter estimates and effect size estimates:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">Lambert_ES</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                       est    se</span></span>
-<span><span class="co">## within-case variance                4.534      </span></span>
-<span><span class="co">## sample variance                     4.674      </span></span>
-<span><span class="co">## intra-class correlation             0.030      </span></span>
-<span><span class="co">## auto-correlation                    0.225      </span></span>
-<span><span class="co">## numerator of effect size estimate  -5.458      </span></span>
-<span><span class="co">## unadjusted effect size             -2.525 0.202</span></span>
-<span><span class="co">## adjusted effect size               -2.513 0.201</span></span>
-<span><span class="co">## degree of freedom                 164.492      </span></span>
-<span><span class="co">## scalar constant                     0.145</span></span></code></pre>
-<p>By default, the <code>effect_size_ABk</code> function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry <code>phi</code>) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry <code>rho</code>). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimate was 0.225. The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of 0.225.</p>
+<span><span class="co">## within-case variance                7.843      </span></span>
+<span><span class="co">## sample variance                     6.942      </span></span>
+<span><span class="co">## intra-class correlation             0.000      </span></span>
+<span><span class="co">## auto-correlation                   -0.316      </span></span>
+<span><span class="co">## numerator of effect size estimate  -3.062      </span></span>
+<span><span class="co">## unadjusted effect size             -1.162 0.123</span></span>
+<span><span class="co">## adjusted effect size               -1.157 0.123</span></span>
+<span><span class="co">## degree of freedom                 160.238      </span></span>
+<span><span class="co">## scalar constant                     0.104</span></span></code></pre>
+<p>By default, the <code>effect_size_ABk</code> function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry <code>phi</code>) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry <code>rho</code>). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimate was -0.316. The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of -0.316.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Lambert_ES2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, </span>
 <span>                id <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, </span>
 <span>                data <span class="op">=</span> <span class="va">Lambert</span>, phi <span class="op">=</span> <span class="fl">0.10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Lambert_ES2</span>, digits <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                              est      se</span></span>
-<span><span class="co">## unadjusted effect size  -2.52460 0.19376</span></span>
-<span><span class="co">## adjusted effect size    -2.51265 0.19285</span></span>
-<span><span class="co">## degree of freedom      158.73064</span></span></code></pre>
+<span><span class="co">## unadjusted effect size  -1.16204 0.15280</span></span>
+<span><span class="co">## adjusted effect size    -1.15725 0.15217</span></span>
+<span><span class="co">## degree of freedom      181.99265</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Lambert_ES3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, </span>
 <span>                id <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, </span>
 <span>                data <span class="op">=</span> <span class="va">Lambert</span>, phi <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Lambert_ES3</span>, digits <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                              est      se</span></span>
-<span><span class="co">## unadjusted effect size  -2.52460 0.21697</span></span>
-<span><span class="co">## adjusted effect size    -2.51217 0.21591</span></span>
-<span><span class="co">## degree of freedom      152.57482</span></span></code></pre>
+<span><span class="co">## unadjusted effect size  -1.16204 0.17968</span></span>
+<span><span class="co">## adjusted effect size    -1.15626 0.17878</span></span>
+<span><span class="co">## degree of freedom      150.96192</span></span></code></pre>
 <p>The estimated auto-correlation has only a trivial effect on the effect size estimate and a minor effect on its estimated variance.</p>
 </div>
 <div class="section level2">
