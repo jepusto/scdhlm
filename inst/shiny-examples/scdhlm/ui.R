@@ -178,12 +178,6 @@ ui <-
                     plotOutput("RML_plot", height = "auto")
                   )
                 ),
-                # tabPanel("Model estimates old",
-                #   column(12, br()),
-                #   conditionalPanel(condition = "input.degree_base != 0",
-                #                    uiOutput("model_centering")),
-                #   verbatimTextOutput("model_fit")
-                # ),
                 tabPanel("Model estimates",
                          column(12, br()),
                          conditionalPanel(condition = "input.degree_base != 0",

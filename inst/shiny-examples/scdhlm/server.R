@@ -559,15 +559,6 @@ server <-
     
     # Model spec output
     
-    # output$model_fit <- renderPrint({
-    #   if (input$method=="RML") {
-    #     list(fixed = model_fit()$fixed,
-    #          random = model_fit()$random,
-    #          fit = summary(model_fit()$fit),
-    #          converged = model_fit()$converged)
-    #   }
-    # })
-    
     output$model_sample_size <- renderTable({
       if (input$method == "RML") {
         if (studyDesign() %in% c("MBP", "TR")) {
@@ -602,29 +593,38 @@ server <-
     
     output$model_fit_random <- renderTable({
       if (input$method == "RML") {
-        # set the column names
         random_table <- data.frame(VarCorr(model_fit()$fit)[])
-        columnnames <- names(random_table)
-        names(random_table) <- gsub("V[0-9]", "", columnnames)
+        rownames <- rownames(VarCorr(model_fit()$fit)[])
         
-        # set the rownames for 3-level model
+        # set the rownames
         if (studyDesign() %in% c("CMB", "RMBB")) {
-          rownames <- rownames(VarCorr(model_fit()$fit)[])
-          nrow_lvl3 <- length(input$RE_base2)+length(input$RE_trt2)+1
-          rownames_lvl3 <- c("level", rownames[2:nrow_lvl3])
-          rownames_lvl3 <- if (studyDesign() == "CMB") paste0("cluster_", rownames_lvl3) else paste0("case_", rownames_lvl3)
-          rownames_lvl2 <- c("level", rownames[(nrow_lvl3 + 2):(length(rownames)-1)])
-          rownames_lvl2 <- if (studyDesign() == "CMB") paste0("case_", rownames_lvl2) else paste0("series_", rownames_lvl2)
-          rownames[1:(length(rownames)-1)] <- c(rownames_lvl3, rownames_lvl2)
-          rownames(random_table) <- rownames
+          row_index_lvl3 <- length(input$RE_base2)+length(input$RE_trt2)+1
+          rownames_lvl3 <- c("", rownames[2:row_index_lvl3])
+          rownames_lvl2 <- c("", rownames[(row_index_lvl3 + 2):(length(rownames))])
+          name_lvl3 <- if (studyDesign() == "CMB") "Cluster-level" else "Case-level"
+          name_lvl2 <- if (studyDesign() == "CMB") "Case-level" else "Series-level"
+          random_levels <- c(name_lvl3, rep("", row_index_lvl3-1), name_lvl2, rep("", (length(rownames)-row_index_lvl3-1)))
+          random_table[1, 1] <- NA # get rid of pdLogChol
+          random_table[(row_index_lvl3 + 1), 1] <- NA
+          random_table <- cbind("Level" = random_levels, "Rowname" = c(rownames_lvl3, rownames_lvl2), random_table)
+          random_table[, 3:4] <- lapply(random_table[, 3:4], function(x) as.numeric(x))
+          names(random_table)[2] <- ""
+        } else if (studyDesign() %in% c("MBP", "TR")) {
+          random_table <- cbind("Rowname" = rownames, random_table)
+          random_table[, 2:3] <- lapply(random_table[, 2:3], function(x) as.numeric(x))
+          names(random_table)[1] <- ""
         }
         
+        # set the column names
+        columnnames <- names(random_table)
+        names(random_table) <- gsub("V[0-9]|Var.[0-9]", "", columnnames)
         random_table
+        
       }
     },
     caption = "Random effects",
     caption.placement = getOption("xtable.caption.placement", "top"),
-    digits = 4, include.rownames = TRUE)
+    digits = 4, na = "", include.rownames = FALSE)
     
     output$model_fit_corr <- renderTable({
       if (input$method=="RML" & input$corStruct != "IID") {
