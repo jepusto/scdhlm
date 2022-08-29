@@ -601,8 +601,8 @@ server <-
           row_index_lvl3 <- length(input$RE_base2)+length(input$RE_trt2)+1
           rownames_lvl3 <- c("", rownames[2:row_index_lvl3])
           rownames_lvl2 <- c("", rownames[(row_index_lvl3 + 2):(length(rownames))])
-          name_lvl3 <- if (studyDesign() == "CMB") "Cluster-level" else "Case-level"
-          name_lvl2 <- if (studyDesign() == "CMB") "Case-level" else "Series-level"
+          name_lvl3 <- if (studyDesign() == "CMB") "<strong>Cluster-level</strong>" else "<strong>Case-level</strong>"
+          name_lvl2 <- if (studyDesign() == "CMB") "<strong>Case-level</strong>" else "<strong>Series-level</strong>"
           random_levels <- c(name_lvl3, rep("", row_index_lvl3-1), name_lvl2, rep("", (length(rownames)-row_index_lvl3-1)))
           random_table[1, 1] <- NA # get rid of pdLogChol
           random_table[(row_index_lvl3 + 1), 1] <- NA
@@ -624,7 +624,7 @@ server <-
     },
     caption = "Random effects",
     caption.placement = getOption("xtable.caption.placement", "top"),
-    digits = 4, na = "", include.rownames = FALSE)
+    digits = 4, na = "", include.rownames = FALSE, sanitize.text.function = function(x){x})
     
     output$model_fit_corr <- renderTable({
       if (input$method=="RML" & input$corStruct != "IID") {
