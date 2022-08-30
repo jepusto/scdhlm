@@ -85,7 +85,7 @@ phase_lines_by_case <- function(case, phase, session) {
 #'
 #' data(Bryant2018)
 #' graph_SCD(design="CMB",
-#'           cluster=school, case=case, phase=treatment,
+#'           cluster=group, case=case, phase=treatment,
 #'           session=session, outcome=outcome,
 #'           treatment_name = "treatment",
 #'           data=Bryant2018)

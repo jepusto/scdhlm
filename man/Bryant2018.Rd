@@ -15,11 +15,11 @@ mathematics difficulties. \emph{Archives of Psychology, 2}(11), 1-24.
 \doi{10.31296/aop.v2i11.86}
 }
 \description{
-Data from a multiple baseline across clusters design conducted by
+Data from a clustered multiple baseline across participants design conducted by
 Bryant et al. (2018). The variables are as follows:
 \itemize{
   \item \code{Study_ID}. Study identifier.
-  \item \code{school}. School identifier.
+  \item \code{group}. Group identifier.
   \item \code{case}. Student identifier.
   \item \code{treatment}. Indicator for treatment phase.
   \item \code{session}. Measurement occasion.
