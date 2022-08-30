@@ -4,6 +4,7 @@
 * Added `rclipboard` package to the installation instruction of the shiny app.
 * Added Bryant et al. (2018) and Thiemann & Goldstein (2001) to the references in the shiny app.
 * Added the academic response outcome data from Lambert et al. (2006) to the package and the shiny app.
+* Updated the layout of model output in the shiny app.
 
 # scdhlm 0.6.0
 

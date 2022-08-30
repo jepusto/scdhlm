@@ -559,14 +559,118 @@ server <-
     
     # Model spec output
     
-    output$model_fit <- renderPrint({
+    output$model_sample_size <- renderTable({
+      if (input$method == "RML") {
+        if (studyDesign() %in% c("MBP", "TR")) {
+          data.frame("Total number of observations" = nobs(model_fit()$fit), 
+                     "Total number of groups" = nlevels(summary(model_fit()$fit)$groups$case),
+                     check.names = FALSE) 
+        } else if (studyDesign() == "CMB") {
+          data.frame("Total number of observations" = nobs(model_fit()$fit), 
+                     "Total number of cases" = nlevels(summary(model_fit()$fit)$groups$case),
+                     "Total number of clusters" = nlevels(summary(model_fit()$fit)$groups$cluster),
+                     check.names = FALSE)
+        } else if (studyDesign() == "RMBB") {
+          data.frame("Total number of observations" = nobs(model_fit()$fit),
+                     "Total number of series" = nlevels(summary(model_fit()$fit)$groups$series),
+                     "Total number of cases" = nlevels(summary(model_fit()$fit)$groups$case),
+                     check.names = FALSE)
+        }
+      }
+    }, 
+    caption = "Sample sizes", 
+    caption.placement = getOption("xtable.caption.placement", "top"),
+    digits = 4, include.rownames = FALSE)
+    
+    output$model_fit_fixed <- renderTable({
+      if (input$method == "RML") {
+        summary(model_fit()$fit)$tTable
+      }
+    }, 
+    caption = "Fixed effects", 
+    caption.placement = getOption("xtable.caption.placement", "top"),
+    digits = 4, include.rownames = TRUE)
+    
+    output$model_fit_random <- renderTable({
+      if (input$method == "RML") {
+        random_table <- data.frame(VarCorr(model_fit()$fit)[])
+        rownames <- rownames(VarCorr(model_fit()$fit)[])
+        
+        # set the rownames
+        if (studyDesign() %in% c("CMB", "RMBB")) {
+          row_index_lvl3 <- length(input$RE_base2)+length(input$RE_trt2)+1
+          rownames_lvl3 <- c("", rownames[2:row_index_lvl3])
+          rownames_lvl2 <- c("", rownames[(row_index_lvl3 + 2):(length(rownames))])
+          name_lvl3 <- if (studyDesign() == "CMB") "<strong>Cluster-level</strong>" else "<strong>Case-level</strong>"
+          name_lvl2 <- if (studyDesign() == "CMB") "<strong>Case-level</strong>" else "<strong>Series-level</strong>"
+          random_levels <- c(name_lvl3, rep("", row_index_lvl3-1), name_lvl2, rep("", (length(rownames)-row_index_lvl3-1)))
+          random_table[1, 1] <- NA # get rid of pdLogChol
+          random_table[(row_index_lvl3 + 1), 1] <- NA
+          random_table <- cbind("Level" = random_levels, "Rowname" = c(rownames_lvl3, rownames_lvl2), random_table)
+          random_table[, 3:4] <- lapply(random_table[, 3:4], function(x) as.numeric(x))
+          names(random_table)[2] <- ""
+        } else if (studyDesign() %in% c("MBP", "TR")) {
+          random_table <- cbind("Rowname" = rownames, random_table)
+          random_table[, 2:3] <- lapply(random_table[, 2:3], function(x) as.numeric(x))
+          names(random_table)[1] <- ""
+        }
+        
+        # set the column names
+        columnnames <- names(random_table)
+        names(random_table) <- gsub("V[0-9]|Var.[0-9]", "", columnnames)
+        random_table
+        
+      }
+    },
+    caption = "Random effects",
+    caption.placement = getOption("xtable.caption.placement", "top"),
+    digits = 4, na = "", include.rownames = FALSE, sanitize.text.function = function(x){x})
+    
+    output$model_fit_corr <- renderTable({
+      if (input$method=="RML" & input$corStruct != "IID") {
+        data.frame(
+          "Correlation parameter" = effect_size()$`Auto-correlation`,
+          check.names = FALSE
+        )
+      }
+    }, 
+    caption = "Correlation structure", 
+    caption.placement = getOption("xtable.caption.placement", "top"),
+    digits = 4, include.rownames = FALSE)
+    
+    output$model_fit_var <- renderTable({
+      if (input$method == "RML" & input$varStruct == "het") {
+        data.frame(
+          "Baseline" = 1,
+          "Treatment" = effect_size()$`Variance parameter`
+        )
+      }
+    }, 
+    caption = "Variance structure", 
+    caption.placement = getOption("xtable.caption.placement", "top"),
+    digits = 4, include.rownames = FALSE)
+    
+    output$model_info <- renderTable({
+      if (input$method == "RML") {
+        data.frame("AIC" = AIC(model_fit()$fit), 
+                   "BIC" = BIC(model_fit()$fit), 
+                   "Log likelihood" = as.numeric(model_fit()$fit$logLik),
+                   check.names = FALSE) 
+      }
+    }, 
+    caption = "Information criteria", 
+    caption.placement = getOption("xtable.caption.placement", "top"),
+    digits = 4, include.rownames = FALSE)
+    
+    output$model_fit_convg <- renderTable({
       if (input$method=="RML") {
-        list(fixed = model_fit()$fixed, 
-             random = model_fit()$random, 
-             fit = summary(model_fit()$fit),
-             converged = model_fit()$converged)
-      } 
-    })
+        if (isTRUE(model_fit()$converged)) {
+          "The model converged."
+        } else {
+          "The model did not converge."
+        }
+      }
+    }, colnames = FALSE)
     
     
     # Calculate effect sizes
