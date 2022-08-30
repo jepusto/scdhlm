@@ -131,31 +131,31 @@ test_that("The returned dataset is consistent with the input dataset for CMB des
   data("Bryant2018")
   
   dat1_Bry <- preprocess_SCD(design = "CMB",
-                             cluster = school, case = case,
+                             cluster = group, case = case,
                              phase = treatment, session = session,
                              outcome = outcome, data = Bryant2018)
   
-  expect_equal(Bryant2018$school, dat1_Bry$school)
+  expect_equal(Bryant2018$group, dat1_Bry$group)
   expect_equal(Bryant2018$case, dat1_Bry$case)
   expect_equal(Bryant2018$treatment, dat1_Bry$treatment)
   expect_equal(Bryant2018$session, dat1_Bry$session)
   expect_equal(Bryant2018$outcome, dat1_Bry$outcome)
 
   dat2_Bry <- preprocess_SCD(design = "CMB",
-                             cluster = Bryant2018$school, case = Bryant2018$case,
+                             cluster = Bryant2018$group, case = Bryant2018$case,
                              phase = Bryant2018$treatment, session = Bryant2018$session,
                              outcome = Bryant2018$outcome)
   
   expect_equivalent(dat1_Bry, dat2_Bry)
   
-  Bry_school <- Bryant2018$school
+  Bry_group <- Bryant2018$group
   Bry_case <- Bryant2018$case
   Bry_treatment <- Bryant2018$treatment
   Bry_session <- Bryant2018$session
   Bry_outcome <- Bryant2018$outcome
   
   dat3_Bry <- preprocess_SCD(design = "CMB",
-                             cluster = Bry_school, case = Bry_case,
+                             cluster = Bry_group, case = Bry_case,
                              phase = Bry_treatment, session = Bry_session,
                              outcome = Bry_outcome)
   
@@ -164,7 +164,7 @@ test_that("The returned dataset is consistent with the input dataset for CMB des
   scramble <- sample(1:nrow(Bryant2018))
   
   dat4_Bry <- preprocess_SCD(design = "CMB",
-                             cluster = school, case = case,
+                             cluster = group, case = case,
                              phase = treatment, session = session,
                              outcome = outcome, data = Bryant2018[scramble,])
   

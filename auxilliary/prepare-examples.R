@@ -275,15 +275,14 @@ Bryant2018 <- read.csv("auxilliary/Bryant2018.csv", stringsAsFactors = FALSE)
 str(Bryant2018)
 
 Bryant2018 <- within(Bryant2018, {
-  Study_ID <- rep("Bryant2018", length(Bryant2018$school))
-  school <- factor(paste("school", school))
-  case <- factor(studentID)
-  outcome <- AC
-  treatment <- ifelse(phase == "Baseline", "baseline", "treatment")
+  Study_ID <- rep("Bryant2018", nrow(Bryant2018))
+  school <- factor(school)
+  group <- factor(group)
+  case <- factor(case)
   treatment <- factor(treatment)
 })
 
-Bryant2018 <- Bryant2018[c("Study_ID", "school","case","treatment","session","session_trt","outcome")]
+Bryant2018 <- Bryant2018[c("Study_ID", "school", "group","case","treatment","session","session_trt","outcome")]
 
 # time-point constants
 A <- 4

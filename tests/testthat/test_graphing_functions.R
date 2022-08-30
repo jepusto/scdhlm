@@ -139,14 +139,14 @@ test_that("graph_SCD works for design = 'CMB'", {
   data("Bryant2018")
   
   Bryant2018_RML <-lme(fixed = outcome ~ treatment,
-                       random = ~ 1 | school / case,
-                       correlation = corAR1(0, ~ session | school / case),
+                       random = ~ 1 | group / case,
+                       correlation = corAR1(0, ~ session | group / case),
                        weights = varIdent(form = ~ 1 | treatment),
                        data = Bryant2018)
 
   # graph using data = 
   Bry_graph1 <- graph_SCD(design = "CMB",
-                          cluster = school, case = case,
+                          cluster = group, case = case,
                           phase = treatment, session = session, outcome = outcome,
                           treatment_name = "treatment", model_fit = Bryant2018_RML,
                           data = Bryant2018)
@@ -155,7 +155,7 @@ test_that("graph_SCD works for design = 'CMB'", {
   
   # graph using vectors only
   Bry_graph2 <- graph_SCD(design = "CMB",
-                          cluster = Bryant2018$school, case = Bryant2018$case,
+                          cluster = Bryant2018$group, case = Bryant2018$case,
                           phase = Bryant2018$treatment, session = Bryant2018$session, 
                           outcome = Bryant2018$outcome,
                           treatment_name = "treatment", model_fit = Bryant2018_RML)
@@ -166,7 +166,7 @@ test_that("graph_SCD works for design = 'CMB'", {
   
   # graph with model_fit (without data)
   Bry_graph3 <- graph_SCD(design = "CMB",
-                          cluster = school, case = case,
+                          cluster = group, case = case,
                           phase = treatment, session = session, outcome = outcome,
                           treatment_name = "treatment", model_fit = Bryant2018_RML)
   expect_s3_class(Bry_graph3, "ggplot")
