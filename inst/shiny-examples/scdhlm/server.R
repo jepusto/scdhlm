@@ -284,7 +284,7 @@ server <-
           names(dat) <- c("studyID","case", "series", "outcome", "session", "phase", "trt_time", "time_c")
           cluster <- NULL
         } else if (studyDesign() == "CMB") {
-          names(dat) <- c("studyID","cluster", "case", "phase", "session", "session_trt", "outcome", "session_c")
+          names(dat) <- c("studyID","school", "cluster", "case", "phase", "session", "session_trt", "outcome", "session_c")
           series <- NULL
         }
         
@@ -892,7 +892,7 @@ server <-
         clean_dat <- c(clean_dat_A,
                        '',
                        parse_code_chunk("clean-example-nofilter-CMB",
-                                        args = list(user_parms = paste(example_parms$vars[-c(1,6,8)], collapse='", "'),
+                                        args = list(user_parms = paste(example_parms$vars[-c(1,2,7,9)], collapse='", "'),
                                                     user_design = studyDesign(),
                                                     user_model_center = model_center))
         )

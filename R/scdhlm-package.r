@@ -324,6 +324,7 @@ NULL
 #' Bryant et al. (2018). The variables are as follows:
 #' \itemize{
 #'   \item \code{Study_ID}. Study identifier.
+#'   \item \code{school}. School identifier.
 #'   \item \code{group}. Group identifier.
 #'   \item \code{case}. Student identifier.
 #'   \item \code{treatment}. Indicator for treatment phase.
