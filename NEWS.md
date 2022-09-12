@@ -7,7 +7,7 @@
 * Updated the layout of model output in the shiny app.
 * Updated the study design labels in example datasets for multiple baseline design.
 * Updated the Bryant et al. (2018) dataset using the group instead of school as the cluster variable.
-* Added a wrapper function for fitting `lme()` model and calculating `g_mlm()`.
+* Added a convenience function for pre-processing data, fitting an `lme()` model, and calculating `g_mlm()` all in one go.
 
 
 # scdhlm 0.6.0

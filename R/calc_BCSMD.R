@@ -1,4 +1,5 @@
 # Calculate timing defaults
+
 default_times <- function(x) {
   range <- range(x$session)
   case_base_last <- with(x, tapply(session[trt==0], case[trt==0], max))
@@ -19,50 +20,51 @@ write_formula <- function(powers, var_names) {
   }
 }
 
-#' @title A wrapper function for calculating design comparable effect sizes
+#' @title A convenience function for calculating design comparable effect sizes
 #'
-#' @description Clean single case design data for treatment reversal and
-#'   multiple baseline designs. Fit a multi-level model using restricted maximum
-#'   likelihood estimation. Estimate a standardized mean difference effect size.
+#' @description In one call, 1) clean single-case design data for treatment
+#'   reversal and multiple baseline designs, 2) fit a multi-level model using
+#'   restricted maximum likelihood estimation, and 3) estimate a standardized
+#'   mean difference effect size.
 #'
 #' @inheritParams preprocess_SCD
-#' @param FE_base numerical value indicating the fixed effect at the baseline
-#'   phase. Take value from 0 (the default) up to 6. The value of 0 represents
-#'   including level as a fixed effect. The value of 1 to 6 represents including
-#'   linear trend to sextic trend as a fixed effect.
-#' @param RE_base numerical value indicating the random effect at the baseline
-#'   phase. Take value from 0 (the default) up to 6. The value of 0 represents
-#'   including level as a random effect. The value of 1 to 6 represents
-#'   including linear trend to sextic trend as a random effect.
-#' @param RE_base_2 numerical value indicating the random effect at the baseline
-#'   phase for the cluster level in clustered multiple baseline design across
-#'   participants or for the case level in replicated multiple baseline across
-#'   behaviors. Take value from 0 (the default) up to 6. The value of 0
-#'   represents including level as a random effect. The value of 1 to 6
-#'   represents including linear trend to sextic trend as a random effect.
-#' @param FE_trt numerical value indicating the fixed effect at the treatment
-#'   phase. Take value from 0 (the default) up to 6. The value of 0 represents
-#'   including change in level as a fixed effect. The value of 1 to 6 represents
-#'   including change in linear trend to sextic trend as a fixed effect.
-#' @param RE_trt numerical value indicating the random effect at the treatment
-#'   phase. Take value from 0 (the default) up to 6. The value of 0 represents
-#'   including change in level as a random effect. The value of 1 to 6
-#'   represents including change in linear trend to sextic trend as a random
-#'   effect.
-#' @param RE_trt_2 numerical value indicating the random effect at the treatment
-#'   phase for the cluster level in clustered multiple baseline design across
-#'   participants or for the case level in replicated multiple baseline across
-#'   behaviors. Take value from 0 (the default) up to 6. The value of 0
-#'   represents including change in level as a random effect. The value of 1 to
-#'   6 represents including change in linear trend to sextic trend as a random
-#'   effect.
+#' @param FE_base Vector of integers specifying which fixed effect terms to
+#'   include in the baseline phase. Setting \code{FE_base = 0} includes only a
+#'   level. Setting \code{FE_base = c(0,1)} includes a level and a linear time
+#'   trend.
+#' @param RE_base Vector of integers specifying which random effect terms to
+#'   include in the baseline phase. Setting \code{RE_base = 0} includes only
+#'   levels (i.e., random intercepts). Setting \code{RE_base = c(0,1)} includes
+#'   random levels and random linear trends.
+#' @param RE_base_2 Vector of integers specifying which random effect terms to
+#'   include in the baseline phase for the cluster level in clustered multiple
+#'   baseline design across participants or for the case level in replicated
+#'   multiple baseline across behaviors. Setting \code{RE_base_2 = 0} includes
+#'   only levels (i.e., random intercepts). Setting \code{RE_base_2 = c(0,1)}
+#'   includes random levels and random linear trends.
+#' @param FE_trt Vector of integers specifying which fixed effect terms to
+#'   include in the treatment phase. Setting \code{FE_trt = 0} includes only a
+#'   change in level. Setting \code{FE_trt = c(0,1)} includes a change in level
+#'   and a treatment-by-linear time trend.
+#' @param RE_trt Vector of integers specifying which random effect terms to
+#'   include in the treatment phase. Setting \code{RE_trt = 0} includes only
+#'   random changes in level. Setting \code{RE_trt = c(0,1)} includes random
+#'   changes in level and random treatment-by-linear time trends.
+#' @param RE_trt_2 Vector of integers specifying which random effect terms to
+#'   include in the treatment phase for the cluster level in clustered multiple
+#'   baseline design across participants or for the case level in replicated
+#'   multiple baseline across behaviors. Setting \code{RE_trt_2 = 0} includes
+#'   only random changes in level. Setting \code{RE_trt_2 = c(0,1)} includes
+#'   random changes in level and random treatment-by-linear time trends.
 #' @param corStruct (Optional) character string indicating the correlation
-#'   structure of session-level errors. Include \code{"AR1"} (default),
-#'   \code{"MA1"}, and \code{"IID"}.
+#'   structure of session-level errors. Options are \code{"AR1"} (default),
+#'   \code{"MA1"}, or \code{"IID"}.
 #' @param varStruct (Optional) character string indicating the
-#'   heteroscedasticity structure of session-level errors. Include \code{"hom"}
-#'   (default) and \code{"het"}.
-#' @param A the time point immediately before the start of treatment.
+#'   heteroscedasticity structure of session-level errors. Options are
+#'   \code{"hom"} (default) or \code{"het"}, which allows for the session-level
+#'   error variances to differ by phase.
+#' @param A the time point immediately before the start of treatment in the
+#'   hypothetical between-group design.
 #' @param B the time point at which outcomes are measured in the hypothetical
 #'   between-group design.
 #' @param cover confidence level.
@@ -73,16 +75,18 @@ write_formula <- function(powers, var_names) {
 #'   asymmetric confidence interval.
 #' @param summary Logical indicating whether to return a data frame with effect
 #'   size estimates and other information. If \code{TRUE} (default), return a
-#'   dataframe containing the effect size estimate, standard error, confidence
-#'   interval, and other information. If \code{FALSE}, return a list with effect
-#'   size estimate, degrees of freedom, and other information.
+#'   \code{data.frame} containing the effect size estimate, standard error,
+#'   confidence interval, and other information. If \code{FALSE}, return a list
+#'   with effect size estimate, degrees of freedom, and other information.
 #' @param ... further arguments.
 #'
 #' @export
 #'
-#' @return A data frame containing the design-comparable effect size estimate,
-#'   standard error, confidence interval, and other information, or a list of
-#'   `g_mlm()` object.
+#' @return If \code{summary == TRUE}, a data frame containing the
+#'   design-comparable effect size estimate, standard error, confidence
+#'   interval, and other information. If \code{summary == FALSE}, a list
+#'   containing all elements of a `g_mlm()` object, plus the fitted `lme()`
+#'   model.
 #'
 #' @examples
 #' data(Laski)
@@ -236,8 +240,12 @@ calc_BCSMD <- function(design,
   m_fit$call$random <- random
   
   # calculate effect size
-  if (is.null(A)) A <- default_times(dat)$A
-  if (is.null(B)) B <- default_times(dat)$B
+  if (is.null(A) | is.null(B)) {
+    default_AB <- default_times(dat)
+    if (is.null(A)) A <- default_AB$A
+    if (is.null(B)) B <- default_AB$B
+    
+  }
 
   p_const <- c(rep(0L, length(FE_base)), (B - A)^as.integer(FE_trt))
   
@@ -303,7 +311,7 @@ calc_BCSMD <- function(design,
     ES_summary$var_param <- if (varStruct == "het") g_RML$var_param else NA_real_
     ES_summary$rho <- g_RML$rho
     
-    if (design %in% c("MBP", "RMBB", "CMB") & !is.null(A) & !is.null(B)) {
+    if (design %in% c("MBP", "RMBB", "CMB")) {
       ES_summary$A <- A
       ES_summary$B <- B
     } else {
@@ -320,7 +328,8 @@ calc_BCSMD <- function(design,
     return(ES_summary)
 
   } else {
-
+    g_RML$model <- m_fit
+    class(g_RML) <- c("enhanced_g_mlm",class(g_RML))
     return(g_RML)
 
   }

@@ -50,6 +50,7 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
                                  FE_base = 0, RE_base = 0, FE_trt = 0,
                                  summary = FALSE,
                                  data = Laski)
+  Laski_calc_BCSMD$model <- NULL
   expect_equal(Laski_g1_mlm, Laski_calc_BCSMD, check.attributes = FALSE)
   
   Laski_calc_BCSMD_summary <- calc_BCSMD(design = "MBP",
@@ -97,6 +98,7 @@ test_that("g_mlm() is imported appropriately for Bryant 2016 data.", {
                                    FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
                                    summary = FALSE,
                                    data = Bryant2016)
+  Bry2016_calc_BCSMD$model <- NULL
   expect_equal(Bryant2016_g1_mlm, Bry2016_calc_BCSMD, check.attributes = FALSE)
   
   Bry_calc_BCSMD_summary <- calc_BCSMD(design = "CMB",
