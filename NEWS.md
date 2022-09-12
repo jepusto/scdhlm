@@ -5,6 +5,10 @@
 * Added Bryant et al. (2018) and Thiemann & Goldstein (2001) to the references in the shiny app.
 * Added the academic response outcome data from Lambert et al. (2006) to the package and the shiny app.
 * Updated the layout of model output in the shiny app.
+* Updated the study design labels in example datasets for multiple baseline design.
+* Updated the Bryant et al. (2018) dataset using the group instead of school as the cluster variable.
+* Added a wrapper function for fitting `lme()` model and calculating `g_mlm()`.
+
 
 # scdhlm 0.6.0
 
