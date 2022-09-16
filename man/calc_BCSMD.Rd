@@ -25,6 +25,7 @@ calc_BCSMD(
   varStruct = "hom",
   A = NULL,
   B = NULL,
+  D = NULL,
   cover = 95,
   bound = 35,
   symmetric = TRUE,
@@ -107,15 +108,19 @@ heteroscedasticity structure of session-level errors. Options are
 \code{"hom"} (default) or \code{"het"}, which allows for the session-level
 error variances to differ by phase.}
 
-\item{A}{the time point immediately before the start of treatment in the
+\item{A}{The time point immediately before the start of treatment in the
 hypothetical between-group design.}
 
-\item{B}{the time point at which outcomes are measured in the hypothetical
+\item{B}{The time point at which outcomes are measured in the hypothetical
 between-group design.}
 
-\item{cover}{confidence level.}
+\item{D}{Numerical indicating the treatment duration across cases. Note that
+\code{B = A + D} and it is not allowed to specify both \code{B} and
+\code{D}.}
 
-\item{bound}{numerical tolerance for non-centrality parameter in
+\item{cover}{Confidence level.}
+
+\item{bound}{Numerical tolerance for non-centrality parameter in
 \code{\link[stats]{qt}}.}
 
 \item{symmetric}{If \code{TRUE} (the default), use a symmetric confidence
@@ -151,9 +156,15 @@ data(Laski)
 calc_BCSMD(design = "MBP",
            case = case, phase = treatment,
            session = time, outcome = outcome,
-           center = 4,
            FE_base = 0, RE_base = 0, FE_trt = 0,
            data = Laski)
+
+calc_BCSMD(design = "MBP",
+           case = case, phase = treatment,
+           session = time, outcome = outcome, center = 4,
+           FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+           data = Laski)
+
 
 data(Anglesea)
 calc_BCSMD(design = "TR",
@@ -163,12 +174,14 @@ calc_BCSMD(design = "TR",
            FE_base = 0, RE_base = 0, FE_trt = 0,
            data = Anglesea)
 
+
 data(Thiemann2001)
 calc_BCSMD(design = "RMBB",
            case = case, series = series, phase = treatment,
            session = time, outcome = outcome,
            FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
            data = Thiemann2001)
+
 
 data(Bryant2018)
 calc_BCSMD(design = "CMB",
@@ -178,5 +191,11 @@ calc_BCSMD(design = "CMB",
            FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
            data = Bryant2018)
 
-
+calc_BCSMD(design = "CMB",
+           cluster = group, case = case, phase = treatment,
+           session = session, outcome = outcome, center = 49,
+           treatment_name = "treatment",
+           FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, 
+           FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+           data = Bryant2018)
 }
