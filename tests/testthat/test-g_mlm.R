@@ -1,3 +1,5 @@
+skip_if_not_installed("nlme")
+
 # check if g_mlm() works
 
 library(nlme)
@@ -6,12 +8,12 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
   
   data(Laski)
   
+  # simple model
   Laski_RML1 <- lme(fixed = outcome ~ treatment, 
                     random = ~ 1 | case, 
                     correlation = corAR1(0.01, ~ time | case), 
                     data = Laski)
   
-  # two-level data
   ## g_REML VS g_mlm
   Laski_g1_REML <- suppressWarnings(g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE))
   Laski_g1_mlm <- g_mlm(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE)
@@ -31,7 +33,7 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
   expect_output(print(Laski_g1_mlm))
   
   expect_equal(Laski_g1_mlm$p_beta, Laski_g1_REML$p_beta) # numerator of effect size
-  expect_equal(Laski_g1_mlm$r_beta, Laski_g1_REML$r_beta) # squared denominator of effect size
+  expect_equal(Laski_g1_mlm$r_theta, Laski_g1_REML$r_theta) # squared denominator of effect size
   expect_equal(Laski_g1_mlm$delta_AB, Laski_g1_REML$delta_AB) # unadjusted (REML) effect size estimate
   expect_equal(as.numeric(Laski_g1_mlm$nu), Laski_g1_REML$nu) # degrees of freedom
   expect_equal(as.numeric(Laski_g1_mlm$kappa), Laski_g1_REML$kappa) # constant kappa
@@ -41,7 +43,6 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
   expect_equal(Laski_g1_mlm$theta$cor_params, Laski_g1_REML$phi) # Estimated autocorrelation
   expect_equal(Laski_g1_mlm$theta$Tau$case, Laski_g1_REML$Tau) # Vector of level-2 variance components
   expect_equal(det(Laski_g1_mlm$info_inv), det(Laski_g1_REML$I_E_inv)) # Expected information matrix
-  
   
   ## g_mlm VS calc_BCSMD
   Laski_calc_BCSMD <- calc_BCSMD(design = "MBP",
@@ -62,8 +63,7 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
   expect_equal(Laski_g1_mlm$SE_g_AB, Laski_calc_BCSMD_summary$`Std. Error`)
   expect_equal(Laski_g1_mlm$nu, Laski_calc_BCSMD_summary$`Degrees of freedom`)
   
-  
-  # confidence interval
+  ## confidence interval
   expect_equal(CI_g(Laski_g1_REML), CI_g(Laski_g1_mlm))
   expect_equal(CI_g(Laski_g1_REML), lmeInfo:::CI_g.g_mlm(Laski_g1_mlm))
   expect_equal(CI_g(Laski_g1_REML, symmetric = FALSE), CI_g(Laski_g1_mlm, symmetric = FALSE))
@@ -71,52 +71,165 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
   expect_equal(CI_g(Laski_g1_mlm)[1], Laski_calc_BCSMD_summary$`95% CI (lower)`)
   expect_equal(CI_g(Laski_g1_mlm)[2], Laski_calc_BCSMD_summary$`95% CI (upper)`)
   
+  
+  
+  # complex model
+  default_AB <- default_times(design = "MBP",
+                              case = case, phase = treatment, session = time, 
+                              data = Laski)
+  D <- default_AB$B - default_AB$A
+  
+  dat <- preprocess_SCD(design = "MBP", 
+                        case = case, phase = treatment, session = time, outcome = outcome, 
+                        center = 4, data = Laski)
+  Laski_RML2 <- suppressWarnings(lme(fixed = outcome ~ time + treatment + time_trt,
+                                     random = ~ time | case, 
+                                     correlation = corAR1(0.01, ~ time | case), 
+                                     data = dat,
+                                     control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)))
+  
+  ## g_REML VS g_mlm
+  Laski_g2_REML <- suppressWarnings(g_REML(Laski_RML2, p_const = c(0,0,1,D), r_const = c(1,0,1,18,81), returnModel = TRUE))
+  Laski_g2_mlm <- suppressWarnings(g_mlm(Laski_RML2, p_const = c(0,0,1,D), r_const = c(1,18,81,0,1), returnModel = TRUE))
+  
+  expect_equal(Laski_g2_mlm$p_beta, Laski_g2_REML$p_beta) # numerator of effect size
+  expect_equal(Laski_g2_mlm$r_theta, Laski_g2_REML$r_theta) # squared denominator of effect size
+  expect_equal(Laski_g2_mlm$delta_AB, Laski_g2_REML$delta_AB) # unadjusted (REML) effect size estimate
+  expect_equal(as.numeric(Laski_g2_mlm$nu), Laski_g2_REML$nu) # degrees of freedom
+  expect_equal(as.numeric(Laski_g2_mlm$kappa), Laski_g2_REML$kappa) # constant kappa
+  expect_equal(as.numeric(Laski_g2_mlm$g_AB), Laski_g2_REML$g_AB) # corrected effect size estimate
+  expect_equal(as.numeric(Laski_g2_mlm$SE_g_AB^2), Laski_g2_REML$V_g_AB) # Approximate variance estimate
+  expect_equal(Laski_g2_mlm$theta$sigma_sq, Laski_g2_REML$sigma_sq) # Estimated level-1 variance
+  expect_equal(Laski_g2_mlm$theta$cor_params, Laski_g2_REML$phi) # Estimated autocorrelation
+  expect_equal(Laski_g2_mlm$theta$Tau$case, Laski_g2_REML$Tau) # Vector of level-2 variance components
+  expect_equal(det(Laski_g2_mlm$info_inv), det(Laski_g2_REML$I_E_inv)) # Expected information matrix
+  
+  ## g_mlm VS calc_BCSMD
+  Laski_BCSMD2 <- suppressWarnings(
+    calc_BCSMD(design = "MBP", case = case, phase = treatment,
+               session = time, outcome = outcome, center = 4,
+               FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+               summary = FALSE,
+               data = Laski)
+  )
+  
+  Laski_BCSMD2$model <- NULL
+  expect_equal(Laski_g2_mlm, Laski_BCSMD2, check.attributes = FALSE)
+  
+  Laski_BCSMD2_summary <- suppressWarnings(
+    calc_BCSMD(design = "MBP", case = case, phase = treatment,
+               session = time, outcome = outcome, center = 4,
+               FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+               data = Laski)
+  )
+  
+  expect_equal(Laski_g2_mlm$g_AB, Laski_BCSMD2_summary$`BC-SMD estimate`)
+  expect_equal(Laski_g2_mlm$SE_g_AB, Laski_BCSMD2_summary$`Std. Error`)
+  expect_equal(Laski_g2_mlm$nu, Laski_BCSMD2_summary$`Degrees of freedom`)
+  
+  
+  ## confidence interval
+  expect_equal(CI_g(Laski_g2_REML), CI_g(Laski_g2_mlm))
+  expect_equal(CI_g(Laski_g2_REML), lmeInfo:::CI_g.g_mlm(Laski_g2_mlm))
+  expect_equal(CI_g(Laski_g2_REML, symmetric = FALSE), CI_g(Laski_g2_mlm, symmetric = FALSE))
+  
+  expect_equal(CI_g(Laski_g2_mlm)[1], Laski_BCSMD2_summary$`95% CI (lower)`)
+  expect_equal(CI_g(Laski_g2_mlm)[2], Laski_BCSMD2_summary$`95% CI (upper)`)
+  
 })
 
-test_that("g_mlm() is imported appropriately for Bryant 2016 data.", {
+test_that("g_mlm() is imported appropriately for Bryant 2018 data.", {
   
-  skip_if_not_installed("lmeInfo")
+  data(Bryant2018)
+  Bryant_RML1 <- lme(fixed = outcome ~ treatment,
+                     random = ~ 1 | group/case,
+                     correlation = corAR1(0.01, ~ session | group/case),
+                     data = Bryant2018)
   
-  data(Bryant2016, package = "lmeInfo")
-  Bryant2016_RML1 <- lme(fixed = outcome ~ treatment,
-                         random = ~ 1 | school/case,
-                         correlation = corAR1(0.01, ~ session | school/case),
-                         data = Bryant2016)
+  # simple model
+  suppressWarnings(expect_error(g_REML(Bryant_RML1, p_const = c(0, 1), r_const = c(1, 0, 1, 1)))) # g_REML not available for 3-level data
+  Bry_g1_mlm <- g_mlm(Bryant_RML1, p_const = c(0, 1), r_const = c(1, 1, 0, 1), infotype = "expected", returnModel = TRUE)
   
-  # three-level data
-  suppressWarnings(expect_error(g_REML(Bryant2016_RML1, p_const = c(0, 1), r_const = c(1, 0, 1, 1)))) # g_REML not available for 3-level data
-  Bryant2016_g1_mlm <- g_mlm(Bryant2016_RML1, p_const = c(0, 1), r_const = c(1, 1, 0, 1),
-                             infotype = "expected", returnModel = TRUE)
+  expect_output(summary(Bry_g1_mlm))
+  expect_output(print(Bry_g1_mlm))
   
-  expect_output(summary(Bryant2016_g1_mlm))
-  expect_output(print(Bryant2016_g1_mlm))
+  Bry_BCSMD <- calc_BCSMD(design = "CMB",
+                          cluster = group, case = case, phase = treatment,
+                          session = session, outcome = outcome,
+                          treatment_name = "treatment",
+                          FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+                          summary = FALSE,
+                          data = Bryant2018)
+  Bry_BCSMD$model <- NULL
+  expect_equal(Bry_g1_mlm, Bry_BCSMD, check.attributes = FALSE)
   
-  Bry2016_calc_BCSMD <- calc_BCSMD(design = "CMB",
-                                   cluster = school, case = case, phase = treatment,
-                                   session = session, outcome = outcome,
-                                   treatment_name = "treatment",
-                                   FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
-                                   summary = FALSE,
-                                   data = Bryant2016)
-  Bry2016_calc_BCSMD$model <- NULL
-  expect_equal(Bryant2016_g1_mlm, Bry2016_calc_BCSMD, check.attributes = FALSE)
+  Bry_BCSMD_summary <- calc_BCSMD(design = "CMB",
+                                  cluster = group, case = case, phase = treatment,
+                                  session = session, outcome = outcome,
+                                  treatment_name = "treatment",
+                                  FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+                                  data = Bryant2018)
+  expect_equal(Bry_g1_mlm$g_AB, Bry_BCSMD_summary$`BC-SMD estimate`)
+  expect_equal(Bry_g1_mlm$SE_g_AB, Bry_BCSMD_summary$`Std. Error`)
+  expect_equal(Bry_g1_mlm$nu, Bry_BCSMD_summary$`Degrees of freedom`)
   
-  Bry_calc_BCSMD_summary <- calc_BCSMD(design = "CMB",
-                                       cluster = school, case = case, phase = treatment,
-                                       session = session, outcome = outcome,
-                                       treatment_name = "treatment",
-                                       FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
-                                       data = Bryant2016)
-  expect_equal(Bryant2016_g1_mlm$g_AB, Bry_calc_BCSMD_summary$`BC-SMD estimate`)
-  expect_equal(Bryant2016_g1_mlm$SE_g_AB, Bry_calc_BCSMD_summary$`Std. Error`)
-  expect_equal(Bryant2016_g1_mlm$nu, Bry_calc_BCSMD_summary$`Degrees of freedom`)
+  expect_equal(CI_g(Bry_g1_mlm, symmetric = TRUE)[1], 0.4082033, tol = 1e-6)
+  expect_equal(CI_g(Bry_g1_mlm, symmetric = TRUE)[2], 0.7773397, tol = 1e-6)
+  
+  expect_equal(CI_g(Bry_g1_mlm)[1], Bry_BCSMD_summary$`95% CI (lower)`)
+  expect_equal(CI_g(Bry_g1_mlm)[2], Bry_BCSMD_summary$`95% CI (upper)`)
   
   
-  # confidence interval
-  expect_equal(CI_g(Bryant2016_g1_mlm, symmetric = TRUE)[1], 0.2180615, tol = 1e-6)
-  expect_equal(CI_g(Bryant2016_g1_mlm, symmetric = TRUE)[2], 0.7085615, tol = 1e-6)
   
-  expect_equal(CI_g(Bryant2016_g1_mlm)[1], Bry_calc_BCSMD_summary$`95% CI (lower)`)
-  expect_equal(CI_g(Bryant2016_g1_mlm)[2], Bry_calc_BCSMD_summary$`95% CI (upper)`)
+  # complex model
+  default_AB <- default_times(design = "CMB",
+                              cluster = group, case = case, phase = treatment, session = session, 
+                              data = Bryant2018)
+  D <- default_AB$B - default_AB$A
+  dat <- preprocess_SCD(design = "CMB", 
+                        cluster = group, case = case, phase = treatment,
+                        session = session, outcome = outcome, center = default_AB$B,
+                        data = Bryant2018)
+  Bry_RML2 <- suppressWarnings(lme(fixed = outcome ~ session + treatment + session_trt,
+                                   random = list(group = ~ 1, case = ~ session + session_trt), 
+                                   correlation = corAR1(0.01, ~ session | group/case),
+                                   data = dat,
+                                   control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)))
+  Bry_g2_mlm <- g_mlm(Bry_RML2, p_const = c(0,0,1,D), r_const = c(1,0,0,0,0,0,1,0,1), 
+                      infotype = "expected", returnModel = TRUE)
+  
+  Bry_BCSMD2 <- suppressWarnings(
+    calc_BCSMD(design = "CMB",
+               cluster = group, case = case, phase = treatment,
+               session = session, outcome = outcome, center = default_AB$B,
+               treatment_name = "treatment",
+               FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, 
+               FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+               summary = FALSE,
+               data = Bryant2018)
+  )
+  
+  Bry_BCSMD2$model <- NULL
+  expect_equal(Bry_g2_mlm, Bry_BCSMD2, check.attributes = FALSE)
+  
+  Bry_BCSMD2_summary <- suppressWarnings(
+    calc_BCSMD(design = "CMB",
+               cluster = group, case = case, phase = treatment,
+               session = session, outcome = outcome, center = default_AB$B,
+               treatment_name = "treatment",
+               FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, 
+               FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+               data = Bryant2018)
+  )
+  
+  expect_equal(Bry_g2_mlm$g_AB, Bry_BCSMD2_summary$`BC-SMD estimate`)
+  expect_equal(Bry_g2_mlm$SE_g_AB, Bry_BCSMD2_summary$`Std. Error`)
+  expect_equal(Bry_g2_mlm$nu, Bry_BCSMD2_summary$`Degrees of freedom`)
+  
+  expect_equal(CI_g(Bry_g2_mlm, symmetric = TRUE)[1], -1.3673849, tol = 1e-6)
+  expect_equal(CI_g(Bry_g2_mlm, symmetric = TRUE)[2], -0.3310756, tol = 1e-6)
+  
+  expect_equal(CI_g(Bry_g2_mlm)[1], Bry_BCSMD2_summary$`95% CI (lower)`)
+  expect_equal(CI_g(Bry_g2_mlm)[2], Bry_BCSMD2_summary$`95% CI (upper)`)
   
 })
