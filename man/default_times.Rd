@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_BCSMD.R
 \name{default_times}
 \alias{default_times}
-\title{Calculate default Initial treatment time and follow-up time}
+\title{Calculate default initial treatment time and follow-up time.}
 \usage{
 default_times(
   design,
@@ -16,19 +16,18 @@ default_times(
 )
 }
 \arguments{
-\item{design}{Character string to specify whether data comes from a multiple
-baseline across participants (\code{"MBP"}), treatment reversal
-(\code{"TR"}), replicated multiple baseline across behaviors
-(\code{"RMBB"}), or clustered multiple baseline across participants
-(\code{"CMB"}).}
+\item{design}{Character string to specify whether data comes from a treatment
+reversal (\code{"TR"}), multiple baseline across participants
+(\code{"MBP"}), replicated multiple baseline across behaviors
+(\code{"RMBB"}), or clustered multiple baseline across participants (\code{"CMB"}).}
 
-\item{case}{Vector of case indicators or name of a character or factor vector
+\item{case}{vector of case indicators or name of a character or factor vector
 within \code{data} indicating unique cases.}
 
-\item{phase}{Vector of treatment indicators or name of a character or factor
+\item{phase}{vector of treatment indicators or name of a character or factor
 vector within \code{data} indicating unique treatment phases.}
 
-\item{session}{Vector of measurement occasions or name of numeric vector
+\item{session}{vector of measurement occasions or name of numeric vector
 within \code{data} of measurement times.}
 
 \item{cluster}{(Optional) vector of cluster indicators or name of a character
@@ -49,8 +48,8 @@ A list of time range, default initial treatment time, and default
 }
 \description{
 Calculate the default initial treatment time and follow-up time
-  that are used to define and estimate the design comparable effect size for
-  multiple baseline designs and variations.
+  that are used to define and estimate the between-case standardized mean
+  differences for multiple baseline designs and variations.
 }
 \note{
 If treatment_name is left null, it will choose the second level of the
@@ -58,11 +57,20 @@ If treatment_name is left null, it will choose the second level of the
 }
 \examples{
 data(Laski)
-default_times(design = "MBP", case = case, phase = treatment, session = time, data = Laski)
+default_times(design = "MBP", 
+              case = case, phase = treatment, session = time, 
+              data = Laski)
 
 data(Thiemann2001)
-default_times(design = "RMBB", case = case, series = series, phase = treatment, session = time, data = Thiemann2001)
+default_times(design = "RMBB", 
+              case = case, series = series, 
+              phase = treatment, session = time, 
+              data = Thiemann2001)
 
 data(Bryant2018)
-default_times(design = "CMB", cluster = group, case = case, phase = treatment, session = session, data = Bryant2018)
+default_times(design = "CMB", 
+              cluster = group, case = case, 
+              phase = treatment, session = session, 
+              data = Bryant2018)
+              
 }

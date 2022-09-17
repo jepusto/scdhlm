@@ -153,12 +153,16 @@ In one call, 1) clean single-case design data for treatment
 }
 \examples{
 data(Laski)
+
+# Change-in-levels model with fixed treatment effect
 calc_BCSMD(design = "MBP",
            case = case, phase = treatment,
            session = time, outcome = outcome,
            FE_base = 0, RE_base = 0, FE_trt = 0,
            data = Laski)
 
+# Model with linear time trends in baseline and treatment phases, 
+# random baseline slopes, fixed treatment effects
 calc_BCSMD(design = "MBP",
            case = case, phase = treatment,
            session = time, outcome = outcome, center = 4,
@@ -198,4 +202,5 @@ calc_BCSMD(design = "CMB",
            FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, 
            FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
            data = Bryant2018)
+           
 }
