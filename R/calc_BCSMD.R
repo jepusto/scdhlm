@@ -1,30 +1,12 @@
 # Calculate timing defaults
 
-#' @title Calculate default Initial treatment time and follow-up time
+#' @title Calculate default initial treatment time and follow-up time.
 #'
 #' @description Calculate the default initial treatment time and follow-up time
-#'   that are used to define and estimate the design comparable effect size for
-#'   multiple baseline designs and variations.
+#'   that are used to define and estimate the between-case standardized mean
+#'   differences for multiple baseline designs and variations.
 #'
-#' @param design Character string to specify whether data comes from a multiple
-#'   baseline across participants (\code{"MBP"}), treatment reversal
-#'   (\code{"TR"}), replicated multiple baseline across behaviors
-#'   (\code{"RMBB"}), or clustered multiple baseline across participants
-#'   (\code{"CMB"}).
-#' @param case Vector of case indicators or name of a character or factor vector
-#'   within \code{data} indicating unique cases.
-#' @param phase Vector of treatment indicators or name of a character or factor
-#'   vector within \code{data} indicating unique treatment phases.
-#' @param session Vector of measurement occasions or name of numeric vector
-#'   within \code{data} of measurement times.
-#' @param cluster (Optional) vector of cluster indicators or name of a character
-#'   or factor vector within \code{data} indicating clusters.
-#' @param series (Optional) vector of series indicators or name of a character
-#'   or factor vector within \code{data} indicating series.
-#' @param treatment_name (Optional) character string corresponding to the name
-#'   of the treatment phase.
-#' @param data (Optional) dataset to use for analysis. Must be a
-#'   \code{data.frame}.
+#' @inheritParams graph_SCD
 #'
 #' @note If treatment_name is left null, it will choose the second level of the
 #'   phase variable to be the treatment phase.
@@ -37,13 +19,22 @@
 #'
 #' @examples
 #' data(Laski)
-#' default_times(design = "MBP", case = case, phase = treatment, session = time, data = Laski)
+#' default_times(design = "MBP", 
+#'               case = case, phase = treatment, session = time, 
+#'               data = Laski)
 #'
 #' data(Thiemann2001)
-#' default_times(design = "RMBB", case = case, series = series, phase = treatment, session = time, data = Thiemann2001)
+#' default_times(design = "RMBB", 
+#'               case = case, series = series, 
+#'               phase = treatment, session = time, 
+#'               data = Thiemann2001)
 #'
 #' data(Bryant2018)
-#' default_times(design = "CMB", cluster = group, case = case, phase = treatment, session = session, data = Bryant2018)
+#' default_times(design = "CMB", 
+#'               cluster = group, case = case, 
+#'               phase = treatment, session = session, 
+#'               data = Bryant2018)
+#'               
 
 default_times <- function(design,
                           case, phase, session, cluster = NULL, series = NULL, 
@@ -198,12 +189,16 @@ write_formula <- function(powers, var_names) {
 #'
 #' @examples
 #' data(Laski)
+#' 
+#' # Change-in-levels model with fixed treatment effect
 #' calc_BCSMD(design = "MBP",
 #'            case = case, phase = treatment,
 #'            session = time, outcome = outcome,
 #'            FE_base = 0, RE_base = 0, FE_trt = 0,
 #'            data = Laski)
-#'
+#' 
+#' # Model with linear time trends in baseline and treatment phases, 
+#' # random baseline slopes, fixed treatment effects
 #' calc_BCSMD(design = "MBP",
 #'            case = case, phase = treatment,
 #'            session = time, outcome = outcome, center = 4,
@@ -243,6 +238,7 @@ write_formula <- function(powers, var_names) {
 #'            FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, 
 #'            FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
 #'            data = Bryant2018)
+#'            
 
 calc_BCSMD <- function(design, 
                        case, phase, session, outcome, 
@@ -271,7 +267,7 @@ calc_BCSMD <- function(design,
                             'CMB' (clustered multiple baseline).")
   if (design == "CMB" & missing(cluster)) stop("Please specify a cluster variable.")
   if (design == "RMBB" & missing(series)) stop("Please specify a series variable.")
-  if (design == "TR" & ( any(c(FE_base, RE_base, FE_trt) != 0) | any(!is.null(c(RE_base_2, RE_trt, RE_trt_2))) )) 
+  if (design == "TR" & ( any(c(FE_base, RE_base, FE_trt) != 0) | (!is.null(RE_trt) && any(RE_trt != 0)) | any(!is.null(c(RE_base_2, RE_trt_2))) )) 
     stop("Please use the default specifications for fixed and random effects in treatment reversal design.")
   
   case_call <- substitute(case)
@@ -359,32 +355,25 @@ calc_BCSMD <- function(design,
   # calculate effect size
   
   if (!is.null(B) & !is.null(D)) {
-    stop("Please specify either 'B' or 'D' argument, or use the default treatment duration by setting both 'B' and 'D' to NULL.")
+    stop("Please specify either the 'B' or 'D' argument, or use the default treatment duration by setting both 'B' and 'D' to NULL.")
     
   } else {
     
-    default_AB <- default_times(design = design, case = case, phase = phase, session = session, cluster = cluster, series = series)
+    default_AB <- default_times(design = design, 
+                                case = case, phase = phase, session = session, 
+                                cluster = cluster, series = series)
     
     if (is.null(A)) {
       A <- default_AB$A
-      if (is.null(B) & is.null(D)) {
-        B <- default_AB$B
-      } else if (is.null(B) & !is.null(D)) {
-        B <- A + D
-      }
-      
-    } else if (!is.null(A)) {
-      if (is.null(B) & is.null(D)) {
-        B <- default_AB$B
-      } else if (is.null(B) & !is.null(D)) {
-        B <- A + D
-      }
-      
-    }
+    } 
     
+    if (is.null(B) & is.null(D)) {
+      B <- default_AB$B
+    } else if (!is.null(D)) {
+      B <- A + D
+    }
   }
   
- 
   p_const <- c(rep(0L, length(FE_base)), (B - A)^as.integer(FE_trt))
 
   r_dim <- length(RE_base) + length(RE_trt)
