@@ -26,13 +26,15 @@ authors:
 reference:
   - title: "Estimating Effect Sizes"
     desc: "Functions for estimating effect sizes based on data from single-case designs"
-    contents: 
+    contents:
+      - preprocess_SCD
+      - calc_BCSMD
       - CI_g
+      - default_times
+      - phase_pairs
+      - session_by_treatment
       - effect_size_ABk
       - effect_size_MB
-      - phase_pairs
-      - preprocess_SCD
-      - session_by_treatment
   - title: "Graphing Single-Case Design Data"
     desc: "Function for graphing data from single-case designs"
     contents: 
@@ -42,7 +44,7 @@ reference:
     contents:
         - shine_scd
   - title: "lmeInfo package"
-    desc: "Importing functions from lmeInfo package"
+    desc: "Imported functions from lmeInfo package"
     contents:
         - lmeInfo
   - title: "Deprecated function"
@@ -81,13 +83,16 @@ reference:
         - compare_RML_HPS
         - design_matrix
         - Info_Expected_lmeAR1
+        - simulate.g_REML
+        - simulate_MB2
+        - simulate_MB4
+  - title: "Simulation results"
+    desc: "Datasets containing simulation results from Pustejovsky, Hedges, and Shadish (2014)"
+    contents:
         - MB1results
         - MB1time
         - MB2results
         - MB2time
         - MB4results
         - MB4time
-        - simulate.g_REML
-        - simulate_MB2
-        - simulate_MB4
-
+        
