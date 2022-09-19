@@ -1,4 +1,19 @@
 
+check_convergence <- function(mod) {
+  warns <- warnings()
+  if (length(warns) == 0L) return(TRUE)
+  
+  nlminb_warns <- grepl("nlminb problem", names(warns))
+  if (!any(nlminb_warns)) return(TRUE)
+  
+  warning_calls <- warns[nlminb_warns]
+  
+  elements <- c("fixed","random","correlation","weights","data","control")
+  calls_match <- sapply(warning_calls, function(x) mod$call[elements] == x[elements], USE.NAMES = FALSE)
+  !any(calls_match)
+}
+
+
 ##------------------------------------------------------------------------
 ## block-diagonal matrix addition, multiplication, and trace functions 
 ##------------------------------------------------------------------------

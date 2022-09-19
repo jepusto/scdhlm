@@ -284,7 +284,7 @@ g_REML <- function(m_fit, p_const, r_const,
   r_theta <- sum(unlist(theta) * r_const)                           # r'theta
   delta_AB <- p_beta / sqrt(r_theta)                                # delta_AB              
   kappa_sq <- as.numeric(t(p_const) %*% vcov(m_fit) %*% p_const) / r_theta    # kappa^2
-  cnvg_warn <- !is.null(attr(m_fit,"warning"))                      # indicator that RML estimation has not converged
+  cnvg_warn <- !check_convergence(m_fit)                       # indicator that RML estimation has not converged
       
   # calculate inverse expected information
   I_E <- Info_Expected(theta=theta, X_design=X_design, Z_design=Z_design, block=block, times=times)
