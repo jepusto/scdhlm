@@ -37,6 +37,7 @@ ui <-
                  navlistPanel(widths = c(3,9),
                               tabPanel("About", includeMarkdown("markdown/scdhlm.md")),
                               tabPanel("Accessing scdhlm", includeMarkdown("markdown/Accessing_scdhlm.md")),
+                              tabPanel("Demo videos", includeMarkdown("markdown/demos.md")),
                               tabPanel("References", includeMarkdown("markdown/references.md")),
                               tabPanel("Example data", includeMarkdown("markdown/example-data.md"))
                  )
