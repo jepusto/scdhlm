@@ -38,11 +38,11 @@ To access the app on your own computer, you will need to install two pieces of o
     install.packages("rclipboard")
     ```
 
-4. After all of these packages are installed, type the following commands at the console prompt to start the app (which should then open in a new window):
+5. After all of these packages are installed, type the following commands at the console prompt to start the app (which should then open in a new window):
 
     ```{r, eval = FALSE}
     library(scdhlm)
     shine_scd()
     ```
 
-5. To exit the app, simply close the window in which it appears or click the red "Stop" icon in the upper right-hand corner of the RStudio console window.
+6. To exit the app, simply close the window in which it appears or click the red "Stop" icon in the upper right-hand corner of the RStudio console window.
