@@ -183,14 +183,14 @@ summary(quality_ES)
 
 Gilmour, A. R., Thompson, R., & Cullis, B. R. (1995). Average information REML: An efficient algorithm for variance parameter estimation in linear mixed models. _Biometrics, 51_(4), 1440–1450. https://doi.org/10.2307/2533274
 
-Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. _Research Synthesis Methods, 3_(3), 224-239. doi: [10.1002/jrsm.1052](http://doi.org/10.1002/jrsm.1052)
+Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. _Research Synthesis Methods, 3_(3), 224-239. https://doi.org/10.1002/jrsm.1052
 
-Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. _Research Synthesis Methods, 4_(4), 324-341. doi: [10.1002/jrsm.1086](http://doi.org/10.1002/jrsm.1086)
+Hedges, L. V., Pustejovsky, J. E., & Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. _Research Synthesis Methods, 4_(4), 324-341. https://doi.org/10.1002/jrsm.1086
 
-Lambert, M. C., Cartledge, G., Heward, W. L., & Lo, Y. (2006). Effects of response cards on disruptive behavior and academic responding during math lessons by fourth-grade urban students. _Journal of Positive Behavior Interventions, 8_(2), 88-99. doi: [10.1177/10983007060080020701](https://doi.org/10.1177/10983007060080020701)
+Lambert, M. C., Cartledge, G., Heward, W. L., & Lo, Y. (2006). Effects of response cards on disruptive behavior and academic responding during math lessons by fourth-grade urban students. _Journal of Positive Behavior Interventions, 8_(2), 88-99. https://doi.org/10.1177/10983007060080020701
 
-Laski, K. E., Charlop, M. H., & Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic children’s speech. _Journal of Applied Behavior Analysis, 21_(4), 391–400. doi: [10.1901/jaba.1988.21-391]( https://doi.org/10.1901/jaba.1988.21-391)
+Laski, K. E., Charlop, M. H., & Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic children’s speech. _Journal of Applied Behavior Analysis, 21_(4), 391–400. https://doi.org/10.1901/jaba.1988.21-391
 
-Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. _Journal of Educational and Behavioral Statistics, 39_(4), 211-227. doi: [10.3102/1076998614547577](http://doi.org/10.3102/1076998614547577)
+Pustejovsky, J. E., Hedges, L. V., & Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. _Journal of Educational and Behavioral Statistics, 39_(4), 211-227. https://doi.org/10.3102/1076998614547577
 
-Saddler, B., Behforooz, B., & Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. _The Journal of Special Education, 42_(2), 79–90. doi: [10.1177/0022466907310371](http://doi.org/10.1177/0022466907310371)
+Saddler, B., Behforooz, B., & Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. _The Journal of Special Education, 42_(2), 79–90. https://doi.org/10.1177/0022466907310371
