@@ -196,8 +196,8 @@ write_formula <- function(powers, var_names) {
 #'            session = time, outcome = outcome,
 #'            FE_base = 0, RE_base = 0, FE_trt = 0,
 #'            data = Laski)
-#' 
-#' # Model with linear time trends in baseline and treatment phases, 
+#'
+#' # Model with linear time trends in baseline and treatment phases,
 #' # random baseline slopes, fixed treatment effects
 #' calc_BCSMD(design = "MBP",
 #'            case = case, phase = treatment,
@@ -235,10 +235,11 @@ write_formula <- function(powers, var_names) {
 #'            cluster = group, case = case, phase = treatment,
 #'            session = session, outcome = outcome, center = 49,
 #'            treatment_name = "treatment",
-#'            FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, 
+#'            FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
 #'            FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
 #'            data = Bryant2018)
-#'            
+#' 
+#' 
 
 calc_BCSMD <- function(design, 
                        case, phase, session, outcome, 
@@ -464,3 +465,150 @@ calc_BCSMD <- function(design,
   }
   
 }
+
+
+#' @title A convenience function for calculating multiple design comparable
+#'   effect sizes from a dataset including multiple single-case design studies
+#'
+#' @description Calculates standardized mean difference effect sizes for a data
+#'   set including one or multiple single-case design studies using the same
+#'   design: treatment reversal, multiple baseline/probe across participants,
+#'   replicated multiple baseline across behaviors, or clustered multiple
+#'   baseline across participants.
+#'
+#' @param data A data frame containing SCD data for which design comparable
+#'   effect sizes will be calculated.
+#' @param grouping A variable name or list of (unquoted) variable names that
+#'   uniquely identify each study.
+#' @param case A (unquoted) variable name that identifies unique cases within
+#'   each \code{grouping} variable.
+#' @param phase A (unquoted) variable name that identifies unique treatment
+#'   phases.
+#' @param session A (unquoted) variable name that identifies the measurement
+#'   times of each \code{grouping} variable.
+#' @param outcome A (unquoted) variable name that identifies the outcome
+#'   variable of each \code{grouping} variable.
+#' @param cluster (Optional) variable name that indicates the cluster variable
+#'   for \code{CMB} design.
+#' @param series (Optional) variable name that indicates the series variable for
+#'   \code{RMBB} design.
+#'
+#' @inheritParams calc_BCSMD
+#'
+#' @export
+#'
+#' @return A data frame containing the design-comparable effect size estimate,
+#'   standard error, confidence interval, and other information, for each unique
+#'   category of \code{grouping} variable.
+#'
+#'
+#' @importFrom rlang !!!
+#' @importFrom rlang !!
+#' @importFrom dplyr .data
+#'
+#' @examples
+#' data(Thiemann2001)
+#' data(Thiemann2004)
+#' datThiemann <- rbind(Thiemann2001, Thiemann2004)
+#'
+#' # Change-in-levels model with fixed treatment effect
+#' batch_calc_BCSMD(data = datThiemann, 
+#'                  grouping = Study_ID, 
+#'                  design = "RMBB",
+#'                  case = case, series = series, phase = treatment, 
+#'                  session = time, outcome = outcome,
+#'                  FE_base = 0, RE_base = 0, 
+#'                  RE_base_2 = 0, FE_trt = 0)
+#' 
+#' # Models with linear time trends in baseline and treatment phase, 
+#' # random baseline slope at series level, fixed treatment effects                  
+#' batch_calc_BCSMD(data = datThiemann, 
+#'                  grouping = Study_ID, 
+#'                  design = "RMBB",
+#'                  case = case, series = series, phase = treatment, 
+#'                  session = time, outcome = outcome,
+#'                  FE_base = c(0,1), RE_base = c(0,1), 
+#'                  RE_base_2 = 0, FE_trt = c(0,1))
+#'
+#'             
+batch_calc_BCSMD <- function(data,
+                             design, 
+                             grouping,
+                             case, phase, session, outcome, 
+                             cluster = NULL, series = NULL,
+                             center = 0, 
+                             round_session = TRUE,
+                             treatment_name = NULL,
+                             FE_base = 0, RE_base = 0, RE_base_2 = NULL, 
+                             FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
+                             corStruct = "AR1", varStruct = "hom",
+                             A = NULL, B = NULL, D = NULL,
+                             cover = 95, bound = 35, symmetric = TRUE,
+                             ...) {
+  
+  design <- tryCatch(match.arg(design, c("TR","MBP","RMBB","CMB")),
+                     error = function(e) stop("The `design` argument must be a character string specifying 'TR', 'MBP', 'RMBB', or 'CMB'."))
+  
+  grouping <- rlang::enquos(grouping)
+  grouping <- tryCatch(tidyselect::vars_select(names(data), !!!grouping),
+                       error = function(e) stop("Grouping variables are not in the dataset."))
+  
+  case <- tryCatch(tidyselect::vars_pull(names(data), !! rlang::enquo(case)), 
+                   error = function(e) stop("The `case` variable is not in the dataset."))
+  
+  phase <- tryCatch(tidyselect::vars_pull(names(data), !! rlang::enquo(phase)), 
+                    error = function(e) stop("The `phase` variable is not in the dataset."))
+  
+  session <- tryCatch(tidyselect::vars_pull(names(data), !! rlang::enquo(session)), 
+                      error = function(e) stop("The `session` variable is not in the dataset."))
+  
+  outcome <- tryCatch(tidyselect::vars_pull(names(data), !! rlang::enquo(outcome)), 
+                      error = function(e) stop("The `outcome` variable is not in the dataset."))
+  
+  if (tryCatch(!is.null(cluster), error = function(e) TRUE)) {
+    cluster <- tryCatch(tidyselect::vars_select(names(data), !!!rlang::enquos(cluster)), 
+                        error = function(e) stop("The `cluster` variables are not in the dataset."))
+  }
+  
+  if (tryCatch(!is.null(series), error = function(e) TRUE)) {
+    series <- tryCatch(tidyselect::vars_select(names(data), !!!rlang::enquos(series)), 
+                       error = function(e) stop("The `series` variables are not in the dataset."))
+  }
+  
+  res <- 
+    data %>% 
+    dplyr::group_by(!!!rlang::syms(c(grouping))) %>%
+    dplyr::summarise(
+      calc_BCSMD(
+        design = design,
+        case = .data[[case]],
+        phase = .data[[phase]],
+        session = .data[[session]],
+        outcome = .data[[outcome]],
+        cluster = if (design == "CMB") .data[[cluster]] else NULL,
+        series = if (design == "RMBB") .data[[series]] else NULL,
+        center = center,
+        round_session = round_session,
+        treatment_name = treatment_name,
+        FE_base = FE_base,
+        RE_base = RE_base,
+        RE_base_2 = RE_base_2,
+        FE_trt = FE_trt,
+        RE_trt = RE_trt,
+        RE_trt_2 = RE_trt_2,
+        corStruct = corStruct,
+        varStruct = varStruct,
+        A = A,
+        B = B,
+        D = D,
+        cover = cover,
+        bound = bound,
+        symmetric = symmetric,
+        ...
+      )
+    )
+  
+  return(res)
+  
+}
+

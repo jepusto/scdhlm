@@ -4,7 +4,7 @@ skip_if_not_installed("nlme")
 
 library(nlme)
 
-test_that("The logic for A, B, and D argument in calc_BCSMD() is correct.", {
+test_that("The logic for the A, B, and D argument in calc_BCSMD() is correct.", {
   
   data(Laski)
   
@@ -133,6 +133,7 @@ test_that("The default_times() calculates A and B correctly.", {
   
 })
 
+
 test_that("The calc_BCSMD() works appropriately for treatment reversal designs.", {
   
   data(Anglesea)
@@ -258,6 +259,93 @@ test_that("calc_BCSMD() returns same result as g_mlm() for Laski data.", {
   
 })
 
+
+test_that("The effect size calculations are not sensitive to the choice of centering value for two-level models", {
+  
+  data(Laski)
+  
+  default_AB <- default_times(design = "MBP",
+                              case = case, phase = treatment, session = time, 
+                              data = Laski)
+  B <- default_AB$B
+  C1 <- B
+  C2 <- 5
+  D <- B - default_AB$A
+  
+  # center at C1
+  dat_C1 <- preprocess_SCD(design = "MBP", 
+                        case = case, phase = treatment, session = time, outcome = outcome, 
+                        center = C1, data = Laski)
+  Laski_RML_C1 <- suppressWarnings(lme(fixed = outcome ~ time + treatment + time_trt,
+                                       random = ~ time | case, 
+                                       correlation = corAR1(0.01, ~ time | case), 
+                                       data = dat_C1,
+                                       control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)))
+  Laski_g_C1 <- suppressWarnings(g_mlm(Laski_RML_C1,
+                                       p_const = c(0, 0, 1, D),
+                                       r_const = c(1, 2*(B-C1), (B-C1)^2, 0, 1),
+                                       returnModel = TRUE))
+  
+  Laski_BCSMD_C1 <- suppressWarnings(
+    calc_BCSMD(design = "MBP", case = case, phase = treatment,
+               session = time, outcome = outcome, center = C1,
+               FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+               summary = FALSE,
+               data = Laski)
+  )
+  
+  Laski_BCSMD_C1$model <- NULL
+  
+  # center at C2
+  dat_C2 <- preprocess_SCD(design = "MBP", 
+                        case = case, phase = treatment, session = time, outcome = outcome, 
+                        center = C2, data = Laski)
+  Laski_RML_C2 <- suppressWarnings(lme(fixed = outcome ~ time + treatment + time_trt,
+                                       random = ~ time | case, 
+                                       correlation = corAR1(0.01, ~ time | case), 
+                                       data = dat_C2,
+                                       control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)))
+  Laski_g_C2 <- suppressWarnings(g_mlm(Laski_RML_C2,
+                                       p_const = c(0, 0, 1, D),
+                                       r_const = c(1, 2*(B-C2), (B-C2)^2, 0, 1),
+                                       returnModel = TRUE))
+  
+  Laski_BCSMD_C2 <- suppressWarnings(
+    calc_BCSMD(design = "MBP", case = case, phase = treatment,
+               session = time, outcome = outcome, center = C2,
+               FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+               summary = FALSE,
+               data = Laski)
+  )
+  
+  Laski_BCSMD_C2$model <- NULL
+  
+  
+  expect_equal(Laski_g_C1, Laski_BCSMD_C1, check.attributes = FALSE)
+  expect_equal(Laski_g_C2, Laski_BCSMD_C2, check.attributes = FALSE)
+  
+  p_beta_C1 <- sum(nlme::fixed.effects(Laski_RML_C1) * c(0,0,1,9))
+  p_beta_C2 <- sum(nlme::fixed.effects(Laski_RML_C2) * c(0,0,1,9))
+  r_const1 <- c(1,0,0,0,1)
+  r_const2 <- c(1, 2*(B-C2), (B-C2)^2, 0, 1)
+  r_theta_C1 <- sum(unlist(extract_varcomp(Laski_RML_C1)) * r_const1)
+  r_theta_C2 <- sum(unlist(extract_varcomp(Laski_RML_C2)) * r_const2)
+  info_inv1 <- varcomp_vcov(Laski_RML_C1)
+  info_inv2 <- varcomp_vcov(Laski_RML_C2)
+  SE_theta1 <- sqrt(diag(info_inv1)) 
+  SE_theta2 <- sqrt(diag(info_inv2)) 
+  nu1 <- 2 * r_theta_C1^2 / sum(tcrossprod(r_const1) * info_inv1) 
+  nu2 <- 2 * r_theta_C2^2 / sum(tcrossprod(r_const2) * info_inv2) 
+  J_nu1 <- 1 - 3 / (4 * nu1 - 1) 
+  J_nu2 <- 1 - 3 / (4 * nu2 - 1) 
+  
+  expect_equal(Laski_g_C1$delta_AB, Laski_g_C2$delta_AB, tol = .001)
+  expect_equal(Laski_g_C1$g_AB, Laski_g_C2$g_AB, tol = .001)
+  expect_equal(Laski_g_C1$SE_g_AB, Laski_g_C2$SE_g_AB, tol = .0001)
+  
+})
+
+
 test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data.", {
   
   data(Bryant2018)
@@ -340,5 +428,249 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data.
   expect_equal(Bry_g2_mlm$nu, Bry_BCSMD2_summary$`Degrees of freedom`)
   expect_equal(CI_g(Bry_g2_mlm)[1], Bry_BCSMD2_summary$`95% CI (lower)`)
   expect_equal(CI_g(Bry_g2_mlm)[2], Bry_BCSMD2_summary$`95% CI (upper)`)
+  
+})
+
+
+test_that("The effect size calculations are not sensitive to the choice of centering value for three-level models", {
+  
+  data(Bryant2018)
+  
+  default_AB <- default_times(design = "CMB",
+                              cluster = group, case = case, phase = treatment, session = session, 
+                              data = Bryant2018)
+  B <- default_AB$B
+  C1 <- B
+  C2 <- 21
+  D <- default_AB$B - default_AB$A
+  
+  # center at C1
+  dat_C1 <- preprocess_SCD(design = "CMB", 
+                           cluster = group, case = case, phase = treatment,
+                           session = session, outcome = outcome, center = C1,
+                           data = Bryant2018)
+  Bry_RML_C1 <- suppressWarnings(lme(fixed = outcome ~ session + treatment + session_trt,
+                                     random = list(group = ~ 1, case = ~ session + session_trt), 
+                                     correlation = corAR1(0.01, ~ session | group/case),
+                                     data = dat_C1,
+                                     control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)))
+  Bry_g_C1 <- g_mlm(Bry_RML_C1, 
+                    p_const = c(0,0,1,D), 
+                    r_const = c(1,0,0,0,0,0,1,0,1), 
+                    returnModel = TRUE)
+  
+  Bry_BCSMD_C1 <- suppressWarnings(
+    calc_BCSMD(design = "CMB",
+               cluster = group, case = case, phase = treatment,
+               session = session, outcome = outcome, center = C1,
+               treatment_name = "treatment",
+               FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, 
+               FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+               summary = FALSE,
+               data = Bryant2018)
+  )
+  
+  Bry_BCSMD_C1$model <- NULL
+  
+  
+  # center at C2
+  dat_C2 <- preprocess_SCD(design = "CMB", 
+                           cluster = group, case = case, phase = treatment,
+                           session = session, outcome = outcome, center = C2,
+                           data = Bryant2018)
+  Bry_RML_C2 <- suppressWarnings(lme(fixed = outcome ~ session + treatment + session_trt,
+                                     random = list(group = ~ 1, case = ~ session + session_trt), 
+                                     correlation = corAR1(0.01, ~ session | group/case),
+                                     data = dat_C2,
+                                     control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)))
+  Bry_g_C2 <- g_mlm(Bry_RML_C2, 
+                    p_const = c(0,0,1,D), 
+                    r_const = c(1,2*(B-C2),(B-C2)^2,0,0,0,1,0,1), 
+                    returnModel = TRUE)
+  
+  Bry_BCSMD_C2 <- suppressWarnings(
+    calc_BCSMD(design = "CMB",
+               cluster = group, case = case, phase = treatment,
+               session = session, outcome = outcome, center = C2,
+               treatment_name = "treatment",
+               FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, 
+               FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+               summary = FALSE,
+               data = Bryant2018)
+  )
+  
+  Bry_BCSMD_C2$model <- NULL
+  
+  
+  expect_equal(Bry_g_C1, Bry_BCSMD_C1, check.attributes = FALSE)
+  expect_equal(Bry_g_C2, Bry_BCSMD_C2, check.attributes = FALSE)
+  
+  p_beta_C1 <- sum(nlme::fixed.effects(Bry_RML_C1) * c(0,0,1,44))
+  p_beta_C2 <- sum(nlme::fixed.effects(Bry_RML_C2) * c(0,0,1,44))
+  r_const1 <- c(1,0,0,0,0,0,1,0,1)
+  r_const2 <- c(1,2*(B-C2),(B-C2)^2,0,0,0,1,0,1)
+  r_theta_C1 <- sum(unlist(extract_varcomp(Bry_RML_C1)) * r_const1)
+  r_theta_C2 <- sum(unlist(extract_varcomp(Bry_RML_C2)) * r_const2)
+  
+  info_inv1 <- varcomp_vcov(Bry_RML_C1)
+  info_inv2 <- varcomp_vcov(Bry_RML_C2)
+  SE_theta1 <- sqrt(diag(info_inv1)) 
+  SE_theta2 <- sqrt(diag(info_inv2)) 
+  nu1 <- 2 * r_theta_C1^2 / sum(tcrossprod(r_const1) * info_inv1) 
+  nu2 <- 2 * r_theta_C2^2 / sum(tcrossprod(r_const2) * info_inv2) 
+  J_nu1 <- 1 - 3 / (4 * nu1 - 1) 
+  J_nu2 <- 1 - 3 / (4 * nu2 - 1) 
+  
+  expect_equal(Bry_g_C1$g_AB, Bry_g_C2$g_AB, tol = .001)
+  expect_equal(Bry_g_C1$SE_g_AB, Bry_g_C2$SE_g_AB, tol = .0001)
+  
+  expect_equal(Bry_g_C1$delta_AB, Bry_g_C2$delta_AB, tol = .001)
+  # expect_equal(Bry_g_C1$g_AB, Bry_g_C2$g_AB, tol = .001)
+  # expect_equal(Bry_g_C1$SE_g_AB, Bry_g_C2$SE_g_AB, tol = .0001)
+  
+})
+
+
+test_that("The batch_calc_BCSMD() works for MBP design.", {
+  
+  # single calculator
+  data("Laski")
+  
+  Laski1_single <- 
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      data = Laski
+    )
+  
+  Laski2_single <- 
+    suppressWarnings(
+      calc_BCSMD(
+        design = "MBP",
+        case = case, phase = treatment,
+        session = time, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+        data = Laski)
+    )
+  
+  data("AlberMorgan")
+  
+  Alber1_single <- 
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = condition,
+      session = session, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      data = AlberMorgan
+    )
+  
+  Alber2_single <- 
+    suppressWarnings(
+      calc_BCSMD(
+        design = "MBP",
+        case = case, phase = condition,
+        session = session, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+        data = AlberMorgan)
+    )
+
+  # batch calculator
+  Laski$studyID <- "Laski"
+  names(Laski) <- c("case", "outcome", "session", "condition", "studyID")
+  AlberMorgan$studyID <- "AlberMorgan"
+  AlberMorgan <- AlberMorgan[, c(1, 4, 3, 2, 5)]
+  dat_MBP <- rbind(Laski, AlberMorgan)
+  
+  res1_batch <- 
+    batch_calc_BCSMD(
+      data = dat_MBP, grouping = studyID, design = "MBP",
+      case = case, phase = condition, session = session, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0
+    ) 
+  
+  res2_batch <- 
+    batch_calc_BCSMD(
+      data = dat_MBP, grouping = studyID, design = "MBP",
+      case = case, phase = condition, session = session, outcome = outcome,
+      FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1)
+    )
+  
+  # Q: why time A and B are missing in the batch calculator?
+  expect_equal(Laski1_single, as.data.frame(res1_batch[2, 2:12], ))
+  expect_equal(Alber1_single, as.data.frame(res1_batch[1, 2:12], ))
+  
+  # Q: why batch calculator does not work?
+  expect_equal(Laski2_single, as.data.frame(res2_batch[2, 2:12], ))
+  expect_equal(Alber2_single, as.data.frame(res2_batch[1, 2:12], ))
+  
+})
+  
+
+test_that("The batch_calc_BCSMD() works for RMBB design.", {
+  
+  # basic model
+  data(Thiemann2001)
+  Thi1_single_2001 <- 
+    calc_BCSMD(
+      design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+      data = Thiemann2001
+    )
+  
+  data(Thiemann2004)
+  Thi1_single_2004 <- 
+    calc_BCSMD(
+      design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+      data = Thiemann2004
+    )
+  
+  dat_RMBB <- rbind(Thiemann2001, Thiemann2004)
+  Thi1_batch <- 
+    batch_calc_BCSMD(
+      data = dat_RMBB, grouping = Study_ID, design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0
+    )
+  
+  expect_equal(Thi1_single_2001, as.data.frame(Thi1_batch[1, 2:12], ))
+  expect_equal(Thi1_single_2004, as.data.frame(Thi1_batch[2, 2:12], ))
+  
+  # complex model
+  Thi2_single_2001 <- 
+    calc_BCSMD(
+      design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, FE_trt = c(0,1), 
+      data = Thiemann2001
+    )
+  
+  Thi2_single_2004 <- 
+    calc_BCSMD(
+      design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, FE_trt = c(0,1), 
+      data = Thiemann2004
+    )
+  
+  Thi2_batch <- 
+    batch_calc_BCSMD(
+      data = dat_RMBB, grouping = Study_ID, design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, FE_trt = c(0,1)
+    )
+  
+  expect_equal(Thi2_single_2001, as.data.frame(Thi2_batch[1, 2:12], ))
+  expect_equal(Thi2_single_2004, as.data.frame(Thi2_batch[2, 2:12], ))
   
 })
