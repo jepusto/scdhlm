@@ -362,7 +362,16 @@ server <-
     # Centering and timing sliders for RML estimation of MBD
     
     time_range <- reactive({
-      default_times(datClean())
+      
+      cluster <- if (studyDesign() == "CMB") substitute(cluster) else NULL
+      series <- if (studyDesign() == "RMBB") substitute(series) else NULL
+      default_times(
+        design = studyDesign(),
+        case = case, phase = phase, session = session,
+        cluster = cluster, series = series,
+        treatment_name = NULL, data = datClean()
+      )
+      
     })
     
     output$model_centering <- renderUI({
@@ -370,7 +379,7 @@ server <-
         session_range <- time_range()$range
         sliderInput("model_center", "Center session at", 
                     min=session_range[1], max=session_range[2], 
-                    value=time_range()$A, step = 1)
+                    value=time_range()$B, step = 1)
       }
     })
     
