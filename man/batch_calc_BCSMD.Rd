@@ -2,8 +2,9 @@
 % Please edit documentation in R/calc_BCSMD.R
 \name{batch_calc_BCSMD}
 \alias{batch_calc_BCSMD}
-\title{A convenience function for calculating multiple design comparable
-  effect sizes from a dataset including multiple single-case design studies}
+\title{A convenience function for calculating multiple design-comparable
+  effect sizes from a dataset that compiles data from multiple single-case
+  design studies}
 \usage{
 batch_calc_BCSMD(
   data,
@@ -36,7 +37,7 @@ batch_calc_BCSMD(
 )
 }
 \arguments{
-\item{data}{A data frame containing SCD data for which design comparable
+\item{data}{A data frame containing SCD data for which design-comparable
 effect sizes will be calculated.}
 
 \item{design}{Character string to specify whether data comes from a treatment
@@ -47,23 +48,23 @@ reversal (\code{"TR"}), multiple baseline across participants
 \item{grouping}{A variable name or list of (unquoted) variable names that
 uniquely identify each study.}
 
-\item{case}{A (unquoted) variable name that identifies unique cases within
+\item{case}{A variable name (unquoted) that identifies unique cases within
 each \code{grouping} variable.}
 
-\item{phase}{A (unquoted) variable name that identifies unique treatment
+\item{phase}{A variable name (unquoted) that identifies unique treatment
 phases.}
 
-\item{session}{A (unquoted) variable name that identifies the measurement
-times of each \code{grouping} variable.}
+\item{session}{A variable name (unquoted) that contains the measurement times
+for each data series.}
 
-\item{outcome}{A (unquoted) variable name that identifies the outcome
-variable of each \code{grouping} variable.}
+\item{outcome}{A variable name (unquoted) that contains the outcome
+measurements for each data series.}
 
-\item{cluster}{(Optional) variable name that indicates the cluster variable
-for \code{CMB} design.}
+\item{cluster}{(Optional) variable name (unquoted) that identifies the unique
+clusters of cases for \code{CMB} designs.}
 
-\item{series}{(Optional) variable name that indicates the series variable for
-\code{RMBB} design.}
+\item{series}{(Optional) variable name (unquoted) that identifies the unique
+data series for \code{RMBB} designs.}
 
 \item{center}{Numeric value for the centering value for session. Default is 0.}
 
@@ -139,39 +140,37 @@ asymmetric confidence interval.}
 \value{
 A data frame containing the design-comparable effect size estimate,
   standard error, confidence interval, and other information, for each unique
-  category of \code{grouping} variable.
+  category of \code{grouping} variable(s).
 }
 \description{
 Calculates standardized mean difference effect sizes for a data
   set including one or multiple single-case design studies using the same
-  design: treatment reversal, multiple baseline/probe across participants,
+  design (treatment reversal, multiple baseline/probe across participants,
   replicated multiple baseline across behaviors, or clustered multiple
-  baseline across participants.
+  baseline across participants).
 }
 \examples{
 data(Thiemann2001)
 data(Thiemann2004)
 datThiemann <- rbind(Thiemann2001, Thiemann2004)
-library(dplyr)
 
-# Change-in-levels model with fixed treatment effect
-batch_calc_BCSMD(data = datThiemann, 
-                 grouping = Study_ID, 
+# Change-in-levels model with a fixed treatment effect
+batch_calc_BCSMD(data = datThiemann,
+                 grouping = Study_ID,
                  design = "RMBB",
-                 case = case, series = series, phase = treatment, 
+                 case = case, series = series, phase = treatment,
                  session = time, outcome = outcome,
-                 FE_base = 0, RE_base = 0, 
+                 FE_base = 0, RE_base = 0,
                  RE_base_2 = 0, FE_trt = 0)
 
-# Models with linear time trends in baseline and treatment phase, 
-# random baseline slope at series level, fixed treatment effects                  
-batch_calc_BCSMD(data = datThiemann, 
-                 grouping = Study_ID, 
+# Models with linear time trends in baseline and treatment phase,
+# random baseline slope at series level, fixed treatment effects
+batch_calc_BCSMD(data = datThiemann,
+                 grouping = Study_ID,
                  design = "RMBB",
-                 case = case, series = series, phase = treatment, 
+                 case = case, series = series, phase = treatment,
                  session = time, outcome = outcome,
-                 FE_base = c(0,1), RE_base = c(0,1), 
+                 FE_base = c(0,1), RE_base = c(0,1),
                  RE_base_2 = 0, FE_trt = c(0,1))
 
-            
 }

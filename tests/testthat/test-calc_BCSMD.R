@@ -417,8 +417,8 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
     dplyr::mutate(variable = rep(c("range", "A", "B"), length(unique(dat_MBP$studyID)))) %>% 
     dplyr::rename(value = `default_times(...)`)
   
-  res_A <- res_AB %>% dplyr::filter(variable == "A") %>% dplyr::pull(value)
-  res_B <- res_AB %>% dplyr::filter(variable == "B") %>% dplyr::pull(value)
+  res_A <- res_AB %>% dplyr::filter(variable == "A") %>% dplyr::pull(value) %>% unlist() %>% as.vector()
+  res_B <- res_AB %>% dplyr::filter(variable == "B") %>% dplyr::pull(value) %>% unlist() %>% as.vector()
   
   res1_batch <- 
     suppressWarnings(
@@ -429,11 +429,9 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
       ) 
     )
   
-  expect_equal(res1_batch$`Initial treatment time`[1], res_A[[1]])
-  expect_equal(res1_batch$`Initial treatment time`[2], res_A[[2]])
-  expect_equal(res1_batch$`Follow-up time`[1], res_B[[1]])
-  expect_equal(res1_batch$`Follow-up time`[2], res_B[[2]])
-  
+  expect_equal(res1_batch$`Initial treatment time`, res_A)
+  expect_equal(res1_batch$`Follow-up time`, res_B)
+
   res2_batch <- 
     suppressWarnings(
       batch_calc_BCSMD(
@@ -475,15 +473,44 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
   expect_equal(Alber3_single, as.data.frame(res3_batch[1, 2:12], ))
   expect_equal(res3_batch$`Initial treatment time`[1], 5)
   expect_equal(res3_batch$`Follow-up time`[1], 12)
+
+  # with specified D
+  Alber4_single <- 
+    suppressWarnings(
+      calc_BCSMD(
+        design = "MBP",
+        case = case, phase = condition,
+        session = session, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1), A = 5, B = 14,
+        data = AlberMorgan)
+    )
+  
+  res4_batch <- 
+    suppressWarnings(
+      batch_calc_BCSMD(
+        data = dat_MBP, grouping = studyID, design = "MBP",
+        case = case, phase = condition, session = session, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1), D = 9
+      )
+    )
+  
+  expect_equal(Laski2_single, as.data.frame(res4_batch[2, 2:12], ))
+  expect_equal(Alber4_single, as.data.frame(res4_batch[1, 2:12], ))
+  
+  expect_equal(res4_batch$`Initial treatment time`, res_A)
+  expect_equal(res4_batch$`Follow-up time`, res_A + 9)
   
 })
   
 
 test_that("The batch_calc_BCSMD() works for RMBB design.", {
   
-  # basic model 
-  # without trends
   data(Thiemann2001)
+  data(Thiemann2004)
+  dat_RMBB <- rbind(Thiemann2001, Thiemann2004)
+  
+  # basic model without trends
+  
   Thi1_single_2001 <- 
     calc_BCSMD(
       design = "RMBB",
@@ -493,7 +520,6 @@ test_that("The batch_calc_BCSMD() works for RMBB design.", {
       data = Thiemann2001
     )
   
-  data(Thiemann2004)
   Thi1_single_2004 <- 
     calc_BCSMD(
       design = "RMBB",
@@ -503,7 +529,6 @@ test_that("The batch_calc_BCSMD() works for RMBB design.", {
       data = Thiemann2004
     )
   
-  dat_RMBB <- rbind(Thiemann2001, Thiemann2004)
   Thi1_batch <- 
     batch_calc_BCSMD(
       data = dat_RMBB, grouping = Study_ID, design = "RMBB",
@@ -517,6 +542,7 @@ test_that("The batch_calc_BCSMD() works for RMBB design.", {
   
   # complex model: 
   # varying intercepts at series and case level, varying trends at series level, fixed treatment effects
+  
   Thi2_single_2001 <- 
     calc_BCSMD(
       design = "RMBB",
