@@ -3,7 +3,7 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   Estimating-effect-sizes: Estimating-effect-sizes.html
-last_built: 2022-09-21T14:51Z
+last_built: 2022-10-05T19:23Z
 urls:
   reference: https://jepusto.github.io/scdhlm/reference
   article: https://jepusto.github.io/scdhlm/articles
