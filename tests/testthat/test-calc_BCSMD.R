@@ -4,7 +4,7 @@ skip_if_not_installed("nlme")
 
 library(nlme)
 
-test_that("The logic for A, B, and D argument in calc_BCSMD() is correct.", {
+test_that("The logic for the A, B, and D argument in calc_BCSMD() is correct.", {
   
   data(Laski)
   
@@ -133,6 +133,7 @@ test_that("The default_times() calculates A and B correctly.", {
   
 })
 
+
 test_that("The calc_BCSMD() works appropriately for treatment reversal designs.", {
   
   data(Anglesea)
@@ -258,6 +259,7 @@ test_that("calc_BCSMD() returns same result as g_mlm() for Laski data.", {
   
 })
 
+
 test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data.", {
   
   data(Bryant2018)
@@ -340,5 +342,234 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data.
   expect_equal(Bry_g2_mlm$nu, Bry_BCSMD2_summary$`Degrees of freedom`)
   expect_equal(CI_g(Bry_g2_mlm)[1], Bry_BCSMD2_summary$`95% CI (lower)`)
   expect_equal(CI_g(Bry_g2_mlm)[2], Bry_BCSMD2_summary$`95% CI (upper)`)
+  
+})
+
+
+test_that("The batch_calc_BCSMD() works for MBP design.", {
+  
+  # single calculator
+  data("Laski")
+  
+  # model 1: basic model without time trends
+  Laski1_single <- 
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      data = Laski
+    )
+  
+  # model 2: varying intercepts, fixed treatment effects, varying trends
+  Laski2_single <- 
+    suppressWarnings(
+      calc_BCSMD(
+        design = "MBP",
+        case = case, phase = treatment,
+        session = time, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+        data = Laski)
+    )
+  
+  data("AlberMorgan")
+  
+  Alber1_single <- 
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = condition,
+      session = session, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      data = AlberMorgan
+    )
+  
+  Alber2_single <- 
+    suppressWarnings(
+      calc_BCSMD(
+        design = "MBP",
+        case = case, phase = condition,
+        session = session, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+        data = AlberMorgan)
+    )
+
+  # batch calculator
+  Laski$studyID <- "Laski"
+  names(Laski) <- c("case", "outcome", "session", "condition", "studyID")
+  AlberMorgan$studyID <- "AlberMorgan"
+  AlberMorgan <- AlberMorgan[, c(1, 4, 3, 2, 5)]
+  dat_MBP <- rbind(Laski, AlberMorgan)
+
+  res_AB <- 
+    dat_MBP %>% 
+    dplyr::group_by(studyID) %>%
+    dplyr::summarise(
+      default_times(
+        design = "MBP",
+        case = case,
+        phase = condition,
+        session = session,
+        cluster = NULL,
+        series = NULL
+      ),
+      .groups = 'drop'
+    ) %>% 
+    dplyr::mutate(variable = rep(c("range", "A", "B"), length(unique(dat_MBP$studyID)))) %>% 
+    dplyr::rename(value = `default_times(...)`)
+  
+  res_A <- res_AB %>% dplyr::filter(variable == "A") %>% dplyr::pull(value) %>% unlist() %>% as.vector()
+  res_B <- res_AB %>% dplyr::filter(variable == "B") %>% dplyr::pull(value) %>% unlist() %>% as.vector()
+  
+  res1_batch <- 
+    suppressWarnings(
+      batch_calc_BCSMD(
+        data = dat_MBP, grouping = studyID, design = "MBP",
+        case = case, phase = condition, session = session, outcome = outcome,
+        FE_base = 0, RE_base = 0, FE_trt = 0
+      ) 
+    )
+  
+  expect_equal(res1_batch$`Initial treatment time`, res_A)
+  expect_equal(res1_batch$`Follow-up time`, res_B)
+
+  res2_batch <- 
+    suppressWarnings(
+      batch_calc_BCSMD(
+        data = dat_MBP, grouping = studyID, design = "MBP",
+        case = case, phase = condition, session = session, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1)
+      )
+    )
+  
+  # model 1
+  expect_equal(Laski1_single, as.data.frame(res1_batch[2, 2:12], ))
+  expect_equal(Alber1_single, as.data.frame(res1_batch[1, 2:12], ))
+  
+  # model 2
+  expect_equal(Laski2_single, as.data.frame(res2_batch[2, 2:12], ))
+  expect_equal(Alber2_single, as.data.frame(res2_batch[1, 2:12], ))
+  
+  
+  # with specified A, B
+  Alber3_single <- 
+    suppressWarnings(
+      calc_BCSMD(
+        design = "MBP",
+        case = case, phase = condition,
+        session = session, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1), A = 5, B = 12,
+        data = AlberMorgan)
+    )
+  
+  res3_batch <- 
+    suppressWarnings(
+      batch_calc_BCSMD(
+        data = dat_MBP, grouping = studyID, design = "MBP",
+        case = case, phase = condition, session = session, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1), A = 5, B = 12
+      )
+    )
+  
+  expect_equal(Alber3_single, as.data.frame(res3_batch[1, 2:12], ))
+  expect_equal(res3_batch$`Initial treatment time`[1], 5)
+  expect_equal(res3_batch$`Follow-up time`[1], 12)
+
+  # with specified D
+  Alber4_single <- 
+    suppressWarnings(
+      calc_BCSMD(
+        design = "MBP",
+        case = case, phase = condition,
+        session = session, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1), A = 5, B = 14,
+        data = AlberMorgan)
+    )
+  
+  res4_batch <- 
+    suppressWarnings(
+      batch_calc_BCSMD(
+        data = dat_MBP, grouping = studyID, design = "MBP",
+        case = case, phase = condition, session = session, outcome = outcome,
+        FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1), D = 9
+      )
+    )
+  
+  expect_equal(Laski2_single, as.data.frame(res4_batch[2, 2:12], ))
+  expect_equal(Alber4_single, as.data.frame(res4_batch[1, 2:12], ))
+  
+  expect_equal(res4_batch$`Initial treatment time`, res_A)
+  expect_equal(res4_batch$`Follow-up time`, res_A + 9)
+  
+})
+  
+
+test_that("The batch_calc_BCSMD() works for RMBB design.", {
+  
+  data(Thiemann2001)
+  data(Thiemann2004)
+  dat_RMBB <- rbind(Thiemann2001, Thiemann2004)
+  
+  # basic model without trends
+  
+  Thi1_single_2001 <- 
+    calc_BCSMD(
+      design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+      data = Thiemann2001
+    )
+  
+  Thi1_single_2004 <- 
+    calc_BCSMD(
+      design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+      data = Thiemann2004
+    )
+  
+  Thi1_batch <- 
+    batch_calc_BCSMD(
+      data = dat_RMBB, grouping = Study_ID, design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0
+    )
+  
+  expect_equal(Thi1_single_2001, as.data.frame(Thi1_batch[1, 2:12], ))
+  expect_equal(Thi1_single_2004, as.data.frame(Thi1_batch[2, 2:12], ))
+  
+  # complex model: 
+  # varying intercepts at series and case level, varying trends at series level, fixed treatment effects
+  
+  Thi2_single_2001 <- 
+    calc_BCSMD(
+      design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, FE_trt = c(0,1), 
+      data = Thiemann2001
+    )
+  
+  Thi2_single_2004 <- 
+    calc_BCSMD(
+      design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, FE_trt = c(0,1), 
+      data = Thiemann2004
+    )
+  
+  Thi2_batch <- 
+    batch_calc_BCSMD(
+      data = dat_RMBB, grouping = Study_ID, design = "RMBB",
+      case = case, series = series, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0, FE_trt = c(0,1)
+    )
+  
+  expect_equal(Thi2_single_2001, as.data.frame(Thi2_batch[1, 2:12], ))
+  expect_equal(Thi2_single_2004, as.data.frame(Thi2_batch[2, 2:12], ))
   
 })

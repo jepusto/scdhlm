@@ -17,19 +17,6 @@ paste_object <- function(object) {
 }
 
 #---------------------------------------------------------------
-# calculate timing defaults
-#---------------------------------------------------------------
-
-default_times <- function(x) {
-  range <- range(x$session)
-  case_base_last <- with(x, tapply(session[trt==0], case[trt==0], max))
-  case_trt_range <- with(x, tapply(session[trt==1], case[trt==1], function(x) diff(range(x)) + 1))
-  A <- min(case_base_last)
-  B <- A + min(case_trt_range[which(case_base_last == min(case_base_last))])
-  list(range = range, A = A, B = B)
-}
-
-#---------------------------------------------------------------
 # model validation
 #---------------------------------------------------------------
 
