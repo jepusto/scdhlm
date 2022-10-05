@@ -29,6 +29,7 @@ reference:
     contents:
       - preprocess_SCD
       - calc_BCSMD
+      - batch_calc_BCSMD
       - CI_g
       - default_times
       - phase_pairs
