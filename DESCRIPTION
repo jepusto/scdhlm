@@ -22,6 +22,10 @@ LazyData: true
 Imports: 
     stats,
     readxl,
+    rlang,
+    dplyr,
+    tidyselect,
+    magrittr,
     lmeInfo (> 0.2.0)
 Depends: 
     nlme,
