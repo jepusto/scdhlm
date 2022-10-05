@@ -80,7 +80,7 @@ default_times <- function(design,
                       case = as.factor(case),
                       phase = as.factor(phase),
                       session,
-                      index = paste(cluster, case, sep = "-")) # maybe not needed, because all cases in the same cluster have same length
+                      index = paste(cluster, case, sep = "-")) 
   } else {
     dat <- data.frame(case = as.factor(case),
                       phase = as.factor(phase),
@@ -88,13 +88,15 @@ default_times <- function(design,
                       index = case)
   }
   
+  dat <- droplevels(dat)
+  
   # calculate the default times
   if (design != "TR") {
     range <- range(dat$session)
     case_base_last <- with(dat, tapply(session[phase != treatment_name], index[phase != treatment_name], max))
     case_trt_range <- with(dat, tapply(session[phase == treatment_name], index[phase == treatment_name], function(x) diff(range(x)) + 1))
     A <- min(case_base_last)
-    B <- A + min(case_trt_range[which(case_base_last == min(case_base_last))]) # shortest duration across cases which have shortest baseline phase?
+    B <- A + min(case_trt_range[which(case_base_last == min(case_base_last))])
   } else {
     range <- A <- B <- NA
   }
@@ -362,7 +364,8 @@ calc_BCSMD <- function(design,
     
     default_AB <- default_times(design = design, 
                                 case = case, phase = phase, session = session, 
-                                cluster = cluster, series = series)
+                                cluster = cluster, series = series,
+                                treatment_name = treatment_name)
     
     if (is.null(A)) {
       A <- default_AB$A
@@ -505,11 +508,13 @@ calc_BCSMD <- function(design,
 #' @importFrom rlang !!!
 #' @importFrom rlang !!
 #' @importFrom dplyr .data
+#' @importFrom magrittr %>%
 #'
 #' @examples
 #' data(Thiemann2001)
 #' data(Thiemann2004)
 #' datThiemann <- rbind(Thiemann2001, Thiemann2004)
+#' library(dplyr)
 #'
 #' # Change-in-levels model with fixed treatment effect
 #' batch_calc_BCSMD(data = datThiemann, 
@@ -605,8 +610,10 @@ batch_calc_BCSMD <- function(data,
         bound = bound,
         symmetric = symmetric,
         ...
-      )
-    )
+      ),
+      .groups = 'drop'
+    ) %>% 
+    
   
   return(res)
   

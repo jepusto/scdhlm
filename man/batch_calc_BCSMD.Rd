@@ -152,6 +152,7 @@ Calculates standardized mean difference effect sizes for a data
 data(Thiemann2001)
 data(Thiemann2004)
 datThiemann <- rbind(Thiemann2001, Thiemann2004)
+library(dplyr)
 
 # Change-in-levels model with fixed treatment effect
 batch_calc_BCSMD(data = datThiemann, 
