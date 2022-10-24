@@ -402,10 +402,10 @@ calc_BCSMD <- function(design,
     r_const_base2 <- bc_mat2[upper.tri(bc_mat2, diag = TRUE)]
     r_const_trt2 <- rep(0L, r_const_dim2 - length(r_const_base2))
 
-    r_const <- c(r_const_base,
-                 r_const_trt,
-                 r_const_base2,
+    r_const <- c(r_const_base2,
                  r_const_trt2,
+                 r_const_base,
+                 r_const_trt,
                  rep(0L, length(m_fit$modelStruct$corStruct)),
                  rep(0L, length(m_fit$modelStruct$varStruct)),
                  1L)
@@ -423,7 +423,7 @@ calc_BCSMD <- function(design,
     if (design %in% c("RMBB", "CMB")) {
       rho_level2 <- round(with(g_RML, (theta$Tau[[1]][1] + theta$Tau[[2]][1]) /
                                  (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
-      rho_level3 <- round(with(g_RML, theta$Tau[[2]][1] /
+      rho_level3 <- round(with(g_RML, theta$Tau[[1]][1] /
                                  (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
       g_RML$rho <- paste0("Level2:", rho_level2, "  Level3:", rho_level3)
     } else {
