@@ -26,7 +26,7 @@ Imports:
     dplyr,
     tidyselect,
     magrittr,
-    lmeInfo (> 0.2.0)
+    lmeInfo (>= 0.3.0)
 Depends: 
     nlme,
     R (>= 3.0.1)
