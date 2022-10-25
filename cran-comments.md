@@ -1,6 +1,6 @@
 ## Resubmission
 
-This is a re-submission. This version includes extensive user-interface and back-end updates to the built-in shiny app (invoked by `shine_scd()`), as well as a few bug fixes. The vignette, examples, and unit tests have been updated so that the package can be compiled without any Suggested packages.
+This is a re-submission. This version includes several new user-facing functions for pre-processing data and calculating effect size estimates. It also includes updates to the built-in web app, as well as a few small bug fixes. 
 
 ## Test environments
 
