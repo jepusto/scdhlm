@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0.9999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
@@ -63,17 +63,20 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.6.0.9999" id="scdhlm-0609999">scdhlm 0.6.0.9999<a class="anchor" aria-label="anchor" href="#scdhlm-0609999"></a></h2>
-<ul><li>Added a convenience function <code><a href="../reference/calc_BCSMD.html">calc_BCSMD()</a></code> for pre-processing data, fitting an <code><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">lme()</a></code> model, and calculating <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> all in one go.</li>
+<h2 class="page-header" data-toc-text="0.7.0" id="scdhlm-070">scdhlm 0.7.0<a class="anchor" aria-label="anchor" href="#scdhlm-070"></a></h2>
+<ul><li>New convenience functions:<ul><li>Added a convenience function <code><a href="../reference/calc_BCSMD.html">calc_BCSMD()</a></code> for pre-processing data, fitting an <code><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">lme()</a></code> model, and calculating <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> all in one go.</li>
 <li>Added a convenience function <code><a href="../reference/default_times.html">default_times()</a></code> for calculating default time-points for multiple baseline designs.</li>
 <li>Added <code><a href="../reference/batch_calc_BCSMD.html">batch_calc_BCSMD()</a></code> function for calculating BC-SMD effect size estimates for multiple studies of the same design.</li>
-<li>Fixed bug in shiny app that occurred when uploading a multiple baseline design or a treatment reversal design.</li>
+</ul></li>
+<li>Changes to the shiny app:<ul><li>Fixed bug in shiny app that occurred when uploading a multiple baseline design or a treatment reversal design.</li>
+<li>Updated the layout of model output in the shiny app.</li>
 <li>Added <code>rclipboard</code> package to the installation instruction of the shiny app.</li>
 <li>Added Bryant et al. (2018) and Thiemann &amp; Goldstein (2001) to the references in the shiny app.</li>
-<li>Added the academic response outcome data from Lambert et al. (2006) to the package and the shiny app.</li>
-<li>Updated the layout of model output in the shiny app.</li>
 <li>Updated the study design labels in example datasets for multiple baselines across participants.</li>
+</ul></li>
+<li>Changes to example datasets:<ul><li>Added the academic response outcome data from Lambert et al. (2006) to the package and the shiny app.</li>
 <li>Updated the Bryant et al. (2018) dataset using the group instead of school as the cluster variable.</li>
+</ul></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.0" id="scdhlm-060">scdhlm 0.6.0<small>2022-07-07</small><a class="anchor" aria-label="anchor" href="#scdhlm-060"></a></h2>
