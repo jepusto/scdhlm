@@ -310,7 +310,7 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data.
                                    correlation = corAR1(0.01, ~ session | group/case),
                                    data = dat,
                                    control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)))
-  Bry_g2_mlm <- g_mlm(Bry_RML2, p_const = c(0,0,1,D), r_const = c(1,0,0,0,0,0,1,0,1), 
+  Bry_g2_mlm <- g_mlm(Bry_RML2, p_const = c(0,0,1,D), r_const = c(1,1,0,0,0,0,0,0,1), 
                       infotype = "expected", returnModel = TRUE)
   
   Bry_BCSMD2 <- suppressWarnings(

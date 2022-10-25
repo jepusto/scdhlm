@@ -1,15 +1,18 @@
-# scdhlm 0.6.0.9999
+# scdhlm 0.7.0
 
-* Added a convenience function `calc_BCSMD()` for pre-processing data, fitting an `lme()` model, and calculating `g_mlm()` all in one go.
-* Added a convenience function `default_times()` for calculating default time-points for multiple baseline designs.
-* Added `batch_calc_BCSMD()` function for calculating BC-SMD effect size estimates for multiple studies of the same design.
-* Fixed bug in shiny app that occurred when uploading a multiple baseline design or a treatment reversal design.
-* Added `rclipboard` package to the installation instruction of the shiny app.
-* Added Bryant et al. (2018) and Thiemann & Goldstein (2001) to the references in the shiny app.
-* Added the academic response outcome data from Lambert et al. (2006) to the package and the shiny app.
-* Updated the layout of model output in the shiny app.
-* Updated the study design labels in example datasets for multiple baselines across participants.
-* Updated the Bryant et al. (2018) dataset using the group instead of school as the cluster variable.
+* New convenience functions:
+  * Added a convenience function `calc_BCSMD()` for pre-processing data, fitting an `lme()` model, and calculating `g_mlm()` all in one go.
+  * Added a convenience function `default_times()` for calculating default time-points for multiple baseline designs.
+  * Added `batch_calc_BCSMD()` function for calculating BC-SMD effect size estimates for multiple studies of the same design.
+* Changes to the shiny app:
+  * Fixed bug in shiny app that occurred when uploading a multiple baseline design or a treatment reversal design.
+  * Updated the layout of model output in the shiny app.
+  * Added `rclipboard` package to the installation instruction of the shiny app.
+  * Added Bryant et al. (2018) and Thiemann & Goldstein (2001) to the references in the shiny app.
+  * Updated the study design labels in example datasets for multiple baselines across participants.
+* Changes to example datasets:
+  * Added the academic response outcome data from Lambert et al. (2006) to the package and the shiny app.
+  * Updated the Bryant et al. (2018) dataset using the group instead of school as the cluster variable.
 
 
 # scdhlm 0.6.0

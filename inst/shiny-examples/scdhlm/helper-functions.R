@@ -73,7 +73,7 @@ summarize_ES <- function(res, filter_vals,
     if (design %in% c("RMBB", "CMB")) {
       rho_level2 <- round(with(res, (theta$Tau[[1]][1] + theta$Tau[[2]][1]) / 
                            (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
-      rho_level3 <- round(with(res, theta$Tau[[2]][1] / 
+      rho_level3 <- round(with(res, theta$Tau[[1]][1] / 
                            (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
       res$rho <- paste0("Level2:", rho_level2, "  Level3:", rho_level3)
     } else {

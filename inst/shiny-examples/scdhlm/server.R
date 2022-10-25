@@ -1053,7 +1053,7 @@ server <-
         bc_mat2 <- 2 * tcrossprod(bc_vec2) - diag(bc_vec2^2)
         r_const_base2 <- bc_mat2[upper.tri(bc_mat2, diag = TRUE)]
         r_const_trt2 <- rep(0L, r_const_dim2 - length(r_const_base2))
-        r_const <- c(r_const_base, r_const_trt, r_const_base2, r_const_trt2, r_const_cor, r_const_var, 1L)
+        r_const <- c(r_const_base2, r_const_trt2, r_const_base, r_const_trt, r_const_cor, r_const_var, 1L)
       }
       
       if (studyDesign() == "MBP") {

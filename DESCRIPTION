@@ -1,6 +1,6 @@
 Package: scdhlm
 Title: Estimating Hierarchical Linear Models for Single-Case Designs
-Version: 0.6.0.9999
+Version: 0.7.0
 Authors@R: c(
     person("James", "Pustejovsky", email = "jepusto@gmail.com", role = c("aut", "cre")),
     person("Man", "Chen", role = "aut"), 
@@ -26,7 +26,7 @@ Imports:
     dplyr,
     tidyselect,
     magrittr,
-    lmeInfo (> 0.2.0)
+    lmeInfo (>= 0.3.0)
 Depends: 
     nlme,
     R (>= 3.0.1)
