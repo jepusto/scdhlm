@@ -86,10 +86,12 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Estimating design-comparable standardized mean differences with scdhlm</h1>
-                        <h4 data-toc-skip class="author">James E. Pustejovsky</h4>
+      <h1 data-toc-skip>Estimating design-comparable standardized mean
+differences with scdhlm</h1>
+                        <h4 data-toc-skip class="author">James E.
+Pustejovsky</h4>
             
-            <h4 data-toc-skip class="date">2022-10-25</h4>
+            <h4 data-toc-skip class="date">2022-10-31</h4>
       
       
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -98,27 +100,76 @@
 
     
     
-<p>The scdhlm package (Pustejovsky, Chen, &amp; Hamilton, 2020) provides several methods for estimating design-comparable standardized mean differences (SMDs) based on data from a single-case design. In principle, a design-comparable SMD is in the same metric as the SMD from a simple, between-groups randomized experiment performed on a comparable sample and with comparable outcome measures. Hedges, Pustejovsky, and Shadish (2012) proposed methods for estimating design-comparable SMDs based on data from an ABAB design (and, more generally, treatment reversal designs with an arbitrary number of phases). Hedges, Pustejovsky, and Shadish (2013) extended the methods to handle data from multiple baseline designs. In both cases, the proposed estimation methods are premised on a simple model for the data, which assumed that the outcome process is stable over time (lacking time trends) and that the treatment effect is constant across cases. Pustejovsky, Hedges, and Shadish (2014) proposed an approach to defining and estimating design-comparable SMDs under a more general model, which can allow for time trends and between-case variation in treatment effects and time trends.</p>
-<p>In the scdhlm package, the original estimation methods proposed for the ABAB design and multiple baseline design are implemented in the <code>effect_size_ABk</code> and <code>effect_size_MB</code> functions, respectively. Both of these functions take the raw data as input and produce as output an effect size estimate, along with accompanying standard error and some other auxiliary information. Thus, there is no distinction between estimating the model and estimating the effect size. In contrast, the more general methods proposed in Pustejovsky, Hedges, and Shadish (2014) entail two steps: first, estimating a hierarchical model for the data; and second, estimating a design-comparable effect size based on the fitted model. The first step is accomplished using the function <code>lme</code> from the package <code>nlme</code> by Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is accomplished using the function <code>g_mlm</code> from the <code>scdhlm</code> package. This vignette demonstrates how to use all of these functions to estimate design-comparable standardized mean difference effect sizes. The R code presented below can be used to replicate the examples found in the papers that proposed the methods. To begin, the user must load the package:</p>
+<p>The scdhlm package (Pustejovsky, Chen, &amp; Hamilton, 2020) provides
+several methods for estimating design-comparable standardized mean
+differences (SMDs) based on data from a single-case design. In
+principle, a design-comparable SMD is in the same metric as the SMD from
+a simple, between-groups randomized experiment performed on a comparable
+sample and with comparable outcome measures. Hedges, Pustejovsky, and
+Shadish (2012) proposed methods for estimating design-comparable SMDs
+based on data from an ABAB design (and, more generally, treatment
+reversal designs with an arbitrary number of phases). Hedges,
+Pustejovsky, and Shadish (2013) extended the methods to handle data from
+multiple baseline designs. In both cases, the proposed estimation
+methods are premised on a simple model for the data, which assumed that
+the outcome process is stable over time (lacking time trends) and that
+the treatment effect is constant across cases. Pustejovsky, Hedges, and
+Shadish (2014) proposed an approach to defining and estimating
+design-comparable SMDs under a more general model, which can allow for
+time trends and between-case variation in treatment effects and time
+trends.</p>
+<p>In the scdhlm package, the original estimation methods proposed for
+the ABAB design and multiple baseline design are implemented in the
+<code>effect_size_ABk</code> and <code>effect_size_MB</code> functions,
+respectively. Both of these functions take the raw data as input and
+produce as output an effect size estimate, along with accompanying
+standard error and some other auxiliary information. Thus, there is no
+distinction between estimating the model and estimating the effect size.
+In contrast, the more general methods proposed in Pustejovsky, Hedges,
+and Shadish (2014) entail two steps: first, estimating a hierarchical
+model for the data; and second, estimating a design-comparable effect
+size based on the fitted model. The first step is accomplished using the
+function <code>lme</code> from the package <code>nlme</code> by
+Pinheiro, Bates, DebRoy, and Sarkar (2015). The second step is
+accomplished using the function <code>g_mlm</code> from the
+<code>scdhlm</code> package. This vignette demonstrates how to use all
+of these functions to estimate design-comparable standardized mean
+difference effect sizes. The R code presented below can be used to
+replicate the examples found in the papers that proposed the methods. To
+begin, the user must load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jepusto.github.io/scdhlm/">scdhlm</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="lambert-cartledge-heward-lo-2006">Lambert, Cartledge, Heward, &amp; Lo (2006)<a class="anchor" aria-label="anchor" href="#lambert-cartledge-heward-lo-2006"></a>
 </h2>
-<p>Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using response cards (compared to single-student responding) during math lessons in two fourth-grade classrooms. The investigators collected data on rates of disruptive behavior for nine focal students, using an ABAB design. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who selected it because the design was close to balanced and used a relatively large number of cases. Their calculations can be replicated using the <code>effect_size_ABk</code> function. To use this function, the user must provide five pieces of data:</p>
+<p>Lambert, Cartledge, Heward, and Lo (2006) tested the effect of using
+response cards (compared to single-student responding) during math
+lessons in two fourth-grade classrooms. The investigators collected data
+on rates of disruptive behavior for nine focal students, using an ABAB
+design. This example is discussed in Hedges, Pustejovsky, and Shadish
+(2012), who selected it because the design was close to balanced and
+used a relatively large number of cases. Their calculations can be
+replicated using the <code>effect_size_ABk</code> function. To use this
+function, the user must provide five pieces of data:</p>
 <ul>
 <li>
 <code>outcome</code>: the outcome variable,</li>
 <li>
-<code>treatment</code>: a variable indicating the treatment condition,</li>
+<code>treatment</code>: a variable indicating the treatment
+condition,</li>
 <li>
-<code>id</code>: a variable listing the case on which the outcome was measured,</li>
+<code>id</code>: a variable listing the case on which the outcome
+was measured,</li>
 <li>
-<code>phase</code>: a variable indicating the phase of treatment (i.e., each replication of a baseline and treatment condition), and</li>
+<code>phase</code>: a variable indicating the phase of treatment
+(i.e., each replication of a baseline and treatment condition), and</li>
 <li>
 <code>time</code>: a variable listing the session number.</li>
 </ul>
-<p>In the <code>Lambert</code> dataset, these variables are called respectively <code>outcome</code>, <code>treatment</code>, <code>case</code>, <code>phase</code>, and <code>time</code>. Given these inputs, the design-comparable SMD is calculated as follows:</p>
+<p>In the <code>Lambert</code> dataset, these variables are called
+respectively <code>outcome</code>, <code>treatment</code>,
+<code>case</code>, <code>phase</code>, and <code>time</code>. Given
+these inputs, the design-comparable SMD is calculated as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Lambert</span><span class="op">)</span></span>
 <span></span>
@@ -131,8 +182,17 @@
 <span><span class="co">## unadjusted effect size  -1.16204 0.12345</span></span>
 <span><span class="co">## adjusted effect size    -1.15660 0.12287</span></span>
 <span><span class="co">## degree of freedom      160.23777</span></span></code></pre>
-<p>The adjusted effect size estimate <code>delta_hat</code> is equal to -1.157; its variance <code>V_delta_hat</code> is equal to 0.015. A standard error for <code>delta_hat</code> can be calculated by taking the square root of <code>V_delta_hat</code>: <code>sqrt(Lambert_ES$V_delta_hat)</code> = 0.123. The effect size estimate is bias-corrected in a manner analogous to Hedges’ g correction for SMDs from a between-subjects design. The degrees of freedom <code>nu</code> are estimated based on a Satterthwaite-type approximation, which is equal to 160.2 in this example.</p>
-<p>A summary() method is included to return more detail about the model parameter estimates and effect size estimates:</p>
+<p>The adjusted effect size estimate <code>delta_hat</code> is equal to
+-1.157; its variance <code>V_delta_hat</code> is equal to 0.015. A
+standard error for <code>delta_hat</code> can be calculated by taking
+the square root of <code>V_delta_hat</code>:
+<code>sqrt(Lambert_ES$V_delta_hat)</code> = 0.123. The effect size
+estimate is bias-corrected in a manner analogous to Hedges’ g correction
+for SMDs from a between-subjects design. The degrees of freedom
+<code>nu</code> are estimated based on a Satterthwaite-type
+approximation, which is equal to 160.2 in this example.</p>
+<p>A summary() method is included to return more detail about the model
+parameter estimates and effect size estimates:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">Lambert_ES</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                       est    se</span></span>
@@ -145,7 +205,17 @@
 <span><span class="co">## adjusted effect size               -1.157 0.123</span></span>
 <span><span class="co">## degree of freedom                 160.238      </span></span>
 <span><span class="co">## scalar constant                     0.104</span></span></code></pre>
-<p>By default, the <code>effect_size_ABk</code> function calculates an estimate of the first-order autocorrelation in the outcome series (stored in the entry <code>phi</code>) and an estimate of the intra-class correlation, i.e., the ratio of the between-case variance in the outcome to the total cross-sectional variance in the outcome (the intra-class correlation estimate is stored in the entry <code>rho</code>). Optionally, the user can specify their own estimates of these parameters as inputs to the function. In this example, the auto-correlation estimate was -0.316. The following code examines the sensitivity of the results to values of the auto-correlation that are larger and smaller than the default estimate of -0.316.</p>
+<p>By default, the <code>effect_size_ABk</code> function calculates an
+estimate of the first-order autocorrelation in the outcome series
+(stored in the entry <code>phi</code>) and an estimate of the
+intra-class correlation, i.e., the ratio of the between-case variance in
+the outcome to the total cross-sectional variance in the outcome (the
+intra-class correlation estimate is stored in the entry
+<code>rho</code>). Optionally, the user can specify their own estimates
+of these parameters as inputs to the function. In this example, the
+auto-correlation estimate was -0.316. The following code examines the
+sensitivity of the results to values of the auto-correlation that are
+larger and smaller than the default estimate of -0.316.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Lambert_ES2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">outcome</span>, treatment <span class="op">=</span> <span class="va">treatment</span>, </span>
 <span>                id <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">phase</span>, time <span class="op">=</span> <span class="va">time</span>, </span>
@@ -164,12 +234,20 @@
 <span><span class="co">## unadjusted effect size  -1.16204 0.17968</span></span>
 <span><span class="co">## adjusted effect size    -1.15626 0.17878</span></span>
 <span><span class="co">## degree of freedom      150.96192</span></span></code></pre>
-<p>The estimated auto-correlation has only a trivial effect on the effect size estimate and a minor effect on its estimated variance.</p>
+<p>The estimated auto-correlation has only a trivial effect on the
+effect size estimate and a minor effect on its estimated variance.</p>
 </div>
 <div class="section level2">
 <h2 id="anglesea-hoch-taylor-2008">Anglesea, Hoch, &amp; Taylor (2008)<a class="anchor" aria-label="anchor" href="#anglesea-hoch-taylor-2008"></a>
 </h2>
-<p>Anglesea, Hoch, and Taylor (2008) used an ABAB design to test the effect of using a pager prompt to reduce the rapid eating of three teenage boys with autism. The primary outcome was a measure of how quickly each participant consumed one serving of a familiar food. This example is discussed in Hedges, Pustejovsky, and Shadish (2012), who used it to illustrate the calculation of the design-comparable SMD when based on the minimum required number of cases. Their calculations can be replicated using the following code:</p>
+<p>Anglesea, Hoch, and Taylor (2008) used an ABAB design to test the
+effect of using a pager prompt to reduce the rapid eating of three
+teenage boys with autism. The primary outcome was a measure of how
+quickly each participant consumed one serving of a familiar food. This
+example is discussed in Hedges, Pustejovsky, and Shadish (2012), who
+used it to illustrate the calculation of the design-comparable SMD when
+based on the minimum required number of cases. Their calculations can be
+replicated using the following code:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Anglesea</span><span class="op">)</span></span>
 <span><span class="va">Anglesea_ES</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effect_size_ABk.html">effect_size_ABk</a></span><span class="op">(</span><span class="va">outcome</span>, <span class="va">condition</span>, <span class="va">case</span>, <span class="va">phase</span>, <span class="va">session</span>, data <span class="op">=</span> <span class="va">Anglesea</span><span class="op">)</span></span>
@@ -178,13 +256,26 @@
 <span><span class="co">## unadjusted effect size 1.793 2.436</span></span>
 <span><span class="co">## adjusted effect size   1.150 1.562</span></span>
 <span><span class="co">## degree of freedom      2.340</span></span></code></pre>
-<p>Note that the standard error of the effect size estimate is quite large and the degrees of freedom corresponding to the denominator of the SMD estimate are very low. Both quantities are extreme due to the small number of cases used in this example.</p>
+<p>Note that the standard error of the effect size estimate is quite
+large and the degrees of freedom corresponding to the denominator of the
+SMD estimate are very low. Both quantities are extreme due to the small
+number of cases used in this example.</p>
 </div>
 <div class="section level2">
 <h2 id="saddler-behforooz-asaro-2008">Saddler, Behforooz, &amp; Asaro (2008)<a class="anchor" aria-label="anchor" href="#saddler-behforooz-asaro-2008"></a>
 </h2>
-<p>Saddler, Behforooz, and Asaro (2008) used a multiple baseline design to investigate the effect of an instructional technique on the writing of fourth grade students. The investigators assessed the intervention’s effect on measures of writing quality, sentence complexity, and use of target constructions.</p>
-<p>Design-comparable SMDs can be estimated based on these data using the <code>effect_size_MB</code> function. The syntax for this function is similar to that of the <code>effect_size_ABk</code> function, but does not require the user to input information about the phase of the design (because in the multiple baseline design, phase exactly corresponds to treatment condition). The following code replicates the calculations reported in Hedges, Pustejovsky, and Shadish (2013):</p>
+<p>Saddler, Behforooz, and Asaro (2008) used a multiple baseline design
+to investigate the effect of an instructional technique on the writing
+of fourth grade students. The investigators assessed the intervention’s
+effect on measures of writing quality, sentence complexity, and use of
+target constructions.</p>
+<p>Design-comparable SMDs can be estimated based on these data using the
+<code>effect_size_MB</code> function. The syntax for this function is
+similar to that of the <code>effect_size_ABk</code> function, but does
+not require the user to input information about the phase of the design
+(because in the multiple baseline design, phase exactly corresponds to
+treatment condition). The following code replicates the calculations
+reported in Hedges, Pustejovsky, and Shadish (2013):</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Saddler</span><span class="op">)</span></span>
 <span></span>
@@ -206,7 +297,17 @@
 <span><span class="co">## nu          8.91814603  9.60204004   7.57981360</span></span>
 <span><span class="co">## phi         0.09965017 -0.07542229  -0.11159420</span></span>
 <span><span class="co">## rho         0.63321198  0.61453091   0.73123744</span></span></code></pre>
-<p>For multiple baseline designs, an alternative to using the <code>effect_size_MB</code> function is to estimate a hierarchical linear model for the data and then use the <code>g_mlm</code> function. The two alternative approaches differ in how the model parameters and effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found that the latter approach (based on a hierarchical linear model) has comparable mean-squared error to the former approach, while producing better estimates of the variance of the effect size. The latter approach is implemented in two steps, which we will demonstrate using the writing quality measure. First, we estimate the hierarchical model with an AR(1) within-case error structure using the <code>lme</code> function:</p>
+<p>For multiple baseline designs, an alternative to using the
+<code>effect_size_MB</code> function is to estimate a hierarchical
+linear model for the data and then use the <code>g_mlm</code> function.
+The two alternative approaches differ in how the model parameters and
+effect size are estimated. Pustejovsky, Hedges, and Shadish (2014) found
+that the latter approach (based on a hierarchical linear model) has
+comparable mean-squared error to the former approach, while producing
+better estimates of the variance of the effect size. The latter approach
+is implemented in two steps, which we will demonstrate using the writing
+quality measure. First, we estimate the hierarchical model with an AR(1)
+within-case error structure using the <code>lme</code> function:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">quality_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">treatment</span>, </span>
 <span>                   random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">case</span>, </span>
@@ -242,7 +343,17 @@
 <span><span class="co">## </span></span>
 <span><span class="co">## Number of Observations: 41</span></span>
 <span><span class="co">## Number of Groups: 6</span></span></code></pre>
-<p>The summary of the fitted model displays estimates of the component parameters, including the within-case and between-case standard deviations, auto-correlation, and (unstandardized) treatment effect estimate. The next step is to combine these estimated components into an effect size estimate using the <code>g_mlm</code> function. This function takes the fitted <code>lme</code> model object as input, followed by the vectors <code>p_const</code> and <code>r_const</code>, which specify the components of the fixed effects and variance estimates that are to be used in constructing the design-comparable SMD. For details on how to choose these constants, see Pustejovsky, Hedges, and Shadish (2014). In this example:</p>
+<p>The summary of the fitted model displays estimates of the component
+parameters, including the within-case and between-case standard
+deviations, auto-correlation, and (unstandardized) treatment effect
+estimate. The next step is to combine these estimated components into an
+effect size estimate using the <code>g_mlm</code> function. This
+function takes the fitted <code>lme</code> model object as input,
+followed by the vectors <code>p_const</code> and <code>r_const</code>,
+which specify the components of the fixed effects and variance estimates
+that are to be used in constructing the design-comparable SMD. For
+details on how to choose these constants, see Pustejovsky, Hedges, and
+Shadish (2014). In this example:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">quality_ES_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">quality_RML</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">quality_ES_RML</span><span class="op">)</span></span></code></pre></div>
@@ -259,13 +370,35 @@
 <span><span class="co">## degree of freedom                     11.963      </span></span>
 <span><span class="co">## constant kappa                         0.249      </span></span>
 <span><span class="co">## logLik                               -43.657</span></span></code></pre>
-<p>The adjusted SMD effect size is estimated as <code>g_AB</code> = 2.174; its standard error is <code>SE_g_AB</code> = 0.557; the estimated auto-correlation is <code>phi</code> = 0.382; and the estimated degrees of freedom is <code>nu</code> = 12. In this example, the RML effect size estimate is about 10% larger than the estimate from <code>effect_size_MB</code>, with a slightly smaller variance estimate. The RML estimate of the auto-correlation is substantially higher than before, but <code>effect_size_MB</code> uses a moment estimator that is known to be biased towards zero and that does not perform well when outcomes are intermittently missing for some sessions (as is the case here).</p>
+<p>The adjusted SMD effect size is estimated as <code>g_AB</code> =
+2.174; its standard error is <code>SE_g_AB</code> = 0.557; the estimated
+auto-correlation is <code>phi</code> = 0.382; and the estimated degrees
+of freedom is <code>nu</code> = 12. In this example, the RML effect size
+estimate is about 10% larger than the estimate from
+<code>effect_size_MB</code>, with a slightly smaller variance estimate.
+The RML estimate of the auto-correlation is substantially higher than
+before, but <code>effect_size_MB</code> uses a moment estimator that is
+known to be biased towards zero and that does not perform well when
+outcomes are intermittently missing for some sessions (as is the case
+here).</p>
 </div>
 <div class="section level2">
 <h2 id="laski-charlop-schreibman-1988">Laski, Charlop, &amp; Schreibman (1988)<a class="anchor" aria-label="anchor" href="#laski-charlop-schreibman-1988"></a>
 </h2>
-<p>Laski, Charlop, and Schreibman (1988) used a multiple baseline across individuals to evaluate the effect of a training program for parents on the speech production of their autistic children, as measured using a partial interval recording procedure. The design included eight children; one child was measured separately with each parent; for purposes of simplicity, and following Hedges, Pustejovsky, and Shadish (2013), only the measurements taken with the mother are included in the analysis.</p>
-<p>The following code compares the estimates of the design-comparable SMD effect size based on the Hedges, Pustejovsky, and Shadish (2013) approach (using the <code>effect_size_MB</code> function) to the estimates based on the hierarchical linear modeling approach described in Pustejovsky, Hedges, and Shadish (2014) (using the <code>g_mlm</code> function).</p>
+<p>Laski, Charlop, and Schreibman (1988) used a multiple baseline across
+individuals to evaluate the effect of a training program for parents on
+the speech production of their autistic children, as measured using a
+partial interval recording procedure. The design included eight
+children; one child was measured separately with each parent; for
+purposes of simplicity, and following Hedges, Pustejovsky, and Shadish
+(2013), only the measurements taken with the mother are included in the
+analysis.</p>
+<p>The following code compares the estimates of the design-comparable
+SMD effect size based on the Hedges, Pustejovsky, and Shadish (2013)
+approach (using the <code>effect_size_MB</code> function) to the
+estimates based on the hierarchical linear modeling approach described
+in Pustejovsky, Hedges, and Shadish (2014) (using the <code>g_mlm</code>
+function).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span></span>
 <span></span>
@@ -323,8 +456,16 @@
 <span><span class="co">## phi  0.01652579  0.2527690</span></span>
 <span><span class="co">## rho  0.69396648  0.5606064</span></span>
 <span><span class="co">## nu  13.10041496 18.5524061</span></span></code></pre>
-<p>As in the Saddler example, both methods produce very similar SMD estimates and variance estimates. The RML estimate of auto-correlation is substantially higher than the HPS estimate, while the intra-class correlation estimate is somewhat lower; in combination, these differences lead to larger degrees of freedom.</p>
-<p>An advantage of the RML approach is that it is readily extended to more complex models. The above analysis was based on the assumption that the treatment effect is constant across cases. This assumption can be removed by fitting a model that includes a random treatment effect for each case:</p>
+<p>As in the Saddler example, both methods produce very similar SMD
+estimates and variance estimates. The RML estimate of auto-correlation
+is substantially higher than the HPS estimate, while the intra-class
+correlation estimate is somewhat lower; in combination, these
+differences lead to larger degrees of freedom.</p>
+<p>An advantage of the RML approach is that it is readily extended to
+more complex models. The above analysis was based on the assumption that
+the treatment effect is constant across cases. This assumption can be
+removed by fitting a model that includes a random treatment effect for
+each case:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Laski_RML2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">treatment</span>,</span>
 <span>                 random <span class="op">=</span> <span class="op">~</span> <span class="va">treatment</span> <span class="op">|</span> <span class="va">case</span>, </span>
@@ -368,7 +509,11 @@
 <pre><code><span><span class="co">##            Model df      AIC      BIC    logLik   Test  L.Ratio p-value</span></span>
 <span><span class="co">## Laski_RML      1  5 1048.285 1062.466 -519.1424                        </span></span>
 <span><span class="co">## Laski_RML2     2  7 1036.014 1055.868 -511.0069 1 vs 2 16.27091   3e-04</span></span></code></pre>
-<p>The fit of the two models can be compared using a likelihood ratio test, which rejects the model with a constant treatment effect. The second model, which allows the treatment effect to vary, is to be preferred. The following code estimates a design-comparable SMD based on the better-fitting model.</p>
+<p>The fit of the two models can be compared using a likelihood ratio
+test, which rejects the model with a constant treatment effect. The
+second model, which allows the treatment effect to vary, is to be
+preferred. The following code estimates a design-comparable SMD based on
+the better-fitting model.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Laski_ES_RML2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">Laski_RML2</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">Laski_ES_RML2</span></span></code></pre></div>
@@ -376,12 +521,31 @@
 <span><span class="co">## unadjusted effect size  1.271 0.386</span></span>
 <span><span class="co">## adjusted effect size    1.181 0.358</span></span>
 <span><span class="co">## degree of freedom      10.776</span></span></code></pre>
-<p>The adjusted effect size estimate that is 16% smaller than the estimate from the simpler model; with a standard error that is 25% larger. The difference between the two models is due to a difference in between-case variance across phases not captured by the assumptions of the simpler model. The between-case variation in the outcome appears to be substantially larger in the baseline phase than in the treatment phase. Maintaining the constant treatment effect assumption constrains the between-case variance to be constant across phases, and so the between-case variance is estimated by pooling across both phases. The constant treatment effect assumption therefore leads to a smaller variance estimate than the estimate based on allowing the between-case variance to differ by phase.</p>
+<p>The adjusted effect size estimate that is 16% smaller than the
+estimate from the simpler model; with a standard error that is 25%
+larger. The difference between the two models is due to a difference in
+between-case variance across phases not captured by the assumptions of
+the simpler model. The between-case variation in the outcome appears to
+be substantially larger in the baseline phase than in the treatment
+phase. Maintaining the constant treatment effect assumption constrains
+the between-case variance to be constant across phases, and so the
+between-case variance is estimated by pooling across both phases. The
+constant treatment effect assumption therefore leads to a smaller
+variance estimate than the estimate based on allowing the between-case
+variance to differ by phase.</p>
 </div>
 <div class="section level2">
 <h2 id="schutte-malouff-brown-2008">Schutte, Malouff, &amp; Brown (2008)<a class="anchor" aria-label="anchor" href="#schutte-malouff-brown-2008"></a>
 </h2>
-<p>Schutte, Malouff, and Brown (2008) evaluated the effect of an emotion-focused therapy program for adults with prolonged fatigue using a multiple baseline across individuals. The design included 13 adults who met clinical criteria for prolonged fatigue. Fatigue severity was measured weekly using a self-reported scale that ranged from 1 to 63. Following Pustejovsky, Hedges, and Shadish (2014), the data for participant 4 are excluded from the analysis because nearly all of the measurements for this case are at the upper extreme of the scale. The data for the remaining participants are plotted below.</p>
+<p>Schutte, Malouff, and Brown (2008) evaluated the effect of an
+emotion-focused therapy program for adults with prolonged fatigue using
+a multiple baseline across individuals. The design included 13 adults
+who met clinical criteria for prolonged fatigue. Fatigue severity was
+measured weekly using a self-reported scale that ranged from 1 to 63.
+Following Pustejovsky, Hedges, and Shadish (2014), the data for
+participant 4 are excluded from the analysis because nearly all of the
+measurements for this case are at the upper extreme of the scale. The
+data for the remaining participants are plotted below.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"ggplot2"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -395,7 +559,15 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p><img src="Estimating-effect-sizes_files/figure-html/Schutte-graph-1.png" width="672"></p>
-<p>Time trends are apparent in the outcome series, as are changes in slope in the treatment condition. In order to operationally define a design-comparable SMD effect sizes in a model that includes time trends and treatment-by-time interactions, one will need to choose a time point A at which the treatment would begin and a time point B at which outcomes would be measured, both in a hypothetical between-subjects design based on the same population of participants. Here, we take A = 2 and B = 9; centering time at week 9 simplifies the effect size calculations.</p>
+<p>Time trends are apparent in the outcome series, as are changes in
+slope in the treatment condition. In order to operationally define a
+design-comparable SMD effect sizes in a model that includes time trends
+and treatment-by-time interactions, one will need to choose a time point
+A at which the treatment would begin and a time point B at which
+outcomes would be measured, both in a hypothetical between-subjects
+design based on the same population of participants. Here, we take A = 2
+and B = 9; centering time at week 9 simplifies the effect size
+calculations.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># time-point constants</span></span>
 <span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
@@ -407,11 +579,17 @@
 <span>  <span class="fu"><a href="../reference/preprocess_SCD.html">preprocess_SCD</a></span><span class="op">(</span>case <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">treatment</span>,</span>
 <span>                 session <span class="op">=</span> <span class="va">week</span>, outcome <span class="op">=</span> <span class="va">fatigue</span>,</span>
 <span>                 design <span class="op">=</span> <span class="st">"MB"</span>, center <span class="op">=</span> <span class="va">B</span>, data <span class="op">=</span> <span class="va">Schutte</span><span class="op">)</span></span></code></pre></div>
-<p>Having completed the data-cleaning process, three different models will be considered, again following the example from Pustejovsky, Hedges, and Shadish (2014).</p>
+<p>Having completed the data-cleaning process, three different models
+will be considered, again following the example from Pustejovsky,
+Hedges, and Shadish (2014).</p>
 <div class="section level3">
 <h3 id="varying-intercepts-fixed-treatment-effect-fixed-trends">Varying intercepts, fixed treatment effect, fixed trends<a class="anchor" aria-label="anchor" href="#varying-intercepts-fixed-treatment-effect-fixed-trends"></a>
 </h3>
-<p>The initial model allows for a baseline time trend, treatment effect, and treatment-by-time interaction, all of which are assumed to be constant across the 12 cases; only the baseline intercept is assumed to vary across cases. This specification corresponds to Model MB3 from Pustejovsky, Hedges, and Shadish (2014)</p>
+<p>The initial model allows for a baseline time trend, treatment effect,
+and treatment-by-time interaction, all of which are assumed to be
+constant across the 12 cases; only the baseline intercept is assumed to
+vary across cases. This specification corresponds to Model MB3 from
+Pustejovsky, Hedges, and Shadish (2014)</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hlm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">fatigue</span> <span class="op">~</span> <span class="va">week</span> <span class="op">+</span> <span class="va">treatment</span> <span class="op">+</span> <span class="va">week_trt</span>, </span>
 <span>            random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">case</span>, </span>
@@ -452,7 +630,11 @@
 <span><span class="co">## </span></span>
 <span><span class="co">## Number of Observations: 136</span></span>
 <span><span class="co">## Number of Groups: 12</span></span></code></pre>
-<p>The design-comparable standardized mean difference corresponds to the treatment effect at week <span class="math inline">\(B = 9\)</span>, after <span class="math inline">\(B - A = 7\)</span> weeks of treatment. The corresponding values of <code>p_const</code> and <code>r_const</code> are specified below.</p>
+<p>The design-comparable standardized mean difference corresponds to the
+treatment effect at week <span class="math inline">\(B = 9\)</span>,
+after <span class="math inline">\(B - A = 7\)</span> weeks of treatment.
+The corresponding values of <code>p_const</code> and
+<code>r_const</code> are specified below.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Schutte_g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm1</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>, <span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">Schutte_g1</span></span></code></pre></div>
@@ -460,12 +642,16 @@
 <span><span class="co">## unadjusted effect size -1.373 0.644</span></span>
 <span><span class="co">## adjusted effect size   -1.337 0.627</span></span>
 <span><span class="co">## degree of freedom      29.152</span></span></code></pre>
-<p>It will be seen below that this initial model provides a poor fit to the data; thus, the effect size estimate based on it should not be trusted.</p>
+<p>It will be seen below that this initial model provides a poor fit to
+the data; thus, the effect size estimate based on it should not be
+trusted.</p>
 </div>
 <div class="section level3">
 <h3 id="varying-intercepts-fixed-treatment-effect-varying-trends">Varying intercepts, fixed treatment effect, varying trends<a class="anchor" aria-label="anchor" href="#varying-intercepts-fixed-treatment-effect-varying-trends"></a>
 </h3>
-<p>The next model (Model MB4) allows the baseline time trend to vary across cases. This can be done by modifying the previous model with the <code>update</code> function.</p>
+<p>The next model (Model MB4) allows the baseline time trend to vary
+across cases. This can be done by modifying the previous model with the
+<code>update</code> function.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hlm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">hlm1</span>, random <span class="op">=</span> <span class="op">~</span> <span class="va">week</span> <span class="op">|</span> <span class="va">case</span>, </span>
 <span>               control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lmeControl.html" class="external-link">lmeControl</a></span><span class="op">(</span>msMaxIter <span class="op">=</span> <span class="fl">50</span>, apVar<span class="op">=</span><span class="cn">FALSE</span>, returnObject<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -511,7 +697,9 @@
 <pre><code><span><span class="co">##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value</span></span>
 <span><span class="co">## hlm1     1  7 884.1744 904.3540 -435.0872                        </span></span>
 <span><span class="co">## hlm2     2  9 875.9526 901.8978 -428.9763 1 vs 2 12.22179  0.0022</span></span></code></pre>
-<p>A likelihood ratio test rejects the initial model in favor of this more flexible model. An effect size estimate is calculated from the fitted model as follows<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
+<p>A likelihood ratio test rejects the initial model in favor of this
+more flexible model. An effect size estimate is calculated from the
+fitted model as follows<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Schutte_g2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm2</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>, <span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">Schutte_g2</span></span></code></pre></div>
@@ -519,12 +707,21 @@
 <span><span class="co">## unadjusted effect size -1.070 0.495</span></span>
 <span><span class="co">## adjusted effect size   -1.013 0.469</span></span>
 <span><span class="co">## degree of freedom      14.302</span></span></code></pre>
-<p>The design-comparable SMD is estimated to be -1.013, with a standard error of 0.469.</p>
+<p>The design-comparable SMD is estimated to be -1.013, with a standard
+error of 0.469.</p>
 </div>
 <div class="section level3">
-<h3 id="varying-intercepts-varying-trends-varying-treatment-by-time-interactions">Varying intercepts, varying trends, varying treatment-by-time interactions<a class="anchor" aria-label="anchor" href="#varying-intercepts-varying-trends-varying-treatment-by-time-interactions"></a>
+<h3 id="varying-intercepts-varying-trends-varying-treatment-by-time-interactions">Varying intercepts, varying trends, varying treatment-by-time
+interactions<a class="anchor" aria-label="anchor" href="#varying-intercepts-varying-trends-varying-treatment-by-time-interactions"></a>
 </h3>
-<p>The final model (Model MB5) is yet more flexible, in that it allows the treatment-by-time interactions to vary across cases. Given that the data contain only twelve cases, fitting a model with three random effects would be questionable if the goal were to make inferences about the full structure of the model. However, simulation evidence from Pustejovsky, Hedges, and Shadish (2014) suggests that using such a flexible parameterization may nonetheless be reasonable for the more limited purpose of effect size estimation.</p>
+<p>The final model (Model MB5) is yet more flexible, in that it allows
+the treatment-by-time interactions to vary across cases. Given that the
+data contain only twelve cases, fitting a model with three random
+effects would be questionable if the goal were to make inferences about
+the full structure of the model. However, simulation evidence from
+Pustejovsky, Hedges, and Shadish (2014) suggests that using such a
+flexible parameterization may nonetheless be reasonable for the more
+limited purpose of effect size estimation.</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hlm3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">hlm2</span>, random <span class="op">=</span> <span class="op">~</span> <span class="va">week</span> <span class="op">+</span> <span class="va">week_trt</span> <span class="op">|</span> <span class="va">case</span>, </span>
 <span>               control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lmeControl.html" class="external-link">lmeControl</a></span><span class="op">(</span>msMaxIter <span class="op">=</span> <span class="fl">50</span>, apVar<span class="op">=</span><span class="cn">FALSE</span>, returnObject<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -571,7 +768,14 @@
 <pre><code><span><span class="co">##      Model df      AIC      BIC    logLik   Test L.Ratio p-value</span></span>
 <span><span class="co">## hlm2     1  9 875.9526 901.8978 -428.9763                       </span></span>
 <span><span class="co">## hlm3     2 12 873.0245 907.6181 -424.5123 1 vs 2 8.92808  0.0303</span></span></code></pre>
-<p>The REML estimation algorithm fails to converge because the estimate of the correlation between the random slopes and the random treatment-by-time interactions approaches 1. A likelihood ratio test rejects the previous model (which constrained the treatment-by-time interactions to be constant). However, this test cannot be trusted with such small sample of cases, and given variance component estimates that lie on an edge of the parameter space. An effect size estimate based on this fitted model is obtained as follows.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<p>The REML estimation algorithm fails to converge because the estimate
+of the correlation between the random slopes and the random
+treatment-by-time interactions approaches 1. A likelihood ratio test
+rejects the previous model (which constrained the treatment-by-time
+interactions to be constant). However, this test cannot be trusted with
+such small sample of cases, and given variance component estimates that
+lie on an edge of the parameter space. An effect size estimate based on
+this fitted model is obtained as follows.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Schutte_g3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lmeInfo.html">g_mlm</a></span><span class="op">(</span><span class="va">hlm3</span>, p_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="va">B</span> <span class="op">-</span> <span class="va">A</span><span class="op">)</span>, r_const <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">Schutte_g3</span></span></code></pre></div>
@@ -590,27 +794,62 @@
 <span><span class="co">## g_AB    -1.337 -1.013 -1.326</span></span>
 <span><span class="co">## SE_g_AB  0.627  0.469  0.827</span></span>
 <span><span class="co">## nu      29.152 14.302  6.848</span></span></code></pre>
-<p>The effect size estimate has magnitude comparable to the estimate from Model MB3. However, the variance of the estimate is extremely large, due to the fact that the variance components that go into the denominator of the SMD estimate are estimated with low precision. This final model may represent an outer limit on the complexity of models that can feasibility be estimated, given that most single-case designs have fewer cases than the study examined in this example.</p>
+<p>The effect size estimate has magnitude comparable to the estimate
+from Model MB3. However, the variance of the estimate is extremely
+large, due to the fact that the variance components that go into the
+denominator of the SMD estimate are estimated with low precision. This
+final model may represent an outer limit on the complexity of models
+that can feasibility be estimated, given that most single-case designs
+have fewer cases than the study examined in this example.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<p>Anglesea, M. M., Hoch, H., &amp; Taylor, B. A. (2008). Reducing rapid eating in teenagers with autism: Use of a pager prompt. <em>Journal of Applied Behavior Analysis, 41</em>(1), 107–111. doi: <a href="https://doi.org/10.1901/jaba.2008.41-107" class="external-link">10.1901/jaba.2008.41-107</a></p>
-<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. <em>Research Synthesis Methods, 3</em>, 224-239. doi: <a href="https://doi.org/10.1002/jrsm.1052" class="external-link">10.1002/jrsm.1052</a></p>
-<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. <em>Research Synthesis Methods, 4</em>(4), 324-341. doi: <a href="https://doi.org/10.1002/jrsm.1086" class="external-link">10.1002/jrsm.1086</a></p>
-<p>Lambert, M. C., Cartledge, G., Heward, W. L., &amp; Lo, Y. (2006). Effects of response cards on disruptive behavior and academic responding during math lessons by fourth-grade urban students. <em>Journal of Positive Behavior Interventions, 8</em>(2), 88-99.</p>
-<p>Laski, K. E., Charlop, M. H., &amp; Schreibman, L. (1988). Training parents to use the natural language paradigm to increase their autistic children’s speech. <em>Journal of Applied Behavior Analysis, 21</em>(4), 391–400.</p>
-<p>Pinheiro J., Bates D., DebRoy S., Sarkar D. and R Core Team (2015). <em>nlme: Linear and Nonlinear Mixed Effects Models</em>. R package version 3.1-119. <a href="https://CRAN.R-project.org/package=nlme" class="external-link uri">https://CRAN.R-project.org/package=nlme</a></p>
-<p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014). Design-comparable effect sizes in multiple baseline designs: A general modeling framework. <em>Journal of Educational and Behavioral Statistics, 39</em>(4), 211-227. doi: <a href="https://doi.org/10.3102/1076998614547577" class="external-link">10.3102/1076998614547577</a></p>
-<p>Pustejovsky, J. E., Hamilton, B. J., &amp; Chen, M. (2020). <em>scdhlm: Estimating hierarchical linear models for single-case designs</em>. R package version 0.3.2, <a href="https://jepusto.github.io/scdhlm/" class="uri">https://jepusto.github.io/scdhlm/</a>.</p>
-<p>Saddler, B., Behforooz, B., &amp; Asaro, K. (2008). The effects of sentence-combining instruction on the writing of fourth-grade students with writing difficulties. <em>The Journal of Special Education, 42</em>(2), 79–90. doi: <a href="https://doi.org/10.1177/0022466907310371" class="external-link">10.1177/0022466907310371</a></p>
+<p>Anglesea, M. M., Hoch, H., &amp; Taylor, B. A. (2008). Reducing rapid
+eating in teenagers with autism: Use of a pager prompt. <em>Journal of
+Applied Behavior Analysis, 41</em>(1), 107–111. doi: <a href="https://doi.org/10.1901/jaba.2008.41-107" class="external-link">10.1901/jaba.2008.41-107</a></p>
+<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2012). A
+standardized mean difference effect size for single case designs.
+<em>Research Synthesis Methods, 3</em>, 224-239. doi: <a href="https://doi.org/10.1002/jrsm.1052" class="external-link">10.1002/jrsm.1052</a></p>
+<p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2013). A
+standardized mean difference effect size for multiple baseline designs
+across individuals. <em>Research Synthesis Methods, 4</em>(4), 324-341.
+doi: <a href="https://doi.org/10.1002/jrsm.1086" class="external-link">10.1002/jrsm.1086</a></p>
+<p>Lambert, M. C., Cartledge, G., Heward, W. L., &amp; Lo, Y. (2006).
+Effects of response cards on disruptive behavior and academic responding
+during math lessons by fourth-grade urban students. <em>Journal of
+Positive Behavior Interventions, 8</em>(2), 88-99.</p>
+<p>Laski, K. E., Charlop, M. H., &amp; Schreibman, L. (1988). Training
+parents to use the natural language paradigm to increase their autistic
+children’s speech. <em>Journal of Applied Behavior Analysis, 21</em>(4),
+391–400.</p>
+<p>Pinheiro J., Bates D., DebRoy S., Sarkar D. and R Core Team (2015).
+<em>nlme: Linear and Nonlinear Mixed Effects Models</em>. R package
+version 3.1-119. <a href="https://CRAN.R-project.org/package=nlme" class="external-link uri">https://CRAN.R-project.org/package=nlme</a></p>
+<p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014).
+Design-comparable effect sizes in multiple baseline designs: A general
+modeling framework. <em>Journal of Educational and Behavioral
+Statistics, 39</em>(4), 211-227. doi: <a href="https://doi.org/10.3102/1076998614547577" class="external-link">10.3102/1076998614547577</a></p>
+<p>Pustejovsky, J. E., Hamilton, B. J., &amp; Chen, M. (2020).
+<em>scdhlm: Estimating hierarchical linear models for single-case
+designs</em>. R package version 0.3.2, <a href="https://jepusto.github.io/scdhlm/" class="uri">https://jepusto.github.io/scdhlm/</a>.</p>
+<p>Saddler, B., Behforooz, B., &amp; Asaro, K. (2008). The effects of
+sentence-combining instruction on the writing of fourth-grade students
+with writing difficulties. <em>The Journal of Special Education,
+42</em>(2), 79–90. doi: <a href="https://doi.org/10.1177/0022466907310371" class="external-link">10.1177/0022466907310371</a></p>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
 <li id="fn1">
-<p>Note that the specification of the <code>r_const</code> argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The argument appears in a different order than reported in the article because of how the variance components are arranged in the <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> function. To see the order of the variance components used by <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>, use the <code><a href="../reference/lmeInfo.html">extract_varcomp()</a></code> function:</p>
+<p>Note that the specification of the <code>r_const</code>
+argument here differs from the specification reported in Pustejovsky,
+Hedges, and Shadish (2014). The argument appears in a different order
+than reported in the article because of how the variance components are
+arranged in the <code><a href="../reference/lmeInfo.html">g_mlm()</a></code> function. To see the order of the
+variance components used by <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>, use the
+<code><a href="../reference/lmeInfo.html">extract_varcomp()</a></code> function:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/lmeInfo.html">extract_varcomp</a></span><span class="op">(</span><span class="va">hlm2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      Tau.case.case.var((Intercept)) Tau.case.case.cov(week,(Intercept)) </span></span>
@@ -619,9 +858,16 @@
 <span><span class="co">##                           1.9938298                           0.3985953 </span></span>
 <span><span class="co">##                            sigma_sq </span></span>
 <span><span class="co">##                          29.3943508</span></span></code></pre>
-<p>The order of parameter estimates appearing in the result is the same as assumed in <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>. Thus, entries in <code>r_const</code> should correspond to the order of the parameter estimates appearing here.<a href="#fnref1" class="footnote-back">↩︎</a></p>
+<p>The order of parameter estimates appearing in the result is the same
+as assumed in <code><a href="../reference/lmeInfo.html">g_mlm()</a></code>. Thus, entries in
+<code>r_const</code> should correspond to the order of the parameter
+estimates appearing here.<a href="#fnref1" class="footnote-back">↩︎</a></p>
 </li>
-<li id="fn2"><p>Again, the specification of the <code>r_const</code> argument here differs from the specification reported in Pustejovsky, Hedges, and Shadish (2014). The entries in <code>r_const</code> should correspond to the order of the parameter estimates appearing in <code>unlist(extract_varcomp(hlm3))</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Again, the specification of the <code>r_const</code>
+argument here differs from the specification reported in Pustejovsky,
+Hedges, and Shadish (2014). The entries in <code>r_const</code> should
+correspond to the order of the parameter estimates appearing in
+<code>unlist(extract_varcomp(hlm3))</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
