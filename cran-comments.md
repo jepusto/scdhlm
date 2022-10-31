@@ -4,11 +4,12 @@ This is a re-submission. This version includes several new user-facing functions
 
 ## Test environments
 
-* local Windows 10 Education, R 4.2.0
+* local Windows 10 Education, R 4.2.2
 * ubuntu 20.04.3 LTS (on Github), R devel, release, oldrelease
 * macOS-latest (on Github), R release
 * windows-latest (on Github), R release
 * win-builder (devel, release, oldrelease)
+* mac-builder (release)
 
 ## R CMD check results
 
@@ -17,26 +18,6 @@ There were no ERRORs and no WARNINGs.
 There was 1 NOTE:
 
 Found the following (possibly) invalid URLs:
-  URL: https://doi.org/10.1002/jrsm.1052
-    From: inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1002/jrsm.1086
-    From: inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1177/0022466907310371
-    From: inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1901/jaba.2008.41-107
-    From: inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.3102/1076998614547577
-    From: inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
   URL: https://doi.org/10.1177/001440290507200101
     From: man/BartonArwood.Rd
     Status: 503
@@ -62,6 +43,10 @@ Found the following (possibly) invalid URLs:
     From: man/Schutte.Rd
     Status: 503
     Message: Service Unavailable
+  URL: https://doi.org/10.1177/10983007060080020701
+    From: man/Lambert.Rd
+    Status: 503
+    Message: Service Unavailable
   URL: https://doi.org/10.1177/1098300713492858
     From: man/Rodriguez.Rd
     Status: 503
@@ -78,8 +63,22 @@ Found the following (possibly) invalid URLs:
           inst/doc/Estimating-effect-sizes.html
     Status: 503
     Message: Service Unavailable
-    
-    The flagged URLs are correct.
+  URL: https://doi.org/10.1002/jrsm.1052
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1002/jrsm.1086
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.1901/jaba.2008.41-107
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.3102/1076998614547577
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 503
+    Message: Service Unavailable
 
 Found the following (possibly) invalid DOIs:
   DOI: 10.1002/jrsm.1052
@@ -95,7 +94,7 @@ Found the following (possibly) invalid DOIs:
     Status: Service Unavailable
     Message: 503
     
-    The flagged DOIs are correct.
+    The flagged URLs and DOIs are all correct.
     
 ## revdepcheck results
 
