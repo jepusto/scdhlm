@@ -399,7 +399,7 @@ fit_g <- function(y, object) {
 #' )
 #' 
 #' if (requireNamespace("plyr", quietly = TRUE)) {
-#'   simulate(Laski_g, nsim = 20)
+#'   simulate(Laski_g, nsim = 5)
 #' }
 
 

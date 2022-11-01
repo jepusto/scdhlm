@@ -8,7 +8,7 @@ This is a re-submission. This version includes several new user-facing functions
 * ubuntu 20.04.3 LTS (on Github), R devel, release, oldrelease
 * macOS-latest (on Github), R release
 * windows-latest (on Github), R release
-* win-builder (devel, release, oldrelease)
+* win-builder (release, oldrelease)
 * mac-builder (release)
 
 ## R CMD check results

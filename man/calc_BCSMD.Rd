@@ -190,13 +190,6 @@ calc_BCSMD(design = "RMBB",
 data(Bryant2018)
 calc_BCSMD(design = "CMB",
            cluster = group, case = case, phase = treatment,
-           session = session, outcome = outcome,
-           treatment_name = "treatment",
-           FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
-           data = Bryant2018)
-
-calc_BCSMD(design = "CMB",
-           cluster = group, case = case, phase = treatment,
            session = session, outcome = outcome, center = 49,
            treatment_name = "treatment",
            FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
