@@ -117,70 +117,25 @@ of <code>g_REML</code>.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"plyr"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate</a></span><span class="op">(</span><span class="va">Laski_g</span>, nsim <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate</a></span><span class="op">(</span><span class="va">Laski_g</span>, nsim <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      p_beta  r_theta delta_AB        nu     kappa     g_AB     V_g_AB cnvg_warn</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  31.15212 706.1399 1.172309  14.17688 0.1428316 1.109177 0.07321263         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  27.81108 527.8263 1.210521  13.81870 0.1300418 1.143610 0.07459027         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  31.15107 356.7092 1.649361  20.92789 0.1321889 1.589538 0.08594208         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  29.11018 476.3675 1.333748  13.95336 0.1245889 1.260751 0.08459672         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  26.28169 312.0249 1.487848  30.84069 0.1633815 1.451370 0.06413993         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  31.49443 255.7500 1.969363 103.72851 0.2190006 1.955090 0.06705359         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  32.76837 338.4661 1.781137  22.82633 0.1575177 1.721966 0.09782744         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  31.22140 392.8393 1.575233  21.33213 0.1487918 1.519194 0.08351380         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  28.35329 298.6398 1.640702  38.88876 0.1774537 1.608855 0.06735200         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 34.06057 309.5650 1.935869  21.06692 0.1498668 1.866123 0.11608524         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 29.64803 466.6687 1.372434  14.92436 0.1229380 1.302289 0.08308744         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 34.78874 408.5953 1.721044  26.42123 0.1364408 1.671724 0.07706405         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 32.22333 439.7389 1.536643  17.83815 0.1463797 1.471117 0.09195922         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 34.25900 373.6796 1.772250  15.44239 0.1250393 1.684760 0.12454308         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 32.38154 442.7592 1.538912  15.74483 0.1294857 1.464424 0.09738380         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 33.90614 433.6337 1.628234  24.35111 0.1608841 1.577565 0.08303832         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 30.33232 277.3303 1.821407  47.66994 0.1762866 1.792599 0.06688338         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 33.90840 682.7621 1.297695  11.83987 0.1012671 1.213719 0.08822708         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 29.71120 479.9999 1.356125  15.84546 0.1417883 1.290907 0.08254497         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 32.37837 435.9138 1.550796  20.41394 0.1427563 1.493114 0.08264645         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    sigma_sq        phi Tau.case.var((Intercept))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  252.5679 0.45136512                453.571979</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  175.3029 0.32768543                352.523419</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  166.6218 0.09489329                190.087427</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  157.3431 0.25965022                319.024321</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  187.7401 0.21645272                124.284784</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  254.7179 0.29635522                  1.032147</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  174.3906 0.28049324                164.075531</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  191.1479 0.23494418                201.691394</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  201.6594 0.25588364                 96.980344</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 149.8453 0.25025927                159.719674</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 164.3045 0.19055773                302.364209</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 219.5251 0.04493036                189.070169</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 189.5280 0.30696750                250.210869</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 136.4632 0.18865928                237.216396</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 166.0903 0.22074718                276.668889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 232.8397 0.28149341                200.794051</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 199.7901 0.19680612                 77.540113</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 173.8646 0.14458951                508.897508</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 186.8773 0.34091042                293.122624</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 203.9911 0.20166942                231.922676</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     p_beta  r_theta delta_AB       nu     kappa     g_AB     V_g_AB cnvg_warn</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 29.70076 399.0861 1.486738 29.18708 0.1708017 1.448204 0.06880123         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 31.47087 404.8764 1.564039 22.44751 0.1725315 1.511194 0.08732613         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 35.75743 933.6228 1.170255 11.09946 0.1007684 1.089358 0.07834970         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 28.39227 428.7449 1.371199 16.46172 0.1281963 1.307764 0.07757738         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 29.66058 390.1751 1.501585 21.02606 0.1335856 1.447379 0.07440600         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sigma_sq       phi Tau.case.var((Intercept))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 238.2093 0.2935883                  160.8768</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 216.2000 0.4227007                  188.6763</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 214.2643 0.2126060                  719.3585</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 166.6855 0.1794950                  262.0594</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 183.1853 0.1056117                  206.9898</span>
 </code></pre></div>
     </div>
   </div>

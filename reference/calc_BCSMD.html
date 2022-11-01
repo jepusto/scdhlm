@@ -341,19 +341,6 @@ with effect size estimate, degrees of freedom, and other information.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Bryant2018</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">calc_BCSMD</span><span class="op">(</span>design <span class="op">=</span> <span class="st">"CMB"</span>,</span></span>
 <span class="r-in"><span>           cluster <span class="op">=</span> <span class="va">group</span>, case <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">treatment</span>,</span></span>
-<span class="r-in"><span>           session <span class="op">=</span> <span class="va">session</span>, outcome <span class="op">=</span> <span class="va">outcome</span>,</span></span>
-<span class="r-in"><span>           treatment_name <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
-<span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fl">0</span>, RE_base <span class="op">=</span> <span class="fl">0</span>, RE_base_2 <span class="op">=</span> <span class="fl">0</span>, FE_trt <span class="op">=</span> <span class="fl">0</span>,</span></span>
-<span class="r-in"><span>           data <span class="op">=</span> <span class="va">Bryant2018</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   BC-SMD estimate Std. Error 95% CI (lower) 95% CI (upper) Degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       0.5927715 0.09240503      0.4082033      0.7773397           64.58301</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Auto-correlation Variance parameter    Intra-class correlation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         0.862357                 NA Level2:0.603  Level3:0.075</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Initial treatment time Follow-up time Converged</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                      5             49       Yes</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">calc_BCSMD</span><span class="op">(</span>design <span class="op">=</span> <span class="st">"CMB"</span>,</span></span>
-<span class="r-in"><span>           cluster <span class="op">=</span> <span class="va">group</span>, case <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">treatment</span>,</span></span>
 <span class="r-in"><span>           session <span class="op">=</span> <span class="va">session</span>, outcome <span class="op">=</span> <span class="va">outcome</span>, center <span class="op">=</span> <span class="fl">49</span>,</span></span>
 <span class="r-in"><span>           treatment_name <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
 <span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_base_2 <span class="op">=</span> <span class="fl">0</span>,</span></span>
