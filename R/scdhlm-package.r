@@ -355,7 +355,7 @@ NULL
 #'   \item \code{case}. Student identifier.
 #'   \item \code{series}. Series identifier.
 #'   \item \code{outcome}. Frequency of coded social communication skills, as measured by
-#'   a direct observation coding system with 15-second intervals recoding for the occurrence
+#'   a direct observation coding system with 15-second intervals recording for the occurrence
 #'   of any of the four social measures: contingent responses, securing attention, initiating
 #'   comments, and initiating requests.
 #'   \item \code{time}. Measurement occasion.

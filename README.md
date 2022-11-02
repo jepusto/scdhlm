@@ -25,7 +25,7 @@ Shadish, 2012; 2013) and restricted maximum likelihood estimation
 (Pustejovsky, Hedges, & Shadish, 2014). The package also includes an
 interactive web interface implemented using Shiny.
 
-# Acknowledgement
+# Acknowledgment
 
 <img src="https://raw.githubusercontent.com/jepusto/scdhlm/master/images/IES_InstituteOfEducationSciences_RGB.svg" width="40%" align = "right" alt = "Institute of Education Sciences logo"/>
 
@@ -260,12 +260,12 @@ close to balanced and used a relatively large number of cases. Their
 calculations can be replicated using the `effect_size_ABk()` function.
 To use this function, the user must provide the names of five variables:
 
--   the outcome variable,
--   a variable indicating the treatment condition,
--   a variable listing the case on which the outcome was measured,
--   a variable indicating the phase of treatment (i.e., each replication
-    of a baseline and treatment condition), and
--   a variable listing the session number.
+- the outcome variable,
+- a variable indicating the treatment condition,
+- a variable listing the case on which the outcome was measured,
+- a variable indicating the phase of treatment (i.e., each replication
+  of a baseline and treatment condition), and
+- a variable listing the session number.
 
 In the `Lambert` dataset, these variables are called respectively
 `outcome`, `treatment`, `case`, `phase`, and `time`. Given these inputs,
