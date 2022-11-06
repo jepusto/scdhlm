@@ -65,7 +65,7 @@ test_that("graph_SCD works for design = 'MBP'", {
   expect_s3_class(Laski_graph2, "ggplot")
   expect_invisible(print(Laski_graph2))
   
-  keys <- setdiff(names(Laski_graph1), c("plot_env", "labels"))
+  keys <- setdiff(names(Laski_graph1), c("plot_env", "labels","facet"))
   expect_equal(Laski_graph1[keys], Laski_graph2[keys])
   
 })
@@ -107,7 +107,7 @@ test_that("graph_SCD works for design = 'RMBB'", {
   expect_s3_class(Thiemann_graph3, "ggplot")
   expect_invisible(print(Thiemann_graph3))
   
-  keys <- setdiff(names(Thiemann_graph1), c("plot_env", "labels"))
+  keys <- setdiff(names(Thiemann_graph1), c("plot_env", "labels", "facet"))
   expect_equal(Thiemann_graph1[keys], Thiemann_graph3[keys])
   
 })
@@ -152,7 +152,7 @@ test_that("graph_SCD works for design = 'CMB'", {
   expect_s3_class(Bry_graph3, "ggplot")
   expect_invisible(print(Bry_graph3))
   
-  keys <- setdiff(names(Bry_graph1), c("plot_env", "labels"))
+  keys <- setdiff(names(Bry_graph1), c("plot_env", "labels", "facet"))
   expect_equal(Bry_graph1[keys], Bry_graph3[keys])
   
 })
