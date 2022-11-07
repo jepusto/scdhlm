@@ -1,6 +1,6 @@
 ## Resubmission
 
-This is a re-submission. This version includes several new user-facing functions for pre-processing data and calculating effect size estimates. It also includes updates to the built-in web app, as well as a few small bug fixes. 
+This is a re-submission. This version includes several new user-facing functions for pre-processing data and calculating effect size estimates. It also includes updates to the built-in web app, as well as a few small bug fixes. This version also includes fixes for the outstanding CRAN check errors under R-devel on Windows and Linux.
 
 ## Test environments
 
@@ -8,7 +8,7 @@ This is a re-submission. This version includes several new user-facing functions
 * ubuntu 20.04.3 LTS (on Github), R devel, release, oldrelease
 * macOS-latest (on Github), R release
 * windows-latest (on Github), R devel, release
-* win-builder (release, oldrelease)
+* win-builder (devel, release, oldrelease)
 * mac-builder (release)
 
 ## R CMD check results
