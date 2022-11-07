@@ -1,6 +1,6 @@
 ## Resubmission
 
-This is a re-submission. This version includes several new user-facing functions for pre-processing data and calculating effect size estimates. It also includes updates to the built-in web app, as well as a few small bug fixes. This version also includes fixes for the outstanding CRAN check errors under R-devel on Windows and Linux.
+This is a re-submission. This version includes several new user-facing functions for pre-processing data and calculating effect size estimates. It also includes updates to the built-in web app, as well as a few small bug fixes. This version also includes fixes for the outstanding CRAN check errors (which were created by a change in the most recent release of ggplot2).
 
 ## Test environments
 
