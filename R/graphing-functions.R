@@ -182,7 +182,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
     
     dat$fitted <- if(design == "CMB") predict(model_fit, level = 1) else predict(model_fit)
 
-    p <- p + ggplot2::geom_line(data = dat, ggplot2::aes(y = fitted), size = 0.8)
+    p <- p + ggplot2::geom_line(data = dat, ggplot2::aes(y = fitted), linewidth = 0.8)
 
   }
 
