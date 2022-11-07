@@ -1,7 +1,9 @@
 context("Graphing functions")
 
 test_that("graph_SCD works for design = 'TR'", {
+  
   skip_if_not_installed("ggplot2")
+  skip_on_cran()
   
   data("Anglesea")
   
@@ -48,6 +50,8 @@ test_that("graph_SCD works for design = 'MBP'", {
   
   skip_if_not_installed("ggplot2")
 
+  skip_on_cran()
+  
   data("Laski")
   
   Laski_RML <- lme(fixed = outcome ~ 1 + treatment,
@@ -73,7 +77,9 @@ test_that("graph_SCD works for design = 'MBP'", {
 test_that("graph_SCD works for design = 'RMBB'", {
   
   skip_if_not_installed("ggplot2")
-
+  
+  skip_on_cran()
+  
   data("Thiemann2001")
   Thiemann2001_RML <- lme(outcome ~ 1 + time_c + treatment + trt_time,
                           random = ~ 1 | case / series,
@@ -115,6 +121,8 @@ test_that("graph_SCD works for design = 'RMBB'", {
 test_that("graph_SCD works for design = 'CMB'", {
   
   skip_if_not_installed("ggplot2")
+  
+  skip_on_cran()
   
   data("Bryant2018")
   
