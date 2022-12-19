@@ -7,6 +7,6 @@ The following videos provide instructions for how to install R, RStudio, and the
 
 The following videos provide detailed demonstrations of how to use the scdhlm app to estimate a between-case standardized mean difference effect size:
 
-* A model without time trends: https://www.youtube.com/watch?v=dL0-5FIXzL4
-* A model that includes time trends: https://www.youtube.com/watch?v=8E5FFUUWr1c
+* A model without time trends: https://www.youtube.com/watch?v=arDE6uhLLAc
+* A model that includes time trends: https://www.youtube.com/watch?v=DsFJO2MBkjM
 
