@@ -186,7 +186,7 @@ test_that("The calc_BCSMD() works appropriately for treatment reversal designs."
 })
 
 
-test_that("calc_BCSMD() returns same result as g_mlm() for Laski data.", {
+test_that("calc_BCSMD() returns same result as g_mlm() for Laski data with a simple model.", {
   
   data(Laski)
   
@@ -216,6 +216,14 @@ test_that("calc_BCSMD() returns same result as g_mlm() for Laski data.", {
   expect_equal(Laski_g1_mlm$SE_g_AB, Laski_calc_BCSMD_summary$`Std. Error`)
   expect_equal(Laski_g1_mlm$nu, Laski_calc_BCSMD_summary$`Degrees of freedom`)
   
+})
+
+
+test_that("calc_BCSMD() returns same result as g_mlm() for Laski data with a complex model.", {
+
+  skip_on_cran()
+  
+  data(Laski)
   
   # complex model
   default_AB <- default_times(design = "MBP",
@@ -259,8 +267,7 @@ test_that("calc_BCSMD() returns same result as g_mlm() for Laski data.", {
   
 })
 
-
-test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data.", {
+test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data with a simple model.", {
   
   data(Bryant2018)
   Bryant_RML1 <- lme(fixed = outcome ~ treatment,
@@ -294,8 +301,19 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data.
   
   expect_equal(CI_g(Bry_g1_mlm)[1], Bry_BCSMD_summary$`95% CI (lower)`)
   expect_equal(CI_g(Bry_g1_mlm)[2], Bry_BCSMD_summary$`95% CI (upper)`)
-  
 
+})
+
+test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data with a complex model.", {
+
+  skip_on_cran()
+  
+  data(Bryant2018)
+  Bryant_RML1 <- lme(fixed = outcome ~ treatment,
+                     random = ~ 1 | group/case,
+                     correlation = corAR1(0.01, ~ session | group/case),
+                     data = Bryant2018)
+  
   # complex model
   default_AB <- default_times(design = "CMB",
                               cluster = group, case = case, phase = treatment, session = session, 
@@ -344,7 +362,6 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data.
   expect_equal(CI_g(Bry_g2_mlm)[2], Bry_BCSMD2_summary$`95% CI (upper)`)
   
 })
-
 
 test_that("The batch_calc_BCSMD() works for MBP design.", {
   
