@@ -1,6 +1,6 @@
 ## Resubmission
 
-This is a re-submission. This version includes several new user-facing functions for pre-processing data and calculating effect size estimates. It also includes updates to the built-in web app, as well as a few small bug fixes. This version also includes fixes for the outstanding CRAN check errors (which were created by a change in the most recent release of ggplot2).
+This is a re-submission and a maintenance release. This version fixes the outstanding CRAN check error (on ATLAS build).
 
 ## Test environments
 
@@ -15,54 +15,15 @@ This is a re-submission. This version includes several new user-facing functions
 
 There were no ERRORs and no WARNINGs. 
 
-There was 1 NOTE:
+There were several NOTEs:
+
+Possibly mis-spelled words in DESCRIPTION:
+  Pustejovsky (13:29, 14:13, 15:5)
+  Shadish (13:46, 14:30, 15:30)
+  
+  The flagged words are spelled correctly.
 
 Found the following (possibly) invalid URLs:
-  URL: https://doi.org/10.1177/001440290507200101
-    From: man/BartonArwood.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1177/00224669070410010201
-    From: man/AlberMorgan.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1177/0022466907310371
-    From: man/Saddler.Rd
-          inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1177/0022466919883397
-    From: man/Peltier.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1177/002246699202600101
-    From: man/CaseHarrisGraham.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1177/0145445508317133
-    From: man/Schutte.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1177/10983007060080020701
-    From: man/Lambert.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.1177/1098300713492858
-    From: man/Rodriguez.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.3102/1076998614547577
-    From: man/MB1results.Rd
-          man/MB2results.Rd
-          man/MB4results.Rd
-          man/Schutte.Rd
-          man/compare_RML_HPS.Rd
-          man/g_REML.Rd
-          man/simulate_MB2.Rd
-          man/simulate_MB4.Rd
-          inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
   URL: https://doi.org/10.1002/jrsm.1052
     From: inst/doc/Estimating-effect-sizes.html
     Status: 503
@@ -71,14 +32,20 @@ Found the following (possibly) invalid URLs:
     From: inst/doc/Estimating-effect-sizes.html
     Status: 503
     Message: Service Unavailable
+  URL: https://doi.org/10.1177/0022466907310371
+    From: inst/doc/Estimating-effect-sizes.html
+    Status: 403
+    Message: Forbidden
   URL: https://doi.org/10.1901/jaba.2008.41-107
     From: inst/doc/Estimating-effect-sizes.html
     Status: 503
     Message: Service Unavailable
   URL: https://doi.org/10.3102/1076998614547577
     From: inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
+    Status: 403
+    Message: Forbidden
+
+    The flagged URLs are all correct.
 
 Found the following (possibly) invalid DOIs:
   DOI: 10.1002/jrsm.1052
@@ -91,10 +58,10 @@ Found the following (possibly) invalid DOIs:
     Message: 503
   DOI: 10.3102/1076998614547577
     From: DESCRIPTION
-    Status: Service Unavailable
-    Message: 503
+    Status: Forbidden
+    Message: 403
     
-    The flagged URLs and DOIs are all correct.
+    The flagged DOIs are all correct.
     
 ## revdepcheck results
 
