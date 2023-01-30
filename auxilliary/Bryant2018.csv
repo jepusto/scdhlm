@@ -1,537 +1,571 @@
 school,group,case,treatment,session,session_trt,outcome,session_c
-school 1,School 1  Group 1,student 1,baseline,1,0,69,-20
-school 1,School 1  Group 1,student 1,baseline,2,0,71,-19
-school 1,School 1  Group 1,student 1,baseline,3,0,79,-18
-school 1,School 1  Group 1,student 1,baseline,4,0,72,-17
-school 1,School 1  Group 1,student 1,baseline,5,0,67,-16
-school 1,School 1  Group 1,student 1,treatment,11,6,76,-10
-school 1,School 1  Group 1,student 1,treatment,16,11,68,-5
-school 1,School 1  Group 1,student 1,treatment,21,16,72,0
-school 1,School 1  Group 1,student 1,treatment,25,20,81,4
-school 1,School 1  Group 1,student 1,treatment,30,25,87,9
-school 1,School 1  Group 1,student 1,treatment,35,30,84,14
-school 1,School 1  Group 1,student 1,treatment,39,34,104,18
-school 1,School 1  Group 1,student 1,treatment,44,39,91,23
-school 1,School 1  Group 1,student 1,treatment,49,44,96,28
-school 1,School 1  Group 1,student 1,treatment,54,49,92,33
-school 1,School 1  Group 1,student 2,baseline,1,0,19,-20
-school 1,School 1  Group 1,student 2,baseline,2,0,35,-19
-school 1,School 1  Group 1,student 2,baseline,3,0,43,-18
-school 1,School 1  Group 1,student 2,baseline,4,0,42,-17
-school 1,School 1  Group 1,student 2,baseline,5,0,37,-16
-school 1,School 1  Group 1,student 2,treatment,7,2,45,-14
-school 1,School 1  Group 1,student 2,treatment,11,6,43,-10
-school 1,School 1  Group 1,student 2,treatment,16,11,44,-5
-school 1,School 1  Group 1,student 2,treatment,21,16,51,0
-school 1,School 1  Group 1,student 2,treatment,25,20,54,4
-school 1,School 1  Group 1,student 2,treatment,30,25,49,9
-school 1,School 1  Group 1,student 2,treatment,35,30,43,14
-school 1,School 1  Group 1,student 2,treatment,39,34,48,18
-school 1,School 1  Group 1,student 2,treatment,44,39,52,23
-school 1,School 1  Group 1,student 2,treatment,49,44,53,28
-school 1,School 1  Group 1,student 2,treatment,54,49,59,33
-school 1,School 1  Group 1,student 3,baseline,3,0,60,-18
-school 1,School 1  Group 1,student 3,baseline,4,0,68,-17
-school 1,School 1  Group 1,student 3,baseline,5,0,78,-16
-school 1,School 1  Group 1,student 3,treatment,7,2,76,-14
-school 1,School 1  Group 1,student 3,treatment,11,6,83,-10
-school 1,School 1  Group 1,student 3,treatment,16,11,79,-5
-school 1,School 1  Group 1,student 3,treatment,21,16,88,0
-school 1,School 1  Group 1,student 3,treatment,25,20,81,4
-school 1,School 1  Group 1,student 3,treatment,30,25,86,9
-school 1,School 1  Group 1,student 3,treatment,35,30,86,14
-school 1,School 1  Group 1,student 3,treatment,39,34,97,18
-school 1,School 1  Group 1,student 3,treatment,44,39,88,23
-school 1,School 1  Group 1,student 3,treatment,49,44,91,28
-school 1,School 1  Group 1,student 3,treatment,54,49,100,33
-school 1,School 1  Group 2,student 4,baseline,1,0,32,-20
-school 1,School 1  Group 2,student 4,baseline,2,0,59,-19
-school 1,School 1  Group 2,student 4,baseline,3,0,52,-18
-school 1,School 1  Group 2,student 4,baseline,4,0,54,-17
-school 1,School 1  Group 2,student 4,baseline,5,0,56,-16
-school 1,School 1  Group 2,student 4,treatment,7,2,56,-14
-school 1,School 1  Group 2,student 4,treatment,11,6,69,-10
-school 1,School 1  Group 2,student 4,treatment,16,11,72,-5
-school 1,School 1  Group 2,student 4,treatment,21,16,81,0
-school 1,School 1  Group 2,student 4,treatment,25,20,72,4
-school 1,School 1  Group 2,student 4,treatment,30,25,73,9
-school 1,School 1  Group 2,student 4,treatment,35,30,85,14
-school 1,School 1  Group 2,student 4,treatment,39,34,76,18
-school 1,School 1  Group 2,student 4,treatment,44,39,80,23
-school 1,School 1  Group 2,student 4,treatment,49,44,81,28
-school 1,School 1  Group 2,student 4,treatment,54,49,86,33
-school 1,School 1  Group 2,student 5,baseline,1,0,64,-20
-school 1,School 1  Group 2,student 5,baseline,2,0,76,-19
-school 1,School 1  Group 2,student 5,baseline,3,0,70,-18
-school 1,School 1  Group 2,student 5,baseline,4,0,62,-17
-school 1,School 1  Group 2,student 5,baseline,5,0,60,-16
-school 1,School 1  Group 2,student 5,treatment,7,2,62,-14
-school 1,School 1  Group 2,student 5,treatment,16,11,79,-5
-school 1,School 1  Group 2,student 5,treatment,21,16,77,0
-school 1,School 1  Group 2,student 5,treatment,25,20,79,4
-school 1,School 1  Group 2,student 5,treatment,30,25,91,9
-school 1,School 1  Group 2,student 5,treatment,35,30,95,14
-school 1,School 1  Group 2,student 5,treatment,39,34,85,18
-school 1,School 1  Group 2,student 5,treatment,44,39,82,23
-school 1,School 1  Group 2,student 5,treatment,49,44,91,28
-school 1,School 1  Group 2,student 5,treatment,54,49,98,33
-school 1,School 1  Group 2,student 6,baseline,1,0,70,-20
-school 1,School 1  Group 2,student 6,baseline,2,0,73,-19
-school 1,School 1  Group 2,student 6,baseline,3,0,75,-18
-school 1,School 1  Group 2,student 6,baseline,4,0,70,-17
-school 1,School 1  Group 2,student 6,baseline,5,0,79,-16
-school 1,School 1  Group 2,student 6,treatment,7,2,92,-14
-school 1,School 1  Group 2,student 6,treatment,11,6,98,-10
-school 1,School 1  Group 2,student 6,treatment,16,11,90,-5
-school 1,School 1  Group 2,student 6,treatment,21,16,82,0
-school 1,School 1  Group 2,student 6,treatment,25,20,88,4
-school 1,School 1  Group 2,student 6,treatment,30,25,93,9
-school 1,School 1  Group 2,student 6,treatment,35,30,85,14
-school 1,School 1  Group 2,student 6,treatment,39,34,97,18
-school 1,School 1  Group 2,student 6,treatment,44,39,89,23
-school 1,School 1  Group 2,student 6,treatment,49,44,121,28
-school 1,School 1  Group 2,student 6,treatment,54,49,119,33
-school 2,School 2  Group 1,student 1,baseline,3,0,84,-18
-school 2,School 2  Group 1,student 1,baseline,4,0,82,-17
-school 2,School 2  Group 1,student 1,baseline,6,0,78,-15
-school 2,School 2  Group 1,student 1,baseline,8,0,91,-13
-school 2,School 2  Group 1,student 1,treatment,11,3,99,-10
-school 2,School 2  Group 1,student 1,treatment,16,8,102,-5
-school 2,School 2  Group 1,student 1,treatment,21,13,98,0
-school 2,School 2  Group 1,student 1,treatment,25,17,107,4
-school 2,School 2  Group 1,student 1,treatment,30,22,117,9
-school 2,School 2  Group 1,student 1,treatment,35,27,115,14
-school 2,School 2  Group 1,student 1,treatment,39,31,114,18
-school 2,School 2  Group 1,student 1,treatment,44,36,107,23
-school 2,School 2  Group 1,student 1,treatment,49,41,125,28
-school 2,School 2  Group 1,student 1,treatment,54,46,121,33
-school 2,School 2  Group 1,student 2,baseline,1,0,72,-20
-school 2,School 2  Group 1,student 2,baseline,3,0,71,-18
-school 2,School 2  Group 1,student 2,baseline,4,0,67,-17
-school 2,School 2  Group 1,student 2,baseline,6,0,64,-15
-school 2,School 2  Group 1,student 2,baseline,8,0,63,-13
-school 2,School 2  Group 1,student 2,treatment,16,8,70,-5
-school 2,School 2  Group 1,student 2,treatment,21,13,77,0
-school 2,School 2  Group 1,student 2,treatment,25,17,82,4
-school 2,School 2  Group 1,student 2,treatment,30,22,81,9
-school 2,School 2  Group 1,student 2,treatment,35,27,85,14
-school 2,School 2  Group 1,student 2,treatment,39,31,87,18
-school 2,School 2  Group 1,student 2,treatment,44,36,97,23
-school 2,School 2  Group 1,student 2,treatment,49,41,109,28
-school 2,School 2  Group 1,student 2,treatment,54,46,87,33
-school 2,School 2  Group 1,student 3,baseline,1,0,58,-20
-school 2,School 2  Group 1,student 3,baseline,3,0,69,-18
-school 2,School 2  Group 1,student 3,baseline,4,0,70,-17
-school 2,School 2  Group 1,student 3,baseline,6,0,63,-15
-school 2,School 2  Group 1,student 3,baseline,8,0,70,-13
-school 2,School 2  Group 1,student 3,treatment,16,8,77,-5
-school 2,School 2  Group 1,student 3,treatment,21,13,92,0
-school 2,School 2  Group 1,student 3,treatment,25,17,77,4
-school 2,School 2  Group 1,student 3,treatment,30,22,101,9
-school 2,School 2  Group 1,student 3,treatment,35,27,102,14
-school 2,School 2  Group 1,student 3,treatment,39,31,102,18
-school 2,School 2  Group 1,student 3,treatment,44,36,100,23
-school 2,School 2  Group 1,student 3,treatment,49,41,109,28
-school 2,School 2  Group 1,student 3,treatment,54,46,97,33
-school 2,School 2  Group 2,student 4,baseline,1,0,65,-20
-school 2,School 2  Group 2,student 4,baseline,3,0,71,-18
-school 2,School 2  Group 2,student 4,baseline,4,0,82,-17
-school 2,School 2  Group 2,student 4,baseline,6,0,77,-15
-school 2,School 2  Group 2,student 4,baseline,8,0,88,-13
-school 2,School 2  Group 2,student 4,treatment,11,3,63,-10
-school 2,School 2  Group 2,student 4,treatment,16,8,73,-5
-school 2,School 2  Group 2,student 4,treatment,21,13,79,0
-school 2,School 2  Group 2,student 4,treatment,25,17,79,4
-school 2,School 2  Group 2,student 4,treatment,30,22,84,9
-school 2,School 2  Group 2,student 4,treatment,35,27,96,14
-school 2,School 2  Group 2,student 4,treatment,39,31,90,18
-school 2,School 2  Group 2,student 4,treatment,44,36,85,23
-school 2,School 2  Group 2,student 4,treatment,49,41,82,28
-school 2,School 2  Group 2,student 4,treatment,54,46,92,33
-school 2,School 2  Group 2,student 5,baseline,3,0,74,-18
-school 2,School 2  Group 2,student 5,baseline,4,0,71,-17
-school 2,School 2  Group 2,student 5,baseline,6,0,95,-15
-school 2,School 2  Group 2,student 5,baseline,8,0,68,-13
-school 2,School 2  Group 2,student 5,treatment,11,3,76,-10
-school 2,School 2  Group 2,student 5,treatment,16,8,85,-5
-school 2,School 2  Group 2,student 5,treatment,21,13,85,0
-school 2,School 2  Group 2,student 5,treatment,25,17,90,4
-school 2,School 2  Group 2,student 5,treatment,30,22,92,9
-school 2,School 2  Group 2,student 5,treatment,35,27,95,14
-school 2,School 2  Group 2,student 5,treatment,39,31,89,18
-school 2,School 2  Group 2,student 5,treatment,44,36,99,23
-school 2,School 2  Group 2,student 5,treatment,49,41,94,28
-school 2,School 2  Group 2,student 5,treatment,54,46,111,33
-school 3,School 3  Group 1,student 1,baseline,1,0,71,-20
-school 3,School 3  Group 1,student 1,baseline,3,0,87,-18
-school 3,School 3  Group 1,student 1,baseline,4,0,75,-17
-school 3,School 3  Group 1,student 1,baseline,7,0,94,-14
-school 3,School 3  Group 1,student 1,baseline,9,0,94,-12
-school 3,School 3  Group 1,student 1,baseline,11,0,94,-10
-school 3,School 3  Group 1,student 1,treatment,16,5,94,-5
-school 3,School 3  Group 1,student 1,treatment,21,10,89,0
-school 3,School 3  Group 1,student 1,treatment,25,14,100,4
-school 3,School 3  Group 1,student 1,treatment,30,19,90,9
-school 3,School 3  Group 1,student 1,treatment,35,24,118,14
-school 3,School 3  Group 1,student 1,treatment,39,28,97,18
-school 3,School 3  Group 1,student 1,treatment,44,33,108,23
-school 3,School 3  Group 1,student 1,treatment,49,38,111,28
-school 3,School 3  Group 1,student 1,treatment,54,43,111,33
-school 3,School 3  Group 1,student 1,treatment,59,48,105,38
-school 3,School 3  Group 1,student 2,baseline,1,0,63,-20
-school 3,School 3  Group 1,student 2,baseline,3,0,59,-18
-school 3,School 3  Group 1,student 2,baseline,4,0,52,-17
-school 3,School 3  Group 1,student 2,baseline,7,0,48,-14
-school 3,School 3  Group 1,student 2,baseline,9,0,61,-12
-school 3,School 3  Group 1,student 2,baseline,11,0,51,-10
-school 3,School 3  Group 1,student 2,treatment,16,5,64,-5
-school 3,School 3  Group 1,student 2,treatment,21,10,61,0
-school 3,School 3  Group 1,student 2,treatment,25,14,58,4
-school 3,School 3  Group 1,student 2,treatment,30,19,66,9
-school 3,School 3  Group 1,student 2,treatment,35,24,58,14
-school 3,School 3  Group 1,student 2,treatment,39,28,66,18
-school 3,School 3  Group 1,student 2,treatment,44,33,82,23
-school 3,School 3  Group 1,student 2,treatment,49,38,85,28
-school 3,School 3  Group 1,student 2,treatment,54,43,84,33
-school 3,School 3  Group 1,student 2,treatment,59,48,81,38
-school 3,School 3  Group 2,student 3,baseline,1,0,76,-20
-school 3,School 3  Group 2,student 3,baseline,3,0,88,-18
-school 3,School 3  Group 2,student 3,baseline,4,0,96,-17
-school 3,School 3  Group 2,student 3,baseline,7,0,92,-14
-school 3,School 3  Group 2,student 3,baseline,9,0,98,-12
-school 3,School 3  Group 2,student 3,treatment,16,5,106,-5
-school 3,School 3  Group 2,student 3,treatment,21,10,96,0
-school 3,School 3  Group 2,student 3,treatment,25,14,105,4
-school 3,School 3  Group 2,student 3,treatment,30,19,108,9
-school 3,School 3  Group 2,student 3,treatment,35,24,118,14
-school 3,School 3  Group 2,student 3,treatment,39,28,117,18
-school 3,School 3  Group 2,student 3,treatment,44,33,122,23
-school 3,School 3  Group 2,student 3,treatment,49,38,127,28
-school 3,School 3  Group 2,student 3,treatment,54,43,128,33
-school 3,School 3  Group 2,student 3,treatment,59,48,130,38
-school 3,School 3  Group 2,student 4,baseline,1,0,57,-20
-school 3,School 3  Group 2,student 4,baseline,3,0,62,-18
-school 3,School 3  Group 2,student 4,baseline,4,0,51,-17
-school 3,School 3  Group 2,student 4,baseline,7,0,62,-14
-school 3,School 3  Group 2,student 4,baseline,9,0,61,-12
-school 3,School 3  Group 2,student 4,baseline,11,0,71,-10
-school 3,School 3  Group 2,student 4,treatment,16,5,59,-5
-school 3,School 3  Group 2,student 4,treatment,21,10,67,0
-school 3,School 3  Group 2,student 4,treatment,25,14,81,4
-school 3,School 3  Group 2,student 4,treatment,30,19,73,9
-school 3,School 3  Group 2,student 4,treatment,35,24,64,14
-school 3,School 3  Group 2,student 4,treatment,39,28,62,18
-school 3,School 3  Group 2,student 4,treatment,44,33,72,23
-school 3,School 3  Group 2,student 4,treatment,49,38,97,28
-school 3,School 3  Group 2,student 4,treatment,54,43,56,33
-school 3,School 3  Group 2,student 4,treatment,59,48,80,38
-school 3,School 3  Group 2,student 5,baseline,1,0,60,-20
-school 3,School 3  Group 2,student 5,baseline,3,0,69,-18
-school 3,School 3  Group 2,student 5,baseline,4,0,49,-17
-school 3,School 3  Group 2,student 5,baseline,7,0,59,-14
-school 3,School 3  Group 2,student 5,baseline,9,0,57,-12
-school 3,School 3  Group 2,student 5,baseline,11,0,59,-10
-school 3,School 3  Group 2,student 5,treatment,16,5,58,-5
-school 3,School 3  Group 2,student 5,treatment,21,10,61,0
-school 3,School 3  Group 2,student 5,treatment,25,14,74,4
-school 3,School 3  Group 2,student 5,treatment,30,19,60,9
-school 3,School 3  Group 2,student 5,treatment,35,24,70,14
-school 3,School 3  Group 2,student 5,treatment,39,28,74,18
-school 3,School 3  Group 2,student 5,treatment,44,33,65,23
-school 3,School 3  Group 2,student 5,treatment,49,38,80,28
-school 3,School 3  Group 2,student 5,treatment,54,43,74,33
-school 3,School 3  Group 2,student 5,treatment,59,48,74,38
-school 3,School 3  Group 3,student 6,baseline,1,0,72,-20
-school 3,School 3  Group 3,student 6,baseline,4,0,77,-17
-school 3,School 3  Group 3,student 6,baseline,7,0,103,-14
-school 3,School 3  Group 3,student 6,baseline,9,0,101,-12
-school 3,School 3  Group 3,student 6,baseline,11,0,100,-10
-school 3,School 3  Group 3,student 6,treatment,16,5,93,-5
-school 3,School 3  Group 3,student 6,treatment,21,10,90,0
-school 3,School 3  Group 3,student 6,treatment,25,14,110,4
-school 3,School 3  Group 3,student 6,treatment,30,19,118,9
-school 3,School 3  Group 3,student 6,treatment,35,24,108,14
-school 3,School 3  Group 3,student 6,treatment,39,28,107,18
-school 3,School 3  Group 3,student 6,treatment,44,33,116,23
-school 3,School 3  Group 3,student 6,treatment,49,38,124,28
-school 3,School 3  Group 3,student 6,treatment,54,43,114,33
-school 3,School 3  Group 3,student 6,treatment,59,48,136,38
-school 3,School 3  Group 3,student 7,baseline,3,0,51,-18
-school 3,School 3  Group 3,student 7,baseline,4,0,57,-17
-school 3,School 3  Group 3,student 7,baseline,7,0,62,-14
-school 3,School 3  Group 3,student 7,baseline,9,0,61,-12
-school 3,School 3  Group 3,student 7,baseline,11,0,70,-10
-school 3,School 3  Group 3,student 7,treatment,16,5,54,-5
-school 3,School 3  Group 3,student 7,treatment,21,10,75,0
-school 3,School 3  Group 3,student 7,treatment,25,14,80,4
-school 3,School 3  Group 3,student 7,treatment,30,19,97,9
-school 3,School 3  Group 3,student 7,treatment,35,24,96,14
-school 3,School 3  Group 3,student 7,treatment,39,28,96,18
-school 3,School 3  Group 3,student 7,treatment,44,33,89,23
-school 3,School 3  Group 3,student 7,treatment,49,38,99,28
-school 3,School 3  Group 3,student 7,treatment,54,43,103,33
-school 3,School 3  Group 3,student 7,treatment,59,48,108,38
-school 3,School 3  Group 3,student 8,baseline,1,0,41,-20
-school 3,School 3  Group 3,student 8,baseline,3,0,53,-18
-school 3,School 3  Group 3,student 8,baseline,4,0,49,-17
-school 3,School 3  Group 3,student 8,baseline,7,0,44,-14
-school 3,School 3  Group 3,student 8,baseline,9,0,45,-12
-school 3,School 3  Group 3,student 8,baseline,11,0,46,-10
-school 3,School 3  Group 3,student 8,treatment,16,5,47,-5
-school 3,School 3  Group 3,student 8,treatment,21,10,51,0
-school 3,School 3  Group 3,student 8,treatment,25,14,62,4
-school 3,School 3  Group 3,student 8,treatment,30,19,63,9
-school 3,School 3  Group 3,student 8,treatment,35,24,66,14
-school 3,School 3  Group 3,student 8,treatment,39,28,71,18
-school 3,School 3  Group 3,student 8,treatment,44,33,72,23
-school 3,School 3  Group 3,student 8,treatment,49,38,85,28
-school 3,School 3  Group 3,student 8,treatment,54,43,64,33
-school 3,School 3  Group 3,student 8,treatment,59,48,84,38
-school 4,School 4  Group 1,student 1,baseline,1,0,45,-20
-school 4,School 4  Group 1,student 1,baseline,3,0,53,-18
-school 4,School 4  Group 1,student 1,baseline,4,0,59,-17
-school 4,School 4  Group 1,student 1,baseline,7,0,66,-14
-school 4,School 4  Group 1,student 1,baseline,9,0,57,-12
-school 4,School 4  Group 1,student 1,baseline,11,0,83,-10
-school 4,School 4  Group 1,student 1,baseline,12,0,79,-9
-school 4,School 4  Group 1,student 1,baseline,14,0,81,-7
-school 4,School 4  Group 1,student 1,treatment,16,2,80,-5
-school 4,School 4  Group 1,student 1,treatment,21,7,91,0
-school 4,School 4  Group 1,student 1,treatment,25,11,82,4
-school 4,School 4  Group 1,student 1,treatment,30,16,86,9
-school 4,School 4  Group 1,student 1,treatment,35,21,80,14
-school 4,School 4  Group 1,student 1,treatment,39,25,98,18
-school 4,School 4  Group 1,student 1,treatment,44,30,101,23
-school 4,School 4  Group 1,student 1,treatment,49,35,107,28
-school 4,School 4  Group 1,student 1,treatment,54,40,103,33
-school 4,School 4  Group 1,student 1,treatment,59,45,109,38
-school 4,School 4  Group 1,student 2,baseline,1,0,60,-20
-school 4,School 4  Group 1,student 2,baseline,3,0,56,-18
-school 4,School 4  Group 1,student 2,baseline,4,0,42,-17
-school 4,School 4  Group 1,student 2,baseline,7,0,62,-14
-school 4,School 4  Group 1,student 2,baseline,9,0,45,-12
-school 4,School 4  Group 1,student 2,baseline,11,0,53,-10
-school 4,School 4  Group 1,student 2,baseline,12,0,46,-9
-school 4,School 4  Group 1,student 2,baseline,14,0,51,-7
-school 4,School 4  Group 1,student 2,treatment,16,2,62,-5
-school 4,School 4  Group 1,student 2,treatment,21,7,55,0
-school 4,School 4  Group 1,student 2,treatment,25,11,61,4
-school 4,School 4  Group 1,student 2,treatment,30,16,68,9
-school 4,School 4  Group 1,student 2,treatment,35,21,83,14
-school 4,School 4  Group 1,student 2,treatment,39,25,69,18
-school 4,School 4  Group 1,student 2,treatment,44,30,68,23
-school 4,School 4  Group 1,student 2,treatment,49,35,75,28
-school 4,School 4  Group 1,student 2,treatment,54,40,98,33
-school 4,School 4  Group 1,student 2,treatment,59,45,98,38
-school 4,School 4  Group 1,student 3,baseline,1,0,57,-20
-school 4,School 4  Group 1,student 3,baseline,3,0,61,-18
-school 4,School 4  Group 1,student 3,baseline,4,0,54,-17
-school 4,School 4  Group 1,student 3,baseline,7,0,58,-14
-school 4,School 4  Group 1,student 3,baseline,11,0,62,-10
-school 4,School 4  Group 1,student 3,baseline,12,0,79,-9
-school 4,School 4  Group 1,student 3,baseline,14,0,79,-7
-school 4,School 4  Group 1,student 3,treatment,16,2,76,-5
-school 4,School 4  Group 1,student 3,treatment,21,7,89,0
-school 4,School 4  Group 1,student 3,treatment,25,11,82,4
-school 4,School 4  Group 1,student 3,treatment,30,16,73,9
-school 4,School 4  Group 1,student 3,treatment,35,21,80,14
-school 4,School 4  Group 1,student 3,treatment,39,25,85,18
-school 4,School 4  Group 1,student 3,treatment,44,30,89,23
-school 4,School 4  Group 1,student 3,treatment,49,35,83,28
-school 4,School 4  Group 1,student 3,treatment,54,40,88,33
-school 4,School 4  Group 1,student 3,treatment,59,45,89,38
-school 4,School 4  Group 2,student 4,baseline,1,0,108,-20
-school 4,School 4  Group 2,student 4,baseline,3,0,109,-18
-school 4,School 4  Group 2,student 4,baseline,4,0,111,-17
-school 4,School 4  Group 2,student 4,baseline,7,0,113,-14
-school 4,School 4  Group 2,student 4,baseline,9,0,108,-12
-school 4,School 4  Group 2,student 4,baseline,11,0,123,-10
-school 4,School 4  Group 2,student 4,baseline,12,0,114,-9
-school 4,School 4  Group 2,student 4,baseline,14,0,117,-7
-school 4,School 4  Group 2,student 4,treatment,16,2,124,-5
-school 4,School 4  Group 2,student 4,treatment,21,7,105,0
-school 4,School 4  Group 2,student 4,treatment,25,11,117,4
-school 4,School 4  Group 2,student 4,treatment,30,16,119,9
-school 4,School 4  Group 2,student 4,treatment,35,21,120,14
-school 4,School 4  Group 2,student 4,treatment,39,25,115,18
-school 4,School 4  Group 2,student 4,treatment,44,30,113,23
-school 4,School 4  Group 2,student 4,treatment,49,35,116,28
-school 4,School 4  Group 2,student 4,treatment,54,40,117,33
-school 4,School 4  Group 2,student 4,treatment,59,45,122,38
-school 4,School 4  Group 2,student 5,baseline,1,0,61,-20
-school 4,School 4  Group 2,student 5,baseline,3,0,69,-18
-school 4,School 4  Group 2,student 5,baseline,4,0,64,-17
-school 4,School 4  Group 2,student 5,baseline,7,0,75,-14
-school 4,School 4  Group 2,student 5,baseline,9,0,68,-12
-school 4,School 4  Group 2,student 5,baseline,11,0,73,-10
-school 4,School 4  Group 2,student 5,baseline,12,0,79,-9
-school 4,School 4  Group 2,student 5,baseline,14,0,74,-7
-school 4,School 4  Group 2,student 5,treatment,16,2,82,-5
-school 4,School 4  Group 2,student 5,treatment,21,7,96,0
-school 4,School 4  Group 2,student 5,treatment,25,11,96,4
-school 4,School 4  Group 2,student 5,treatment,30,16,68,9
-school 4,School 4  Group 2,student 5,treatment,35,21,64,14
-school 4,School 4  Group 2,student 5,treatment,39,25,70,18
-school 4,School 4  Group 2,student 5,treatment,44,30,86,23
-school 4,School 4  Group 2,student 5,treatment,49,35,93,28
-school 4,School 4  Group 2,student 5,treatment,54,40,103,33
-school 4,School 4  Group 2,student 5,treatment,59,45,103,38
-school 4,School 4  Group 3,student 6,baseline,1,0,61,-20
-school 4,School 4  Group 3,student 6,baseline,3,0,79,-18
-school 4,School 4  Group 3,student 6,baseline,4,0,75,-17
-school 4,School 4  Group 3,student 6,baseline,7,0,85,-14
-school 4,School 4  Group 3,student 6,baseline,9,0,96,-12
-school 4,School 4  Group 3,student 6,baseline,11,0,85,-10
-school 4,School 4  Group 3,student 6,baseline,12,0,107,-9
-school 4,School 4  Group 3,student 6,baseline,14,0,95,-7
-school 4,School 4  Group 3,student 6,treatment,16,2,94,-5
-school 4,School 4  Group 3,student 6,treatment,21,7,88,0
-school 4,School 4  Group 3,student 6,treatment,25,11,90,4
-school 4,School 4  Group 3,student 6,treatment,30,16,84,9
-school 4,School 4  Group 3,student 6,treatment,35,21,87,14
-school 4,School 4  Group 3,student 6,treatment,39,25,96,18
-school 4,School 4  Group 3,student 6,treatment,44,30,97,23
-school 4,School 4  Group 3,student 6,treatment,49,35,110,28
-school 4,School 4  Group 3,student 6,treatment,54,40,110,33
-school 4,School 4  Group 3,student 6,treatment,59,45,111,38
-school 4,School 4  Group 3,student 7,baseline,1,0,45,-20
-school 4,School 4  Group 3,student 7,baseline,3,0,72,-18
-school 4,School 4  Group 3,student 7,baseline,4,0,55,-17
-school 4,School 4  Group 3,student 7,baseline,7,0,59,-14
-school 4,School 4  Group 3,student 7,baseline,9,0,50,-12
-school 4,School 4  Group 3,student 7,baseline,11,0,57,-10
-school 4,School 4  Group 3,student 7,baseline,12,0,65,-9
-school 4,School 4  Group 3,student 7,baseline,14,0,60,-7
-school 4,School 4  Group 3,student 7,treatment,16,2,66,-5
-school 4,School 4  Group 3,student 7,treatment,21,7,70,0
-school 4,School 4  Group 3,student 7,treatment,25,11,89,4
-school 4,School 4  Group 3,student 7,treatment,30,16,89,9
-school 4,School 4  Group 3,student 7,treatment,35,21,88,14
-school 4,School 4  Group 3,student 7,treatment,39,25,96,18
-school 4,School 4  Group 3,student 7,treatment,44,30,98,23
-school 4,School 4  Group 3,student 7,treatment,49,35,111,28
-school 4,School 4  Group 3,student 7,treatment,54,40,103,33
-school 4,School 4  Group 3,student 7,treatment,59,45,110,38
-school 4,School 4  Group 3,student 8,baseline,1,0,78,-20
-school 4,School 4  Group 3,student 8,baseline,7,0,92,-14
-school 4,School 4  Group 3,student 8,baseline,9,0,97,-12
-school 4,School 4  Group 3,student 8,baseline,11,0,109,-10
-school 4,School 4  Group 3,student 8,baseline,14,0,106,-7
-school 4,School 4  Group 3,student 8,treatment,16,2,114,-5
-school 4,School 4  Group 3,student 8,treatment,21,7,105,0
-school 4,School 4  Group 3,student 8,treatment,25,11,125,4
-school 4,School 4  Group 3,student 8,treatment,30,16,120,9
-school 4,School 4  Group 3,student 8,treatment,35,21,121,14
-school 4,School 4  Group 3,student 8,treatment,39,25,128,18
-school 4,School 4  Group 3,student 8,treatment,44,30,122,23
-school 4,School 4  Group 3,student 8,treatment,49,35,128,28
-school 4,School 4  Group 3,student 8,treatment,54,40,129,33
-school 4,School 4  Group 3,student 8,treatment,59,45,130,38
-school 4,School 4  Group 4,student 9,baseline,1,0,63,-20
-school 4,School 4  Group 4,student 9,baseline,3,0,75,-18
-school 4,School 4  Group 4,student 9,baseline,4,0,72,-17
-school 4,School 4  Group 4,student 9,baseline,7,0,83,-14
-school 4,School 4  Group 4,student 9,baseline,9,0,73,-12
-school 4,School 4  Group 4,student 9,baseline,11,0,80,-10
-school 4,School 4  Group 4,student 9,baseline,12,0,75,-9
-school 4,School 4  Group 4,student 9,baseline,14,0,71,-7
-school 4,School 4  Group 4,student 9,treatment,16,2,81,-5
-school 4,School 4  Group 4,student 9,treatment,21,7,82,0
-school 4,School 4  Group 4,student 9,treatment,25,11,87,4
-school 4,School 4  Group 4,student 9,treatment,30,16,99,9
-school 4,School 4  Group 4,student 9,treatment,35,21,87,14
-school 4,School 4  Group 4,student 9,treatment,39,25,97,18
-school 4,School 4  Group 4,student 9,treatment,44,30,101,23
-school 4,School 4  Group 4,student 9,treatment,49,35,106,28
-school 4,School 4  Group 4,student 9,treatment,54,40,105,33
-school 4,School 4  Group 4,student 9,treatment,59,45,100,38
-school 4,School 4  Group 4,student 10,baseline,1,0,47,-20
-school 4,School 4  Group 4,student 10,baseline,3,0,89,-18
-school 4,School 4  Group 4,student 10,baseline,4,0,86,-17
-school 4,School 4  Group 4,student 10,baseline,7,0,93,-14
-school 4,School 4  Group 4,student 10,baseline,9,0,87,-12
-school 4,School 4  Group 4,student 10,baseline,11,0,92,-10
-school 4,School 4  Group 4,student 10,baseline,12,0,102,-9
-school 4,School 4  Group 4,student 10,baseline,14,0,100,-7
-school 4,School 4  Group 4,student 10,treatment,16,2,110,-5
-school 4,School 4  Group 4,student 10,treatment,21,7,116,0
-school 4,School 4  Group 4,student 10,treatment,25,11,114,4
-school 4,School 4  Group 4,student 10,treatment,30,16,122,9
-school 4,School 4  Group 4,student 10,treatment,35,21,118,14
-school 4,School 4  Group 4,student 10,treatment,39,25,116,18
-school 4,School 4  Group 4,student 10,treatment,44,30,110,23
-school 4,School 4  Group 4,student 10,treatment,49,35,127,28
-school 4,School 4  Group 4,student 10,treatment,54,40,117,33
-school 4,School 4  Group 4,student 10,treatment,59,45,124,38
-school 4,School 4  Group 4,student 11,baseline,1,0,91,-20
-school 4,School 4  Group 4,student 11,baseline,3,0,91,-18
-school 4,School 4  Group 4,student 11,baseline,4,0,97,-17
-school 4,School 4  Group 4,student 11,baseline,7,0,88,-14
-school 4,School 4  Group 4,student 11,baseline,9,0,98,-12
-school 4,School 4  Group 4,student 11,baseline,11,0,99,-10
-school 4,School 4  Group 4,student 11,baseline,12,0,97,-9
-school 4,School 4  Group 4,student 11,baseline,14,0,94,-7
-school 4,School 4  Group 4,student 11,treatment,16,2,109,-5
-school 4,School 4  Group 4,student 11,treatment,21,7,116,0
-school 4,School 4  Group 4,student 11,treatment,25,11,111,4
-school 4,School 4  Group 4,student 11,treatment,30,16,91,9
-school 4,School 4  Group 4,student 11,treatment,35,21,100,14
-school 4,School 4  Group 4,student 11,treatment,39,25,94,18
-school 4,School 4  Group 4,student 11,treatment,44,30,119,23
-school 4,School 4  Group 4,student 11,treatment,49,35,133,28
-school 4,School 4  Group 4,student 11,treatment,54,40,126,33
-school 4,School 4  Group 4,student 11,treatment,59,45,132,38
-school 5,School 5  Group 1,student 1,baseline,2,0,65,-19
-school 5,School 5  Group 1,student 1,baseline,8,0,55,-13
-school 5,School 5  Group 1,student 1,baseline,9,0,73,-12
-school 5,School 5  Group 1,student 1,baseline,11,0,87,-10
-school 5,School 5  Group 1,student 1,baseline,12,0,95,-9
-school 5,School 5  Group 1,student 1,baseline,14,0,77,-7
-school 5,School 5  Group 1,student 1,baseline,16,0,70,-5
-school 5,School 5  Group 1,student 1,baseline,17,0,73,-4
-school 5,School 5  Group 1,student 1,treatment,21,4,65,0
-school 5,School 5  Group 1,student 1,treatment,25,8,91,4
-school 5,School 5  Group 1,student 1,treatment,30,13,87,9
-school 5,School 5  Group 1,student 1,treatment,35,18,79,14
-school 5,School 5  Group 1,student 1,treatment,39,22,104,18
-school 5,School 5  Group 1,student 1,treatment,44,27,73,23
-school 5,School 5  Group 1,student 1,treatment,49,32,116,28
-school 5,School 5  Group 1,student 1,treatment,54,37,114,33
-school 5,School 5  Group 1,student 1,treatment,59,42,125,38
-school 5,School 5  Group 1,student 2,baseline,2,0,79,-19
-school 5,School 5  Group 1,student 2,baseline,4,0,61,-17
-school 5,School 5  Group 1,student 2,baseline,6,0,96,-15
-school 5,School 5  Group 1,student 2,baseline,8,0,95,-13
-school 5,School 5  Group 1,student 2,baseline,9,0,108,-12
-school 5,School 5  Group 1,student 2,baseline,11,0,97,-10
-school 5,School 5  Group 1,student 2,baseline,12,0,100,-9
-school 5,School 5  Group 1,student 2,baseline,14,0,114,-7
-school 5,School 5  Group 1,student 2,baseline,17,0,120,-4
-school 5,School 5  Group 1,student 2,treatment,21,4,114,0
-school 5,School 5  Group 1,student 2,treatment,25,8,114,4
-school 5,School 5  Group 1,student 2,treatment,30,13,109,9
-school 5,School 5  Group 1,student 2,treatment,35,18,121,14
-school 5,School 5  Group 1,student 2,treatment,39,22,128,18
-school 5,School 5  Group 1,student 2,treatment,44,27,132,23
-school 5,School 5  Group 1,student 2,treatment,49,32,136,28
-school 5,School 5  Group 1,student 2,treatment,54,37,129,33
-school 5,School 5  Group 1,student 2,treatment,59,42,138,38
-school 5,School 5  Group 1,student 3,baseline,2,0,97,-19
-school 5,School 5  Group 1,student 3,baseline,4,0,93,-17
-school 5,School 5  Group 1,student 3,baseline,6,0,95,-15
-school 5,School 5  Group 1,student 3,baseline,8,0,97,-13
-school 5,School 5  Group 1,student 3,baseline,9,0,109,-12
-school 5,School 5  Group 1,student 3,baseline,11,0,115,-10
-school 5,School 5  Group 1,student 3,baseline,12,0,115,-9
-school 5,School 5  Group 1,student 3,baseline,14,0,107,-7
-school 5,School 5  Group 1,student 3,baseline,16,0,105,-5
-school 5,School 5  Group 1,student 3,baseline,17,0,119,-4
-school 5,School 5  Group 1,student 3,treatment,21,4,124,0
-school 5,School 5  Group 1,student 3,treatment,25,8,114,4
-school 5,School 5  Group 1,student 3,treatment,30,13,120,9
-school 5,School 5  Group 1,student 3,treatment,35,18,121,14
-school 5,School 5  Group 1,student 3,treatment,39,22,137,18
-school 5,School 5  Group 1,student 3,treatment,44,27,124,23
-school 5,School 5  Group 1,student 3,treatment,49,32,135,28
-school 5,School 5  Group 1,student 3,treatment,54,37,137,33
-school 5,School 5  Group 1,student 3,treatment,59,42,130,38
+school 1,School 1 - Group 1,student 1,baseline,1,0,69,-20
+school 1,School 1 - Group 1,student 1,baseline,2,0,71,-19
+school 1,School 1 - Group 1,student 1,baseline,3,0,79,-18
+school 1,School 1 - Group 1,student 1,baseline,4,0,72,-17
+school 1,School 1 - Group 1,student 1,baseline,5,0,67,-16
+school 1,School 1 - Group 1,student 1,treatment,6,,,
+school 1,School 1 - Group 1,student 1,treatment,11,6,76,-10
+school 1,School 1 - Group 1,student 1,treatment,16,11,68,-5
+school 1,School 1 - Group 1,student 1,treatment,21,16,72,0
+school 1,School 1 - Group 1,student 1,treatment,25,20,81,4
+school 1,School 1 - Group 1,student 1,treatment,30,25,87,9
+school 1,School 1 - Group 1,student 1,treatment,35,30,84,14
+school 1,School 1 - Group 1,student 1,treatment,39,34,104,18
+school 1,School 1 - Group 1,student 1,treatment,44,39,91,23
+school 1,School 1 - Group 1,student 1,treatment,49,44,96,28
+school 1,School 1 - Group 1,student 1,treatment,54,49,92,33
+school 1,School 1 - Group 1,student 2,baseline,1,0,19,-20
+school 1,School 1 - Group 1,student 2,baseline,2,0,35,-19
+school 1,School 1 - Group 1,student 2,baseline,3,0,43,-18
+school 1,School 1 - Group 1,student 2,baseline,4,0,42,-17
+school 1,School 1 - Group 1,student 2,baseline,5,0,37,-16
+school 1,School 1 - Group 1,student 2,treatment,6,,,
+school 1,School 1 - Group 1,student 2,treatment,7,2,45,-14
+school 1,School 1 - Group 1,student 2,treatment,11,6,43,-10
+school 1,School 1 - Group 1,student 2,treatment,16,11,44,-5
+school 1,School 1 - Group 1,student 2,treatment,21,16,51,0
+school 1,School 1 - Group 1,student 2,treatment,25,20,54,4
+school 1,School 1 - Group 1,student 2,treatment,30,25,49,9
+school 1,School 1 - Group 1,student 2,treatment,35,30,43,14
+school 1,School 1 - Group 1,student 2,treatment,39,34,48,18
+school 1,School 1 - Group 1,student 2,treatment,44,39,52,23
+school 1,School 1 - Group 1,student 2,treatment,49,44,53,28
+school 1,School 1 - Group 1,student 2,treatment,54,49,59,33
+school 1,School 1 - Group 1,student 3,baseline,3,0,60,-18
+school 1,School 1 - Group 1,student 3,baseline,4,0,68,-17
+school 1,School 1 - Group 1,student 3,baseline,5,0,78,-16
+school 1,School 1 - Group 1,student 3,treatment,6,,,
+school 1,School 1 - Group 1,student 3,treatment,7,2,76,-14
+school 1,School 1 - Group 1,student 3,treatment,11,6,83,-10
+school 1,School 1 - Group 1,student 3,treatment,16,11,79,-5
+school 1,School 1 - Group 1,student 3,treatment,21,16,88,0
+school 1,School 1 - Group 1,student 3,treatment,25,20,81,4
+school 1,School 1 - Group 1,student 3,treatment,30,25,86,9
+school 1,School 1 - Group 1,student 3,treatment,35,30,86,14
+school 1,School 1 - Group 1,student 3,treatment,39,34,97,18
+school 1,School 1 - Group 1,student 3,treatment,44,39,88,23
+school 1,School 1 - Group 1,student 3,treatment,49,44,91,28
+school 1,School 1 - Group 1,student 3,treatment,54,49,100,33
+school 1,School 1 - Group 2,student 4,baseline,1,0,32,-20
+school 1,School 1 - Group 2,student 4,baseline,2,0,59,-19
+school 1,School 1 - Group 2,student 4,baseline,3,0,52,-18
+school 1,School 1 - Group 2,student 4,baseline,4,0,54,-17
+school 1,School 1 - Group 2,student 4,baseline,5,0,56,-16
+school 1,School 1 - Group 2,student 4,treatment,6,,,
+school 1,School 1 - Group 2,student 4,treatment,7,2,56,-14
+school 1,School 1 - Group 2,student 4,treatment,11,6,69,-10
+school 1,School 1 - Group 2,student 4,treatment,16,11,72,-5
+school 1,School 1 - Group 2,student 4,treatment,21,16,81,0
+school 1,School 1 - Group 2,student 4,treatment,25,20,72,4
+school 1,School 1 - Group 2,student 4,treatment,30,25,73,9
+school 1,School 1 - Group 2,student 4,treatment,35,30,85,14
+school 1,School 1 - Group 2,student 4,treatment,39,34,76,18
+school 1,School 1 - Group 2,student 4,treatment,44,39,80,23
+school 1,School 1 - Group 2,student 4,treatment,49,44,81,28
+school 1,School 1 - Group 2,student 4,treatment,54,49,86,33
+school 1,School 1 - Group 2,student 5,baseline,1,0,64,-20
+school 1,School 1 - Group 2,student 5,baseline,2,0,76,-19
+school 1,School 1 - Group 2,student 5,baseline,3,0,70,-18
+school 1,School 1 - Group 2,student 5,baseline,4,0,62,-17
+school 1,School 1 - Group 2,student 5,baseline,5,0,60,-16
+school 1,School 1 - Group 2,student 5,treatment,6,,,
+school 1,School 1 - Group 2,student 5,treatment,7,2,62,-14
+school 1,School 1 - Group 2,student 5,treatment,16,11,79,-5
+school 1,School 1 - Group 2,student 5,treatment,21,16,77,0
+school 1,School 1 - Group 2,student 5,treatment,25,20,79,4
+school 1,School 1 - Group 2,student 5,treatment,30,25,91,9
+school 1,School 1 - Group 2,student 5,treatment,35,30,95,14
+school 1,School 1 - Group 2,student 5,treatment,39,34,85,18
+school 1,School 1 - Group 2,student 5,treatment,44,39,82,23
+school 1,School 1 - Group 2,student 5,treatment,49,44,91,28
+school 1,School 1 - Group 2,student 5,treatment,54,49,98,33
+school 1,School 1 - Group 2,student 6,baseline,1,0,70,-20
+school 1,School 1 - Group 2,student 6,baseline,2,0,73,-19
+school 1,School 1 - Group 2,student 6,baseline,3,0,75,-18
+school 1,School 1 - Group 2,student 6,baseline,4,0,70,-17
+school 1,School 1 - Group 2,student 6,baseline,5,0,79,-16
+school 1,School 1 - Group 2,student 6,treatment,6,,,
+school 1,School 1 - Group 2,student 6,treatment,7,2,92,-14
+school 1,School 1 - Group 2,student 6,treatment,11,6,98,-10
+school 1,School 1 - Group 2,student 6,treatment,16,11,90,-5
+school 1,School 1 - Group 2,student 6,treatment,21,16,82,0
+school 1,School 1 - Group 2,student 6,treatment,25,20,88,4
+school 1,School 1 - Group 2,student 6,treatment,30,25,93,9
+school 1,School 1 - Group 2,student 6,treatment,35,30,85,14
+school 1,School 1 - Group 2,student 6,treatment,39,34,97,18
+school 1,School 1 - Group 2,student 6,treatment,44,39,89,23
+school 1,School 1 - Group 2,student 6,treatment,49,44,121,28
+school 1,School 1 - Group 2,student 6,treatment,54,49,119,33
+school 2,School 2 - Group 1,student 1,baseline,3,0,84,-18
+school 2,School 2 - Group 1,student 1,baseline,4,0,82,-17
+school 2,School 2 - Group 1,student 1,baseline,6,0,78,-15
+school 2,School 2 - Group 1,student 1,baseline,8,0,91,-13
+school 2,School 2 - Group 1,student 1,treatment,9,,,
+school 2,School 2 - Group 1,student 1,treatment,11,3,99,-10
+school 2,School 2 - Group 1,student 1,treatment,16,8,102,-5
+school 2,School 2 - Group 1,student 1,treatment,21,13,98,0
+school 2,School 2 - Group 1,student 1,treatment,25,17,107,4
+school 2,School 2 - Group 1,student 1,treatment,30,22,117,9
+school 2,School 2 - Group 1,student 1,treatment,35,27,115,14
+school 2,School 2 - Group 1,student 1,treatment,39,31,114,18
+school 2,School 2 - Group 1,student 1,treatment,44,36,107,23
+school 2,School 2 - Group 1,student 1,treatment,49,41,125,28
+school 2,School 2 - Group 1,student 1,treatment,54,46,121,33
+school 2,School 2 - Group 1,student 2,baseline,1,0,72,-20
+school 2,School 2 - Group 1,student 2,baseline,3,0,71,-18
+school 2,School 2 - Group 1,student 2,baseline,4,0,67,-17
+school 2,School 2 - Group 1,student 2,baseline,6,0,64,-15
+school 2,School 2 - Group 1,student 2,baseline,8,0,63,-13
+school 2,School 2 - Group 1,student 2,treatment,9,,,
+school 2,School 2 - Group 1,student 2,treatment,16,8,70,-5
+school 2,School 2 - Group 1,student 2,treatment,21,13,77,0
+school 2,School 2 - Group 1,student 2,treatment,25,17,82,4
+school 2,School 2 - Group 1,student 2,treatment,30,22,81,9
+school 2,School 2 - Group 1,student 2,treatment,35,27,85,14
+school 2,School 2 - Group 1,student 2,treatment,39,31,87,18
+school 2,School 2 - Group 1,student 2,treatment,44,36,97,23
+school 2,School 2 - Group 1,student 2,treatment,49,41,109,28
+school 2,School 2 - Group 1,student 2,treatment,54,46,87,33
+school 2,School 2 - Group 1,student 3,baseline,1,0,58,-20
+school 2,School 2 - Group 1,student 3,baseline,3,0,69,-18
+school 2,School 2 - Group 1,student 3,baseline,4,0,70,-17
+school 2,School 2 - Group 1,student 3,baseline,6,0,63,-15
+school 2,School 2 - Group 1,student 3,baseline,8,0,70,-13
+school 2,School 2 - Group 1,student 3,treatment,9,,,
+school 2,School 2 - Group 1,student 3,treatment,16,8,77,-5
+school 2,School 2 - Group 1,student 3,treatment,21,13,92,0
+school 2,School 2 - Group 1,student 3,treatment,25,17,77,4
+school 2,School 2 - Group 1,student 3,treatment,30,22,101,9
+school 2,School 2 - Group 1,student 3,treatment,35,27,102,14
+school 2,School 2 - Group 1,student 3,treatment,39,31,102,18
+school 2,School 2 - Group 1,student 3,treatment,44,36,100,23
+school 2,School 2 - Group 1,student 3,treatment,49,41,109,28
+school 2,School 2 - Group 1,student 3,treatment,54,46,97,33
+school 2,School 2 - Group 2,student 4,baseline,1,0,65,-20
+school 2,School 2 - Group 2,student 4,baseline,3,0,71,-18
+school 2,School 2 - Group 2,student 4,baseline,4,0,82,-17
+school 2,School 2 - Group 2,student 4,baseline,6,0,77,-15
+school 2,School 2 - Group 2,student 4,baseline,8,0,88,-13
+school 2,School 2 - Group 2,student 4,treatment,9,,,
+school 2,School 2 - Group 2,student 4,treatment,11,3,63,-10
+school 2,School 2 - Group 2,student 4,treatment,16,8,73,-5
+school 2,School 2 - Group 2,student 4,treatment,21,13,79,0
+school 2,School 2 - Group 2,student 4,treatment,25,17,79,4
+school 2,School 2 - Group 2,student 4,treatment,30,22,84,9
+school 2,School 2 - Group 2,student 4,treatment,35,27,96,14
+school 2,School 2 - Group 2,student 4,treatment,39,31,90,18
+school 2,School 2 - Group 2,student 4,treatment,44,36,85,23
+school 2,School 2 - Group 2,student 4,treatment,49,41,82,28
+school 2,School 2 - Group 2,student 4,treatment,54,46,92,33
+school 2,School 2 - Group 2,student 5,baseline,3,0,74,-18
+school 2,School 2 - Group 2,student 5,baseline,4,0,71,-17
+school 2,School 2 - Group 2,student 5,baseline,6,0,95,-15
+school 2,School 2 - Group 2,student 5,baseline,8,0,68,-13
+school 2,School 2 - Group 2,student 5,treatment,9,,,
+school 2,School 2 - Group 2,student 5,treatment,11,3,76,-10
+school 2,School 2 - Group 2,student 5,treatment,16,8,85,-5
+school 2,School 2 - Group 2,student 5,treatment,21,13,85,0
+school 2,School 2 - Group 2,student 5,treatment,25,17,90,4
+school 2,School 2 - Group 2,student 5,treatment,30,22,92,9
+school 2,School 2 - Group 2,student 5,treatment,35,27,95,14
+school 2,School 2 - Group 2,student 5,treatment,39,31,89,18
+school 2,School 2 - Group 2,student 5,treatment,44,36,99,23
+school 2,School 2 - Group 2,student 5,treatment,49,41,94,28
+school 2,School 2 - Group 2,student 5,treatment,54,46,111,33
+school 3,School 3 - Group 1,student 1,baseline,1,0,71,-20
+school 3,School 3 - Group 1,student 1,baseline,3,0,87,-18
+school 3,School 3 - Group 1,student 1,baseline,4,0,75,-17
+school 3,School 3 - Group 1,student 1,baseline,7,0,94,-14
+school 3,School 3 - Group 1,student 1,baseline,9,0,94,-12
+school 3,School 3 - Group 1,student 1,baseline,11,0,94,-10
+school 3,School 3 - Group 1,student 1,treatment,12,,,
+school 3,School 3 - Group 1,student 1,treatment,16,5,94,-5
+school 3,School 3 - Group 1,student 1,treatment,21,10,89,0
+school 3,School 3 - Group 1,student 1,treatment,25,14,100,4
+school 3,School 3 - Group 1,student 1,treatment,30,19,90,9
+school 3,School 3 - Group 1,student 1,treatment,35,24,118,14
+school 3,School 3 - Group 1,student 1,treatment,39,28,97,18
+school 3,School 3 - Group 1,student 1,treatment,44,33,108,23
+school 3,School 3 - Group 1,student 1,treatment,49,38,111,28
+school 3,School 3 - Group 1,student 1,treatment,54,43,111,33
+school 3,School 3 - Group 1,student 1,treatment,59,48,105,38
+school 3,School 3 - Group 1,student 2,baseline,1,0,63,-20
+school 3,School 3 - Group 1,student 2,baseline,3,0,59,-18
+school 3,School 3 - Group 1,student 2,baseline,4,0,52,-17
+school 3,School 3 - Group 1,student 2,baseline,7,0,48,-14
+school 3,School 3 - Group 1,student 2,baseline,9,0,61,-12
+school 3,School 3 - Group 1,student 2,baseline,11,0,51,-10
+school 3,School 3 - Group 1,student 2,treatment,12,,,
+school 3,School 3 - Group 1,student 2,treatment,16,5,64,-5
+school 3,School 3 - Group 1,student 2,treatment,21,10,61,0
+school 3,School 3 - Group 1,student 2,treatment,25,14,58,4
+school 3,School 3 - Group 1,student 2,treatment,30,19,66,9
+school 3,School 3 - Group 1,student 2,treatment,35,24,58,14
+school 3,School 3 - Group 1,student 2,treatment,39,28,66,18
+school 3,School 3 - Group 1,student 2,treatment,44,33,82,23
+school 3,School 3 - Group 1,student 2,treatment,49,38,85,28
+school 3,School 3 - Group 1,student 2,treatment,54,43,84,33
+school 3,School 3 - Group 1,student 2,treatment,59,48,81,38
+school 3,School 3 - Group 2,student 3,baseline,1,0,76,-20
+school 3,School 3 - Group 2,student 3,baseline,3,0,88,-18
+school 3,School 3 - Group 2,student 3,baseline,4,0,96,-17
+school 3,School 3 - Group 2,student 3,baseline,7,0,92,-14
+school 3,School 3 - Group 2,student 3,baseline,9,0,98,-12
+school 3,School 3 - Group 2,student 3,baseline,11,,,
+school 3,School 3 - Group 2,student 3,treatment,12,,,
+school 3,School 3 - Group 2,student 3,treatment,16,5,106,-5
+school 3,School 3 - Group 2,student 3,treatment,21,10,96,0
+school 3,School 3 - Group 2,student 3,treatment,25,14,105,4
+school 3,School 3 - Group 2,student 3,treatment,30,19,108,9
+school 3,School 3 - Group 2,student 3,treatment,35,24,118,14
+school 3,School 3 - Group 2,student 3,treatment,39,28,117,18
+school 3,School 3 - Group 2,student 3,treatment,44,33,122,23
+school 3,School 3 - Group 2,student 3,treatment,49,38,127,28
+school 3,School 3 - Group 2,student 3,treatment,54,43,128,33
+school 3,School 3 - Group 2,student 3,treatment,59,48,130,38
+school 3,School 3 - Group 2,student 4,baseline,1,0,57,-20
+school 3,School 3 - Group 2,student 4,baseline,3,0,62,-18
+school 3,School 3 - Group 2,student 4,baseline,4,0,51,-17
+school 3,School 3 - Group 2,student 4,baseline,7,0,62,-14
+school 3,School 3 - Group 2,student 4,baseline,9,0,61,-12
+school 3,School 3 - Group 2,student 4,baseline,11,0,71,-10
+school 3,School 3 - Group 2,student 4,treatment,12,,,
+school 3,School 3 - Group 2,student 4,treatment,16,5,59,-5
+school 3,School 3 - Group 2,student 4,treatment,21,10,67,0
+school 3,School 3 - Group 2,student 4,treatment,25,14,81,4
+school 3,School 3 - Group 2,student 4,treatment,30,19,73,9
+school 3,School 3 - Group 2,student 4,treatment,35,24,64,14
+school 3,School 3 - Group 2,student 4,treatment,39,28,62,18
+school 3,School 3 - Group 2,student 4,treatment,44,33,72,23
+school 3,School 3 - Group 2,student 4,treatment,49,38,97,28
+school 3,School 3 - Group 2,student 4,treatment,54,43,56,33
+school 3,School 3 - Group 2,student 4,treatment,59,48,80,38
+school 3,School 3 - Group 2,student 5,baseline,1,0,60,-20
+school 3,School 3 - Group 2,student 5,baseline,3,0,69,-18
+school 3,School 3 - Group 2,student 5,baseline,4,0,49,-17
+school 3,School 3 - Group 2,student 5,baseline,7,0,59,-14
+school 3,School 3 - Group 2,student 5,baseline,9,0,57,-12
+school 3,School 3 - Group 2,student 5,baseline,11,0,59,-10
+school 3,School 3 - Group 2,student 5,treatment,12,,,
+school 3,School 3 - Group 2,student 5,treatment,16,5,58,-5
+school 3,School 3 - Group 2,student 5,treatment,21,10,61,0
+school 3,School 3 - Group 2,student 5,treatment,25,14,74,4
+school 3,School 3 - Group 2,student 5,treatment,30,19,60,9
+school 3,School 3 - Group 2,student 5,treatment,35,24,70,14
+school 3,School 3 - Group 2,student 5,treatment,39,28,74,18
+school 3,School 3 - Group 2,student 5,treatment,44,33,65,23
+school 3,School 3 - Group 2,student 5,treatment,49,38,80,28
+school 3,School 3 - Group 2,student 5,treatment,54,43,74,33
+school 3,School 3 - Group 2,student 5,treatment,59,48,74,38
+school 3,School 3 - Group 3,student 6,baseline,1,0,72,-20
+school 3,School 3 - Group 3,student 6,baseline,4,0,77,-17
+school 3,School 3 - Group 3,student 6,baseline,7,0,103,-14
+school 3,School 3 - Group 3,student 6,baseline,9,0,101,-12
+school 3,School 3 - Group 3,student 6,baseline,11,0,100,-10
+school 3,School 3 - Group 3,student 6,treatment,12,,,
+school 3,School 3 - Group 3,student 6,treatment,16,5,93,-5
+school 3,School 3 - Group 3,student 6,treatment,21,10,90,0
+school 3,School 3 - Group 3,student 6,treatment,25,14,110,4
+school 3,School 3 - Group 3,student 6,treatment,30,19,118,9
+school 3,School 3 - Group 3,student 6,treatment,35,24,108,14
+school 3,School 3 - Group 3,student 6,treatment,39,28,107,18
+school 3,School 3 - Group 3,student 6,treatment,44,33,116,23
+school 3,School 3 - Group 3,student 6,treatment,49,38,124,28
+school 3,School 3 - Group 3,student 6,treatment,54,43,114,33
+school 3,School 3 - Group 3,student 6,treatment,59,48,136,38
+school 3,School 3 - Group 3,student 7,baseline,3,0,51,-18
+school 3,School 3 - Group 3,student 7,baseline,4,0,57,-17
+school 3,School 3 - Group 3,student 7,baseline,7,0,62,-14
+school 3,School 3 - Group 3,student 7,baseline,9,0,61,-12
+school 3,School 3 - Group 3,student 7,baseline,11,0,70,-10
+school 3,School 3 - Group 3,student 7,treatment,12,,,
+school 3,School 3 - Group 3,student 7,treatment,16,5,54,-5
+school 3,School 3 - Group 3,student 7,treatment,21,10,75,0
+school 3,School 3 - Group 3,student 7,treatment,25,14,80,4
+school 3,School 3 - Group 3,student 7,treatment,30,19,97,9
+school 3,School 3 - Group 3,student 7,treatment,35,24,96,14
+school 3,School 3 - Group 3,student 7,treatment,39,28,96,18
+school 3,School 3 - Group 3,student 7,treatment,44,33,89,23
+school 3,School 3 - Group 3,student 7,treatment,49,38,99,28
+school 3,School 3 - Group 3,student 7,treatment,54,43,103,33
+school 3,School 3 - Group 3,student 7,treatment,59,48,108,38
+school 3,School 3 - Group 3,student 8,baseline,1,0,41,-20
+school 3,School 3 - Group 3,student 8,baseline,3,0,53,-18
+school 3,School 3 - Group 3,student 8,baseline,4,0,49,-17
+school 3,School 3 - Group 3,student 8,baseline,7,0,44,-14
+school 3,School 3 - Group 3,student 8,baseline,9,0,45,-12
+school 3,School 3 - Group 3,student 8,baseline,11,0,46,-10
+school 3,School 3 - Group 3,student 8,treatment,12,,,
+school 3,School 3 - Group 3,student 8,treatment,16,5,47,-5
+school 3,School 3 - Group 3,student 8,treatment,21,10,51,0
+school 3,School 3 - Group 3,student 8,treatment,25,14,62,4
+school 3,School 3 - Group 3,student 8,treatment,30,19,63,9
+school 3,School 3 - Group 3,student 8,treatment,35,24,66,14
+school 3,School 3 - Group 3,student 8,treatment,39,28,71,18
+school 3,School 3 - Group 3,student 8,treatment,44,33,72,23
+school 3,School 3 - Group 3,student 8,treatment,49,38,85,28
+school 3,School 3 - Group 3,student 8,treatment,54,43,64,33
+school 3,School 3 - Group 3,student 8,treatment,59,48,84,38
+school 4,School 4 - Group 1,student 1,baseline,1,0,45,-20
+school 4,School 4 - Group 1,student 1,baseline,3,0,53,-18
+school 4,School 4 - Group 1,student 1,baseline,4,0,59,-17
+school 4,School 4 - Group 1,student 1,baseline,7,0,66,-14
+school 4,School 4 - Group 1,student 1,baseline,9,0,57,-12
+school 4,School 4 - Group 1,student 1,baseline,11,0,83,-10
+school 4,School 4 - Group 1,student 1,baseline,12,0,79,-9
+school 4,School 4 - Group 1,student 1,baseline,14,0,81,-7
+school 4,School 4 - Group 1,student 1,treatment,15,,,
+school 4,School 4 - Group 1,student 1,treatment,16,2,80,-5
+school 4,School 4 - Group 1,student 1,treatment,21,7,91,0
+school 4,School 4 - Group 1,student 1,treatment,25,11,82,4
+school 4,School 4 - Group 1,student 1,treatment,30,16,86,9
+school 4,School 4 - Group 1,student 1,treatment,35,21,80,14
+school 4,School 4 - Group 1,student 1,treatment,39,25,98,18
+school 4,School 4 - Group 1,student 1,treatment,44,30,101,23
+school 4,School 4 - Group 1,student 1,treatment,49,35,107,28
+school 4,School 4 - Group 1,student 1,treatment,54,40,103,33
+school 4,School 4 - Group 1,student 1,treatment,59,45,109,38
+school 4,School 4 - Group 1,student 2,baseline,1,0,60,-20
+school 4,School 4 - Group 1,student 2,baseline,3,0,56,-18
+school 4,School 4 - Group 1,student 2,baseline,4,0,42,-17
+school 4,School 4 - Group 1,student 2,baseline,7,0,62,-14
+school 4,School 4 - Group 1,student 2,baseline,9,0,45,-12
+school 4,School 4 - Group 1,student 2,baseline,11,0,53,-10
+school 4,School 4 - Group 1,student 2,baseline,12,0,46,-9
+school 4,School 4 - Group 1,student 2,baseline,14,0,51,-7
+school 4,School 4 - Group 1,student 2,treatment,15,,,
+school 4,School 4 - Group 1,student 2,treatment,16,2,62,-5
+school 4,School 4 - Group 1,student 2,treatment,21,7,55,0
+school 4,School 4 - Group 1,student 2,treatment,25,11,61,4
+school 4,School 4 - Group 1,student 2,treatment,30,16,68,9
+school 4,School 4 - Group 1,student 2,treatment,35,21,83,14
+school 4,School 4 - Group 1,student 2,treatment,39,25,69,18
+school 4,School 4 - Group 1,student 2,treatment,44,30,68,23
+school 4,School 4 - Group 1,student 2,treatment,49,35,75,28
+school 4,School 4 - Group 1,student 2,treatment,54,40,98,33
+school 4,School 4 - Group 1,student 2,treatment,59,45,98,38
+school 4,School 4 - Group 1,student 3,baseline,1,0,57,-20
+school 4,School 4 - Group 1,student 3,baseline,3,0,61,-18
+school 4,School 4 - Group 1,student 3,baseline,4,0,54,-17
+school 4,School 4 - Group 1,student 3,baseline,7,0,58,-14
+school 4,School 4 - Group 1,student 3,baseline,11,0,62,-10
+school 4,School 4 - Group 1,student 3,baseline,12,0,79,-9
+school 4,School 4 - Group 1,student 3,baseline,14,0,79,-7
+school 4,School 4 - Group 1,student 3,treatment,15,,,
+school 4,School 4 - Group 1,student 3,treatment,16,2,76,-5
+school 4,School 4 - Group 1,student 3,treatment,21,7,89,0
+school 4,School 4 - Group 1,student 3,treatment,25,11,82,4
+school 4,School 4 - Group 1,student 3,treatment,30,16,73,9
+school 4,School 4 - Group 1,student 3,treatment,35,21,80,14
+school 4,School 4 - Group 1,student 3,treatment,39,25,85,18
+school 4,School 4 - Group 1,student 3,treatment,44,30,89,23
+school 4,School 4 - Group 1,student 3,treatment,49,35,83,28
+school 4,School 4 - Group 1,student 3,treatment,54,40,88,33
+school 4,School 4 - Group 1,student 3,treatment,59,45,89,38
+school 4,School 4 - Group 2,student 4,baseline,1,0,108,-20
+school 4,School 4 - Group 2,student 4,baseline,3,0,109,-18
+school 4,School 4 - Group 2,student 4,baseline,4,0,111,-17
+school 4,School 4 - Group 2,student 4,baseline,7,0,113,-14
+school 4,School 4 - Group 2,student 4,baseline,9,0,108,-12
+school 4,School 4 - Group 2,student 4,baseline,11,0,123,-10
+school 4,School 4 - Group 2,student 4,baseline,12,0,114,-9
+school 4,School 4 - Group 2,student 4,baseline,14,0,117,-7
+school 4,School 4 - Group 2,student 4,treatment,15,,,
+school 4,School 4 - Group 2,student 4,treatment,16,2,124,-5
+school 4,School 4 - Group 2,student 4,treatment,21,7,105,0
+school 4,School 4 - Group 2,student 4,treatment,25,11,117,4
+school 4,School 4 - Group 2,student 4,treatment,30,16,119,9
+school 4,School 4 - Group 2,student 4,treatment,35,21,120,14
+school 4,School 4 - Group 2,student 4,treatment,39,25,115,18
+school 4,School 4 - Group 2,student 4,treatment,44,30,113,23
+school 4,School 4 - Group 2,student 4,treatment,49,35,116,28
+school 4,School 4 - Group 2,student 4,treatment,54,40,117,33
+school 4,School 4 - Group 2,student 4,treatment,59,45,122,38
+school 4,School 4 - Group 2,student 5,baseline,1,0,61,-20
+school 4,School 4 - Group 2,student 5,baseline,3,0,69,-18
+school 4,School 4 - Group 2,student 5,baseline,4,0,64,-17
+school 4,School 4 - Group 2,student 5,baseline,7,0,75,-14
+school 4,School 4 - Group 2,student 5,baseline,9,0,68,-12
+school 4,School 4 - Group 2,student 5,baseline,11,0,73,-10
+school 4,School 4 - Group 2,student 5,baseline,12,0,79,-9
+school 4,School 4 - Group 2,student 5,baseline,14,0,74,-7
+school 4,School 4 - Group 2,student 5,treatment,15,,,
+school 4,School 4 - Group 2,student 5,treatment,16,2,82,-5
+school 4,School 4 - Group 2,student 5,treatment,21,7,96,0
+school 4,School 4 - Group 2,student 5,treatment,25,11,96,4
+school 4,School 4 - Group 2,student 5,treatment,30,16,68,9
+school 4,School 4 - Group 2,student 5,treatment,35,21,64,14
+school 4,School 4 - Group 2,student 5,treatment,39,25,70,18
+school 4,School 4 - Group 2,student 5,treatment,44,30,86,23
+school 4,School 4 - Group 2,student 5,treatment,49,35,93,28
+school 4,School 4 - Group 2,student 5,treatment,54,40,103,33
+school 4,School 4 - Group 2,student 5,treatment,59,45,103,38
+school 4,School 4 - Group 3,student 6,baseline,1,0,61,-20
+school 4,School 4 - Group 3,student 6,baseline,3,0,79,-18
+school 4,School 4 - Group 3,student 6,baseline,4,0,75,-17
+school 4,School 4 - Group 3,student 6,baseline,7,0,85,-14
+school 4,School 4 - Group 3,student 6,baseline,9,0,96,-12
+school 4,School 4 - Group 3,student 6,baseline,11,0,85,-10
+school 4,School 4 - Group 3,student 6,baseline,12,0,107,-9
+school 4,School 4 - Group 3,student 6,baseline,14,0,95,-7
+school 4,School 4 - Group 3,student 6,treatment,15,,,
+school 4,School 4 - Group 3,student 6,treatment,16,2,94,-5
+school 4,School 4 - Group 3,student 6,treatment,21,7,88,0
+school 4,School 4 - Group 3,student 6,treatment,25,11,90,4
+school 4,School 4 - Group 3,student 6,treatment,30,16,84,9
+school 4,School 4 - Group 3,student 6,treatment,35,21,87,14
+school 4,School 4 - Group 3,student 6,treatment,39,25,96,18
+school 4,School 4 - Group 3,student 6,treatment,44,30,97,23
+school 4,School 4 - Group 3,student 6,treatment,49,35,110,28
+school 4,School 4 - Group 3,student 6,treatment,54,40,110,33
+school 4,School 4 - Group 3,student 6,treatment,59,45,111,38
+school 4,School 4 - Group 3,student 7,baseline,1,0,45,-20
+school 4,School 4 - Group 3,student 7,baseline,3,0,72,-18
+school 4,School 4 - Group 3,student 7,baseline,4,0,55,-17
+school 4,School 4 - Group 3,student 7,baseline,7,0,59,-14
+school 4,School 4 - Group 3,student 7,baseline,9,0,50,-12
+school 4,School 4 - Group 3,student 7,baseline,11,0,57,-10
+school 4,School 4 - Group 3,student 7,baseline,12,0,65,-9
+school 4,School 4 - Group 3,student 7,baseline,14,0,60,-7
+school 4,School 4 - Group 3,student 7,treatment,15,,,
+school 4,School 4 - Group 3,student 7,treatment,16,2,66,-5
+school 4,School 4 - Group 3,student 7,treatment,21,7,70,0
+school 4,School 4 - Group 3,student 7,treatment,25,11,89,4
+school 4,School 4 - Group 3,student 7,treatment,30,16,89,9
+school 4,School 4 - Group 3,student 7,treatment,35,21,88,14
+school 4,School 4 - Group 3,student 7,treatment,39,25,96,18
+school 4,School 4 - Group 3,student 7,treatment,44,30,98,23
+school 4,School 4 - Group 3,student 7,treatment,49,35,111,28
+school 4,School 4 - Group 3,student 7,treatment,54,40,103,33
+school 4,School 4 - Group 3,student 7,treatment,59,45,110,38
+school 4,School 4 - Group 3,student 8,baseline,1,0,78,-20
+school 4,School 4 - Group 3,student 8,baseline,7,0,92,-14
+school 4,School 4 - Group 3,student 8,baseline,9,0,97,-12
+school 4,School 4 - Group 3,student 8,baseline,11,0,109,-10
+school 4,School 4 - Group 3,student 8,baseline,14,0,106,-7
+school 4,School 4 - Group 3,student 8,treatment,15,,,
+school 4,School 4 - Group 3,student 8,treatment,16,2,114,-5
+school 4,School 4 - Group 3,student 8,treatment,21,7,105,0
+school 4,School 4 - Group 3,student 8,treatment,25,11,125,4
+school 4,School 4 - Group 3,student 8,treatment,30,16,120,9
+school 4,School 4 - Group 3,student 8,treatment,35,21,121,14
+school 4,School 4 - Group 3,student 8,treatment,39,25,128,18
+school 4,School 4 - Group 3,student 8,treatment,44,30,122,23
+school 4,School 4 - Group 3,student 8,treatment,49,35,128,28
+school 4,School 4 - Group 3,student 8,treatment,54,40,129,33
+school 4,School 4 - Group 3,student 8,treatment,59,45,130,38
+school 4,School 4 - Group 4,student 9,baseline,1,0,63,-20
+school 4,School 4 - Group 4,student 9,baseline,3,0,75,-18
+school 4,School 4 - Group 4,student 9,baseline,4,0,72,-17
+school 4,School 4 - Group 4,student 9,baseline,7,0,83,-14
+school 4,School 4 - Group 4,student 9,baseline,9,0,73,-12
+school 4,School 4 - Group 4,student 9,baseline,11,0,80,-10
+school 4,School 4 - Group 4,student 9,baseline,12,0,75,-9
+school 4,School 4 - Group 4,student 9,baseline,14,0,71,-7
+school 4,School 4 - Group 4,student 9,treatment,15,,,
+school 4,School 4 - Group 4,student 9,treatment,16,2,81,-5
+school 4,School 4 - Group 4,student 9,treatment,21,7,82,0
+school 4,School 4 - Group 4,student 9,treatment,25,11,87,4
+school 4,School 4 - Group 4,student 9,treatment,30,16,99,9
+school 4,School 4 - Group 4,student 9,treatment,35,21,87,14
+school 4,School 4 - Group 4,student 9,treatment,39,25,97,18
+school 4,School 4 - Group 4,student 9,treatment,44,30,101,23
+school 4,School 4 - Group 4,student 9,treatment,49,35,106,28
+school 4,School 4 - Group 4,student 9,treatment,54,40,105,33
+school 4,School 4 - Group 4,student 9,treatment,59,45,100,38
+school 4,School 4 - Group 4,student 10,baseline,1,0,47,-20
+school 4,School 4 - Group 4,student 10,baseline,3,0,89,-18
+school 4,School 4 - Group 4,student 10,baseline,4,0,86,-17
+school 4,School 4 - Group 4,student 10,baseline,7,0,93,-14
+school 4,School 4 - Group 4,student 10,baseline,9,0,87,-12
+school 4,School 4 - Group 4,student 10,baseline,11,0,92,-10
+school 4,School 4 - Group 4,student 10,baseline,12,0,102,-9
+school 4,School 4 - Group 4,student 10,baseline,14,0,100,-7
+school 4,School 4 - Group 4,student 10,treatment,15,,,
+school 4,School 4 - Group 4,student 10,treatment,16,2,110,-5
+school 4,School 4 - Group 4,student 10,treatment,21,7,116,0
+school 4,School 4 - Group 4,student 10,treatment,25,11,114,4
+school 4,School 4 - Group 4,student 10,treatment,30,16,122,9
+school 4,School 4 - Group 4,student 10,treatment,35,21,118,14
+school 4,School 4 - Group 4,student 10,treatment,39,25,116,18
+school 4,School 4 - Group 4,student 10,treatment,44,30,110,23
+school 4,School 4 - Group 4,student 10,treatment,49,35,127,28
+school 4,School 4 - Group 4,student 10,treatment,54,40,117,33
+school 4,School 4 - Group 4,student 10,treatment,59,45,124,38
+school 4,School 4 - Group 4,student 11,baseline,1,0,91,-20
+school 4,School 4 - Group 4,student 11,baseline,3,0,91,-18
+school 4,School 4 - Group 4,student 11,baseline,4,0,97,-17
+school 4,School 4 - Group 4,student 11,baseline,7,0,88,-14
+school 4,School 4 - Group 4,student 11,baseline,9,0,98,-12
+school 4,School 4 - Group 4,student 11,baseline,11,0,99,-10
+school 4,School 4 - Group 4,student 11,baseline,12,0,97,-9
+school 4,School 4 - Group 4,student 11,baseline,14,0,94,-7
+school 4,School 4 - Group 4,student 11,treatment,15,,,
+school 4,School 4 - Group 4,student 11,treatment,16,2,109,-5
+school 4,School 4 - Group 4,student 11,treatment,21,7,116,0
+school 4,School 4 - Group 4,student 11,treatment,25,11,111,4
+school 4,School 4 - Group 4,student 11,treatment,30,16,91,9
+school 4,School 4 - Group 4,student 11,treatment,35,21,100,14
+school 4,School 4 - Group 4,student 11,treatment,39,25,94,18
+school 4,School 4 - Group 4,student 11,treatment,44,30,119,23
+school 4,School 4 - Group 4,student 11,treatment,49,35,133,28
+school 4,School 4 - Group 4,student 11,treatment,54,40,126,33
+school 4,School 4 - Group 4,student 11,treatment,59,45,132,38
+school 5,School 5 - Group 1,student 1,baseline,2,0,65,-19
+school 5,School 5 - Group 1,student 1,baseline,8,0,55,-13
+school 5,School 5 - Group 1,student 1,baseline,9,0,73,-12
+school 5,School 5 - Group 1,student 1,baseline,11,0,87,-10
+school 5,School 5 - Group 1,student 1,baseline,12,0,95,-9
+school 5,School 5 - Group 1,student 1,baseline,14,0,77,-7
+school 5,School 5 - Group 1,student 1,baseline,16,0,70,-5
+school 5,School 5 - Group 1,student 1,baseline,17,0,73,-4
+school 5,School 5 - Group 1,student 1,treatment,18,,,
+school 5,School 5 - Group 1,student 1,treatment,21,4,65,0
+school 5,School 5 - Group 1,student 1,treatment,25,8,91,4
+school 5,School 5 - Group 1,student 1,treatment,30,13,87,9
+school 5,School 5 - Group 1,student 1,treatment,35,18,79,14
+school 5,School 5 - Group 1,student 1,treatment,39,22,104,18
+school 5,School 5 - Group 1,student 1,treatment,44,27,73,23
+school 5,School 5 - Group 1,student 1,treatment,49,32,116,28
+school 5,School 5 - Group 1,student 1,treatment,54,37,114,33
+school 5,School 5 - Group 1,student 1,treatment,59,42,125,38
+school 5,School 5 - Group 1,student 2,baseline,2,0,79,-19
+school 5,School 5 - Group 1,student 2,baseline,4,0,61,-17
+school 5,School 5 - Group 1,student 2,baseline,6,0,96,-15
+school 5,School 5 - Group 1,student 2,baseline,8,0,95,-13
+school 5,School 5 - Group 1,student 2,baseline,9,0,108,-12
+school 5,School 5 - Group 1,student 2,baseline,11,0,97,-10
+school 5,School 5 - Group 1,student 2,baseline,12,0,100,-9
+school 5,School 5 - Group 1,student 2,baseline,14,0,114,-7
+school 5,School 5 - Group 1,student 2,baseline,17,0,120,-4
+school 5,School 5 - Group 1,student 2,treatment,18,,,
+school 5,School 5 - Group 1,student 2,treatment,21,4,114,0
+school 5,School 5 - Group 1,student 2,treatment,25,8,114,4
+school 5,School 5 - Group 1,student 2,treatment,30,13,109,9
+school 5,School 5 - Group 1,student 2,treatment,35,18,121,14
+school 5,School 5 - Group 1,student 2,treatment,39,22,128,18
+school 5,School 5 - Group 1,student 2,treatment,44,27,132,23
+school 5,School 5 - Group 1,student 2,treatment,49,32,136,28
+school 5,School 5 - Group 1,student 2,treatment,54,37,129,33
+school 5,School 5 - Group 1,student 2,treatment,59,42,138,38
+school 5,School 5 - Group 1,student 3,baseline,2,0,97,-19
+school 5,School 5 - Group 1,student 3,baseline,4,0,93,-17
+school 5,School 5 - Group 1,student 3,baseline,6,0,95,-15
+school 5,School 5 - Group 1,student 3,baseline,8,0,97,-13
+school 5,School 5 - Group 1,student 3,baseline,9,0,109,-12
+school 5,School 5 - Group 1,student 3,baseline,11,0,115,-10
+school 5,School 5 - Group 1,student 3,baseline,12,0,115,-9
+school 5,School 5 - Group 1,student 3,baseline,14,0,107,-7
+school 5,School 5 - Group 1,student 3,baseline,16,0,105,-5
+school 5,School 5 - Group 1,student 3,baseline,17,0,119,-4
+school 5,School 5 - Group 1,student 3,treatment,18,,,
+school 5,School 5 - Group 1,student 3,treatment,21,4,124,0
+school 5,School 5 - Group 1,student 3,treatment,25,8,114,4
+school 5,School 5 - Group 1,student 3,treatment,30,13,120,9
+school 5,School 5 - Group 1,student 3,treatment,35,18,121,14
+school 5,School 5 - Group 1,student 3,treatment,39,22,137,18
+school 5,School 5 - Group 1,student 3,treatment,44,27,124,23
+school 5,School 5 - Group 1,student 3,treatment,49,32,135,28
+school 5,School 5 - Group 1,student 3,treatment,54,37,137,33
+school 5,School 5 - Group 1,student 3,treatment,59,42,130,38

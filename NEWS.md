@@ -1,5 +1,8 @@
 # scdhlm 0.7.1.9999
 
+* Modified handling of missing outcome observations in `preprocess_SCD()` so that the session-by-treatment interaction variable is computed prior to dropping missing outcome observations. 
+* Modified `Bryant2018` example dataset to clarify the timing of treatment phases.
+
 # scdhlm 0.7.1
 
 * Fixed problem in unit tests leading to failure on the CRAN ATLAS build. 

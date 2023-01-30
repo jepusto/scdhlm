@@ -285,8 +285,8 @@ Bryant2018 <- within(Bryant2018, {
 Bryant2018 <- Bryant2018[c("Study_ID", "school", "group","case","treatment","session","session_trt","outcome")]
 
 # time-point constants
-A <- 4
-B <- 21
+A <- 5
+B <- 22
 
 # center at follow-up time
 Center <- B
