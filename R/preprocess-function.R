@@ -178,8 +178,6 @@ preprocess_SCD <- function(design,
     dat$session <- as.integer(dat$session)
   }
   
-  
-  dat <- dat[!is.na(dat$outcome), ]
   dat$trt <- as.numeric(dat$phase == treatment_name) # create trt variable
 
   by_var <- switch(design,
@@ -211,8 +209,9 @@ preprocess_SCD <- function(design,
     
   }
 
+  dat <- dat[!is.na(dat$outcome), ]
   dat <- droplevels(dat)
-  unique_sessions <- tapply(dat$session, by_var, function(x) isTRUE(all.equal(x, unique(x))))
+  unique_sessions <- sapply(session_by, function(x) isTRUE(all.equal(x, unique(x))))
   
   if (!all(unique_sessions, na.rm = TRUE)) {
     stop("Session variable contains repeated values. Please ensure that each data point has a unique value within each case.")
