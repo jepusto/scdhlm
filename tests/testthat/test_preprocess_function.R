@@ -134,12 +134,12 @@ test_that("The returned dataset is consistent with the input dataset for CMB des
                              cluster = group, case = case,
                              phase = treatment, session = session,
                              outcome = outcome, data = Bryant2018)
-  
-  expect_equal(Bryant2018$group, dat1_Bry$group)
-  expect_equal(Bryant2018$case, dat1_Bry$case)
-  expect_equal(Bryant2018$treatment, dat1_Bry$treatment)
-  expect_equal(Bryant2018$session, dat1_Bry$session)
-  expect_equal(Bryant2018$outcome, dat1_Bry$outcome)
+  Bryant <- na.omit(Bryant2018)
+  expect_equal(Bryant$group, dat1_Bry$group)
+  expect_equal(Bryant$case, dat1_Bry$case)
+  expect_equal(Bryant$treatment, dat1_Bry$treatment)
+  expect_equal(Bryant$session, dat1_Bry$session)
+  expect_equal(Bryant$outcome, dat1_Bry$outcome)
 
   dat2_Bry <- preprocess_SCD(design = "CMB",
                              cluster = Bryant2018$group, case = Bryant2018$case,
@@ -161,13 +161,13 @@ test_that("The returned dataset is consistent with the input dataset for CMB des
   
   expect_equivalent(dat1_Bry, dat3_Bry)
   
-  scramble <- sample(1:nrow(Bryant2018))
-  
+  scramble <- sample(1:nrow(Bryant))
+
   dat4_Bry <- preprocess_SCD(design = "CMB",
                              cluster = group, case = case,
                              phase = treatment, session = session,
-                             outcome = outcome, data = Bryant2018[scramble,])
-  
-  expect_equivalent(dat1_Bry, dat4_Bry[order(scramble),])
+                             outcome = outcome, data = Bryant[scramble,])
+
+  expect_equivalent(dat1_Bry[, 1:6], dat4_Bry[order(scramble), 1:6])
     
 })

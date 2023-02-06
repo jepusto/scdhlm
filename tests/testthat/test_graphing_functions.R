@@ -123,7 +123,8 @@ test_that("graph_SCD works for design = 'CMB'", {
                        random = ~ 1 | group / case,
                        correlation = corAR1(0, ~ session | group / case),
                        weights = varIdent(form = ~ 1 | treatment),
-                       data = Bryant2018)
+                       data = Bryant2018,
+                       na.action = na.omit)
 
   # graph using data = 
   Bry_graph1 <- graph_SCD(design = "CMB",

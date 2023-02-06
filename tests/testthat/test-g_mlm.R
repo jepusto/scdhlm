@@ -95,7 +95,8 @@ test_that("g_mlm() is imported appropriately for Bryant 2018 data.", {
   Bryant_RML1 <- lme(fixed = outcome ~ treatment,
                      random = ~ 1 | group/case,
                      correlation = corAR1(0.01, ~ session | group/case),
-                     data = Bryant2018)
+                     data = Bryant2018, 
+                     na.action = na.omit)
   
   suppressWarnings(expect_error(g_REML(Bryant_RML1, p_const = c(0, 1), r_const = c(1, 0, 1, 1)))) # g_REML not available for 3-level data
   Bry_g1_mlm <- g_mlm(Bryant_RML1, p_const = c(0, 1), r_const = c(1, 1, 0, 1), infotype = "expected", returnModel = TRUE)

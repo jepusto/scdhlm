@@ -341,6 +341,7 @@ calc_BCSMD <- function(design,
                  correlation = cor_struct,
                  weights = var_struct,
                  data = dat,
+                 na.action = na.omit,
                  control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
              error = function(e) E <<- e),
     warning = function(w) W <<- w)

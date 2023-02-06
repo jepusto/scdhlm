@@ -273,7 +273,8 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
   Bryant_RML1 <- lme(fixed = outcome ~ treatment,
                      random = ~ 1 | group/case,
                      correlation = corAR1(0.01, ~ session | group/case),
-                     data = Bryant2018)
+                     data = Bryant2018,
+                     na.action = na.omit)
   
   # simple model
   suppressWarnings(expect_error(g_REML(Bryant_RML1, p_const = c(0, 1), r_const = c(1, 0, 1, 1)))) # g_REML not available for 3-level data
@@ -312,7 +313,8 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
   Bryant_RML1 <- lme(fixed = outcome ~ treatment,
                      random = ~ 1 | group/case,
                      correlation = corAR1(0.01, ~ session | group/case),
-                     data = Bryant2018)
+                     data = Bryant2018,
+                     na.action = na.omit)
   
   # complex model
   default_AB <- default_times(design = "CMB",
