@@ -30,7 +30,8 @@ phase_lines_by_case <- function(case, phase, session) {
 #' @param design Character string to specify whether data comes from a treatment
 #'   reversal (\code{"TR"}), multiple baseline across participants
 #'   (\code{"MBP"}), replicated multiple baseline across behaviors
-#'   (\code{"RMBB"}), or clustered multiple baseline across participants (\code{"CMB"}).
+#'   (\code{"RMBB"}), or clustered multiple baseline across participants
+#'   (\code{"CMB"}).
 #' @param case vector of case indicators or name of a character or factor vector
 #'   within \code{data} indicating unique cases.
 #' @param phase vector of treatment indicators or name of a character or factor
@@ -49,6 +50,8 @@ phase_lines_by_case <- function(case, phase, session) {
 #'   graph
 #' @param data (Optional) dataset to use for analysis. Must be a
 #'   \code{data.frame}.
+#' @param newdata (Optional) dataset to use for calculating predicted values
+#'   based on \code{model_fit}. Must be a \code{data.frame}.
 #'
 #' @note If treatment_name is left null it will choose the second level of the
 #'   phase variable to be the treatment phase.
@@ -59,9 +62,9 @@ phase_lines_by_case <- function(case, phase, session) {
 #'
 #'
 #' @examples
-#' 
+#'
 #' if (requireNamespace("ggplot2", quietly = TRUE)) {
-#' 
+#'
 #' data(Anglesea)
 #' graph_SCD(design="TR",
 #'           case=case, phase=condition,
@@ -89,14 +92,14 @@ phase_lines_by_case <- function(case, phase, session) {
 #'           session=session, outcome=outcome,
 #'           treatment_name = "treatment",
 #'           data=Bryant2018)
-#'           
+#'
 #' }
 
 
 graph_SCD <- function(design, case, phase, session, outcome, 
                       cluster = NULL, series = NULL, 
                       treatment_name = NULL, model_fit = NULL, 
-                      data = NULL) {
+                      data = NULL, newdata = NULL) {
   
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("This function requires the ggplot2 package. Please install it.", call. = FALSE)
@@ -184,16 +187,34 @@ graph_SCD <- function(design, case, phase, session, outcome,
     ggplot2::labs(color = "", shape = "", x = session_name) + 
     ggplot2::geom_vline(data = phase_line_dat, ggplot2::aes(xintercept = phase_time, color = NULL, group = NULL), linetype = "dashed")
 
-  # With model fit
-  if (!is.null(model_fit)) {
+  # If using vector variable inputs, skip model fit lines
+  if (is.null(model_fit) || (is.null(data) & !use_model_data)) return(p)
+
+  # Otherwise add model fit lines
+  if (is.null(newdata)) {
+    if (!is.null(data)) {
+      newdata <- data
+    } else {
+      newdata <- model_dat
+    } 
     
-    dat$fitted <- if(design == "CMB") predict(model_fit, level = 1) else predict(model_fit)
-
-    p <- p + ggplot2::geom_line(data = dat, ggplot2::aes(y = fitted), linewidth = 0.8)
-
   }
+  
+  if (design == "RMBB") {
+    newdata$caseSeries <- as.factor(paste(newdata[[case_name]], newdata[[series_name]], sep = "-"))
+  } else if (design == "CMB") {
+    newdata$clusterCase <- as.factor(paste(newdata[[cluster_name]], newdata[[case_name]], sep = "-:-"))
+  }
+  
+  newdata$fitted <- if (design == "CMB") {
+    predict(model_fit, newdata = newdata, level = 1) 
+  } else {
+    predict(model_fit, newdata = newdata)
+  }
+  
+  p <- p + ggplot2::geom_line(data = newdata, ggplot2::aes(y = fitted), linewidth = 0.8)
 
-  p
+  return(p)
   
 }
 

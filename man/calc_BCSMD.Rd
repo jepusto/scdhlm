@@ -38,7 +38,8 @@ calc_BCSMD(
 \item{design}{Character string to specify whether data comes from a treatment
 reversal (\code{"TR"}), multiple baseline across participants
 (\code{"MBP"}), replicated multiple baseline across behaviors
-(\code{"RMBB"}), or clustered multiple baseline across participants (\code{"CMB"}).}
+(\code{"RMBB"}), or clustered multiple baseline across participants
+(\code{"CMB"}).}
 
 \item{case}{vector of case indicators or name of a character or factor vector
 within \code{data} indicating unique cases.}

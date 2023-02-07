@@ -77,7 +77,7 @@ test_that("graph_SCD works for design = 'MBP'", {
                    data = Laski_clean)
   
   Laski_graph3 <- graph_SCD(case=case, phase=treatment, session=time, outcome=outcome, 
-                            design="MBP", treatment_name = "treatment", model_fit=Laski_trend, data=Laski)
+                            design="MBP", treatment_name = "treatment", model_fit=Laski_trend, data=Laski_clean)
   expect_s3_class(Laski_graph3, "ggplot")
   expect_invisible(print(Laski_graph3))
   
@@ -104,7 +104,7 @@ test_that("graph_SCD works for design = 'RMBB'", {
   Thiemann_graph1 <- graph_SCD(design = "RMBB",
                                case = case, series = series,
                                phase = treatment, session = time, outcome = outcome,
-                               treatment_name = "treatment", model_fit = Thiemann2001_RML, 
+                               treatment_name = "treatment", 
                                data = Thiemann2001)
   expect_s3_class(Thiemann_graph1, "ggplot")
   expect_invisible(print(Thiemann_graph1))
@@ -120,16 +120,25 @@ test_that("graph_SCD works for design = 'RMBB'", {
   keys <- c("scales","theme","coordinates")
   expect_equal(Thiemann_graph1[keys], Thiemann_graph2[keys])
   
-  # graph with model_fit = Thiemann2001_RML (without data)
+  # graph with model_fit = Thiemann2001_RML (with data)
   Thiemann_graph3 <- graph_SCD(design = "RMBB",
                                case = case, series = series,
                                phase = treatment, session = time, outcome = outcome,
-                               treatment_name = "treatment", model_fit = Thiemann2001_RML)
+                               treatment_name = "treatment", 
+                               data = Thiemann2001, model_fit = Thiemann2001_RML)
   expect_s3_class(Thiemann_graph3, "ggplot")
   expect_invisible(print(Thiemann_graph3))
   
-  keys <- setdiff(names(Thiemann_graph1), c("data","plot_env", "labels", "layers"))
-  expect_equal(Thiemann_graph1[keys], Thiemann_graph3[keys])
+  # graph with model_fit = Thiemann2001_RML (without data)
+  Thiemann_graph4 <- graph_SCD(design = "RMBB",
+                               case = case, series = series,
+                               phase = treatment, session = time, outcome = outcome,
+                               treatment_name = "treatment", model_fit = Thiemann2001_RML)
+  expect_s3_class(Thiemann_graph4, "ggplot")
+  expect_invisible(print(Thiemann_graph4))
+  
+  keys <- setdiff(names(Thiemann_graph3), c("data","plot_env", "labels", "layers"))
+  expect_equal(Thiemann_graph3[keys], Thiemann_graph4[keys])
   
 })
 
@@ -150,7 +159,7 @@ test_that("graph_SCD works for design = 'CMB'", {
   Bry_graph1 <- graph_SCD(design = "CMB",
                           cluster = group, case = case,
                           phase = treatment, session = session, outcome = outcome,
-                          treatment_name = "treatment", model_fit = Bryant2018_RML,
+                          treatment_name = "treatment", 
                           data = Bryant2018)
   expect_s3_class(Bry_graph1, "ggplot")
   expect_invisible(print(Bry_graph1))
@@ -166,19 +175,119 @@ test_that("graph_SCD works for design = 'CMB'", {
   keys <- c("scales","theme","coordinates")
   expect_equal(Bry_graph1[keys], Bry_graph2[keys])
   
-  # graph with model_fit (without data)
+  # graph with model_fit (with data)
   Bry_graph3 <- graph_SCD(design = "CMB",
                           cluster = group, case = case,
                           phase = treatment, session = session, outcome = outcome,
-                          treatment_name = "treatment", model_fit = Bryant2018_RML)
+                          treatment_name = "treatment", 
+                          data = Bryant2018,
+                          model_fit = Bryant2018_RML)
   expect_s3_class(Bry_graph3, "ggplot")
   expect_invisible(print(Bry_graph3))
   
-  keys <- setdiff(names(Bry_graph1), c("data","plot_env", "labels", "layers"))
-  expect_equal(Bry_graph1[keys], Bry_graph3[keys])
+  # graph with model_fit (without data)
+  Bry_graph4 <- graph_SCD(design = "CMB",
+                          cluster = group, case = case,
+                          phase = treatment, session = session, outcome = outcome,
+                          treatment_name = "treatment", model_fit = Bryant2018_RML)
+  expect_s3_class(Bry_graph4, "ggplot")
+  expect_invisible(print(Bry_graph4))
+  
+  keys <- setdiff(names(Bry_graph3), c("data","plot_env", "labels", "layers"))
+  expect_equal(Bry_graph3[keys], Bry_graph4[keys])
   
 })
 
 
+test_that("graph_SCD works with hypothetical newdata", {
+  
+  data("Anglesea")
+  Anglesea_clean <- preprocess_SCD(design = "TR", 
+                        case = case, 
+                        phase = phase, 
+                        session = session, 
+                        outcome = outcome, 
+                        data = Anglesea)
+  
+  # Fit the model
+  suppressWarnings(
+    Ang_RML <- lme(fixed = outcome ~ 1 + trt, 
+                   random = ~ 1 + trt | case, 
+                   correlation = corAR1(0.01, ~ session | case), 
+                   data = Anglesea_clean,
+                   control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE))
+  )
 
+  Ang_graph1 <- graph_SCD(case=case, phase=phase, session=session, outcome=outcome, 
+                          design="TR", treatment_name = NULL, model_fit=Ang_RML)
+  expect_s3_class(Ang_graph1, "ggplot")
+  expect_invisible(print(Ang_graph1))
+  
+  Anglesea_mod <- Anglesea_clean
+  Anglesea_mod$phase <- factor(1, levels = levels(Anglesea_clean$phase))
+  Anglesea_mod$trt <- 0
+  
+  Ang_graph2 <- graph_SCD(case=case, phase=phase, session=session, outcome=outcome, 
+                          design="TR", treatment_name = NULL, newdata = Anglesea_mod, model_fit=Ang_RML)
+  expect_s3_class(Ang_graph2, "ggplot")
+  expect_invisible(print(Ang_graph2))
+  
+  Ang_graph3 <- graph_SCD(case=case, phase=phase, session=session, outcome=outcome, 
+                          design="TR", treatment_name = NULL, data = Anglesea_clean, newdata = Anglesea_mod, model_fit=Ang_RML)
+  expect_s3_class(Ang_graph3, "ggplot")
+  expect_invisible(print(Ang_graph3))
+  
+  data("Laski")
+  
+  Laski_RML <- lme(fixed = outcome ~ 1 + treatment,
+                   random = ~ 1 | case, 
+                   correlation = corAR1(0, ~ time | case), 
+                   data = Laski)
+  Laski_mod <- Laski
+  Laski_mod$treatment <- factor("baseline", levels = levels(Laski$treatment))
+  
+  Laski_graph <- graph_SCD(case=case, phase=treatment, session=time, outcome=outcome, 
+                            design="MBP", treatment_name = "treatment", model_fit=Laski_RML, newdata=Laski_mod)
+  expect_s3_class(Laski_graph, "ggplot")
+  expect_invisible(print(Laski_graph))
+  
+  
+  data("Thiemann2001")
+  Thiemann2001_RML <- lme(outcome ~ 1 + time_c + treatment + trt_time,
+                          random = ~ 1 | case / series,
+                          data = Thiemann2001)
+  Thiemann2001_mod <- Thiemann2001
+  Thiemann2001_mod$treatment <- factor("baseline", levels = levels(Thiemann2001$treatment))
+  Thiemann2001_mod$trt_time <- 0
+  
+  
+  Thiemann_graph <- graph_SCD(design = "RMBB",
+                               case = case, series = series,
+                               phase = treatment, session = time, outcome = outcome,
+                               treatment_name = "treatment", 
+                               model_fit = Thiemann2001_RML,
+                               newdata = Thiemann2001_mod)
+  expect_s3_class(Thiemann_graph, "ggplot")
+  expect_invisible(print(Thiemann_graph))
+  
+  data("Bryant2018")
+  
+  Bryant2018_RML <-lme(fixed = outcome ~ treatment,
+                       random = ~ 1 | group / case,
+                       correlation = corAR1(0, ~ session | group / case),
+                       weights = varIdent(form = ~ 1 | treatment),
+                       data = Bryant2018,
+                       na.action = na.omit)
+  Bryant2018_mod <- Bryant2018
+  Bryant2018_mod$treatment <- factor("baseline", levels = levels(Bryant2018$treatment))
+  
+  Bry_graph <- graph_SCD(design = "CMB",
+                          cluster = group, case = case,
+                          phase = treatment, session = session, outcome = outcome,
+                          treatment_name = "treatment", 
+                          model_fit = Bryant2018_RML, newdata = Bryant2018_mod)
+  expect_s3_class(Bry_graph, "ggplot")
+  expect_invisible(print(Bry_graph))
+  
+})
 

@@ -14,14 +14,16 @@ graph_SCD(
   series = NULL,
   treatment_name = NULL,
   model_fit = NULL,
-  data = NULL
+  data = NULL,
+  newdata = NULL
 )
 }
 \arguments{
 \item{design}{Character string to specify whether data comes from a treatment
 reversal (\code{"TR"}), multiple baseline across participants
 (\code{"MBP"}), replicated multiple baseline across behaviors
-(\code{"RMBB"}), or clustered multiple baseline across participants (\code{"CMB"}).}
+(\code{"RMBB"}), or clustered multiple baseline across participants
+(\code{"CMB"}).}
 
 \item{case}{vector of case indicators or name of a character or factor vector
 within \code{data} indicating unique cases.}
@@ -49,6 +51,9 @@ graph}
 
 \item{data}{(Optional) dataset to use for analysis. Must be a
 \code{data.frame}.}
+
+\item{newdata}{(Optional) dataset to use for calculating predicted values
+based on \code{model_fit}. Must be a \code{data.frame}.}
 }
 \value{
 A ggplot graph
@@ -92,6 +97,6 @@ graph_SCD(design="CMB",
           session=session, outcome=outcome,
           treatment_name = "treatment",
           data=Bryant2018)
-          
+
 }
 }

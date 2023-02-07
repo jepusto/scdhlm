@@ -43,7 +43,8 @@ effect sizes will be calculated.}
 \item{design}{Character string to specify whether data comes from a treatment
 reversal (\code{"TR"}), multiple baseline across participants
 (\code{"MBP"}), replicated multiple baseline across behaviors
-(\code{"RMBB"}), or clustered multiple baseline across participants (\code{"CMB"}).}
+(\code{"RMBB"}), or clustered multiple baseline across participants
+(\code{"CMB"}).}
 
 \item{grouping}{A variable name or list of (unquoted) variable names that
 uniquely identify each study.}
