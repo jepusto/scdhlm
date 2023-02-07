@@ -194,19 +194,53 @@ test_that("calc_BCSMD() effect size does not depend on centering time for Bryant
                     session = session, 
                     outcome = outcome, 
                     cluster = group,
-                    center = 20, 
+                    center = cent, 
                     data = Bryant2018,
                     FE_base = c(0,1),
                     RE_base = c(0,1),
-                    RE_base_2 = c(0,1),
+                    RE_base_2 = c(0),
                     FE_trt = c(0,1),
-                    RE_trt = c(1),
                     corStruct = "AR1",
                     A = A, B = B, 
                     summary = FALSE)
   
-  expect_equal(ES2$g_AB, ES3$g_AB, tol = 1e-3)
-  expect_equal(ES2$SE_g_AB, ES3$SE_g_AB, tol = 1e-3)
+  ES4 <- calc_BCSMD(design = "CMB",
+                    case = case, 
+                    phase = treatment, 
+                    session = session, 
+                    outcome = outcome, 
+                    cluster = group,
+                    center = 1, 
+                    data = Bryant2018,
+                    FE_base = c(0,1),
+                    RE_base = c(0,1),
+                    RE_base_2 = c(0),
+                    FE_trt = c(0,1),
+                    corStruct = "AR1",
+                    A = A, B = B, 
+                    summary = FALSE)
+  
+  expect_equal(ES3$g_AB, ES4$g_AB, tol = 1e-3)
+  expect_equal(ES3$SE_g_AB, ES4$SE_g_AB, tol = 1e-3)
+  
+  ES5 <- calc_BCSMD(design = "CMB",
+                    case = case, 
+                    phase = treatment, 
+                    session = session, 
+                    outcome = outcome, 
+                    cluster = group,
+                    center = 40, 
+                    data = Bryant2018,
+                    FE_base = c(0,1),
+                    RE_base = c(0,1),
+                    RE_base_2 = c(0),
+                    FE_trt = c(0,1),
+                    corStruct = "AR1",
+                    A = A, B = B, 
+                    summary = FALSE)
+
+  expect_equal(ES3$g_AB, ES5$g_AB, tol = 1e-3)
+  expect_equal(ES3$SE_g_AB, ES5$SE_g_AB, tol = 1e-3)
   
 })
 
