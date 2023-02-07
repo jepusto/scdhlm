@@ -306,7 +306,8 @@ str(Thiemann2001)
 Thiemann2001 <- Thiemann2001 %>%
   arrange(case, series, time) %>%
   group_by(case, series) %>%
-  mutate(trt_time = pmax(0, time - max(time[treatment == "A"])))
+  mutate(trt_time = pmax(0, time - max(time[treatment == "A"]))) %>%
+  as.data.frame()
 
 Thiemann2001 <- within(Thiemann2001, {
   case <- factor(case)
@@ -337,7 +338,9 @@ Thiemann2004 <- Thiemann2004 %>%
   arrange(case, series, time) %>%
   group_by(case, series) %>%
   mutate(
-    trt_time = pmax(0, time - max(time[treatment == "A"])))
+    trt_time = pmax(0, time - max(time[treatment == "A"]))
+  ) %>%
+  as.data.frame()
 
 Thiemann2004 <- within(Thiemann2004, {
   case <- factor(case)
@@ -371,7 +374,8 @@ CaseHarrisGraham <-
   ) %>% 
   dplyr::filter(!is.na(`Outcome variable`)) %>% 
   rename(session = `Session number`, outcome = `Outcome variable`) %>% 
-  select(case, session, condition, outcome)
+  select(case, session, condition, outcome) %>%
+  as.data.frame()
 
 save(CaseHarrisGraham, file = "data/CaseHarrisGraham.RData", compress = TRUE, version = 2)
 
@@ -386,7 +390,8 @@ Peltier <-
   ) %>% 
   dplyr::filter(!is.na(outcome)) %>% 
   arrange(case, session) %>%
-  select(case, session, condition, outcome)
+  select(case, session, condition, outcome) %>%
+  as.data.frame()
 
 save(Peltier, file = "data/Peltier.RData", compress = TRUE, version = 2)
 
@@ -404,7 +409,8 @@ GunningEspie <-
   rename(session = Session, outcome = `DV value`) %>% 
   dplyr::filter(condition != "follow-up") %>% 
   arrange(case, session) %>%
-  select(case, session, condition, outcome)
+  select(case, session, condition, outcome) %>%
+  as.data.frame()
 
 save(GunningEspie, file = "data/GunningEspie.RData", compress = TRUE, version = 2)
 
@@ -420,7 +426,8 @@ DelemereDounavi <-
   ) %>% 
   rename(session = Session, outcome = `DV value`) %>% 
   arrange(intervention, case, session) %>%
-  select(intervention, case, session, condition, outcome)
+  select(intervention, case, session, condition, outcome) %>%
+  as.data.frame()
 
 save(DelemereDounavi, file = "data/DelemereDounavi.RData", compress = TRUE, version = 2)
 
@@ -434,7 +441,8 @@ Datchuk <-
     condition = as.factor(phase),
     session = round(session)
   ) %>%
-  select(case, session, condition, outcome)
+  select(case, session, condition, outcome) %>%
+  as.data.frame()
 
 save(Datchuk, file = "data/Datchuk.RData", compress = TRUE, version = 2)
 
@@ -448,7 +456,8 @@ Rodgers <-
     condition = as.factor(phase),
     session = round(session)
   ) %>%
-  select(case, session, condition, outcome)
+  select(case, session, condition, outcome) %>%
+  as.data.frame()
 
 save(Rodgers, file = "data/Rodgers.RData", compress = TRUE, version = 2)
 
