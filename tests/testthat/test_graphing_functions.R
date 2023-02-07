@@ -66,8 +66,28 @@ test_that("graph_SCD works for design = 'MBP'", {
   expect_s3_class(Laski_graph2, "ggplot")
   expect_invisible(print(Laski_graph2))
   
-  keys <- setdiff(names(Laski_graph1), c("plot_env", "labels","layers"))
+  keys <- setdiff(names(Laski_graph1), c("data","plot_env", "labels","layers"))
   expect_equal(Laski_graph1[keys], Laski_graph2[keys])
+  
+
+  Laski_clean <- preprocess_SCD(design = "MBP", case=case, phase=treatment, session=time, outcome=outcome, data = Laski)
+  Laski_trend <- lme(fixed = outcome ~ 1 + time_trt,
+                   random = ~ 1 | case, 
+                   correlation = corAR1(0, ~ time | case), 
+                   data = Laski_clean)
+  
+  Laski_graph3 <- graph_SCD(case=case, phase=treatment, session=time, outcome=outcome, 
+                            design="MBP", treatment_name = "treatment", model_fit=Laski_trend, data=Laski)
+  expect_s3_class(Laski_graph3, "ggplot")
+  expect_invisible(print(Laski_graph3))
+  
+  Laski_graph4 <- graph_SCD(case=case, phase=treatment, session=time, outcome=outcome, 
+                            design="MBP", treatment_name = "treatment", model_fit=Laski_trend)
+  expect_s3_class(Laski_graph4, "ggplot")
+  expect_invisible(print(Laski_graph4))
+  
+  keys <- setdiff(names(Laski_graph1), c("plot_env", "labels","layers"))
+  expect_equal(Laski_graph3[keys], Laski_graph4[keys])
   
 })
 
@@ -108,7 +128,7 @@ test_that("graph_SCD works for design = 'RMBB'", {
   expect_s3_class(Thiemann_graph3, "ggplot")
   expect_invisible(print(Thiemann_graph3))
   
-  keys <- setdiff(names(Thiemann_graph1), c("plot_env", "labels", "layers"))
+  keys <- setdiff(names(Thiemann_graph1), c("data","plot_env", "labels", "layers"))
   expect_equal(Thiemann_graph1[keys], Thiemann_graph3[keys])
   
 })
@@ -154,7 +174,7 @@ test_that("graph_SCD works for design = 'CMB'", {
   expect_s3_class(Bry_graph3, "ggplot")
   expect_invisible(print(Bry_graph3))
   
-  keys <- setdiff(names(Bry_graph1), c("plot_env", "labels", "layers"))
+  keys <- setdiff(names(Bry_graph1), c("data","plot_env", "labels", "layers"))
   expect_equal(Bry_graph1[keys], Bry_graph3[keys])
   
 })
