@@ -42,13 +42,13 @@ Please cite this R package as follows:
 
 > Pustejovsky, J. E., Chen, M., & Hamilton, B. J. (2023). scdhlm:
 > Estimating hierarchical linear models for single-case designs (Version
-> 0.7.1) \[R package\]. <https://CRAN.R-project.org/package=scdhlm>
+> 0.7.2) \[R package\]. <https://CRAN.R-project.org/package=scdhlm>
 
 Please cite the web application as follows:
 
 > Pustejovsky, J. E., Chen, M., Hamilton, B., & Grekov, P. (2023).
 > scdhlm: A web-based calculator for between-case standardized mean
-> differences (Version 0.7.1) \[Web application\].
+> differences (Version 0.7.2) \[Web application\].
 > <https://jepusto.shinyapps.io/scdhlm>
 
 # Installation
