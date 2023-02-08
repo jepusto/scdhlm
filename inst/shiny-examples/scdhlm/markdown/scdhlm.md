@@ -1,6 +1,6 @@
 ### scdhlm
 
-Version 0.7.1
+Version 0.7.2
 
 Designed by James E. Pustejovsky and Man Chen, with contributions from
 Bethany Hamilton and Paulina Grekov.
@@ -29,7 +29,7 @@ of Education.
 
 Pustejovsky, J. E., Chen, M., Hamilton, B., & Grekov, P. (2023). scdhlm:
 A web-based calculator for between-case standardized mean differences
-(Version 0.7.1) \[Web application\].
+(Version 0.7.2) \[Web application\].
 <https://jepusto.shinyapps.io/scdhlm>
 
 ### Tutorial paper

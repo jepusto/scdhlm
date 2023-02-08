@@ -212,8 +212,12 @@ graph_SCD <- function(design, case, phase, session, outcome,
     predict(model_fit, newdata = newdata)
   }
   
-  p <- p + ggplot2::geom_line(data = newdata, ggplot2::aes(y = fitted), linewidth = 0.8)
-
+  if (utils::packageVersion("ggplot2") < '3.4.0') {
+    p <- p + ggplot2::geom_line(data = newdata, ggplot2::aes(y = fitted), size = 0.8)
+  } else {
+    p <- p + ggplot2::geom_line(data = newdata, ggplot2::aes(y = fitted), linewidth = 0.8)
+  }
+  
   return(p)
   
 }

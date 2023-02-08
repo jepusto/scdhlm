@@ -369,6 +369,7 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
   
   # single calculator
   data("Laski")
+  skip_if_not_installed("dplyr", "1.1.0")
   
   # model 1: basic model without time trends
   Laski1_single <- 
@@ -422,7 +423,7 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
   res_AB <- 
     dat_MBP %>% 
     dplyr::group_by(studyID) %>%
-    dplyr::summarise(
+    dplyr::reframe(
       default_times(
         design = "MBP",
         case = case,
@@ -430,8 +431,7 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
         session = session,
         cluster = NULL,
         series = NULL
-      ),
-      .groups = 'drop'
+      )
     ) %>% 
     dplyr::mutate(variable = rep(c("range", "A", "B"), length(unique(dat_MBP$studyID)))) %>% 
     dplyr::rename(value = `default_times(...)`)
