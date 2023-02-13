@@ -351,7 +351,7 @@ server <-
       estimation_choices <- if (studyDesign() %in% c("MBP", "TR")) {
         estimation_names 
       } else {
-        c("Restricted Maximum Likelihood" = "RML")
+        c("Restricted Maximum Likelihood" = "RML", "Bayesian estimation" = "Bayes")
       }
       
       selectInput("method", label = "Estimation method",
@@ -374,7 +374,7 @@ server <-
       
     })
     
-    output$model_centering <- renderUI({
+    output$model_centering2 <- output$model_centering <- renderUI({
       if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method=="RML") {
         session_range <- time_range()$range
         sliderInput("model_center", "Center session at", 
@@ -681,6 +681,8 @@ server <-
       }
     }, colnames = FALSE)
     
+    # appendTab(inputId = "modelTabsetPanel",
+    #           tabPanel("Bayesian plots", p("Some Bayesian plots")))
     
     # Calculate effect sizes
     
@@ -787,6 +789,19 @@ server <-
   width = function() 700)
   
   output$RML_plot <- renderPlot({
+    
+    if ("lme" %in% class(model_fit()$fit)) {
+      cluster <- if (studyDesign() == "CMB") substitute(cluster) else NULL
+      series <- if (studyDesign() == "RMBB") substitute(series) else NULL
+      graph_SCD(design = studyDesign(), 
+                cluster = cluster, case = case, series = series, 
+                phase = phase, session = session, outcome = outcome, 
+                model_fit = model_fit()$fit)
+    }
+  }, height = function() 120 * nlevels(datClean()[[1]]),
+  width = function() 700)
+  
+  output$RML_plot2 <- renderPlot({
     
     if ("lme" %in% class(model_fit()$fit)) {
       cluster <- if (studyDesign() == "CMB") substitute(cluster) else NULL
