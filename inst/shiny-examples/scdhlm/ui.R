@@ -125,7 +125,7 @@ ui <-
               plotOutput("HPS_plot", height = "auto")   
            ),
            
-           conditionalPanel(condition = "input.method == 'RML'",
+           conditionalPanel(condition = "input.method == 'RML' || input.method == 'Bayes'",
               fluidRow(
                 column(6,
                        wellPanel(
@@ -172,29 +172,80 @@ ui <-
                            )                           
                          )
                        ))
-              ),
-              tabsetPanel(type = "tabs",
-                tabPanel("Graph",
-                  column(12, br(),
-                    plotOutput("RML_plot", height = "auto")
-                  )
-                ),
-                tabPanel("Model estimates",
-                         column(12, br()),
-                         conditionalPanel(condition = "input.degree_base != 0",
-                                          uiOutput("model_centering")),
-                         fluidRow(
-                           column(12, h4("Model fit"), tableOutput("model_sample_size")),
-                           column(12, tableOutput("model_fit_fixed")),
-                           column(12, tableOutput("model_fit_random")),
-                           column(12, tableOutput("model_fit_corr")),
-                           column(12, tableOutput("model_fit_var")),
-                           column(12, tableOutput("model_info")),
-                           column(12, h4("Convergence"), tableOutput("model_fit_convg"))
-                         )
-                )
               )
-           )
+           ),
+           
+           conditionalPanel(condition = "input.method == 'RML'",
+                            tabsetPanel(type = "tabs",
+                              tabPanel("Graph",
+                                column(12, br(),
+                                  plotOutput("RML_plot", height = "auto")
+                                )
+                              ),
+                              tabPanel("Model estimates",
+                                       column(12, br()),
+                                       conditionalPanel(condition = "input.degree_base != 0",
+                                                        uiOutput("model_centering")),
+                                       fluidRow(
+                                         column(12, h4("Model fit"), tableOutput("model_sample_size")),
+                                         column(12, tableOutput("model_fit_fixed")),
+                                         column(12, tableOutput("model_fit_random")),
+                                         column(12, tableOutput("model_fit_corr")),
+                                         column(12, tableOutput("model_fit_var")),
+                                         column(12, tableOutput("model_info")),
+                                         column(12, h4("Convergence"), tableOutput("model_fit_convg"))
+                                       )
+                              )
+                            )
+                            
+           ),
+           
+           conditionalPanel(condition = "input.method == 'Bayes'",
+                            tabsetPanel(type = "tabs",
+                                        tabPanel("Graph",
+                                                 column(12, br(),
+                                                        plotOutput("RML_plot2", height = "auto")
+                                                 )
+                                        ),
+                                        tabPanel("Model estimates",
+                                                 column(12, br()),
+                                                 conditionalPanel(condition = "input.degree_base != 0",
+                                                                  uiOutput("model_centering2")),
+                                                 fluidRow(
+                                                   column(12, h4("Model fit"), tableOutput("Bayes_sample_size")),
+                                                   column(12, tableOutput("Bayes_fit_fixed")),
+                                                   column(12, tableOutput("Bayes_fit_random")),
+                                                   column(12, tableOutput("Bayes_fit_corr")),
+                                                   column(12, tableOutput("Bayes_fit_var")),
+                                                   column(12, tableOutput("Bayes_info"))
+                                                 )
+                                        ),
+                                        tabPanel("Bayesian plots",
+                                        tabsetPanel(type = "tabs",
+                                                    tabPanel("Density plot",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_dens", height = "auto"))
+                                                    ),
+                                                    tabPanel("Auto-correlation plot",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_ar", height = "auto"))
+                                                    ),
+                                                    tabPanel("Trace plot",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_trace", height = "auto"))
+                                                    ),
+                                                    tabPanel("Rhat",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_rhat", height = "auto"))
+                                                    ),
+                                                    tabPanel("Overlaid density plot",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_overlaid", height = "auto"))
+                                                    ),
+                                          ))
+                            )
+                          )
+           
         ), 
         
         #------------------------------
