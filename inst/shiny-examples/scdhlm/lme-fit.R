@@ -78,6 +78,9 @@ lme_fit_MB <- function(design, dat, FE_base, RE_base, RE_base_2, FE_trt, RE_trt,
              error = function(e) E <<- e),
     warning = function(w) W <<- w)
   
+  RML_fit$call$fixed <- fixed
+  RML_fit$call$random <- random
+  
   list(fixed = fixed,
        random = random,
        fit = RML_fit,
@@ -118,6 +121,9 @@ lme_fit_TR <- function(dat, FE_base, RE_base, FE_trt, RE_trt, corStruct = "AR(1)
                  control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
              error = function(e) E <<- e),
     warning = function(w) W <<- w)
+  
+  RML_fit$call$fixed <- fixed
+  RML_fit$call$random <- random
   
   list(fixed = fixed,
        random = random,
