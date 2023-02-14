@@ -1,6 +1,6 @@
 ## Resubmission
 
-This is a re-submission and a maintenance release. This version fixes the outstanding CRAN check error (on ATLAS build).
+This is a re-submission and a maintenance release. The main changes are a small tweak to how missing observations are handled in the function preprocess_SCD() and a corresponding modification to one of the example datasets.
 
 ## Test environments
 
@@ -9,7 +9,6 @@ This is a re-submission and a maintenance release. This version fixes the outsta
 * macOS-latest (on Github), R release
 * windows-latest (on Github), R devel, release
 * win-builder (devel, release, oldrelease)
-* mac-builder (release)
 
 ## R CMD check results
 
