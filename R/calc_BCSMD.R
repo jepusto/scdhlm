@@ -204,7 +204,8 @@ write_formula <- function(powers, var_names) {
 #' calc_BCSMD(design = "MBP",
 #'            case = case, phase = treatment,
 #'            session = time, outcome = outcome, center = 4,
-#'            FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+#'            FE_base = c(0,1), RE_base = c(0,1), 
+#'            FE_trt = c(0,1),
 #'            data = Laski)
 #'
 #'
@@ -213,7 +214,8 @@ write_formula <- function(powers, var_names) {
 #'            case = case, phase = condition,
 #'            session = session, outcome = outcome,
 #'            treatment_name = "treatment",
-#'            FE_base = 0, RE_base = 0, FE_trt = 0,
+#'            FE_base = 0, RE_base = 0, 
+#'            FE_trt = 0,
 #'            data = Anglesea)
 #'
 #'
@@ -221,7 +223,8 @@ write_formula <- function(powers, var_names) {
 #' calc_BCSMD(design = "RMBB",
 #'            case = case, series = series, phase = treatment,
 #'            session = time, outcome = outcome,
-#'            FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+#'            FE_base = 0, RE_base = 0, RE_base_2 = 0, 
+#'            FE_trt = 0,
 #'            data = Thiemann2001)
 #'
 #'
@@ -230,8 +233,8 @@ write_formula <- function(powers, var_names) {
 #'            cluster = group, case = case, phase = treatment,
 #'            session = session, outcome = outcome, center = 49,
 #'            treatment_name = "treatment",
-#'            FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
-#'            FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+#'            FE_base = c(0,1), RE_base = 0, RE_base_2 = 0,
+#'            FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
 #'            data = Bryant2018)
 #' 
 #' 
