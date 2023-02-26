@@ -39,6 +39,8 @@ data("Bryant2018")
 * Used the best fitted model in the three-level BCSMD paper, a model with varying intercept across students and groups, fixed treatment effects, varying time trends and time-by-treatment interaction across students.
 
 ```{r}
+Bryant2018 <- na.omit(Bryant2018)
+
 # Non Bayesian - Fit the HLM model
 A <- 4
 B <- 21
@@ -74,7 +76,7 @@ fit_nonINF <-
     data = Bryant2018,
     prior = prior_nonINF,
     seed = 20230116, iter = 10000, thin =10,
-    stanvars = stanvar(scode = "real ES = (b[2] + b[4]*17) / (sqrt(sigma^2 + sd_1[1]^2) + sd_2[1]^2);", block = "genquant"),
+    # stanvars = stanvar(scode = "real ES = (b[2] + b[4]*17) / (sqrt(sigma^2 + sd_1[1]^2) + sd_2[1]^2);", block = "genquant"),
     save_pars = save_pars(all = TRUE)
   )
 
@@ -83,15 +85,25 @@ summary(fit_nonINF)
 # use center==FALSE in bf, default priors
 fit_nonINF_nocenter <- 
   brm(
-    brmsformula(outcome ~ treatment + session_c + session_trt + 
+    bf(outcome ~ session_c + treatment + session_trt + 
         (1 | group) + (session_c + session_trt | case) +
-      arma(time = session_c, gr = group:case, p = 1, q = 0), center = FALSE),
+      arma(time = session_c, gr = group:case, p = 1, q = 0),
+      # sigma ~ treatment, 
+      center = FALSE),
     data = Bryant2018,
     # prior = prior_nonINF,
-    seed = 20230116, iter = 10000, thin =10,
-    stanvars = stanvar(scode = "real ES = (b[2] + b[4]*17) / (sqrt(sigma^2 + sd_1[1]^2) + sd_2[1]^2);", block = "genquant"),
+    seed = 20230116, iter = 5000, thin =10,
+    # stanvars = stanvar(scode = "real ES = (b[2] + b[4]*17) / (sqrt(sigma^2 + sd_1[1]^2) + sd_2[1]^2);", block = "genquant"),
     save_pars = save_pars(all = TRUE)
   )
+
+post_samples_nocent <- as_draws_df(fit_nonINF_nocenter)
+
+group <- rep(c("treat", "placebo"), each = 30)
+symptom_post <- c(rnorm(30, mean = 1, sd = 2), rnorm(30, mean = 0, sd = 1))
+dat1 <- data.frame(group, symptom_post)
+fit1 <- brm(bf(symptom_post ~ group, sigma ~ group), 
+            data = dat1, family = gaussian())
 
 # posterior samples
 post_samples_nonINF <- as_draws_df(fit_nonINF)
