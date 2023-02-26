@@ -31,6 +31,7 @@ Imports:
     lmeInfo (>= 0.3.0)
 Depends: 
     nlme,
+    brms,
     R (>= 3.0.1)
 Suggests: 
     knitr,
