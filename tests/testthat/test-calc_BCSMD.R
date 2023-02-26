@@ -590,3 +590,112 @@ test_that("The batch_calc_BCSMD() works for RMBB design.", {
   expect_equal(Thi2_single_2004, as.data.frame(Thi2_batch[2, 2:12], ))
   
 })
+
+
+test_that("The Bayesian estimation works for two-level model.", {
+  
+  data(Laski)
+  
+  # simple model
+  Laski_simple <- 
+    suppressWarnings(
+      calc_BCSMD(design = "MBP",
+                 case = case, phase = treatment,
+                 session = time, outcome = outcome,
+                 FE_base = 0, RE_base = 0, FE_trt = 0,
+                 Bayesian = TRUE, summary = FALSE,
+                 data = Laski)
+    )
+  
+  expect_equal(class(Laski_simple), "list")
+  
+  Laski_comp <- 
+    suppressWarnings(
+      calc_BCSMD(design = "MBP", case = case, phase = treatment,
+                 session = time, outcome = outcome, center = 4,
+                 FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+                 Bayesian = TRUE, summary = TRUE,
+                 data = Laski)
+    )
+  
+  expect_equal(class(Laski_comp), "data.frame")
+  
+  
+})
+
+test_that("The Bayesian estimation works for CMB design", {
+  
+  data("Bryant2018")
+  
+  A <- 4
+  B <- 21
+  cent <- 0
+  
+  # heterogeneous residual variances
+  Bry_brm_het <- 
+    suppressWarnings(
+      brm(
+        bf(outcome ~ session_c + treatment + session_trt + 
+             (1 | group) + (session_c + session_trt | case) +
+             arma(time = session_c, gr = group:case, p = 1, q = 0),
+           sigma ~ treatment, 
+           center = FALSE),
+        data = Bryant2018,
+        chains = 4, iter = 2000, warmup = 1000, thin = 10,
+        save_pars = save_pars(all = TRUE),
+        seed = 43073051
+      )
+    )
+  
+  df_of_draws <- as.data.frame(Bry_brm_het)
+  
+  Bry_mod_het <- 
+    suppressWarnings(
+      calc_BCSMD(design = "CMB",
+                 cluster = group, case = case, phase = treatment,
+                 session = session, outcome = outcome, center = cent,
+                 treatment_name = "treatment",
+                 FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
+                 FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+                 corStruct = "AR1", varStruct = "het",
+                 Bayesian = TRUE, summary = TRUE,
+                 data = Bryant2018)
+    )
+  
+  expect_equal(class(Bry_mod_het), "data.frame")
+  expect_equal(mean(df_of_draws$`ar[1]`), Bry_mod_het$`Auto-correlation`, tol = 0.005)
+  expect_equal(exp(mean(df_of_draws$b_sigma_treatmenttreatment)), Bry_mod_het$`Variance parameter`, tol = 0.005)
+  
+  # constant residual variances
+  Bry_brm_hom <- 
+    suppressWarnings(
+      brm(
+        bf(outcome ~ session_c + treatment + session_trt + 
+             (1 | group) + (session_c + session_trt | case) +
+             arma(time = session_c, gr = group:case, p = 1, q = 0),
+           center = FALSE),
+        data = Bryant2018,
+        chains = 4, iter = 2000, warmup = 1000, thin = 10,
+        save_pars = save_pars(all = TRUE),
+        seed = 43073051
+      )
+    )
+  
+  Bry_mod_hom <- 
+    suppressWarnings(
+      calc_BCSMD(design = "CMB",
+                 cluster = group, case = case, phase = treatment,
+                 session = session, outcome = outcome, center = cent,
+                 treatment_name = "treatment",
+                 FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
+                 FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+                 corStruct = "AR1", varStruct = "hom",
+                 Bayesian = TRUE, summary = FALSE,
+                 data = Bryant2018)
+    )
+  
+  expect_equal(class(Bry_mod_hom), "list")
+  expect_equal(Bry_brm_hom$model, Bry_mod_hom$model$model)
+  expect_equal(Bry_brm_hom[["fit"]]@model_pars, Bry_mod_hom$model[["fit"]]@model_pars)
+  
+})
