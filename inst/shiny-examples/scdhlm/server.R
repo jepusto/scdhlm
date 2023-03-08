@@ -351,7 +351,7 @@ server <-
       estimation_choices <- if (studyDesign() %in% c("MBP", "TR")) {
         estimation_names 
       } else {
-        c("Restricted Maximum Likelihood" = "RML", "Bayesian estimation" = "Bayes")
+        estimation_names[estimation_names != "HPS"]
       }
       
       selectInput("method", label = "Estimation method",
