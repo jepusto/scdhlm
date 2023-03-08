@@ -470,16 +470,14 @@ calc_BCSMD <- function(design,
       sigma_vec <- as.vector(as_draws_matrix(m_fit, variable = "sigma", regex = TRUE))
     }
     
-    fixed_pconst <- samples_fixed %*% diag(p_const)
-    es_num_vec <- apply(fixed_pconst, 1, sum)
+    es_num_vec <- apply(samples_fixed, 1, function(x) sum(x * p_const))
     
     # calculate the denominator of BCSMD
     
     samples_r_sd <- as_draws_matrix(m_fit, variable = "^sd_", regex = TRUE)
     r_base_sd <- samples_r_sd[, 1:length(RE_base)]
-    r_base_var_mat <- r_base_sd^2 %*% diag(r_const_base_var)
-    r_base_var_sum <- apply(r_base_var_mat, 1, sum)
-    rho <- mean(as.vector(r_base_sd[,1])^2/ (as.vector(r_base_sd[,1])^2 + sigma_vec^2))
+    r_base_var_sum <- apply(r_base_sd, 1, function(x) sum(x^2 * r_const_base_var))
+    rho <- mean(as.vector(r_base_sd[,1])^2 / (as.vector(r_base_sd[,1])^2 + sigma_vec^2))
     
     if (length(RE_base) > 1) {
       samples_r_cor <- as_draws_matrix(m_fit, variable = "^cor_", regex = TRUE)
@@ -490,11 +488,12 @@ calc_BCSMD <- function(design,
       r_base_cov_sum <- 0
     }
     
+
+    
     if (design %in% c("RMBB", "CMB")) {
       
       r_base_sd2 <- samples_r_sd[, (r_dim + 1):(r_dim + length(RE_base_2))]
-      r_base_var_mat2 <- r_base_sd2^2 %*% diag(r_const_base_var2)
-      r_base_var_sum2 <- apply(r_base_var_mat2, 1, sum)
+      r_base_var_sum2 <- apply(r_base_sd2, 1, function(x) sum(x^2 * r_const_base_var2))
       
       r_cor_dim <- dim(samples_r_cor)[2]
       r_cor_dim_grp1 <- r_const_dim - r_dim
@@ -515,17 +514,21 @@ calc_BCSMD <- function(design,
       
       rho <- paste0("Level2:", rho_level2, "  Level3:", rho_level3)
       
+      es_den_vec <- 
+        sqrt(r_base_var_sum + r_base_cov_sum + # 2rd level 
+               r_base_var_sum2 + r_base_cov_sum2 +  # 3rd level
+               sigma_vec^2 # residual variance
+        )
+      
     } else {
       
-      r_base_var_sum2 <- r_base_cov_sum2 <- 0
+      es_den_vec <- 
+        sqrt(r_base_var_sum + r_base_cov_sum + # 2rd level 
+               sigma_vec^2 # residual variance
+        )
       
     } 
     
-    es_den_vec <- 
-      sqrt(r_base_var_sum + r_base_cov_sum + # 2rd level 
-             r_base_var_sum2 + r_base_cov_sum2 +  # 3rd level
-             sigma_vec^2 # residual variance
-      )
     
     # calculate BCSMD
     es_vec <- es_num_vec / es_den_vec
