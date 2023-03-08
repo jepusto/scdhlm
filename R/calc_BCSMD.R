@@ -546,7 +546,7 @@ calc_BCSMD <- function(design,
     }
     
     g <- mean(es_vec)
-    SD_g <- sd(es_vec)
+    SE_g <- sd(es_vec)
     df <- 2 * (mean(es_den_vec))^2 / var(es_den_vec)
     
     # summary table
@@ -556,7 +556,7 @@ calc_BCSMD <- function(design,
       
       ES_summary <- data.frame(
         ES = g,
-        SD = SD_g,
+        SE = SD_g,
         CI_L = quantile(es_vec, .025),
         CI_U = quantile(es_vec, .975),
         df = df,
@@ -575,7 +575,7 @@ calc_BCSMD <- function(design,
       
       CI_names <- paste0(cover, "% CI ", c("(lower)", "(upper)"))
       row.names(ES_summary) <- NULL
-      names(ES_summary) <- c("BC-SMD estimate","Standard deviation", CI_names,
+      names(ES_summary) <- c("BC-SMD estimate","Std. Error", CI_names,
                              "Degrees of freedom","Auto-correlation", "Variance parameter", "Intra-class correlation",
                              "Initial treatment time","Follow-up time")
       
@@ -583,7 +583,7 @@ calc_BCSMD <- function(design,
       
     } else {
       
-      res <- c(list(model = m_fit, g = g, SD = SD_g, df = df, 
+      res <- c(list(model = m_fit, g = g, SE = SE_g, df = df, 
                     phi = autocor_param, var_param = var_param, rho = rho))
       
       return(res)
