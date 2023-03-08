@@ -559,7 +559,7 @@ calc_BCSMD <- function(design,
       
       ES_summary <- data.frame(
         ES = g,
-        SE = SD_g,
+        SE = SE_g,
         CI_L = quantile(es_vec, .025),
         CI_U = quantile(es_vec, .975),
         df = df,
