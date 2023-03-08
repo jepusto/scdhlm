@@ -666,7 +666,7 @@ test_that("The Bayesian estimation works for CMB design", {
                  data = Bryant2018)
     )
   
-  expect_equal(class(Bry_mod_het), "data.frame")
+  expect_s3_class(Bry_mod_het, "data.frame")
   expect_equal(mean(df_of_draws$`ar[1]`), Bry_mod_het$`Auto-correlation`, tol = 0.005)
   expect_equal(exp(mean(df_of_draws$b_sigma_treatmenttreatment)), Bry_mod_het$`Variance parameter`, tol = 0.005)
   
@@ -698,7 +698,7 @@ test_that("The Bayesian estimation works for CMB design", {
                  data = Bryant2018)
     )
   
-  expect_equal(class(Bry_mod_hom), "list")
+  expect_type(Bry_mod_hom, "list")
   expect_equal(Bry_brm_hom$model, Bry_mod_hom$model$model)
   expect_equal(Bry_brm_hom[["fit"]]@model_pars, Bry_mod_hom$model[["fit"]]@model_pars)
   
