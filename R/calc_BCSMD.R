@@ -118,6 +118,7 @@ write_formula <- function(powers, var_names) {
 }
 
 # product of every two elements in a sd vector
+
 prod_sd <- function(sd) {
   comb <- combn(sd, 2)
   prod_vec <- apply(comb, 2, prod)
@@ -170,11 +171,13 @@ prod_sd <- function(sd) {
 #'   error variances to differ by phase.
 #' @param Bayesian Logical indicating whether to apply Bayesian estimation
 #'   methods. If \code{FALSE} (default), apply restricted maximum likelihood
-#'   estimation. If \code{TRUE}, apply Bayesian estimation methods to the
-#'   parameters of the specified hierarchical linear model.
+#'   estimation. If \code{TRUE}, apply Bayesian estimation methods (i.e., Markov
+#'   Chain Monte Carlo) to the parameters of the specified hierarchical linear
+#'   model.
 #' @param prior (Optional) One or more \code{brmsprior} objects created by
 #'   \code{"set_prior"} in the \code{"brms"} R package. Default is \code{prior =
-#'   NULL} when flat priors will be applied in the Bayesian estimation.
+#'   NULL} when flat priors will be applied for Bayesian estimation.
+#'   Ignored if \code{Bayesian = FALSE}.
 #' @param A The time point immediately before the start of treatment in the
 #'   hypothetical between-group design.
 #' @param B The time point at which outcomes are measured in the hypothetical
@@ -190,21 +193,19 @@ prod_sd <- function(sd) {
 #'   asymmetric confidence interval.
 #' @param summary Logical indicating whether to return a data frame with effect
 #'   size estimates and other information. If \code{TRUE} (default), return a
-#'   \code{data.frame} containing the effect size estimate, standard error
-#'   (standard deviation if \code{Bayesian == TRUE}), confidence interval
-#'   (credible interval if \code{Bayesian == TRUE}), and other information. If
-#'   \code{FALSE}, return a list with effect size estimate, degrees of freedom,
-#'   and other information.
+#'   \code{data.frame} containing the effect size estimate, standard error,
+#'   confidence interval (or credible interval if \code{Bayesian == TRUE}), and
+#'   other information. If \code{FALSE}, return a list with effect size
+#'   estimate, degrees of freedom, and other information.
 #' @param ... further arguments.
 #'
 #' @export
 #'
 #' @return If \code{summary == TRUE}, a data frame containing the
-#'   design-comparable effect size estimate, standard error (standard deviation
-#'   if \code{Bayesian == TRUE}), confidence interval (credible interval if
-#'   \code{Bayesian == TRUE}), and other information. If \code{summary ==
-#'   FALSE}, a list containing all elements of a `g_mlm()` object, plus the
-#'   fitted `lme()` model.
+#'   design-comparable effect size estimate, standard error, confidence interval
+#'   (or credible interval if \code{Bayesian == TRUE}), and other information.
+#'   If \code{summary == FALSE}, a list containing all elements of a `g_mlm()`
+#'   object, plus the fitted `lme()` model.
 #'
 #' @examples
 #' data(Laski)
@@ -215,7 +216,7 @@ prod_sd <- function(sd) {
 #'            session = time, outcome = outcome,
 #'            FE_base = 0, RE_base = 0, FE_trt = 0,
 #'            data = Laski)
-#'            
+#'
 #' calc_BCSMD(design = "MBP",
 #'            case = case, phase = treatment,
 #'            session = time, outcome = outcome,
@@ -231,7 +232,7 @@ prod_sd <- function(sd) {
 #'            FE_base = c(0,1), RE_base = c(0,1), 
 #'            FE_trt = c(0,1),
 #'            data = Laski)
-#'            
+#'
 #' calc_BCSMD(design = "MBP",
 #'            case = case, phase = treatment,
 #'            session = time, outcome = outcome, center = 4,
@@ -276,13 +277,13 @@ prod_sd <- function(sd) {
 #'            FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
 #'            Bayesian = TRUE,
 #'            data = Bryant2018)
-#' 
-#' 
+#'
+#'
 #' @importFrom brms brm
 #' @importFrom brms bf
 #' @importFrom brms save_pars
 #' @importFrom brms as_draws_matrix
-#' @importFrom utlis combn
+#' @importFrom utils combn
 
 calc_BCSMD <- function(design, 
                        case, phase, session, outcome, 
@@ -396,23 +397,6 @@ calc_BCSMD <- function(design,
     random_Bayes <- paste("(",paste(c(session_RE, trt_RE), collapse = " + "), "| case)")
   }
 
-  nesting_str <- switch(design, 
-                        MBP = "case",
-                        TR = "case",
-                        RMBB = "case/series",
-                        CMB = "cluster/case")
-  
-  cor_struct <- switch(corStruct,
-                       `MA1` = eval(parse(text = paste0("corARMA(0, ~ session | ", nesting_str, ", p = 0, q = 1)"))),
-                       `AR1` = eval(parse(text = paste0("corAR1(", 0.01, ", ~ session | ", nesting_str, ")"))),
-                       `IID` = NULL)
-  
-  if (varStruct == "het") {
-    var_struct <- eval(parse(text = "varIdent(form = ~ 1 | phase)"))
-  } else if (varStruct == "hom") {
-    var_struct <- NULL
-  }
-  
   # p_const and bc_mat
   p_const <- c(rep(0L, length(FE_base)), (B - A)^as.integer(FE_trt))
   r_dim <- length(RE_base) + length(RE_trt)
@@ -431,7 +415,8 @@ calc_BCSMD <- function(design,
   
   if (Bayesian) {
     
-    # cor struct in brmsformula
+    # correlation structure in brmsformula
+    
     nesting_str_Bayes <- switch(design,
                                 MBP = "case",
                                 TR = "case",
@@ -444,6 +429,7 @@ calc_BCSMD <- function(design,
                                `IID` = NULL)
     
     # r_const and variance components
+    
     r_const_base_var <- diag(bc_mat)
     r_const_base_cor <- bc_mat[upper.tri(bc_mat, diag = FALSE)]
     
@@ -453,6 +439,7 @@ calc_BCSMD <- function(design,
     } 
     
     # fit the model
+    
     m_fit <- brms::brm(
       formula = 
         if (varStruct == "het") {
@@ -472,6 +459,7 @@ calc_BCSMD <- function(design,
     )
     
     # calculate the numerator of BCSMD
+    
     posterior_samples_fixed <- as_draws_matrix(m_fit, variable = "^b_", regex = TRUE)
     
     if (varStruct == "het") {
@@ -486,6 +474,7 @@ calc_BCSMD <- function(design,
     es_num_vec <- apply(fixed_pconst, 1, sum)
     
     # calculate the denominator of BCSMD
+    
     samples_r_sd <- as_draws_matrix(m_fit, variable = "^sd_", regex = TRUE)
     r_base_sd <- samples_r_sd[, 1:length(RE_base)]
     r_base_var_mat <- r_base_sd^2 %*% diag(r_const_base_var)
@@ -612,6 +601,26 @@ calc_BCSMD <- function(design,
       r_const_base2 <- bc_mat2[upper.tri(bc_mat2, diag = TRUE)]
       r_const_trt2 <- rep(0L, r_const_dim2 - length(r_const_base2))
     } 
+    
+    # determine correlation structure and variance structure
+    
+    nesting_str <- switch(design, 
+                          MBP = "case",
+                          TR = "case",
+                          RMBB = "case/series",
+                          CMB = "cluster/case")
+    
+    cor_struct <- switch(corStruct,
+                         `MA1` = eval(parse(text = paste0("corARMA(0, ~ session | ", nesting_str, ", p = 0, q = 1)"))),
+                         `AR1` = eval(parse(text = paste0("corAR1(", 0.01, ", ~ session | ", nesting_str, ")"))),
+                         `IID` = NULL)
+    
+    if (varStruct == "het") {
+      var_struct <- eval(parse(text = "varIdent(form = ~ 1 | phase)"))
+    } else if (varStruct == "hom") {
+      var_struct <- NULL
+    }
+    
     
     # model fitting
     
