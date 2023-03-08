@@ -594,6 +594,8 @@ test_that("The batch_calc_BCSMD() works for RMBB design.", {
 
 test_that("The Bayesian estimation works for two-level model.", {
   
+  skip_on_cran()
+  
   data(Laski)
   
   # simple model
@@ -607,7 +609,7 @@ test_that("The Bayesian estimation works for two-level model.", {
                  data = Laski)
     )
   
-  expect_equal(class(Laski_simple), "list")
+  expect_type(Laski_simple, "list")
   
   Laski_comp <- 
     suppressWarnings(
@@ -618,12 +620,14 @@ test_that("The Bayesian estimation works for two-level model.", {
                  data = Laski)
     )
   
-  expect_equal(class(Laski_comp), "data.frame")
+  expect_s3_class(Laski_comp, "data.frame")
   
   
 })
 
 test_that("The Bayesian estimation works for CMB design", {
+  
+  skip_on_cran()
   
   data("Bryant2018")
   
