@@ -112,12 +112,14 @@ error variances to differ by phase.}
 
 \item{Bayesian}{Logical indicating whether to apply Bayesian estimation
 methods. If \code{FALSE} (default), apply restricted maximum likelihood
-estimation. If \code{TRUE}, apply Bayesian estimation methods to the
-parameters of the specified hierarchical linear model.}
+estimation. If \code{TRUE}, apply Bayesian estimation methods (i.e., Markov
+Chain Monte Carlo) to the parameters of the specified hierarchical linear
+model.}
 
 \item{prior}{(Optional) One or more \code{brmsprior} objects created by
 \code{"set_prior"} in the \code{"brms"} R package. Default is \code{prior =
-NULL} when flat priors will be applied in the Bayesian estimation.}
+NULL} when flat priors will be applied for Bayesian estimation.
+Ignored if \code{Bayesian = FALSE}.}
 
 \item{A}{The time point immediately before the start of treatment in the
 hypothetical between-group design.}
@@ -140,11 +142,10 @@ asymmetric confidence interval.}
 
 \item{summary}{Logical indicating whether to return a data frame with effect
 size estimates and other information. If \code{TRUE} (default), return a
-\code{data.frame} containing the effect size estimate, standard error
-(standard deviation if \code{Bayesian == TRUE}), confidence interval
-(credible interval if \code{Bayesian == TRUE}), and other information. If
-\code{FALSE}, return a list with effect size estimate, degrees of freedom,
-and other information.}
+\code{data.frame} containing the effect size estimate, standard error,
+confidence interval (or credible interval if \code{Bayesian == TRUE}), and
+other information. If \code{FALSE}, return a list with effect size
+estimate, degrees of freedom, and other information.}
 
 \item{data}{(Optional) dataset to use for analysis. Must be a
 \code{data.frame}.}
@@ -153,11 +154,10 @@ and other information.}
 }
 \value{
 If \code{summary == TRUE}, a data frame containing the
-  design-comparable effect size estimate, standard error (standard deviation
-  if \code{Bayesian == TRUE}), confidence interval (credible interval if
-  \code{Bayesian == TRUE}), and other information. If \code{summary ==
-  FALSE}, a list containing all elements of a `g_mlm()` object, plus the
-  fitted `lme()` model.
+  design-comparable effect size estimate, standard error, confidence interval
+  (or credible interval if \code{Bayesian == TRUE}), and other information.
+  If \code{summary == FALSE}, a list containing all elements of a `g_mlm()`
+  object, plus the fitted `lme()` model.
 }
 \description{
 In one call, 1) clean single-case design data for treatment
@@ -174,7 +174,7 @@ calc_BCSMD(design = "MBP",
            session = time, outcome = outcome,
            FE_base = 0, RE_base = 0, FE_trt = 0,
            data = Laski)
-           
+
 calc_BCSMD(design = "MBP",
            case = case, phase = treatment,
            session = time, outcome = outcome,
@@ -189,7 +189,7 @@ calc_BCSMD(design = "MBP",
            session = time, outcome = outcome, center = 4,
            FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
            data = Laski)
-           
+
 calc_BCSMD(design = "MBP",
            case = case, phase = treatment,
            session = time, outcome = outcome, center = 4,
