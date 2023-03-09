@@ -18,7 +18,8 @@ There were no ERRORs and no WARNINGs.
 There were several NOTEs:
 
 Possibly mis-spelled words in DESCRIPTION:
-  Pustejovsky (13:29, 14:13, 15:5)
+  Klingbeil (16:28)
+  Pustejovsky (13:29, 14:13, 15:5, 16:15)
   Shadish (13:46, 14:30, 15:30)
   
   The flagged words are spelled correctly.
@@ -44,10 +45,17 @@ Found the following (possibly) invalid URLs:
     From: inst/doc/Estimating-effect-sizes.html
     Status: 403
     Message: Forbidden
-
+  URL: https://doi.org/10.1044/1092-4388(2004/012)
+    From: man/Thiemann2004.Rd
+    Status: 403
+    Message: Forbidden
+    
     The flagged URLs are all correct.
 
 Found the following (possibly) invalid DOIs:
+  DOI: /10.1016/j.jsp.2023.02.002
+    From: DESCRIPTION
+    Message: Invalid DOI
   DOI: 10.1002/jrsm.1052
     From: DESCRIPTION
     Status: Service Unavailable
