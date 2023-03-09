@@ -12,3 +12,4 @@ images
 ^docs$
 ^pkgdown$
 ^CRAN-SUBMISSION$
+revdep

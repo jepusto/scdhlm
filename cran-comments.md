@@ -9,6 +9,7 @@ This is a re-submission and a maintenance release. The main changes are a small 
 * macOS-latest (on Github), R release
 * windows-latest (on Github), R devel, release
 * win-builder (devel, release, oldrelease)
+* mac-builder (release)
 
 ## R CMD check results
 
