@@ -1,6 +1,6 @@
 ### Methodological references
 
-* Chen, M., Pustejovsky, J. E., Klingbeil, D. A., & Van Norman, E. (2022, March 22). Between-case standardized mean differences: Flexible methods for single-case designs. https://doi.org/10.31234/osf.io/3pk5q
+* Chen, M., Pustejovsky, J. E., Klingbeil, D. A., & Van Norman, E. (2023). Between-case standardized mean differences: Flexible methods for single-case designs. _Journal of School Psychology, 98_, 16-38. https://doi.org/10.1016/j.jsp.2023.02.002
 
 * Hedges, L. V, Pustejovsky, J. E., & Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. _Research Synthesis Methods, 3_, 224–239. https://doi.org/10.1002/jrsm.1052
 

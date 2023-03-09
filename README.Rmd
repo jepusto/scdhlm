@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 # Estimating Hierarchical Linear Models for Single-Case Designs
 
-`scdhlm` provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from ABAB designs (or more general treatment reversal designs), multiple baseline designs, and multiple probe designs. Two estimation methods are available: moment estimation (Hedges, Pustejovsky, & Shadish, 2012; 2013) and restricted maximum likelihood estimation (Pustejovsky, Hedges, & Shadish, 2014). The package also includes an interactive web interface implemented using Shiny.
+`scdhlm` provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from treatment reversal designs with replication across participants (Hedges, Pustejovsky, & Shadish, 2012), across-participant multiple baseline designs and multiple probe designs (Hedges, Pustejovsky, & Shadish, 2013; Pustejovsky, Hedges, & Shadish, 2014), and more complex variations of multiple baseline designs (Chen, Pustejovsky, Klingbeil, & Van Norman, 2023). Two estimation methods are available: moment estimation and restricted maximum likelihood estimation. The package also includes an interactive web interface implemented using Shiny.
 
 # Acknowledgment
 
@@ -180,6 +180,8 @@ summary(quality_ES)
 
 
 # References
+
+Chen, M., Pustejovsky, J. E., Klingbeil, D. A., & Van Norman, E. R. (2023). Between-case standardized mean differences: Flexible methods for single-case designs. _Journal of School Psychology, 98_, 16-38. https://doi.org/10.1016/j.jsp.2023.02.002
 
 Gilmour, A. R., Thompson, R., & Cullis, B. R. (1995). Average information REML: An efficient algorithm for variance parameter estimation in linear mixed models. _Biometrics, 51_(4), 1440–1450. https://doi.org/10.2307/2533274
 
