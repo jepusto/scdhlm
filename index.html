@@ -19,8 +19,9 @@
     Functions are provided for calculating standardized mean difference effect sizes that 
     are directly comparable to standardized mean differences estimated from between-subjects randomized experiments,
     as described in Hedges, Pustejovsky, and Shadish (2012) &lt;DOI:10.1002/jrsm.1052&gt;; 
-    Hedges, Pustejovsky, and Shadish (2013) &lt;DOI:10.1002/jrsm.1086&gt;; and 
-    Pustejovsky, Hedges, and Shadish (2014) &lt;DOI:10.3102/1076998614547577&gt;. 
+    Hedges, Pustejovsky, and Shadish (2013) &lt;DOI:10.1002/jrsm.1086&gt;; 
+    Pustejovsky, Hedges, and Shadish (2014) &lt;DOI:10.3102/1076998614547577&gt;; 
+    and Chen et al. (2023) &lt;DOI:/10.1016/j.jsp.2023.02.002&gt;. 
     Includes an interactive web interface.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -97,7 +98,7 @@
 <div class="section level1">
 <div class="page-header"><h1 id="estimating-hierarchical-linear-models-for-single-case-designs">Estimating Hierarchical Linear Models for Single-Case Designs<a class="anchor" aria-label="anchor" href="#estimating-hierarchical-linear-models-for-single-case-designs"></a>
 </h1></div>
-<p><code>scdhlm</code> provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from ABAB designs (or more general treatment reversal designs), multiple baseline designs, and multiple probe designs. Two estimation methods are available: moment estimation (Hedges, Pustejovsky, &amp; Shadish, 2012; 2013) and restricted maximum likelihood estimation (Pustejovsky, Hedges, &amp; Shadish, 2014). The package also includes an interactive web interface implemented using Shiny.</p>
+<p><code>scdhlm</code> provides a set of tools for estimating hierarchical linear models and effect sizes based on data from single-case designs. The estimated effect sizes, as described in Pustejovsky, Hedges, and Shadish (2014), are comparable in principle to standardized mean differences (SMDs) estimated from between-subjects randomized experiments. The package includes functions for estimating design-comparable SMDs based on data from treatment reversal designs with replication across participants (Hedges, Pustejovsky, &amp; Shadish, 2012), across-participant multiple baseline designs and multiple probe designs (Hedges, Pustejovsky, &amp; Shadish, 2013; Pustejovsky, Hedges, &amp; Shadish, 2014), and more complex variations of multiple baseline designs (Chen, Pustejovsky, Klingbeil, &amp; Van Norman, 2023). Two estimation methods are available: moment estimation and restricted maximum likelihood estimation. The package also includes an interactive web interface implemented using Shiny.</p>
 </div>
 <div class="section level1">
 <h1 id="acknowledgment">Acknowledgment<a class="anchor" aria-label="anchor" href="#acknowledgment"></a>
@@ -307,6 +308,7 @@
 <div class="section level1">
 <h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h1>
+<p>Chen, M., Pustejovsky, J. E., Klingbeil, D. A., &amp; Van Norman, E. R. (2023). Between-case standardized mean differences: Flexible methods for single-case designs. <em>Journal of School Psychology, 98</em>, 16-38. <a href="https://doi.org/10.1016/j.jsp.2023.02.002" class="external-link uri">https://doi.org/10.1016/j.jsp.2023.02.002</a></p>
 <p>Gilmour, A. R., Thompson, R., &amp; Cullis, B. R. (1995). Average information REML: An efficient algorithm for variance parameter estimation in linear mixed models. <em>Biometrics, 51</em>(4), 1440–1450. <a href="https://doi.org/10.2307/2533274" class="external-link uri">https://doi.org/10.2307/2533274</a></p>
 <p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2012). A standardized mean difference effect size for single case designs. <em>Research Synthesis Methods, 3</em>(3), 224-239. <a href="https://doi.org/10.1002/jrsm.1052" class="external-link uri">https://doi.org/10.1002/jrsm.1052</a></p>
 <p>Hedges, L. V., Pustejovsky, J. E., &amp; Shadish, W. R. (2013). A standardized mean difference effect size for multiple baseline designs across individuals. <em>Research Synthesis Methods, 4</em>(4), 324-341. <a href="https://doi.org/10.1002/jrsm.1086" class="external-link uri">https://doi.org/10.1002/jrsm.1086</a></p>

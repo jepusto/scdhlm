@@ -298,7 +298,8 @@ with effect size estimate, degrees of freedom, and other information.</p></dd>
 <span class="r-in"><span><span class="fu">calc_BCSMD</span><span class="op">(</span>design <span class="op">=</span> <span class="st">"MBP"</span>,</span></span>
 <span class="r-in"><span>           case <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">treatment</span>,</span></span>
 <span class="r-in"><span>           session <span class="op">=</span> <span class="va">time</span>, outcome <span class="op">=</span> <span class="va">outcome</span>, center <span class="op">=</span> <span class="fl">4</span>,</span></span>
-<span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, FE_trt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>           FE_trt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>           data <span class="op">=</span> <span class="va">Laski</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>nlminb problem, convergence error code = 1</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   message = iteration limit reached without convergence (10)</span>
@@ -315,7 +316,8 @@ with effect size estimate, degrees of freedom, and other information.</p></dd>
 <span class="r-in"><span>           case <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">condition</span>,</span></span>
 <span class="r-in"><span>           session <span class="op">=</span> <span class="va">session</span>, outcome <span class="op">=</span> <span class="va">outcome</span>,</span></span>
 <span class="r-in"><span>           treatment_name <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
-<span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fl">0</span>, RE_base <span class="op">=</span> <span class="fl">0</span>, FE_trt <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fl">0</span>, RE_base <span class="op">=</span> <span class="fl">0</span>, </span></span>
+<span class="r-in"><span>           FE_trt <span class="op">=</span> <span class="fl">0</span>,</span></span>
 <span class="r-in"><span>           data <span class="op">=</span> <span class="va">Anglesea</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   BC-SMD estimate Std. Error 95% CI (lower) 95% CI (upper) Degrees of freedom</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        1.490965  0.9876571      -1.470357       4.452286           3.359203</span>
@@ -329,7 +331,8 @@ with effect size estimate, degrees of freedom, and other information.</p></dd>
 <span class="r-in"><span><span class="fu">calc_BCSMD</span><span class="op">(</span>design <span class="op">=</span> <span class="st">"RMBB"</span>,</span></span>
 <span class="r-in"><span>           case <span class="op">=</span> <span class="va">case</span>, series <span class="op">=</span> <span class="va">series</span>, phase <span class="op">=</span> <span class="va">treatment</span>,</span></span>
 <span class="r-in"><span>           session <span class="op">=</span> <span class="va">time</span>, outcome <span class="op">=</span> <span class="va">outcome</span>,</span></span>
-<span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fl">0</span>, RE_base <span class="op">=</span> <span class="fl">0</span>, RE_base_2 <span class="op">=</span> <span class="fl">0</span>, FE_trt <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fl">0</span>, RE_base <span class="op">=</span> <span class="fl">0</span>, RE_base_2 <span class="op">=</span> <span class="fl">0</span>, </span></span>
+<span class="r-in"><span>           FE_trt <span class="op">=</span> <span class="fl">0</span>,</span></span>
 <span class="r-in"><span>           data <span class="op">=</span> <span class="va">Thiemann2001</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   BC-SMD estimate Std. Error 95% CI (lower) 95% CI (upper) Degrees of freedom</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1        1.598701  0.1803463       1.239027       1.958375           70.16912</span>
@@ -344,17 +347,15 @@ with effect size estimate, degrees of freedom, and other information.</p></dd>
 <span class="r-in"><span>           cluster <span class="op">=</span> <span class="va">group</span>, case <span class="op">=</span> <span class="va">case</span>, phase <span class="op">=</span> <span class="va">treatment</span>,</span></span>
 <span class="r-in"><span>           session <span class="op">=</span> <span class="va">session</span>, outcome <span class="op">=</span> <span class="va">outcome</span>, center <span class="op">=</span> <span class="fl">49</span>,</span></span>
 <span class="r-in"><span>           treatment_name <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
-<span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_base_2 <span class="op">=</span> <span class="fl">0</span>,</span></span>
-<span class="r-in"><span>           FE_trt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_trt <span class="op">=</span> <span class="fl">1</span>, RE_trt_2 <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>           FE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_base <span class="op">=</span> <span class="fl">0</span>, RE_base_2 <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>           FE_trt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_trt <span class="op">=</span> <span class="cn">NULL</span>, RE_trt_2 <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>           data <span class="op">=</span> <span class="va">Bryant2018</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>nlminb problem, convergence error code = 1</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   message = iteration limit reached without convergence (10)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   BC-SMD estimate Std. Error 95% CI (lower) 95% CI (upper) Degrees of freedom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      -0.7303199  0.2945822      -1.363525    -0.09711433           13.67998</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Auto-correlation Variance parameter    Intra-class correlation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        0.3282802                 NA Level2:0.973  Level3:0.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       -2.245586  0.5876192      -3.425588      -1.065584           50.45912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Auto-correlation Variance parameter Intra-class correlation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        0.6305068                 NA  Level2:0.771  Level3:0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Initial treatment time Follow-up time Converged</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                      5             54        No</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                      5             54       Yes</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
