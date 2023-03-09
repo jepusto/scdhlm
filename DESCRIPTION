@@ -11,8 +11,9 @@ Description: Provides a set of tools for estimating hierarchical linear
     Functions are provided for calculating standardized mean difference effect sizes that 
     are directly comparable to standardized mean differences estimated from between-subjects randomized experiments,
     as described in Hedges, Pustejovsky, and Shadish (2012) <DOI:10.1002/jrsm.1052>; 
-    Hedges, Pustejovsky, and Shadish (2013) <DOI:10.1002/jrsm.1086>; and 
-    Pustejovsky, Hedges, and Shadish (2014) <DOI:10.3102/1076998614547577>. 
+    Hedges, Pustejovsky, and Shadish (2013) <DOI:10.1002/jrsm.1086>; 
+    Pustejovsky, Hedges, and Shadish (2014) <DOI:10.3102/1076998614547577>; 
+    and Chen et al. (2023) <DOI:/10.1016/j.jsp.2023.02.002>. 
     Includes an interactive web interface.
 URL: https://jepusto.github.io/scdhlm/
 BugReports: https://github.com/jepusto/scdhlm/issues
