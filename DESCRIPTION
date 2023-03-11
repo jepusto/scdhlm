@@ -13,7 +13,7 @@ Description: Provides a set of tools for estimating hierarchical linear
     as described in Hedges, Pustejovsky, and Shadish (2012) <DOI:10.1002/jrsm.1052>; 
     Hedges, Pustejovsky, and Shadish (2013) <DOI:10.1002/jrsm.1086>; 
     Pustejovsky, Hedges, and Shadish (2014) <DOI:10.3102/1076998614547577>; 
-    and Chen, Pustejovsky, Klingbeil, and Van Norman (2023) <DOI:/10.1016/j.jsp.2023.02.002>. 
+    and Chen, Pustejovsky, Klingbeil, and Van Norman (2023) <DOI:10.1016/j.jsp.2023.02.002>. 
     Includes an interactive web interface.
 URL: https://jepusto.github.io/scdhlm/
 BugReports: https://github.com/jepusto/scdhlm/issues

@@ -1,6 +1,6 @@
 ## Resubmission
 
-This is a re-submission and a maintenance release. The main changes are a small tweak to how missing observations are handled in the function preprocess_SCD() and a corresponding modification to one of the example datasets.
+This is a re-submission and a maintenance release. The main changes are a small tweak to how missing observations are handled in the function preprocess_SCD() and a corresponding modification to one of the example datasets. We have also corrected the typo in one of the DOIs in DESCRIPTION.
 
 ## Test environments
 
@@ -53,9 +53,6 @@ Found the following (possibly) invalid URLs:
     The flagged URLs are all correct.
 
 Found the following (possibly) invalid DOIs:
-  DOI: /10.1016/j.jsp.2023.02.002
-    From: DESCRIPTION
-    Message: Invalid DOI
   DOI: 10.1002/jrsm.1052
     From: DESCRIPTION
     Status: Service Unavailable
