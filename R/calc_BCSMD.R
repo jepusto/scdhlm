@@ -117,12 +117,100 @@ write_formula <- function(powers, var_names) {
   }
 }
 
-# product of every two elements in a sd vector
 
-prod_sd <- function(sd) {
-  comb <- combn(sd, 2)
-  prod_vec <- apply(comb, 2, prod)
-  return(prod_vec)
+# calculate mlm effect size using Bayesian estimation methods
+g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var2_index = NULL) {
+  
+  param_names <- variables(mod)
+  
+  # calculate the numerator of BCSMD
+  
+  posterior_samples_fixed <- as_draws_matrix(mod, variable = "^b_", regex = TRUE)
+  
+  if ("b_sigma_Intercept" %in% param_names) {
+    samples_fixed <- posterior_samples_fixed[,!startsWith(colnames(posterior_samples_fixed), "b_sigma_")]
+    sigma_sq <- exp(2*(posterior_samples_fixed[,"b_sigma_Intercept"]))
+  } else {
+    samples_fixed <- posterior_samples_fixed 
+    sigma <- as_draws_matrix(mod, variable = "sigma", regex = TRUE)
+    sigma_sq <- sigma^2
+  }
+  
+  es_num_vec <- apply(samples_fixed, 1, function(x) sum(x * p_const))
+  
+  # calculate the denominator of BCSMD
+  
+  samples_r_sd <- as_draws_matrix(mod, variable = "^sd_", regex = TRUE)
+  samples_r_var <- samples_r_sd^2
+  
+  if (sum(grepl("^cor_",param_names)) > 0) {
+    samples_r_cor <- as_draws_matrix(mod, variable = "^cor_", regex = TRUE)
+    cor_names_split <- strsplit(colnames(samples_r_cor), split = "__")
+    cor_sd_suf <- lapply(cor_names_split, function(x) x[-1])
+    cor_sd_pre <- lapply(cor_names_split, function(x) paste0("sd_", gsub(".*\\_", "", x[[1]])))
+    cor_sd_names <- mapply(function(x,y)  paste0(x, "__", y), cor_sd_pre, cor_sd_suf, SIMPLIFY = FALSE)
+    sd_prod <- sapply(cor_sd_names, function(x) samples_r_sd[,x[1]] * samples_r_sd[,x[2]])
+    samples_r_cov <- samples_r_cor * sd_prod
+  } else {
+    samples_r_cov <- NULL
+  }
+  
+  samples_r_varcov <- cbind(samples_r_var, samples_r_cov, sigma_sq)
+  
+  es_denom_vec <- apply(samples_r_varcov, 1, function(x) sum(x * r_const))
+  
+  # calculate BCSMD
+  
+  es_vec <- es_num_vec / es_denom_vec
+  
+  # calculate rho
+  
+  if (is.null(rconst_base_var2_index)) {
+    rho <- mean(samples_r_varcov[,1] / (samples_r_varcov[,1] + samples_r_varcov[,ncol(samples_r_varcov)]))
+  } else {
+    rho_level2 <- mean((samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var2_index]) / 
+                         (samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var2_index] + 
+                            samples_r_varcov[,ncol(samples_r_varcov)]))
+    rho_level2 <- round(rho_level2, 4)
+    
+    rho_level3 <- mean(samples_r_varcov[,rconst_base_var2_index] /
+                         (samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var2_index] + 
+                            samples_r_varcov[,ncol(samples_r_varcov)]))
+    rho_level3 <- round(rho_level3, 4)
+    
+    rho <- paste0("Level2: ", rho_level2, " Level3: ", rho_level3)
+  }
+  
+  # get the corStruct and varStruct param
+  
+  if (sum(grepl("^ar",param_names)) > 0) {
+    autocor_draw <- as_draws_matrix(mod, variable = "^ar", regex = TRUE)
+    autocor_param <- mean(autocor_draw)
+  } else {
+    autocor_param <- NA_real_
+  }
+  
+  if (sum(grepl("^b_sigma_",param_names)) > 0) {
+    var_param_name <- setdiff(param_names[startsWith(param_names, "b_sigma_")], "b_sigma_Intercept")
+    var_param_draw <- as_draws_matrix(mod, variable = var_param_name, regex = TRUE)
+    var_param <- exp(mean(var_param_draw))
+  } else {
+    var_param <- NA_real_
+  }
+
+  
+  g <- mean(es_vec)
+  SE_g <- sd(es_vec)
+  df <- 2 * (mean(es_denom_vec))^2 / var(es_denom_vec)
+  CI_L = quantile(es_vec, .025)
+  CI_U = quantile(es_vec, .975)
+  
+  res <- list(g = g, SE_g = SE_g, df = df, CI_L = CI_L, CI_U = CI_U,
+              es_num_vec = es_num_vec, es_denom_vec = es_denom_vec, 
+              autocor_param = autocor_param, var_param = var_param, rho = rho)
+  
+  return(res)
+  
 }
 
 
@@ -455,114 +543,45 @@ calc_BCSMD <- function(design,
       seed = 43073051
     )
     
-    # calculate the numerator of BCSMD
+    # calculate r_const 
     
-    posterior_samples_fixed <- as_draws_matrix(m_fit, variable = "^b_", regex = TRUE)
+    r_const_base_var <- diag(bc_mat)
+    r_const_trt_var <- rep(0L, length(RE_trt))
+    r_const_base_cov <- bc_mat[upper.tri(bc_mat, diag = FALSE)]
+    r_const_trt_cov_dim <- r_const_dim - length(RE_base) - length(RE_trt) - length(r_const_base_cov)
+    r_const_trt_cov <- rep(0L, r_const_trt_cov_dim)
+    r_const <- c(r_const_base_var, r_const_trt_var, r_const_base_cov, r_const_trt_cov, 1L)
+    rconst_base_var2_index <- NULL
     
-    if (varStruct == "het") {
-      samples_fixed <- posterior_samples_fixed[,!colnames(posterior_samples_fixed) %in% c("b_sigma_Intercept","b_sigma_trt")]
-      sigma_vec <- exp(2*as.vector(posterior_samples_fixed[,"b_sigma_Intercept"]))
-    } else {
-      samples_fixed <- posterior_samples_fixed 
-      sigma_vec <- as.vector(as_draws_matrix(m_fit, variable = "sigma", regex = TRUE))
+    if (design %in% c("CMBB", "CMB")) {
+      r_const_base_var2 <- diag(bc_mat2)
+      r_const_trt_var2 <- rep(0L, length(RE_trt_2))
+      r_const_base_cov2 <- if (r_const_base_var2 == 1) NULL else bc_mat2[upper.tri(bc_mat, diag = FALSE)]
+      r_const_trt_cov_dim2 <- r_const_dim2 - length(RE_base_2) - length(RE_trt_2) - length(r_const_base_cov2)
+      r_const_trt_cov2 <- rep(0L, r_const_trt_cov_dim2)
+      r_const <- c(r_const_base_var, r_const_trt_var, r_const_base_var2, r_const_trt_var2,
+                   r_const_base_cov, r_const_trt_cov, r_const_base_cov2, r_const_trt_cov2,
+                   1L)
+      rconst_base_var2_index <- length(r_const_base_var) + length(r_const_trt_var) + 1
     }
     
-    es_num_vec <- apply(samples_fixed, 1, function(x) sum(x * p_const))
-    
-    # calculate the denominator of BCSMD
-    
-    samples_r_sd <- as_draws_matrix(m_fit, variable = "^sd_", regex = TRUE)
-    r_base_sd <- samples_r_sd[, 1:length(RE_base)]
-    r_base_var_sum <- apply(r_base_sd, 1, function(x) sum(x^2 * r_const_base_var))
-    rho <- mean(as.vector(r_base_sd[,1])^2 / (as.vector(r_base_sd[,1])^2 + sigma_vec^2))
-    
-    if (length(RE_base) > 1) {
-      samples_r_cor <- as_draws_matrix(m_fit, variable = "^cor_", regex = TRUE)
-      r_base_cor <- samples_r_cor[, 1:length(r_const_base_cor)]
-      r_base_sd_prod <- do.call(rbind, apply(r_base_sd, 1, prod_sd, simplify = FALSE))
-      r_base_cov_sum <- as.vector((r_base_sd_prod * r_base_cor) %*% as.matrix(r_const_base_cor))
-    } else {
-      r_base_cov_sum <- 0
-    }
-    
-
-    
-    if (design %in% c("RMBB", "CMB")) {
-      
-      r_base_sd2 <- samples_r_sd[, (r_dim + 1):(r_dim + length(RE_base_2))]
-      r_base_var_sum2 <- apply(r_base_sd2, 1, function(x) sum(x^2 * r_const_base_var2))
-      
-      r_cor_dim <- dim(samples_r_cor)[2]
-      r_cor_dim_grp1 <- r_const_dim - r_dim
-      
-      if (r_cor_dim > r_cor_dim_grp1) {
-        r_base_cor2 <- samples_r_cor[, (r_cor_dim_grp1 + 1):(r_cor_dim_grp1 + length(r_const_base_cor2))]
-        r_base_sd_prod2 <- do.call(rbind, apply(r_base_sd2, 1, prod_sd, simplify = FALSE))
-        r_base_cov_sum2 <- as.vector((r_base_sd_prod2 * r_base_cor2) %*% as.matrix(r_const_base_cor2))
-      } else {
-        r_base_cov_sum2 <- 0
-      }
-      
-      rho_level2 <- mean((as.vector(r_base_sd[,1])^2 + as.vector(r_base_sd2[,1])^2) / 
-        (as.vector(r_base_sd[,1])^2 + as.vector(r_base_sd2[,1])^2 + sigma_vec^2))
-      
-      rho_level3 <- mean(as.vector(r_base_sd2[,1])^2 / 
-        (as.vector(r_base_sd[,1])^2 + as.vector(r_base_sd2[,1])^2 + sigma_vec^2))
-      
-      rho <- paste0("Level2:", rho_level2, "  Level3:", rho_level3)
-      
-      es_den_vec <- 
-        sqrt(r_base_var_sum + r_base_cov_sum + # 2rd level 
-               r_base_var_sum2 + r_base_cov_sum2 +  # 3rd level
-               sigma_vec^2 # residual variance
-        )
-      
-    } else {
-      
-      es_den_vec <- 
-        sqrt(r_base_var_sum + r_base_cov_sum + # 2rd level 
-               sigma_vec^2 # residual variance
-        )
-      
-    } 
-    
-    
-    # calculate BCSMD
-    es_vec <- es_num_vec / es_den_vec
-    
-    # get the corStruct and varStruct param
-    if (corStruct %in% c("AR1", "MA1")) {
-      autocor_draw <- as_draws_matrix(m_fit, variable = "^ar", regex = TRUE)
-      autocor_param <- mean(autocor_draw)
-    } else {
-      autocor_param <- NA_real_
-    }
-    
-    if (varStruct == "het") {
-      var_param_draw <- as_draws_matrix(m_fit, variable = "b_sigma_trt", regex = TRUE)
-      var_param <- exp(mean(var_param_draw))
-    } else {
-      var_param <- NA_real_
-    }
-    
-    g <- mean(es_vec)
-    SE_g <- sd(es_vec)
-    df <- 2 * (mean(es_den_vec))^2 / var(es_den_vec)
+    g_Bayes <- g_mlm_Bayes(m_fit, p_const = p_const, r_const = r_const, rconst_base_var2_index = rconst_base_var2_index)
     
     # summary table
+    
     if (summary) {
       
       # calculate credible interval
       
       ES_summary <- data.frame(
-        ES = g,
-        SE = SE_g,
-        CI_L = quantile(es_vec, .025),
-        CI_U = quantile(es_vec, .975),
-        df = df,
-        phi = autocor_param,
-        var_param = var_param,
-        rho = rho
+        ES = g_Bayes$g,
+        SE = g_Bayes$SE_g,
+        CI_L = g_Bayes$CI_L,
+        CI_U = g_Bayes$CI_U,
+        df = g_Bayes$df,
+        phi = g_Bayes$autocor_param,
+        var_param = g_Bayes$var_param,
+        rho = g_Bayes$rho
       )
       
       if (design %in% c("MBP", "RMBB", "CMB")) {
@@ -583,8 +602,8 @@ calc_BCSMD <- function(design,
       
     } else {
       
-      res <- c(list(model = m_fit, g = g, SE = SE_g, df = df, 
-                    phi = autocor_param, var_param = var_param, rho = rho))
+      res <- c(list(model = m_fit, g = g_Bayes$g, SE = g_Bayes$SE_g, df = g_Bayes$df, 
+                    phi = g_Bayes$autocor_param, var_param = g_Bayes$var_param, rho = g_Bayes$rho))
       
       return(res)
       
