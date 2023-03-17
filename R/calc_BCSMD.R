@@ -266,6 +266,11 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var2_index = NULL) {
 #'   \code{"set_prior"} in the \code{"brms"} R package. Default is \code{prior =
 #'   NULL} when flat priors will be applied for Bayesian estimation.
 #'   Ignored if \code{Bayesian = FALSE}.
+#' @param chains Number of Markov chains. Default is \code{chains = 4}.
+#' @param iter Number of iterations per chain. Default is \code{iter = 2000}.
+#' @param warmup Number of burnin iterations. Default is \code{iter/2}.
+#' @param thin Thinning rate. Default is \code{thin = 10}.
+#' @param cores Number of cores. Default is \code{cores = 1}.
 #' @param A The time point immediately before the start of treatment in the
 #'   hypothetical between-group design.
 #' @param B The time point at which outcomes are measured in the hypothetical
@@ -368,7 +373,6 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var2_index = NULL) {
 #' @importFrom brms bf
 #' @importFrom brms save_pars
 #' @importFrom brms as_draws_matrix
-#' @importFrom utils combn
 
 calc_BCSMD <- function(design, 
                        case, phase, session, outcome, 
@@ -379,10 +383,15 @@ calc_BCSMD <- function(design,
                        FE_base = 0, RE_base = 0, RE_base_2 = NULL, FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
                        corStruct = "AR1", varStruct = "hom",
                        Bayesian = FALSE, prior = NULL,
+                       chains = 4, iter = 2000, warmup = iter/2, thin = 10, cores = 1,
                        A = NULL, B = NULL, D = NULL,
                        cover = 95, bound = 35, symmetric = TRUE,
                        summary = TRUE, 
                        data = NULL, ...) {
+  
+  install_brms <- requireNamespace("brms", quietly = TRUE)
+  if (Bayesian & !install_brms)
+    stop("The Bayesian estimation requires the brms package. Please install it.", call. = FALSE)
   
   # clean data
   
@@ -513,16 +522,6 @@ calc_BCSMD <- function(design,
                                `AR1` = paste0("arma(time = session, gr = ", nesting_str_Bayes, ", p = 1, q = 0)"),
                                `IID` = NULL)
     
-    # r_const and variance components
-    
-    r_const_base_var <- diag(bc_mat)
-    r_const_base_cor <- bc_mat[upper.tri(bc_mat, diag = FALSE)]
-    
-    if (design %in% c("RMBB", "CMB")) {
-      r_const_base_var2 <- diag(bc_mat2)
-      r_const_base_cor2 <- bc_mat2[upper.tri(bc_mat, diag = FALSE)]
-    } 
-    
     # fit the model
     
     m_fit <- brms::brm(
@@ -535,10 +534,11 @@ calc_BCSMD <- function(design,
         },
       data = dat,
       prior = prior,
-      chains = 4,
-      iter = 2000,
-      warmup = 1000,
-      thin = 10,
+      chains = chains,
+      iter = iter,
+      warmup = warmup,
+      thin = thin,
+      cores = cores,
       save_pars = save_pars(all = TRUE),
       seed = 43073051
     )
@@ -556,7 +556,7 @@ calc_BCSMD <- function(design,
     if (design %in% c("CMBB", "CMB")) {
       r_const_base_var2 <- diag(bc_mat2)
       r_const_trt_var2 <- rep(0L, length(RE_trt_2))
-      r_const_base_cov2 <- if (r_const_base_var2 == 1) NULL else bc_mat2[upper.tri(bc_mat, diag = FALSE)]
+      r_const_base_cov2 <- bc_mat2[upper.tri(bc_mat2, diag = FALSE)]
       r_const_trt_cov_dim2 <- r_const_dim2 - length(RE_base_2) - length(RE_trt_2) - length(r_const_base_cov2)
       r_const_trt_cov2 <- rep(0L, r_const_trt_cov_dim2)
       r_const <- c(r_const_base_var, r_const_trt_var, r_const_base_var2, r_const_trt_var2,

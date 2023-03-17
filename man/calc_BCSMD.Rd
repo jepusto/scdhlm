@@ -25,6 +25,11 @@ calc_BCSMD(
   varStruct = "hom",
   Bayesian = FALSE,
   prior = NULL,
+  chains = 4,
+  iter = 2000,
+  warmup = iter/2,
+  thin = 10,
+  cores = 1,
   A = NULL,
   B = NULL,
   D = NULL,
@@ -120,6 +125,16 @@ model.}
 \code{"set_prior"} in the \code{"brms"} R package. Default is \code{prior =
 NULL} when flat priors will be applied for Bayesian estimation.
 Ignored if \code{Bayesian = FALSE}.}
+
+\item{chains}{Number of Markov chains. Default is \code{chains = 4}.}
+
+\item{iter}{Number of iterations per chain. Default is \code{iter = 2000}.}
+
+\item{warmup}{Number of burnin iterations. Default is \code{iter/2}.}
+
+\item{thin}{Thinning rate. Default is \code{thin = 10}.}
+
+\item{cores}{Number of cores. Default is \code{cores = 1}.}
 
 \item{A}{The time point immediately before the start of treatment in the
 hypothetical between-group design.}
