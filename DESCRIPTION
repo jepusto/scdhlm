@@ -31,7 +31,6 @@ Imports:
     lmeInfo (>= 0.3.0)
 Depends: 
     nlme,
-    brms,
     R (>= 3.0.1)
 Suggests: 
     knitr,
@@ -47,7 +46,8 @@ Suggests:
     janitor,
     rclipboard,
     rvest,
-    testthat
+    testthat,
+    brms
 RoxygenNote: 7.2.3
 Encoding: UTF-8
 Language: en-US
