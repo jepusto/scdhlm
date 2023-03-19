@@ -17,7 +17,7 @@ test_that("The Bayesian estimation works for two-level model.", {
                  session = time, outcome = outcome,
                  FE_base = 0, RE_base = 0, FE_trt = 0,
                  Bayesian = TRUE, 
-                 chain = 2, iter = 400,
+                 chain = 2, iter = 400, 
                  summary = TRUE,
                  data = Laski)
     )
@@ -41,7 +41,7 @@ test_that("The Bayesian estimation works for two-level model.", {
              arma(time = time, gr = case, p = 1, q = 0),
            center = FALSE),
         data = Laski_dat,
-        chains = 2, iter = 400, 
+        chains = 2, iter = 400, thin = 10, cores = 1, 
         save_pars = save_pars(all = TRUE),
         seed = 43073051)
     )
@@ -99,12 +99,12 @@ test_that("The Bayesian estimation works for two-level model.", {
   
   # compare results from calc_BCSMD() and brm()
   
-  # expect_equal(Laski_comp$g, Laski_comp_brm$g) 
-  # expect_equal(Laski_comp$SE, Laski_comp_brm$SE_g)
-  # expect_equal(Laski_comp$df, Laski_comp_brm$df)
-  # expect_equal(Laski_comp$phi, Laski_comp_brm$autocor_param)
-  # expect_equal(Laski_comp$var_param, Laski_comp_brm$var_param)
-  # expect_equal(Laski_comp$rho, Laski_comp_brm$rho)
+  expect_equal(Laski_comp$g, Laski_comp_brm$g)
+  expect_equal(Laski_comp$SE, Laski_comp_brm$SE_g)
+  expect_equal(Laski_comp$df, Laski_comp_brm$df)
+  expect_equal(Laski_comp$phi, Laski_comp_brm$autocor_param)
+  expect_equal(Laski_comp$var_param, Laski_comp_brm$var_param)
+  expect_equal(Laski_comp$rho, Laski_comp_brm$rho)
   
 })
 
@@ -128,7 +128,7 @@ test_that("The Bayesian estimation works for CMB design", {
            sigma ~ treatment, 
            center = FALSE),
         data = Bryant2018,
-        chains = 1, iter = 100, 
+        chains = 1, iter = 100, thin = 10, cores = 1, 
         save_pars = save_pars(all = TRUE),
         seed = 43073051)
     )
@@ -162,7 +162,7 @@ test_that("The Bayesian estimation works for CMB design", {
              arma(time = session_c, gr = group:case, p = 1, q = 0),
            center = FALSE),
         data = Bryant2018,
-        chains = 1, iter = 100, 
+        chains = 1, iter = 100, thin = 10, cores = 1,  
         save_pars = save_pars(all = TRUE),
         seed = 43073051
       )
