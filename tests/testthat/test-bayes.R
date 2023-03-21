@@ -24,8 +24,7 @@ test_that("The Bayesian estimation works for two-level model.", {
   
   expect_s3_class(Laski_simple, "data.frame")
   expect_true(is.na(Laski_simple$`Variance parameter`))
-  
-  
+
   # complex model
   
   # use brm() and g_mlm_Bayes()
@@ -77,25 +76,13 @@ test_that("The Bayesian estimation works for two-level model.", {
                  session = time, outcome = outcome, center = 4,
                  FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
                  Bayesian = TRUE, chains = 2, iter = 400,
+                 seed = 43073051,
                  summary = FALSE,
                  data = Laski)
     )
   
   expect_type(Laski_comp, "list")
   expect_true(is.na(Laski_comp$var_param))
-  
-  samples_B <- as_draws_matrix(Laski_comp$model)
-  samples_B_fixed <- samples_B[, startsWith(colnames(samples_B), "b")]
-  es_num_B <- apply(samples_B_fixed, 1, function(x) sum(x * p_const))
-  
-  sigma_B <- samples_B[, "sigma"]
-  sigma_B_sq <- sigma_B^2
-  samples_B_r_sd <- samples_B[, startsWith(colnames(samples_B), "sd")]
-  samples_B_r_var <- samples_B_r_sd^2
-  samples_B_r_cov <- samples_B[, startsWith(colnames(samples_B), "cor")] * 
-    samples_B_r_sd[,1] * samples_B_r_sd[,2]
-  samples_B_r_varcov <- cbind(samples_B_r_var, samples_B_r_cov, sigma_B_sq)
-  es_denom_B <- apply(samples_B_r_varcov, 1, function(x) sum(x * r_const))
   
   # compare results from calc_BCSMD() and brm()
   
@@ -106,6 +93,21 @@ test_that("The Bayesian estimation works for two-level model.", {
   expect_equal(Laski_comp$var_param, Laski_comp_brm$var_param)
   expect_equal(Laski_comp$rho, Laski_comp_brm$rho)
   
+  # compare Bayes results to RML
+  
+  Laski_comp_RML <- 
+    suppressWarnings(
+      calc_BCSMD(design = "MBP", case = case, phase = treatment,
+                 session = time, outcome = outcome, center = 4,
+                 FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+                 summary = FALSE,
+                 data = Laski)
+    )
+  
+  expect_equal(
+    suppressWarnings(summary(Laski_comp$model)$ngrps$case),
+    Laski_comp_RML$model$dims$ngrps[["case"]]
+  )
 })
 
 test_that("The Bayesian estimation works for CMB design", {
@@ -122,15 +124,15 @@ test_that("The Bayesian estimation works for CMB design", {
   Bry_brm_het <- 
     suppressWarnings(
       brm(
-        bf(outcome ~ session_c + treatment + session_trt + 
-             (1 | group) + (session_c + session_trt | case) +
-             arma(time = session_c, gr = group:case, p = 1, q = 0),
+        bf(outcome ~ session + treatment + session_trt + 
+             (1 | group) + (session + session_trt | case) +
+             arma(time = session, gr = group:case, p = 1, q = 0),
            sigma ~ treatment, 
            center = FALSE),
         data = Bryant2018,
-        chains = 1, iter = 100, thin = 10, cores = 1, 
+        chains = 1, iter = 200, thin = 10, cores = 1, 
         save_pars = save_pars(all = TRUE),
-        seed = 43073051)
+        seed = 20230321)
     )
   
   draws_A <- as.data.frame(Bry_brm_het)
@@ -144,14 +146,38 @@ test_that("The Bayesian estimation works for CMB design", {
                  FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
                  FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
                  corStruct = "AR1", varStruct = "het",
-                 Bayesian = TRUE, chains = 1, iter = 100, 
-                 summary = TRUE,
+                 Bayesian = TRUE, chains = 1, iter = 200,
+                 seed = 20230321,
+                 summary = FALSE,
                  data = Bryant2018)
     )
   
-  expect_s3_class(Bry_het, "data.frame")
-  expect_equal(mean(draws_A$`ar[1]`), Bry_het$`Auto-correlation`, tol = 0.01)
-  expect_equal(exp(mean(draws_A$b_sigma_treatmenttreatment)), Bry_het$`Variance parameter`, tol = 0.02)
+  expect_type(Bry_het, "list")
+  expect_equal(mean(draws_A$`ar[1]`), Bry_het$`phi`, tol = 0.01)
+  expect_equal(exp(mean(draws_A$b_sigma_treatmenttreatment)), Bry_het$`var_param`, tol = 0.01)
+  
+  # compare Bayes results to RML
+  
+  Bry_het_RML <- 
+    calc_BCSMD(design = "CMB",
+               cluster = group, case = case, phase = treatment,
+               session = session, outcome = outcome, center = cent,
+               treatment_name = "treatment",
+               FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
+               FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+               corStruct = "AR1", varStruct = "het",
+               summary = FALSE,
+               data = Bryant2018)
+  
+  expect_equal(
+    suppressWarnings(summary(Bry_het$model)$ngrps$case),
+    Bry_het_RML$model$dims$ngrps[["case"]]
+  )
+  
+  expect_equal(
+    suppressWarnings(summary(Bry_het$model)$ngrps$cluster),
+    Bry_het_RML$model$dims$ngrps[["cluster"]]
+  )
   
   # constant residual variances
   Bry_brm_hom <- 
@@ -164,7 +190,7 @@ test_that("The Bayesian estimation works for CMB design", {
         data = Bryant2018,
         chains = 1, iter = 100, thin = 10, cores = 1,  
         save_pars = save_pars(all = TRUE),
-        seed = 43073051
+        seed = 20230320
       )
     )
   
@@ -178,6 +204,7 @@ test_that("The Bayesian estimation works for CMB design", {
                  FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
                  corStruct = "AR1", varStruct = "hom",
                  Bayesian = TRUE, chains = 1, iter = 100, 
+                 seed = 20230320,
                  summary = FALSE,
                  data = Bryant2018)
     )
