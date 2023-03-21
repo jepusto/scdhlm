@@ -266,11 +266,19 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var2_index = NULL) {
 #'   \code{"set_prior"} in the \code{"brms"} R package. Default is \code{prior =
 #'   NULL} when flat priors will be applied for Bayesian estimation.
 #'   Ignored if \code{Bayesian = FALSE}.
-#' @param chains Number of Markov chains. Default is \code{chains = 4}.
-#' @param iter Number of iterations per chain. Default is \code{iter = 2000}.
-#' @param warmup Number of burnin iterations. Default is \code{iter/2}.
-#' @param thin Thinning rate. Default is \code{thin = 10}.
-#' @param cores Number of cores. Default is \code{cores = 1}.
+#' @param chains Number of Markov chains to use for Bayesian estimation. Default
+#'   is \code{chains = 4}. Ignored if \code{Bayesian = FALSE}.
+#' @param iter Number of iterations per chain to use for Bayesian estimation.
+#'   Default is \code{iter = 2000}. Ignored if \code{Bayesian = FALSE}.
+#' @param warmup Number of burn-in iterations to use for Bayesian estimation.
+#'   Default is \code{iter/2}. Ignored if \code{Bayesian = FALSE}.
+#' @param thin Thinning rate to use for Bayesian estimation. Default is
+#'   \code{thin = 10}. Ignored if \code{Bayesian = FALSE}.
+#' @param cores Number of cores to use for Bayesian estimation. Default is
+#'   \code{cores = 1}. Ignored if \code{Bayesian = FALSE}.
+#' @param seed Random number generation seed to use for Bayesian estimation.
+#'   Default is \code{seed = NA}, which will cause the seed to be set randomly.
+#'   Ignored if \code{Bayesian = FALSE}.
 #' @param A The time point immediately before the start of treatment in the
 #'   hypothetical between-group design.
 #' @param B The time point at which outcomes are measured in the hypothetical
@@ -290,7 +298,7 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var2_index = NULL) {
 #'   confidence interval (or credible interval if \code{Bayesian == TRUE}), and
 #'   other information. If \code{FALSE}, return a list with effect size
 #'   estimate, degrees of freedom, and other information.
-#' @param ... further arguments.
+#' @param ... further arguments. Not currently used.
 #'
 #' @export
 #'
@@ -383,7 +391,8 @@ calc_BCSMD <- function(design,
                        FE_base = 0, RE_base = 0, RE_base_2 = NULL, FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
                        corStruct = "AR1", varStruct = "hom",
                        Bayesian = FALSE, prior = NULL,
-                       chains = 4, iter = 2000, warmup = iter/2, thin = 10, cores = 1,
+                       chains = 4, iter = 2000, 
+                       warmup = iter / 2, thin = 10, cores = 1, seed = NA,
                        A = NULL, B = NULL, D = NULL,
                        cover = 95, bound = 35, symmetric = TRUE,
                        summary = TRUE, 
@@ -540,7 +549,7 @@ calc_BCSMD <- function(design,
       thin = thin,
       cores = cores,
       save_pars = save_pars(all = TRUE),
-      seed = 43073051
+      seed = seed
     )
     
     # calculate r_const 
@@ -762,7 +771,8 @@ calc_BCSMD <- function(design,
 #'   clusters of cases for \code{CMB} designs.
 #' @param series (Optional) variable name (unquoted) that identifies the unique
 #'   data series for \code{RMBB} designs.
-#'
+#' @param ... further arguments passed to \code{calc_BCSMD}.
+#' 
 #' @inheritParams calc_BCSMD
 #'
 #' @export
