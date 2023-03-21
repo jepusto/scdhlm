@@ -30,6 +30,7 @@ calc_BCSMD(
   warmup = iter/2,
   thin = 10,
   cores = 1,
+  seed = NA,
   A = NULL,
   B = NULL,
   D = NULL,
@@ -127,15 +128,24 @@ model.}
 NULL} when flat priors will be applied for Bayesian estimation.
 Ignored if \code{Bayesian = FALSE}.}
 
-\item{chains}{Number of Markov chains. Default is \code{chains = 4}.}
+\item{chains}{Number of Markov chains to use for Bayesian estimation. Default
+is \code{chains = 4}. Ignored if \code{Bayesian = FALSE}.}
 
-\item{iter}{Number of iterations per chain. Default is \code{iter = 2000}.}
+\item{iter}{Number of iterations per chain to use for Bayesian estimation.
+Default is \code{iter = 2000}. Ignored if \code{Bayesian = FALSE}.}
 
-\item{warmup}{Number of burnin iterations. Default is \code{iter/2}.}
+\item{warmup}{Number of burn-in iterations to use for Bayesian estimation.
+Default is \code{iter/2}. Ignored if \code{Bayesian = FALSE}.}
 
-\item{thin}{Thinning rate. Default is \code{thin = 10}.}
+\item{thin}{Thinning rate to use for Bayesian estimation. Default is
+\code{thin = 10}. Ignored if \code{Bayesian = FALSE}.}
 
-\item{cores}{Number of cores. Default is \code{cores = 1}.}
+\item{cores}{Number of cores to use for Bayesian estimation. Default is
+\code{cores = 1}. Ignored if \code{Bayesian = FALSE}.}
+
+\item{seed}{Random number generation seed to use for Bayesian estimation.
+Default is \code{seed = NA}, which will cause the seed to be set randomly.
+Ignored if \code{Bayesian = FALSE}.}
 
 \item{A}{The time point immediately before the start of treatment in the
 hypothetical between-group design.}
@@ -166,7 +176,7 @@ estimate, degrees of freedom, and other information.}
 \item{data}{(Optional) dataset to use for analysis. Must be a
 \code{data.frame}.}
 
-\item{...}{further arguments.}
+\item{...}{further arguments. Not currently used.}
 }
 \value{
 If \code{summary == TRUE}, a data frame containing the
