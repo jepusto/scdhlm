@@ -224,6 +224,13 @@ calc_BCSMD(design = "MBP",
            Bayesian = TRUE,
            data = Laski)
 
+calc_BCSMD(design = "MBP",
+           case = case, phase = treatment,
+           session = time, outcome = outcome, center = 4,
+           FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+           Bayesian = TRUE,
+           data = Laski)
+
 
 data(Anglesea)
 calc_BCSMD(design = "TR",
@@ -251,6 +258,15 @@ calc_BCSMD(design = "CMB",
            treatment_name = "treatment",
            FE_base = c(0,1), RE_base = 0, RE_base_2 = 0,
            FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
+           data = Bryant2018)
+
+calc_BCSMD(design = "CMB",
+           cluster = group, case = case, phase = treatment,
+           session = session, outcome = outcome, center = 49,
+           treatment_name = "treatment",
+           FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
+           FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+           Bayesian = TRUE,
            data = Bryant2018)
 
 calc_BCSMD(design = "CMB",
