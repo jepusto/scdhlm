@@ -142,6 +142,7 @@ test_that("The calc_BCSMD() works appropriately for treatment reversal designs."
                   correlation = corAR1(0.01, ~ session | case),
                   data = Anglesea)
   Ang1_g <- g_mlm(Ang1_RML, p_const = c(0,1), r_const = c(1,0,1))
+  Ang1_g_len <- length(Ang1_g)
     
   Ang1_BCSMD <- calc_BCSMD(design = "TR",
                            case = case, phase = condition,
@@ -149,15 +150,15 @@ test_that("The calc_BCSMD() works appropriately for treatment reversal designs."
                            FE_base = 0, RE_base = 0, FE_trt = 0,
                            summary = FALSE,
                            data = Anglesea)
-  Ang1_BCSMD$model <- NULL
   
-  expect_equal(Ang1_g, Ang1_BCSMD, check.attributes = FALSE)
+  expect_equal(Ang1_g, Ang1_BCSMD[1:Ang1_g_len], check.attributes = FALSE)
 
   Ang2_RML <- lme(fixed = outcome ~ 1 + condition,
                   random = ~ condition | case,
                   correlation = corAR1(0.01, ~ session | case),
                   data = Anglesea)
   Ang2_g <- g_mlm(Ang2_RML, p_const = c(0,1), r_const = c(1,0,0,0,1))
+  Ang2_g_len <- length(Ang2_g)
   
   Ang2_BCSMD <- calc_BCSMD(design = "TR",
                            case = case, phase = condition,
@@ -165,9 +166,8 @@ test_that("The calc_BCSMD() works appropriately for treatment reversal designs."
                            FE_base = 0, RE_base = 0, FE_trt = 0, RE_trt = 0,
                            summary = FALSE,
                            data = Anglesea)
-  Ang2_BCSMD$model <- NULL
   
-  expect_equal(Ang2_g, Ang2_BCSMD, check.attributes = FALSE)
+  expect_equal(Ang2_g, Ang2_BCSMD[1:Ang2_g_len], check.attributes = FALSE)
   
   expect_error(calc_BCSMD(design = "TR",
                           case = case, phase = condition,
@@ -196,6 +196,7 @@ test_that("calc_BCSMD() returns same result as g_mlm() for Laski data with a sim
                     correlation = corAR1(0.01, ~ time | case), 
                     data = Laski)
   Laski_g1_mlm <- g_mlm(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE)
+  Laski_g1_mlm_len <- length(Laski_g1_mlm)
   
   ## g_mlm VS calc_BCSMD
   Laski_calc_BCSMD <- calc_BCSMD(design = "MBP",
@@ -204,8 +205,7 @@ test_that("calc_BCSMD() returns same result as g_mlm() for Laski data with a sim
                                  FE_base = 0, RE_base = 0, FE_trt = 0,
                                  summary = FALSE,
                                  data = Laski)
-  Laski_calc_BCSMD$model <- NULL
-  expect_equal(Laski_g1_mlm, Laski_calc_BCSMD, check.attributes = FALSE)
+  expect_equal(Laski_g1_mlm, Laski_calc_BCSMD[1:Laski_g1_mlm_len], check.attributes = FALSE)
   
   Laski_calc_BCSMD_summary <- calc_BCSMD(design = "MBP",
                                          case = case, phase = treatment,
@@ -251,8 +251,7 @@ test_that("calc_BCSMD() returns same result as g_mlm() for Laski data with a com
                data = Laski)
   )
   
-  Laski_BCSMD2$model <- NULL
-  expect_equal(Laski_g2_mlm, Laski_BCSMD2, check.attributes = FALSE)
+  expect_equal(Laski_g2_mlm, Laski_BCSMD2[1:length(Laski_g2_mlm)], check.attributes = FALSE)
   
   Laski_BCSMD2_summary <- suppressWarnings(
     calc_BCSMD(design = "MBP", case = case, phase = treatment,
@@ -287,8 +286,7 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
                           FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
                           summary = FALSE,
                           data = Bryant2018)
-  Bry_BCSMD$model <- NULL
-  expect_equal(Bry_g1_mlm, Bry_BCSMD, check.attributes = FALSE)
+  expect_equal(Bry_g1_mlm, Bry_BCSMD[1:length(Bry_g1_mlm)], check.attributes = FALSE)
   
   Bry_BCSMD_summary <- calc_BCSMD(design = "CMB",
                                   cluster = group, case = case, phase = treatment,
@@ -343,9 +341,7 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
                summary = FALSE,
                data = Bryant2018)
   )
-  
-  Bry_BCSMD2$model <- NULL
-  expect_equal(Bry_g2_mlm, Bry_BCSMD2, check.attributes = FALSE)
+  expect_equal(Bry_g2_mlm, Bry_BCSMD2[1:length(Bry_g2_mlm)], check.attributes = FALSE)
   
   Bry_BCSMD2_summary <- suppressWarnings(
     calc_BCSMD(design = "CMB",
