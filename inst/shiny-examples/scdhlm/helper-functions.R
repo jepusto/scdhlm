@@ -53,6 +53,49 @@ validate_specification <- function(design, n_outer_levels,
   return(HTML(error_string))
 }
 
+
+#---------------------------------------------------------------
+# calculate effect sizes
+#---------------------------------------------------------------
+
+calc_effect_size <- function(model, design, method, 
+                             FE_base, RE_base, RE_base_2, FE_trt, RE_trt, RE_trt_2,
+                             corStruct, varStruct,
+                             A, B, center = 0) {
+  
+  pr_consts <- calc_consts(estimation = method, design = design, 
+                           FE_base = FE_base, RE_base = RE_base, RE_base_2 = RE_base_2,
+                           FE_trt = FE_trt, RE_trt = RE_trt, RE_trt_2 = RE_trt_2,
+                           corStruct = corStruct, varStruct = varStruct,
+                           A = A, B = B, center = center)
+  
+  if (method == "Bayes") {
+    
+    es_res <- g_mlm_Bayes(model$model,
+                          p_const = pr_consts$p_const,
+                          r_const = pr_consts$r_const,
+                          rconst_base_var2_index = pr_consts$rconst_base_var2_index)
+    es_res$phi <- es_res$autocor_param
+    
+  } else if (method == "RML") {
+    
+    es_res <- g_mlm(model$model, 
+                    p_const = pr_consts$p_const, 
+                    r_const = pr_consts$r_const, 
+                    infotype = "expected")
+    es_res$CI_L <- model$CI_L
+    es_res$CI_U <- model$CI_U
+    es_res$phi <- model$phi
+    es_res$rho <- model$rho
+    es_res$var_param <- model$var_param
+    
+  }
+  
+  return(es_res)
+  
+}
+
+
 #---------------------------------------------------------------
 # effect size report table
 #---------------------------------------------------------------
@@ -64,41 +107,34 @@ summarize_ES <- function(res, filter_vals,
                          corStruct, varStruct,
                          A, B, coverage = 95L) {
   
-  if (method=="RML") {
+  if (method %in% c("RML","Bayes")) {
+    
     ES_summary <- data.frame(
       ES = as.numeric(res$g_AB),
-      SE = as.numeric(res$SE_g_AB)
+      SE = as.numeric(res$SE_g_AB),
+      CI_L = res$CI_L,
+      CI_U = res$CI_U,
+      df = res$nu,
+      phi = if (corStruct == "IID") NA_real_ else res$phi,
+      var_param = if (varStruct == "hom") NA_real_ else res$var_param
     )
-    
-    if (design %in% c("RMBB", "CMB")) {
-      rho_level2 <- round(with(res, (theta$Tau[[1]][1] + theta$Tau[[2]][1]) / 
-                           (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
-      rho_level3 <- round(with(res, theta$Tau[[1]][1] / 
-                           (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
-      res$rho <- paste0("Level2:", rho_level2, "  Level3:", rho_level3)
-    } else {
-      res$rho <- with(res, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
-    }
-    
-    res$phi <- if (corStruct == "IID") NA_real_ else res$theta$cor_params
-    res$var_param <- if (varStruct == "hom") NA_real_ else res$theta$var_params
     
   } else {
     
+    CI <- CI_g(res, cover = coverage / 100L)
+    
     ES_summary <- data.frame(
       ES = res$delta_hat,
-      SE = sqrt(res$V_delta_hat)
+      SE = sqrt(res$V_delta_hat),
+      CI_L = CI[1],
+      CI_U = CI[2],
+      df = res$nu,
+      phi = res$phi,
+      var_param = NA_real_
     )
     
   }
-  
-  CI <- CI_g(res, cover = coverage / 100L)
-  
-  ES_summary$CI_L <- if (CI[1] < 100 & CI[1] > -100) CI[1] else format(CI[1], scientific = TRUE)
-  ES_summary$CI_U <- if (CI[2] < 100 & CI[2] > -100) CI[2] else format(CI[2], scientific = TRUE)
-  ES_summary$df <- res$nu
-  ES_summary$phi <- res$phi
-  ES_summary$var_param <- if (method == "RML") res$var_param else NA_real_
+
   ES_summary$rho <- res$rho
   ES_summary$design <- names(design_names[which(design_names==design)])
   ES_summary$method <- names(estimation_names[which(estimation_names==method)])
@@ -109,7 +145,7 @@ summarize_ES <- function(res, filter_vals,
                            " R1:", paste(RE_trt, collapse = ""),
                            " R2:", paste(RE_trt_2, collapse = ""))
   
-  if (method=="RML" & design %in% c("MBP", "RMBB", "CMB") & !is.null(A) & !is.null(B)) {
+  if (method %in% c("RML", "Bayes") & design %in% c("MBP", "RMBB", "CMB") & !is.null(A) & !is.null(B)) {
     ES_summary$A <- A
     ES_summary$B <- B
   } else {
@@ -121,7 +157,9 @@ summarize_ES <- function(res, filter_vals,
   
   row.names(ES_summary) <- NULL
   names(ES_summary) <- c("BC-SMD estimate","Std. Error", CI_names,
-                         "Degrees of freedom","Auto-correlation", "Variance parameter", "Intra-class correlation",
+                         "Degrees of freedom",
+                         "Auto-correlation", "Variance parameter",
+                         "Intra-class correlation",
                          "Study design","Estimation method",
                          "Baseline specification", "Treatment specification",
                          "Initial treatment time","Follow-up time")

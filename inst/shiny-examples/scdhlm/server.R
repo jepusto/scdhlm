@@ -4,10 +4,10 @@ library(ggplot2)
 library(scdhlm)
 library(readxl)
 library(janitor)
+library(brms)
 
 source("mappings.R", local = TRUE)
 source("helper-functions.R", local = TRUE)
-source("lme-fit.R", local = TRUE)
 
 server <- 
   shinyServer(function(input, output, session) {
@@ -351,12 +351,13 @@ server <-
       estimation_choices <- if (studyDesign() %in% c("MBP", "TR")) {
         estimation_names 
       } else {
-        c("Restricted Maximum Likelihood" = "RML")
+        estimation_names[estimation_names != "HPS"]
       }
       
       selectInput("method", label = "Estimation method",
                   choices = estimation_choices, 
-                  selected = "RML")
+                  selected = "RML",
+                  width = '400px')
     })
     
     # Centering and timing sliders for RML estimation of MBD
@@ -374,8 +375,8 @@ server <-
       
     })
     
-    output$model_centering <- renderUI({
-      if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method=="RML") {
+    output$model_centering2 <- output$model_centering <- renderUI({
+      if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method %in% c("RML", "Bayes")) {
         session_range <- time_range()$range
         sliderInput("model_center", "Center session at", 
                     min=session_range[1], max=session_range[2], 
@@ -384,7 +385,7 @@ server <-
     })
     
     output$ES_timing_message <- renderText({
-      if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method=="RML" &
+      if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method %in% c("RML", "Bayes") &
           any(input$degree_trt != 0, (input$degree_base != 0 & input$RE_base > 0))) {
         note_txt <- "Note: Options for selecting an initial treatment time and follow-up time can be modified on the next page." 
         HTML(note_txt)
@@ -392,7 +393,7 @@ server <-
     })
     
     output$ES_timing <- renderUI({
-      if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method=="RML" & 
+      if (studyDesign() %in% c("MBP", "RMBB", "CMB") & input$method %in% c("RML", "Bayes") & 
           any(input$degree_trt != 0, (input$degree_base != 0 & input$RE_base > 0))) {
         timings <- time_range()
         wellPanel(
@@ -537,52 +538,106 @@ server <-
     
     output$model_spec <- renderUI({model_validation()})
     
-    # Fit model 
+    # Fit RML or Bayesian models
     
-    model_fit <- reactive({
+    model_fit <- eventReactive(input$runModel, {
       
-      center <- if (input$degree_base == 0 || is.null(input$model_center)) 0L else input$model_center
+      # create a progress object
+      progress <- shiny::Progress$new()
+      on.exit(progress$close())
+      progress$set(message = "Running the model", value = 0)
+      progress$inc(amount = 0.1)
       
-      fit_function <- switch(studyDesign(), 
-                             MBP = "lme_fit_MB", 
-                             RMBB = "lme_fit_MB", 
-                             CMB = "lme_fit_MB", 
-                             TR = "lme_fit_TR")
-      
+      # fit the model
       if (studyDesign() %in% c("MBP", "TR")) {
         RE_base2 <- RE_trt2 <- NULL
+        dat <- datClean()[order(datClean()$case, datClean()$session),]
+        cluster <- series <- NULL
       } else {
         RE_base2 <- input$RE_base2
         RE_trt2 <- input$RE_trt2
+        if (studyDesign() == "RMBB") {
+          dat <- datClean()[order(datClean()$case, datClean()$series, datClean()$session),]
+          cluster <- NULL
+          series <- dat$series
+        } else {
+          dat <- datClean()[order(datClean()$cluster, datClean()$case, datClean()$session),]
+          cluster <- dat$cluster
+          series <- NULL
+        }
       }
-      do.call(fit_function,
-              args = list(design = studyDesign(), dat = datClean(), 
-                          FE_base = input$FE_base, RE_base = input$RE_base, RE_base_2 = RE_base2,
-                          FE_trt = input$FE_trt, RE_trt = input$RE_trt, RE_trt_2 = RE_trt2,
-                          varStruct = input$varStruct,
-                          corStruct = input$corStruct,
-                          center = center))
+      
+      center <- if (input$degree_base == 0 || is.null(input$model_center)) 0L else input$model_center
+      
+      if (input$method == "RML") {
+        res <- 
+        calc_BCSMD(
+          design = studyDesign(),
+          case = dat$case, phase = dat$phase, session = dat$session, outcome = dat$outcome,
+          cluster = cluster, series = series,
+          center = center,
+          FE_base = input$FE_base, RE_base = input$RE_base, RE_base_2 = RE_base2,
+          FE_trt = input$FE_trt, RE_trt = input$RE_trt, RE_trt_2 = RE_trt2,
+          corStruct = input$corStruct, varStruct = input$varStruct,
+          summary = FALSE
+        )
+        
+      } else if (input$method == "Bayes") {
+        
+        if (input$bshow_advOpts == TRUE) {
+          seed <- input$badvOpts_seed
+          cores <- input$badvOpts_cores
+          chains <- input$badvOpts_chains
+          iter <- input$badvOpts_iter
+          warmup <- input$badvOpts_warmup
+          thin <- input$badvOpts_thin
+        } else {
+          seed <- NA
+          cores <- 1L
+          chains <- 4L
+          iter <- 2000L
+          warmup <- 1000L
+          thin <- 10L
+        }
+        
+        res <- 
+        calc_BCSMD(
+          design = studyDesign(),
+          case = dat$case, phase = dat$phase, session = dat$session, outcome = dat$outcome,
+          cluster = cluster, series = series,
+          center = center,
+          FE_base = input$FE_base, RE_base = input$RE_base, RE_base_2 = RE_base2,
+          FE_trt = input$FE_trt, RE_trt = input$RE_trt, RE_trt_2 = RE_trt2,
+          corStruct = input$corStruct, varStruct = input$varStruct,
+          Bayesian = TRUE, seed = seed, cores = cores, 
+          chains = chains, iter = iter, warmup = warmup, thin = thin,
+          summary = FALSE
+        ) 
+        
+      }
+      
+      return(res)
       
     })
     
     
-    # Model spec output
+    # Model spec output for RML
     
     output$model_sample_size <- renderTable({
       if (input$method == "RML") {
         if (studyDesign() %in% c("MBP", "TR")) {
-          data.frame("Total number of observations" = nobs(model_fit()$fit), 
-                     "Total number of groups" = nlevels(summary(model_fit()$fit)$groups$case),
+          data.frame("Total number of observations" = nobs(model_fit()$model), 
+                     "Total number of groups" = nlevels(summary(model_fit()$model)$groups$case),
                      check.names = FALSE) 
         } else if (studyDesign() == "CMB") {
-          data.frame("Total number of observations" = nobs(model_fit()$fit), 
-                     "Total number of cases" = nlevels(summary(model_fit()$fit)$groups$case),
-                     "Total number of clusters" = nlevels(summary(model_fit()$fit)$groups$cluster),
+          data.frame("Total number of observations" = nobs(model_fit()$model), 
+                     "Total number of cases" = nlevels(summary(model_fit()$model)$groups$case),
+                     "Total number of clusters" = nlevels(summary(model_fit()$model)$groups$cluster),
                      check.names = FALSE)
         } else if (studyDesign() == "RMBB") {
-          data.frame("Total number of observations" = nobs(model_fit()$fit),
-                     "Total number of series" = nlevels(summary(model_fit()$fit)$groups$series),
-                     "Total number of cases" = nlevels(summary(model_fit()$fit)$groups$case),
+          data.frame("Total number of observations" = nobs(model_fit()$model),
+                     "Total number of series" = nlevels(summary(model_fit()$model)$groups$series),
+                     "Total number of cases" = nlevels(summary(model_fit()$model)$groups$case),
                      check.names = FALSE)
         }
       }
@@ -593,7 +648,7 @@ server <-
     
     output$model_fit_fixed <- renderTable({
       if (input$method == "RML") {
-        summary(model_fit()$fit)$tTable
+        summary(model_fit()$model)$tTable
       }
     }, 
     caption = "Fixed effects", 
@@ -602,8 +657,8 @@ server <-
     
     output$model_fit_random <- renderTable({
       if (input$method == "RML") {
-        random_table <- data.frame(VarCorr(model_fit()$fit)[])
-        rownames <- rownames(VarCorr(model_fit()$fit)[])
+        random_table <- data.frame(VarCorr(model_fit()$model)[])
+        rownames <- rownames(VarCorr(model_fit()$model)[])
         
         # set the rownames
         if (studyDesign() %in% c("CMB", "RMBB")) {
@@ -638,7 +693,7 @@ server <-
     output$model_fit_corr <- renderTable({
       if (input$method=="RML" & input$corStruct != "IID") {
         data.frame(
-          "Correlation parameter" = effect_size()$`Auto-correlation`,
+          "Correlation parameter" = model_fit()$phi,
           check.names = FALSE
         )
       }
@@ -651,7 +706,7 @@ server <-
       if (input$method == "RML" & input$varStruct == "het") {
         data.frame(
           "Baseline" = 1,
-          "Treatment" = effect_size()$`Variance parameter`
+          "Treatment" = model_fit()$var_param
         )
       }
     }, 
@@ -661,9 +716,9 @@ server <-
     
     output$model_info <- renderTable({
       if (input$method == "RML") {
-        data.frame("AIC" = AIC(model_fit()$fit), 
-                   "BIC" = BIC(model_fit()$fit), 
-                   "Log likelihood" = as.numeric(model_fit()$fit$logLik),
+        data.frame("AIC" = AIC(model_fit()$model), 
+                   "BIC" = BIC(model_fit()$model), 
+                   "Log likelihood" = as.numeric(model_fit()$model$logLik),
                    check.names = FALSE) 
       }
     }, 
@@ -682,66 +737,95 @@ server <-
     }, colnames = FALSE)
     
     
+    # Model spec output for Bayes
+    
+    output$Bayes_sample_size <- renderTable({
+      if (input$method == "Bayes") {
+        if (studyDesign() %in% c("MBP", "TR")) {
+          data.frame("Total number of observations" = summary(model_fit()$model)$nobs, 
+                     "Total number of groups" = summary(model_fit()$model)$ngrps$case,
+                     check.names = FALSE) 
+        } else if (studyDesign() == "CMB") {
+          data.frame("Total number of observations" = summary(model_fit()$model)$nobs, 
+                     "Total number of cases" = summary(model_fit()$model)$ngrps$`cluster:case`,
+                     "Total number of clusters" = summary(model_fit()$model)$ngrps$cluster,
+                     check.names = FALSE)
+        } else if (studyDesign() == "RMBB") {
+          data.frame("Total number of observations" = summary(model_fit()$model)$nobs,
+                     "Total number of series" = summary(model_fit()$model)$ngrps$`case:series`,
+                     "Total number of cases" = summary(model_fit()$model)$ngrps$case,
+                     check.names = FALSE)
+        }
+      }
+    }, 
+    caption = "Sample sizes", 
+    caption.placement = getOption("xtable.caption.placement", "top"),
+    digits = 4, include.rownames = FALSE)
+    
+    output$Bayes_fit_fixed <- renderTable({
+      if (input$method == "Bayes") {
+        summary(model_fit()$model)$fixed
+      }
+    }, 
+    caption = "Fixed effects", 
+    caption.placement = getOption("xtable.caption.placement", "top"),
+    digits = 4, include.rownames = TRUE)
+
+    
     # Calculate effect sizes
     
     effect_size <- reactive({
       
-      if ("lme" %in% class(model_fit()$fit)) {
-        
-        if (studyDesign() %in% c("MBP", "TR")) {
-          RE_base2 <- RE_trt2 <- NULL
-        } else {
-          RE_base2 <- input$RE_base2
-          RE_trt2 <- input$RE_trt2
-        }
-        
-        if (input$method=="RML") {
-          center <- if (input$degree_base == 0 || is.null(input$model_center)) 0L else input$model_center
-          A <- if (is.null(input$A_time)) 0L else input$A_time
-          B <- if (is.null(input$B_time)) 1L else input$B_time
-          res <- effect_size_RML(design = studyDesign(), dat = datClean(), 
-                                 FE_base = input$FE_base, RE_base = input$RE_base, RE_base_2 = RE_base2,
-                                 FE_trt = input$FE_trt, RE_trt = input$RE_trt, RE_trt_2 = RE_trt2,
-                                 varStruct = input$varStruct,
-                                 corStruct = input$corStruct,
-                                 A = A, B = B, center = center)
-        } else {
-          if (studyDesign()=="MBP") {
-            res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
-          } else if (studyDesign()=="TR") {
-            res <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = trt, id = case, phase = phase_pair, time = session))
-          } 
-        } 
-        
-        example_parms <- exampleMapping[[input$example]]
-        if (input$dat_type == "example" & !is.null(example_parms$filters)) {
-          filter_vars <- example_parms$filters
-          filter_vals <- if(length(filter_vars) > 0) lapply(paste0("filter_", filter_vars), 
-                                                            function(x) paste0(input[[x]], collapse = ",")) else NULL
-          names(filter_vals) <- filter_vars
-          filter_vals <- as.data.frame(filter_vals)
-        } else if (input$dat_type %in% c("dat", "xlsx") & !is.null(input$filters)) {
-          filter_vars <- input$filters
-          filter_vals <- if(length(filter_vars) > 0) lapply(paste0("filter_", filter_vars), 
-                                                            function(x) paste0(input[[x]], collapse = ",")) else NULL
-          names(filter_vals) <- filter_vars
-          filter_vals <- as.data.frame(filter_vals)
-        } else {
-          filter_vars <- NULL
-          filter_vals <- NULL
-        } 
-        
-        summarize_ES(res, 
-                     filter_vals = filter_vals, 
-                     design = studyDesign(), method = input$method, 
-                     FE_base = input$FE_base, RE_base = input$RE_base, RE_base_2 = RE_base2, 
-                     FE_trt = input$FE_trt, RE_trt = input$RE_trt, RE_trt_2 = RE_trt2,
-                     corStruct = input$corStruct,
-                     varStruct = input$varStruct,
-                     A = input$A_time, B = input$B_time,
-                     coverage = input$coverage)
-        
+      if (studyDesign() %in% c("MBP", "TR")) {
+        RE_base2 <- RE_trt2 <- NULL
+      } else {
+        RE_base2 <- input$RE_base2
+        RE_trt2 <- input$RE_trt2
       }
+      
+      if (input$method %in% c("RML", "Bayes")) {
+        center <- if (input$degree_base == 0 || is.null(input$model_center)) 0L else input$model_center
+        A <- if (is.null(input$A_time)) 0L else input$A_time
+        B <- if (is.null(input$B_time)) 1L else input$B_time
+        res <- calc_effect_size(model = model_fit(), design = studyDesign(), method = input$method, 
+                               FE_base = input$FE_base, RE_base = input$RE_base, RE_base_2 = RE_base2,
+                               FE_trt = input$FE_trt, RE_trt = input$RE_trt, RE_trt_2 = RE_trt2,
+                               varStruct = input$varStruct, corStruct = input$corStruct,
+                               A = A, B = B, center = center)
+      } else {
+        if (studyDesign()=="MBP") {
+          res <- with(datClean(), effect_size_MB(outcome = outcome, treatment = trt, id = case, time = session))
+        } else if (studyDesign()=="TR") {
+          res <- with(datClean(), effect_size_ABk(outcome = outcome, treatment = trt, id = case, phase = phase_pair, time = session))
+        } 
+      } 
+      
+      example_parms <- exampleMapping[[input$example]]
+      if (input$dat_type == "example" & !is.null(example_parms$filters)) {
+        filter_vars <- example_parms$filters
+        filter_vals <- if(length(filter_vars) > 0) lapply(paste0("filter_", filter_vars), 
+                                                          function(x) paste0(input[[x]], collapse = ",")) else NULL
+        names(filter_vals) <- filter_vars
+        filter_vals <- as.data.frame(filter_vals)
+      } else if (input$dat_type %in% c("dat", "xlsx") & !is.null(input$filters)) {
+        filter_vars <- input$filters
+        filter_vals <- if(length(filter_vars) > 0) lapply(paste0("filter_", filter_vars), 
+                                                          function(x) paste0(input[[x]], collapse = ",")) else NULL
+        names(filter_vals) <- filter_vars
+        filter_vals <- as.data.frame(filter_vals)
+      } else {
+        filter_vars <- NULL
+        filter_vals <- NULL
+      }
+      
+      summarize_ES(res = res, 
+                   filter_vals = filter_vals, 
+                   design = studyDesign(), method = input$method, 
+                   FE_base = input$FE_base, RE_base = input$RE_base, RE_base_2 = RE_base2, 
+                   FE_trt = input$FE_trt, RE_trt = input$RE_trt, RE_trt_2 = RE_trt2,
+                   corStruct = input$corStruct, varStruct = input$varStruct,
+                   A = input$A_time, B = input$B_time,
+                   coverage = input$coverage)
       
     })
   
@@ -787,17 +871,51 @@ server <-
   width = function() 700)
   
   output$RML_plot <- renderPlot({
-    
-    if ("lme" %in% class(model_fit()$fit)) {
+    if ("lme" %in% class(model_fit()$model)) {
       cluster <- if (studyDesign() == "CMB") substitute(cluster) else NULL
       series <- if (studyDesign() == "RMBB") substitute(series) else NULL
       graph_SCD(design = studyDesign(), 
                 cluster = cluster, case = case, series = series, 
                 phase = phase, session = session, outcome = outcome, 
-                model_fit = model_fit()$fit)
+                model_fit = model_fit()$model)
     }
   }, height = function() 120 * nlevels(datClean()[[1]]),
   width = function() 700)
+  
+  
+  # Bayes plots
+  
+  Bayes_dens <- renderPlot({
+    
+    if ("brmsfit" %in% class(model_fit()$model)) {
+      brms::mcmc_plot(model_fit()$model,type = "dens")
+    }
+    
+  })
+  
+  Bayes_ar <- renderPlot({
+    
+    if ("brmsfit" %in% class(model_fit()$model)) {
+      brms::mcmc_plot(model_fit()$model,type = "acf")
+    }
+    
+  })
+  
+  Bayes_trace <- renderPlot({
+    
+    if ("brmsfit" %in% class(model_fit()$model)) {
+      brms::mcmc_plot(model_fit()$model,type = "trace")
+    }
+    
+  })
+  
+  Bayes_rhat <- renderPlot({
+    
+    if ("brmsfit" %in% class(model_fit()$model)) {
+      brms::mcmc_plot(model_fit()$model,type = "rhat")
+    }
+    
+  })
   
   
   #------------------------------
@@ -994,7 +1112,7 @@ server <-
       }
       
       corr_struct <- switch(input$corStruct,
-                            "AR(1)" = 
+                            "AR1" = 
                               if (studyDesign() == "RMBB") {
                                 paste0("\n               correlation = corAR1(0.01, ~ ", session, " | ", case," / ", series, "),")
                               } else if (studyDesign() == "CMB") {
@@ -1002,7 +1120,7 @@ server <-
                               } else {
                                 paste0("\n               correlation = corAR1(0.01, ~ ", session, " | ", case, "),")
                               },
-                            "MA(1)" = 
+                            "MA1" = 
                               if (studyDesign() == "RMBB") {
                                 paste0("\n               correlation = corARMA(0, ~ ", session, " | ", case," / ", series, ", p = 0, q = 1),")
                               } else if (studyDesign() == "CMB") {
@@ -1042,8 +1160,8 @@ server <-
       bc_mat <- 2 * tcrossprod(bc_vec) - diag(bc_vec^2)
       r_const_base <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
       r_const_trt <- rep(0L, (r_const_dim - length(r_const_base)))
-      r_const_cor <- rep(0L, length(model_fit()$fit$modelStruct$corStruct))
-      r_const_var <- rep(0L, length(model_fit()$fit$modelStruct$varStruct))
+      r_const_cor <- rep(0L, length(model_fit()$model$modelStruct$corStruct))
+      r_const_var <- rep(0L, length(model_fit()$model$modelStruct$varStruct))
       if (studyDesign() %in% c("MBP", "TR")) {
         r_const <- c(r_const_base, r_const_trt, r_const_cor, r_const_var, 1L)
       } else {

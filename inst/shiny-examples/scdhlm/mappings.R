@@ -136,4 +136,6 @@ design_names <- c("Treatment Reversal" = "TR",
 # Estimation names
 #------------------------------------------------
 
-estimation_names <- c("Moment estimation" = "HPS", "Restricted Maximum Likelihood" = "RML")
+estimation_names <- c("Moment estimation" = "HPS", 
+                      "Restricted Maximum Likelihood" = "RML",
+                      "Bayesian estimation (Markov Chain Monte Carlo)" = "Bayes")
