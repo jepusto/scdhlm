@@ -42,7 +42,7 @@ test_that("calc_consts() error messages work", {
 
 })
 
-test_that("calc_consts() handles corStruct and varStruct", {
+test_that("calc_consts() returns vectors with expected structure", {
   
   FE_base <- c(0, sort(sample(1:4, 2)))
   RE_base <- c(0, sort(sample(FE_base[-1], 2)))
@@ -56,22 +56,75 @@ test_that("calc_consts() handles corStruct and varStruct", {
   
   structs <- 
     expand.grid(
-      design = c("MBP","TR","RMBB", "CMB","CMBB"),
+      design = c("MBP","TR","RMBB","CMB"),
       corStruct = c("IID","AR1","MA1"),
       varStruct = c("hom","het")
     )
   
   consts <- mapply(
     calc_consts, 
+    estimation = "RML", 
+    design = structs$design,
     corStruct = structs$corStruct,
     varStruct = structs$varStruct,
-    design = structs$design,
-    estimation = "RML", 
-    center = center, 
-    FE_base = FE_base, RE_base = RE_base, RE_base_2 = RE_base2,
-    FE_trt = FE_trt, RE_trt = RE_trt, RE_trt_2 = RE_trt,
-    A = A, B = B,
-    SIMPLIFY = FALSE
+    MoreArgs = list(
+      center = center, 
+      FE_base = FE_base, RE_base = RE_base, RE_base_2 = RE_base2,
+      FE_trt = FE_trt, RE_trt = RE_trt, RE_trt_2 = RE_trt,
+      A = A, B = B
+    ),
+    SIMPLIFY = FALSE, USE.NAMES = FALSE
   )  
 
+  structs$p_const <- lapply(consts, \(x) x$p_const)
+  p_const <- c(rep(0L, length(FE_base)), (B - A)^FE_trt)
+  expect_true(all(sapply(structs$p_const, identical, y = p_const)))
+  
+  structs$r_const <- lapply(consts, \(x) x$r_const)
+  structs_simple <- subset(structs, design %in% c("MBP","TR"))
+  rA <- with(structs_simple, unique(r_const[corStruct=="IID" & varStruct=="hom"])[[1]])
+  rB <- with(structs_simple, unique(r_const[corStruct!="IID" & varStruct=="hom"])[[1]]) 
+  rC <- with(structs_simple, unique(r_const[corStruct=="IID" & varStruct=="het"])[[1]])
+  rD <- with(structs_simple, unique(r_const[corStruct!="IID" & varStruct=="het"])[[1]]) 
+  expect_identical(rA, rB[-(length(rB)-1)])  
+  expect_identical(rB, rC)  
+  expect_identical(rC, rD[-(length(rD)-1)])  
+  expect_identical(rA, rD[-(length(rD)-(1:2))])  
+
+  structs_complex <- subset(structs, design %in% c("RMBB","CMB"))
+  rG <- with(structs_complex, unique(r_const[corStruct=="IID" & varStruct=="hom"])[[1]])
+  rH <- with(structs_complex, unique(r_const[corStruct!="IID" & varStruct=="hom"])[[1]]) 
+  rI <- with(structs_complex, unique(r_const[corStruct=="IID" & varStruct=="het"])[[1]])
+  rJ <- with(structs_complex, unique(r_const[corStruct!="IID" & varStruct=="het"])[[1]]) 
+  expect_identical(rG, rH[-(length(rH)-1)])  
+  expect_identical(rH, rI)  
+  expect_identical(rI, rJ[-(length(rJ)-1)])  
+  expect_identical(rG, rJ[-(length(rJ)-(1:2))])  
+
+  r_dim1 <- length(RE_base2) * (length(RE_base2) + 1L) / 2L
+  r_dim2 <- (length(RE_base2) + length(RE_trt2)) * (length(RE_base2) + length(RE_trt2) + 1L) / 2L
+  r_dim3 <- length(RE_base) * (length(RE_base) + 1L) / 2L
+  r_dim4 <- (length(RE_base) + length(RE_trt)) * (length(RE_base) + length(RE_trt) + 1L) / 2L
+
+  structs_simple$rconst_base <- lapply(structs_simple$r_const, \(x) x[1:r_dim3])  
+  structs_simple$rconst_trt <- lapply(structs_simple$r_const, \(x) x[(r_dim3 + 1):r_dim4])  
+  
+  structs_complex$rconst_base2 <- lapply(structs_complex$r_const, \(x) x[1:r_dim1])  
+  structs_complex$rconst_trt2 <- lapply(structs_complex$r_const, \(x) x[(r_dim1 + 1):r_dim2])  
+  structs_complex$rconst_base <- lapply(structs_complex$r_const, \(x) x[r_dim2 + 1:r_dim3])
+  structs_complex$rconst_trt <- lapply(structs_complex$r_const, \(x) x[r_dim2 + (1+r_dim3):r_dim4])
+  
+  if (B != center) {
+    expect_gt(min(unlist(structs_simple$rconst_base)), 0)
+    expect_gt(min(unlist(structs_complex$rconst_base)), 0)
+    expect_gt(min(unlist(structs_complex$rconst_base2)), 0)
+  }
+  
+  expect_identical(min(unlist(structs_simple$rconst_trt)), 0)
+  expect_identical(max(unlist(structs_simple$rconst_trt)), 0)
+  expect_identical(min(unlist(structs_complex$rconst_trt)), 0)
+  expect_identical(max(unlist(structs_complex$rconst_trt)), 0)
+  expect_identical(min(unlist(structs_complex$rconst_trt2)), 0)
+  expect_identical(max(unlist(structs_complex$rconst_trt2)), 0)
+  
 })
