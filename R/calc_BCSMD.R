@@ -223,13 +223,13 @@ calc_consts <- function(estimation, design, center,
   r_dim <- length(RE_base) + length(RE_trt)
   r_const_dim <- r_dim * (r_dim + 1) / 2
   bc_vec <- (B - center)^as.integer(RE_base)
-  bc_mat <- 2 * tcrossprod(bc_vec) - diag(bc_vec^2)
+  bc_mat <- 2 * tcrossprod(bc_vec) - diag(bc_vec^2, nrow = length(bc_vec))
   
   if (design %in% c("RMBB", "CMB")) {
     r_dim2 <- length(RE_base_2) + length(RE_trt_2)
     r_const_dim2 <- r_dim2 * (r_dim2 + 1) / 2
     bc_vec2 <- (B - center)^as.integer(RE_base_2)
-    bc_mat2 <- 2 * tcrossprod(bc_vec2) - diag(bc_vec2^2)
+    bc_mat2 <- 2 * tcrossprod(bc_vec2) - diag(bc_vec2^2, nrow = length(bc_vec2))
   }
   
   if (estimation == "Bayes") {

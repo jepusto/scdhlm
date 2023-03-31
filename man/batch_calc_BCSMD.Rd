@@ -136,7 +136,7 @@ between-group design.}
 interval. If \code{FALSE}, use a non-central t approximation to obtain an
 asymmetric confidence interval.}
 
-\item{...}{further arguments.}
+\item{...}{further arguments passed to \code{calc_BCSMD}.}
 }
 \value{
 A data frame containing the design-comparable effect size estimate,

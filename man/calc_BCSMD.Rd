@@ -23,6 +23,14 @@ calc_BCSMD(
   RE_trt_2 = NULL,
   corStruct = "AR1",
   varStruct = "hom",
+  Bayesian = FALSE,
+  prior = NULL,
+  chains = 4,
+  iter = 2000,
+  warmup = iter/2,
+  thin = 10,
+  cores = 1,
+  seed = NA,
   A = NULL,
   B = NULL,
   D = NULL,
@@ -109,6 +117,36 @@ heteroscedasticity structure of session-level errors. Options are
 \code{"hom"} (default) or \code{"het"}, which allows for the session-level
 error variances to differ by phase.}
 
+\item{Bayesian}{Logical indicating whether to apply Bayesian estimation
+methods. If \code{FALSE} (default), apply restricted maximum likelihood
+estimation. If \code{TRUE}, apply Bayesian estimation methods (i.e., Markov
+Chain Monte Carlo) to the parameters of the specified hierarchical linear
+model.}
+
+\item{prior}{(Optional) One or more \code{brmsprior} objects created by
+\code{"set_prior"} in the \code{"brms"} R package. Default is \code{prior =
+NULL} when flat priors will be applied for Bayesian estimation.
+Ignored if \code{Bayesian = FALSE}.}
+
+\item{chains}{Number of Markov chains to use for Bayesian estimation. Default
+is \code{chains = 4}. Ignored if \code{Bayesian = FALSE}.}
+
+\item{iter}{Number of iterations per chain to use for Bayesian estimation.
+Default is \code{iter = 2000}. Ignored if \code{Bayesian = FALSE}.}
+
+\item{warmup}{Number of burn-in iterations to use for Bayesian estimation.
+Default is \code{iter/2}. Ignored if \code{Bayesian = FALSE}.}
+
+\item{thin}{Thinning rate to use for Bayesian estimation. Default is
+\code{thin = 10}. Ignored if \code{Bayesian = FALSE}.}
+
+\item{cores}{Number of cores to use for Bayesian estimation. Default is
+\code{cores = 1}. Ignored if \code{Bayesian = FALSE}.}
+
+\item{seed}{Random number generation seed to use for Bayesian estimation.
+Default is \code{seed = NA}, which will cause the seed to be set randomly.
+Ignored if \code{Bayesian = FALSE}.}
+
 \item{A}{The time point immediately before the start of treatment in the
 hypothetical between-group design.}
 
@@ -131,20 +169,21 @@ asymmetric confidence interval.}
 \item{summary}{Logical indicating whether to return a data frame with effect
 size estimates and other information. If \code{TRUE} (default), return a
 \code{data.frame} containing the effect size estimate, standard error,
-confidence interval, and other information. If \code{FALSE}, return a list
-with effect size estimate, degrees of freedom, and other information.}
+confidence interval (or credible interval if \code{Bayesian == TRUE}), and
+other information. If \code{FALSE}, return a list with effect size
+estimate, degrees of freedom, and other information.}
 
 \item{data}{(Optional) dataset to use for analysis. Must be a
 \code{data.frame}.}
 
-\item{...}{further arguments.}
+\item{...}{further arguments. Not currently used.}
 }
 \value{
 If \code{summary == TRUE}, a data frame containing the
-  design-comparable effect size estimate, standard error, confidence
-  interval, and other information. If \code{summary == FALSE}, a list
-  containing all elements of a `g_mlm()` object, plus the fitted `lme()`
-  model.
+  design-comparable effect size estimate, standard error, confidence interval
+  (or credible interval if \code{Bayesian == TRUE}), and other information.
+  If \code{summary == FALSE}, a list containing all elements of a `g_mlm()`
+  object, plus the fitted `lme()` model.
 }
 \description{
 In one call, 1) clean single-case design data for treatment
@@ -162,13 +201,26 @@ calc_BCSMD(design = "MBP",
            FE_base = 0, RE_base = 0, FE_trt = 0,
            data = Laski)
 
+calc_BCSMD(design = "MBP",
+           case = case, phase = treatment,
+           session = time, outcome = outcome,
+           FE_base = 0, RE_base = 0, FE_trt = 0,
+           Bayesian = TRUE,
+           data = Laski)
+
 # Model with linear time trends in baseline and treatment phases,
 # random baseline slopes, fixed treatment effects
 calc_BCSMD(design = "MBP",
            case = case, phase = treatment,
            session = time, outcome = outcome, center = 4,
-           FE_base = c(0,1), RE_base = c(0,1), 
-           FE_trt = c(0,1),
+           FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+           data = Laski)
+
+calc_BCSMD(design = "MBP",
+           case = case, phase = treatment,
+           session = time, outcome = outcome, center = 4,
+           FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
+           Bayesian = TRUE,
            data = Laski)
 
 
@@ -177,8 +229,7 @@ calc_BCSMD(design = "TR",
            case = case, phase = condition,
            session = session, outcome = outcome,
            treatment_name = "treatment",
-           FE_base = 0, RE_base = 0, 
-           FE_trt = 0,
+           FE_base = 0, RE_base = 0, FE_trt = 0,
            data = Anglesea)
 
 
@@ -186,8 +237,7 @@ data(Thiemann2001)
 calc_BCSMD(design = "RMBB",
            case = case, series = series, phase = treatment,
            session = time, outcome = outcome,
-           FE_base = 0, RE_base = 0, RE_base_2 = 0, 
-           FE_trt = 0,
+           FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
            data = Thiemann2001)
 
 
@@ -198,6 +248,15 @@ calc_BCSMD(design = "CMB",
            treatment_name = "treatment",
            FE_base = c(0,1), RE_base = 0, RE_base_2 = 0,
            FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
+           data = Bryant2018)
+
+calc_BCSMD(design = "CMB",
+           cluster = group, case = case, phase = treatment,
+           session = session, outcome = outcome, center = 49,
+           treatment_name = "treatment",
+           FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
+           FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
+           Bayesian = TRUE,
            data = Bryant2018)
 
 
