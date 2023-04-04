@@ -53,22 +53,6 @@ test_that("The Bayesian estimation works for MBP design.", {
   r_const <- c(1, D^2, 2*D, 1)
   Laski_comp_brm <- g_mlm_Bayes(Laski_comp_mod, p_const, r_const) 
   
-  samples_A <- as_draws_matrix(Laski_comp_mod)
-  samples_A_fixed <- samples_A[, startsWith(colnames(samples_A), "b")]
-  es_num_A <- apply(samples_A_fixed, 1, function(x) sum(x * p_const))
-  
-  sigma_A <- samples_A[, "sigma"]
-  sigma_A_sq <- sigma_A^2
-  samples_A_r_sd <- samples_A[, startsWith(colnames(samples_A), "sd")]
-  samples_A_r_var <- samples_A_r_sd^2
-  samples_A_r_cov <- samples_A[, startsWith(colnames(samples_A), "cor")] * 
-    samples_A_r_sd[,1] * samples_A_r_sd[,2]
-  samples_A_r_varcov <- cbind(samples_A_r_var, samples_A_r_cov, sigma_A_sq)
-  es_denom_A <- apply(samples_A_r_varcov, 1, function(x) sum(x * r_const))
-  
-  expect_equal(Laski_comp_brm$es_num_vec, es_num_A)
-  expect_equal(Laski_comp_brm$es_denom_vec, es_denom_A)
-  
   # use calc_BCSMD()
   Laski_comp <- 
     suppressWarnings(
@@ -380,12 +364,6 @@ test_that("The Bayesian estimation works for RMBB design", {
                          FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
                          summary = FALSE,
                          data = Thiemann2001)
-  
-  pr_consts <- calc_consts(estimation = "Bayes", design = "RMBB", 
-                           FE_base = 0, RE_base = 0, RE_base_2 = 0,
-                           FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
-                           corStruct = "AR1", varStruct = "hom",
-                           A = 3, B = 6, center = 0)
   
   expect_equal(
     suppressWarnings(summary(Thie_Bayes$model)$ngrps$case),

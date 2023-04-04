@@ -119,9 +119,9 @@ write_formula <- function(powers, var_names) {
 
 
 # calculate mlm effect size using Bayesian estimation methods
-g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var2_index = NULL) {
+g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var_index = 1) {
   
-  param_names <- variables(mod)
+  param_names <- brms::variables(mod)
   
   # calculate the numerator of BCSMD
   
@@ -157,7 +157,8 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var2_index = NULL) {
   
   samples_r_varcov <- cbind(samples_r_var, samples_r_cov, sigma_sq)
   
-  es_denom_vec <- apply(samples_r_varcov, 1, function(x) sum(x * r_const))
+  es_denom_sq <- apply(samples_r_varcov, 1, function(x) sum(x * r_const))
+  es_denom_vec <- sqrt(es_denom_sq)
   
   # calculate BCSMD
   
@@ -165,16 +166,16 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var2_index = NULL) {
   
   # calculate rho
   
-  if (is.null(rconst_base_var2_index)) {
+  if (rconst_base_var_index == 1) {
     rho <- mean(samples_r_varcov[,1] / (samples_r_varcov[,1] + samples_r_varcov[,ncol(samples_r_varcov)]))
   } else {
-    rho_level2 <- mean((samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var2_index]) / 
-                         (samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var2_index] + 
+    rho_level2 <- mean((samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var_index]) / 
+                         (samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var_index] + 
                             samples_r_varcov[,ncol(samples_r_varcov)]))
     rho_level2 <- round(rho_level2, 4)
     
-    rho_level3 <- mean(samples_r_varcov[,rconst_base_var2_index] /
-                         (samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var2_index] + 
+    rho_level3 <- mean(samples_r_varcov[,1] /
+                         (samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var_index] + 
                             samples_r_varcov[,ncol(samples_r_varcov)]))
     rho_level3 <- round(rho_level3, 4)
     
@@ -185,6 +186,9 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var2_index = NULL) {
   
   if (sum(grepl("^ar",param_names)) > 0) {
     autocor_draw <- as_draws_matrix(mod, variable = "^ar", regex = TRUE)
+    autocor_param <- mean(autocor_draw)
+  } else if (sum(grepl("^ma",param_names)) > 0) {
+    autocor_draw <- as_draws_matrix(mod, variable = "^ma", regex = TRUE)
     autocor_param <- mean(autocor_draw)
   } else {
     autocor_param <- NA_real_
@@ -240,21 +244,21 @@ calc_consts <- function(estimation, design, center,
     r_const_trt_cov_dim <- r_const_dim - length(RE_base) - length(RE_trt) - length(r_const_base_cov)
     r_const_trt_cov <- rep(0L, r_const_trt_cov_dim)
     r_const <- c(r_const_base_var, r_const_trt_var, r_const_base_cov, r_const_trt_cov, 1L)
-    rconst_base_var2_index <- NULL
+    rconst_base_var_index <- 1L
     
-    if (design %in% c("CMBB", "CMB")) {
+    if (design %in% c("RMBB", "CMB")) {
       r_const_base_var2 <- diag(bc_mat2)
       r_const_trt_var2 <- rep(0L, length(RE_trt_2))
       r_const_base_cov2 <- bc_mat2[upper.tri(bc_mat2, diag = FALSE)]
       r_const_trt_cov_dim2 <- r_const_dim2 - length(RE_base_2) - length(RE_trt_2) - length(r_const_base_cov2)
       r_const_trt_cov2 <- rep(0L, r_const_trt_cov_dim2)
-      r_const <- c(r_const_base_var, r_const_trt_var, r_const_base_var2, r_const_trt_var2,
-                   r_const_base_cov, r_const_trt_cov, r_const_base_cov2, r_const_trt_cov2,
+      r_const <- c(r_const_base_var2, r_const_trt_var2, r_const_base_var, r_const_trt_var, 
+                   r_const_base_cov2, r_const_trt_cov2, r_const_base_cov, r_const_trt_cov, 
                    1L)
-      rconst_base_var2_index <- length(r_const_base_var) + length(r_const_trt_var) + 1
+      rconst_base_var_index <- length(r_const_base_var2) + length(r_const_trt_var2) + 1
     }
     
-    return(list(p_const = p_const, r_const = r_const, rconst_base_var2_index = rconst_base_var2_index))
+    return(list(p_const = p_const, r_const = r_const, rconst_base_var_index = rconst_base_var_index))
     
   } else if (estimation == "RML") {
     
@@ -642,7 +646,7 @@ calc_BCSMD <- function(design,
     g_Bayes <- g_mlm_Bayes(m_fit, 
                            p_const = pr_consts$p_const, 
                            r_const = pr_consts$r_const, 
-                           rconst_base_var2_index = pr_consts$rconst_base_var2_index)
+                           rconst_base_var_index = pr_consts$rconst_base_var_index)
     
     # summary table
     
@@ -746,8 +750,6 @@ calc_BCSMD <- function(design,
     }
     
     CI <- CI_g(g_RML, cover = cover / 100L, bound = bound, symmetric = symmetric)
-    CI_L <- if (CI[1] < 100 & CI[1] > -100) CI[1] else format(CI[1], scientific = TRUE)
-    CI_U <- if (CI[2] < 100 & CI[2] > -100) CI[2] else format(CI[2], scientific = TRUE)
     g_RML$phi <- if (corStruct == "IID") NA_real_ else g_RML$theta$cor_params
     g_RML$var_param <- if (varStruct == "hom") NA_real_ else g_RML$theta$var_params
     
@@ -756,12 +758,12 @@ calc_BCSMD <- function(design,
       ES_summary <- data.frame(
         ES = as.numeric(g_RML$g_AB),
         SE = as.numeric(g_RML$SE_g_AB),
-        CI_L <- CI_L,
-        CI_U <- CI_U,
-        df <- g_RML$nu,
-        phi <- g_RML$phi,
-        var_param <- g_RML$var_param,
-        rho <- g_RML$rho
+        CI_L = CI[1],
+        CI_U = CI[2],
+        df = g_RML$nu,
+        phi = g_RML$phi,
+        var_param = g_RML$var_param,
+        rho = g_RML$rho
       )
       
       if (design %in% c("MBP", "RMBB", "CMB")) {
@@ -783,8 +785,8 @@ calc_BCSMD <- function(design,
       return(ES_summary)
       
     } else {
-      g_RML$CI_L <- CI_L
-      g_RML$CI_U <- CI_U
+      g_RML$CI_L <- CI[1]
+      g_RML$CI_U <- CI[2]
       g_RML$converged <- converged
       g_RML$model <- m_fit
       

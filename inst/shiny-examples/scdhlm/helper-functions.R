@@ -74,7 +74,7 @@ calc_effect_size <- function(model, design, method,
     es_res <- g_mlm_Bayes(model$model,
                           p_const = pr_consts$p_const,
                           r_const = pr_consts$r_const,
-                          rconst_base_var2_index = pr_consts$rconst_base_var2_index)
+                          rconst_base_var_index = pr_consts$rconst_base_var_index)
     es_res$phi <- es_res$autocor_param
     
   } else if (method == "RML") {
