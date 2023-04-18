@@ -174,26 +174,62 @@ ui <-
                          )
                        ))
               ),
-              # actionButton("runModel", "RUN", class = "btn-primary")
-              wellPanel(
-                h4("Run the analysis"),
-                helpText(
-                  p("Notes:",
-                    tags$ul(
-                      tags$li(
-                        "Remember to click the RUN button every time you change the model specifications or the center point."
-                      ),
-                      tags$li(
-                        "It might take a while for the Bayesian models to run."
-                      )
-                    )
-                  )
-                ),
-                actionButton("runModel", "RUN", class = "btn-primary"),
-                br()
-              ),
+              fluidRow(
+                column(12,
+                         h4("Run the analysis"),
+                         fluidRow(
+                           column(6,
+                                  wellPanel(
+                                    actionButton("runModel", "RUN", class = "btn-primary"),
+                                    helpText(
+                                      p("Notes:",
+                                        tags$ul(
+                                          tags$li(
+                                            "Remember to click the RUN button every time you change the model specifications or the center point."
+                                          ),
+                                          tags$li(
+                                            "It might take a while for the Bayesian models to run."
+                                          )
+                                        )
+                                      )
+                                    )
+                                  )
+                           ),
+                           column(6,
+                                  conditionalPanel(condition = "input.method == 'Bayes'",
+                                                   wellPanel(
+                                                     checkboxInput("bshow_advOpts", "Show advanced options for Bayesian estimation", value = FALSE),
+                                                     h5("Advanced options for Bayesian estimation"),
+                                                     helpText(
+                                                       "If not set, these advanced options have defaults."
+                                                     ),
+                                                     conditionalPanel(
+                                                       condition = "input.bshow_advOpts",
+                                                       helpText(
+                                                         p("For these following advanced options, details can be found on the `calc_BCSMD()` help page.")
+                                                       ),
+                                                       fluidRow(
+                                                         column(6,
+                                                                numericInput("badvOpts_seed", "Seed:", value = NA, step = 1L),
+                                                                numericInput("badvOpts_cores", "Cores:",
+                                                                             value = 1L, step = 1L, min = 1L),
+                                                                numericInput("badvOpts_chains", "Chains (MCMC chains):",
+                                                                             value = 4L, step = 1L, min = 1L)),
+                                                         column(6,
+                                                                numericInput("badvOpts_iter", "Total iterations per chain:",
+                                                                             value = 2000L, step = 1L, min = 1L),
+                                                                numericInput("badvOpts_warmup", "Warmup iterations per chain:",
+                                                                             value = 1000L, step = 1L, min = 0L),
+                                                                numericInput("badvOpts_thin", "Thinning rate:",
+                                                                             value = 10L, step = 1L, min = 1L))
+                                                       )
+                                                     )
+                                                   ))
+                           )
+                       ))
+              )
            ),
-           br(),
+           
            conditionalPanel(condition = "input.method == 'RML'",
                             tabsetPanel(type = "tabs",
                               tabPanel("Graph",
@@ -220,35 +256,6 @@ ui <-
            ),
            
            conditionalPanel(condition = "input.method == 'Bayes'",
-                            wellPanel(
-                              h3("Advanced options"),
-                              helpText(
-                                "Here, you can set advanced options for the Bayesian estimation. 
-                                If not set, these advanced options have defaults."
-                              ),
-                              checkboxInput("bshow_advOpts", "Show advanced options for Bayesian estimation", value = FALSE),
-                              conditionalPanel(
-                                condition = "input.bshow_advOpts",
-                                helpText(
-                                  p("For these following advanced options, details can be found on the `calc_BCSMD()` help page.")
-                                ),
-                                fluidRow(
-                                  column(6,
-                                         numericInput("badvOpts_seed", "Seed:", value = NA, step = 1L),
-                                         numericInput("badvOpts_cores", "Cores:",
-                                                      value = 1L, step = 1L, min = 1L),
-                                         numericInput("badvOpts_chains", "Chains (MCMC chains):",
-                                                      value = 4L, step = 1L, min = 1L)),
-                                  column(6,
-                                         numericInput("badvOpts_iter", "Total iterations per chain:",
-                                                      value = 2000L, step = 1L, min = 1L),
-                                         numericInput("badvOpts_warmup", "Warmup iterations per chain:",
-                                                      value = 1000L, step = 1L, min = 0L),
-                                         numericInput("badvOpts_thin", "Thinning rate:",
-                                                      value = 10L, step = 1L, min = 1L))
-                                )
-                              )
-                            ),
                             tabsetPanel(type = "tabs",
                                         tabPanel("Model estimates",
                                                  column(12, br()),
