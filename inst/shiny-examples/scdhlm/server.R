@@ -542,12 +542,6 @@ server <-
     
     model_fit <- eventReactive(input$runModel, {
       
-      # create a progress object
-      progress <- shiny::Progress$new()
-      on.exit(progress$close())
-      progress$set(message = "Running the model", value = 0)
-      progress$inc(amount = 0.1)
-      
       # fit the model
       if (studyDesign() %in% c("MBP", "TR")) {
         RE_base2 <- RE_trt2 <- NULL
@@ -600,6 +594,12 @@ server <-
           thin <- 10L
         }
         
+        run_mssg <- paste(
+          "Stan will now compile the C++ code for your model (which may take a while) and will then start sampling."
+        )
+        
+        showNotification(run_mssg, duration = 60, type = "message")
+        
         res <- 
         calc_BCSMD(
           design = studyDesign(),
@@ -612,7 +612,22 @@ server <-
           Bayesian = TRUE, seed = seed, cores = cores, 
           chains = chains, iter = iter, warmup = warmup, thin = thin,
           summary = FALSE
-        ) 
+        )
+        
+        if (isTRUE(res$converged)) {
+          showNotification(
+            paste("Stan results obtained."),
+            duration = NA,
+            type = "message"
+          )
+        } else {
+          showNotification(
+            paste("Warning: Stan results obtained, but at least one MCMC diagnostic is worrying. In general,",
+                  "this indicates that the Stan results should not be used."),
+            duration = NA,
+            type = "warning"
+          )
+        }
         
       }
       
@@ -1001,13 +1016,49 @@ server <-
       )
     }
 
-    # Clean the data
+    # get values of several arguments
   
     if (input$degree_base == 0 || is.null(input$model_center)) {
       model_center <- 0
     } else {
       model_center <- input$model_center
     }
+    
+    FE_base <- paste0('c(', paste(input$FE_base, collapse=','), ')')
+    
+    RE_base <- paste0('c(', paste(input$RE_base, collapse=','), ')')
+    
+    RE_base2 <- if (is.null(input$RE_base2)) "NULL" else 
+      paste0('c(', paste(input$RE_base2, collapse=','), ')')
+    
+    FE_trt <- paste0('c(', paste(input$FE_trt, collapse=','), ')')
+    
+    RE_trt <- if (is.null(input$RE_trt)) "NULL" else 
+      paste0('c(', paste(input$RE_trt, collapse=','), ')')
+    
+    RE_trt2 <- if (is.null(input$RE_trt2)) "NULL" else 
+      paste0('c(', paste(input$RE_trt2, collapse=','), ')')
+    
+    A <- if (is.null(input$A_time)) 0L else input$A_time
+    B <- if (is.null(input$B_time)) 1L else input$B_time
+    
+    if (input$bshow_advOpts == TRUE) {
+      seed <- input$badvOpts_seed
+      cores <- input$badvOpts_cores
+      chains <- input$badvOpts_chains
+      iter <- input$badvOpts_iter
+      warmup <- input$badvOpts_warmup
+      thin <- input$badvOpts_thin
+    } else {
+      seed <- NA
+      cores <- 1L
+      chains <- 4L
+      iter <- 2000L
+      warmup <- 1000L
+      thin <- 10L
+    }
+    
+    # calculate effect size using calc_BCSMD
     
     if (input$dat_type == "example") {
       
@@ -1031,40 +1082,112 @@ server <-
       session <- "session"
       phase <- "phase"
       outcome <- "outcome"
-      series <- "series"
-      cluster <- "cluster"
+      cluster <- if (studyDesign() == "CMB") "cluster" else "NULL"
+      series <- if (studyDesign() == "RMBB") "series" else "NULL"
+      param_args <- switch(studyDesign(),
+                                "RMBB" = paste(example_parms$vars[2:6], collapse='", "'),
+                                "CMB" = paste(example_parms$vars[-c(1,2,7,9)], collapse='", "'),
+                                "MBP" = paste(example_parms$vars, collapse='", "'),
+                                "TR" = paste(example_parms$vars, collapse='", "'),
+                                c())
+      var_names <- switch(studyDesign(),
+                         "RMBB" = paste(c("case","series","outcome","session","phase"), collapse='", "'),
+                         "CMB" = paste(c("cluster","case","phase","session","outcome"), collapse='", "'),
+                         "MBP" = paste(c("case","session","phase","outcome"), collapse='", "'),
+                         c())
       
-      if (studyDesign() == "TR") {
-        clean_dat <- c(clean_dat_A,
-                       '',
-                       parse_code_chunk("clean-example-nofilter-TR",
-                                        args = list(user_parms = paste(example_parms$vars, collapse='", "'),
-                                                    user_design = studyDesign()))
-        )
-      } else if (studyDesign() == "MBP") {
-        clean_dat <- c(clean_dat_A,
-                       '',
-                       parse_code_chunk("clean-example-nofilter",
-                                        args = list(user_parms = paste(example_parms$vars, collapse='", "'),
-                                                    user_design = studyDesign(),
-                                                    user_model_center = model_center))
-        )
-      } else if (studyDesign() == "RMBB") {
-        clean_dat <- c(clean_dat_A,
-                       '',
-                       parse_code_chunk("clean-example-nofilter-RMBB",
-                                        args = list(user_parms = paste(example_parms$vars[2:6], collapse='", "'),
-                                                    user_design = studyDesign(),
-                                                    user_model_center = model_center))
-        )
-      } else if (studyDesign() == "CMB") {
-        clean_dat <- c(clean_dat_A,
-                       '',
-                       parse_code_chunk("clean-example-nofilter-CMB",
-                                        args = list(user_parms = paste(example_parms$vars[-c(1,2,7,9)], collapse='", "'),
-                                                    user_design = studyDesign(),
-                                                    user_model_center = model_center))
-        )
+      if (input$method == "RML") {
+        
+        if (studyDesign() == "TR") {
+          es_res <- c(clean_dat_A,
+                         '',
+                         parse_code_chunk("es-RML-example-TR",
+                                          args = list(user_parms = param_args,
+                                                      user_design = studyDesign(),
+                                                      user_corStruct = input$corStruct,
+                                                      user_varStruct = input$varStruct))
+          )
+        } else if (studyDesign() %in% c("MBP", "RMBB", "CMB")) {
+          es_res <- c(clean_dat_A,
+                         '',
+                         parse_code_chunk("es-RML-example-MBs",
+                                          args = list(user_parms = param_args,
+                                                      user_varnames = var_names,
+                                                      user_design = studyDesign(),
+                                                      user_cluster = cluster,
+                                                      user_series = series,
+                                                      user_model_center = model_center,
+                                                      user_FE_base = FE_base,
+                                                      user_RE_base = RE_base,
+                                                      user_RE_base2 = RE_base2,
+                                                      user_FE_trt = FE_trt,
+                                                      user_RE_trt = RE_trt,
+                                                      user_RE_trt2 = RE_trt2,
+                                                      user_corStruct = input$corStruct,
+                                                      user_varStruct = input$varStruct,
+                                                      user_A = A,
+                                                      user_B = B))
+          )
+        }
+        
+      } else if (input$method == "Bayes") {
+        
+        if (studyDesign() == "TR") {
+          es_res <- c(clean_dat_A,
+                         '',
+                         parse_code_chunk("es-Bayes-example-TR",
+                                          args = list(user_parms = paste(example_parms$vars, collapse='", "'),
+                                                      user_design = studyDesign(),
+                                                      user_corStruct = input$corStruct,
+                                                      user_varStruct = input$varStruct,
+                                                      user_chains = chains,
+                                                      user_iter = iter,
+                                                      user_warmup = warmup,
+                                                      user_thin = thin,
+                                                      user_cores = cores,
+                                                      user_seed = seed))
+          )
+        } else if (studyDesign() %in% c("MBP", "RMBB", "CMB")) {
+          es_res <- c(clean_dat_A,
+                         '',
+                         parse_code_chunk("es-Bayes-example-MBs",
+                                          args = list(user_parms = param_args,
+                                                      user_varnames = var_names,
+                                                      user_design = studyDesign(),
+                                                      user_model_center = model_center,
+                                                      user_FE_base = FE_base,
+                                                      user_RE_base = RE_base,
+                                                      user_RE_base2 = RE_base2,
+                                                      user_FE_trt = FE_trt,
+                                                      user_RE_trt = RE_trt,
+                                                      user_RE_trt2 = RE_trt2,
+                                                      user_corStruct = input$corStruct,
+                                                      user_varStruct = input$varStruct,
+                                                      user_chains = chains,
+                                                      user_iter = iter,
+                                                      user_warmup = warmup,
+                                                      user_thin = thin,
+                                                      user_cores = cores,
+                                                      user_seed = seed,
+                                                      user_A = A,
+                                                      user_B = B))
+          )
+        }
+        
+      } else {
+        
+        if (studyDesign() == "MBP") {
+          es_res <- parse_code_chunk("es-MB", args = list(user_case = case,
+                                                          user_session = session,
+                                                          user_outcome = outcome))
+        } else {
+          phase_pair <- paste0(phase, "_pair")
+          es_res <- parse_code_chunk("es-ABK", args = list(user_case = case,
+                                                           user_session = session,
+                                                           user_outcome = outcome,
+                                                           user_phase_pair = phase_pair))
+        } 
+        
       }
       
     } else {
@@ -1093,175 +1216,109 @@ server <-
       }
 
       if (studyDesign() == "TR") {
-          clean_dat <- c(clean_dat_B,
-                         '',
-                         parse_code_chunk("clean-inputdata-nofilter-TR", 
-                                          args = list(user_caseID = case, 
-                                                      user_session = session,
-                                                      user_phaseID = phase,
-                                                      user_outcome = outcome,
-                                                      user_design = studyDesign(),
-                                                      user_treatment = input$treatment,
-                                                      user_round = round_session))
+        
+        if (input$method == "RML") {
+          es_res <- c(clean_dat_B,
+                      '',
+                      parse_code_chunk("es-RML-inputdata-TR",
+                                       args = list(user_caseID = case,
+                                                   user_session = session,
+                                                   user_phaseID = phase,
+                                                   user_outcome = outcome,
+                                                   user_design = studyDesign(),
+                                                   user_treatment = input$treatment,
+                                                   user_round = round_session,
+                                                   user_corStruct = input$corStruct,
+                                                   user_varStruct = input$varStruct))
           )
-        } else if (studyDesign() %in% c("MBP", "RMBB", "CMB")) {
-          clean_dat <- c(clean_dat_B,
-                         '',
-                         parse_code_chunk("clean-inputdata-nofilter", 
-                                          args = list(user_caseID = case,
-                                                      user_session = session,
-                                                      user_phaseID = phase,
-                                                      user_outcome = outcome,
-                                                      user_design = studyDesign(),
-                                                      user_model_center = model_center,
-                                                      user_treatment = input$treatment,
-                                                      user_round = round_session,
-                                                      user_clusterID = cluster,
-                                                      user_seriesID = series))
+        } else if (input$method == "Bayes") {
+          es_res <- c(clean_dat_B,
+                       '',
+                       parse_code_chunk("es-Bayes-inputdata-TR", 
+                                        args = list(user_caseID = case, 
+                                                    user_session = session,
+                                                    user_phaseID = phase,
+                                                    user_outcome = outcome,
+                                                    user_design = studyDesign(),
+                                                    user_treatment = input$treatment,
+                                                    user_round = round_session,
+                                                    user_corStruct = input$corStruct,
+                                                    user_varStruct = input$varStruct,
+                                                    user_chains = chains,
+                                                    user_iter = iter,
+                                                    user_warmup = warmup,
+                                                    user_thin = thin,
+                                                    user_cores = cores,
+                                                    user_seed = seed))
+          )
+        }
+          
+      } else if (studyDesign() %in% c("MBP", "RMBB", "CMB")) {
+        
+        if (input$method == "RML") {
+          
+          es_res <- c(clean_dat_B,
+                       '',
+                       parse_code_chunk("es-RML-inputdata-MBs", 
+                                        args = list(user_design = studyDesign(),
+                                                    user_caseID = case,
+                                                    user_phaseID = phase,
+                                                    user_session = session,
+                                                    user_outcome = outcome,
+                                                    user_clusterID = cluster,
+                                                    user_seriesID = series,
+                                                    user_model_center = model_center,
+                                                    user_round = round_session,
+                                                    user_treatment = input$treatment,
+                                                    user_FE_base = FE_base,
+                                                    user_RE_base = RE_base,
+                                                    user_RE_base2 = RE_base2,
+                                                    user_FE_trt = FE_trt,
+                                                    user_RE_trt = RE_trt,
+                                                    user_RE_trt2 = RE_trt2,
+                                                    user_corStruct = input$corStruct,
+                                                    user_varStruct = input$varStruct,
+                                                    user_A = A,
+                                                    user_B = B))
+          )
+          
+        } else if (input$method == "Bayes") {
+          
+          es_res <- c(clean_dat_B,
+                       '',
+                       parse_code_chunk("es-Bayes-inputdata-MBs", 
+                                        args = list(user_design = studyDesign(),
+                                                    user_caseID = case,
+                                                    user_phaseID = phase,
+                                                    user_session = session,
+                                                    user_outcome = outcome,
+                                                    user_clusterID = cluster,
+                                                    user_seriesID = series,
+                                                    user_model_center = model_center,
+                                                    user_round = round_session,
+                                                    user_treatment = input$treatment,
+                                                    user_FE_base = FE_base,
+                                                    user_RE_base = RE_base,
+                                                    user_RE_base2 = RE_base2,
+                                                    user_FE_trt = FE_trt,
+                                                    user_RE_trt = RE_trt,
+                                                    user_RE_trt2 = RE_trt2,
+                                                    user_corStruct = input$corStruct,
+                                                    user_varStruct = input$varStruct,
+                                                    user_chains = chains,
+                                                    user_iter = iter,
+                                                    user_warmup = warmup,
+                                                    user_thin = thin,
+                                                    user_cores = cores,
+                                                    user_seed = seed,
+                                                    user_A = A,
+                                                    user_B = B))
           )
         }
       }
-    
-    # Fit the model
-    
-    if (input$method=="RML") {
-      
-      if (studyDesign() == "TR") {
-        session_FE <- if (is.null(input$FE_base) | !(0 %in% input$FE_base)) "0" else "1"
-        trt_FE <- if (is.null(input$FE_trt) | !(0 %in% input$FE_trt)) NULL else "trt"
-        session_RE <- if (is.null(input$RE_base) | !(0 %in% input$RE_base)) "0" else "1"
-        trt_RE <- if (is.null(input$RE_trt) | !(0 %in% input$RE_trt)) NULL else "trt"
-      } else {
-        session_FE <- write_formula(input$FE_base, c("0","1", session))
-        trt_FE <- write_formula(input$FE_trt, c("NULL", "trt", paste0(session, "_trt")))
-        session_RE <- write_formula(input$RE_base, c("0","1", session))
-        trt_RE <- write_formula(input$RE_trt, c("NULL","trt", paste0(session, "_trt")))
-        if (studyDesign() %in% c("RMBB", "CMB")) {
-          session_RE_2 <- write_formula(input$RE_base2, c("0","1", session))
-          trt_RE_2 <- write_formula(input$RE_trt2, c("NULL","trt", paste0(session, "_trt")))
-        }
-      }
-      
-      fixed <- paste(outcome, "~", paste(c(session_FE, trt_FE), collapse = " + "))
-      if (studyDesign() == "RMBB") {
-        random <- paste0("list(", case, " = ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
-                         ", ", series, " = ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")
-      } else if (studyDesign() == "CMB") {
-        random <- paste0("list(",cluster, " = ~ ", paste(c(session_RE_2, trt_RE_2), collapse = " + "),
-                         ", ", case, " = ~ ", paste(c(session_RE, trt_RE), collapse = " + "),")")
-      } else {
-        random <- paste("~", paste(c(session_RE, trt_RE), collapse = " + "), "|", case)
-      }
-      
-      corr_struct <- switch(input$corStruct,
-                            "AR1" = 
-                              if (studyDesign() == "RMBB") {
-                                paste0("\n               correlation = corAR1(0.01, ~ ", session, " | ", case," / ", series, "),")
-                              } else if (studyDesign() == "CMB") {
-                                paste0("\n               correlation = corAR1(0.01, ~ ", session, " | ", cluster, " / ", case, "),")
-                              } else {
-                                paste0("\n               correlation = corAR1(0.01, ~ ", session, " | ", case, "),")
-                              },
-                            "MA1" = 
-                              if (studyDesign() == "RMBB") {
-                                paste0("\n               correlation = corARMA(0, ~ ", session, " | ", case," / ", series, ", p = 0, q = 1),")
-                              } else if (studyDesign() == "CMB") {
-                                paste0("\n               correlation = corARMA(0, ~ ", session, " | ", cluster, " / ", case, ", p = 0, q = 1),")
-                              } else {
-                                paste0("\n               correlation = corARMA(0, ~ ", session, " | ", case, ", p = 0, q = 1),")
-                              },
-                            "IID" = "",
-                            c())
-      
-      var_struct <- switch(input$varStruct,
-                           "hom" = "",
-                           "het" = paste0("\n               weights = varIdent(form = ~ 1 | ", phase, "),"),
-                           c())
-      
-      fit_mod <- parse_code_chunk("fit-RML", args = list(user_fixed = fixed, 
-                                                         user_random = random,
-                                                         corr_struct = corr_struct,
-                                                         var_struct = var_struct))
-      
-    } else {
-      fit_mod <- c()
     }
     
-    # Calculate effect size
-    
-    if (input$method == "RML") {
-      center <- if (input$degree_base == 0 || is.null(input$model_center)) 0L else input$model_center
-      A <- if (is.null(input$A_time)) 0L else input$A_time
-      B <- if (is.null(input$B_time)) 1L else input$B_time
-      p_const <- c(rep(0L, length(input$FE_base)), (B - A)^as.integer(input$FE_trt))
-      
-      # get r_const when centering at an arbitrary time instead of B
-      r_dim <- length(input$RE_base) + length(input$RE_trt)
-      r_const_dim <- r_dim * (r_dim + 1) / 2
-      bc_vec <- (B - center)^as.integer(input$RE_base)
-      bc_mat <- 2 * tcrossprod(bc_vec) - diag(bc_vec^2)
-      r_const_base <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
-      r_const_trt <- rep(0L, (r_const_dim - length(r_const_base)))
-      r_const_cor <- rep(0L, length(model_fit()$model$modelStruct$corStruct))
-      r_const_var <- rep(0L, length(model_fit()$model$modelStruct$varStruct))
-      if (studyDesign() %in% c("MBP", "TR")) {
-        r_const <- c(r_const_base, r_const_trt, r_const_cor, r_const_var, 1L)
-      } else {
-        r_dim2 <- length(input$RE_base2) + length(input$RE_trt2)
-        r_const_dim2 <- r_dim2 * (r_dim2 + 1) / 2
-        bc_vec2 <- (B - center)^as.integer(input$RE_base2)
-        bc_mat2 <- 2 * tcrossprod(bc_vec2) - diag(bc_vec2^2)
-        r_const_base2 <- bc_mat2[upper.tri(bc_mat2, diag = TRUE)]
-        r_const_trt2 <- rep(0L, r_const_dim2 - length(r_const_base2))
-        r_const <- c(r_const_base2, r_const_trt2, r_const_base, r_const_trt, r_const_cor, r_const_var, 1L)
-      }
-      
-      if (studyDesign() == "MBP") {
-        calc_ES <- parse_code_chunk("es-RML-MB", args = list(user_A = A,
-                                                          user_B = B,
-                                                          user_FE_base = paste_object(input$FE_base), 
-                                                          user_FE_trt = paste_object(input$FE_trt),
-                                                          user_rconst_base = paste_object(r_const_base),
-                                                          user_rconst_trt = paste_object(r_const_trt),
-                                                          user_rconst_cor = paste_object(r_const_cor),
-                                                          user_rconst_var = paste_object(r_const_var),
-                                                          user_pconstant = paste_object(p_const),
-                                                          user_rconstant= paste_object(r_const)))
-      } else if (studyDesign() %in% c("RMBB", "CMB")) {
-        calc_ES <- parse_code_chunk("es-RML-3level", args = list(user_A = A,
-                                                             user_B = B,
-                                                             user_FE_base = paste_object(input$FE_base), 
-                                                             user_FE_trt = paste_object(input$FE_trt),
-                                                             user_rconst_base = paste_object(r_const_base),
-                                                             user_rconst_trt = paste_object(r_const_trt),
-                                                             user_rconst_base2 = paste_object(r_const_base2),
-                                                             user_rconst_trt2 = paste_object(r_const_trt2),
-                                                             user_rconst_cor = paste_object(r_const_cor),
-                                                             user_rconst_var = paste_object(r_const_var),
-                                                             user_pconstant = paste_object(p_const),
-                                                             user_rconstant= paste_object(r_const)))
-      } else{
-        calc_ES <- parse_code_chunk("es-RML-TR", args = list(user_rconst_base = paste_object(r_const_base),
-                                                          user_rconst_trt = paste_object(r_const_trt),
-                                                          user_rconst_cor = paste_object(r_const_cor),
-                                                          user_rconst_var = paste_object(r_const_var),
-                                                          user_pconstant = paste_object(p_const),
-                                                          user_rconstant= paste_object(r_const)))
-      }
-      
-    } else {
-      if (studyDesign() == "MBP") {
-        calc_ES <- parse_code_chunk("es-MB", args = list(user_case = case,
-                                                         user_session = session,
-                                                         user_outcome = outcome))
-      } else {
-        phase_pair <- paste0(phase, "_pair")
-        calc_ES <- parse_code_chunk("es-ABK", args = list(user_case = case,
-                                                          user_session = session,
-                                                          user_outcome = outcome,
-                                                          user_phase_pair = phase_pair))
-      }
-    }
+    # Graphing: NEED TO BE UPDATED
     
     furtherArg_design <- switch(studyDesign(),
                                 "RMBB" = paste0("series = ", series, ","),
@@ -1283,7 +1340,7 @@ server <-
                                                            furtherArg_method = furtherArg_method,
                                                            furtherArg_design = furtherArg_design))
 
-    res <- c(header_res, read_res, clean_dat, '', fit_mod, '', calc_ES, '', SCD_graph, '')
+    res <- c(header_res, read_res, es_res, '', SCD_graph, '')
     paste(res, collapse = "\n")
   })
   
