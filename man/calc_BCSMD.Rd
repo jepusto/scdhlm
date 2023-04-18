@@ -23,6 +23,7 @@ calc_BCSMD(
   RE_trt_2 = NULL,
   corStruct = "AR1",
   varStruct = "hom",
+  lmeControl = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE),
   Bayesian = FALSE,
   prior = NULL,
   chains = 4,
@@ -116,6 +117,9 @@ structure of session-level errors. Options are \code{"AR1"} (default),
 heteroscedasticity structure of session-level errors. Options are
 \code{"hom"} (default) or \code{"het"}, which allows for the session-level
 error variances to differ by phase.}
+
+\item{lmeControl}{Specify control values for \code{lme} fit. See
+\code{?lmeControl} for more detail.}
 
 \item{Bayesian}{Logical indicating whether to apply Bayesian estimation
 methods. If \code{FALSE} (default), apply restricted maximum likelihood

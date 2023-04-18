@@ -355,6 +355,8 @@ calc_consts <- function(estimation, design, center,
 #'   heteroscedasticity structure of session-level errors. Options are
 #'   \code{"hom"} (default) or \code{"het"}, which allows for the session-level
 #'   error variances to differ by phase.
+#' @param lmeControl Specify control values for \code{lme} fit. See
+#'   \code{?lmeControl} for more detail.
 #' @param Bayesian Logical indicating whether to apply Bayesian estimation
 #'   methods. If \code{FALSE} (default), apply restricted maximum likelihood
 #'   estimation. If \code{TRUE}, apply Bayesian estimation methods (i.e., Markov
@@ -488,6 +490,7 @@ calc_BCSMD <- function(design,
                        treatment_name = NULL,
                        FE_base = 0, RE_base = 0, RE_base_2 = NULL, FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
                        corStruct = "AR1", varStruct = "hom",
+                       lmeControl = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE),
                        Bayesian = FALSE, prior = NULL,
                        chains = 4, iter = 2000, 
                        warmup = iter / 2, thin = 10, cores = 1, seed = NA,
@@ -731,7 +734,7 @@ calc_BCSMD <- function(design,
                    correlation = cor_struct,
                    weights = var_struct,
                    data = dat,
-                   control = lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)),
+                   control = lmeControl),
                error = function(e) E <<- e),
       warning = function(w) W <<- w)
     m_fit$call$fixed <- fixed
