@@ -616,25 +616,34 @@ calc_BCSMD <- function(design,
                                `IID` = NULL)
     
     # fit the model
-    
-    m_fit <- brms::brm(
-      formula = 
-        if (varStruct == "het") {
-          brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes,"+",cor_struct_Bayes)), 
-             as.formula("sigma ~ trt"), center = FALSE)
-        } else {
-          brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes,"+",cor_struct_Bayes)), center = FALSE)
-        },
-      data = dat,
-      prior = prior,
-      chains = chains,
-      iter = iter,
-      warmup = warmup,
-      thin = thin,
-      cores = cores,
-      save_pars = save_pars(all = TRUE),
-      seed = seed
-    )
+    W <- TRUE
+    E <- NULL
+    m_fit <- withCallingHandlers(
+      tryCatch(brms::brm(
+        formula = 
+          if (varStruct == "het") {
+            brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes,"+",cor_struct_Bayes)), 
+                     as.formula("sigma ~ trt"), center = FALSE)
+          } else {
+            if (corStruct == "IID") {
+              brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes)), center = FALSE)
+            } else {
+              brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes,"+", cor_struct_Bayes)), center = FALSE)
+            }
+          },
+        data = dat,
+        prior = prior,
+        chains = chains,
+        iter = iter,
+        warmup = warmup,
+        thin = thin,
+        cores = cores,
+        save_pars = save_pars(all = TRUE),
+        seed = seed
+      ),
+      error = function(e) E <<- e),
+      warning = function(w) W <<- w)
+    converged <- if (is.null(E)) W else E
     
     # calculate effect sizes
     pr_consts <- calc_consts(estimation = "Bayes", design = design, center = center,
@@ -683,7 +692,8 @@ calc_BCSMD <- function(design,
       
       res <- c(list(model = m_fit, g_AB = g_Bayes$g_AB, SE_g_AB = g_Bayes$SE_g_AB, 
                     CI_L = g_Bayes$CI_L, CI_U = g_Bayes$CI_U, nu = g_Bayes$nu, 
-                    phi = g_Bayes$autocor_param, var_param = g_Bayes$var_param, rho = g_Bayes$rho))
+                    phi = g_Bayes$autocor_param, var_param = g_Bayes$var_param, rho = g_Bayes$rho,
+                    converged = converged))
       
       class(res) <- "g_mlm_Bayes"
       
