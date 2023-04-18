@@ -9,11 +9,13 @@ skip_if_not_installed("readxl")
 skip_if_not_installed("glue")
 skip_if_not_installed("janitor")
 skip_if_not_installed("rclipboard")
+skip_if_not_installed("brms")
 
 suppressWarnings(library(shiny))
 suppressWarnings(library(shinytest))
 suppressWarnings(library(rvest))
 suppressWarnings(library(nlme))
+suppressWarnings(library(brms))
 
 skip_if_not(dependenciesInstalled())
 
@@ -44,9 +46,9 @@ check_readme <- function(data, estMethod, digits = 3) {
   app$setInputs(scdhlm_calculator = "Load")
   app$setInputs(example = data)
   app$setInputs(scdhlm_calculator = "Inspect")
-  app$setInputs(corStruct = "hom")
   app$setInputs(scdhlm_calculator = "Model")
   app$setInputs(method = estMethod)
+  app$setInputs(runModel = "click")
   app$setInputs(scdhlm_calculator = "Effect size")
   
   Sys.sleep(0.5)
@@ -140,6 +142,7 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   # app$setInputs(degree_trt = degree_trt)
   app$setInputs(corStruct = corStruct)
   app$setInputs(varStruct = varStruct)
+  app$setInputs(runModel = "click")
   app$setInputs(scdhlm_calculator = "Effect size")
   app$setInputs(scdhlm_calculator = "Syntax for R")
   app$setInputs(clipbtn = "click")
@@ -156,16 +159,16 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   names(summary_output) <- c("g_AB","SE_g_AB","df")
   
   raw_syntax <- app$getValue(name = "syntax")
-  raw_syntax_cut <- sub("summary\\(ES_RML).*", "", raw_syntax)
+  raw_syntax_cut <- sub("data = dat).*", "data = dat)", raw_syntax)
   code_file <- tempfile(fileext = ".R")
   cat(raw_syntax_cut, file = code_file)
   source(code_file)
   
   pkg_output <- 
     data.frame(
-      g_AB = ES_RML$g_AB,
-      SE_g_AB = ES_RML$SE_g_AB,
-      df = ES_RML$nu
+      g_AB = res$`BC-SMD estimate`,
+      SE_g_AB = res$`Std. Error`,
+      df = res$`Degrees of freedom`
     ) |> 
     round(digits = digits)
   
