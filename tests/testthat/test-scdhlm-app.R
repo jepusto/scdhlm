@@ -159,16 +159,16 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   names(summary_output) <- c("g_AB","SE_g_AB","df")
   
   raw_syntax <- app$getValue(name = "syntax")
-  raw_syntax_cut <- sub("data = dat).*", "data = dat)", raw_syntax)
+  raw_syntax_cut <- sub("res).*", "res)", raw_syntax)
   code_file <- tempfile(fileext = ".R")
   cat(raw_syntax_cut, file = code_file)
   source(code_file)
   
   pkg_output <- 
     data.frame(
-      g_AB = res$`BC-SMD estimate`,
-      SE_g_AB = res$`Std. Error`,
-      df = res$`Degrees of freedom`
+      g_AB = res$g_AB,
+      SE_g_AB = res$SE_g_AB,
+      df = res$nu
     ) |> 
     round(digits = digits)
   

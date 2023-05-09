@@ -6,7 +6,7 @@ test_that("calc_consts() error messages work", {
   
   expect_error(
     calc_consts(
-      estimation = "HPS", design = "MBP", 
+      method = "HPS", design = "MBP", 
       center = 4, 
       FE_base = c(0,1), RE_base = c(0),
       FE_trt = c(0,1), RE_trt = c(1),
@@ -18,7 +18,7 @@ test_that("calc_consts() error messages work", {
   
   expect_error(
     calc_consts(
-      estimation = "RML", design = "MBP", 
+      method = "RML", design = "MBP", 
       center = 4, 
       FE_base = c(0,1), RE_base = c(0),
       FE_trt = c(0,1), RE_trt = c(1),
@@ -30,7 +30,7 @@ test_that("calc_consts() error messages work", {
   
   expect_error(
     calc_consts(
-      estimation = "RML", design = "MBP", 
+      method = "RML", design = "MBP", 
       center = 4, 
       FE_base = c(0,1), RE_base = c(0),
       FE_trt = c(0,1), RE_trt = c(1),
@@ -63,7 +63,7 @@ test_that("calc_consts() returns vectors with expected structure", {
   
   consts <- mapply(
     calc_consts, 
-    estimation = "RML", 
+    method = "RML", 
     design = structs$design,
     corStruct = structs$corStruct,
     varStruct = structs$varStruct,

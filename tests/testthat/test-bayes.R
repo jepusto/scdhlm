@@ -210,7 +210,7 @@ test_that("The Bayesian estimation works for MBP design.", {
   default_AB <- default_times(design = "MBP", 
                               case = case, phase = treatment, session = time, 
                               data = Laski)
-  consts <- calc_consts(estimation = "Bayes", design = "MBP", center = 4,
+  consts <- calc_consts(method = "Bayes", design = "MBP", center = 4,
                         FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = NULL,
                         FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
                         corStruct = "AR1", varStruct = "hom",
@@ -294,7 +294,7 @@ test_that("The Bayesian estimation works for TR design.", {
                  data = Anglesea)
     )
   
-  consts <- calc_consts(estimation = "Bayes", design = "TR", center = 0,
+  consts <- calc_consts(method = "Bayes", design = "TR", center = 0,
                         FE_base = 0, RE_base = 0, RE_base_2 = NULL,
                         FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
                         corStruct = "IID", varStruct = "hom",
@@ -403,7 +403,7 @@ test_that("The Bayesian estimation works for CMB design", {
   
   # compare g_mlm_Bayes() and calc_g_Bayes()
   
-  consts <- calc_consts(estimation = "Bayes", design = "CMB", center = 0,
+  consts <- calc_consts(method = "Bayes", design = "CMB", center = 0,
                         FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
                         FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
                         corStruct = "AR1", varStruct = "het",
@@ -585,7 +585,7 @@ test_that("The Bayesian estimation works for RMBB design", {
                               phase = treatment, session = time, 
                               data = Thiemann2001)
   
-  consts <- calc_consts(estimation = "Bayes", design = "RMBB", center = 15,
+  consts <- calc_consts(method = "Bayes", design = "RMBB", center = 15,
                         FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
                         FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
                         corStruct = "MA1", varStruct = "hom",
