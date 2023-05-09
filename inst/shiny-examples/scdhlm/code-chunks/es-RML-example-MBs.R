@@ -21,8 +21,9 @@ res <- calc_BCSMD(design = "{user_design}",
                   varStruct = "{user_varStruct}",
                   A = {user_A},
                   B = {user_B},
+                  summary = FALSE,
                   data = dat)
 
-res
+summary(res)
 
 

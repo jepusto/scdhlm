@@ -28,8 +28,9 @@ res <- calc_BCSMD(design = "{user_design}",
                   seed = {user_seed},
                   A = {user_A},
                   B = {user_B},
+                  summary = FALSE,
                   data = dat)
 
-res
+summary(res)
 
 

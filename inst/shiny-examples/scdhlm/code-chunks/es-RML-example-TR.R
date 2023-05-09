@@ -13,8 +13,9 @@ res <- calc_BCSMD(design = "{user_design}",
                   FE_trt = 0,
                   corStruct = "{user_corStruct}",
                   varStruct = "{user_varStruct}",
+                  summary = FALSE,
                   data = dat)
 
-res
+summary(res)
 
 

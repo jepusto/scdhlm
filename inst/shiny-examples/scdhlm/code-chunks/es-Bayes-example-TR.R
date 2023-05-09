@@ -20,8 +20,9 @@ res <- calc_BCSMD(design = "{user_design}",
                   thin = user_thin,
                   cores = user_cores,
                   seed = user_seed,
+                  summary = FALSE,
                   data = dat)
 
-res
+summary(res)
 
 
