@@ -1328,7 +1328,8 @@ server <-
                                 c())
     
     furtherArg_method <- switch(input$method,
-                                "RML" = paste0("model_fit = fit_RML,"),
+                                "RML" = paste0("model_fit = res$model"),
+                                "Bayes" = paste0("model_fit = res$model"),
                                 "HPS" = "",
                                 c())
     

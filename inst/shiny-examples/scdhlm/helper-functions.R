@@ -63,7 +63,7 @@ calc_effect_size <- function(model, design, method,
                              corStruct, varStruct,
                              A, B, center = 0) {
   
-  pr_consts <- calc_consts(estimation = method, design = design, 
+  pr_consts <- calc_consts(method = method, design = design, 
                            FE_base = FE_base, RE_base = RE_base, RE_base_2 = RE_base_2,
                            FE_trt = FE_trt, RE_trt = RE_trt, RE_trt_2 = RE_trt_2,
                            corStruct = corStruct, varStruct = varStruct,
@@ -71,10 +71,10 @@ calc_effect_size <- function(model, design, method,
   
   if (method == "Bayes") {
     
-    es_res <- g_mlm_Bayes(model$model,
-                          p_const = pr_consts$p_const,
-                          r_const = pr_consts$r_const,
-                          rconst_base_var_index = pr_consts$rconst_base_var_index)
+    es_res <- scdhlm:::g_mlm_Bayes(model$model,
+                                   p_const = pr_consts$p_const,
+                                   r_const = pr_consts$r_const,
+                                   rconst_base_var_index = pr_consts$rconst_base_var_index)
     es_res$phi <- es_res$autocor_param
     
   } else if (method == "RML") {
