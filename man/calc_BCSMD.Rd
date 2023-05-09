@@ -23,7 +23,7 @@ calc_BCSMD(
   RE_trt_2 = NULL,
   corStruct = "AR1",
   varStruct = "hom",
-  lmeControl = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE),
+  lmeControl = nlme::lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE),
   Bayesian = FALSE,
   prior = NULL,
   chains = 4,
@@ -38,7 +38,7 @@ calc_BCSMD(
   cover = 95,
   bound = 35,
   symmetric = TRUE,
-  summary = TRUE,
+  summary = FALSE,
   data = NULL,
   ...
 )
