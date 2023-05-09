@@ -217,10 +217,48 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var_index = 1) {
   
 }
 
+
+#' @title Calculate constants
+#'
+#' @description Calculate constants associated with the fixed effect parameters
+#'   and the variance component parameters of the hierarchical model in order to
+#'   calculate the BC-SMD effect size.
+#'
+#' @param method Character string indicating the estimation method. Options
+#'   are \code{"RML"} or \code{"Bayes"}.
+#' @inheritParams calc_BCSMD
+#'
+#'
+#' @export
+#'
+#' @return A list of constants associated with the fixed effect parameters and
+#'   the variance component parameters of the hierarchical model for calculating
+#'   the effect size.
+#' 
+#' 
+#' @examples
+#' 
+#' calc_consts(method = "RML", design = "MBP", center = 4, 
+#'             FE_base = c(0,1), RE_base = c(0),
+#'             FE_trt = c(0,1), RE_trt = c(1),
+#'             corStruct = "IID", varStruct = "hom",
+#'             A = 4, B = 10) 
+#' 
+#' 
+#' calc_consts(method = "Bayes", design = "MBP", center = 4,
+#'             FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = NULL,
+#'             FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
+#'             corStruct = "AR1", varStruct = "hom",
+#'             A = 4, B = 10)
+#'
+#'
+
+
 # calculate p_const and r_const
-calc_consts <- function(estimation, design, center,
-                        FE_base, RE_base, RE_base_2, FE_trt, RE_trt, RE_trt_2,
-                        corStruct, varStruct, A, B) {
+calc_consts <- function(method, design, center = 0,
+                        FE_base = 0, RE_base = 0, RE_base_2 = NULL, 
+                        FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
+                        corStruct = "AR1", varStruct = "hom", A, B) {
   
   # p_const and bc_mat
   p_const <- c(rep(0L, length(FE_base)), (B - A)^as.integer(FE_trt))
@@ -236,7 +274,7 @@ calc_consts <- function(estimation, design, center,
     bc_mat2 <- 2 * tcrossprod(bc_vec2) - diag(bc_vec2^2, nrow = length(bc_vec2))
   }
   
-  if (estimation == "Bayes") {
+  if (method == "Bayes") {
     
     r_const_base_var <- diag(bc_mat)
     r_const_trt_var <- rep(0L, length(RE_trt))
@@ -260,7 +298,7 @@ calc_consts <- function(estimation, design, center,
     
     return(list(p_const = p_const, r_const = r_const, rconst_base_var_index = rconst_base_var_index))
     
-  } else if (estimation == "RML") {
+  } else if (method == "RML") {
     
     r_const_base <- bc_mat[upper.tri(bc_mat, diag = TRUE)]
     r_const_trt <- rep(0L, r_const_dim - length(r_const_base))
@@ -306,7 +344,7 @@ calc_consts <- function(estimation, design, center,
     
   } else {
     
-    stop("The p_const and r_const can only be calculated for 'RML' or 'Bayes' estimation.")
+    stop("The p_const and r_const can only be calculated for 'RML' or 'Bayes' estimation method.")
     
   }
   
@@ -490,13 +528,13 @@ calc_BCSMD <- function(design,
                        treatment_name = NULL,
                        FE_base = 0, RE_base = 0, RE_base_2 = NULL, FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
                        corStruct = "AR1", varStruct = "hom",
-                       lmeControl = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE),
+                       lmeControl = nlme::lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE),
                        Bayesian = FALSE, prior = NULL,
                        chains = 4, iter = 2000, 
                        warmup = iter / 2, thin = 10, cores = 1, seed = NA,
                        A = NULL, B = NULL, D = NULL,
                        cover = 95, bound = 35, symmetric = TRUE,
-                       summary = TRUE, 
+                       summary = FALSE, 
                        data = NULL, ...) {
   
   install_brms <- requireNamespace("brms", quietly = TRUE)
@@ -649,7 +687,7 @@ calc_BCSMD <- function(design,
     converged <- if (is.null(E)) W else E
     
     # calculate effect sizes
-    pr_consts <- calc_consts(estimation = "Bayes", design = design, center = center,
+    pr_consts <- calc_consts(method = "Bayes", design = design, center = center,
                              FE_base = FE_base, RE_base = RE_base, RE_base_2 = RE_base_2,
                              FE_trt = FE_trt, RE_trt = RE_trt, RE_trt_2 = RE_trt_2,
                              corStruct = corStruct, varStruct = varStruct,
@@ -660,48 +698,30 @@ calc_BCSMD <- function(design,
                            r_const = pr_consts$r_const, 
                            rconst_base_var_index = pr_consts$rconst_base_var_index)
     
+    res <- c(list(g_AB = g_Bayes$g_AB, SE_g_AB = g_Bayes$SE_g_AB, 
+                  CI_L = g_Bayes$CI_L, CI_U = g_Bayes$CI_U, nu = g_Bayes$nu, 
+                  phi = g_Bayes$autocor_param, var_param = g_Bayes$var_param, rho = g_Bayes$rho),
+             list(model = m_fit, converged = converged),
+             list(CI_cover = cover))
+    
+    if (design %in% c("MBP", "RMBB", "CMB")) {
+      res$A <- A
+      res$B <- B
+    } else {
+      res$A <- res$B <- NA_real_
+    }
+    
+    class(res) <- "bcsmd"
+    
     # summary table
     
     if (summary) {
       
-      ES_summary <- data.frame(
-        ES = g_Bayes$g_AB,
-        SE = g_Bayes$SE_g_AB,
-        CI_L = g_Bayes$CI_L,
-        CI_U = g_Bayes$CI_U,
-        df = g_Bayes$nu,
-        phi = g_Bayes$autocor_param,
-        var_param = g_Bayes$var_param,
-        rho = g_Bayes$rho
-      )
-      
-      if (design %in% c("MBP", "RMBB", "CMB")) {
-        ES_summary$A <- A
-        ES_summary$B <- B
-      } else {
-        ES_summary$A <- NA_real_
-        ES_summary$B <- NA_real_
-      }
-      
-      CI_names <- paste0(cover, "% CI ", c("(lower)", "(upper)"))
-      row.names(ES_summary) <- NULL
-      names(ES_summary) <- c("BC-SMD estimate","Std. Error", CI_names,
-                             "Degrees of freedom","Auto-correlation", "Variance parameter", "Intra-class correlation",
-                             "Initial treatment time","Follow-up time")
-      
-      return(ES_summary)
+      return(summary(res))
       
     } else {
       
-      res <- c(list(model = m_fit, g_AB = g_Bayes$g_AB, SE_g_AB = g_Bayes$SE_g_AB, 
-                    CI_L = g_Bayes$CI_L, CI_U = g_Bayes$CI_U, nu = g_Bayes$nu, 
-                    phi = g_Bayes$autocor_param, var_param = g_Bayes$var_param, rho = g_Bayes$rho,
-                    converged = converged))
-      
-      class(res) <- "g_mlm_Bayes"
-      
       return(res)
-      
     }
     
   } else {
@@ -743,7 +763,7 @@ calc_BCSMD <- function(design,
     
     # calculate effect size
     
-    pr_consts <- calc_consts(estimation = "RML", design = design, center = center,
+    pr_consts <- calc_consts(method = "RML", design = design, center = center,
                              FE_base = FE_base, RE_base = RE_base, RE_base_2 = RE_base_2,
                              FE_trt = FE_trt, RE_trt = RE_trt, RE_trt_2 = RE_trt_2,
                              corStruct = corStruct, varStruct = varStruct,
@@ -757,55 +777,39 @@ calc_BCSMD <- function(design,
                                  (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
       rho_level3 <- round(with(g_RML, theta$Tau[[1]][1] /
                                  (theta$Tau[[1]][1] + theta$Tau[[2]][1] + theta$sigma_sq)), 3)
-      g_RML$rho <- paste0("Level2:", rho_level2, "  Level3:", rho_level3)
+      rho <- paste0("Level2:", rho_level2, "  Level3:", rho_level3)
     } else {
-      g_RML$rho <- with(g_RML, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
+      rho <- with(g_RML, theta$Tau[[1]][1] / (theta$Tau[[1]][1] + theta$sigma_sq))
     }
     
     CI <- CI_g(g_RML, cover = cover / 100L, bound = bound, symmetric = symmetric)
-    g_RML$phi <- if (corStruct == "IID") NA_real_ else g_RML$theta$cor_params
-    g_RML$var_param <- if (varStruct == "hom") NA_real_ else g_RML$theta$var_params
+    phi <- if (corStruct == "IID") NA_real_ else g_RML$theta$cor_params
+    var_param <- if (varStruct == "hom") NA_real_ else g_RML$theta$var_params
+    
+    res <- c(list(g_AB = g_RML$g_AB, SE_g_AB = g_RML$SE_g_AB,
+                  CI_L = CI[1], CI_U = CI[2], nu = g_RML$nu,
+                  phi = phi, var_param = var_param, rho = rho),
+             list(model = m_fit, converged = converged),
+             list(CI_cover = cover))
+    
+    if (design %in% c("MBP", "RMBB", "CMB")) {
+      res$A <- A
+      res$B <- B
+    } else {
+      res$A <- res$B <- NA
+    }
+    
+    class(res) <- "bcsmd"
+    
+    # summary table
     
     if (summary) {
       
-      ES_summary <- data.frame(
-        ES = as.numeric(g_RML$g_AB),
-        SE = as.numeric(g_RML$SE_g_AB),
-        CI_L = CI[1],
-        CI_U = CI[2],
-        df = g_RML$nu,
-        phi = g_RML$phi,
-        var_param = g_RML$var_param,
-        rho = g_RML$rho
-      )
-      
-      if (design %in% c("MBP", "RMBB", "CMB")) {
-        ES_summary$A <- A
-        ES_summary$B <- B
-      } else {
-        ES_summary$A <- NA
-        ES_summary$B <- NA
-      }
-      
-      ES_summary$converged <- if (isTRUE(converged)) "Yes" else "No"
-      
-      CI_names <- paste0(cover, "% CI ", c("(lower)", "(upper)"))
-      row.names(ES_summary) <- NULL
-      names(ES_summary) <- c("BC-SMD estimate","Std. Error", CI_names,
-                             "Degrees of freedom","Auto-correlation", "Variance parameter", "Intra-class correlation",
-                             "Initial treatment time","Follow-up time","Converged")
-      
-      return(ES_summary)
+      return(summary(res))
       
     } else {
-      g_RML$CI_L <- CI[1]
-      g_RML$CI_U <- CI[2]
-      g_RML$converged <- converged
-      g_RML$model <- m_fit
       
-      class(g_RML) <- c("enhanced_g_mlm", class(g_RML))
-      
-      return(g_RML)
+      return(res)
       
     }
     
@@ -813,6 +817,35 @@ calc_BCSMD <- function(design,
   
 }
 
+
+#' @export
+summary.bcsmd <- function(object, digits = 3, ...) {
+  
+  converged <- if(isTRUE(object$converged)) "Yes" else "No"
+  
+  ES_summary <- data.frame(
+    ES = object$g_AB,
+    SE = object$SE_g_AB,
+    CI_L = object$CI_L,
+    CI_U = object$CI_U,
+    df = object$nu,
+    phi = object$phi,
+    var_param = object$var_param,
+    rho = object$rho,
+    A = object$A,
+    B = object$B,
+    converged = converged 
+  )
+  
+  CI_names <- paste0(object$CI_cover, "% CI ", c("(lower)", "(upper)"))
+  row.names(ES_summary) <- NULL
+  names(ES_summary) <- c("BC-SMD estimate","Std. Error", CI_names,
+                         "Degrees of freedom","Auto-correlation", "Variance parameter", "Intra-class correlation",
+                         "Initial treatment time","Follow-up time", "Converged")
+  
+  return(ES_summary)
+  
+}
 
 #' @title A convenience function for calculating multiple design-comparable
 #'   effect sizes from a dataset that compiles data from multiple single-case
@@ -892,8 +925,12 @@ batch_calc_BCSMD <- function(data,
                              FE_base = 0, RE_base = 0, RE_base_2 = NULL, 
                              FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
                              corStruct = "AR1", varStruct = "hom",
+                             Bayesian = FALSE, prior = NULL,
+                             chains = 4, iter = 2000, warmup = iter/2,
+                             thin = 10, cores = 1, seed = NA,
                              A = NULL, B = NULL, D = NULL,
                              cover = 95, bound = 35, symmetric = TRUE,
+                             summary = TRUE,
                              ...) {
   
   design <- tryCatch(match.arg(design, c("TR","MBP","RMBB","CMB")),
@@ -948,12 +985,21 @@ batch_calc_BCSMD <- function(data,
         RE_trt_2 = RE_trt_2,
         corStruct = corStruct,
         varStruct = varStruct,
+        Bayesian = Bayesian,
+        prior = prior,
+        chains = chains,
+        iter = iter,
+        warmup = warmup,
+        thin = thin,
+        cores = cores,
+        seed = seed,
         A = A,
         B = B,
         D = D,
         cover = cover,
         bound = bound,
         symmetric = symmetric,
+        summary = summary,
         ...
       ),
       .groups = 'drop'
