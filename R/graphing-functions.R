@@ -112,7 +112,11 @@ graph_SCD <- function(design, case, phase, session, outcome,
   outcome_name <- deparse(substitute(outcome))
   
   if (!is.null(model_fit) && is.null(data)) {
-    model_dat <- nlme::getData(model_fit)
+    if (class(model_fit) == "lme") {
+      model_dat <- nlme::getData(model_fit)
+    } else if (class(model_fit) == "brmsfit") {
+      model_dat <- model_fit$data
+    }
     use_model_data <- all(c(case_name, phase_name, session_name, outcome_name) %in% names(model_dat))
   } else {
     use_model_data <- FALSE
@@ -206,12 +210,13 @@ graph_SCD <- function(design, case, phase, session, outcome,
     newdata$clusterCase <- as.factor(paste(newdata[[cluster_name]], newdata[[case_name]], sep = "-:-"))
   }
   
-  newdata$fitted <- if (design == "CMB") {
-    predict(model_fit, newdata = newdata, level = 1) 
-  } else {
-    predict(model_fit, newdata = newdata)
-  }
+  # remove na from newdata
+  newdata <- na.omit(newdata)
   
+  # Calculate predicted lines
+  newdata$fitted <- predict_SCD_model(model_fit, design, newdata)
+  
+  # Add prediction lines to the graph
   if (utils::packageVersion("ggplot2") < '3.4.0') {
     p <- p + ggplot2::geom_line(data = newdata, ggplot2::aes(y = fitted), size = 0.8)
   } else {
@@ -222,3 +227,36 @@ graph_SCD <- function(design, case, phase, session, outcome,
   
 }
 
+predict_SCD_model <- function(model_fit, design, newdata) UseMethod("predict_SCD_model")
+
+predict_SCD_model.lme <- function(model_fit, design, newdata) {
+  prediction <- if (design == "CMB") {
+    predict(model_fit, newdata = newdata, level = 1) 
+  } else {
+    predict(model_fit, newdata = newdata)
+  }
+  return(prediction)
+}
+
+predict_SCD_model.brmsfit <- function(model_fit, design, newdata) {
+  
+  # fixed effects
+  raw_beta <- brms::fixef(model_fit)[,1]
+  raw_beta_names <- names(raw_beta)
+  beta_names <- raw_beta_names[!grepl('^sigma_', raw_beta_names)]
+  beta <- raw_beta[beta_names]
+  X_matrix <- brms::make_standata(model_fit$formula, model_fit$data)[["X"]]
+  fixed_pred <- X_matrix %*% beta
+  
+  # random effects
+  dat <- model_fit$data
+  random_est <- lapply(brms::ranef(model_fit), function(x) x[,,1][,1])
+  random_names <- names(random_est)
+  random_pred <- mapply(function(x,y) rep(x, table(dat[[y]])), random_est, random_names)
+  random_pred_sum <- rowSums(random_pred)
+  
+  prediction <- as.numeric(fixed_pred) + random_pred_sum
+  
+  return(prediction)
+  
+}

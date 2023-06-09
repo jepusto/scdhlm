@@ -243,6 +243,15 @@ test_that("The Bayesian estimation works for MBP design.", {
   expect_type(Laski_comp, "list")
   expect_true(is.na(Laski_comp$var_param))
   
+  # graphing function
+  graph_Laski_comp <- graph_SCD(design="MBP",
+                                case = case, phase = treatment,
+                                session = time, outcome = outcome,
+                                model_fit = Laski_comp$model,
+                                data = Laski)
+  expect_s3_class(graph_Laski_comp, "ggplot")
+  expect_invisible(print(graph_Laski_comp))
+  
   # compare results from calc_BCSMD() and brm()
   
   expect_equal(Laski_comp$g, res_g_mlm_Bayes$g)
@@ -308,6 +317,14 @@ test_that("The Bayesian estimation works for TR design.", {
                                    A = NA, B = NA, center = 0)
   
   expect_equal(res_g_mlm_Bayes, res_calc_g_Bayes)
+  
+  # graphing function
+  graph_Ang_Bayes <- graph_SCD(design="TR",
+                               case = case, phase = phase,
+                               session = session, outcome = outcome,
+                               model_fit = Ang_Bayes$model)
+  expect_s3_class(graph_Ang_Bayes, "ggplot")
+  expect_invisible(print(graph_Ang_Bayes))
   
   # compare Bayes results to RML
   
@@ -400,6 +417,16 @@ test_that("The Bayesian estimation works for CMB design", {
   expect_equal(nCluster_nested, suppressWarnings(summary(Bry_het_nested$model)$ngrps$cluster))
   expect_equal(mean(draws_nested$`ar[1]`), Bry_het_nested$`phi`, tol = 0.01)
   expect_equal(exp(mean(draws_nested$b_sigma_treatmenttreatment)), Bry_het_nested$`var_param`, tol = 0.01)
+  
+  # graphing function
+  graph_Bry <- graph_SCD(design = "CMB",
+                         cluster = group, case = case, phase = treatment,
+                         session = session, outcome = outcome, 
+                         treatment_name = "treatment",
+                         model_fit = Bry_het_nested$model,
+                         data = Bryant2018)
+  expect_s3_class(graph_Bry, "ggplot")
+  expect_invisible(print(graph_Bry))
   
   # compare g_mlm_Bayes() and calc_g_Bayes()
   
@@ -577,6 +604,15 @@ test_that("The Bayesian estimation works for RMBB design", {
                  summary = FALSE,
                  data = Thiemann2001)
     )
+  
+  # graphing function
+  graph_Thie <- graph_SCD(design = "RMBB",
+                          case = case, series = series, phase = treatment,
+                          session = time, outcome = outcome, 
+                          model_fit = Thie_Bayes$model,
+                          data = Thiemann2001)
+  expect_s3_class(graph_Thie, "ggplot")
+  expect_invisible(print(graph_Thie))
   
   # compare g_mlm_Bayes() to calc_g_Bayes()
   
