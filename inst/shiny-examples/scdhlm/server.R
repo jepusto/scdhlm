@@ -1154,6 +1154,8 @@ server <-
                                           args = list(user_parms = param_args,
                                                       user_varnames = var_names,
                                                       user_design = studyDesign(),
+                                                      user_cluster = cluster,
+                                                      user_series = series,
                                                       user_model_center = model_center,
                                                       user_FE_base = FE_base,
                                                       user_RE_base = RE_base,

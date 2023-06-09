@@ -4,9 +4,9 @@ names(dat) <- c("{user_varnames}")
 
 # Calculate effect size
 res <- calc_BCSMD(design = "{user_design}", 
-                  cluster = cluster,
+                  cluster = {user_cluster},
                   case = case, 
-                  series = series,
+                  series = {user_series},
                   phase = phase, 
                   session = session, 
                   outcome = outcome, 
