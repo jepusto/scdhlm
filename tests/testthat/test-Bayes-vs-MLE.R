@@ -47,7 +47,7 @@ test_that("g_mlm_Bayes() returns same results as MLE for MBP design.", {
   default_AB <- default_times(design = "MBP", 
                               case = case, phase = treatment, session = time, 
                               data = Laski)
-  consts <- calc_consts(estimation = "Bayes", design = "MBP", center = 4,
+  consts <- calc_consts(method = "Bayes", design = "MBP", center = 4,
                         FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = NULL,
                         FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
                         corStruct = "AR1", varStruct = "hom",
