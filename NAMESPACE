@@ -2,6 +2,8 @@
 
 S3method(CI_g,g_HPS)
 S3method(CI_g,g_REML)
+S3method(predict_SCD_model,brmsfit)
+S3method(predict_SCD_model,lme)
 S3method(print,g_HPS)
 S3method(print,g_REML)
 S3method(simulate,g_REML)

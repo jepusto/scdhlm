@@ -112,9 +112,9 @@ graph_SCD <- function(design, case, phase, session, outcome,
   outcome_name <- deparse(substitute(outcome))
   
   if (!is.null(model_fit) && is.null(data)) {
-    if (class(model_fit) == "lme") {
+    if (inherits(model_fit, "lme")) {
       model_dat <- nlme::getData(model_fit)
-    } else if (class(model_fit) == "brmsfit") {
+    } else if (inherits(model_fit, "brmsfit")) {
       model_dat <- model_fit$data
     }
     use_model_data <- all(c(case_name, phase_name, session_name, outcome_name) %in% names(model_dat))
@@ -229,6 +229,10 @@ graph_SCD <- function(design, case, phase, session, outcome,
 
 predict_SCD_model <- function(model_fit, design, newdata) UseMethod("predict_SCD_model")
 
+
+#' @method predict_SCD_model lme
+#' @export
+
 predict_SCD_model.lme <- function(model_fit, design, newdata) {
   prediction <- if (design == "CMB") {
     predict(model_fit, newdata = newdata, level = 1) 
@@ -237,6 +241,9 @@ predict_SCD_model.lme <- function(model_fit, design, newdata) {
   }
   return(prediction)
 }
+
+#' @method predict_SCD_model brmsfit
+#' @export
 
 predict_SCD_model.brmsfit <- function(model_fit, design, newdata) {
   
