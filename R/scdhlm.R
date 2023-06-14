@@ -30,7 +30,7 @@
 
 shine_scd <- function(dataset = NULL, ...) {
   
-  req_pkgs <- c("shiny","ggplot2","markdown","glue","rclipboard","readxl","janitor")
+  req_pkgs <- c("shiny","ggplot2","markdown","glue","rclipboard","readxl","janitor","brms","rstan")
   missing_pkgs <- unlist(lapply(req_pkgs, check_for_package))
   
   if (length(missing_pkgs) > 1) {
