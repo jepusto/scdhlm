@@ -640,19 +640,22 @@ server <-
     
     output$model_sample_size <- renderTable({
       if (input$method == "RML") {
+        mf_model <- model_fit()$model
         if (studyDesign() %in% c("MBP", "TR")) {
-          data.frame("Total number of observations" = nobs(model_fit()$model), 
-                     "Total number of groups" = nlevels(summary(model_fit()$model)$groups$case),
+          data.frame("Total number of observations" = nobs(mf_model), 
+                     "Total number of groups" = nlevels(summary(mf_model)$groups$case),
                      check.names = FALSE) 
         } else if (studyDesign() == "CMB") {
-          data.frame("Total number of observations" = nobs(model_fit()$model), 
-                     "Total number of cases" = nlevels(summary(model_fit()$model)$groups$case),
-                     "Total number of clusters" = nlevels(summary(model_fit()$model)$groups$cluster),
+          n_groups <- summary(mf_model)$groups
+          data.frame("Total number of observations" = nobs(mf_model), 
+                     "Total number of cases" = nlevels(n_groups$case),
+                     "Total number of clusters" = nlevels(n_groups$cluster),
                      check.names = FALSE)
         } else if (studyDesign() == "RMBB") {
-          data.frame("Total number of observations" = nobs(model_fit()$model),
-                     "Total number of series" = nlevels(summary(model_fit()$model)$groups$series),
-                     "Total number of cases" = nlevels(summary(model_fit()$model)$groups$case),
+          n_groups <- summary(mf_model)$groups
+          data.frame("Total number of observations" = nobs(mf_model),
+                     "Total number of series" = nlevels(n_groups$series),
+                     "Total number of cases" = nlevels(n_groups$case),
                      check.names = FALSE)
         }
       }
@@ -725,9 +728,10 @@ server <-
     
     output$model_info <- renderTable({
       if (input$method == "RML") {
-        data.frame("AIC" = AIC(model_fit()$model), 
-                   "BIC" = BIC(model_fit()$model), 
-                   "Log likelihood" = as.numeric(model_fit()$model$logLik),
+        mf_model <- model_fit()$model
+        data.frame("AIC" = AIC(mf_model), 
+                   "BIC" = BIC(mf_model), 
+                   "Log likelihood" = as.numeric(mf_model$logLik),
                    check.names = FALSE) 
       }
     }, 
@@ -750,19 +754,20 @@ server <-
     
     output$Bayes_sample_size <- renderTable({
       if (input$method == "Bayes") {
+        mf_model <- summary(model_fit()$model)
         if (studyDesign() %in% c("MBP", "TR")) {
-          data.frame("Total number of observations" = summary(model_fit()$model)$nobs, 
-                     "Total number of groups" = summary(model_fit()$model)$ngrps$case,
+          data.frame("Total number of observations" = mf_model$nobs, 
+                     "Total number of groups" = mf_model$ngrps$case,
                      check.names = FALSE) 
         } else if (studyDesign() == "CMB") {
-          data.frame("Total number of observations" = summary(model_fit()$model)$nobs, 
-                     "Total number of cases" = summary(model_fit()$model)$ngrps$`cluster:case`,
-                     "Total number of clusters" = summary(model_fit()$model)$ngrps$cluster,
+          data.frame("Total number of observations" = mf_model$nobs, 
+                     "Total number of cases" = mf_model$ngrps$`cluster:case`,
+                     "Total number of clusters" = mf_model$ngrps$cluster,
                      check.names = FALSE)
         } else if (studyDesign() == "RMBB") {
-          data.frame("Total number of observations" = summary(model_fit()$model)$nobs,
-                     "Total number of series" = summary(model_fit()$model)$ngrps$`case:series`,
-                     "Total number of cases" = summary(model_fit()$model)$ngrps$case,
+          data.frame("Total number of observations" = mf_model$nobs,
+                     "Total number of series" = mf_model$ngrps$`case:series`,
+                     "Total number of cases" = mf_model$ngrps$ngrps$case,
                      check.names = FALSE)
         }
       }
@@ -930,7 +935,7 @@ server <-
   width = function() 700)
   
   output$RML_plot <- renderPlot({
-    if ("lme" %in% class(model_fit()$model)) {
+    if (inherits(model_fit()$model, "lme")) {
       cluster <- if (studyDesign() == "CMB") substitute(cluster) else NULL
       series <- if (studyDesign() == "RMBB") substitute(series) else NULL
       graph_SCD(design = studyDesign(), 
@@ -945,31 +950,31 @@ server <-
   # Bayes plots
   
   output$Bayes_dens <- renderPlot({
-    if ("brmsfit" %in% class(model_fit()$model)) {
+    if (inherits(model_fit()$model, "brmsfit")) {
       brms::mcmc_plot(model_fit()$model,type = "dens")
     }
   }, height = 700, width = 700)
   
   output$Bayes_ar <- renderPlot({
-    if ("brmsfit" %in% class(model_fit()$model)) {
+    if (inherits(model_fit()$model, "brmsfit")) {
       brms::mcmc_plot(model_fit()$model,type = "acf")
     }
   }, height = 700, width = 700)
   
   output$Bayes_trace <- renderPlot({
-    if ("brmsfit" %in% class(model_fit()$model)) {
+    if (inherits(model_fit()$model, "brmsfit")) {
       brms::mcmc_plot(model_fit()$model,type = "trace")
     }
   }, height = 700, width = 700)
   
   output$Bayes_rhat <- renderPlot({
-    if ("brmsfit" %in% class(model_fit()$model)) {
+    if (inherits(model_fit()$model, "brmsfit")) {
       brms::mcmc_plot(model_fit()$model,type = "rhat")
     }
   }, height = 700, width = 700)
   
   output$Bayes_overlaid <- renderPlot({
-    if ("brmsfit" %in% class(model_fit()$model)) {
+    if (inherits(model_fit()$model, "brmsfit")) {
       brms::pp_check(model_fit()$model, ndraws = 100)
     }
   }, height = 700, width = 700)
