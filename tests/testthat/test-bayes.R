@@ -163,7 +163,7 @@ calc_g_Bayes <- function(mod, design,
 }
 
 
-test_that("The Bayesian estimation works for MBP design.", {
+test_that("Bayesian estimation works for MBP design.", {
   
   skip_on_cran()
   
@@ -281,7 +281,7 @@ test_that("The Bayesian estimation works for MBP design.", {
 })
 
 
-test_that("The Bayesian estimation works for TR design.", {
+test_that("Bayesian estimation works for TR design.", {
   
   skip_on_cran()
   
@@ -346,7 +346,7 @@ test_that("The Bayesian estimation works for TR design.", {
 
 
 
-test_that("The Bayesian estimation works for CMB design", {
+test_that("Bayesian estimation works for CMB design", {
   
   skip_on_cran()
   
@@ -586,7 +586,7 @@ test_that("The Bayesian estimation works for CMB design", {
 })
 
 
-test_that("The Bayesian estimation works for RMBB design", {
+test_that("Bayesian estimation works for RMBB design", {
   
   skip_on_cran()
   
