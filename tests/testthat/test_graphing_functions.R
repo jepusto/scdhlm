@@ -3,6 +3,46 @@ context("Graphing functions")
 test_that("graph_SCD works for design = 'TR'", {
   
   skip_if_not_installed("ggplot2")
+
+  Spriggs <- read.csv("../testdata/BC-SMD-Calculations.csv")  
+
+  # Clean data
+  dat <- preprocess_SCD(design = "TR", 
+                        case = Participant, 
+                        phase = Phase, 
+                        session = Session, 
+                        outcome = PercentageCorrect, 
+                        round_session = FALSE, 
+                        treatment_name = "B", 
+                        data = Spriggs)
+  
+  # Fit the model
+  fit_RML <- lme(fixed = PercentageCorrect ~ 1 + trt, 
+                 random = ~ 1 | Participant, 
+                 correlation = corAR1(0.01, ~ Session | Participant), 
+                 data = dat,
+                 control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE))
+  
+  # Calculate effect size with g_mlm()
+  p_const <- c(0,1)
+  r_const <- c(1,0,1)
+  
+  ES_RML <- g_mlm(fit_RML, p_const = p_const, r_const = r_const, infotype = "expected")
+  
+  # Graph 
+  p <- graph_SCD(design = "TR", 
+                 case = Participant, phase = Phase, 
+                 session = Session, outcome = PercentageCorrect, model_fit = fit_RML,  
+                 data = dat)
+  
+  expect_s3_class(p, "ggplot")
+  expect_invisible(print(p))
+  
+})
+
+test_that("graph_SCD works for design = 'TR'", {
+  
+  skip_if_not_installed("ggplot2")
   
   data("Anglesea")
   
@@ -290,4 +330,5 @@ test_that("graph_SCD works with hypothetical newdata", {
   expect_invisible(print(Bry_graph))
   
 })
+
 

@@ -1,5 +1,7 @@
 # scdhlm 0.7.2.9999
 
+* Fixed a bug in `graph_SCD()` that caused an error in plotting data from treatment reversal designs with slopes based on a fitted models.
+
 # scdhlm 0.7.2
 
 * Modified handling of missing outcome observations in `preprocess_SCD()` so that the session-by-treatment interaction variable is computed prior to dropping missing outcome observations. 
