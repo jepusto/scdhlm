@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.2.9999</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@ differences with scdhlm</h1>
                         <h4 data-toc-skip class="author">James E.
 Pustejovsky</h4>
             
-            <h4 data-toc-skip class="date">2023-05-02</h4>
+            <h4 data-toc-skip class="date">2023-06-21</h4>
       
       
       <div class="hidden name"><code>Estimating-effect-sizes.Rmd</code></div>
@@ -626,7 +626,7 @@ Pustejovsky, Hedges, and Shadish (2014)</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Standardized Within-Group Residuals:</span></span>
 <span><span class="co">##         Min          Q1         Med          Q3         Max </span></span>
-<span><span class="co">## -2.69578897 -0.64000820 -0.06285371  0.65265931  2.01491696 </span></span>
+<span><span class="co">## -2.69578896 -0.64000820 -0.06285371  0.65265931  2.01491696 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Number of Observations: 136</span></span>
 <span><span class="co">## Number of Groups: 12</span></span></code></pre>
@@ -735,39 +735,39 @@ limited purpose of effect size estimation.</p>
 <span><span class="co">##  Formula: ~week + week_trt | case</span></span>
 <span><span class="co">##  Structure: General positive-definite, Log-Cholesky parametrization</span></span>
 <span><span class="co">##             StdDev    Corr        </span></span>
-<span><span class="co">## (Intercept) 6.1893423 (Intr) week </span></span>
-<span><span class="co">## week        0.3845183 0.162       </span></span>
-<span><span class="co">## week_trt    1.7339786 0.163  0.999</span></span>
-<span><span class="co">## Residual    4.7476489             </span></span>
+<span><span class="co">## (Intercept) 6.1895525 (Intr) week </span></span>
+<span><span class="co">## week        0.3838151 0.162       </span></span>
+<span><span class="co">## week_trt    1.7344247 0.163  0.999</span></span>
+<span><span class="co">## Residual    4.7477181             </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Correlation Structure: AR(1)</span></span>
 <span><span class="co">##  Formula: ~week | case </span></span>
 <span><span class="co">##  Parameter estimate(s):</span></span>
 <span><span class="co">##       Phi </span></span>
-<span><span class="co">## 0.2396188 </span></span>
+<span><span class="co">## 0.2396175 </span></span>
 <span><span class="co">## Fixed effects:  fatigue ~ week + treatment + week_trt </span></span>
 <span><span class="co">##                       Value Std.Error  DF   t-value p-value</span></span>
-<span><span class="co">## (Intercept)        50.52519 2.8217152 121 17.905843  0.0000</span></span>
-<span><span class="co">## week                0.21896 0.3642224 121  0.601184  0.5488</span></span>
-<span><span class="co">## treatmenttreatment  0.02693 1.5998815 121  0.016832  0.9866</span></span>
-<span><span class="co">## week_trt           -1.67126 0.7403942 121 -2.257257  0.0258</span></span>
+<span><span class="co">## (Intercept)        50.52533 2.8217062 121 17.905949  0.0000</span></span>
+<span><span class="co">## week                0.21897 0.3641501 121  0.601332  0.5487</span></span>
+<span><span class="co">## treatmenttreatment  0.02697 1.5999085 121  0.016857  0.9866</span></span>
+<span><span class="co">## week_trt           -1.67116 0.7404866 121 -2.256845  0.0258</span></span>
 <span><span class="co">##  Correlation: </span></span>
 <span><span class="co">##                    (Intr) week   trtmnt</span></span>
 <span><span class="co">## week                0.722              </span></span>
 <span><span class="co">## treatmenttreatment -0.357 -0.331       </span></span>
-<span><span class="co">## week_trt           -0.312 -0.282 -0.154</span></span>
+<span><span class="co">## week_trt           -0.312 -0.283 -0.154</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Standardized Within-Group Residuals:</span></span>
 <span><span class="co">##          Min           Q1          Med           Q3          Max </span></span>
-<span><span class="co">## -2.559212207 -0.446177045 -0.004521084  0.366314810  4.597313425 </span></span>
+<span><span class="co">## -2.559152546 -0.446176619 -0.004526336  0.366560748  4.597302836 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Number of Observations: 136</span></span>
 <span><span class="co">## Number of Groups: 12</span></span></code></pre>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      Model df      AIC      BIC    logLik   Test L.Ratio p-value</span></span>
-<span><span class="co">## hlm2     1  9 875.9526 901.8978 -428.9763                       </span></span>
-<span><span class="co">## hlm3     2 12 873.0242 907.6178 -424.5121 1 vs 2 8.92837  0.0303</span></span></code></pre>
+<pre><code><span><span class="co">##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value</span></span>
+<span><span class="co">## hlm2     1  9 875.9526 901.8978 -428.9763                        </span></span>
+<span><span class="co">## hlm3     2 12 873.0242 907.6178 -424.5121 1 vs 2 8.928414  0.0303</span></span></code></pre>
 <p>The REML estimation algorithm fails to converge because the estimate
 of the correlation between the random slopes and the random
 treatment-by-time interactions approaches 1. A likelihood ratio test
@@ -782,7 +782,7 @@ this fitted model is obtained as follows.<a href="#fn2" class="footnote-ref" id=
 <pre><code><span><span class="co">##                           est    se</span></span>
 <span><span class="co">## unadjusted effect size -1.496 0.932</span></span>
 <span><span class="co">## adjusted effect size   -1.326 0.826</span></span>
-<span><span class="co">## degree of freedom       6.847</span></span></code></pre>
+<span><span class="co">## degree of freedom       6.848</span></span></code></pre>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># compare effect size estimates</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -793,7 +793,7 @@ this fitted model is obtained as follows.<a href="#fn2" class="footnote-ref" id=
 <pre><code><span><span class="co">##            MB3    MB4    MB5</span></span>
 <span><span class="co">## g_AB    -1.337 -1.013 -1.326</span></span>
 <span><span class="co">## SE_g_AB  0.627  0.469  0.826</span></span>
-<span><span class="co">## nu      29.152 14.302  6.847</span></span></code></pre>
+<span><span class="co">## nu      29.152 14.302  6.848</span></span></code></pre>
 <p>The effect size estimate has magnitude comparable to the estimate
 from Model MB3. However, the variance of the estimate is extremely
 large, due to the fact that the variance components that go into the
