@@ -29,8 +29,8 @@
 #' 
 
 shine_scd <- function(dataset = NULL, ...) {
-  
-  req_pkgs <- c("shiny","ggplot2","markdown","glue","rclipboard","readxl","janitor","brms","rstan")
+  # modify is no brms or rstan, can still run other two 
+  req_pkgs <- c("shiny","ggplot2","markdown","glue","rclipboard","readxl","janitor")
   missing_pkgs <- unlist(lapply(req_pkgs, check_for_package))
   
   if (length(missing_pkgs) > 1) {
