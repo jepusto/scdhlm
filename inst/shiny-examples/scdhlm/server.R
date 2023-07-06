@@ -6,8 +6,11 @@ library(readxl)
 library(janitor)
 
 install_rstan <- requireNamespace("rstan", quietly = TRUE) && requireNamespace("StanHeaders", quietly = TRUE)
-if (install_rstan && packageVersion("rstan") == "2.26.22" &&
-    packageVersion("StanHeaders") == "2.26.27") {
+
+if (install_rstan && 
+    packageVersion("rstan") >= "2.26.22" &&
+    packageVersion("StanHeaders") >= "2.26.27") {
+
   estimation_names <- c("Moment estimation" = "HPS",
                         "Restricted Maximum Likelihood" = "RML",
                         "Bayesian estimation (Markov Chain Monte Carlo)" = "Bayes")
