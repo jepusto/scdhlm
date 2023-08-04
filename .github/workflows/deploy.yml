@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build and push Docker to Heroku
-        uses: jepusto/scdhlm
+        uses: jepusto/scdhlm@main
         with:
           # this is the Heroku app name you already set up in dashboard
           heroku_app_name: scdhlm
