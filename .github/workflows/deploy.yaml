@@ -17,7 +17,7 @@ jobs:
         with:
           # app directory needs to be set relative to root of repo
           appdir: "/inst/shiny-examples/scdhlm"
-          dontuseforce: true
+          dontuseforce: false
           # secrets need to be added to the GitHub repo settings
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "scdhlm"
