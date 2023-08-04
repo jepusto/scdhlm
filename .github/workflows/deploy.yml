@@ -21,7 +21,6 @@ jobs:
           appdir: "/inst/shiny-examples/scdhlm"
           # secrets need to be added to the GitHub repo settings
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "scdhlm" # Must be unique in Heroku
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           # don't change this
           usedocker: true
