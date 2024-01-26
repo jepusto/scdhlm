@@ -125,14 +125,14 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var_index = 1) {
   
   # calculate the numerator of BCSMD
   
-  posterior_samples_fixed <- as_draws_matrix(mod, variable = "^b_", regex = TRUE)
+  posterior_samples_fixed <- brms::as_draws_matrix(mod, variable = "^b_", regex = TRUE)
   
   if ("b_sigma_Intercept" %in% param_names) {
     samples_fixed <- posterior_samples_fixed[,!startsWith(colnames(posterior_samples_fixed), "b_sigma_")]
     sigma_sq <- exp(2*(posterior_samples_fixed[,"b_sigma_Intercept"]))
   } else {
     samples_fixed <- posterior_samples_fixed 
-    sigma <- as_draws_matrix(mod, variable = "sigma", regex = TRUE)
+    sigma <- brms::as_draws_matrix(mod, variable = "sigma", regex = TRUE)
     sigma_sq <- sigma^2
   }
   
@@ -140,11 +140,11 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var_index = 1) {
   
   # calculate the denominator of BCSMD
   
-  samples_r_sd <- as_draws_matrix(mod, variable = "^sd_", regex = TRUE)
+  samples_r_sd <- brms::as_draws_matrix(mod, variable = "^sd_", regex = TRUE)
   samples_r_var <- samples_r_sd^2
   
   if (sum(grepl("^cor_",param_names)) > 0) {
-    samples_r_cor <- as_draws_matrix(mod, variable = "^cor_", regex = TRUE)
+    samples_r_cor <- brms::as_draws_matrix(mod, variable = "^cor_", regex = TRUE)
     cor_names_split <- strsplit(colnames(samples_r_cor), split = "__")
     cor_sd_suf <- lapply(cor_names_split, function(x) x[-1])
     cor_sd_pre <- lapply(cor_names_split, function(x) paste0("sd_", gsub(".*\\_", "", x[[1]])))
@@ -185,10 +185,10 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var_index = 1) {
   # get the corStruct and varStruct param
   
   if (sum(grepl("^ar",param_names)) > 0) {
-    autocor_draw <- as_draws_matrix(mod, variable = "^ar", regex = TRUE)
+    autocor_draw <- brms::as_draws_matrix(mod, variable = "^ar", regex = TRUE)
     autocor_param <- mean(autocor_draw)
   } else if (sum(grepl("^ma",param_names)) > 0) {
-    autocor_draw <- as_draws_matrix(mod, variable = "^ma", regex = TRUE)
+    autocor_draw <- brms::as_draws_matrix(mod, variable = "^ma", regex = TRUE)
     autocor_param <- mean(autocor_draw)
   } else {
     autocor_param <- NA_real_
@@ -196,7 +196,7 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var_index = 1) {
   
   if (sum(grepl("^b_sigma_",param_names)) > 0) {
     var_param_name <- setdiff(param_names[startsWith(param_names, "b_sigma_")], "b_sigma_Intercept")
-    var_param_draw <- as_draws_matrix(mod, variable = var_param_name, regex = TRUE)
+    var_param_draw <- brms::as_draws_matrix(mod, variable = var_param_name, regex = TRUE)
     var_param <- exp(mean(var_param_draw))
   } else {
     var_param <- NA_real_
@@ -680,7 +680,7 @@ calc_BCSMD <- function(design,
         warmup = warmup,
         thin = thin,
         cores = cores,
-        save_pars = save_pars(all = TRUE),
+        save_pars = brms::save_pars(all = TRUE),
         seed = seed
       ),
       error = function(e) E <<- e),

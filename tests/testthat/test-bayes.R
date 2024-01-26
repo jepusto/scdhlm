@@ -660,3 +660,125 @@ test_that("Bayesian estimation works for RMBB design", {
   )
   
 })
+
+test_that("Running pre-complied brm models using update().", {
+  
+  library(brms)
+  
+  # using the update method
+  # compile the Laski_brm model and then apply to AlberMogan data
+  ## compile the Laski_brm
+  data(Laski)
+  Laski_dat <- preprocess_SCD(design = "MBP",
+                              case = case, phase = treatment,
+                              session = time, outcome = outcome,
+                              center = 4, data = Laski)
+  Laski_brm <- 
+    suppressWarnings(
+      brm(
+        bf(outcome ~ 1 + time + trt + time_trt + (time | case) +
+             arma(time = time, gr = case, p = 1, q = 0),
+           center = FALSE),
+        data = Laski_dat,
+        chains = 2, iter = 1000, thin = 10, cores = 1, 
+        save_pars = save_pars(all = TRUE),
+        seed = 20240125)
+    )
+  ## calculate BC-SMD
+  default_AB <- default_times(design = "MBP", 
+                              case = case, phase = treatment, session = time, 
+                              data = Laski) # Use original Laski to get default A & B
+  consts <- calc_consts(method = "Bayes", design = "MBP", center = 4,
+                        FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = NULL,
+                        FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
+                        corStruct = "AR1", varStruct = "hom",
+                        A = default_AB$A, B = default_AB$B)
+  g_Bayes_Laski <- g_mlm_Bayes(mod = Laski_brm, 
+                               p_const = consts$p_const, 
+                               r_const = consts$r_const)
+  
+  
+  ## apply to AlberMorgan data using update function
+  data("AlberMorgan")
+  AM_dat <- preprocess_SCD(design = "MBP",
+                           case = case, phase = condition,
+                           session = session, outcome = outcome,
+                           center = 4, data = AlberMorgan)
+  names(AM_dat) <- c("case", "treatment", "time", "outcome", "trt", "time_trt")
+  AM_fit <- update(Laski_brm, newdata = AM_dat)
+  
+  ## calculate BC-SMD
+  default_AB <- default_times(design = "MBP", 
+                              case = case, phase = condition, session = session, 
+                              data = AlberMorgan)
+  consts <- calc_consts(method = "Bayes", design = "MBP", center = 4,
+                        FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = NULL,
+                        FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
+                        corStruct = "AR1", varStruct = "hom",
+                        A = default_AB$A, B = default_AB$B)
+  g_Bayes_AM <- g_mlm_Bayes(mod = AM_fit, 
+                            p_const = consts$p_const, 
+                            r_const = consts$r_const)
+  
+  # Get the stan code from a fitted brm model (how I created the inst/stan/StanMBP.stan file.)
+  ## You may extract stan code from the fitted brm model
+  stancode_Laski <- stancode(Laski_brm)
+  ## Or you may make the stan code using make_stancode function
+  stan_code <- make_stancode(bf(outcome ~ 1 + time + trt + time_trt + (time | case) +
+                                  arma(time = time, gr = case, p = 1, q = 0),
+                                center = FALSE),
+                             data = Laski_dat)
+  ## save the code as "StanMBP.stan" then copy and paste after clicking File/New File/Stan File
+  
+})
+
+test_that("Compile a stan model and run the compiled model to multiple datasets.", {
+  
+  library(brms)
+  
+  # Goal: compile the stan model first, then apply the model to multiple datasets
+  
+  # read the saved stancode file and compile the model
+  stan_mod <- rstan::stan_model("inst/stan/StanMBP.stan")
+  
+  # Laski
+  data(Laski)
+  Laski_dat <- preprocess_SCD(design = "MBP",
+                              case = case, phase = treatment,
+                              session = time, outcome = outcome,
+                              center = 4, data = Laski)
+  stan_data_Laski <- make_standata(outcome ~ 1 + time + trt + time_trt + (time | case) +
+                                     arma(time = time, gr = case, p = 1, q = 0),
+                                   data = Laski_dat)
+  fit1 <- 
+    rstan::sampling(
+      object = stan_mod,
+      data = stan_data_Laski,
+      warmup = 500,
+      iter = 1000,
+      chains = 2
+    )
+  
+  # AlberMorgan dat
+  data("AlberMorgan")
+  AM_dat <- preprocess_SCD(design = "MBP",
+                           case = case, phase = condition,
+                           session = session, outcome = outcome,
+                           center = 4, data = AlberMorgan)
+  names(AM_dat) <- c("case", "treatment", "time", "outcome", "trt", "time_trt")
+  
+  stan_data_AM <- make_standata(outcome ~ 1 + time + trt + time_trt + (time | case) +
+                                  arma(time = time, gr = case, p = 1, q = 0),
+                                data = AM_dat)
+  fit2 <- 
+    rstan::sampling(
+      object = stan_mod,
+      data = stan_data_AM,
+      warmup = 500,
+      iter = 1000,
+      chains = 2
+    )
+  #!!!! Issue: cannot calculate BC-SMD bc g_mlm_Bayes() is created for brmsfit model not for rstan model
+  
+})
+
