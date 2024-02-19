@@ -205,14 +205,15 @@ calc_BCSMD(design = "MBP",
            FE_base = 0, RE_base = 0, FE_trt = 0,
            data = Laski)
 
-if (requireNamespace("brms", quietly = TRUE)) withAutoprint({
+\dontrun{
+# Bayesian estimation
 calc_BCSMD(design = "MBP",
            case = case, phase = treatment,
            session = time, outcome = outcome,
            FE_base = 0, RE_base = 0, FE_trt = 0,
            Bayesian = TRUE,
            data = Laski)
-})
+}
 
 # Model with linear time trends in baseline and treatment phases,
 # random baseline slopes, fixed treatment effects
@@ -222,14 +223,15 @@ calc_BCSMD(design = "MBP",
            FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
            data = Laski)
 
-if (requireNamespace("brms", quietly = TRUE)) withAutoprint({
+\dontrun{
+# Bayesian estimation
 calc_BCSMD(design = "MBP",
            case = case, phase = treatment,
            session = time, outcome = outcome, center = 4,
            FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
            Bayesian = TRUE,
            data = Laski)
-})
+}
 
 data(Anglesea)
 calc_BCSMD(design = "TR",
@@ -256,8 +258,9 @@ calc_BCSMD(design = "CMB",
            FE_base = c(0,1), RE_base = 0, RE_base_2 = 0,
            FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
            data = Bryant2018)
-           
-if (requireNamespace("brms", quietly = TRUE)) withAutoprint({
+ 
+\dontrun{          
+# Bayesian estimation
 calc_BCSMD(design = "CMB",
            cluster = group, case = case, phase = treatment,
            session = session, outcome = outcome, center = 49,
@@ -266,7 +269,6 @@ calc_BCSMD(design = "CMB",
            FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
            Bayesian = TRUE,
            data = Bryant2018)
-})
-
+}
 
 }

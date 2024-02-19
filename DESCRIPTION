@@ -47,6 +47,7 @@ Suggests:
     rclipboard,
     rvest,
     testthat,
+    rstan,
     brms
 RoxygenNote: 7.2.3
 Encoding: UTF-8

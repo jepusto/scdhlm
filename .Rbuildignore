@@ -13,3 +13,6 @@ images
 ^pkgdown$
 ^CRAN-SUBMISSION$
 revdep
+^Dockerfile$
+^heroku.yml$
+rsconnect
