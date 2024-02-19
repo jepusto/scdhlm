@@ -1,0 +1,25 @@
+name: Build scdhlm Shiny Docker Image and Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build and deploy scdhlm Shiny app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build and push Docker to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.14
+        with:
+          # app directory needs to be set relative to root of repo
+          appdir: "/inst/shiny-examples/scdhlm"
+          # secrets need to be added to the GitHub repo settings
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "scdhlm"
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          usedocker: true
+          branch: main

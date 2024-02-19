@@ -204,7 +204,9 @@ graph_SCD <- function(design, case, phase, session, outcome,
     
   }
   
-  if (design == "RMBB") {
+  if (design == "TR") {
+    newdata$phase_pair <- dat$phase_pair
+  } else if (design == "RMBB") {
     newdata$caseSeries <- as.factor(paste(newdata[[case_name]], newdata[[series_name]], sep = "-"))
   } else if (design == "CMB") {
     newdata$clusterCase <- as.factor(paste(newdata[[cluster_name]], newdata[[case_name]], sep = "-:-"))

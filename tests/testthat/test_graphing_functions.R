@@ -3,6 +3,46 @@ context("Graphing functions")
 test_that("graph_SCD works for design = 'TR'", {
   
   skip_if_not_installed("ggplot2")
+
+  Spriggs <- read.csv("../testdata/BC-SMD-Calculations.csv")  
+
+  # Clean data
+  dat <- preprocess_SCD(design = "TR", 
+                        case = Participant, 
+                        phase = Phase, 
+                        session = Session, 
+                        outcome = PercentageCorrect, 
+                        round_session = FALSE, 
+                        treatment_name = "B", 
+                        data = Spriggs)
+  
+  # Fit the model
+  fit_RML <- lme(fixed = PercentageCorrect ~ 1 + trt, 
+                 random = ~ 1 | Participant, 
+                 correlation = corAR1(0.01, ~ Session | Participant), 
+                 data = dat,
+                 control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE))
+  
+  # Calculate effect size with g_mlm()
+  p_const <- c(0,1)
+  r_const <- c(1,0,1)
+  
+  ES_RML <- g_mlm(fit_RML, p_const = p_const, r_const = r_const, infotype = "expected")
+  
+  # Graph 
+  p <- graph_SCD(design = "TR", 
+                 case = Participant, phase = Phase, 
+                 session = Session, outcome = PercentageCorrect, model_fit = fit_RML,  
+                 data = dat)
+  
+  expect_s3_class(p, "ggplot")
+  expect_invisible(print(p))
+  
+})
+
+test_that("graph_SCD works for design = 'TR'", {
+  
+  skip_if_not_installed("ggplot2")
   
   data("Anglesea")
   
@@ -66,7 +106,7 @@ test_that("graph_SCD works for design = 'MBP'", {
   expect_s3_class(Laski_graph2, "ggplot")
   expect_invisible(print(Laski_graph2))
   
-  keys <- setdiff(names(Laski_graph1), c("data","plot_env", "labels","layers"))
+  keys <- setdiff(names(Laski_graph1), c("data","plot_env", "labels","layers", "layout"))
   expect_equal(Laski_graph1[keys], Laski_graph2[keys])
   
 
@@ -86,7 +126,7 @@ test_that("graph_SCD works for design = 'MBP'", {
   expect_s3_class(Laski_graph4, "ggplot")
   expect_invisible(print(Laski_graph4))
   
-  keys <- setdiff(names(Laski_graph1), c("plot_env", "labels","layers"))
+  keys <- setdiff(names(Laski_graph1), c("data","plot_env", "labels","layers", "layout"))
   expect_equal(Laski_graph3[keys], Laski_graph4[keys])
   
 })
@@ -137,7 +177,7 @@ test_that("graph_SCD works for design = 'RMBB'", {
   expect_s3_class(Thiemann_graph4, "ggplot")
   expect_invisible(print(Thiemann_graph4))
   
-  keys <- setdiff(names(Thiemann_graph3), c("data","plot_env", "labels", "layers"))
+  keys <- setdiff(names(Thiemann_graph3), c("data","plot_env", "labels","layers", "layout"))
   expect_equal(Thiemann_graph3[keys], Thiemann_graph4[keys])
   
 })
@@ -193,7 +233,7 @@ test_that("graph_SCD works for design = 'CMB'", {
   expect_s3_class(Bry_graph4, "ggplot")
   expect_invisible(print(Bry_graph4))
   
-  keys <- setdiff(names(Bry_graph3), c("data","plot_env", "labels", "layers"))
+  keys <- setdiff(names(Bry_graph3), c("data","plot_env", "labels","layers", "layout", "guides"))
   expect_equal(Bry_graph3[keys], Bry_graph4[keys])
   
 })
@@ -290,4 +330,5 @@ test_that("graph_SCD works with hypothetical newdata", {
   expect_invisible(print(Bry_graph))
   
 })
+
 
