@@ -1,0 +1,13 @@
+name: scdhlm-Bayes
+title: scdhlm-Bayes
+username:
+account: jepusto
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9339303
+bundleId: 7428272
+url: https://jepusto.shinyapps.io/scdhlm-Bayes/
+when: 1688672299.1098
+lastSyncTime: 1688672299.10981
+asMultiple: FALSE
+asStatic: FALSE

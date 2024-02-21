@@ -125,7 +125,7 @@ ui <-
               plotOutput("HPS_plot", height = "auto")   
            ),
            
-           conditionalPanel(condition = "input.method == 'RML'",
+           conditionalPanel(condition = "input.method == 'RML' || input.method == 'Bayes'",
               fluidRow(
                 column(6,
                        wellPanel(
@@ -149,7 +149,8 @@ ui <-
               ),
               fluidRow(
                 column(12,
-                  textOutput("ES_timing_message")
+                  textOutput("ES_timing_message"),
+                  br()
                 )
               ),
               fluidRow(
@@ -160,8 +161,8 @@ ui <-
                            column(6,
                                   selectInput("corStruct",
                                                label = "Correlation structure of session-level errors",
-                                               choices = c("Auto-regressive (AR1)" = "AR(1)", "Moving average (MA1)" = "MA(1)", "Independent" = "IID"),
-                                               selected = "AR(1)")
+                                               choices = c("Auto-regressive (AR1)" = "AR1", "Moving average (MA1)" = "MA1", "Independent" = "IID"),
+                                               selected = "AR1")
                            ),
                            column(6,
                                   selectInput("varStruct",
@@ -173,28 +174,128 @@ ui <-
                          )
                        ))
               ),
-              tabsetPanel(type = "tabs",
-                tabPanel("Graph",
-                  column(12, br(),
-                    plotOutput("RML_plot", height = "auto")
-                  )
-                ),
-                tabPanel("Model estimates",
-                         column(12, br()),
-                         conditionalPanel(condition = "input.degree_base != 0",
-                                          uiOutput("model_centering")),
+              fluidRow(
+                column(12,
+                         h4("Run the analysis"),
                          fluidRow(
-                           column(12, h4("Model fit"), tableOutput("model_sample_size")),
-                           column(12, tableOutput("model_fit_fixed")),
-                           column(12, tableOutput("model_fit_random")),
-                           column(12, tableOutput("model_fit_corr")),
-                           column(12, tableOutput("model_fit_var")),
-                           column(12, tableOutput("model_info")),
-                           column(12, h4("Convergence"), tableOutput("model_fit_convg"))
-                         )
-                )
+                           column(6,
+                                  wellPanel(
+                                    actionButton("runModel", "RUN", class = "btn-primary"),
+                                    helpText(
+                                      p("Notes:",
+                                        tags$ul(
+                                          tags$li(
+                                            "Remember to click the RUN button every time you change the model specifications or the center point."
+                                          ),
+                                          tags$li(
+                                            "It might take a while for the Bayesian models to run."
+                                          )
+                                        )
+                                      )
+                                    )
+                                  )
+                           ),
+                           column(6,
+                                  conditionalPanel(condition = "input.method == 'Bayes'",
+                                                   wellPanel(
+                                                     checkboxInput("bshow_advOpts", "Show advanced options for Bayesian estimation", value = FALSE),
+                                                     h5("Advanced options for Bayesian estimation"),
+                                                     helpText(
+                                                       "If not set, these advanced options have defaults."
+                                                     ),
+                                                     conditionalPanel(
+                                                       condition = "input.bshow_advOpts",
+                                                       helpText(
+                                                         p("For these following advanced options, details can be found on the `calc_BCSMD()` help page.")
+                                                       ),
+                                                       fluidRow(
+                                                         column(6,
+                                                                numericInput("badvOpts_seed", "Seed:", value = NA, step = 1L),
+                                                                numericInput("badvOpts_cores", "Cores:",
+                                                                             value = 1L, step = 1L, min = 1L),
+                                                                numericInput("badvOpts_chains", "Chains (MCMC chains):",
+                                                                             value = 4L, step = 1L, min = 1L)),
+                                                         column(6,
+                                                                numericInput("badvOpts_iter", "Total iterations per chain:",
+                                                                             value = 2000L, step = 1L, min = 1L),
+                                                                numericInput("badvOpts_warmup", "Warmup iterations per chain:",
+                                                                             value = 1000L, step = 1L, min = 0L),
+                                                                numericInput("badvOpts_thin", "Thinning rate:",
+                                                                             value = 10L, step = 1L, min = 1L))
+                                                       )
+                                                     )
+                                                   ))
+                           )
+                       ))
               )
-           )
+           ),
+           
+           conditionalPanel(condition = "input.method == 'RML'",
+                            tabsetPanel(type = "tabs",
+                              tabPanel("Graph",
+                                column(12, br(),
+                                  plotOutput("RML_plot", height = "auto")
+                                )
+                              ),
+                              tabPanel("Model estimates",
+                                       column(12, br()),
+                                       conditionalPanel(condition = "input.degree_base != 0",
+                                                        uiOutput("model_centering")),
+                                       fluidRow(
+                                         column(12, h4("Model fit"), tableOutput("model_sample_size")),
+                                         column(12, tableOutput("model_fit_fixed")),
+                                         column(12, tableOutput("model_fit_random")),
+                                         column(12, tableOutput("model_fit_corr")),
+                                         column(12, tableOutput("model_fit_var")),
+                                         column(12, tableOutput("model_info")),
+                                         column(12, h4("Convergence"), tableOutput("model_fit_convg"))
+                                       )
+                              )
+                            )
+                            
+           ),
+           
+           conditionalPanel(condition = "input.method == 'Bayes'",
+                            tabsetPanel(type = "tabs",
+                                        tabPanel("Model estimates",
+                                                 column(12, br()),
+                                                 conditionalPanel(condition = "input.degree_base != 0",
+                                                                  uiOutput("model_centering2")),
+                                                 fluidRow(
+                                                   column(12, h4("Model fit"), tableOutput("Bayes_sample_size")),
+                                                   column(12, tableOutput("Bayes_fit_fixed")),
+                                                   column(12, tableOutput("Bayes_fit_random")),
+                                                   column(12, tableOutput("Bayes_fit_corr")),
+                                                   column(12, tableOutput("Bayes_fit_var")),
+                                                   column(12, tableOutput("Bayes_info"))
+                                                 )
+                                        ),
+                                        tabPanel("Bayesian plots",
+                                        tabsetPanel(type = "tabs",
+                                                    tabPanel("Density plot",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_dens", height = "auto"))
+                                                    ),
+                                                    tabPanel("Auto-correlation plot",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_ar", height = "auto"))
+                                                    ),
+                                                    tabPanel("Trace plot",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_trace", height = "auto"))
+                                                    ),
+                                                    tabPanel("Rhat",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_rhat", height = "auto"))
+                                                    ),
+                                                    tabPanel("Overlaid density plot",
+                                                             column(12, br(),
+                                                                    plotOutput("Bayes_overlaid", height = "auto"))
+                                                    ),
+                                          ))
+                            )
+                          )
+           
         ), 
         
         #------------------------------

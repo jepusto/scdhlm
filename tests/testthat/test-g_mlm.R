@@ -118,7 +118,7 @@ test_that("Convergence indicator works correctly for g_mlm(), g_REML() and calc_
                data = Laski)
   )
   
-  expect_identical(Laski_BCSMD1$Converged,"Yes")
+  expect_true(Laski_BCSMD1$converged)
   
   # complex model
   Laski_BCSMD2 <- suppressWarnings(
@@ -128,6 +128,6 @@ test_that("Convergence indicator works correctly for g_mlm(), g_REML() and calc_
                data = Laski)
   )
   
-  expect_identical(Laski_BCSMD2$Converged, "No")
+  expect_equal(attr(Laski_BCSMD2$converged, "class")[1], "simpleWarning")
 
 })
