@@ -726,8 +726,14 @@ calc_BCSMD <- function(design,
 
 summary.bcsmd <- function(object, digits = 3, ...) {
   
-  converged <- if (inherits(object, "Bayes-bcsmd")) NA_character_ else if (isTRUE(object$converged)) "Yes" else "No"
-
+  if (inherits(object, "Bayes-bcsmd")) {
+    converged <- NA_character_ 
+    object$A <- NA_integer_
+    object$B <- NA_integer_
+  } else {
+    converged <- if (isTRUE(object$converged)) "Yes" else "No"
+  }
+  
   ES_summary <- data.frame(
     ES = object$g_AB,
     SE = object$SE_g_AB,
