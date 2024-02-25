@@ -1,6 +1,7 @@
-# scdhlm 0.7.2.9999
+# scdhlm 0.7.3
 
 * Fixed a bug in `graph_SCD()` that caused an error in plotting data from treatment reversal designs with slopes based on a fitted models.
+* Updated tests for compatibility with new version of ggplot2.
 
 # scdhlm 0.7.2
 
