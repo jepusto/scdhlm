@@ -15,4 +15,3 @@ images
 revdep
 ^Dockerfile$
 ^heroku.yml$
-rsconnect

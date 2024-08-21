@@ -1,6 +1,6 @@
 ## Resubmission
 
-This is a re-submission and a maintenance release. The main changes are a small tweak to how missing observations are handled in the function preprocess_SCD() and a corresponding modification to one of the example datasets. We have also corrected the typo in one of the DOIs in DESCRIPTION.
+This is a re-submission and a maintenance release. It corrects small bugs created in the latest release of ggplot2. 
 
 ## Test environments
 
@@ -27,40 +27,36 @@ Possibly mis-spelled words in DESCRIPTION:
 Found the following (possibly) invalid URLs:
   URL: https://doi.org/10.1002/jrsm.1052
     From: inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
+    Status: 403
+    Message: Forbidden
   URL: https://doi.org/10.1002/jrsm.1086
     From: inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
+    Status: 403
+    Message: Forbidden
   URL: https://doi.org/10.1177/0022466907310371
     From: inst/doc/Estimating-effect-sizes.html
     Status: 403
     Message: Forbidden
   URL: https://doi.org/10.1901/jaba.2008.41-107
     From: inst/doc/Estimating-effect-sizes.html
-    Status: 503
-    Message: Service Unavailable
+    Status: 403
+    Message: Forbidden
   URL: https://doi.org/10.3102/1076998614547577
     From: inst/doc/Estimating-effect-sizes.html
     Status: 403
-    Message: Forbidden
-  URL: https://doi.org/10.1044/1092-4388(2004/012)
-    From: man/Thiemann2004.Rd
-    Status: 403
-    Message: Forbidden
+    Message: Forbidden    
     
     The flagged URLs are all correct.
 
 Found the following (possibly) invalid DOIs:
   DOI: 10.1002/jrsm.1052
     From: DESCRIPTION
-    Status: Service Unavailable
-    Message: 503
+    Status: Forbidden
+    Message: 403
   DOI: 10.1002/jrsm.1086
     From: DESCRIPTION
-    Status: Service Unavailable
-    Message: 503
+    Status: Forbidden
+    Message: 403
   DOI: 10.3102/1076998614547577
     From: DESCRIPTION
     Status: Forbidden
