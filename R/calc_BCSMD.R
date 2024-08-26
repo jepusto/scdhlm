@@ -604,7 +604,7 @@ calc_BCSMD <- function(design,
     
     res <- c(list(g_AB = g_Bayes$g_AB, SE_g_AB = g_Bayes$SE_g_AB, 
                   CI_L = g_Bayes$CI_L, CI_U = g_Bayes$CI_U, nu = g_Bayes$nu, 
-                  phi = g_Bayes$autocor_param, var_param = g_Bayes$var_param, rho = g_Bayes$rho),
+                  phi = g_Bayes$phi, var_param = g_Bayes$var_param, rho = g_Bayes$rho),
              list(model = m_fit, converged = converged),
              list(CI_cover = cover))
     

@@ -75,7 +75,6 @@ calc_effect_size <- function(model, design, method,
                                    p_const = pr_consts$p_const,
                                    r_const = pr_consts$r_const,
                                    rconst_base_var_index = pr_consts$rconst_base_var_index)
-    es_res$phi <- es_res$autocor_param
     
   } else if (method == "RML") {
     

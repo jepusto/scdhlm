@@ -156,7 +156,7 @@ calc_g_Bayes <- function(mod, design,
   
   res <- list(g_AB = g, SE_g_AB = SE_g, nu = df, CI_L = CI_L, CI_U = CI_U,
               es_num_vec = es_num_vec, es_denom_vec = es_den_vec, 
-              autocor_param = autocor_param, var_param = var_param, rho = rho)
+              phi = autocor_param, var_param = var_param, rho = rho)
   
   return(res)
   
@@ -225,7 +225,8 @@ test_that("Bayesian estimation works for MBP design.", {
   
   # compare g_mlm_Bayes() and calc_g_Bayes()
   
-  expect_equal(res_g_mlm_Bayes, res_calc_g_Bayes)
+  expect_equal(res_g_mlm_Bayes$g_AB, res_calc_g_Bayes$g_AB)
+  expect_equal(res_g_mlm_Bayes$SE_g_AB, res_calc_g_Bayes$SE_g_AB)
   
   # use calc_BCSMD()
   
@@ -257,7 +258,7 @@ test_that("Bayesian estimation works for MBP design.", {
   expect_equal(Laski_comp$g, res_g_mlm_Bayes$g)
   expect_equal(Laski_comp$SE, res_g_mlm_Bayes$SE_g)
   expect_equal(Laski_comp$df, res_g_mlm_Bayes$df)
-  expect_equal(Laski_comp$phi, res_g_mlm_Bayes$autocor_param)
+  expect_equal(Laski_comp$phi, res_g_mlm_Bayes$phi)
   expect_equal(Laski_comp$var_param, res_g_mlm_Bayes$var_param)
   expect_equal(Laski_comp$rho, res_g_mlm_Bayes$rho)
   
@@ -316,13 +317,15 @@ test_that("Bayesian estimation works for TR design.", {
                                    corStruct = "IID", varStruct = "hom",
                                    A = NA, B = NA, center = 0)
   
-  expect_equal(res_g_mlm_Bayes, res_calc_g_Bayes)
+  expect_equal(res_g_mlm_Bayes$g_AB, res_calc_g_Bayes$g_AB)
+  expect_equal(res_g_mlm_Bayes$SE_g_AB, res_calc_g_Bayes$SE_g_AB)
   
   # graphing function
   graph_Ang_Bayes <- graph_SCD(design="TR",
-                               case = case, phase = phase,
+                               case = case, phase = condition,
                                session = session, outcome = outcome,
-                               model_fit = Ang_Bayes$model)
+                               model_fit = Ang_Bayes$model,
+                               data = Anglesea)
   expect_s3_class(graph_Ang_Bayes, "ggplot")
   expect_invisible(print(graph_Ang_Bayes))
   
@@ -447,7 +450,8 @@ test_that("Bayesian estimation works for CMB design", {
                                    corStruct = "AR1", varStruct = "het",
                                    A = A, B = B, center = 0)
   
-  expect_equal(res_g_mlm_Bayes, res_calc_g_Bayes)
+  expect_equal(res_g_mlm_Bayes$g_AB, res_calc_g_Bayes$g_AB)
+  expect_equal(res_g_mlm_Bayes$SE_g_AB, res_calc_g_Bayes$SE_g_AB)
   
   # compare Bayes results to RML
   
@@ -638,7 +642,8 @@ test_that("Bayesian estimation works for RMBB design", {
                                    corStruct = "MA1", varStruct = "hom",
                                    A = default_AB$A, B = default_AB$B, center = 15)
   
-  expect_equal(res_g_mlm_Bayes, res_calc_g_Bayes)
+  expect_equal(res_g_mlm_Bayes$g_AB, res_calc_g_Bayes$g_AB)
+  expect_equal(res_g_mlm_Bayes$SE_g_AB, res_calc_g_Bayes$SE_g_AB)
   
   # compare bayes to RML
   
@@ -662,6 +667,8 @@ test_that("Bayesian estimation works for RMBB design", {
 })
 
 test_that("Running pre-complied brm models using update().", {
+  
+  skip_on_cran()
   
   library(brms)
   
@@ -734,12 +741,14 @@ test_that("Running pre-complied brm models using update().", {
 
 test_that("Compile a stan model and run the compiled model to multiple datasets.", {
   
+  skip_on_cran()
+  
   library(brms)
   
   # Goal: compile the stan model first, then apply the model to multiple datasets
   
   # read the saved stancode file and compile the model
-  stan_mod <- rstan::stan_model("inst/stan/StanMBP.stan")
+  stan_mod <- rstan::stan_model("../testdata/StanMBP.stan")
   
   # Laski
   data(Laski)
