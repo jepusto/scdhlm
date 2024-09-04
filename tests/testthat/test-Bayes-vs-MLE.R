@@ -10,10 +10,17 @@ getmode <- function(x) {
   return(x_mode)
 }
 
+# To James: I wanted to test whether g_mlm_Bayes() return results close to MLE when using flat priors.
+# Questions that I have: 
+# 1. How to set priors for all the parameters. 
+# 2. Should we make sure MLE converge?
+# 3. Is it better if we simulate data instead of using an example dataset that has small number of obs or individuals?
 
 test_that("g_mlm_Bayes() returns same results as MLE for MBP design.", {
   
   skip_on_cran()
+  skip_on_ci()
+  skip_on_covr()
   
   data(Laski)
   

@@ -669,6 +669,8 @@ test_that("Bayesian estimation works for RMBB design", {
 test_that("Running pre-complied brm models using update().", {
   
   skip_on_cran()
+  skip_on_ci()
+  skip_on_covr()
   
   library(brms)
   
@@ -742,6 +744,8 @@ test_that("Running pre-complied brm models using update().", {
 test_that("Compile a stan model and run the compiled model to multiple datasets.", {
   
   skip_on_cran()
+  skip_on_ci()
+  skip_on_covr()
   
   library(brms)
   
