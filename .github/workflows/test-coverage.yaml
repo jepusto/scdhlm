@@ -25,10 +25,13 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
-            BH
+            rcmdcheck
             boot
+            BH
+            MCMCglmm
             StanHeaders
-            any::covr
+            stan-dev/cmdstanr
+            covr
           needs: coverage
 
       - name: Test coverage
