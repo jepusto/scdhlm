@@ -32,6 +32,10 @@ jobs:
             StanHeaders
             stan-dev/cmdstanr
             covr
+            cpp11
+            progress
+            RcppArmadillo
+            RcppEigen
           needs: coverage
 
       - name: Test coverage

@@ -51,6 +51,10 @@ jobs:
             MCMCglmm
             StanHeaders
             stan-dev/cmdstanr
+            cpp11
+            progress
+            RcppArmadillo
+            RcppEigen
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
