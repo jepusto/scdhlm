@@ -1,3 +1,7 @@
+# scdhlm 0.7.4
+
+* Updated DESCRIPTION to list all packages used in /demo scripts. The snow, doSNOW, foreach, iterators, reshape, and rlecuyer packages are included in SUGGESTS only because of legacy code used in the original simulation studies that motivated the scdhlm package.
+
 # scdhlm 0.7.3
 
 * Fixed a bug in `graph_SCD()` that caused an error in plotting data from treatment reversal designs with slopes based on a fitted models.

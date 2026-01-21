@@ -1,10 +1,10 @@
 ## Resubmission
 
-This is a re-submission and a maintenance release. It corrects small bugs created in the latest release of ggplot2. 
+This is a re-submission and a maintenance release. The only change is updating the DESCRIPTION to list all packages used in /demo scripts, to rectify a NOTE thrown with v0.7.3.
 
 ## Test environments
 
-* local Windows 10 Education, R 4.2.2
+* local Windows 11 Education, R 4.4.3
 * ubuntu 20.04.3 LTS (on Github), R devel, release, oldrelease
 * macOS-latest (on Github), R release
 * windows-latest (on Github), R devel, release
