@@ -1,10 +1,9 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   Estimating-effect-sizes: Estimating-effect-sizes.html
-last_built: 2024-02-25T21:55Z
+last_built: 2026-01-21T17:12Z
 urls:
   reference: https://jepusto.github.io/scdhlm/reference
   article: https://jepusto.github.io/scdhlm/articles
-
