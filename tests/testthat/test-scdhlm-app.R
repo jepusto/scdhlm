@@ -1,7 +1,7 @@
 context("Test scdhlm Shiny app")
 
 skip_if_not_installed("shiny")
-skip_if_not_installed("shinytest")
+skip_if_not_installed("shinytest2")
 skip_if_not_installed("rvest")
 skip_if_not_installed("ggplot2")
 skip_if_not_installed("markdown")
@@ -11,11 +11,10 @@ skip_if_not_installed("janitor")
 skip_if_not_installed("rclipboard")
 
 suppressWarnings(library(shiny))
-suppressWarnings(library(shinytest))
 suppressWarnings(library(rvest))
 suppressWarnings(library(nlme))
+suppressWarnings(library(shinytest2))
 
-skip_if_not(dependenciesInstalled())
 
 appDir <- system.file("shiny-examples", "scdhlm", package = "scdhlm")
 
@@ -23,34 +22,37 @@ test_that("Title and tabs are correct", {
   
   skip_on_cran()
   
-  app <- ShinyDriver$new(appDir, loadTimeout = 6e+05)
+  app <- AppDriver$new(appDir, load_timeout = 6e+05)
   
   # title
-  appTitle <- app$getTitle()[[1]]
-  expect_equal(appTitle, "Between-case standardized mean difference estimator")
+  app_title <- app$get_js("document.title")
+  expect_equal(app_title, "Between-case standardized mean difference estimator")
   
   # tabs
-  app$waitForValue("scdhlm_calculator")
-  # app$findWidget("scdhlm_calculator")$listTabs()
-  expect_equal(app$findWidget("scdhlm_calculator")$listTabs(), 
-               c("scdhlm", "Load", "Inspect", "Model", "Effect size", "Syntax for R"))
+  app$wait_for_idle()
+  tabs <- c("scdhlm", "Load", "Inspect", "Model", "Effect size", "Syntax for R")
   
+  for (tab in tabs) {
+    app$set_inputs(scdhlm_calculator = tab)
+    app$wait_for_idle()
+    expect_equal(app$get_value(input = "scdhlm_calculator"), tab)
+  }
 })
 
 # test the app output vs. README examples
 check_readme <- function(data, estMethod, digits = 3) {
-  app <- ShinyDriver$new(appDir, loadTimeout = 6e+05)
+  app <- AppDriver$new(appDir, load_timeout = 6e+05)
   
-  app$setInputs(scdhlm_calculator = "Load")
-  app$setInputs(example = data)
-  app$setInputs(scdhlm_calculator = "Inspect")
-  app$setInputs(corStruct = "hom")
-  app$setInputs(scdhlm_calculator = "Model")
-  app$setInputs(method = estMethod)
-  app$setInputs(scdhlm_calculator = "Effect size")
+  app$set_inputs(scdhlm_calculator = "Load")
+  app$set_inputs(example = data)
+  app$set_inputs(scdhlm_calculator = "Inspect")
+  app$set_inputs(corStruct = "hom")
+  app$set_inputs(scdhlm_calculator = "Model")
+  app$set_inputs(method = estMethod)
+  app$set_inputs(scdhlm_calculator = "Effect size")
   
   Sys.sleep(0.5)
-  output <- app$getValue(name = "effect_size_report")
+  output <- app$get_value(output = "effect_size_report")
   app_output <- 
     read_html(output) |> 
     html_table(fill = TRUE) |>
@@ -130,22 +132,22 @@ test_that("App output matches README example output", {
 
 # test the app output vs syntax output (RML)
 check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L) {
-  app <- ShinyDriver$new(appDir, loadTimeout = 6e+05)
+  app <- AppDriver$new(appDir, load_timeout = 6e+05)
   
-  app$setInputs(scdhlm_calculator = "Load")
-  app$setInputs(example = data)
-  app$setInputs(scdhlm_calculator = "Inspect")
-  app$setInputs(scdhlm_calculator = "Model")
-  # app$setInputs(degree_base = degree_base) # consider using if
-  # app$setInputs(degree_trt = degree_trt)
-  app$setInputs(corStruct = corStruct)
-  app$setInputs(varStruct = varStruct)
-  app$setInputs(scdhlm_calculator = "Effect size")
-  app$setInputs(scdhlm_calculator = "Syntax for R")
-  app$setInputs(clipbtn = "click")
+  app$set_inputs(scdhlm_calculator = "Load")
+  app$set_inputs(example = data)
+  app$set_inputs(scdhlm_calculator = "Inspect")
+  app$set_inputs(scdhlm_calculator = "Model")
+  # app$set_inputs(degree_base = degree_base) # consider using if
+  # app$set_inputs(degree_trt = degree_trt)
+  app$set_inputs(corStruct = corStruct)
+  app$set_inputs(varStruct = varStruct)
+  app$set_inputs(scdhlm_calculator = "Effect size")
+  app$set_inputs(scdhlm_calculator = "Syntax for R")
+  app$set_inputs(clipbtn = "click")
   
   Sys.sleep(0.5)
-  output <- app$getValue(name = "effect_size_report")
+  output <- app$get_value(output = "effect_size_report")
   summary_output <- 
     read_html(output) |>
     html_table(fill = TRUE) |>
@@ -155,7 +157,7 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
 
   names(summary_output) <- c("g_AB","SE_g_AB","df")
   
-  raw_syntax <- app$getValue(name = "syntax")
+  raw_syntax <- app$get_value(output = "syntax")
   raw_syntax_cut <- sub("summary\\(ES_RML).*", "", raw_syntax)
   code_file <- tempfile(fileext = ".R")
   cat(raw_syntax_cut, file = code_file)
