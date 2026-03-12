@@ -14,7 +14,6 @@ suppressWarnings(library(shiny))
 suppressWarnings(library(rvest))
 suppressWarnings(library(nlme))
 suppressWarnings(library(shinytest2))
-suppressWarnings(library(xml2))
 
 
 appDir <- system.file("shiny-examples", "scdhlm", package = "scdhlm")
