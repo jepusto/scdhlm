@@ -51,8 +51,9 @@ check_readme <- function(data, estMethod, digits = 3) {
   app$set_inputs(method = estMethod)
   app$set_inputs(scdhlm_calculator = "Effect size")
   
-  Sys.sleep(0.5)
+  app$wait_for_idle()
   output <- app$get_value(output = "effect_size_report")
+  app$wait_for_idle()
   app_output <- 
     read_html(output) |> 
     html_table(fill = TRUE) |>
@@ -146,8 +147,9 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   app$set_inputs(scdhlm_calculator = "Syntax for R")
   app$set_inputs(clipbtn = "click")
   
-  Sys.sleep(0.5)
+  app$wait_for_idle()
   output <- app$get_value(output = "effect_size_report")
+  app$wait_for_idle()
   summary_output <- 
     read_html(output) |>
     html_table(fill = TRUE) |>
