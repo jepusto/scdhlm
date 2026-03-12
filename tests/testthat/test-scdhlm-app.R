@@ -14,6 +14,7 @@ suppressWarnings(library(shiny))
 suppressWarnings(library(rvest))
 suppressWarnings(library(nlme))
 suppressWarnings(library(shinytest2))
+suppressWarnings(library(xml2))
 
 
 appDir <- system.file("shiny-examples", "scdhlm", package = "scdhlm")
@@ -55,7 +56,7 @@ check_readme <- function(data, estMethod, digits = 3) {
   output <- app$get_value(output = "effect_size_report")
   app$wait_for_idle()
   app_output <- 
-    read_html(output) |> 
+    xml2::read_html(output) |> 
     html_table(fill = TRUE) |>
     as.data.frame()
   
@@ -151,7 +152,7 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   output <- app$get_value(output = "effect_size_report")
   app$wait_for_idle()
   summary_output <- 
-    read_html(output) |>
+    xml2::read_html(output) |>
     html_table(fill = TRUE) |>
     as.data.frame() |> 
     subset(select = c(g_AB = BC.SMD.estimate, SE_g_AB = Std..Error, df = Degrees.of.freedom)) |>
