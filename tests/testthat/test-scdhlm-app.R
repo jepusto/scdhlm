@@ -15,7 +15,6 @@ suppressWarnings(library(rvest))
 suppressWarnings(library(nlme))
 suppressWarnings(library(shinytest2))
 
-
 appDir <- system.file("shiny-examples", "scdhlm", package = "scdhlm")
 
 test_that("Title and tabs are correct", {
