@@ -41,7 +41,7 @@ Suggests:
     boot,
     parallel,
     shiny,
-    shinytest,
+    shinytest2,
     glue,
     janitor,
     rclipboard,
