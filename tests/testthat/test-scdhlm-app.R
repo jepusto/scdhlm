@@ -56,7 +56,7 @@ check_readme <- function(data, estMethod, digits = 3) {
   output <- app$get_value(output = "effect_size_report")
   app$wait_for_idle()
   app_output <- 
-    xml2::read_html(output) |> 
+    read_html(output) |> 
     html_table(fill = TRUE) |>
     as.data.frame()
   
@@ -71,7 +71,7 @@ test_that("App output matches README example output", {
   
   # Laski
   app_output_Laski <- check_readme("Laski", estMethod = "RML")
-  
+  app$wait_for_idle()
   data("Laski")
   Laski_RML <- lme(fixed = outcome ~ treatment,
                    random = ~ 1 | case, 
@@ -95,7 +95,7 @@ test_that("App output matches README example output", {
   
   # Lambert
   app_output_Lambert <- check_readme("Lambert", estMethod = "HPS")
-  
+  app$wait_for_idle()
   data("Lambert")
   Lambert_academic <- subset(Lambert, measure == "academic response")
   Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
@@ -114,7 +114,7 @@ test_that("App output matches README example output", {
   
   # Saddler
   app_output_S <- check_readme("Saddler", estMethod = "HPS")
-  
+  app$wait_for_idle()
   data(Saddler)
   Saddler_quality <- subset(Saddler, measure=="writing quality")
   quality_ES <- effect_size_MB(outcome, treatment, case, time, data = Saddler_quality)
@@ -152,7 +152,7 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   output <- app$get_value(output = "effect_size_report")
   app$wait_for_idle()
   summary_output <- 
-    xml2::read_html(output) |>
+    read_html(output) |>
     html_table(fill = TRUE) |>
     as.data.frame() |> 
     subset(select = c(g_AB = BC.SMD.estimate, SE_g_AB = Std..Error, df = Degrees.of.freedom)) |>
