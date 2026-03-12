@@ -43,14 +43,21 @@ check_readme <- function(data, estMethod, digits = 3) {
   app <- AppDriver$new(appDir, load_timeout = 6e+05)
   
   app$set_inputs(scdhlm_calculator = "Load")
+  app$wait_for_idle()
   app$set_inputs(example = data)
+  app$wait_for_idle()
   app$set_inputs(scdhlm_calculator = "Inspect")
+  app$wait_for_idle()
   app$set_inputs(corStruct = "hom")
+  app$wait_for_idle()
   app$set_inputs(scdhlm_calculator = "Model")
+  app$wait_for_idle()
   app$set_inputs(method = estMethod)
+  app$wait_for_idle()
   app$set_inputs(scdhlm_calculator = "Effect size")
   
   app$wait_for_idle()
+  Sys.sleep(0.5)
   output <- app$get_value(output = "effect_size_report")
   app$wait_for_idle()
   app_output <- 
@@ -66,10 +73,8 @@ check_readme <- function(data, estMethod, digits = 3) {
 test_that("App output matches README example output", {
   
   skip_on_cran()
-  
   # Laski
   app_output_Laski <- check_readme("Laski", estMethod = "RML")
-  app$wait_for_idle()
   data("Laski")
   Laski_RML <- lme(fixed = outcome ~ treatment,
                    random = ~ 1 | case, 
@@ -93,7 +98,6 @@ test_that("App output matches README example output", {
   
   # Lambert
   app_output_Lambert <- check_readme("Lambert", estMethod = "HPS")
-  app$wait_for_idle()
   data("Lambert")
   Lambert_academic <- subset(Lambert, measure == "academic response")
   Lambert_ES <- effect_size_ABk(outcome = outcome, treatment = treatment, id = case, 
@@ -112,7 +116,6 @@ test_that("App output matches README example output", {
   
   # Saddler
   app_output_S <- check_readme("Saddler", estMethod = "HPS")
-  app$wait_for_idle()
   data(Saddler)
   Saddler_quality <- subset(Saddler, measure=="writing quality")
   quality_ES <- effect_size_MB(outcome, treatment, case, time, data = Saddler_quality)
