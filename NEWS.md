@@ -1,5 +1,7 @@
 # scdhlm 0.7.4.9999
 
+* Migrated unit tests for Shiny app to use the shinytest2 package.
+
 # scdhlm 0.7.4
 
 * Updated DESCRIPTION to list all packages used in /demo scripts. The snow, doSNOW, foreach, iterators, reshape, and rlecuyer packages are included in SUGGESTS only because of legacy code used in the original simulation studies that motivated the scdhlm package.

@@ -141,8 +141,6 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   app$set_inputs(example = data)
   app$set_inputs(scdhlm_calculator = "Inspect")
   app$set_inputs(scdhlm_calculator = "Model")
-  # app$set_inputs(degree_base = degree_base) # consider using if
-  # app$set_inputs(degree_trt = degree_trt)
   app$set_inputs(corStruct = corStruct)
   app$set_inputs(varStruct = varStruct)
   app$set_inputs(scdhlm_calculator = "Effect size")
