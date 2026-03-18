@@ -139,9 +139,13 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   app$set_inputs(scdhlm_calculator = "Inspect")
   app$set_inputs(scdhlm_calculator = "Model")
   app$set_inputs(corStruct = corStruct)
+  app$wait_for_idle()
   app$set_inputs(varStruct = varStruct)
+  app$wait_for_idle()
   app$set_inputs(scdhlm_calculator = "Effect size")
+  app$wait_for_idle()
   app$set_inputs(scdhlm_calculator = "Syntax for R")
+  app$wait_for_idle()
   app$set_inputs(clipbtn = "click")
   
   app$wait_for_idle()

@@ -4,8 +4,8 @@ Version: 0.7.4.9999
 Authors@R: c(
     person("James", "Pustejovsky", email = "jepusto@gmail.com", role = c("aut", "cre")),
     person("Man", "Chen", email = "manchen9005@gmail.com", role = "aut"), 
-    person("Bethany", "Hamilton", role = "aut"), 
-    person("Amy", "Cai", role = "ctb")
+    person("Bethany", "Hamilton", role = "aut"),
+    person("Amy", "Cai", email = "amycai2023@gmail.com", role = "ctb")
 	)
 Description: Provides a set of tools for estimating hierarchical linear
     models and effect sizes based on data from single-case designs. 
