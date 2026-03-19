@@ -53,7 +53,10 @@ Suggests:
     foreach,
     iterators,
     reshape,
-    rlecuyer
-RoxygenNote: 7.3.3
+    rlecuyer,
+    rstan,
+    brms,
+    StanHeaders
+RoxygenNote: 7.2.3
 Encoding: UTF-8
 Language: en-US

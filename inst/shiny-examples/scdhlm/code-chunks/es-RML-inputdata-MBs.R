@@ -1,0 +1,25 @@
+# Calculate effect size
+res <- calc_BCSMD(design = "{user_design}", 
+                  cluster = {user_clusterID},
+                  case = {user_caseID}, 
+                  series = {user_seriesID},
+                  phase = {user_phaseID}, 
+                  session = {user_session}, 
+                  outcome = {user_outcome}, 
+                  center = {user_model_center}, 
+                  round_session = {user_round}, 
+                  treatment_name = "{user_treatment}", 
+                  FE_base = {user_FE_base},
+                  RE_base = {user_RE_base},
+                  RE_base_2 = {user_RE_base2},
+                  FE_trt = {user_FE_trt},
+                  RE_trt = {user_RE_trt},
+                  RE_trt_2 = {user_RE_trt2},
+                  corStruct = {user_corStruct},
+                  varStruct = {user_varStruct},
+                  A = {user_A},
+                  B = {user_B},
+                  summary = FALSE,
+                  data = dat)
+
+summary(res)

@@ -9,11 +9,15 @@ skip_if_not_installed("readxl")
 skip_if_not_installed("glue")
 skip_if_not_installed("janitor")
 skip_if_not_installed("rclipboard")
+skip_if_not_installed("brms")
 
 suppressWarnings(library(shiny))
 suppressWarnings(library(rvest))
 suppressWarnings(library(nlme))
 suppressWarnings(library(shinytest2))
+suppressWarnings(library(brms))
+
+skip_if_not(dependenciesInstalled())
 
 appDir <- system.file("shiny-examples", "scdhlm", package = "scdhlm")
 
@@ -50,6 +54,8 @@ check_readme <- function(data, estMethod, digits = 3) {
   app$wait_for_idle()
   app$set_inputs(method = estMethod)
   app$set_inputs(corStruct = "hom")
+  app$wait_for_idle()
+  app$setInputs(runModel = "click")
   app$wait_for_idle()
   app$set_inputs(scdhlm_calculator = "Effect size")
   
@@ -142,6 +148,8 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   app$wait_for_idle()
   app$set_inputs(varStruct = varStruct)
   app$wait_for_idle()
+  app$setInputs(runModel = "click")
+
   app$set_inputs(scdhlm_calculator = "Effect size")
   app$wait_for_idle()
   app$set_inputs(scdhlm_calculator = "Syntax for R")
@@ -151,6 +159,11 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   app$wait_for_idle()
   output <- app$get_value(output = "effect_size_report")
   app$wait_for_idle()
+  app$setInputs(clipbtn = "click")
+  
+  Sys.sleep(0.5)
+  output <- app$getValue(name = "effect_size_report")
+
   summary_output <- 
     read_html(output) |>
     html_table(fill = TRUE) |>
@@ -162,15 +175,17 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   
   raw_syntax <- app$get_value(output = "syntax")
   raw_syntax_cut <- sub("summary\\(ES_RML).*", "", raw_syntax)
+  # Bayesian branch 
+  raw_syntax_cut <- sub("res).*", "res)", raw_syntax)
   code_file <- tempfile(fileext = ".R")
   cat(raw_syntax_cut, file = code_file)
   source(code_file)
   
   pkg_output <- 
     data.frame(
-      g_AB = ES_RML$g_AB,
-      SE_g_AB = ES_RML$SE_g_AB,
-      df = ES_RML$nu
+      g_AB = res$g_AB,
+      SE_g_AB = res$SE_g_AB,
+      df = res$nu
     ) |> 
     round(digits = digits)
   
