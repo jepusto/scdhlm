@@ -1,10 +1,11 @@
 Package: scdhlm
 Title: Estimating Hierarchical Linear Models for Single-Case Designs
-Version: 0.7.3.9999
+Version: 0.7.4.9999
 Authors@R: c(
     person("James", "Pustejovsky", email = "jepusto@gmail.com", role = c("aut", "cre")),
-    person("Man", "Chen", role = "aut"), 
-    person("Bethany", "Hamilton", role = "aut")
+    person("Man", "Chen", email = "manchen9005@gmail.com", role = "aut"), 
+    person("Bethany", "Hamilton", role = "aut"),
+    person("Amy", "Cai", email = "amycai2023@gmail.com", role = "ctb")
 	)
 Description: Provides a set of tools for estimating hierarchical linear
     models and effect sizes based on data from single-case designs. 
@@ -31,7 +32,7 @@ Imports:
     lmeInfo (>= 0.3.0)
 Depends: 
     nlme,
-    R (>= 3.0.1)
+    R (>= 4.1.0)
 Suggests: 
     knitr,
     markdown,
@@ -41,12 +42,18 @@ Suggests:
     boot,
     parallel,
     shiny,
-    shinytest,
+    shinytest2,
     glue,
     janitor,
     rclipboard,
     rvest,
     testthat,
+    snow,
+    doSNOW,
+    foreach,
+    iterators,
+    reshape,
+    rlecuyer,
     rstan,
     brms,
     StanHeaders
