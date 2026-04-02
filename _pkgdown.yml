@@ -30,6 +30,8 @@ reference:
       - preprocess_SCD
       - calc_BCSMD
       - batch_calc_BCSMD
+      - calc_consts
+      - g_mlm_Bayes
       - CI_g
       - default_times
       - phase_pairs

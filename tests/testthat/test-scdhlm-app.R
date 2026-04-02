@@ -17,7 +17,7 @@ suppressWarnings(library(nlme))
 suppressWarnings(library(shinytest2))
 suppressWarnings(library(brms))
 
-skip_if_not(dependenciesInstalled())
+#skip_if_not(dependenciesInstalled())
 
 appDir <- system.file("shiny-examples", "scdhlm", package = "scdhlm")
 
@@ -55,7 +55,7 @@ check_readme <- function(data, estMethod, digits = 3) {
   app$set_inputs(method = estMethod)
   app$set_inputs(corStruct = "hom")
   app$wait_for_idle()
-  app$setInputs(runModel = "click")
+  app$set_inputs(runModel = "click")
   app$wait_for_idle()
   app$set_inputs(scdhlm_calculator = "Effect size")
   
@@ -148,7 +148,7 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   app$wait_for_idle()
   app$set_inputs(varStruct = varStruct)
   app$wait_for_idle()
-  app$setInputs(runModel = "click")
+  app$set_inputs(runModel = "click")
 
   app$set_inputs(scdhlm_calculator = "Effect size")
   app$wait_for_idle()
@@ -158,11 +158,6 @@ check_syntax <- function(data, corStruct = "AR1", varStruct = "hom", digits = 4L
   
   app$wait_for_idle()
   output <- app$get_value(output = "effect_size_report")
-  app$wait_for_idle()
-  app$setInputs(clipbtn = "click")
-  
-  Sys.sleep(0.5)
-  output <- app$getValue(name = "effect_size_report")
 
   summary_output <- 
     read_html(output) |>
