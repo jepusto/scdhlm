@@ -57,6 +57,6 @@ Suggests:
     rstan,
     brms,
     StanHeaders
-RoxygenNote: 7.2.3
 Encoding: UTF-8
 Language: en-US
+Config/roxygen2/version: 8.1.0

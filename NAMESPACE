@@ -35,11 +35,15 @@ export(varcomp_vcov)
 import(nlme)
 import(stats)
 importFrom(dplyr,.data)
-importFrom(lmeInfo,CI_g)
-importFrom(lmeInfo,extract_varcomp)
-importFrom(lmeInfo,g_mlm)
-importFrom(lmeInfo,varcomp_vcov)
+importFrom(lmeInfo,
+  CI_g,
+  extract_varcomp,
+  g_mlm,
+  varcomp_vcov
+)
 importFrom(magrittr,"%>%")
 importFrom(readxl,read_excel)
-importFrom(rlang,"!!!")
-importFrom(rlang,"!!")
+importFrom(rlang,
+  "!!!",
+  "!!"
+)
