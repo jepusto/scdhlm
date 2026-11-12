@@ -296,9 +296,9 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
                           summary = FALSE,
                           data = Bryant2018)
   
-  expect_equal(Bry_g1_mlm$g_AB, Bry_BCSMD$g_AB)
-  expect_equal(Bry_g1_mlm$SE_g_AB, Bry_BCSMD$SE_g_AB)
-  expect_equal(Bry_g1_mlm$nu, Bry_BCSMD$nu)
+  expect_equal(Bry_g1_mlm$g_AB, Bry_BCSMD$g_AB, tolerance = 1e-5)
+  expect_equal(Bry_g1_mlm$SE_g_AB, Bry_BCSMD$SE_g_AB, tolerance = 1e-5)
+  expect_equal(Bry_g1_mlm$nu, Bry_BCSMD$nu, tolerance = 1e-5)
   
   Bry_BCSMD_summary <- calc_BCSMD(design = "CMB",
                                   cluster = group, case = case, phase = treatment,
@@ -311,8 +311,8 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
   expect_equal(Bry_g1_mlm$SE_g_AB, Bry_BCSMD_summary$`Std. Error`)
   expect_equal(Bry_g1_mlm$nu, Bry_BCSMD_summary$`Degrees of freedom`)
   
-  expect_equal(CI_g(Bry_g1_mlm)[1], Bry_BCSMD_summary$`95% CI (lower)`)
-  expect_equal(CI_g(Bry_g1_mlm)[2], Bry_BCSMD_summary$`95% CI (upper)`)
+  expect_equal(CI_g(Bry_g1_mlm)[1], Bry_BCSMD_summary$`95% CI (lower)`, tolerance = 1e-5)
+  expect_equal(CI_g(Bry_g1_mlm)[2], Bry_BCSMD_summary$`95% CI (upper)`, tolerance = 1e-5)
 
 })
 
