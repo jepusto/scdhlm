@@ -1,4 +1,4 @@
-# scdhlm 0.7.4.9999
+# scdhlm 0.7.5
 
 * Migrated unit tests for Shiny app to use the shinytest2 package.
 

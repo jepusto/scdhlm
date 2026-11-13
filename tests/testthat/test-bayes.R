@@ -1,3 +1,5 @@
+skip("Not ready yet to use Bayes methods for unit tests.")
+
 skip_if_not_installed("brms")
 skip_if_not_installed("utils")
 

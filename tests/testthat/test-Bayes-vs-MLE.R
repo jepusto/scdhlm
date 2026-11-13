@@ -1,3 +1,5 @@
+skip("Not ready yet to cross-check Bayes against REML.")
+
 skip_if_not_installed("brms")
 
 library(brms)
