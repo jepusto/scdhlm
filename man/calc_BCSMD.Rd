@@ -183,10 +183,10 @@ estimate, degrees of freedom, and other information.}
 \item{...}{further arguments. Not currently used.}
 }
 \value{
-If \code{summary == TRUE}, a data frame containing the
+If \code{summary = TRUE}, a data frame containing the
   design-comparable effect size estimate, standard error, confidence interval
-  (or credible interval if \code{Bayesian == TRUE}), and other information.
-  If \code{summary == FALSE}, a list containing all elements of a `g_mlm()`
+  (or credible interval if \code{Bayesian = TRUE}), and other information.
+  If \code{summary = FALSE}, a list containing all elements of a `g_mlm()`
   object, plus the fitted `lme()` model.
 }
 \description{

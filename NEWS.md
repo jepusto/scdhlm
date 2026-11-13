@@ -1,5 +1,7 @@
-# scdhlm 0.7.5
+# scdhlm 0.8.0
 
+* `calc_BCSMD()` gains a `Bayesian` option to fit the multilevel model and estimate an effect size using Markov Chain Monte Carlo, as implemented in `Stan` via `brms`. 
+* A new function `g_mlm_Bayes()` is provided that calculates a between-case standardized mean difference on a multilevel model estimated with `brms`.
 * Migrated unit tests for Shiny app to use the shinytest2 package.
 
 # scdhlm 0.7.4
