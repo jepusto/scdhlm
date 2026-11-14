@@ -56,6 +56,8 @@ available at <https://www.youtube.com/watch?v=R0n9eo4oB7k> (Mac) or
         install.packages("janitor")
         install.packages("scdhlm")
         install.packages("rclipboard")
+        install.packages("rstan")
+        install.packages("brms")
 
 5.  After all of these packages are installed, type the following
     commands at the console prompt to start the app (which should then

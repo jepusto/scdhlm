@@ -24,9 +24,11 @@ participants (Hedges, Pustejovsky, & Shadish, 2012), across-participant
 multiple baseline designs and multiple probe designs (Hedges,
 Pustejovsky, & Shadish, 2013; Pustejovsky, Hedges, & Shadish, 2014), and
 more complex variations of multiple baseline designs (Chen, Pustejovsky,
-Klingbeil, & Van Norman, 2023). Two estimation methods are available:
-moment estimation and restricted maximum likelihood estimation. The
-package also includes an interactive web interface implemented using
+Klingbeil, & Van Norman, 2023). Three estimation methods are available:
+restricted maximum likelihood estimation (the default), moment
+estimation (the original method proposed by Hedges, Pustejovsky, and
+Shadish), or Bayesian estimation via Markov Chain Monte Carlo methods.
+The package also includes an interactive web interface implemented using
 Shiny.
 
 # Acknowledgment
@@ -46,13 +48,13 @@ Please cite this R package as follows:
 
 > Pustejovsky, J. E., Chen, M., & Hamilton, B. J. (2026). scdhlm:
 > Estimating hierarchical linear models for single-case designs (Version
-> 0.7.4.9999) \[R package\]. <https://CRAN.R-project.org/package=scdhlm>
+> 0.8.0) \[R package\]. <https://CRAN.R-project.org/package=scdhlm>
 
 Please cite the web application as follows:
 
 > Pustejovsky, J. E., Chen, M., Hamilton, B., & Grekov, P. (2026).
 > scdhlm: A web-based calculator for between-case standardized mean
-> differences (Version 0.7.4.9999) \[Web application\].
+> differences (Version 0.8.0) \[Web application\].
 > <https://jepusto.shinyapps.io/scdhlm>
 
 # Installation

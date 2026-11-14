@@ -1,4 +1,3 @@
-
 # Calculate effect size
 res <- effect_size_ABk(outcome = {user_outcome}, 
                        treatment = trt, 
@@ -6,4 +5,5 @@ res <- effect_size_ABk(outcome = {user_outcome},
                        phase = {user_phase_pair}, 
                        time = {user_session},
                        data = dat)
+
 res

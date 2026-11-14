@@ -1,6 +1,6 @@
 Package: scdhlm
 Title: Estimating Hierarchical Linear Models for Single-Case Designs
-Version: 0.7.4.9999
+Version: 0.8.0
 Authors@R: c(
     person("James", "Pustejovsky", email = "jepusto@gmail.com", role = c("aut", "cre")),
     person("Man", "Chen", email = "manchen9005@gmail.com", role = "aut"), 
@@ -53,7 +53,10 @@ Suggests:
     foreach,
     iterators,
     reshape,
-    rlecuyer
-RoxygenNote: 7.3.3
+    rlecuyer,
+    rstan,
+    brms,
+    StanHeaders
 Encoding: UTF-8
 Language: en-US
+Config/roxygen2/version: 8.1.0

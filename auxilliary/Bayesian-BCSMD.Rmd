@@ -1,0 +1,233 @@
+---
+title: "Bayesian analyses of BCSMD methods"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+      number_sections: yes
+      toc: true
+      toc_float: true
+      code_folding: hide
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+options(knitr.kable.NA = '')
+
+library(tidyverse)
+library(lme4)
+library(rstan)
+#library(shinystan)
+#library(coda)
+#library(ggmcmc)
+library(loo)
+#library(bridgesampling)
+library(brms)
+library(knitr)
+library(kableExtra)
+library(bayesplot)
+library(lmeInfo)
+library(scdhlm)
+
+data("Bryant2018")
+```
+
+# Bryant2018
+## Fit the model
+
+* Used the best fitted model in the three-level BCSMD paper, a model with varying intercept across students and groups, fixed treatment effects, varying time trends and time-by-treatment interaction across students.
+
+```{r}
+Bryant2018 <- na.omit(Bryant2018)
+
+# Non Bayesian - Fit the HLM model
+A <- 4
+B <- 21
+
+mod <- lme(fixed = outcome ~ treatment + session_c + session_trt,
+           random = list(group = ~ 1, case = ~ session_c + session_trt),
+           correlation = corAR1(0, ~ session_c | group/case),
+           data = Bryant2018)
+summary(mod)
+ES_mod <- g_mlm(mod, p_const = c(0,1,0,B-A), r_const = c(1,1,0,0,0,0,0,0,1))
+summary(ES_mod)
+
+## Bayesian noninformative prior
+
+prior_nonINF <- 
+  prior(normal(0,10^6), class = "b", coef = "Intercept") + 
+  prior(normal(0,10^6), class = "b", coef = "session_c") + 
+  prior(normal(0,10^6), class = "b", coef = "treatmenttreatment") + 
+  prior(normal(0,10^6), class = "b", coef = "session_trt") + 
+  prior(uniform(0,100), class = "sigma") + 
+  prior(cauchy(0, 50), class = "sd", group = "case", coef = "Intercept") + 
+  prior(cauchy(0, 50), class = "sd", group = "case", coef = "session_c") +
+  prior(cauchy(0, 50), class = "sd", group = "case", coef = "session_trt") +
+  prior("lkj(1)", class = "cor") + 
+  prior(normal(0, 0.2), class = "ar")
+  
+
+fit_nonINF <- 
+  brm(
+    outcome ~ 0 + Intercept + treatment + session_c + session_trt + 
+        (1 | group) + (session_c + session_trt | case) +
+      arma(time = session_c, gr = group:case, p = 1, q = 0),
+    data = Bryant2018,
+    prior = prior_nonINF,
+    seed = 20230116, iter = 10000, thin =10,
+    # stanvars = stanvar(scode = "real ES = (b[2] + b[4]*17) / (sqrt(sigma^2 + sd_1[1]^2) + sd_2[1]^2);", block = "genquant"),
+    save_pars = save_pars(all = TRUE)
+  )
+
+summary(fit_nonINF)
+
+# use center==FALSE in bf, default priors
+fit_nonINF_nocenter <- 
+  brm(
+    bf(outcome ~ session_c + treatment + session_trt + 
+        (1 | group) + (session_c + session_trt | case) +
+      arma(time = session_c, gr = group:case, p = 1, q = 0),
+      # sigma ~ treatment, 
+      center = FALSE),
+    data = Bryant2018,
+    # prior = prior_nonINF,
+    seed = 20230116, iter = 5000, thin =10,
+    # stanvars = stanvar(scode = "real ES = (b[2] + b[4]*17) / (sqrt(sigma^2 + sd_1[1]^2) + sd_2[1]^2);", block = "genquant"),
+    save_pars = save_pars(all = TRUE)
+  )
+
+post_samples_nocent <- as_draws_df(fit_nonINF_nocenter)
+
+group <- rep(c("treat", "placebo"), each = 30)
+symptom_post <- c(rnorm(30, mean = 1, sd = 2), rnorm(30, mean = 0, sd = 1))
+dat1 <- data.frame(group, symptom_post)
+fit1 <- brm(bf(symptom_post ~ group, sigma ~ group), 
+            data = dat1, family = gaussian())
+
+# posterior samples
+post_samples_nonINF <- as_draws_df(fit_nonINF)
+
+# summary table
+mod_fixed <- mod$coefficients$fixed
+
+cbind(Bayesian = with(post_samples_nonINF, 
+                       c(Intercept = mean(b_Intercept), 
+                         Time = mean(b_session_c),
+                         Treatment = mean(b_treatmenttreatment),
+                         SessionTrt = mean(b_session_trt), 
+                         BCSMD = mean(ES), 
+                         SE_BCSMD = sd(ES), 
+                         Sigmasq = (mean(sigma))^2,
+                         Tausq_int_case = (mean(sd_case__Intercept))^2,
+                         Tausq_int_group = (mean(sd_group__Intercept))^2,
+                         Auto_cor = mean(`ar[1]`))),
+      REML = c(Intercept = mod_fixed[1],
+               Time = mod_fixed[3],
+               Treatment = mod_fixed[2],
+               SessionTrt = mod_fixed[4],
+               BCSMD = ES_mod$g_AB,
+               SE_BCSMD = ES_mod$SE_g_AB,
+               Sigmasq = ES_mod$theta$sigma_sq,
+               Tausq_int_case = ES_mod$theta$Tau$case[1],
+               Tausq_int_group = ES_mod$theta$Tau$group,
+               Auto_cor = ES_mod$theta$cor_params)) %>% 
+  kable(digits = 3, 
+        caption = "Summary of Effect Size Estimate for varying intercepts, 
+        varying trends, varying treatment-by-time interaction model", 
+        booktabs = TRUE, 
+        align = c("l",rep("r",8))) %>%
+  kable_styling(latex_options = "scale_down") %>% 
+  group_rows("Fixed Effects", 1, 4) %>%
+  group_rows("Effect Sizes", 5, 6) %>% 
+  group_rows("Variance Components", 7, 9) %>% 
+  group_rows("Auto-correlation", 10, 10)
+
+```
+
+## Convergence Diagnostics
+### Density plot
+```{r}
+# plot(fit_nonINF, ask = FALSE)
+mcmc_plot(
+  fit_nonINF,
+  type = "dens",
+  variable = c("b_Intercept","b_treatmenttreatment","b_session_c","b_session_trt",
+                   "sigma","sd_case__Intercept","sd_group__Intercept","ar[1]",
+                   "ES")
+)
+```
+
+### Auto-correlation plot
+```{r}
+mcmc_plot(
+  fit_nonINF,
+  type = "acf",
+  variable = c("b_Intercept","b_treatmenttreatment","b_session_c","b_session_trt",
+                   "sigma","sd_case__Intercept","sd_group__Intercept","ar[1]",
+                   "ES")
+)
+```
+
+### Trace plot
+```{r}
+mcmc_plot(
+  fit_nonINF,
+  type = "trace",
+  variable = c("b_Intercept","b_treatmenttreatment","b_session_c","b_session_trt",
+                   "sigma","sd_case__Intercept","sd_group__Intercept","ar[1]",
+                   "ES")
+)
+```
+
+### Rhat
+```{r}
+mcmc_plot(
+  fit_nonINF,
+  type = "rhat",
+  variable = c("b_Intercept","b_treatmenttreatment","b_session_c","b_session_trt",
+                   "sigma","sd_case__Intercept","sd_group__Intercept","ar[1]",
+                   "ES")
+)
+```
+
+
+## Posterior predictive checks
+
+* Overlaid Density Plots (Is my model predicting my current data well?)
+
+```{r}
+# Compute LOO
+loo_nonINF <- loo(fit_nonINF)
+# WAIC
+waic_nonINF <- waic(fit_nonINF)
+# ppcheck(fit) to investigate model fit
+
+plot_overlay <- function(model){
+  title = str_sub(deparse(substitute(model)), 5, -1)
+  pp_check(model, nsamples = 400) + # default: 10 posterior samples for dens_overlay by default
+  ggtitle(paste0("Overlaid Density Plot for ", title)) +
+  theme(legend.position = "bottom")
+}
+
+plot_overlay(fit_nonINF)
+
+plot_ppstat <- function(model){
+  title = str_sub(deparse(substitute(model)), 5, -1)
+  pp_check(model, type = "stat") + # default: 10 posterior samples for dens_overlay by default
+  ggtitle(paste0("Overlaid Density Plot for ", title)) +
+  theme(legend.position = "bottom")
+}
+
+plot_ppstat(fit_nonINF)
+
+plot_ppstatvar <- function(model){
+  title = str_sub(deparse(substitute(model)), 5, -1)
+  pp_check(model, type = "stat", stat = "var") + # default: 10 posterior samples for dens_overlay by default
+  ggtitle(paste0("Overlaid Density Plot for ", title)) +
+  theme(legend.position = "bottom")
+}
+
+plot_ppstatvar(fit_nonINF)
+
+```
