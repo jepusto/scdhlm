@@ -172,9 +172,12 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
       
       # calculate intra-class correlation
       rho <- max(0, 1 - sigma_sq_w / S_sq)                          # See last display equation on p. 33.    
-    } else sigma_sq_w <- NA
-  } else sigma_sq_w <- NA
-  
+    } else {
+      sigma_sq_w <- NA_real_
+    }
+  } else {
+    sigma_sq_w <- NA_real_
+  }
   
   ############################################
   ## calculate degrees of freedom and theta ##
@@ -274,7 +277,11 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
 #'                 phase = phase, time = session, data = Anglesea)
 #' 
 
-effect_size_ABk <- function(outcome, treatment, id, phase, time, data = NULL, phi=NULL, rho=NULL) {
+effect_size_ABk <- function(
+  outcome, treatment, id, phase, time, 
+  data = NULL, 
+  phi=NULL, rho=NULL
+) {
   
   ###########
   ## setup ##
@@ -383,9 +390,12 @@ effect_size_ABk <- function(outcome, treatment, id, phase, time, data = NULL, ph
       sigma_sq_w <- sum(YW$g0, na.rm=T) / sigma_sq_correction
       
       rho <- max(0, 1 - sigma_sq_w / S_sq)      # See last display equation on p. 238.
-    } else sigma_sq_w <- NA
-  } else sigma_sq_w <- NA
-  
+    } else {
+      sigma_sq_w <- NA_real_
+    }
+  } else {
+    sigma_sq_w <- NA_real_
+  }
   
   ############################################
   ## calculate degrees of freedom and theta ##

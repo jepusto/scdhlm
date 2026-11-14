@@ -6,6 +6,7 @@ Lambert <- subset(Lambert, measure == "disruptive behavior")
 test_that("Example 1 from HPS 2012", {
   
   ES_L <- with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))
+  
   expect_equal(23, ES_L$M_dot)
   expect_equal(-5.457995, round(ES_L$D_bar,6))
   expect_equal(4.673913, round(ES_L$S_sq, 6))
@@ -17,6 +18,28 @@ test_that("Example 1 from HPS 2012", {
   expect_equal(164.492271, round(ES_L$nu, 6))
   expect_equal(-2.513073, round(ES_L$delta_hat, 6))
   expect_equal(0.04054616, round(ES_L$V_delta_hat, 8))
+
+  ES_L2 <- effect_size_ABk(outcome, treatment, case, phase, time, data = Lambert)
+  expect_equal(ES_L, ES_L2)
+
+  ES_L3 <- effect_size_ABk(
+    outcome, treatment, case, phase, time, data = Lambert,
+    phi = ES_L$phi
+  )
+  expect_equal(ES_L, ES_L3)
+
+  ES_L$sigma_sq_w <- NA_real_
+  
+  ES_L4 <- effect_size_ABk(
+    outcome, treatment, case, phase, time, data = Lambert,
+    rho = ES_L$rho
+  )
+  expect_equal(ES_L, ES_L4)
+  ES_L5 <- effect_size_ABk(
+    outcome, treatment, case, phase, time, data = Lambert,
+    phi = ES_L$phi, rho = ES_L$rho
+  )
+  expect_equal(ES_L, ES_L5)
   
 })
 
@@ -67,6 +90,35 @@ test_that("Example 1 from HPS 2013", {
                 effect_size_MB(outcome, treatment, case, time))
   expect_equal(0.747554, round(ES_S3$delta_hat, 6))
   expect_equal(0.07847359, round(ES_S3$V_delta_hat, 8))
+  
+  ES_S1_2 <- effect_size_MB(
+    outcome, treatment, case, time, 
+    data = subset(Saddler, measure=="writing quality")
+  )
+  expect_equal(ES_S1, ES_S1_2)
+  
+  ES_S1_3 <- effect_size_MB(
+    outcome, treatment, case, time, 
+    data = subset(Saddler, measure=="writing quality"),
+    phi = ES_S1$phi
+  )
+  expect_equal(ES_S1, ES_S1_3)
+
+  ES_S1$sigma_sq_w <- NA_real_
+
+  ES_S1_4 <- effect_size_MB(
+    outcome, treatment, case, time, 
+    data = subset(Saddler, measure=="writing quality"),
+    rho = ES_S1$rho
+  )
+  expect_equal(ES_S1, ES_S1_4)
+  
+  ES_S1_5 <- effect_size_MB(
+    outcome, treatment, case, time, 
+    data = subset(Saddler, measure=="writing quality"),
+    phi = ES_S1$phi, rho = ES_S1$rho
+  )
+  expect_equal(ES_S1, ES_S1_5)
   
 })
 
