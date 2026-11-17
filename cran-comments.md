@@ -14,12 +14,6 @@ This is a re-submission. This version adds a `Bayesian` option to `calc_BCSMD()`
 
 There were no ERRORs, WARNINGs, or NOTEs.
 
-There was one NOTE:
-
-Uses the superseded package: 'doSNOW'
-
-  The doSNOW package is included in SUGGESTS because it is used in a /demo script that implements the original simulation studies that motivated the package. I would prefer to keep the demo script in its original form for purposes of reproducibility.
-
 ## reverse dependency checks
 
 ------- Check results summary ------
