@@ -1,6 +1,10 @@
+CI_SMD_symmetric <- function(delta, kappa, nu, V_delta, cover) {
+  suppressWarnings(J(nu) * (delta + c(-1, 1) * qt(1 - (1 - cover) / 2, df = nu) * sqrt(V_delta)) / kappa)
+  
+}
 
 CI_SMD_single <- function(delta, kappa, nu, V_delta, cover, bound) {
-  start_val <- suppressWarnings(J(nu) * (delta + c(-1, 1) * qt(1 - (1 - cover) / 2, df = nu) * sqrt(V_delta)) / kappa)
+  start_val <- CI_SMD_symmetric(delta = delta, kappa = kappa, nu = nu, V_delta = V_delta, cover = cover)
   L <- kappa * nlminb(start = start_val[1],
                       objective = function(ncp) suppressWarnings((qt((1 - cover) / 2, df = nu, ncp=-ncp) + delta / kappa)^2),
                       lower = -bound, upper = bound)$par
@@ -14,7 +18,7 @@ CI_SMD_single <- function(delta, kappa, nu, V_delta, cover, bound) {
 
 CI_SMD <- function(delta, kappa, nu, cover = 0.95, bound = 35) {
   nu <- pmax(nu, 2.001)
-  V_delta = kappa^2 * nu / (nu - 2) + delta^2 * (nu / (nu - 2) - 1 / J(nu)^2)
+  V_delta <- kappa^2 * nu / (nu - 2) + delta^2 * (nu / (nu - 2) - 1 / J(nu)^2)
   mapply(CI_SMD_single, delta = delta, kappa = kappa, nu = nu, V_delta = V_delta,
          MoreArgs = list(cover = cover, bound = bound))
 }

@@ -12,7 +12,7 @@ This is a re-submission. This version adds a `Bayesian` option to `calc_BCSMD()`
 
 ## R CMD check results
 
-There were no ERRORs and no WARNINGs. 
+There were no ERRORs, WARNINGs, or NOTEs.
 
 There was one NOTE:
 
