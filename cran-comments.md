@@ -1,15 +1,14 @@
 ## Resubmission
 
-This is a re-submission and a maintenance release. The only change is updating the DESCRIPTION to list all packages used in /demo scripts, to rectify a NOTE thrown with v0.7.3.
+This is a re-submission. This version adds a `Bayesian` option to `calc_BCSMD()` for fiting multilevel models and estimating effect sizes using Markov Chain Monte Carlo, along with the associated helper function `g_mlm_Bayes()`. Unit tests for the built-in Shiny web application have been migrated to shinytest2. All problems shown on the current CRAN checks have been resolved, including for the additional check on MKL.
 
 ## Test environments
 
-* local Windows 11 Education, R 4.4.3
+* local Windows 11 Education, R 4.5.1
 * ubuntu 20.04.3 LTS (on Github), R devel, release, oldrelease
 * macOS-latest (on Github), R release
 * windows-latest (on Github), R devel, release
 * win-builder (devel, release, oldrelease)
-* mac-builder (release)
 
 ## R CMD check results
 
