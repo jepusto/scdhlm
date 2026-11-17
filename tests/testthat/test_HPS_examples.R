@@ -3,6 +3,12 @@ context("Examples from HPS (2012,2013)")
 data(Lambert)
 Lambert <- subset(Lambert, measure == "disruptive behavior")
 
+test_that("auto_SS() works.", {
+  expect_equal(auto_SS(x = 4), rep(NA_real_, 2L))
+  expect_type(auto_SS(rnorm(10)), "double")
+  expect_length(auto_SS(rnorm(16)), 2L)
+})
+
 test_that("Example 1 from HPS 2012", {
   
   ES_L <- with(Lambert, effect_size_ABk(outcome, treatment, case, phase, time))

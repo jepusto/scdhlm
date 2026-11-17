@@ -19,8 +19,8 @@ auto_SS <- function(x, n = length(x)) {
     auto_0 <- sum(e * e)
     auto_1 <- sum(e[1:(n-1)] * e[2:n])
   } else {
-    auto_0 <- NA
-    auto_1 <- NA
+    auto_0 <- NA_real_
+    auto_1 <- NA_real_
   }
   return(c(auto_0, auto_1))
 }
