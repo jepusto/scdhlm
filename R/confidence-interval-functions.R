@@ -11,8 +11,8 @@ CI_SMD_single <- function(delta, kappa, nu, V_delta, cover, bound) {
   U <- kappa * nlminb(start = start_val[2],
                       objective = function(ncp) suppressWarnings((qt((1 - cover)  / 2, df = nu, ncp=ncp) - delta / kappa)^2), 
                       lower = -bound, upper = bound)$par
-  if (L == -bound * kappa) L <- start_val[1] * kappa
-  if (U == bound * kappa) U <- start_val[2] * kappa
+  if (abs(L) == bound * kappa) L <- start_val[1] * kappa
+  if (abs(U) == bound * kappa) U <- start_val[2] * kappa
   c(L,U)
 }
 
