@@ -4,6 +4,9 @@
 \alias{CI_g}
 \title{Calculates a confidence interval for a standardized mean difference
   effect size}
+\usage{
+CI_g(g, cover = 0.95, bound = 35, symmetric = TRUE)
+}
 \arguments{
 \item{g}{an estimated effect size object of class \code{g_REML}, class
 \code{g_HPS}, or class \code{g_mlm}.}

@@ -29,7 +29,9 @@ NULL
 #'   \code{g_HPS}, or a \code{g_mlm} object using either a central t
 #'   distribution (for a symmetric interval) or a non-central t distribution
 #'   (for an asymmetric interval).
-#'
+#'   
+#' @usage CI_g(g, cover = 0.95, bound = 35, symmetric = TRUE)
+#' 
 #' @param g an estimated effect size object of class \code{g_REML}, class
 #'   \code{g_HPS}, or class \code{g_mlm}.
 #' @param cover confidence level
