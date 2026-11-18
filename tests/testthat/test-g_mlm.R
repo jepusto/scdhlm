@@ -1,8 +1,49 @@
-skip_if_not_installed("nlme")
 
-# check if g_mlm() works
-
-library(nlme)
+test_that("Information matrix calculations agree with lmeInfo.", {
+  
+  data(Laski)
+  
+  # simple model
+  Laski_RML1 <- lme(fixed = outcome ~ treatment, 
+                    random = ~ 1 | case, 
+                    correlation = corAR1(0.01, ~ time | case), 
+                    data = Laski)
+  
+  Laski_info <- Info_Expected_lmeAR1(Laski_RML1)
+  # Compare information matrices
+  expect_equivalent(
+    varcomp_vcov(Laski_RML1),
+    solve(Laski_info[3:1,3:1])
+  )
+   
+  attr(Laski_RML1$modelStruct$corStruct, "covariate") <- NULL
+  expect_equal(
+    Laski_info,
+    Info_Expected_lmeAR1(Laski_RML1)
+  )
+  
+  dat <- preprocess_SCD(design = "MBP", 
+                        case = case, phase = treatment, session = time, outcome = outcome, 
+                        center = 4, data = Laski)
+  Laski_RML2 <- suppressWarnings(lme(fixed = outcome ~ time + treatment + time_trt,
+                                     random = ~ time | case, 
+                                     correlation = corAR1(0.01, ~ time | case), 
+                                     data = dat,
+                                     control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)))
+  
+  Laski_info <- Info_Expected_lmeAR1(Laski_RML2)
+  # Compare information matrices
+  expect_equivalent(
+    varcomp_vcov(Laski_RML2),
+    solve(Laski_info[c(3,4,5,2,1),c(3,4,5,2,1)])
+  )
+  
+  attr(Laski_RML2$modelStruct$corStruct, "covariate") <- NULL
+  expect_equal(
+    Laski_info,
+    Info_Expected_lmeAR1(Laski_RML2)
+  )
+})
 
 test_that("g_mlm() is imported appropriately for Laski data.", {
   
@@ -14,8 +55,12 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
                     correlation = corAR1(0.01, ~ time | case), 
                     data = Laski)
   
+  # check warning messages
+  expect_warning(Laski_g1_REML <- g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = FALSE))
+  expect_error(summary(Laski_g1_REML))
+  
   ## g_REML VS g_mlm
-  Laski_g1_REML <- suppressWarnings(g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE))
+  expect_warning(Laski_g1_REML <- g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE))
   Laski_g1_mlm <- g_mlm(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE)
   
   expect_warning(g_REML(Laski_RML1, p_const = c(0,1), r_const = c(1,0,1), returnModel = TRUE))
@@ -48,10 +93,10 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
   expect_equal(CI_g(Laski_g1_REML), CI_g(Laski_g1_mlm))
   expect_equal(CI_g(Laski_g1_REML), lmeInfo:::CI_g.g_mlm(Laski_g1_mlm))
   expect_equal(CI_g(Laski_g1_REML, symmetric = FALSE), CI_g(Laski_g1_mlm, symmetric = FALSE))
-  
 
-  
+
   # complex model
+  
   default_AB <- default_times(design = "MBP",
                               case = case, phase = treatment, session = time, 
                               data = Laski)
@@ -66,9 +111,13 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
                                      data = dat,
                                      control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)))
   
+  # errors and warning messages
+  expect_warning(Laski_g2_REML <- g_REML(Laski_RML2, p_const = c(0,0,1,D), r_const = c(1,0,1,18,81), returnModel = FALSE))
+  expect_error(summary(Laski_g2_REML))
+  
   ## g_REML VS g_mlm
-  Laski_g2_REML <- suppressWarnings(g_REML(Laski_RML2, p_const = c(0,0,1,D), r_const = c(1,0,1,18,81), returnModel = TRUE))
-  Laski_g2_mlm <- suppressWarnings(g_mlm(Laski_RML2, p_const = c(0,0,1,D), r_const = c(1,18,81,0,1), returnModel = TRUE))
+  expect_warning(Laski_g2_REML <- g_REML(Laski_RML2, p_const = c(0,0,1,D), r_const = c(1,0,1,18,81), returnModel = TRUE))
+  Laski_g2_mlm <- g_mlm(Laski_RML2, p_const = c(0,0,1,D), r_const = c(1,18,81,0,1), returnModel = TRUE)
   
   expect_equal(Laski_g2_mlm$p_beta, Laski_g2_REML$p_beta) # numerator of effect size
   expect_equal(Laski_g2_mlm$r_theta, Laski_g2_REML$r_theta) # squared denominator of effect size
@@ -86,7 +135,7 @@ test_that("g_mlm() is imported appropriately for Laski data.", {
   expect_equal(CI_g(Laski_g2_REML), CI_g(Laski_g2_mlm))
   expect_equal(CI_g(Laski_g2_REML), lmeInfo:::CI_g.g_mlm(Laski_g2_mlm))
   expect_equal(CI_g(Laski_g2_REML, symmetric = FALSE), CI_g(Laski_g2_mlm, symmetric = FALSE))
-  
+
 })
 
 test_that("g_mlm() is imported appropriately for Bryant 2018 data.", {

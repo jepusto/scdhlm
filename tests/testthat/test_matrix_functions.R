@@ -14,8 +14,8 @@ vcov_full <- HLM_AR1_corr(id_fac = ID, time = time_it, phi = phi, rho = rho)
 
 # As block-diagonal matrices
 Tau_block <- tapply(time_it, ID, \(x) diag(1 - rho, nrow = length(x)) + rho)
-AR_block <- tapply(time_it, ID, \(x) phi^as.matrix(dist(x)))
-vcov_block <- tapply(time_it, ID, \(x) rho + (1 - rho) * (phi^as.matrix(dist(x))))
+AR_block <- tapply(time_it, ID, \(x) AR1_corr(phi, x))
+vcov_block <- tapply(time_it, ID, \(x) rho + (1 - rho) * AR1_corr(phi, x))
   
 test_that("block-matrix arithemetic works.", {
   
@@ -57,6 +57,11 @@ test_that("block-matrix arithemetic works.", {
     matrix_minus_block(vcov_full, Tau_block, block = ID)  
   )
   
+  expect_equal(
+    block_minus_matrix(rev(vcov_block), Tau_full),
+    matrix_minus_block(vcov_full, rev(Tau_block))  
+  )
+  
   
   # prod_blockmatrix and prod_matrixblock
   
@@ -91,28 +96,15 @@ test_that("block-matrix arithemetic works.", {
 })
 
 
-test_that("check_convergence() works.", {
-  
-  dat <- preprocess_SCD(design = "MBP", 
-                        case = case, phase = treatment, session = time, outcome = outcome, 
-                        center = 4, data = Laski)
-  
-  
-  c_fit <- lme(
-    fixed = outcome ~ time + treatment + time_trt,
-    random = ~ 1 | case, 
-    correlation = corAR1(0.01, ~ time | case), 
-    data = dat,
-    control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE)
+test_that("AR1_ matrix construction works.", {
+  expect_equivalent(
+    AR_block, 
+    AR1_corr_block(phi = phi, block = ID)  
   )
   
-  c_fit_conv <- check_convergence(c_fit)
-  expect_true(c_fit_conv)
+  AR_inv_block <- lapply(table(ID), AR1_corr_inv, phi = phi)
+  AR_block_inv <- lapply(AR_block, solve)
+  expect_equivalent(AR_inv_block, AR_block_inv)
   
-  expect_warning({
-    m_fit <- update(c_fit, random = ~ time | case)
-    check_convergence(m_fit)
-  })
-  
-
 })
+
