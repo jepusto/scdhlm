@@ -63,6 +63,43 @@ test_that("graph_SCD works for design = 'TR'", {
   
   data("Anglesea")
   
+  expect_error(
+    graph_SCD(
+      case=case, phase=condition, session=session, outcome=outcome, 
+      data=Anglesea
+    ),
+    "specify a study design"
+  )
+  expect_error(
+    graph_SCD(
+      phase=condition, session=session, outcome=outcome, 
+      design="TR", data=Anglesea
+    ),
+    "specify a case variable"
+  )
+  expect_error(
+    graph_SCD(
+      case=case, session=session, outcome=outcome, 
+      design="TR", data=Anglesea
+    ),
+    "specify a phase variable"
+  )
+  expect_error(
+    graph_SCD(
+      case=case, phase=condition, outcome=outcome, 
+      design="TR", data=Anglesea
+    ),
+    "specify a session variable"
+  )
+  expect_error(
+    graph_SCD(
+      case=case, phase=condition, session=session, 
+      design="TR", data=Anglesea
+    ),
+    "specify an outcome variable"
+  )
+  
+  
   Ang_graph1 <- graph_SCD(case=case, phase=condition, session=session, outcome=outcome, 
                         design="TR", treatment_name = NULL, model_fit=NULL, data=Anglesea)
   expect_s3_class(Ang_graph1, "ggplot")
@@ -157,6 +194,27 @@ test_that("graph_SCD works for design = 'RMBB'", {
                           random = ~ 1 | case / series,
                           data = Thiemann2001)
   
+  expect_error(
+    graph_SCD(
+      case = case, series = series,
+      phase = treatment, session = time, outcome = outcome,
+      treatment_name = "treatment", 
+      data = Thiemann2001
+    ),
+    "specify a study design"
+  )
+  
+  expect_error(
+    graph_SCD(
+      design = "RMBB",
+      case = case, 
+      phase = treatment, session = time, outcome = outcome,
+      treatment_name = "treatment", 
+      data = Thiemann2001
+    ),
+    "specify a series variable"
+  )
+  
   # graph using data = 
   Thiemann_graph1 <- graph_SCD(design = "RMBB",
                                case = case, series = series,
@@ -211,6 +269,27 @@ test_that("graph_SCD works for design = 'CMB'", {
                        weights = varIdent(form = ~ 1 | treatment),
                        data = Bryant2018,
                        na.action = na.omit)
+  
+  expect_error(
+    graph_SCD(
+      cluster = group, case = case,
+      phase = treatment, session = session, outcome = outcome,
+      treatment_name = "treatment", 
+      data = Bryant2018
+    ),
+    "specify a study design"
+  )
+  
+  expect_error(
+    graph_SCD(
+      design = "CMB",
+      case = case,
+      phase = treatment, session = session, outcome = outcome,
+      treatment_name = "treatment", 
+      data = Bryant2018
+    ),
+    "specify a cluster"
+  )
 
   # graph using data = 
   Bry_graph1 <- graph_SCD(design = "CMB",

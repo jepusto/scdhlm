@@ -108,3 +108,67 @@ test_that("AR1_ matrix construction works.", {
   
 })
 
+test_that("vcov matrix construction works from lme models.", {
+  
+  data(Laski)
+  
+  # simple model
+  
+  m_fit <- lme(fixed = outcome ~ treatment, 
+                    random = ~ 1 | case, 
+                    correlation = corAR1(0.01, ~ time | case), 
+                    data = Laski)
+  
+  theta <- extract_varcomp_lmeAR1(m_fit)
+  X_design <- model.matrix(m_fit, data = m_fit$data)
+  Z_design <- model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data)
+  block <- nlme::getGroups(m_fit)
+  times <- attr(m_fit$modelStruct$corStruct, "covariate")
+  
+  vcov_block <- lmeAR1_cov_block(
+    block = block, Z_design = Z_design, theta = theta, times = times
+  )
+  
+  rho <- with(theta, Tau / (Tau + sigma_sq))
+  total_var <- with(theta, Tau + sigma_sq)
+  hlm_block <- total_var * HLM_AR1_corr(id_fac = block, time = unlist(times), rho = rho, phi = theta$phi)
+  expect_equal(
+    unblock(vcov_block, block = block),
+    hlm_block
+  )
+  
+  # more complex model
+  
+  dat <- preprocess_SCD(design = "MBP", 
+                        case = case, phase = treatment, session = time, outcome = outcome, 
+                        center = 4, data = Laski)
+  m_fit <- suppressWarnings(lme(
+    fixed = outcome ~ time + treatment + time_trt,
+    random = ~ time | case, 
+    correlation = corAR1(0.01, ~ time | case), 
+    data = dat,
+    control = lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE))
+  )
+  
+  
+  theta <- extract_varcomp_lmeAR1(m_fit)
+  X_design <- model.matrix(m_fit, data = m_fit$data)
+  Z_design <- model.matrix(m_fit$modelStruct$reStruct, data = m_fit$data)
+  block <- nlme::getGroups(m_fit)
+  times <- attr(m_fit$modelStruct$corStruct, "covariate")
+
+  vcov_block <- lmeAR1_cov_block(
+    block = block, Z_design = Z_design, theta = theta, times = times
+  )
+  
+  inv_vcov_block <- lmeAR1_cov_block_inv(
+    block = block, Z_design = Z_design, theta = theta, times = times
+  )
+  
+  expect_equivalent(
+    lapply(vcov_block, solve),
+    inv_vcov_block
+  )
+  
+})
+

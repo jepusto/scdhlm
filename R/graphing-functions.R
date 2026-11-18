@@ -105,6 +105,20 @@ graph_SCD <- function(design, case, phase, session, outcome,
     stop("This function requires the ggplot2 package. Please install it.", call. = FALSE)
   }
 
+  if (missing(case)) stop("Please specify a case variable.")
+  if (missing(phase)) stop("Please specify a phase variable.")
+  if (missing(session)) stop("Please specify a session variable.")
+  if (missing(outcome)) stop("Please specify an outcome variable.")
+  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 
+                            'TR' (treatment reversal),
+                            'RMBB' (replicated multiple baseline across behaviors),
+                            'CMB' (clustered multiple baseline).")
+  
+  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
+  
+  if (design == "CMB" & missing(cluster)) stop("Please specify a cluster variable.")
+  if (design == "RMBB" & missing(series)) stop("Please specify a series variable.")
+  
   
   case_name <- deparse(substitute(case))
   phase_name <- deparse(substitute(phase))
@@ -133,8 +147,6 @@ graph_SCD <- function(design, case, phase, session, outcome,
     dat <- eval(mf, envir = parent.frame())
   }
 
-  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
-  
   phase_pair <- phase_time <- NULL
   
 
@@ -170,7 +182,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
   } else if (design == "RMBB") {
     p <- 
       ggplot2::ggplot(dat, ggplot2::aes(.data[[session_name]], .data[[outcome_name]], 
-                                        color = .data[[case_name]], group = .data[[phase_name]])) +
+                                        color = .data[[case_name]], shape = .data[[phase_name]])) +
       ggplot2::facet_wrap(~ caseSeries, dir = "v", ncol = length(unique(dat[[case_name]])), 
                           labeller = ggplot2::labeller(caseSeries = ggplot2::label_wrap_gen(25)))
   } else if (design == "CMB") {
@@ -179,8 +191,6 @@ graph_SCD <- function(design, case, phase, session, outcome,
                                         shape = .data[[phase_name]], color = .data[[case_name]])) +
       ggplot2::facet_wrap(ggplot2::sym(cluster_name), ncol = 1) + 
       ggplot2::guides(color = "none")
-  } else {
-    stop("The `design` argument must be one of 'TR', 'MBP', 'RMBB', or 'CMB'.")
   }
 
   p <- 
