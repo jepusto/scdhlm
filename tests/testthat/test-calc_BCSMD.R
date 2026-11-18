@@ -1,8 +1,5 @@
-skip_if_not_installed("nlme")
 
 # check if calc_BCSMD() works
-
-library(nlme)
 
 test_that("The logic for the A, B, and D argument in calc_BCSMD() is correct.", {
   
