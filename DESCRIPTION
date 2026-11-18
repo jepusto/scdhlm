@@ -48,6 +48,7 @@ Suggests:
     rclipboard,
     rvest,
     testthat,
+    mockery,
     snow,
     doSNOW,
     foreach,

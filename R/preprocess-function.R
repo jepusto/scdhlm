@@ -110,8 +110,6 @@ preprocess_SCD <- function(design,
                            treatment_name = NULL,
                            data = NULL) {
   
-  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
-  
   if (missing(case)) stop("Please specify a case variable.")
   if (missing(phase)) stop("Please specify a phase variable.")
   if (missing(session)) stop("Please specify a session variable.")
@@ -120,6 +118,9 @@ preprocess_SCD <- function(design,
                             'TR' (treatment reversal),
                             'RMBB' (replicated multiple baseline across behaviors),
                             'CMB' (clustered multiple baseline).")
+  
+  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
+  
   if (design == "CMB" & missing(cluster)) stop("Please specify a cluster variable.")
   if (design == "RMBB" & missing(series)) stop("Please specify a series variable.")
   

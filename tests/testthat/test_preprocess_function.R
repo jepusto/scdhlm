@@ -18,13 +18,63 @@ MB_dat_clean <- preprocess_SCD(case = Student, phase = Phase,
 
 test_that("The returned dataset is consistent with the input dataset for MBP designs.", {
   
-  expect_error(preprocess_SCD(case = Student, phase = Phase, 
-                              session = Time, outcome = Behavior, 
-                              design = "MB", data = dat_dup_session))
+  expect_error(
+    preprocess_SCD(
+      case = Student, phase = Phase, 
+      session = Time, outcome = Behavior, 
+      design = "MB", data = dat_dup_session
+    ),
+    "contains repeated values"
+  )
   
   expect_equal(names(MB_dat), names(MB_dat_clean)[1:4])
   
   data("Laski")
+  
+  expect_error(
+    preprocess_SCD(
+      phase = treatment, 
+      session = time, outcome = outcome, 
+      design = "MBP", data = Laski
+    ),
+    "specify a case variable"
+  )
+  
+  expect_error(
+    preprocess_SCD(
+      case = case, 
+      session = time, outcome = outcome, 
+      design = "MBP", data = Laski
+    ),
+    "specify a phase variable"
+  )
+  
+  expect_error(
+    preprocess_SCD(
+      case = case, phase = treatment,
+      outcome = outcome, 
+      design = "MBP", data = Laski
+    ),
+    "specify a session variable"
+  )
+  
+  expect_error(
+    preprocess_SCD(
+      case = case, phase = treatment,
+      session = time, 
+      design = "MBP", data = Laski
+    ),
+    "specify an outcome variable"
+  )
+  
+  expect_error(
+    preprocess_SCD(
+      case = case, phase = treatment,
+      session = time, outcome = outcome, 
+      data = Laski
+    ),
+    "specify a study design"
+  )
   
   dat1_Laski <- preprocess_SCD(case = case, phase = treatment, 
                                session = time, outcome = outcome, 
@@ -84,6 +134,25 @@ test_that("The returned dataset is consistent with the input dataset for RMBB de
   
   data("Thiemann2001")
   
+  expect_error(
+    preprocess_SCD(
+      design = "RMBB",
+      case = case, 
+      phase = treatment, session = time,
+      outcome = outcome, data = Thiemann2001
+    ),
+    "specify a series variable"
+  )
+  
+  expect_error(
+    preprocess_SCD(
+      case = case, series = series,
+      phase = treatment, session = time,
+      outcome = outcome, data = Thiemann2001
+    ),
+    "specify a study design"
+  )
+  
   dat1_Thiemann <- preprocess_SCD(design = "RMBB",
                                   case = case, series = series,
                                   phase = treatment, session = time,
@@ -129,6 +198,25 @@ test_that("The returned dataset is consistent with the input dataset for RMBB de
 test_that("The returned dataset is consistent with the input dataset for CMB designs.", {
   
   data("Bryant2018")
+  
+  expect_error(
+    preprocess_SCD(
+      design = "CMB",
+      case = case,
+      phase = treatment, session = session,
+      outcome = outcome, data = Bryant2018
+    ),
+    "specify a cluster"
+  )
+  
+  expect_error(
+    preprocess_SCD(
+      cluster = group, case = case,
+      phase = treatment, session = session,
+      outcome = outcome, data = Bryant2018
+    ),
+    "specify a study design"
+  )
   
   dat1_Bry <- preprocess_SCD(design = "CMB",
                              cluster = group, case = case,

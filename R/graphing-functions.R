@@ -101,7 +101,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
                       treatment_name = NULL, model_fit = NULL, 
                       data = NULL, newdata = NULL) {
   
-  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  if (ggplot2_is_missing()) {
     stop("This function requires the ggplot2 package. Please install it.", call. = FALSE)
   }
 
@@ -227,6 +227,10 @@ graph_SCD <- function(design, case, phase, session, outcome,
   
   return(p)
   
+}
+
+ggplot2_is_missing <- function() {
+  !requireNamespace("ggplot2", quietly = TRUE)
 }
 
 predict_SCD_model <- function(model_fit, design, newdata) UseMethod("predict_SCD_model")

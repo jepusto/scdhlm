@@ -1,5 +1,22 @@
 context("Graphing functions")
 
+test_that("graph_SCD() throws an error if ggplot2 is not installed.", {
+  
+  skip_if_not_installed("mockery")
+  
+  data("Anglesea")
+  
+  mockery::stub(graph_SCD, 'ggplot2_is_missing', TRUE)
+  expect_error(
+    graph_SCD(
+      case=case, phase=condition, session=session, outcome=outcome, 
+      design="TR", treatment_name = NULL, model_fit=NULL, data=Anglesea
+    ),
+    "This function requires the ggplot2 package"
+  )
+})
+
+
 test_that("graph_SCD works for design = 'TR'", {
   
   skip_if_not_installed("ggplot2")
