@@ -1,4 +1,6 @@
 
+library(nlme)
+
 test_that("Information matrix calculations agree with lmeInfo.", {
   
   data(Laski)

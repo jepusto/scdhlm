@@ -1,3 +1,4 @@
+library(nlme)
 
 test_that("graph_SCD() throws an error if ggplot2 is not installed.", {
   

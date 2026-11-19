@@ -251,101 +251,130 @@ calc_consts <- function(method, design, center = 0,
   
 }
 
-#' @title A convenience function for calculating design comparable effect sizes
+#' @title A convenience function for calculating design
+#'   comparable effect sizes
 #'
-#' @description In one call, 1) clean single-case design data for treatment
-#'   reversal and multiple baseline designs, 2) fit a multi-level model using
-#'   restricted maximum likelihood estimation, and 3) estimate a standardized
-#'   mean difference effect size.
+#' @description In one call, 1) clean single-case design data
+#'   for treatment reversal and multiple baseline designs, 2)
+#'   fit a multi-level model using restricted maximum likelihood
+#'   estimation, and 3) estimate a standardized mean difference
+#'   effect size.
 #'
 #' @inheritParams preprocess_SCD
-#' @param FE_base Vector of integers specifying which fixed effect terms to
-#'   include in the baseline phase. Setting \code{FE_base = 0} includes only a
-#'   level. Setting \code{FE_base = c(0,1)} includes a level and a linear time
+#' @param FE_base Vector of integers specifying which fixed
+#'   effect terms to include in the baseline phase. Setting
+#'   \code{FE_base = 0} includes only a level. Setting
+#'   \code{FE_base = c(0,1)} includes a level and a linear time
 #'   trend.
-#' @param RE_base Vector of integers specifying which random effect terms to
-#'   include in the baseline phase. Setting \code{RE_base = 0} includes only
-#'   levels (i.e., random intercepts). Setting \code{RE_base = c(0,1)} includes
+#' @param RE_base Vector of integers specifying which random
+#'   effect terms to include in the baseline phase. Setting
+#'   \code{RE_base = 0} includes only levels (i.e., random
+#'   intercepts). Setting \code{RE_base = c(0,1)} includes
 #'   random levels and random linear trends.
-#' @param RE_base_2 Vector of integers specifying which random effect terms to
-#'   include in the baseline phase for the cluster level in clustered multiple
-#'   baseline design across participants or for the case level in replicated
-#'   multiple baseline across behaviors. Setting \code{RE_base_2 = 0} includes
-#'   only levels (i.e., random intercepts). Setting \code{RE_base_2 = c(0,1)}
-#'   includes random levels and random linear trends.
-#' @param FE_trt Vector of integers specifying which fixed effect terms to
-#'   include in the treatment phase. Setting \code{FE_trt = 0} includes only a
-#'   change in level. Setting \code{FE_trt = c(0,1)} includes a change in level
-#'   and a treatment-by-linear time trend.
-#' @param RE_trt Vector of integers specifying which random effect terms to
-#'   include in the treatment phase. Setting \code{RE_trt = 0} includes only
-#'   random changes in level. Setting \code{RE_trt = c(0,1)} includes random
-#'   changes in level and random treatment-by-linear time trends.
-#' @param RE_trt_2 Vector of integers specifying which random effect terms to
-#'   include in the treatment phase for the cluster level in clustered multiple
-#'   baseline design across participants or for the case level in replicated
-#'   multiple baseline across behaviors. Setting \code{RE_trt_2 = 0} includes
-#'   only random changes in level. Setting \code{RE_trt_2 = c(0,1)} includes
-#'   random changes in level and random treatment-by-linear time trends.
-#' @param corStruct (Optional) character string indicating the correlation
-#'   structure of session-level errors. Options are \code{"AR1"} (default),
-#'   \code{"MA1"}, or \code{"IID"}.
+#' @param RE_base_2 Vector of integers specifying which random
+#'   effect terms to include in the baseline phase for the
+#'   cluster level in clustered multiple baseline design across
+#'   participants or for the case level in replicated multiple
+#'   baseline across behaviors. Setting \code{RE_base_2 = 0}
+#'   includes only levels (i.e., random intercepts). Setting
+#'   \code{RE_base_2 = c(0,1)} includes random levels and random
+#'   linear trends.
+#' @param FE_trt Vector of integers specifying which fixed
+#'   effect terms to include in the treatment phase. Setting
+#'   \code{FE_trt = 0} includes only a change in level. Setting
+#'   \code{FE_trt = c(0,1)} includes a change in level and a
+#'   treatment-by-linear time trend.
+#' @param RE_trt Vector of integers specifying which random
+#'   effect terms to include in the treatment phase. Setting
+#'   \code{RE_trt = 0} includes only random changes in level.
+#'   Setting \code{RE_trt = c(0,1)} includes random changes in
+#'   level and random treatment-by-linear time trends.
+#' @param RE_trt_2 Vector of integers specifying which random
+#'   effect terms to include in the treatment phase for the
+#'   cluster level in clustered multiple baseline design across
+#'   participants or for the case level in replicated multiple
+#'   baseline across behaviors. Setting \code{RE_trt_2 = 0}
+#'   includes only random changes in level. Setting
+#'   \code{RE_trt_2 = c(0,1)} includes random changes in level
+#'   and random treatment-by-linear time trends.
+#' @param corStruct (Optional) character string indicating the
+#'   correlation structure of session-level errors. Options are
+#'   \code{"AR1"} (default), \code{"MA1"}, or \code{"IID"}.
 #' @param varStruct (Optional) character string indicating the
-#'   heteroscedasticity structure of session-level errors. Options are
-#'   \code{"hom"} (default) or \code{"het"}, which allows for the session-level
-#'   error variances to differ by phase.
-#' @param lmeControl Specify control values for \code{lme} fit. See
-#'   \code{?lmeControl} for more detail.
-#' @param Bayesian Logical indicating whether to apply Bayesian estimation
-#'   methods. If \code{FALSE} (default), apply restricted maximum likelihood
-#'   estimation. If \code{TRUE}, apply Bayesian estimation methods (i.e., Markov
-#'   Chain Monte Carlo) to the parameters of the specified hierarchical linear
-#'   model.
-#' @param prior (Optional) One or more \code{brmsprior} objects created by
+#'   heteroscedasticity structure of session-level errors.
+#'   Options are \code{"hom"} (default) or \code{"het"}, which
+#'   allows for the session-level error variances to differ by
+#'   phase.
+#' @param lmeControl Specify control values for \code{lme} fit.
+#'   See \code{?lmeControl} for more detail.
+#' @param Bayesian Logical indicating whether to apply Bayesian
+#'   estimation methods. If \code{FALSE} (default), apply
+#'   restricted maximum likelihood estimation. If \code{TRUE},
+#'   apply Bayesian estimation methods (i.e., Markov Chain Monte
+#'   Carlo) to the parameters of the specified hierarchical
+#'   linear model.
+#' @param prior (Optional) One or more \code{brmsprior} objects
+#'   created by
 #'   \code{"set_prior"} in the \code{"brms"} R package. Default is \code{prior =
 #'   NULL} when flat priors will be applied for Bayesian estimation.
 #'   Ignored if \code{Bayesian = FALSE}.
-#' @param chains Number of Markov chains to use for Bayesian estimation. Default
-#'   is \code{chains = 4}. Ignored if \code{Bayesian = FALSE}.
-#' @param iter Number of iterations per chain to use for Bayesian estimation.
-#'   Default is \code{iter = 2000}. Ignored if \code{Bayesian = FALSE}.
-#' @param warmup Number of burn-in iterations to use for Bayesian estimation.
-#'   Default is \code{iter/2}. Ignored if \code{Bayesian = FALSE}.
-#' @param thin Thinning rate to use for Bayesian estimation. Default is
-#'   \code{thin = 10}. Ignored if \code{Bayesian = FALSE}.
-#' @param cores Number of cores to use for Bayesian estimation. Default is
-#'   \code{cores = 1}. Ignored if \code{Bayesian = FALSE}.
-#' @param seed Random number generation seed to use for Bayesian estimation.
-#'   Default is \code{seed = NA}, which will cause the seed to be set randomly.
-#'   Ignored if \code{Bayesian = FALSE}.
-#' @param A The time point immediately before the start of treatment in the
+#' @param backend Character string naming the package to use as
+#'   the backend for fitting the model, passed to the
+#'   \code{backend} option of \code{brms::brm()}. Options
+#'   include \code{"stanli"} (the default if the stanli package
+#'   is installed), \code{"rstan"} (the default otherwise), or
+#'   \code{"cmdstanr"}. Ignored if \code{Bayesian = FALSE}.
+#' @param chains Number of Markov chains to use for Bayesian
+#'   estimation. Default is \code{chains = 4}. Ignored if
+#'   \code{Bayesian = FALSE}.
+#' @param iter Number of iterations per chain to use for
+#'   Bayesian estimation. Default is \code{iter = 2000}. Ignored
+#'   if \code{Bayesian = FALSE}.
+#' @param warmup Number of burn-in iterations to use for
+#'   Bayesian estimation. Default is \code{iter/2}. Ignored if
+#'   \code{Bayesian = FALSE}.
+#' @param thin Thinning rate to use for Bayesian estimation.
+#'   Default is \code{thin = 10}. Ignored if \code{Bayesian =
+#'   FALSE}.
+#' @param cores Number of cores to use for Bayesian estimation.
+#'   Default is \code{cores = 1}. Ignored if \code{Bayesian =
+#'   FALSE}.
+#' @param seed Random number generation seed to use for Bayesian
+#'   estimation. Default is \code{seed = NA}, which will cause
+#'   the seed to be set randomly. Ignored if \code{Bayesian =
+#'   FALSE}.
+#' @param A The time point immediately before the start of
+#'   treatment in the hypothetical between-group design.
+#' @param B The time point at which outcomes are measured in the
 #'   hypothetical between-group design.
-#' @param B The time point at which outcomes are measured in the hypothetical
-#'   between-group design.
-#' @param D Numerical indicating the treatment duration across cases. Note that
-#'   \code{B = A + D} and it is not allowed to specify both \code{B} and
-#'   \code{D}.
+#' @param D Numerical indicating the treatment duration across
+#'   cases. Note that \code{B = A + D} and it is not allowed to
+#'   specify both \code{B} and \code{D}.
 #' @param cover Confidence level.
-#' @param bound Numerical tolerance for non-centrality parameter in
-#'   \code{\link[stats]{qt}}.
-#' @param symmetric If \code{TRUE} (the default), use a symmetric confidence
-#'   interval. If \code{FALSE}, use a non-central t approximation to obtain an
-#'   asymmetric confidence interval.
-#' @param summary Logical indicating whether to return a data frame with effect
-#'   size estimates and other information. If \code{TRUE} (default), return a
-#'   \code{data.frame} containing the effect size estimate, standard error,
-#'   confidence interval (or credible interval if \code{Bayesian == TRUE}), and
-#'   other information. If \code{FALSE}, return a list with effect size
-#'   estimate, degrees of freedom, and other information.
+#' @param bound Numerical tolerance for non-centrality parameter
+#'   in \code{\link[stats]{qt}}.
+#' @param symmetric If \code{TRUE} (the default), use a
+#'   symmetric confidence interval. If \code{FALSE}, use a
+#'   non-central t approximation to obtain an asymmetric
+#'   confidence interval.
+#' @param summary Logical indicating whether to return a data
+#'   frame with effect size estimates and other information. If
+#'   \code{TRUE} (default), return a \code{data.frame}
+#'   containing the effect size estimate, standard error,
+#'   confidence interval (or credible interval if \code{Bayesian
+#'   == TRUE}), and other information. If \code{FALSE}, return a
+#'   list with effect size estimate, degrees of freedom, and
+#'   other information.
 #' @param ... further arguments. Not currently used.
 #'
 #' @export
 #'
 #' @return If \code{summary = TRUE}, a data frame containing the
-#'   design-comparable effect size estimate, standard error, confidence interval
-#'   (or credible interval if \code{Bayesian = TRUE}), and other information.
-#'   If \code{summary = FALSE}, a list containing all elements of a `g_mlm()`
-#'   object, plus the fitted `lme()` model.
+#'   design-comparable effect size estimate, standard error,
+#'   confidence interval (or credible interval if \code{Bayesian
+#'   = TRUE}), and other information. If \code{summary = FALSE},
+#'   a list containing all elements of a `g_mlm()` object, plus
+#'   the fitted `lme()` model.
 #'
 #' @examples
 #' data(Laski)
@@ -356,7 +385,7 @@ calc_consts <- function(method, design, center = 0,
 #'            session = time, outcome = outcome,
 #'            FE_base = 0, RE_base = 0, FE_trt = 0,
 #'            data = Laski)
-#' 
+#'
 #' \dontrun{
 #' # Bayesian estimation
 #' calc_BCSMD(design = "MBP",
@@ -374,7 +403,7 @@ calc_consts <- function(method, design, center = 0,
 #'            session = time, outcome = outcome, center = 4,
 #'            FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
 #'            data = Laski)
-#' 
+#'
 #' \dontrun{
 #' # Bayesian estimation
 #' calc_BCSMD(design = "MBP",
@@ -410,8 +439,8 @@ calc_consts <- function(method, design, center = 0,
 #'            FE_base = c(0,1), RE_base = 0, RE_base_2 = 0,
 #'            FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
 #'            data = Bryant2018)
-#'  
-#' \dontrun{          
+#'
+#' \dontrun{
 #' # Bayesian estimation
 #' calc_BCSMD(design = "CMB",
 #'            cluster = group, case = case, phase = treatment,
@@ -422,7 +451,7 @@ calc_consts <- function(method, design, center = 0,
 #'            Bayesian = TRUE,
 #'            data = Bryant2018)
 #' }
-#'
+#' 
 
 calc_BCSMD <- function(design, 
                        case, phase, session, outcome, 
@@ -434,6 +463,7 @@ calc_BCSMD <- function(design,
                        corStruct = "AR1", varStruct = "hom",
                        lmeControl = nlme::lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE),
                        Bayesian = FALSE, prior = NULL,
+                       backend = NULL,
                        chains = 4, iter = 2000, 
                        warmup = iter / 2, thin = 10, cores = 1, seed = NA,
                        A = NULL, B = NULL, D = NULL,
@@ -441,9 +471,31 @@ calc_BCSMD <- function(design,
                        summary = FALSE, 
                        data = NULL, ...) {
   
-  install_brms <- requireNamespace("brms", quietly = TRUE)
-  if (Bayesian & !install_brms)
-    stop("The Bayesian estimation requires the brms package. Please install it.", call. = FALSE)
+  # Check package availability and versions if using Bayesian estimation
+  
+  if (Bayesian) {
+    brms_missing <- brms_is_missing()
+    
+    if (brms_missing) stop("The Bayesian estimation requires the brms package. Please install it.", call. = FALSE)
+    
+    stanli_missing <- stanli_is_missing()
+    
+    if (is.null(backend)) {
+      backend <- if (stanli_missing) "rstan" else "stanli" 
+    }
+    
+    backend <- match.arg(backend, choices = c("stanli","rstan","cmdstanr"))
+    
+    if (backend == "stanli") {
+      if (utils::packageVersion("brms") < "2.23.2") stop("Using the 'stanli' backend requires brms version 2.23.2 or higher. Please update accordingly.")
+      if (stanli_missing) stop("Using the 'stanli' backend requires the stanli package version 0.25 or higher. Please install it.")
+      if (!stanli::stanli_available()) stop("Using the 'stanli' backend requires that the stanli runtime is available. Install it by running `stanli::stanli_install()`.")
+    }
+    
+    if (backend == "cmdstanr") {
+      if (cmdstanr_is_missing()) stop("Using the 'cmdstanr' backend requires the cmdstanr package version 0.5.0 or higher. Please install it.")
+    }
+  }
   
   # clean data
   
@@ -482,6 +534,7 @@ calc_BCSMD <- function(design,
                         round_session = round_session, treatment_name = treatment_name)
   
   # Set time points A, B
+  
   if (!is.null(B) & !is.null(D)) {
     stop("Please specify either the 'B' or 'D' argument, or use the default treatment duration by setting both 'B' and 'D' to NULL.")
     
@@ -560,22 +613,23 @@ calc_BCSMD <- function(design,
                                `AR1` = paste0("arma(time = session, gr = ", nesting_str_Bayes, ", p = 1, q = 0)"),
                                `IID` = NULL)
     
+    if (varStruct == "het") {
+      brm_bf <- brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes,"+",cor_struct_Bayes)), 
+                         as.formula("sigma ~ trt"), center = FALSE)
+    } else {
+      if (corStruct == "IID") {
+        brm_bf <- brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes)), center = FALSE)
+      } else {
+        brm_bf <- brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes,"+", cor_struct_Bayes)), center = FALSE)
+      }
+    }
+    
     # fit the model
     W <- TRUE
     E <- NULL
     m_fit <- withCallingHandlers(
       tryCatch(brms::brm(
-        formula = 
-          if (varStruct == "het") {
-            brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes,"+",cor_struct_Bayes)), 
-                     as.formula("sigma ~ trt"), center = FALSE)
-          } else {
-            if (corStruct == "IID") {
-              brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes)), center = FALSE)
-            } else {
-              brms::bf(as.formula(paste0(fixed_Bayes,"+",random_Bayes,"+", cor_struct_Bayes)), center = FALSE)
-            }
-          },
+        formula = brm_bf,
         data = dat,
         prior = prior,
         chains = chains,
@@ -583,6 +637,7 @@ calc_BCSMD <- function(design,
         warmup = warmup,
         thin = thin,
         cores = cores,
+        backend = backend,
         save_pars = brms::save_pars(all = TRUE),
         seed = seed
       ),
@@ -719,6 +774,18 @@ calc_BCSMD <- function(design,
     
   }
   
+}
+
+brms_is_missing <- function() {
+  !requireNamespace("brms", quietly = TRUE)
+}
+
+stanli_is_missing <- function() {
+  (!requireNamespace("stanli", quietly = TRUE)) || (utils::packageVersion("stanli") < "0.25")
+}
+
+cmdstanr_is_missing <- function() {
+  (!requireNamespace("cmdstanr", quietly = TRUE)) || (utils::packageVersion("cmdstanr") < "0.5.0")
 }
 
 

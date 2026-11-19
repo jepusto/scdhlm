@@ -32,54 +32,63 @@ reversal (\code{"TR"}), multiple baseline across participants
 
 \item{center}{Numeric value for the centering value for session. Default is 0.}
 
-\item{FE_base}{Vector of integers specifying which fixed effect terms to
-include in the baseline phase. Setting \code{FE_base = 0} includes only a
-level. Setting \code{FE_base = c(0,1)} includes a level and a linear time
+\item{FE_base}{Vector of integers specifying which fixed
+effect terms to include in the baseline phase. Setting
+\code{FE_base = 0} includes only a level. Setting
+\code{FE_base = c(0,1)} includes a level and a linear time
 trend.}
 
-\item{RE_base}{Vector of integers specifying which random effect terms to
-include in the baseline phase. Setting \code{RE_base = 0} includes only
-levels (i.e., random intercepts). Setting \code{RE_base = c(0,1)} includes
+\item{RE_base}{Vector of integers specifying which random
+effect terms to include in the baseline phase. Setting
+\code{RE_base = 0} includes only levels (i.e., random
+intercepts). Setting \code{RE_base = c(0,1)} includes
 random levels and random linear trends.}
 
-\item{RE_base_2}{Vector of integers specifying which random effect terms to
-include in the baseline phase for the cluster level in clustered multiple
-baseline design across participants or for the case level in replicated
-multiple baseline across behaviors. Setting \code{RE_base_2 = 0} includes
-only levels (i.e., random intercepts). Setting \code{RE_base_2 = c(0,1)}
-includes random levels and random linear trends.}
+\item{RE_base_2}{Vector of integers specifying which random
+effect terms to include in the baseline phase for the
+cluster level in clustered multiple baseline design across
+participants or for the case level in replicated multiple
+baseline across behaviors. Setting \code{RE_base_2 = 0}
+includes only levels (i.e., random intercepts). Setting
+\code{RE_base_2 = c(0,1)} includes random levels and random
+linear trends.}
 
-\item{FE_trt}{Vector of integers specifying which fixed effect terms to
-include in the treatment phase. Setting \code{FE_trt = 0} includes only a
-change in level. Setting \code{FE_trt = c(0,1)} includes a change in level
-and a treatment-by-linear time trend.}
+\item{FE_trt}{Vector of integers specifying which fixed
+effect terms to include in the treatment phase. Setting
+\code{FE_trt = 0} includes only a change in level. Setting
+\code{FE_trt = c(0,1)} includes a change in level and a
+treatment-by-linear time trend.}
 
-\item{RE_trt}{Vector of integers specifying which random effect terms to
-include in the treatment phase. Setting \code{RE_trt = 0} includes only
-random changes in level. Setting \code{RE_trt = c(0,1)} includes random
-changes in level and random treatment-by-linear time trends.}
+\item{RE_trt}{Vector of integers specifying which random
+effect terms to include in the treatment phase. Setting
+\code{RE_trt = 0} includes only random changes in level.
+Setting \code{RE_trt = c(0,1)} includes random changes in
+level and random treatment-by-linear time trends.}
 
-\item{RE_trt_2}{Vector of integers specifying which random effect terms to
-include in the treatment phase for the cluster level in clustered multiple
-baseline design across participants or for the case level in replicated
-multiple baseline across behaviors. Setting \code{RE_trt_2 = 0} includes
-only random changes in level. Setting \code{RE_trt_2 = c(0,1)} includes
-random changes in level and random treatment-by-linear time trends.}
+\item{RE_trt_2}{Vector of integers specifying which random
+effect terms to include in the treatment phase for the
+cluster level in clustered multiple baseline design across
+participants or for the case level in replicated multiple
+baseline across behaviors. Setting \code{RE_trt_2 = 0}
+includes only random changes in level. Setting
+\code{RE_trt_2 = c(0,1)} includes random changes in level
+and random treatment-by-linear time trends.}
 
-\item{corStruct}{(Optional) character string indicating the correlation
-structure of session-level errors. Options are \code{"AR1"} (default),
-\code{"MA1"}, or \code{"IID"}.}
+\item{corStruct}{(Optional) character string indicating the
+correlation structure of session-level errors. Options are
+\code{"AR1"} (default), \code{"MA1"}, or \code{"IID"}.}
 
 \item{varStruct}{(Optional) character string indicating the
-heteroscedasticity structure of session-level errors. Options are
-\code{"hom"} (default) or \code{"het"}, which allows for the session-level
-error variances to differ by phase.}
+heteroscedasticity structure of session-level errors.
+Options are \code{"hom"} (default) or \code{"het"}, which
+allows for the session-level error variances to differ by
+phase.}
 
-\item{A}{The time point immediately before the start of treatment in the
+\item{A}{The time point immediately before the start of
+treatment in the hypothetical between-group design.}
+
+\item{B}{The time point at which outcomes are measured in the
 hypothetical between-group design.}
-
-\item{B}{The time point at which outcomes are measured in the hypothetical
-between-group design.}
 }
 \value{
 A list of constants associated with the fixed effect parameters and

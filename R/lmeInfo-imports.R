@@ -1,3 +1,5 @@
+#' @importFrom nlme lme
+#' @importFrom nlme lmeControl
 #' @importFrom lmeInfo extract_varcomp
 #' @importFrom lmeInfo varcomp_vcov
 #' @importFrom lmeInfo g_mlm
@@ -47,6 +49,8 @@ NULL
 #' @return A vector of upper and lower confidence bounds.
 #'
 #' @examples
+#' 
+#' library(nlme)
 #' data(Laski)
 #' Laski_RML <- lme(fixed = outcome ~ treatment,
 #'                  random = ~ 1 | case,

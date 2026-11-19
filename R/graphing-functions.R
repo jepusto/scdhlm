@@ -258,6 +258,7 @@ predict_SCD_model.lme <- function(model_fit, design, newdata) {
   return(prediction)
 }
 
+#' @importFrom utils packageVersion
 #' @method predict_SCD_model brmsfit
 #' @export
 

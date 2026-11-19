@@ -110,6 +110,8 @@ test_that("AR1_ matrix construction works.", {
 
 test_that("vcov matrix construction works from lme models.", {
   
+  library(nlme)
+  
   data(Laski)
   
   # simple model

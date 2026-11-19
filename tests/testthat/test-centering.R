@@ -1,7 +1,5 @@
-skip_if_not_installed("nlme")
 
 library(nlme)
-
 
 test_that("calc_BCSMD() effect size does not depend on centering time for Alber-Morgan data.", {
   data(AlberMorgan)

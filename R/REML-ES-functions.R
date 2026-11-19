@@ -37,7 +37,7 @@ Tau_matrix <- function(Tau_coef) {
 # create block-diagonal covariance matrix with AR(1) level-1 error
 
 lmeAR1_cov_block <- function(block, Z_design, theta, times = NULL) {
-  if(is.matrix(theta$Tau)) {
+  if (is.matrix(theta$Tau)) {
     Tau_mat <- theta$Tau 
     } else {
       Tau_mat <- Tau_matrix(theta$Tau)
@@ -189,6 +189,8 @@ Info_Expected <- function(theta, X_design, Z_design, block, times=NULL) {
 #' @return Expected Information matrix corresponding to variance components of \code{m_fit}.
 #' 
 #' @examples
+#' 
+#' library(nlme)
 #' data(Laski)
 #' Laski_RML <- lme(fixed = outcome ~ treatment, 
 #'                  random = ~ 1 | case, 
@@ -250,6 +252,7 @@ Info_Expected_lmeAR1 <- function(m_fit) {
 #' \emph{Journal of Educational and Behavioral Statistics, 39}(4), 211-227. \doi{10.3102/1076998614547577}
 #' 
 #' @examples
+#' library(nlme)
 #' data(Laski)
 #' Laski_RML <- lme(fixed = outcome ~ treatment, 
 #'                  random = ~ 1 | case, 

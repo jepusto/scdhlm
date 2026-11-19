@@ -1,3 +1,5 @@
+# scdhlm 0.8.1
+
 # scdhlm 0.8.0
 
 * `calc_BCSMD()` gains a `Bayesian` option to fit the multilevel model and estimate an effect size using Markov Chain Monte Carlo, as implemented in `Stan` via `brms`. 

@@ -17,6 +17,8 @@ Calculates the expected information matrix from a fitted linear mixed effects
 model with AR(1) correlation structure in the level-1 errors.
 }
 \examples{
+
+library(nlme)
 data(Laski)
 Laski_RML <- lme(fixed = outcome ~ treatment, 
                  random = ~ 1 | case, 

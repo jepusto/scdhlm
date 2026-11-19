@@ -83,104 +83,124 @@ data series for \code{RMBB} designs.}
 \item{treatment_name}{(Optional) character string corresponding to the name
 of the treatment phase.}
 
-\item{FE_base}{Vector of integers specifying which fixed effect terms to
-include in the baseline phase. Setting \code{FE_base = 0} includes only a
-level. Setting \code{FE_base = c(0,1)} includes a level and a linear time
+\item{FE_base}{Vector of integers specifying which fixed
+effect terms to include in the baseline phase. Setting
+\code{FE_base = 0} includes only a level. Setting
+\code{FE_base = c(0,1)} includes a level and a linear time
 trend.}
 
-\item{RE_base}{Vector of integers specifying which random effect terms to
-include in the baseline phase. Setting \code{RE_base = 0} includes only
-levels (i.e., random intercepts). Setting \code{RE_base = c(0,1)} includes
+\item{RE_base}{Vector of integers specifying which random
+effect terms to include in the baseline phase. Setting
+\code{RE_base = 0} includes only levels (i.e., random
+intercepts). Setting \code{RE_base = c(0,1)} includes
 random levels and random linear trends.}
 
-\item{RE_base_2}{Vector of integers specifying which random effect terms to
-include in the baseline phase for the cluster level in clustered multiple
-baseline design across participants or for the case level in replicated
-multiple baseline across behaviors. Setting \code{RE_base_2 = 0} includes
-only levels (i.e., random intercepts). Setting \code{RE_base_2 = c(0,1)}
-includes random levels and random linear trends.}
+\item{RE_base_2}{Vector of integers specifying which random
+effect terms to include in the baseline phase for the
+cluster level in clustered multiple baseline design across
+participants or for the case level in replicated multiple
+baseline across behaviors. Setting \code{RE_base_2 = 0}
+includes only levels (i.e., random intercepts). Setting
+\code{RE_base_2 = c(0,1)} includes random levels and random
+linear trends.}
 
-\item{FE_trt}{Vector of integers specifying which fixed effect terms to
-include in the treatment phase. Setting \code{FE_trt = 0} includes only a
-change in level. Setting \code{FE_trt = c(0,1)} includes a change in level
-and a treatment-by-linear time trend.}
+\item{FE_trt}{Vector of integers specifying which fixed
+effect terms to include in the treatment phase. Setting
+\code{FE_trt = 0} includes only a change in level. Setting
+\code{FE_trt = c(0,1)} includes a change in level and a
+treatment-by-linear time trend.}
 
-\item{RE_trt}{Vector of integers specifying which random effect terms to
-include in the treatment phase. Setting \code{RE_trt = 0} includes only
-random changes in level. Setting \code{RE_trt = c(0,1)} includes random
-changes in level and random treatment-by-linear time trends.}
+\item{RE_trt}{Vector of integers specifying which random
+effect terms to include in the treatment phase. Setting
+\code{RE_trt = 0} includes only random changes in level.
+Setting \code{RE_trt = c(0,1)} includes random changes in
+level and random treatment-by-linear time trends.}
 
-\item{RE_trt_2}{Vector of integers specifying which random effect terms to
-include in the treatment phase for the cluster level in clustered multiple
-baseline design across participants or for the case level in replicated
-multiple baseline across behaviors. Setting \code{RE_trt_2 = 0} includes
-only random changes in level. Setting \code{RE_trt_2 = c(0,1)} includes
-random changes in level and random treatment-by-linear time trends.}
+\item{RE_trt_2}{Vector of integers specifying which random
+effect terms to include in the treatment phase for the
+cluster level in clustered multiple baseline design across
+participants or for the case level in replicated multiple
+baseline across behaviors. Setting \code{RE_trt_2 = 0}
+includes only random changes in level. Setting
+\code{RE_trt_2 = c(0,1)} includes random changes in level
+and random treatment-by-linear time trends.}
 
-\item{corStruct}{(Optional) character string indicating the correlation
-structure of session-level errors. Options are \code{"AR1"} (default),
-\code{"MA1"}, or \code{"IID"}.}
+\item{corStruct}{(Optional) character string indicating the
+correlation structure of session-level errors. Options are
+\code{"AR1"} (default), \code{"MA1"}, or \code{"IID"}.}
 
 \item{varStruct}{(Optional) character string indicating the
-heteroscedasticity structure of session-level errors. Options are
-\code{"hom"} (default) or \code{"het"}, which allows for the session-level
-error variances to differ by phase.}
+heteroscedasticity structure of session-level errors.
+Options are \code{"hom"} (default) or \code{"het"}, which
+allows for the session-level error variances to differ by
+phase.}
 
-\item{Bayesian}{Logical indicating whether to apply Bayesian estimation
-methods. If \code{FALSE} (default), apply restricted maximum likelihood
-estimation. If \code{TRUE}, apply Bayesian estimation methods (i.e., Markov
-Chain Monte Carlo) to the parameters of the specified hierarchical linear
-model.}
+\item{Bayesian}{Logical indicating whether to apply Bayesian
+estimation methods. If \code{FALSE} (default), apply
+restricted maximum likelihood estimation. If \code{TRUE},
+apply Bayesian estimation methods (i.e., Markov Chain Monte
+Carlo) to the parameters of the specified hierarchical
+linear model.}
 
-\item{prior}{(Optional) One or more \code{brmsprior} objects created by
+\item{prior}{(Optional) One or more \code{brmsprior} objects
+created by
 \code{"set_prior"} in the \code{"brms"} R package. Default is \code{prior =
 NULL} when flat priors will be applied for Bayesian estimation.
 Ignored if \code{Bayesian = FALSE}.}
 
-\item{chains}{Number of Markov chains to use for Bayesian estimation. Default
-is \code{chains = 4}. Ignored if \code{Bayesian = FALSE}.}
+\item{chains}{Number of Markov chains to use for Bayesian
+estimation. Default is \code{chains = 4}. Ignored if
+\code{Bayesian = FALSE}.}
 
-\item{iter}{Number of iterations per chain to use for Bayesian estimation.
-Default is \code{iter = 2000}. Ignored if \code{Bayesian = FALSE}.}
+\item{iter}{Number of iterations per chain to use for
+Bayesian estimation. Default is \code{iter = 2000}. Ignored
+if \code{Bayesian = FALSE}.}
 
-\item{warmup}{Number of burn-in iterations to use for Bayesian estimation.
-Default is \code{iter/2}. Ignored if \code{Bayesian = FALSE}.}
+\item{warmup}{Number of burn-in iterations to use for
+Bayesian estimation. Default is \code{iter/2}. Ignored if
+\code{Bayesian = FALSE}.}
 
-\item{thin}{Thinning rate to use for Bayesian estimation. Default is
-\code{thin = 10}. Ignored if \code{Bayesian = FALSE}.}
+\item{thin}{Thinning rate to use for Bayesian estimation.
+Default is \code{thin = 10}. Ignored if \code{Bayesian =
+FALSE}.}
 
-\item{cores}{Number of cores to use for Bayesian estimation. Default is
-\code{cores = 1}. Ignored if \code{Bayesian = FALSE}.}
+\item{cores}{Number of cores to use for Bayesian estimation.
+Default is \code{cores = 1}. Ignored if \code{Bayesian =
+FALSE}.}
 
-\item{seed}{Random number generation seed to use for Bayesian estimation.
-Default is \code{seed = NA}, which will cause the seed to be set randomly.
-Ignored if \code{Bayesian = FALSE}.}
+\item{seed}{Random number generation seed to use for Bayesian
+estimation. Default is \code{seed = NA}, which will cause
+the seed to be set randomly. Ignored if \code{Bayesian =
+FALSE}.}
 
-\item{A}{The time point immediately before the start of treatment in the
+\item{A}{The time point immediately before the start of
+treatment in the hypothetical between-group design.}
+
+\item{B}{The time point at which outcomes are measured in the
 hypothetical between-group design.}
 
-\item{B}{The time point at which outcomes are measured in the hypothetical
-between-group design.}
-
-\item{D}{Numerical indicating the treatment duration across cases. Note that
-\code{B = A + D} and it is not allowed to specify both \code{B} and
-\code{D}.}
+\item{D}{Numerical indicating the treatment duration across
+cases. Note that \code{B = A + D} and it is not allowed to
+specify both \code{B} and \code{D}.}
 
 \item{cover}{Confidence level.}
 
-\item{bound}{Numerical tolerance for non-centrality parameter in
-\code{\link[stats]{qt}}.}
+\item{bound}{Numerical tolerance for non-centrality parameter
+in \code{\link[stats]{qt}}.}
 
-\item{symmetric}{If \code{TRUE} (the default), use a symmetric confidence
-interval. If \code{FALSE}, use a non-central t approximation to obtain an
-asymmetric confidence interval.}
+\item{symmetric}{If \code{TRUE} (the default), use a
+symmetric confidence interval. If \code{FALSE}, use a
+non-central t approximation to obtain an asymmetric
+confidence interval.}
 
-\item{summary}{Logical indicating whether to return a data frame with effect
-size estimates and other information. If \code{TRUE} (default), return a
-\code{data.frame} containing the effect size estimate, standard error,
-confidence interval (or credible interval if \code{Bayesian == TRUE}), and
-other information. If \code{FALSE}, return a list with effect size
-estimate, degrees of freedom, and other information.}
+\item{summary}{Logical indicating whether to return a data
+frame with effect size estimates and other information. If
+\code{TRUE} (default), return a \code{data.frame}
+containing the effect size estimate, standard error,
+confidence interval (or credible interval if \code{Bayesian
+== TRUE}), and other information. If \code{FALSE}, return a
+list with effect size estimate, degrees of freedom, and
+other information.}
 
 \item{...}{further arguments passed to \code{calc_BCSMD}.}
 }

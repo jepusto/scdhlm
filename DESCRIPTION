@@ -1,6 +1,6 @@
 Package: scdhlm
 Title: Estimating Hierarchical Linear Models for Single-Case Designs
-Version: 0.8.0
+Version: 0.8.0.999
 Authors@R: c(
     person("James", "Pustejovsky", email = "jepusto@gmail.com", role = c("aut", "cre")),
     person("Man", "Chen", email = "manchen9005@gmail.com", role = "aut"), 
@@ -29,9 +29,9 @@ Imports:
     dplyr,
     tidyselect,
     magrittr,
+    nlme,
     lmeInfo (>= 0.3.0)
 Depends: 
-    nlme,
     R (>= 4.1.0)
 Suggests: 
     knitr,
@@ -56,8 +56,13 @@ Suggests:
     reshape,
     rlecuyer,
     rstan,
-    brms,
-    StanHeaders
+    brms  (>= 2.23.2),
+    StanHeaders,
+    stanli (>= 0.25),
+    cmdstanr (>= 0.5.0)
+Additional_repositories:
+    https://stan-dev.r-universe.dev/,
+    https://seantalts.r-universe.dev/
 Encoding: UTF-8
 Language: en-US
 Config/roxygen2/version: 8.1.1

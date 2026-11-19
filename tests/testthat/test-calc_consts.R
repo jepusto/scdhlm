@@ -1,5 +1,3 @@
-skip_if_not_installed("nlme")
-
 library(nlme)
 
 test_that("calc_consts() error messages work", {
