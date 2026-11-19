@@ -114,10 +114,7 @@ preprocess_SCD <- function(design,
   if (missing(phase)) stop("Please specify a phase variable.")
   if (missing(session)) stop("Please specify a session variable.")
   if (missing(outcome)) stop("Please specify an outcome variable.")
-  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 
-                            'TR' (treatment reversal),
-                            'RMBB' (replicated multiple baseline across behaviors),
-                            'CMB' (clustered multiple baseline).")
+  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 'TR' (treatment reversal), 'RMBB' (replicated multiple baseline across behaviors), or 'CMB' (clustered multiple baseline).")
   
   design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
   

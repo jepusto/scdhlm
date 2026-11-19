@@ -40,14 +40,13 @@ default_times <- function(design,
                           case, phase, session, cluster = NULL, series = NULL, 
                           treatment_name = NULL, data = NULL) {
   
+  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 'TR' (treatment reversal), 'RMBB' (replicated multiple baseline across behaviors), or 'CMB' (clustered multiple baseline).")
+  
   design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
   
   if (missing(case)) stop("Please specify a case variable.")
   if (missing(phase)) stop("Please specify a phase variable.")
   if (missing(session)) stop("Please specify a session variable.")
-  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 
-                            'RMBB' (replicated multiple baseline across behaviors),
-                            'CMB' (clustered multiple baseline).")
   if (design == "CMB" & missing(cluster)) stop("Please specify a cluster variable.")
   if (design == "RMBB" & missing(series)) stop("Please specify a series variable.")
   
@@ -499,16 +498,13 @@ calc_BCSMD <- function(design,
   
   # clean data
   
-  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
-  
   if (missing(case)) stop("Please specify a case variable.")
   if (missing(phase)) stop("Please specify a phase variable.")
   if (missing(session)) stop("Please specify a session variable.")
   if (missing(outcome)) stop("Please specify an outcome variable.")
-  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 
-                            'TR' (treatment reversal),
-                            'RMBB' (replicated multiple baseline across behaviors),
-                            'CMB' (clustered multiple baseline).")
+  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 'TR' (treatment reversal), 'RMBB' (replicated multiple baseline across behaviors), or 'CMB' (clustered multiple baseline).")
+  
+  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
   if (design == "CMB" & missing(cluster)) stop("Please specify a cluster variable.")
   if (design == "RMBB" & missing(series)) stop("Please specify a series variable.")
   if (design == "TR" & ( any(c(FE_base, RE_base, FE_trt) != 0) | (!is.null(RE_trt) && any(RE_trt != 0)) | any(!is.null(c(RE_base_2, RE_trt_2))) )) 
