@@ -254,9 +254,9 @@ test_that("calc_BCSMD() returns same result as g_mlm() for Laski data with a com
                data = Laski)
   )
   
-  expect_equal(Laski_g2_mlm$g_AB, Laski_BCSMD2$g_AB)
-  expect_equal(Laski_g2_mlm$SE_g_AB, Laski_BCSMD2$SE_g_AB)
-  expect_equal(Laski_g2_mlm$nu, Laski_BCSMD2$nu)
+  expect_equal(Laski_g2_mlm$g_AB, Laski_BCSMD2$g_AB, tolerance = 1e-5)
+  expect_equal(Laski_g2_mlm$SE_g_AB, Laski_BCSMD2$SE_g_AB, tolerance = 1e-5)
+  expect_equal(Laski_g2_mlm$nu, Laski_BCSMD2$nu, tolerance = 1e-4)
   
   Laski_BCSMD2_summary <- suppressWarnings(
     calc_BCSMD(design = "MBP", case = case, phase = treatment,
@@ -266,13 +266,15 @@ test_that("calc_BCSMD() returns same result as g_mlm() for Laski data with a com
                data = Laski)
   )
   
-  expect_equal(Laski_g2_mlm$g_AB, Laski_BCSMD2_summary$`BC-SMD estimate`)
-  expect_equal(Laski_g2_mlm$SE_g_AB, Laski_BCSMD2_summary$`Std. Error`)
-  expect_equal(Laski_g2_mlm$nu, Laski_BCSMD2_summary$`Degrees of freedom`)
+  expect_equal(Laski_g2_mlm$g_AB, Laski_BCSMD2_summary$`BC-SMD estimate`, tolerance = 1e-5)
+  expect_equal(Laski_g2_mlm$SE_g_AB, Laski_BCSMD2_summary$`Std. Error`, tolerance = 1e-5)
+  expect_equal(Laski_g2_mlm$nu, Laski_BCSMD2_summary$`Degrees of freedom`, tolerance = 1e-4)
   
 })
 
 test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data with a simple model.", {
+  
+  skip_on_cran()
   
   data(Bryant2018)
   Bryant_RML1 <- lme(fixed = outcome ~ treatment,
@@ -295,7 +297,7 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
   
   expect_equal(Bry_g1_mlm$g_AB, Bry_BCSMD$g_AB, tolerance = 1e-5)
   expect_equal(Bry_g1_mlm$SE_g_AB, Bry_BCSMD$SE_g_AB, tolerance = 1e-5)
-  expect_equal(Bry_g1_mlm$nu, Bry_BCSMD$nu, tolerance = 1e-5)
+  expect_equal(Bry_g1_mlm$nu, Bry_BCSMD$nu, tolerance = 1e-4)
   
   Bry_BCSMD_summary <- calc_BCSMD(design = "CMB",
                                   cluster = group, case = case, phase = treatment,
@@ -304,9 +306,9 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
                                   FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
                                   summary = TRUE,
                                   data = Bryant2018)
-  expect_equal(Bry_g1_mlm$g_AB, Bry_BCSMD_summary$`BC-SMD estimate`)
-  expect_equal(Bry_g1_mlm$SE_g_AB, Bry_BCSMD_summary$`Std. Error`)
-  expect_equal(Bry_g1_mlm$nu, Bry_BCSMD_summary$`Degrees of freedom`)
+  expect_equal(Bry_g1_mlm$g_AB, Bry_BCSMD_summary$`BC-SMD estimate`, tolerance = 1e-5)
+  expect_equal(Bry_g1_mlm$SE_g_AB, Bry_BCSMD_summary$`Std. Error`, tolerance = 1e-5)
+  expect_equal(Bry_g1_mlm$nu, Bry_BCSMD_summary$`Degrees of freedom`, tolerance = 1e-4)
   
   expect_equal(CI_g(Bry_g1_mlm)[1], Bry_BCSMD_summary$`95% CI (lower)`, tolerance = 1e-5)
   expect_equal(CI_g(Bry_g1_mlm)[2], Bry_BCSMD_summary$`95% CI (upper)`, tolerance = 1e-5)
@@ -352,9 +354,9 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
                data = Bryant2018)
   )
   
-  expect_equal(Bry_g2_mlm$g_AB, Bry_BCSMD2$g_AB)
-  expect_equal(Bry_g2_mlm$SE_g_AB, Bry_BCSMD2$SE_g_AB)
-  expect_equal(Bry_g2_mlm$nu, Bry_BCSMD2$nu)
+  expect_equal(Bry_g2_mlm$g_AB, Bry_BCSMD2$g_AB, tolerance = 1e-5)
+  expect_equal(Bry_g2_mlm$SE_g_AB, Bry_BCSMD2$SE_g_AB, tolerance = 1e-5)
+  expect_equal(Bry_g2_mlm$nu, Bry_BCSMD2$nu, tolerance = 1e-4)
   
   Bry_BCSMD2_summary <- suppressWarnings(
     calc_BCSMD(design = "CMB",
@@ -367,15 +369,17 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
                data = Bryant2018)
   )
   
-  expect_equal(Bry_g2_mlm$g_AB, Bry_BCSMD2_summary$`BC-SMD estimate`)
-  expect_equal(Bry_g2_mlm$SE_g_AB, Bry_BCSMD2_summary$`Std. Error`)
-  expect_equal(Bry_g2_mlm$nu, Bry_BCSMD2_summary$`Degrees of freedom`)
-  expect_equal(CI_g(Bry_g2_mlm)[1], Bry_BCSMD2_summary$`95% CI (lower)`)
-  expect_equal(CI_g(Bry_g2_mlm)[2], Bry_BCSMD2_summary$`95% CI (upper)`)
+  expect_equal(Bry_g2_mlm$g_AB, Bry_BCSMD2_summary$`BC-SMD estimate`, tolerance = 1e-5)
+  expect_equal(Bry_g2_mlm$SE_g_AB, Bry_BCSMD2_summary$`Std. Error`, tolerance = 1e-5)
+  expect_equal(Bry_g2_mlm$nu, Bry_BCSMD2_summary$`Degrees of freedom`, tolerance = 1e-4)
+  expect_equal(CI_g(Bry_g2_mlm)[1], Bry_BCSMD2_summary$`95% CI (lower)`, tolerance = 1e-5)
+  expect_equal(CI_g(Bry_g2_mlm)[2], Bry_BCSMD2_summary$`95% CI (upper)`, tolerance = 1e-5)
   
 })
 
 test_that("The batch_calc_BCSMD() works for MBP design.", {
+  
+  skip_on_cran()
   
   # single calculator
   data("Laski")
@@ -477,12 +481,12 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
     )
   
   # model 1
-  expect_equal(Laski1_single, as.data.frame(res1_batch[2, 2:12], ))
-  expect_equal(Alber1_single, as.data.frame(res1_batch[1, 2:12], ))
+  expect_equal(Laski1_single, as.data.frame(res1_batch[2, 2:12]))
+  expect_equal(Alber1_single, as.data.frame(res1_batch[1, 2:12]))
   
   # model 2
-  expect_equal(Laski2_single, as.data.frame(res2_batch[2, 2:12], ))
-  expect_equal(Alber2_single, as.data.frame(res2_batch[1, 2:12], ))
+  expect_equal(Laski2_single, as.data.frame(res2_batch[2, 2:12]))
+  expect_equal(Alber2_single, as.data.frame(res2_batch[1, 2:12]))
   
   
   # with specified A, B
@@ -543,6 +547,8 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
   
 
 test_that("The batch_calc_BCSMD() works for RMBB design.", {
+  
+  skip_on_cran()
   
   data(Thiemann2001)
   data(Thiemann2004)

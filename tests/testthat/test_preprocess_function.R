@@ -1,4 +1,3 @@
-context("Preprocess_SCD function")
 
 # MB design
 MB_dat <- data.frame(

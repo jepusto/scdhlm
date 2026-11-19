@@ -1,4 +1,3 @@
-context("HPS estimation functions")
 
 data(Thorne)
 data(Lambert)

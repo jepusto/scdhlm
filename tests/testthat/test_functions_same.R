@@ -1,4 +1,3 @@
-library(testthat)
 
 data(Saddler)
 

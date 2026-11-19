@@ -1,4 +1,3 @@
-context("Examples from HPS (2012,2013)")
 
 data(Lambert)
 Lambert <- subset(Lambert, measure == "disruptive behavior")
