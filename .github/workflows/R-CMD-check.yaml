@@ -41,6 +41,7 @@ jobs:
           rtools-version: ${{ matrix.config.rtools }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
+          extra-repositories: https://seantalts.r-universe.dev/, https://stan-dev.r-universe.dev/, https://paul-buerkner.r-universe.dev/
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -55,6 +56,7 @@ jobs:
             progress
             RcppArmadillo
             RcppEigen
+            stanli
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
