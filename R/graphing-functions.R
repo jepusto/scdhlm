@@ -124,7 +124,6 @@ graph_SCD <- function(design, case, phase, session, outcome,
       model_dat <- model_fit$data
       
     }
-    if (!(phase_name) %in% names(model_dat)) phase_name <- "trt"
     use_model_data <- all(c(case_name, phase_name, session_name, outcome_name) %in% names(model_dat))
   } else {
     use_model_data <- FALSE

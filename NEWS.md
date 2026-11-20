@@ -1,5 +1,7 @@
 # scdhlm 0.8.1
 
+* `calc_BCSMD()` gains an option `backend` to allow user specification of the backend used in `brms::brm()`. The default is configured to encourage use of `backend = 'stanli'`, which runs a sampler from the stanli package (https://github.com/seantalts/stanli) that does not require pre-compilation.
+
 # scdhlm 0.8.0
 
 * `calc_BCSMD()` gains a `Bayesian` option to fit the multilevel model and estimate an effect size using Markov Chain Monte Carlo, as implemented in `Stan` via `brms`. 
