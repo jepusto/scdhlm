@@ -89,31 +89,81 @@ test_that("CI_g() works for HPS estimates.", {
 
 })
 
-test_that("effect_size_ABk works with treatment factors", {
+test_that("effect_size_ABk works with treatment, id, phase as character strings or factors", {
+  
+  data(Lambert)
+  Lambert_orig <- effect_size_ABk(outcome, treatment, case, phase, time, data = Lambert)
+  
+  Lambert$treatment <- c("A","B")[Lambert$treatment]
+  Lambert_treatment_c <- effect_size_ABk(outcome, treatment, case, phase, time, data = Lambert)
+  expect_equivalent(Lambert_orig, Lambert_treatment_c)
+
+  Lambert$case <- levels(Lambert$case)[Lambert$case]
+  Lambert_id_c <- effect_size_ABk(outcome, treatment, case, phase, time, data = Lambert)
+  expect_equivalent(Lambert_orig, Lambert_id_c)
+  
+  Lambert$phase <- as.factor(Lambert$phase)
+  Lambert_phase_f <- effect_size_ABk(outcome, treatment, case, phase, time, data = Lambert)
+  expect_equivalent(Lambert_orig, Lambert_phase_f)
   
 })
 
-test_that("effect_size_ABk works with id factors", {
+
+test_that("effect_size_MB works with treatment, id as character strings or factors", {
+  data(Saddler)
+  Saddler_1 <- subset(Saddler, measure=="writing quality")
+  Saddler_orig <- effect_size_MB(outcome, treatment, case, time, data = Saddler_1)
+
+  Saddler_1$treatment <- levels(Saddler_1$treatment)[Saddler_1$treatment]
+  Saddler_treatment_c <- effect_size_MB(outcome, treatment, case, time, data = Saddler_1)
+  expect_equivalent(Saddler_orig, Saddler_treatment_c)
+  
+  Saddler_1$case <- levels(Saddler_1$case)[Saddler_1$case]
+  Saddler_id_c <- effect_size_MB(outcome, treatment, case, time, data = Saddler_1)
+  expect_equivalent(Saddler_orig, Saddler_id_c)
   
 })
 
-test_that("effect_size_ABk works with phase factors", {
-  
-})
+test_that("Vectorized version HPS_effect_size() returns identical results as effect_size_MB().", {
+  library(dplyr)
 
-test_that("effect_size_MB works with treatment factors", {
+  data(Saddler)
   
-})
-
-test_that("effect_size_MB works with id factors", {
+  Saddler_wide <- 
+    reshape(
+      Saddler, direction = "wide",
+      idvar = c("case","treatment","time"),
+      timevar = "measure"
+    ) %>%
+    filter(!(case == "Case 2" & time == 4))
   
-})
-
-test_that("Vectorized version of effect_size_ABk returns identical results", {
+  ES_vec <- with(
+    Saddler_wide, 
+    HPS_effect_size(
+      outcomes = cbind(`outcome.writing quality`, `outcome.T-unit length`, `outcome.number of constructions`),
+      treatment = treatment,
+      id = case,
+      time = time
+    )
+  )
   
-})
-
-test_that("Vectorized version of effect_size_MB returns identical results", {
+  ES_list <- 
+    Saddler %>%
+    filter(!(case == "Case 2" & time == 4)) %>%
+    group_nest(measure) %>%
+    rowwise() %>%
+    mutate(
+      ES = list(effect_size_MB(outcome = outcome, treatment = treatment, id = case, time = time, data = data)),
+      D_bar = ES$D_bar,
+      S_sq = ES$S_sq,
+      delta_hat = ES$delta_hat,
+      V_delta_hat = ES$V_delta_hat
+    )
+  
+  expect_equivalent(ES_vec["D_bar",], ES_list$D_bar)
+  expect_equivalent(ES_vec["S_sq",], ES_list$S_sq)
+  expect_equivalent(ES_vec["delta_hat",], ES_list$delta_hat)
+  expect_equivalent(ES_vec["V_delta_hat",], ES_list$V_delta_hat)
   
 })
 
