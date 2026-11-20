@@ -491,6 +491,7 @@ calc_BCSMD <- function(design,
     
     if (backend == "cmdstanr") {
       if (cmdstanr_is_missing()) stop("Using the 'cmdstanr' backend requires the cmdstanr package version 0.5.0 or higher. Please install it.")
+      if (cmdStan_is_missing()) stop("Using the 'cmdstanr' backend requires CmdStan to be available. Install it by running `cmdstanr::install_cmdstan()`.")
     }
   }
   
@@ -781,6 +782,9 @@ cmdstanr_is_missing <- function() {
   (!requireNamespace("cmdstanr", quietly = TRUE)) || (utils::packageVersion("cmdstanr") < "0.5.0")
 }
 
+cmdStan_is_missing <- function() {
+  inherits(tryCatch(cmdstanr::cmdstan_path(), error = \(e) e), "error")
+}
 
 #' @export
 

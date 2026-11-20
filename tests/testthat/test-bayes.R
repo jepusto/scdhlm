@@ -3,13 +3,140 @@ skip_if_not_installed("brms", minimum_version = "2.23.2")
 skip_if_not_installed("stanli", minimum_version = "0.25")
 stanli_is_available <- stanli::stanli_available()
 skip_if_not(stanli_is_available)
+cant_run_cmdstanr <- (cmdstanr_is_missing() || cmdStan_is_missing())
 
 suppressPackageStartupMessages(library(brms))
 
+data(Laski)
+
+
+test_that("Error messages related to Bayesian estimation all work.", {
+  skip_if_not_installed("mockery")
+  
+  mockery::stub(calc_BCSMD, 'stanli::stanli_available', FALSE)
+  expect_error(
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      Bayesian = TRUE, 
+      backend = "stanli",
+      chain = 2, iter = 400, 
+      summary = TRUE,
+      data = Laski
+    ),
+    "requires that the stanli runtime is available"
+  )
+  
+  mockery::stub(calc_BCSMD, 'stanli_is_missing', TRUE)
+  expect_error(
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      Bayesian = TRUE, 
+      backend = "stanli",
+      chain = 2, iter = 400, 
+      summary = TRUE,
+      data = Laski
+    ),
+    "requires the stanli package"
+  )
+  
+  mockery::stub(calc_BCSMD, 'cmdStan_is_missing', TRUE)
+  expect_error(
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      Bayesian = TRUE, 
+      backend = "cmdstanr",
+      chain = 2, iter = 400, 
+      summary = TRUE,
+      data = Laski
+    ),
+    "requires CmdStan to be available"
+  )
+  
+  mockery::stub(calc_BCSMD, 'cmdstanr_is_missing', TRUE)
+  expect_error(
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      Bayesian = TRUE, 
+      backend = "cmdstanr",
+      chain = 2, iter = 400, 
+      summary = TRUE,
+      data = Laski
+    ),
+    "requires the cmdstanr package"
+  )
+  
+  mockery::stub(calc_BCSMD, 'brms_is_missing', TRUE)
+  expect_error(
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      Bayesian = TRUE, 
+      chain = 2, iter = 400, 
+      summary = TRUE,
+      data = Laski
+    ),
+    "requires the brms package"
+  )
+  
+})
+
+test_that("calc_BCSMD() works with rstan backend.", {
+  
+  skip_on_covr()
+  
+  Laski_rstan <- 
+    suppressWarnings(
+      calc_BCSMD(design = "MBP",
+                 case = case, phase = treatment,
+                 session = time, outcome = outcome,
+                 FE_base = 0, RE_base = 0, FE_trt = 0,
+                 Bayesian = TRUE, 
+                 backend = "rstan",
+                 chain = 2, iter = 200, 
+                 data = Laski,
+                 seed = 20261120)
+    )
+ 
+  expect_s3_class(Laski_rstan, "bcsmd")
+  
+})
+
+test_that("calc_BCSMD() works with stanli and rstan backends.", {
+
+  skip_if(cant_run_cmdstanr)
+  
+  Laski_cmdstan <- 
+    suppressWarnings(
+      calc_BCSMD(design = "MBP",
+                 case = case, phase = treatment,
+                 session = time, outcome = outcome,
+                 FE_base = 0, RE_base = 0, FE_trt = 0,
+                 Bayesian = TRUE, 
+                 backend = "cmdstanr",
+                 chain = 2, iter = 200, 
+                 data = Laski,
+                 seed = 20261120)
+    )
+  
+  expect_s3_class(Laski_cmdstan, "bcsmd")
+  
+})
 
 test_that("Bayesian estimation works for MBP design.", {
-  
-  data(Laski)
   
   # simple model
   
