@@ -104,18 +104,13 @@ graph_SCD <- function(design, case, phase, session, outcome,
   if (ggplot2_is_missing()) {
     stop("This function requires the ggplot2 package. Please install it.", call. = FALSE)
   }
-
-  if (missing(case)) stop("Please specify a case variable.")
-  if (missing(phase)) stop("Please specify a phase variable.")
-  if (missing(session)) stop("Please specify a session variable.")
-  if (missing(outcome)) stop("Please specify an outcome variable.")
-  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 'TR' (treatment reversal), 'RMBB' (replicated multiple baseline across behaviors), or 'CMB' (clustered multiple baseline).")
   
-  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
-  
-  if (design == "CMB" & missing(cluster)) stop("Please specify a cluster variable.")
-  if (design == "RMBB" & missing(series)) stop("Please specify a series variable.")
-  
+  # validate input arguments
+  mf <- match.call()
+  m <- match(c("design", "case", "phase","session","outcome","cluster","series"), names(mf), 0L)
+  mf <- mf[c(1L, m)]
+  mf[[1L]] <- quote(validate_design_inputs)
+  design <- eval(mf, envir = parent.frame())
   
   case_name <- deparse(substitute(case))
   phase_name <- deparse(substitute(phase))
@@ -141,6 +136,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
     m <- match(c("design", "case", "phase","session","outcome","cluster","series","treatment_name","data"), names(mf), 0L)
     mf <- mf[c(1L, m)]
     mf[[1L]] <- quote(preprocess_SCD)
+    mf$validate_design_inputs <- FALSE
     dat <- eval(mf, envir = parent.frame())
   }
 

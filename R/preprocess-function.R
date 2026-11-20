@@ -73,6 +73,7 @@ phase_pairs <- function(phase, session = seq_along(phase)) {
 #' 
 #' @param center Numeric value for the centering value for session. Default is 0.
 #' @param round_session Logical indicating whether to round \code{session} to the nearest integer. Defaults to \code{TRUE}.
+#' @param validate_design_inputs Logical indicating whether to validate the variable names specified as inputs. Defaults to \code{TRUE}.
 #' @inheritParams graph_SCD
 #' 
 #' @note If treatment_name is left null it will choose the second level of the phase variable to be the treatment phase.
@@ -108,18 +109,17 @@ preprocess_SCD <- function(design,
                            center = 0, 
                            round_session = TRUE,
                            treatment_name = NULL,
-                           data = NULL) {
-  
-  if (missing(case)) stop("Please specify a case variable.")
-  if (missing(phase)) stop("Please specify a phase variable.")
-  if (missing(session)) stop("Please specify a session variable.")
-  if (missing(outcome)) stop("Please specify an outcome variable.")
-  if (missing(design)) stop("Please specify a study design of 'MB' (multiple baseline), 'TR' (treatment reversal), 'RMBB' (replicated multiple baseline across behaviors), or 'CMB' (clustered multiple baseline).")
-  
-  design <- match.arg(design, choices = c("MBP","TR","RMBB","CMB"))
-  
-  if (design == "CMB" & missing(cluster)) stop("Please specify a cluster variable.")
-  if (design == "RMBB" & missing(series)) stop("Please specify a series variable.")
+                           data = NULL,
+                           validate_design_inputs = TRUE) {
+
+  # validate input arguments
+  if (validate_design_inputs) {
+    mf <- match.call()
+    m <- match(c("design", "case", "phase","session","outcome","cluster","series"), names(mf), 0L)
+    mf <- mf[c(1L, m)]
+    mf[[1L]] <- quote(validate_design_inputs)
+    design <- eval(mf, envir = parent.frame())
+  }
   
   case_call <- substitute(case)
   phase_call <- substitute(phase)
