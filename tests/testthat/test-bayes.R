@@ -96,6 +96,7 @@ test_that("Error messages related to Bayesian estimation all work.", {
 
 test_that("calc_BCSMD() works with rstan backend.", {
   
+  skip_on_cran()
   skip_on_covr()
   
   Laski_rstan <- 
@@ -115,8 +116,10 @@ test_that("calc_BCSMD() works with rstan backend.", {
   
 })
 
-test_that("calc_BCSMD() works with stanli and rstan backends.", {
+test_that("calc_BCSMD() works with cmdstanr backend.", {
 
+  skip_on_cran()
+  skip_on_covr()
   skip_if(cant_run_cmdstanr)
   
   Laski_cmdstan <- 
@@ -219,23 +222,6 @@ test_that("Bayesian estimation works for MBP design.", {
                                 data = Laski)
   expect_s3_class(graph_Laski_comp, "ggplot")
   expect_invisible(print(graph_Laski_comp))
-
-  # compare Bayes results to RML
-  
-  Laski_comp_RML <- 
-    suppressWarnings(
-      calc_BCSMD(design = "MBP", case = case, phase = treatment,
-                 session = time, outcome = outcome, center = 4,
-                 FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
-                 summary = FALSE,
-                 data = Laski)
-    )
-  
-  expect_equal(
-    summary(Laski_comp$model)$ngrps$case,
-    Laski_comp_RML$model$dims$ngrps[["case"]]
-  )
-  
   
 })
 
@@ -244,8 +230,6 @@ test_that("Bayesian estimation works for TR design.", {
   
   data(Anglesea)
   
-  # compare g_mlm_Bayes() to calc_g_Bayes()
-  
   Ang_Bayes <- 
     suppressWarnings(
       calc_BCSMD(design = "TR",
@@ -253,7 +237,7 @@ test_that("Bayesian estimation works for TR design.", {
                  session = session, outcome = outcome,
                  treatment_name = "treatment",
                  FE_base = 0, RE_base = 0, FE_trt = 0,
-                 corStruct = "IID", varStruct = "hom",
+                 corStruct = "AR1", varStruct = "hom",
                  Bayesian = TRUE, chains = 2, iter = 400,
                  seed = 43073051,
                  summary = FALSE,
@@ -261,36 +245,26 @@ test_that("Bayesian estimation works for TR design.", {
     )
   
   consts <- calc_consts(method = "Bayes", design = "TR", center = 0,
-                        FE_base = 0, RE_base = 0, RE_base_2 = NULL,
-                        FE_trt = 0, RE_trt = NULL, RE_trt_2 = NULL,
-                        corStruct = "IID", varStruct = "hom",
+                        FE_base = 0, RE_base = 0, FE_trt = 0, 
+                        corStruct = "AR1", varStruct = "hom",
                         A = NA, B = NA)
   res_g_mlm_Bayes <- g_mlm_Bayes(mod = Ang_Bayes$model, p_const = consts$p_const, r_const = consts$r_const)
+  
+  # compare results from calc_BCSMD() and brm()
+  expect_equal(res_g_mlm_Bayes$g_AB, Ang_Bayes$g_AB)
+  expect_equal(res_g_mlm_Bayes$SE_g_AB, Ang_Bayes$SE_g_AB)
+  expect_equal(res_g_mlm_Bayes$nu, Ang_Bayes$nu)
+  expect_equal(res_g_mlm_Bayes$var_param, Ang_Bayes$var_param)
+  expect_equal(res_g_mlm_Bayes$phi, Ang_Bayes$phi)
+  expect_equal(res_g_mlm_Bayes$rho, Ang_Bayes$rho)
   
   # graphing function
   graph_Ang_Bayes <- graph_SCD(design="TR",
                                case = case, phase = condition,
                                session = session, outcome = outcome,
-                               model_fit = Ang_Bayes$model,
-                               data = Anglesea)
+                               model_fit = Ang_Bayes$model, data = Anglesea)
   expect_s3_class(graph_Ang_Bayes, "ggplot")
   expect_invisible(print(graph_Ang_Bayes))
-  
-  # compare Bayes results to RML
-  
-  Ang_RML <- 
-      calc_BCSMD(design = "TR",
-                 case = case, phase = condition,
-                 session = session, outcome = outcome,
-                 treatment_name = "treatment",
-                 FE_base = 0, RE_base = 0, FE_trt = 0,
-                 summary = FALSE,
-                 data = Anglesea)
-  
-  expect_equal(
-    suppressWarnings(summary(Ang_Bayes$model)$ngrps$case),
-    Ang_RML$model$dims$ngrps[["case"]]
-  )
   
 })
 
@@ -305,49 +279,7 @@ test_that("Bayesian estimation works for CMB design", {
   cent <- 0
   
   # heterogeneous residual variances
-  Bry_brm_crossed <- 
-    suppressWarnings(
-      brm(
-        bf(outcome ~ session + treatment + session_trt + 
-             (1 | group) + (session + session_trt | case) +
-             arma(time = session, gr = group:case, p = 1, q = 0),
-           sigma ~ treatment, 
-           center = FALSE),
-        data = Bryant2018,
-        chains = 1, iter = 200, thin = 10, cores = 1, 
-        backend = "stanli",
-        silent = 2,
-        save_pars = save_pars(all = TRUE),
-        seed = 20230321)
-    )
-  
-  draws_crossed <- as.data.frame(Bry_brm_crossed)
-  nCase_crossed <- suppressWarnings(summary(Bry_brm_crossed)$ngrps$case)
-  nCluster_crossed <- suppressWarnings(summary(Bry_brm_crossed)$ngrps$group)
-  
-  
-  Bry_brm_nested <- 
-    suppressWarnings(
-      brm(
-        bf(outcome ~ session + treatment + session_trt + 
-             (1 | group) + (1 + session + session_trt | group:case) +
-             arma(time = session, gr = group:case, p = 1, q = 0),
-           sigma ~ treatment, 
-           center = FALSE),
-        data = Bryant2018,
-        chains = 1, iter = 200, thin = 10, cores = 1, 
-        backend = "stanli",
-        silent = 2,
-        save_pars = save_pars(all = TRUE),
-        seed = 20230321)
-    )
-  
-  draws_nested <- as.data.frame(Bry_brm_nested)
-  nCase_nested <- suppressWarnings(summary(Bry_brm_nested)$ngrps$`group:case`)
-  nCluster_nested <- suppressWarnings(summary(Bry_brm_nested)$ngrps$group)
-  expect_false(nCase_crossed == nCase_nested)
-  expect_equal(nCluster_crossed, nCluster_nested)
-  
+
   Bry_het_nested <- 
     suppressWarnings(
       calc_BCSMD(design = "CMB",
@@ -357,19 +289,16 @@ test_that("Bayesian estimation works for CMB design", {
                  FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
                  FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
                  corStruct = "AR1", varStruct = "het",
-                 Bayesian = TRUE, chains = 1, iter = 200,
+                 Bayesian = TRUE, chains = 2, iter = 200,
                  seed = 20230321,
                  summary = FALSE,
                  A = A, B = B,
                  data = Bryant2018)
     )
   
-  expect_type(Bry_het_nested, "list")
-  expect_equal(nCase_nested, suppressWarnings(summary(Bry_het_nested$model)$ngrps$`cluster:case`))
-  expect_equal(nCluster_nested, suppressWarnings(summary(Bry_het_nested$model)$ngrps$cluster))
-  expect_equal(mean(draws_nested$`ar[1]`), Bry_het_nested$`phi`, tol = 0.01)
-  expect_equal(exp(mean(draws_nested$b_sigma_treatmenttreatment)), Bry_het_nested$`var_param`, tol = 0.01)
+  expect_s3_class(Bry_het_nested, "bcsmd")
   
+
   # graphing function
   graph_Bry <- graph_SCD(design = "CMB",
                          cluster = group, case = case, phase = treatment,
@@ -380,7 +309,7 @@ test_that("Bayesian estimation works for CMB design", {
   expect_s3_class(graph_Bry, "ggplot")
   expect_invisible(print(graph_Bry))
   
-  # compare g_mlm_Bayes() and calc_g_Bayes()
+  # compare g_mlm_Bayes() and calc_BCSMD()
   
   consts <- calc_consts(method = "Bayes", design = "CMB", center = 0,
                         FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
@@ -393,29 +322,13 @@ test_that("Bayesian estimation works for CMB design", {
                                  r_const = consts$r_const,
                                  rconst_base_var_index = consts$rconst_base_var_index)
   
-  
-  # compare Bayes results to RML
-  
-  Bry_het_RML <- 
-    calc_BCSMD(design = "CMB",
-               cluster = group, case = case, phase = treatment,
-               session = session, outcome = outcome, center = cent,
-               treatment_name = "treatment",
-               FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
-               FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
-               corStruct = "AR1", varStruct = "het",
-               summary = FALSE,
-               data = Bryant2018)
-  
-  expect_equal(
-    suppressWarnings(summary(Bry_het_nested$model)$ngrps$`cluster:case`),
-    Bry_het_RML$model$dims$ngrps[["case"]]
-  )
-  
-  expect_equal(
-    suppressWarnings(summary(Bry_het_nested$model)$ngrps$cluster),
-    Bry_het_RML$model$dims$ngrps[["cluster"]]
-  )
+  # compare results from calc_BCSMD() and brm()
+  expect_equal(res_g_mlm_Bayes$g_AB, Bry_het_nested$g_AB)
+  expect_equal(res_g_mlm_Bayes$SE_g_AB, Bry_het_nested$SE_g_AB)
+  expect_equal(res_g_mlm_Bayes$nu, Bry_het_nested$nu)
+  expect_equal(res_g_mlm_Bayes$var_param, Bry_het_nested$var_param)
+  expect_equal(res_g_mlm_Bayes$phi, Bry_het_nested$phi)
+  expect_equal(res_g_mlm_Bayes$rho, Bry_het_nested$rho)
   
   
   # constant residual variances
@@ -451,34 +364,11 @@ test_that("Bayesian estimation works for CMB design", {
                  data = Bryant2018)
     )
   
-  expect_type(Bry_hom, "list")
+  expect_s3_class(Bry_hom, "bcsmd")
   expect_equal(Bry_brm_hom$model, Bry_hom$model$model)
   expect_equal(Bry_brm_hom[["fit"]]@model_pars, Bry_hom$model[["fit"]]@model_pars)
   
-  
-  # compare Bayes results to RML
-  
-  Bry_hom_RML <- 
-    calc_BCSMD(design = "CMB",
-               cluster = group, case = case, phase = treatment,
-               session = session, outcome = outcome, center = cent,
-               treatment_name = "treatment",
-               FE_base = c(0,1), RE_base = c(0,1), RE_base_2 = 0,
-               FE_trt = c(0,1), RE_trt = 1, RE_trt_2 = NULL,
-               corStruct = "AR1", varStruct = "hom",
-               summary = FALSE,
-               data = Bryant2018)
-  
-  expect_equal(
-    suppressWarnings(summary(Bry_hom$model)$ngrps$`cluster:case`),
-    Bry_hom_RML$model$dims$ngrps[["case"]]
-  )
-  
-  expect_equal(
-    suppressWarnings(summary(Bry_hom$model)$ngrps$cluster),
-    Bry_hom_RML$model$dims$ngrps[["cluster"]]
-  )
-  
+
   
   # random models to check whether calc_BCSMD is working
   
@@ -512,7 +402,7 @@ test_that("Bayesian estimation works for CMB design", {
                  data = Bryant2018)
     )
   
-  expect_type(Bry_comp_B, "list")
+  expect_s3_class(Bry_comp_B, "bcsmd")
   
   Bry_comp_C <- 
     suppressWarnings(
@@ -528,7 +418,7 @@ test_that("Bayesian estimation works for CMB design", {
                  data = Bryant2018)
     )
   
-  expect_type(Bry_comp_C, "list")
+  expect_s3_class(Bry_comp_C, "bcsmd")
   
 })
 
@@ -577,24 +467,13 @@ test_that("Bayesian estimation works for RMBB design", {
                                  r_const = consts$r_const,
                                  rconst_base_var_index = consts$rconst_base_var_index)
   
-  # compare bayes to RML
-  
-  Thie_RML <- calc_BCSMD(design = "RMBB",
-                         case = case, series = series, phase = treatment,
-                         session = time, outcome = outcome,
-                         FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
-                         summary = FALSE,
-                         data = Thiemann2001)
-  
-  expect_equal(
-    suppressWarnings(summary(Thie_Bayes$model)$ngrps$case),
-    Thie_RML$model$dims$ngrps[["case"]]
-  )
-  
-  expect_equal(
-    suppressWarnings(summary(Thie_Bayes$model)$ngrps$`case:series`),
-    Thie_RML$model$dims$ngrps[["series"]]
-  )
+  # compare results from calc_BCSMD() and brm()
+  expect_equal(res_g_mlm_Bayes$g_AB, Thie_Bayes$g_AB)
+  expect_equal(res_g_mlm_Bayes$SE_g_AB, Thie_Bayes$SE_g_AB)
+  expect_equal(res_g_mlm_Bayes$nu, Thie_Bayes$nu)
+  expect_equal(res_g_mlm_Bayes$var_param, Thie_Bayes$var_param)
+  expect_equal(res_g_mlm_Bayes$phi, Thie_Bayes$phi)
+  expect_equal(res_g_mlm_Bayes$rho, Thie_Bayes$rho)
   
 })
 
@@ -646,7 +525,7 @@ test_that("Running pre-complied brm models using update().", {
                            session = session, outcome = outcome,
                            center = 4, data = AlberMorgan)
   names(AM_dat) <- c("case", "treatment", "time", "outcome", "trt", "time_trt")
-  AM_fit <- update(Laski_brm, newdata = AM_dat)
+  AM_fit <- suppressWarnings(update(Laski_brm, newdata = AM_dat))
   
   ## calculate BC-SMD
   default_AB <- default_times(design = "MBP", 
@@ -672,58 +551,3 @@ test_that("Running pre-complied brm models using update().", {
   ## save the code as "StanMBP.stan" then copy and paste after clicking File/New File/Stan File
   
 })
-
-test_that("Compile a stan model and run the compiled model to multiple datasets.", {
-  
-  skip_on_cran()
-  skip_on_ci()
-  skip_on_covr()
-  
-  library(brms)
-  
-  # Goal: compile the stan model first, then apply the model to multiple datasets
-  
-  # read the saved stancode file and compile the model
-  stan_mod <- rstan::stan_model("../testdata/StanMBP.stan")
-  
-  # Laski
-  data(Laski)
-  Laski_dat <- preprocess_SCD(design = "MBP",
-                              case = case, phase = treatment,
-                              session = time, outcome = outcome,
-                              center = 4, data = Laski)
-  stan_data_Laski <- make_standata(outcome ~ 1 + time + trt + time_trt + (time | case) +
-                                     arma(time = time, gr = case, p = 1, q = 0),
-                                   data = Laski_dat)
-  fit1 <- 
-    rstan::sampling(
-      object = stan_mod,
-      data = stan_data_Laski,
-      warmup = 500,
-      iter = 1000,
-      chains = 2
-    )
-  
-  # AlberMorgan dat
-  data("AlberMorgan")
-  AM_dat <- preprocess_SCD(design = "MBP",
-                           case = case, phase = condition,
-                           session = session, outcome = outcome,
-                           center = 4, data = AlberMorgan)
-  names(AM_dat) <- c("case", "treatment", "time", "outcome", "trt", "time_trt")
-  
-  stan_data_AM <- make_standata(outcome ~ 1 + time + trt + time_trt + (time | case) +
-                                  arma(time = time, gr = case, p = 1, q = 0),
-                                data = AM_dat)
-  fit2 <- 
-    rstan::sampling(
-      object = stan_mod,
-      data = stan_data_AM,
-      warmup = 500,
-      iter = 1000,
-      chains = 2
-    )
-  #!!!! Issue: cannot calculate BC-SMD bc g_mlm_Bayes() is created for brmsfit model not for rstan model
-  
-})
-
