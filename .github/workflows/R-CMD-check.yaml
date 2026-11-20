@@ -53,6 +53,11 @@ jobs:
             rcmdcheck
           needs: check
 
+      - name: Install stanli runtime
+        run: |
+          stanli::stanli_install()
+        shell: Rscript {0}
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true

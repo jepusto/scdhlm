@@ -35,6 +35,11 @@ jobs:
             rcmdcheck
           needs: coverage
 
+      - name: Install stanli runtime
+        run: |
+          stanli::stanli_install()
+        shell: Rscript {0}
+        
       - name: Test coverage
         run: |
           cov <- covr::package_coverage(
