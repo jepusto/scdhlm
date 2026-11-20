@@ -18,7 +18,7 @@ specified standardized mean difference effect size. Suitable for parametric boot
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0.999</span>
       </span>
     </div>
 
@@ -106,7 +106,10 @@ of <code>g_REML</code>.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/nlme/" class="external-link">nlme</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Laski</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">Laski_RML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html" class="external-link">lme</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">outcome</span> <span class="op">~</span> <span class="va">treatment</span>,</span></span>
 <span class="r-in"><span>                 random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">case</span>,</span></span>
 <span class="r-in"><span>                 correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nlme/man/corAR1.html" class="external-link">corAR1</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">case</span><span class="op">)</span>, </span></span>
@@ -125,17 +128,17 @@ of <code>g_REML</code>.</p>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'g_REML()' is deprecated and may be removed in a later version of the package. Please use 'g_mlm()' instead.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     p_beta  r_theta delta_AB       nu     kappa     g_AB     V_g_AB cnvg_warn</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 29.60385 387.1740 1.504510 23.87575 0.1742683 1.456749 0.08037317         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 30.59252 325.0231 1.696908 27.01554 0.1643085 1.649358 0.08270169         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 31.02300 211.5012 2.133179 85.10592 0.2205061 2.114325 0.07593231         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 30.45360 290.2743 1.787452 39.35209 0.1891895 1.753168 0.07782220         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 30.80326 455.5604 1.443190 17.51053 0.1386124 1.380481 0.08267289         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sigma_sq       phi Tau.case.var((Intercept))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 213.8660 0.4065078                 173.30800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 184.8355 0.2691773                 140.18760</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 198.3971 0.3557809                  13.10410</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 202.1737 0.3392855                  88.10053</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 190.1074 0.2438008                 265.45302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 34.76634 466.0271 1.610472 16.26354 0.1206186 1.535045 0.09969723         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 30.18667 530.2754 1.310884 15.67820 0.1389327 1.247159 0.07833214         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 29.37816 241.0204 1.892333 43.98429 0.1602981 1.859882 0.06755932         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 36.09029 561.2107 1.523447 14.67528 0.1388872 1.444240 0.10460095         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 26.55598 428.1244 1.283445 16.93838 0.1313430 1.225765 0.06931271         0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sigma_sq        phi Tau.case.var((Intercept))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 176.8636 0.11105191                 289.16353</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 202.9395 0.31939188                 327.33589</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 165.0917 0.09821283                  75.92874</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 203.0606 0.37184719                 358.15010</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 171.4618 0.19325481                 256.66258</span>
 </code></pre></div>
     </div>
   </div>

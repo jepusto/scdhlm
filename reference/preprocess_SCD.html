@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0.999</span>
       </span>
     </div>
 
@@ -79,7 +79,8 @@
 <span>  center <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  round_session <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  treatment_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  data <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  validate_design_inputs <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -141,6 +142,10 @@ of the treatment phase.</p></dd>
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>(Optional) dataset to use for analysis. Must be a
 <code>data.frame</code>.</p></dd>
+
+
+<dt id="arg-validate-design-inputs">validate_design_inputs<a class="anchor" aria-label="anchor" href="#arg-validate-design-inputs"></a></dt>
+<dd><p>Logical indicating whether to validate the variable names specified as inputs. Defaults to <code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div id="value">

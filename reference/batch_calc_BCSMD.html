@@ -21,7 +21,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scdhlm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0.999</span>
       </span>
     </div>
 
@@ -182,124 +182,141 @@ of the treatment phase.</p></dd>
 
 
 <dt id="arg-fe-base">FE_base<a class="anchor" aria-label="anchor" href="#arg-fe-base"></a></dt>
-<dd><p>Vector of integers specifying which fixed effect terms to
-include in the baseline phase. Setting <code>FE_base = 0</code> includes only a
-level. Setting <code>FE_base = c(0,1)</code> includes a level and a linear time
+<dd><p>Vector of integers specifying which fixed
+effect terms to include in the baseline phase. Setting
+<code>FE_base = 0</code> includes only a level. Setting
+<code>FE_base = c(0,1)</code> includes a level and a linear time
 trend.</p></dd>
 
 
 <dt id="arg-re-base">RE_base<a class="anchor" aria-label="anchor" href="#arg-re-base"></a></dt>
-<dd><p>Vector of integers specifying which random effect terms to
-include in the baseline phase. Setting <code>RE_base = 0</code> includes only
-levels (i.e., random intercepts). Setting <code>RE_base = c(0,1)</code> includes
+<dd><p>Vector of integers specifying which random
+effect terms to include in the baseline phase. Setting
+<code>RE_base = 0</code> includes only levels (i.e., random
+intercepts). Setting <code>RE_base = c(0,1)</code> includes
 random levels and random linear trends.</p></dd>
 
 
 <dt id="arg-re-base-">RE_base_2<a class="anchor" aria-label="anchor" href="#arg-re-base-"></a></dt>
-<dd><p>Vector of integers specifying which random effect terms to
-include in the baseline phase for the cluster level in clustered multiple
-baseline design across participants or for the case level in replicated
-multiple baseline across behaviors. Setting <code>RE_base_2 = 0</code> includes
-only levels (i.e., random intercepts). Setting <code>RE_base_2 = c(0,1)</code>
-includes random levels and random linear trends.</p></dd>
+<dd><p>Vector of integers specifying which random
+effect terms to include in the baseline phase for the
+cluster level in clustered multiple baseline design across
+participants or for the case level in replicated multiple
+baseline across behaviors. Setting <code>RE_base_2 = 0</code>
+includes only levels (i.e., random intercepts). Setting
+<code>RE_base_2 = c(0,1)</code> includes random levels and random
+linear trends.</p></dd>
 
 
 <dt id="arg-fe-trt">FE_trt<a class="anchor" aria-label="anchor" href="#arg-fe-trt"></a></dt>
-<dd><p>Vector of integers specifying which fixed effect terms to
-include in the treatment phase. Setting <code>FE_trt = 0</code> includes only a
-change in level. Setting <code>FE_trt = c(0,1)</code> includes a change in level
-and a treatment-by-linear time trend.</p></dd>
+<dd><p>Vector of integers specifying which fixed
+effect terms to include in the treatment phase. Setting
+<code>FE_trt = 0</code> includes only a change in level. Setting
+<code>FE_trt = c(0,1)</code> includes a change in level and a
+treatment-by-linear time trend.</p></dd>
 
 
 <dt id="arg-re-trt">RE_trt<a class="anchor" aria-label="anchor" href="#arg-re-trt"></a></dt>
-<dd><p>Vector of integers specifying which random effect terms to
-include in the treatment phase. Setting <code>RE_trt = 0</code> includes only
-random changes in level. Setting <code>RE_trt = c(0,1)</code> includes random
-changes in level and random treatment-by-linear time trends.</p></dd>
+<dd><p>Vector of integers specifying which random
+effect terms to include in the treatment phase. Setting
+<code>RE_trt = 0</code> includes only random changes in level.
+Setting <code>RE_trt = c(0,1)</code> includes random changes in
+level and random treatment-by-linear time trends.</p></dd>
 
 
 <dt id="arg-re-trt-">RE_trt_2<a class="anchor" aria-label="anchor" href="#arg-re-trt-"></a></dt>
-<dd><p>Vector of integers specifying which random effect terms to
-include in the treatment phase for the cluster level in clustered multiple
-baseline design across participants or for the case level in replicated
-multiple baseline across behaviors. Setting <code>RE_trt_2 = 0</code> includes
-only random changes in level. Setting <code>RE_trt_2 = c(0,1)</code> includes
-random changes in level and random treatment-by-linear time trends.</p></dd>
+<dd><p>Vector of integers specifying which random
+effect terms to include in the treatment phase for the
+cluster level in clustered multiple baseline design across
+participants or for the case level in replicated multiple
+baseline across behaviors. Setting <code>RE_trt_2 = 0</code>
+includes only random changes in level. Setting
+<code>RE_trt_2 = c(0,1)</code> includes random changes in level
+and random treatment-by-linear time trends.</p></dd>
 
 
 <dt id="arg-corstruct">corStruct<a class="anchor" aria-label="anchor" href="#arg-corstruct"></a></dt>
-<dd><p>(Optional) character string indicating the correlation
-structure of session-level errors. Options are <code>"AR1"</code> (default),
-<code>"MA1"</code>, or <code>"IID"</code>.</p></dd>
+<dd><p>(Optional) character string indicating the
+correlation structure of session-level errors. Options are
+<code>"AR1"</code> (default), <code>"MA1"</code>, or <code>"IID"</code>.</p></dd>
 
 
 <dt id="arg-varstruct">varStruct<a class="anchor" aria-label="anchor" href="#arg-varstruct"></a></dt>
 <dd><p>(Optional) character string indicating the
-heteroscedasticity structure of session-level errors. Options are
-<code>"hom"</code> (default) or <code>"het"</code>, which allows for the session-level
-error variances to differ by phase.</p></dd>
+heteroscedasticity structure of session-level errors.
+Options are <code>"hom"</code> (default) or <code>"het"</code>, which
+allows for the session-level error variances to differ by
+phase.</p></dd>
 
 
 <dt id="arg-bayesian">Bayesian<a class="anchor" aria-label="anchor" href="#arg-bayesian"></a></dt>
-<dd><p>Logical indicating whether to apply Bayesian estimation
-methods. If <code>FALSE</code> (default), apply restricted maximum likelihood
-estimation. If <code>TRUE</code>, apply Bayesian estimation methods (i.e., Markov
-Chain Monte Carlo) to the parameters of the specified hierarchical linear
-model.</p></dd>
+<dd><p>Logical indicating whether to apply Bayesian
+estimation methods. If <code>FALSE</code> (default), apply
+restricted maximum likelihood estimation. If <code>TRUE</code>,
+apply Bayesian estimation methods (i.e., Markov Chain Monte
+Carlo) to the parameters of the specified hierarchical
+linear model.</p></dd>
 
 
 <dt id="arg-prior">prior<a class="anchor" aria-label="anchor" href="#arg-prior"></a></dt>
-<dd><p>(Optional) One or more <code>brmsprior</code> objects created by
+<dd><p>(Optional) One or more <code>brmsprior</code> objects
+created by
 <code>"set_prior"</code> in the <code>"brms"</code> R package. Default is <code>prior =
 NULL</code> when flat priors will be applied for Bayesian estimation.
 Ignored if <code>Bayesian = FALSE</code>.</p></dd>
 
 
 <dt id="arg-chains">chains<a class="anchor" aria-label="anchor" href="#arg-chains"></a></dt>
-<dd><p>Number of Markov chains to use for Bayesian estimation. Default
-is <code>chains = 4</code>. Ignored if <code>Bayesian = FALSE</code>.</p></dd>
+<dd><p>Number of Markov chains to use for Bayesian
+estimation. Default is <code>chains = 4</code>. Ignored if
+<code>Bayesian = FALSE</code>.</p></dd>
 
 
 <dt id="arg-iter">iter<a class="anchor" aria-label="anchor" href="#arg-iter"></a></dt>
-<dd><p>Number of iterations per chain to use for Bayesian estimation.
-Default is <code>iter = 2000</code>. Ignored if <code>Bayesian = FALSE</code>.</p></dd>
+<dd><p>Number of iterations per chain to use for
+Bayesian estimation. Default is <code>iter = 2000</code>. Ignored
+if <code>Bayesian = FALSE</code>.</p></dd>
 
 
 <dt id="arg-warmup">warmup<a class="anchor" aria-label="anchor" href="#arg-warmup"></a></dt>
-<dd><p>Number of burn-in iterations to use for Bayesian estimation.
-Default is <code>iter/2</code>. Ignored if <code>Bayesian = FALSE</code>.</p></dd>
+<dd><p>Number of burn-in iterations to use for
+Bayesian estimation. Default is <code>iter/2</code>. Ignored if
+<code>Bayesian = FALSE</code>.</p></dd>
 
 
 <dt id="arg-thin">thin<a class="anchor" aria-label="anchor" href="#arg-thin"></a></dt>
-<dd><p>Thinning rate to use for Bayesian estimation. Default is
-<code>thin = 10</code>. Ignored if <code>Bayesian = FALSE</code>.</p></dd>
+<dd><p>Thinning rate to use for Bayesian estimation.
+Default is <code>thin = 10</code>. Ignored if <code>Bayesian =
+FALSE</code>.</p></dd>
 
 
 <dt id="arg-cores">cores<a class="anchor" aria-label="anchor" href="#arg-cores"></a></dt>
-<dd><p>Number of cores to use for Bayesian estimation. Default is
-<code>cores = 1</code>. Ignored if <code>Bayesian = FALSE</code>.</p></dd>
+<dd><p>Number of cores to use for Bayesian estimation.
+Default is <code>cores = 1</code>. Ignored if <code>Bayesian =
+FALSE</code>.</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
-<dd><p>Random number generation seed to use for Bayesian estimation.
-Default is <code>seed = NA</code>, which will cause the seed to be set randomly.
-Ignored if <code>Bayesian = FALSE</code>.</p></dd>
+<dd><p>Random number generation seed to use for Bayesian
+estimation. Default is <code>seed = NA</code>, which will cause
+the seed to be set randomly. Ignored if <code>Bayesian =
+FALSE</code>.</p></dd>
 
 
 <dt id="arg-a">A<a class="anchor" aria-label="anchor" href="#arg-a"></a></dt>
-<dd><p>The time point immediately before the start of treatment in the
-hypothetical between-group design.</p></dd>
+<dd><p>The time point immediately before the start of
+treatment in the hypothetical between-group design.</p></dd>
 
 
 <dt id="arg-b">B<a class="anchor" aria-label="anchor" href="#arg-b"></a></dt>
-<dd><p>The time point at which outcomes are measured in the hypothetical
-between-group design.</p></dd>
+<dd><p>The time point at which outcomes are measured in the
+hypothetical between-group design.</p></dd>
 
 
 <dt id="arg-d">D<a class="anchor" aria-label="anchor" href="#arg-d"></a></dt>
-<dd><p>Numerical indicating the treatment duration across cases. Note that
-<code>B = A + D</code> and it is not allowed to specify both <code>B</code> and
-<code>D</code>.</p></dd>
+<dd><p>Numerical indicating the treatment duration across
+cases. Note that <code>B = A + D</code> and it is not allowed to
+specify both <code>B</code> and <code>D</code>.</p></dd>
 
 
 <dt id="arg-cover">cover<a class="anchor" aria-label="anchor" href="#arg-cover"></a></dt>
@@ -307,23 +324,26 @@ between-group design.</p></dd>
 
 
 <dt id="arg-bound">bound<a class="anchor" aria-label="anchor" href="#arg-bound"></a></dt>
-<dd><p>Numerical tolerance for non-centrality parameter in
-<code><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">qt</a></code>.</p></dd>
+<dd><p>Numerical tolerance for non-centrality parameter
+in <code><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">qt</a></code>.</p></dd>
 
 
 <dt id="arg-symmetric">symmetric<a class="anchor" aria-label="anchor" href="#arg-symmetric"></a></dt>
-<dd><p>If <code>TRUE</code> (the default), use a symmetric confidence
-interval. If <code>FALSE</code>, use a non-central t approximation to obtain an
-asymmetric confidence interval.</p></dd>
+<dd><p>If <code>TRUE</code> (the default), use a
+symmetric confidence interval. If <code>FALSE</code>, use a
+non-central t approximation to obtain an asymmetric
+confidence interval.</p></dd>
 
 
 <dt id="arg-summary">summary<a class="anchor" aria-label="anchor" href="#arg-summary"></a></dt>
-<dd><p>Logical indicating whether to return a data frame with effect
-size estimates and other information. If <code>TRUE</code> (default), return a
-<code>data.frame</code> containing the effect size estimate, standard error,
-confidence interval (or credible interval if <code>Bayesian == TRUE</code>), and
-other information. If <code>FALSE</code>, return a list with effect size
-estimate, degrees of freedom, and other information.</p></dd>
+<dd><p>Logical indicating whether to return a data
+frame with effect size estimates and other information. If
+<code>TRUE</code> (default), return a <code>data.frame</code>
+containing the effect size estimate, standard error,
+confidence interval (or credible interval if <code>Bayesian
+== TRUE</code>), and other information. If <code>FALSE</code>, return a
+list with effect size estimate, degrees of freedom, and
+other information.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -351,6 +371,14 @@ estimate, degrees of freedom, and other information.</p></dd>
 <span class="r-in"><span>                 session <span class="op">=</span> <span class="va">time</span>, outcome <span class="op">=</span> <span class="va">outcome</span>,</span></span>
 <span class="r-in"><span>                 FE_base <span class="op">=</span> <span class="fl">0</span>, RE_base <span class="op">=</span> <span class="fl">0</span>,</span></span>
 <span class="r-in"><span>                 RE_base_2 <span class="op">=</span> <span class="fl">0</span>, FE_trt <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 12</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Study_ID      `BC-SMD estimate` `Std. Error` `95% CI (lower)` `95% CI (upper)`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Thiemann2001…              1.60        0.180             1.24             1.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Thiemann2004…              1.71        0.195             1.32             2.11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7 more variables: `Degrees of freedom` &lt;dbl&gt;, `Auto-correlation` &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `Variance parameter` &lt;dbl&gt;, `Intra-class correlation` &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `Initial treatment time` &lt;int&gt;, `Follow-up time` &lt;dbl&gt;, Converged &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Models with linear time trends in baseline and treatment phase,</span></span></span>
 <span class="r-in"><span><span class="co"># random baseline slope at series level, fixed treatment effects</span></span></span>
@@ -361,6 +389,14 @@ estimate, degrees of freedom, and other information.</p></dd>
 <span class="r-in"><span>                 session <span class="op">=</span> <span class="va">time</span>, outcome <span class="op">=</span> <span class="va">outcome</span>,</span></span>
 <span class="r-in"><span>                 FE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, RE_base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                 RE_base_2 <span class="op">=</span> <span class="fl">0</span>, FE_trt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 12</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Study_ID      `BC-SMD estimate` `Std. Error` `95% CI (lower)` `95% CI (upper)`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Thiemann2001…              1.63        0.259             1.10             2.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Thiemann2004…              2.45        0.394             1.65             3.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7 more variables: `Degrees of freedom` &lt;dbl&gt;, `Auto-correlation` &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `Variance parameter` &lt;dbl&gt;, `Intra-class correlation` &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `Initial treatment time` &lt;int&gt;, `Follow-up time` &lt;dbl&gt;, Converged &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
