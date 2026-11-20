@@ -222,11 +222,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
   newdata$fitted <- predict_SCD_model(model_fit, design, newdata)
   
   # Add prediction lines to the graph
-  if (utils::packageVersion("ggplot2") < '3.4.0') {
-    p <- p + ggplot2::geom_line(data = newdata, ggplot2::aes(y = fitted), size = 0.8)
-  } else {
-    p <- p + ggplot2::geom_line(data = newdata, ggplot2::aes(y = fitted), linewidth = 0.8)
-  }
+  p <- p + ggplot2::geom_line(data = newdata, ggplot2::aes(y = fitted), linewidth = 0.8)
   
   return(p)
   
