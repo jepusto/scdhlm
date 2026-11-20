@@ -1,5 +1,3 @@
-skip_if_not_installed("nlme")
-
 library(nlme)
 
 test_that("calc_consts() error messages work", {
@@ -126,5 +124,70 @@ test_that("calc_consts() returns vectors with expected structure", {
   expect_identical(max(unlist(structs_complex$rconst_trt)), 0)
   expect_identical(min(unlist(structs_complex$rconst_trt2)), 0)
   expect_identical(max(unlist(structs_complex$rconst_trt2)), 0)
+  
+})
+
+test_that("default_times() error messages work", {
+  
+  data(Laski)
+  
+  expect_error(
+    default_times(
+      design = "ATD",
+      case = case, phase = treatment, session = time,
+      data = Laski
+    )
+  )
+  
+  expect_error(
+    default_times(
+      design = "MBP",
+      phase = treatment, session = time,
+      data = Laski
+    ),
+    "specify a case variable"
+  )
+  
+  expect_error(
+    default_times(
+      design = "MBP",
+      case = case, session = time,
+      data = Laski
+    ),
+    "specify a phase variable"
+  )
+  
+  expect_error(
+    default_times(
+      design = "MBP",
+      case = case, phase = treatment,
+      data = Laski
+    ),
+    "specify a session variable"
+  )
+
+  
+  data(Thiemann2001)
+
+  expect_error(
+    default_times(
+      design = "RMBB",
+      case = case, phase = treatment, session = time,
+      data = Thiemann2001
+    ),
+    "specify a series variable"
+  )
+  
+  data(Bryant2018)
+  
+  expect_error(
+    default_times(
+      design = "CMB",
+      case = case,
+      phase = treatment, session = session,
+      data = Bryant2018
+    ),
+    "specify a cluster variable"
+  )
   
 })

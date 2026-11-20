@@ -26,7 +26,10 @@ Simulates data from the linear mixed effects model used to estimate the
 specified standardized mean difference effect size. Suitable for parametric bootstrapping.
 }
 \examples{
+
+library(nlme)
 data(Laski)
+
 Laski_RML <- lme(fixed = outcome ~ treatment,
                  random = ~ 1 | case,
                  correlation = corAR1(0, ~ time | case), 

@@ -20,24 +20,26 @@ jobs:
       - uses: actions/checkout@v7
 
       - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+          extra-repositories: 
+            https://seantalts.r-universe.dev/
+            https://stan-dev.r-universe.dev/
+            https://paul-buerkner.r-universe.dev/
+            https://andytimm.r-universe.dev
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
             rcmdcheck
-            boot
-            BH
-            MCMCglmm
-            StanHeaders
-            stan-dev/cmdstanr
-            covr
-            cpp11
-            progress
-            RcppArmadillo
-            RcppEigen
-            xml2
           needs: coverage
 
+      - name: Install stanli runtime
+        run: |
+          stanli::stanli_install()
+        shell: Rscript {0}
+        
       - name: Test coverage
         run: |
           cov <- covr::package_coverage(
@@ -45,7 +47,7 @@ jobs:
             clean = FALSE,
             install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package"),
             line_exclusions = "R/simulation-functions.R",
-            function_exclusions = c("HPS_effect_size","check_convergence")
+            function_exclusions = c("check_convergence")
           )
           print(cov)
           covr::to_cobertura(cov)

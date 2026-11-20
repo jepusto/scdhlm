@@ -41,9 +41,13 @@ importFrom(lmeInfo,
   g_mlm,
   varcomp_vcov
 )
-importFrom(magrittr,"%>%")
+importFrom(nlme,
+  lme,
+  lmeControl
+)
 importFrom(readxl,read_excel)
 importFrom(rlang,
   "!!!",
   "!!"
 )
+importFrom(utils,packageVersion)

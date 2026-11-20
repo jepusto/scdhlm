@@ -2,7 +2,8 @@
 % Please edit documentation in R/calc_BCSMD.R
 \name{calc_BCSMD}
 \alias{calc_BCSMD}
-\title{A convenience function for calculating design comparable effect sizes}
+\title{A convenience function for calculating design
+  comparable effect sizes}
 \usage{
 calc_BCSMD(
   design,
@@ -26,6 +27,7 @@ calc_BCSMD(
   lmeControl = nlme::lmeControl(msMaxIter = 50, apVar = FALSE, returnObject = TRUE),
   Bayesian = FALSE,
   prior = NULL,
+  backend = NULL,
   chains = 4,
   iter = 2000,
   warmup = iter/2,
@@ -75,107 +77,134 @@ or factor vector within \code{data} indicating series.}
 \item{treatment_name}{(Optional) character string corresponding to the name
 of the treatment phase.}
 
-\item{FE_base}{Vector of integers specifying which fixed effect terms to
-include in the baseline phase. Setting \code{FE_base = 0} includes only a
-level. Setting \code{FE_base = c(0,1)} includes a level and a linear time
+\item{FE_base}{Vector of integers specifying which fixed
+effect terms to include in the baseline phase. Setting
+\code{FE_base = 0} includes only a level. Setting
+\code{FE_base = c(0,1)} includes a level and a linear time
 trend.}
 
-\item{RE_base}{Vector of integers specifying which random effect terms to
-include in the baseline phase. Setting \code{RE_base = 0} includes only
-levels (i.e., random intercepts). Setting \code{RE_base = c(0,1)} includes
+\item{RE_base}{Vector of integers specifying which random
+effect terms to include in the baseline phase. Setting
+\code{RE_base = 0} includes only levels (i.e., random
+intercepts). Setting \code{RE_base = c(0,1)} includes
 random levels and random linear trends.}
 
-\item{RE_base_2}{Vector of integers specifying which random effect terms to
-include in the baseline phase for the cluster level in clustered multiple
-baseline design across participants or for the case level in replicated
-multiple baseline across behaviors. Setting \code{RE_base_2 = 0} includes
-only levels (i.e., random intercepts). Setting \code{RE_base_2 = c(0,1)}
-includes random levels and random linear trends.}
+\item{RE_base_2}{Vector of integers specifying which random
+effect terms to include in the baseline phase for the
+cluster level in clustered multiple baseline design across
+participants or for the case level in replicated multiple
+baseline across behaviors. Setting \code{RE_base_2 = 0}
+includes only levels (i.e., random intercepts). Setting
+\code{RE_base_2 = c(0,1)} includes random levels and random
+linear trends.}
 
-\item{FE_trt}{Vector of integers specifying which fixed effect terms to
-include in the treatment phase. Setting \code{FE_trt = 0} includes only a
-change in level. Setting \code{FE_trt = c(0,1)} includes a change in level
-and a treatment-by-linear time trend.}
+\item{FE_trt}{Vector of integers specifying which fixed
+effect terms to include in the treatment phase. Setting
+\code{FE_trt = 0} includes only a change in level. Setting
+\code{FE_trt = c(0,1)} includes a change in level and a
+treatment-by-linear time trend.}
 
-\item{RE_trt}{Vector of integers specifying which random effect terms to
-include in the treatment phase. Setting \code{RE_trt = 0} includes only
-random changes in level. Setting \code{RE_trt = c(0,1)} includes random
-changes in level and random treatment-by-linear time trends.}
+\item{RE_trt}{Vector of integers specifying which random
+effect terms to include in the treatment phase. Setting
+\code{RE_trt = 0} includes only random changes in level.
+Setting \code{RE_trt = c(0,1)} includes random changes in
+level and random treatment-by-linear time trends.}
 
-\item{RE_trt_2}{Vector of integers specifying which random effect terms to
-include in the treatment phase for the cluster level in clustered multiple
-baseline design across participants or for the case level in replicated
-multiple baseline across behaviors. Setting \code{RE_trt_2 = 0} includes
-only random changes in level. Setting \code{RE_trt_2 = c(0,1)} includes
-random changes in level and random treatment-by-linear time trends.}
+\item{RE_trt_2}{Vector of integers specifying which random
+effect terms to include in the treatment phase for the
+cluster level in clustered multiple baseline design across
+participants or for the case level in replicated multiple
+baseline across behaviors. Setting \code{RE_trt_2 = 0}
+includes only random changes in level. Setting
+\code{RE_trt_2 = c(0,1)} includes random changes in level
+and random treatment-by-linear time trends.}
 
-\item{corStruct}{(Optional) character string indicating the correlation
-structure of session-level errors. Options are \code{"AR1"} (default),
-\code{"MA1"}, or \code{"IID"}.}
+\item{corStruct}{(Optional) character string indicating the
+correlation structure of session-level errors. Options are
+\code{"AR1"} (default), \code{"MA1"}, or \code{"IID"}.}
 
 \item{varStruct}{(Optional) character string indicating the
-heteroscedasticity structure of session-level errors. Options are
-\code{"hom"} (default) or \code{"het"}, which allows for the session-level
-error variances to differ by phase.}
+heteroscedasticity structure of session-level errors.
+Options are \code{"hom"} (default) or \code{"het"}, which
+allows for the session-level error variances to differ by
+phase.}
 
-\item{lmeControl}{Specify control values for \code{lme} fit. See
-\code{?lmeControl} for more detail.}
+\item{lmeControl}{Specify control values for \code{lme} fit.
+See \code{?lmeControl} for more detail.}
 
-\item{Bayesian}{Logical indicating whether to apply Bayesian estimation
-methods. If \code{FALSE} (default), apply restricted maximum likelihood
-estimation. If \code{TRUE}, apply Bayesian estimation methods (i.e., Markov
-Chain Monte Carlo) to the parameters of the specified hierarchical linear
-model.}
+\item{Bayesian}{Logical indicating whether to apply Bayesian
+estimation methods. If \code{FALSE} (default), apply
+restricted maximum likelihood estimation. If \code{TRUE},
+apply Bayesian estimation methods (i.e., Markov Chain Monte
+Carlo) to the parameters of the specified hierarchical
+linear model.}
 
-\item{prior}{(Optional) One or more \code{brmsprior} objects created by
+\item{prior}{(Optional) One or more \code{brmsprior} objects
+created by
 \code{"set_prior"} in the \code{"brms"} R package. Default is \code{prior =
 NULL} when flat priors will be applied for Bayesian estimation.
 Ignored if \code{Bayesian = FALSE}.}
 
-\item{chains}{Number of Markov chains to use for Bayesian estimation. Default
-is \code{chains = 4}. Ignored if \code{Bayesian = FALSE}.}
+\item{backend}{Character string naming the package to use as
+the backend for fitting the model, passed to the
+\code{backend} option of \code{brms::brm()}. Options
+include \code{"stanli"} (the default if the stanli package
+is installed), \code{"rstan"} (the default otherwise), or
+\code{"cmdstanr"}. Ignored if \code{Bayesian = FALSE}.}
 
-\item{iter}{Number of iterations per chain to use for Bayesian estimation.
-Default is \code{iter = 2000}. Ignored if \code{Bayesian = FALSE}.}
+\item{chains}{Number of Markov chains to use for Bayesian
+estimation. Default is \code{chains = 4}. Ignored if
+\code{Bayesian = FALSE}.}
 
-\item{warmup}{Number of burn-in iterations to use for Bayesian estimation.
-Default is \code{iter/2}. Ignored if \code{Bayesian = FALSE}.}
+\item{iter}{Number of iterations per chain to use for
+Bayesian estimation. Default is \code{iter = 2000}. Ignored
+if \code{Bayesian = FALSE}.}
 
-\item{thin}{Thinning rate to use for Bayesian estimation. Default is
-\code{thin = 10}. Ignored if \code{Bayesian = FALSE}.}
+\item{warmup}{Number of burn-in iterations to use for
+Bayesian estimation. Default is \code{iter/2}. Ignored if
+\code{Bayesian = FALSE}.}
 
-\item{cores}{Number of cores to use for Bayesian estimation. Default is
-\code{cores = 1}. Ignored if \code{Bayesian = FALSE}.}
+\item{thin}{Thinning rate to use for Bayesian estimation.
+Default is \code{thin = 10}. Ignored if \code{Bayesian =
+FALSE}.}
 
-\item{seed}{Random number generation seed to use for Bayesian estimation.
-Default is \code{seed = NA}, which will cause the seed to be set randomly.
-Ignored if \code{Bayesian = FALSE}.}
+\item{cores}{Number of cores to use for Bayesian estimation.
+Default is \code{cores = 1}. Ignored if \code{Bayesian =
+FALSE}.}
 
-\item{A}{The time point immediately before the start of treatment in the
+\item{seed}{Random number generation seed to use for Bayesian
+estimation. Default is \code{seed = NA}, which will cause
+the seed to be set randomly. Ignored if \code{Bayesian =
+FALSE}.}
+
+\item{A}{The time point immediately before the start of
+treatment in the hypothetical between-group design.}
+
+\item{B}{The time point at which outcomes are measured in the
 hypothetical between-group design.}
 
-\item{B}{The time point at which outcomes are measured in the hypothetical
-between-group design.}
-
-\item{D}{Numerical indicating the treatment duration across cases. Note that
-\code{B = A + D} and it is not allowed to specify both \code{B} and
-\code{D}.}
+\item{D}{Numerical indicating the treatment duration across
+cases. Note that \code{B = A + D} and it is not allowed to
+specify both \code{B} and \code{D}.}
 
 \item{cover}{Confidence level.}
 
-\item{bound}{Numerical tolerance for non-centrality parameter in
-\code{\link[stats]{qt}}.}
+\item{bound}{Numerical tolerance for non-centrality parameter
+in \code{\link[stats]{qt}}.}
 
-\item{symmetric}{If \code{TRUE} (the default), use a symmetric confidence
-interval. If \code{FALSE}, use a non-central t approximation to obtain an
-asymmetric confidence interval.}
+\item{symmetric}{If \code{TRUE} (the default), use a
+symmetric confidence interval. If \code{FALSE}, use a
+non-central t approximation to obtain an asymmetric
+confidence interval.}
 
-\item{summary}{Logical indicating whether to return a data frame with effect
-size estimates and other information. If \code{TRUE} (default), return a
-\code{data.frame} containing the effect size estimate, standard error,
-confidence interval (or credible interval if \code{Bayesian == TRUE}), and
-other information. If \code{FALSE}, return a list with effect size
-estimate, degrees of freedom, and other information.}
+\item{summary}{Logical indicating whether to return a data
+frame with effect size estimates and other information. If
+\code{TRUE} (default), return a \code{data.frame}
+containing the effect size estimate, standard error,
+confidence interval (or credible interval if \code{Bayesian
+== TRUE}), and other information. If \code{FALSE}, return a
+list with effect size estimate, degrees of freedom, and
+other information.}
 
 \item{data}{(Optional) dataset to use for analysis. Must be a
 \code{data.frame}.}
@@ -184,16 +213,18 @@ estimate, degrees of freedom, and other information.}
 }
 \value{
 If \code{summary = TRUE}, a data frame containing the
-  design-comparable effect size estimate, standard error, confidence interval
-  (or credible interval if \code{Bayesian = TRUE}), and other information.
-  If \code{summary = FALSE}, a list containing all elements of a `g_mlm()`
-  object, plus the fitted `lme()` model.
+  design-comparable effect size estimate, standard error,
+  confidence interval (or credible interval if \code{Bayesian
+  = TRUE}), and other information. If \code{summary = FALSE},
+  a list containing all elements of a `g_mlm()` object, plus
+  the fitted `lme()` model.
 }
 \description{
-In one call, 1) clean single-case design data for treatment
-  reversal and multiple baseline designs, 2) fit a multi-level model using
-  restricted maximum likelihood estimation, and 3) estimate a standardized
-  mean difference effect size.
+In one call, 1) clean single-case design data
+  for treatment reversal and multiple baseline designs, 2)
+  fit a multi-level model using restricted maximum likelihood
+  estimation, and 3) estimate a standardized mean difference
+  effect size.
 }
 \examples{
 data(Laski)
@@ -258,8 +289,8 @@ calc_BCSMD(design = "CMB",
            FE_base = c(0,1), RE_base = 0, RE_base_2 = 0,
            FE_trt = c(0,1), RE_trt = NULL, RE_trt_2 = NULL,
            data = Bryant2018)
- 
-\dontrun{          
+
+\dontrun{
 # Bayesian estimation
 calc_BCSMD(design = "CMB",
            cluster = group, case = case, phase = treatment,

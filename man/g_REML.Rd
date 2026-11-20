@@ -57,6 +57,7 @@ from a multiple baseline design, using adjusted REML method as described in Pust
 & Shadish (2014). Note that the data must contain one row per measurement occasion per case.
 }
 \examples{
+library(nlme)
 data(Laski)
 Laski_RML <- lme(fixed = outcome ~ treatment, 
                  random = ~ 1 | case, 

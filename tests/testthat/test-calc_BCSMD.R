@@ -1,3 +1,4 @@
+library(nlme)
 
 # check if calc_BCSMD() works
 
@@ -439,8 +440,8 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
   dat_MBP <- rbind(Laski, AlberMorgan)
 
   res_AB <- 
-    dat_MBP %>% 
-    dplyr::group_by(studyID) %>%
+    dat_MBP |> 
+    dplyr::group_by(studyID) |>
     dplyr::reframe(
       default_times(
         design = "MBP",
@@ -450,12 +451,12 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
         cluster = NULL,
         series = NULL
       )
-    ) %>% 
-    dplyr::mutate(variable = rep(c("range", "A", "B"), length(unique(dat_MBP$studyID)))) %>% 
+    ) |> 
+    dplyr::mutate(variable = rep(c("range", "A", "B"), length(unique(dat_MBP$studyID)))) |> 
     dplyr::rename(value = `default_times(...)`)
   
-  res_A <- res_AB %>% dplyr::filter(variable == "A") %>% dplyr::pull(value) %>% unlist() %>% as.vector()
-  res_B <- res_AB %>% dplyr::filter(variable == "B") %>% dplyr::pull(value) %>% unlist() %>% as.vector()
+  res_A <- res_AB |> dplyr::filter(variable == "A") |> dplyr::pull(value) |> unlist() |> as.vector()
+  res_B <- res_AB |> dplyr::filter(variable == "B") |> dplyr::pull(value) |> unlist() |> as.vector()
   
   res1_batch <- 
     suppressWarnings(

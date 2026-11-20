@@ -81,12 +81,14 @@ random_formula <- function(random_terms)
   as.formula(paste("~ 0 + ",paste(random_terms, collapse=" + "),"| id"))
 
 lme_fit <- function(y, design, fixed_terms, random_terms, method="REML") {
-  lme(fixed = as.formula(paste("outcome ~ 0 + ", paste(fixed_terms, collapse=" + "))), 
-      random = random_formula(random_terms), 
-      correlation = corAR1(0, ~ trend | id),
-      data = cbind(design, outcome = y),
-      method = method, keep.data = FALSE,
-      control=lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE))
+  nlme::lme(
+    fixed = as.formula(paste("outcome ~ 0 + ", paste(fixed_terms, collapse=" + "))), 
+    random = random_formula(random_terms), 
+    correlation = corAR1(0, ~ trend | id),
+    data = cbind(design, outcome = y),
+    method = method, keep.data = FALSE,
+    control=nlme::lmeControl(msMaxIter = 50, apVar=FALSE, returnObject=TRUE)
+  )
 }
 
 
@@ -388,7 +390,10 @@ fit_g <- function(y, object) {
 #' of \code{g_REML}.
 #' 
 #' @examples
+#' 
+#' library(nlme)
 #' data(Laski)
+#' 
 #' Laski_RML <- lme(fixed = outcome ~ treatment,
 #'                  random = ~ 1 | case,
 #'                  correlation = corAR1(0, ~ time | case), 

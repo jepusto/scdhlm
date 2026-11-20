@@ -30,6 +30,8 @@ Calculates a confidence interval given a \code{g_REML}, a
   (for an asymmetric interval).
 }
 \examples{
+
+library(nlme)
 data(Laski)
 Laski_RML <- lme(fixed = outcome ~ treatment,
                  random = ~ 1 | case,
