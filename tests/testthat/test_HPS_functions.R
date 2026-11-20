@@ -135,7 +135,7 @@ test_that("Vectorized version HPS_effect_size() returns identical results as eff
       idvar = c("case","treatment","time"),
       timevar = "measure"
     ) %>%
-    filter(!(case == "Case 2" & time == 4))
+    subset(!(case == "Case 2" & time == 4))
   
   ES_vec <- with(
     Saddler_wide, 
@@ -149,7 +149,7 @@ test_that("Vectorized version HPS_effect_size() returns identical results as eff
   
   ES_list <- 
     Saddler %>%
-    filter(!(case == "Case 2" & time == 4)) %>%
+    subset(!(case == "Case 2" & time == 4)) %>%
     group_nest(measure) %>%
     rowwise() %>%
     mutate(
