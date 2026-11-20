@@ -45,6 +45,22 @@ test_that("Error messages related to Bayesian estimation all work.", {
     "requires the stanli package"
   )
   
+  mockery::stub(calc_BCSMD, 'utils::packageVersion', "2.23.0")
+  expect_error(
+    calc_BCSMD(
+      design = "MBP",
+      case = case, phase = treatment,
+      session = time, outcome = outcome,
+      FE_base = 0, RE_base = 0, FE_trt = 0,
+      Bayesian = TRUE, 
+      backend = "stanli",
+      chain = 2, iter = 400, 
+      summary = TRUE,
+      data = Laski
+    ),
+    "requires brms version"
+  )
+  
   mockery::stub(calc_BCSMD, 'cmdStan_is_missing', TRUE)
   expect_error(
     calc_BCSMD(
@@ -99,6 +115,8 @@ test_that("calc_BCSMD() works with rstan backend.", {
   skip_on_cran()
   skip_on_covr()
   
+  mockery::stub(calc_BCSMD, 'stanli_is_missing', TRUE)
+  
   Laski_rstan <- 
     suppressWarnings(
       calc_BCSMD(design = "MBP",
@@ -106,7 +124,6 @@ test_that("calc_BCSMD() works with rstan backend.", {
                  session = time, outcome = outcome,
                  FE_base = 0, RE_base = 0, FE_trt = 0,
                  Bayesian = TRUE, 
-                 backend = "rstan",
                  chain = 2, iter = 200, 
                  data = Laski,
                  seed = 20261120)
@@ -149,15 +166,25 @@ test_that("Bayesian estimation works for MBP design.", {
                  case = case, phase = treatment,
                  session = time, outcome = outcome,
                  FE_base = 0, RE_base = 0, FE_trt = 0,
+                 corStruct = "IID",
                  Bayesian = TRUE, 
                  chain = 2, iter = 400, 
                  summary = TRUE,
                  data = Laski)
     )
   
-  expect_s3_class(Laski_simple, "data.frame")
+  expect_s3_class(Laski_simple_summary, "data.frame")
   expect_true(is.na(Laski_simple$`Variance parameter`))
+  
+  summary(Laski_simple)
 
+  graph_Laski_comp <- graph_SCD(design="MBP",
+                                case = case, phase = treatment,
+                                session = time, outcome = outcome,
+                                model_fit = Laski_simple$model)
+  expect_s3_class(graph_Laski_comp, "ggplot")
+  expect_invisible(print(graph_Laski_comp))
+  
   
   # complex model
   # use brm() and g_mlm_Bayes()
@@ -203,7 +230,9 @@ test_that("Bayesian estimation works for MBP design.", {
     data = Laski
   )
     
-  expect_type(Laski_comp, "list")
+  expect_s3_class(Laski_comp, "bcsmd")
+  Laski_comp_summary <- summary(Laski_comp)
+  expect_s3_class(Laski_comp_summary, "data.frame")
   
   # compare results from calc_BCSMD() and brm()
   expect_equal(res_g_mlm_Bayes$g_AB, Laski_comp$g_AB)
