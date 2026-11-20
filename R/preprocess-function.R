@@ -117,7 +117,7 @@ preprocess_SCD <- function(design,
     mf <- match.call()
     m <- match(c("design", "case", "phase","session","outcome","cluster","series"), names(mf), 0L)
     mf <- mf[c(1L, m)]
-    mf[[1L]] <- quote(validate_design_inputs)
+    mf[[1L]] <- str2lang("scdhlm:::validate_design_inputs")
     design <- eval(mf, envir = parent.frame())
   }
   

@@ -44,7 +44,7 @@ default_times <- function(design,
   mf <- match.call()
   m <- match(c("design", "case", "phase","session","outcome","cluster","series"), names(mf), 0L)
   validate_call <- mf[c(1L, m)]
-  validate_call[[1L]] <- quote(validate_design_inputs)
+  validate_call[[1L]] <- str2lang("scdhlm:::validate_design_inputs")
   validate_call$validate_outcome <- FALSE
   design <- eval(validate_call, envir = parent.frame())
   
@@ -498,7 +498,7 @@ calc_BCSMD <- function(design,
   mf <- match.call()
   m <- match(c("design", "case", "phase","session","outcome","cluster","series"), names(mf), 0L)
   validate_call <- mf[c(1L, m)]
-  validate_call[[1L]] <- quote(validate_design_inputs)
+  validate_call[[1L]] <- str2lang("scdhlm:::validate_design_inputs")
   design <- eval(validate_call, envir = parent.frame())
   
   if (design == "TR" & ( any(c(FE_base, RE_base, FE_trt) != 0) | (!is.null(RE_trt) && any(RE_trt != 0)) | any(!is.null(c(RE_base_2, RE_trt_2))) )) 
@@ -858,7 +858,6 @@ summary.bcsmd <- function(object, digits = 3, ...) {
 #' @importFrom rlang !!!
 #' @importFrom rlang !!
 #' @importFrom dplyr .data
-#' @importFrom magrittr %>%
 #'
 #' @examples
 #' data(Thiemann2001)
@@ -934,8 +933,8 @@ batch_calc_BCSMD <- function(data,
   }
   
   res <- 
-    data %>% 
-    dplyr::group_by(!!!rlang::syms(c(grouping))) %>%
+    data |>
+    dplyr::group_by(!!!rlang::syms(c(grouping))) |>
     dplyr::summarise(
       calc_BCSMD(
         design = design,
@@ -974,7 +973,7 @@ batch_calc_BCSMD <- function(data,
         ...
       ),
       .groups = 'drop'
-    ) %>% 
+    ) 
     
     
     return(res)

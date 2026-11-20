@@ -28,7 +28,6 @@ Imports:
     rlang,
     dplyr,
     tidyselect,
-    magrittr,
     nlme,
     lmeInfo (>= 0.3.0)
 Depends: 

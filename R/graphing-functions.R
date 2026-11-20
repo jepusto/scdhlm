@@ -109,7 +109,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
   mf <- match.call()
   m <- match(c("design", "case", "phase","session","outcome","cluster","series"), names(mf), 0L)
   validate_call <- mf[c(1L, m)]
-  validate_call[[1L]] <- quote(validate_design_inputs)
+  validate_call[[1L]] <- str2lang("scdhlm:::validate_design_inputs")
   design <- eval(validate_call, envir = parent.frame())
   
   case_name <- deparse(substitute(case))

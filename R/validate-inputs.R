@@ -1,5 +1,3 @@
-#' @export 
-#' @noRd
 
 validate_design_inputs <- function(
     design, 

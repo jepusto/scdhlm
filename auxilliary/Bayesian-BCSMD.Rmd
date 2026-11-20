@@ -131,16 +131,16 @@ cbind(Bayesian = with(post_samples_nonINF,
                Sigmasq = ES_mod$theta$sigma_sq,
                Tausq_int_case = ES_mod$theta$Tau$case[1],
                Tausq_int_group = ES_mod$theta$Tau$group,
-               Auto_cor = ES_mod$theta$cor_params)) %>% 
+               Auto_cor = ES_mod$theta$cor_params))|>
   kable(digits = 3, 
         caption = "Summary of Effect Size Estimate for varying intercepts, 
         varying trends, varying treatment-by-time interaction model", 
         booktabs = TRUE, 
-        align = c("l",rep("r",8))) %>%
-  kable_styling(latex_options = "scale_down") %>% 
-  group_rows("Fixed Effects", 1, 4) %>%
-  group_rows("Effect Sizes", 5, 6) %>% 
-  group_rows("Variance Components", 7, 9) %>% 
+        align = c("l",rep("r",8))) |>
+  kable_styling(latex_options = "scale_down") |>
+  group_rows("Fixed Effects", 1, 4) |>
+  group_rows("Effect Sizes", 5, 6) |>
+  group_rows("Variance Components", 7, 9) |>
   group_rows("Auto-correlation", 10, 10)
 
 ```

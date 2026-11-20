@@ -136,12 +136,12 @@ library(tidyverse)
 Ruiz <- read_excel('auxilliary//Data_Sheet_1_A Multiple-Baseline Evaluation.xlsx', sheet = "Overall")
 
 
-Ruiz <- Ruiz %>% 
+Ruiz <- Ruiz |> 
   pivot_longer(cols= `PSWQ`:`VQ-OBSTRUCTION`, names_to = "measure", values_to = "outcome")
 
 
-Ruiz <- Ruiz %>%
-  select(case, time=session, measure, outcome) %>%
+Ruiz <- Ruiz |>
+  select(case, time=session, measure, outcome) |>
   mutate(
     treatment = case_when(
       time < 6 ~ "baseline",
@@ -199,12 +199,12 @@ sheet <- excel_sheets('auxilliary//Raw Data.xlsx')
 datFile <- lapply(setNames(sheet, sheet), function(x) read_excel("auxilliary//Raw Data.xlsx", sheet=x))
 datFile <-  bind_rows(datFile, .id="Sheet")
 
-datFile <- datFile %>% 
-  select(Sheet:`GPQ-C`) %>%
+datFile <- datFile |> 
+  select(Sheet:`GPQ-C`) |>
   pivot_longer(cols= `AFQ-Y`:`GPQ-C`, names_to = "measure", values_to = "outcome")
 
-datFile <- datFile %>%
-  select(case = Sheet, measure, condition= `...1`, outcome) %>%
+datFile <- datFile |>
+  select(case = Sheet, measure, condition= `...1`, outcome) |>
   mutate(
     treatment = case_when(
       str_detect(condition, "LB") ~ "baseline",
@@ -215,9 +215,9 @@ datFile <- datFile %>%
     condition = as.factor(condition),
     measure = as.factor(measure),
     case = as.factor(case)
-  ) %>%
-  group_by(case, measure) %>%
-  mutate(time = as.numeric(row_number())) %>%
+  ) |>
+  group_by(case, measure) |>
+  mutate(time = as.numeric(row_number())) |>
   select(case, measure, treatment, time, outcome)
 
 Salazar <- as.data.frame(datFile)
@@ -246,21 +246,21 @@ phase_pairs <- function(phase) {
 }
 
 Thorne <- 
-  read_csv("auxilliary/Thorne.csv") %>%
+  read_csv("auxilliary/Thorne.csv") |>
   select(case = Case_number, measure = Measure, session = Session_number, 
-         condition = Condition, phase_indicator = Trt, outcome = Outcome) %>%
+         condition = Condition, phase_indicator = Trt, outcome = Outcome) |>
   mutate(
     case = factor(case, levels = 1:12, labels = paste("Participant", 1:12)),
     measure = factor(measure),
     phase_id = factor(condition, levels = c("A","B"))
-  ) %>%
-  arrange(measure, case, session) %>%
-  group_by(measure, case) %>% 
+  ) |>
+  arrange(measure, case, session) |>
+  group_by(measure, case) |> 
   mutate(
     phase_pair = phase_pairs(phase_id),
     phase_id = paste0(phase_id, phase_pair)
-  ) %>%
-  select(case, measure, session, phase_id, condition, phase_indicator, outcome) %>%
+  ) |>
+  select(case, measure, session, phase_id, condition, phase_indicator, outcome) |>
   as.data.frame()
 
 str(Thorne)
@@ -303,10 +303,10 @@ library(tidyverse)
 Thiemann2001 <- read.csv("auxilliary/Thiemann2001.csv", stringsAsFactors = FALSE)
 str(Thiemann2001)
 
-Thiemann2001 <- Thiemann2001 %>%
-  arrange(case, series, time) %>%
-  group_by(case, series) %>%
-  mutate(trt_time = pmax(0, time - max(time[treatment == "A"]))) %>%
+Thiemann2001 <- Thiemann2001 |>
+  arrange(case, series, time) |>
+  group_by(case, series) |>
+  mutate(trt_time = pmax(0, time - max(time[treatment == "A"]))) |>
   as.data.frame()
 
 Thiemann2001 <- within(Thiemann2001, {
@@ -334,12 +334,12 @@ save(Thiemann2001, file = "data/Thiemann2001.RData", compress = TRUE, version = 
 Thiemann2004 <- read.csv("auxilliary/Thiemann2004.csv", stringsAsFactors = FALSE)
 str(Thiemann2004)
 
-Thiemann2004 <- Thiemann2004 %>%
-  arrange(case, series, time) %>%
-  group_by(case, series) %>%
+Thiemann2004 <- Thiemann2004 |>
+  arrange(case, series, time) |>
+  group_by(case, series) |>
   mutate(
     trt_time = pmax(0, time - max(time[treatment == "A"]))
-  ) %>%
+  ) |>
   as.data.frame()
 
 Thiemann2004 <- within(Thiemann2004, {
@@ -367,14 +367,14 @@ save(Thiemann2004, file = "data/Thiemann2004.RData", compress = TRUE, version = 
 CaseHarrisGraham <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 1-2.xlsx", sheet = "Case Harris for App rev2")
 str(CaseHarrisGraham)
 CaseHarrisGraham <- 
-  CaseHarrisGraham %>% 
+  CaseHarrisGraham |> 
   mutate(
     case = factor(`Case identifier`, levels = c("Ben","Abernathy","Willow","Paladin")),
     condition = factor(`Phase identifier`, levels = c("b", "i"), labels = c("baseline", "treatment"))
-  ) %>% 
-  dplyr::filter(!is.na(`Outcome variable`)) %>% 
-  rename(session = `Session number`, outcome = `Outcome variable`) %>% 
-  select(case, session, condition, outcome) %>%
+  ) |> 
+  dplyr::filter(!is.na(`Outcome variable`)) |> 
+  rename(session = `Session number`, outcome = `Outcome variable`) |> 
+  select(case, session, condition, outcome) |>
   as.data.frame()
 
 save(CaseHarrisGraham, file = "data/CaseHarrisGraham.RData", compress = TRUE, version = 2)
@@ -383,14 +383,14 @@ save(CaseHarrisGraham, file = "data/CaseHarrisGraham.RData", compress = TRUE, ve
 Peltier <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 1-2.xlsx", sheet = 3)
 str(Peltier)
 Peltier <- 
-  Peltier %>% 
+  Peltier |> 
   mutate(
     case = factor(case, levels = c("Asher","Drake","Gary","Joe","Jack","Kloe","Mike","Andy","Kyrie","Ellie","Gabe","Javon")),
     condition = factor(phase, levels = c("b", "i"), labels = c("baseline", "treatment"))
-  ) %>% 
-  dplyr::filter(!is.na(outcome)) %>% 
-  arrange(case, session) %>%
-  select(case, session, condition, outcome) %>%
+  ) |> 
+  dplyr::filter(!is.na(outcome)) |> 
+  arrange(case, session) |>
+  select(case, session, condition, outcome) |>
   as.data.frame()
 
 save(Peltier, file = "data/Peltier.RData", compress = TRUE, version = 2)
@@ -401,15 +401,15 @@ GunningEspie <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 3-4.xl
 str(GunningEspie)
 
 GunningEspie <- 
-  GunningEspie %>% 
+  GunningEspie |> 
   mutate(
     case = factor(Case, levels = c("A", "C", "D", "E", "F", "H", "I")),
     condition = factor(Phase, levels = c("b","i","f"), labels = c("baseline","treatment","follow-up"))
-  ) %>% 
-  rename(session = Session, outcome = `DV value`) %>% 
-  dplyr::filter(condition != "follow-up") %>% 
-  arrange(case, session) %>%
-  select(case, session, condition, outcome) %>%
+  ) |> 
+  rename(session = Session, outcome = `DV value`) |> 
+  dplyr::filter(condition != "follow-up") |> 
+  arrange(case, session) |>
+  select(case, session, condition, outcome) |>
   as.data.frame()
 
 save(GunningEspie, file = "data/GunningEspie.RData", compress = TRUE, version = 2)
@@ -418,15 +418,15 @@ save(GunningEspie, file = "data/GunningEspie.RData", compress = TRUE, version = 
 DelemereDounavi <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 3-4.xlsx", sheet = 2)
 str(DelemereDounavi)
 DelemereDounavi <- 
-  DelemereDounavi %>% 
+  DelemereDounavi |> 
   mutate(
     case = factor(Case, levels = c("Niamh", "Mary", "Thomas", "Martin", "Alan", "John")),
     intervention = if_else(case %in% c("Martin","Alan","John"), "Positive routines", "Bedtime fading"),
     condition = factor(Phase, levels = c("b", "i"), labels = c("baseline", "treatment"))
-  ) %>% 
-  rename(session = Session, outcome = `DV value`) %>% 
-  arrange(intervention, case, session) %>%
-  select(intervention, case, session, condition, outcome) %>%
+  ) |> 
+  rename(session = Session, outcome = `DV value`) |> 
+  arrange(intervention, case, session) |>
+  select(intervention, case, session, condition, outcome) |>
   as.data.frame()
 
 save(DelemereDounavi, file = "data/DelemereDounavi.RData", compress = TRUE, version = 2)
@@ -435,13 +435,13 @@ save(DelemereDounavi, file = "data/DelemereDounavi.RData", compress = TRUE, vers
 Datchuk <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 7-8.xlsx", sheet = 2)
 str(Datchuk)
 Datchuk <- 
-  Datchuk %>% 
+  Datchuk |> 
   mutate(
     case = factor(case, levels = c("Nathan", "Richard", "Danyell", "Kendrick")),
     condition = as.factor(phase),
     session = round(session)
-  ) %>%
-  select(case, session, condition, outcome) %>%
+  ) |>
+  select(case, session, condition, outcome) |>
   as.data.frame()
 
 save(Datchuk, file = "data/Datchuk.RData", compress = TRUE, version = 2)
@@ -450,13 +450,13 @@ save(Datchuk, file = "data/Datchuk.RData", compress = TRUE, version = 2)
 Rodgers <- readxl::read_xlsx("auxilliary/Methods Guide - DCES Models 7-8.xlsx", sheet = 1)
 str(Rodgers)
 Rodgers <- 
-  Rodgers %>% 
+  Rodgers |> 
   mutate(
     case = factor(case, levels = c("Brett", "Steve", "Barb", "Denny")),
     condition = as.factor(phase),
     session = round(session)
-  ) %>%
-  select(case, session, condition, outcome) %>%
+  ) |>
+  select(case, session, condition, outcome) |>
   as.data.frame()
 
 save(Rodgers, file = "data/Rodgers.RData", compress = TRUE, version = 2)
