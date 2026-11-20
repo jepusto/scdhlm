@@ -43,10 +43,10 @@ default_times <- function(design,
   # validate input arguments
   mf <- match.call()
   m <- match(c("design", "case", "phase","session","outcome","cluster","series"), names(mf), 0L)
-  mf <- mf[c(1L, m)]
-  mf[[1L]] <- quote(validate_design_inputs)
-  mf$validate_outcome <- FALSE
-  design <- eval(mf, envir = parent.frame())
+  validate_call <- mf[c(1L, m)]
+  validate_call[[1L]] <- quote(validate_design_inputs)
+  validate_call$validate_outcome <- FALSE
+  design <- eval(validate_call, envir = parent.frame())
   
   case_call <- substitute(case)
   phase_call <- substitute(phase)
@@ -497,9 +497,9 @@ calc_BCSMD <- function(design,
   # validate input arguments
   mf <- match.call()
   m <- match(c("design", "case", "phase","session","outcome","cluster","series"), names(mf), 0L)
-  mf <- mf[c(1L, m)]
-  mf[[1L]] <- quote(validate_design_inputs)
-  design <- eval(mf, envir = parent.frame())
+  validate_call <- mf[c(1L, m)]
+  validate_call[[1L]] <- quote(validate_design_inputs)
+  design <- eval(validate_call, envir = parent.frame())
   
   if (design == "TR" & ( any(c(FE_base, RE_base, FE_trt) != 0) | (!is.null(RE_trt) && any(RE_trt != 0)) | any(!is.null(c(RE_base_2, RE_trt_2))) )) 
     stop("Please use the default specifications for fixed and random effects in treatment reversal design.")
@@ -630,6 +630,7 @@ calc_BCSMD <- function(design,
         thin = thin,
         cores = cores,
         backend = backend,
+        silent = 2,
         save_pars = brms::save_pars(all = TRUE),
         seed = seed
       ),

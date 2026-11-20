@@ -1,3 +1,6 @@
+#' @export 
+#' @noRd
+
 validate_design_inputs <- function(
     design, 
     case, phase, session, outcome, cluster, series,

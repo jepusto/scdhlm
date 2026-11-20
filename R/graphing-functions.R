@@ -108,9 +108,9 @@ graph_SCD <- function(design, case, phase, session, outcome,
   # validate input arguments
   mf <- match.call()
   m <- match(c("design", "case", "phase","session","outcome","cluster","series"), names(mf), 0L)
-  mf <- mf[c(1L, m)]
-  mf[[1L]] <- quote(validate_design_inputs)
-  design <- eval(mf, envir = parent.frame())
+  validate_call <- mf[c(1L, m)]
+  validate_call[[1L]] <- quote(validate_design_inputs)
+  design <- eval(validate_call, envir = parent.frame())
   
   case_name <- deparse(substitute(case))
   phase_name <- deparse(substitute(phase))
@@ -132,12 +132,12 @@ graph_SCD <- function(design, case, phase, session, outcome,
     dat <- model_dat
   } else {
     # preprocess_SCD() using the passed arguments
-    mf <- match.call()
-    m <- match(c("design", "case", "phase","session","outcome","cluster","series","treatment_name","data"), names(mf), 0L)
-    mf <- mf[c(1L, m)]
-    mf[[1L]] <- quote(preprocess_SCD)
-    mf$validate_design_inputs <- FALSE
-    dat <- eval(mf, envir = parent.frame())
+    m <- match(c("case", "phase","session","outcome","cluster","series","treatment_name","data"), names(mf), 0L)
+    preprocess_call <- mf[c(1L, m)]
+    preprocess_call[[1L]] <- quote(preprocess_SCD)
+    preprocess_call$design <- design
+    preprocess_call$validate_design_inputs <- FALSE
+    dat <- eval(preprocess_call, envir = parent.frame())
   }
 
   phase_pair <- phase_time <- NULL

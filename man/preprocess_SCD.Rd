@@ -15,7 +15,8 @@ preprocess_SCD(
   center = 0,
   round_session = TRUE,
   treatment_name = NULL,
-  data = NULL
+  data = NULL,
+  validate_design_inputs = TRUE
 )
 }
 \arguments{
@@ -52,6 +53,8 @@ of the treatment phase.}
 
 \item{data}{(Optional) dataset to use for analysis. Must be a
 \code{data.frame}.}
+
+\item{validate_design_inputs}{Logical indicating whether to validate the variable names specified as inputs. Defaults to \code{TRUE}.}
 }
 \value{
 A cleaned SCD dataset that can be used for model fitting and effect size calculation.
