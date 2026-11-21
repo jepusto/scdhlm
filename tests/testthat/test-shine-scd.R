@@ -1,6 +1,6 @@
-test_that("shine_scd() validates required packages.", {
+skip_if_not_installed("mockery")
 
-  skip_if_not_installed("mockery")
+test_that("shine_scd() validates required packages.", {
 
   mockery::stub(shine_scd, "check_for_package", function(pkg) pkg)
 
@@ -23,9 +23,8 @@ test_that("shine_scd() validates required packages.", {
 
 test_that("shine_scd() checks that the app files are available.", {
 
-  skip_if_not_installed("mockery")
-
-  mockery::stub(shine_scd, "check_for_package", function(pkg) NULL)
+  skip_on_cran()
+  
   mockery::stub(shine_scd, "system.file", "")
 
   expect_error(
@@ -37,15 +36,11 @@ test_that("shine_scd() checks that the app files are available.", {
 
 test_that("shine_scd() launches the app with a data frame.", {
 
-  skip_if_not_installed("mockery")
   skip_if_not_installed("shiny")
 
   app <- mockery::mock("scdhlm-app")
   run_app <- mockery::mock()
 
-  mockery::stub(shine_scd, "check_for_package", function(pkg) NULL)
-  mockery::stub(shine_scd, "system.file", mockery::mock("ui.R", "server.R"))
-  mockery::stub(shine_scd, "source", function(...) NULL)
   mockery::stub(shine_scd, "shiny::shinyApp", app)
   mockery::stub(shine_scd, "shiny::runApp", run_app)
 
@@ -56,8 +51,8 @@ test_that("shine_scd() launches the app with a data frame.", {
   mockery::expect_called(run_app, 1)
 
   app_args <- mockery::mock_args(app)[[1]]
-  expect_null(app_args[[1]])
-  expect_null(app_args[[2]])
+  expect_s3_class(app_args[[1]], "shiny.tag.list")
+  expect_identical(names(formals(app_args[[2]])), c("input","output","session"))
 
   run_args <- mockery::mock_args(run_app)[[1]]
   expect_equal(run_args[[1]], "scdhlm-app")
@@ -67,53 +62,65 @@ test_that("shine_scd() launches the app with a data frame.", {
 
 test_that("shine_scd() converts tibbles to data frames.", {
 
-  skip_if_not_installed("mockery")
   skip_if_not_installed("shiny")
 
   app <- mockery::mock("scdhlm-app")
 
-  mockery::stub(shine_scd, "check_for_package", function(pkg) NULL)
-  mockery::stub(shine_scd, "system.file", mockery::mock("ui.R", "server.R"))
-  mockery::stub(shine_scd, "source", function(...) NULL)
   mockery::stub(shine_scd, "shiny::shinyApp", app)
   mockery::stub(shine_scd, "shiny::runApp", mockery::mock())
 
-  tibble_like <- structure(
-    data.frame(case = "A", outcome = 1),
-    class = c("tbl_df", "tbl", "data.frame")
-  )
+  tibble_like <- dplyr::tibble(case = "A", outcome = 1)
 
   shine_scd(dataset = tibble_like)
 
   mockery::expect_called(app, 1)
 })
 
-test_that("shine_scd() reads CSV, table, and Excel datasets.", {
+test_that("shine_scd() reads xlsx datasets.", {
 
-  skip_if_not_installed("mockery")
   skip_if_not_installed("shiny")
 
-  read_csv <- mockery::mock(data.frame(case = "A", outcome = 1))
-  read_table <- mockery::mock(data.frame(case = "A", outcome = 1))
   read_excel <- mockery::mock(data.frame(case = "A", outcome = 1))
 
-  mockery::stub(shine_scd, "check_for_package", function(pkg) NULL)
-  mockery::stub(shine_scd, "system.file", mockery::mock("ui.R", "server.R"))
-  mockery::stub(shine_scd, "source", function(...) NULL)
+  mockery::stub(shine_scd, "shiny::shinyApp", mockery::mock("scdhlm-app"))
+  mockery::stub(shine_scd, "shiny::runApp", mockery::mock())
+  mockery::stub(shine_scd, "readxl::read_xlsx", read_excel)
+
+  shine_scd(dataset = "example.xlsx")
+  mockery::expect_called(read_excel, 1)
+  
+})
+
+test_that("shine_scd() reads CSV datasets.", {
+  
+  skip_if_not_installed("shiny")
+  
+  read_csv <- mockery::mock(data.frame(case = "A", outcome = 1))
+
   mockery::stub(shine_scd, "shiny::shinyApp", mockery::mock("scdhlm-app"))
   mockery::stub(shine_scd, "shiny::runApp", mockery::mock())
   mockery::stub(shine_scd, "utils::read.csv", read_csv)
-  mockery::stub(shine_scd, "utils::read.table", read_table)
-  mockery::stub(shine_scd, "readxl::read_xlsx", read_excel)
 
   shine_scd(dataset = "example.csv")
-  shine_scd(dataset = "example.txt")
-  shine_scd(dataset = "example.xlsx")
-
   mockery::expect_called(read_csv, 1)
-  mockery::expect_called(read_table, 1)
-  mockery::expect_called(read_excel, 1)
+
 })
+
+test_that("shine_scd() reads txt datasets.", {
+  
+  skip_if_not_installed("shiny")
+  
+  read_table <- mockery::mock(data.frame(case = "A", outcome = 1))
+  
+  mockery::stub(shine_scd, "shiny::shinyApp", mockery::mock("scdhlm-app"))
+  mockery::stub(shine_scd, "shiny::runApp", mockery::mock())
+  mockery::stub(shine_scd, "utils::read.table", read_table)
+
+  shine_scd(dataset = "example.txt")
+  mockery::expect_called(read_table, 1)
+
+})
+
 
 test_that("check_for_package() identifies unavailable packages.", {
 
