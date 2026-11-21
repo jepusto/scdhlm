@@ -2,19 +2,33 @@
 % Please edit documentation in R/preprocess-function.R
 \name{session_by_treatment}
 \alias{session_by_treatment}
-\title{Calculate session-by-treatment interactions for a unique case}
+\title{Calculate session-by-treatment interactions for a
+  unique case}
 \usage{
 session_by_treatment(phase, session, trt_phase)
 }
 \arguments{
-\item{phase}{vector of treatment indicators or a character or factor vector indicating unique treatment phases.}
+\item{phase}{vector of treatment indicators or a character or
+factor vector indicating unique treatment phases.}
 
 \item{session}{numeric vector of measurement occasions.}
 
-\item{trt_phase}{character string indicating the phase value corresponding to
-the treatment condition.}
+\item{trt_phase}{character string indicating the phase value
+corresponding to the treatment condition.}
+}
+\value{
+An integer vector of the same length as
+  \code{session} that is equal to zero when \code{phase !=
+  trt_phase} and otherwise equal to one plus the number of sessions
+  since the first point where \code{phase == trt_phase}.
 }
 \description{
-Calculate session-by-treatment interactions based on phases and
-  session numbering.
+Calculate session-by-treatment interactions
+  based on phases and session numbering.
+}
+\examples{
+phase <- rep(c("A","B"), each = 6)
+session <- 1:length(phase)
+session_by_treatment(phase, session, trt_phase = "B")
+
 }

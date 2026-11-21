@@ -169,19 +169,26 @@ test_that("Bayesian estimation works for MBP design.", {
                  corStruct = "IID",
                  Bayesian = TRUE, 
                  chain = 2, iter = 400, 
-                 summary = TRUE,
+                 summary = FALSE,
                  data = Laski)
     )
   
+  Laski_simple_summary <- summary(Laski_simple)
   expect_s3_class(Laski_simple_summary, "data.frame")
-  expect_true(is.na(Laski_simple$`Variance parameter`))
+  expect_true(is.na(Laski_simple_summary$`Variance parameter`))
   
-  summary(Laski_simple)
-
+  
+  expect_error(
+    graph_SCD(design="MBP",
+              case = case, phase = treatment,
+              session = time, outcome = outcome,
+              model_fit = Laski_simple$model)
+  )
   graph_Laski_comp <- graph_SCD(design="MBP",
                                 case = case, phase = treatment,
                                 session = time, outcome = outcome,
-                                model_fit = Laski_simple$model)
+                                model_fit = Laski_simple$model,
+                                data = Laski)
   expect_s3_class(graph_Laski_comp, "ggplot")
   expect_invisible(print(graph_Laski_comp))
   
@@ -217,6 +224,11 @@ test_that("Bayesian estimation works for MBP design.", {
                         A = default_AB$A, B = default_AB$B)
   res_g_mlm_Bayes <- g_mlm_Bayes(mod = Laski_comp_mod, p_const = consts$p_const, r_const = consts$r_const)
   
+  summary_res_g <- summary(res_g_mlm_Bayes)
+  expect_s3_class(summary_res_g, "data.frame")
+  expect_identical(res_g_mlm_Bayes$g_AB, summary_res_g$`BC-SMD estimate`)
+  expect_true(is.na(summary_res_g$Converged))
+  expect_true(is.na(summary_res_g$`Initial treatment time`))
   
   # use calc_BCSMD()
   

@@ -157,7 +157,7 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
     
     # calculate adjusted autocorrelation
     if (is.null(phi)) {
-      phi_YW <- sum(acv_SS[,2], na.rm=T) / sum(acv_SS[,1], na.rm=T)
+      phi_YW <- sum(acv_SS[,2], na.rm = TRUE) / sum(acv_SS[,1], na.rm = TRUE)
       phi_correction <- sum((h_i_p - 1) / h_i_p) / (g_dotdot - 2 * m)   # This is the constant C given on p. 33.
       phi <- phi_YW + phi_correction                                # See last display equation on p. 32.      
     }
@@ -168,7 +168,7 @@ effect_size_MB <- function(outcome, treatment, id, time, data = NULL, phi = NULL
                                                         with(dat, HLM_AR1_corr(id_fac, time, 0, phi)) %*% X_case_FE) 
       
       # This correction is equal to g_dotdot * F, where F is given on p. 33. 
-      sigma_sq_w <- sum(acv_SS[,1], na.rm=T) / sigma_sq_correction
+      sigma_sq_w <- sum(acv_SS[,1], na.rm = TRUE) / sigma_sq_correction
       
       # calculate intra-class correlation
       rho <- max(0, 1 - sigma_sq_w / S_sq)                          # See last display equation on p. 33.    
@@ -378,7 +378,7 @@ effect_size_ABk <- function(
     names(YW) <- c("id_fac","phase_fac","treatment_fac","g0","g1","n")
     
     # calculate adjusted estimate of pooled auto-correlation. See p. 238.
-    if (missing(phi)) phi <- sum(YW$g1, na.rm=T) / sum(YW$g0, na.rm=T) + sum(1 - 1 / YW$n) / sum(YW$n - 1)
+    if (missing(phi)) phi <- sum(YW$g1, na.rm = TRUE) / sum(YW$g0, na.rm = TRUE) + sum(1 - 1 / YW$n) / sum(YW$n - 1)
     
     if (missing(rho)) {
       # calculate adjusted within-case variance estimate
@@ -387,7 +387,7 @@ effect_size_ABk <- function(
                       t(X_case_FE[,X_keep,drop=FALSE]) %*% 
                         with(dat, HLM_AR1_corr(id_fac, phase_point, 0, phi)) %*% 
                         X_case_FE[,X_keep,drop=FALSE]) 
-      sigma_sq_w <- sum(YW$g0, na.rm=T) / sigma_sq_correction
+      sigma_sq_w <- sum(YW$g0, na.rm = TRUE) / sigma_sq_correction
       
       rho <- max(0, 1 - sigma_sq_w / S_sq)      # See last display equation on p. 238.
     } else {

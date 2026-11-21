@@ -7,12 +7,19 @@
 phase_pairs(phase, session = seq_along(phase))
 }
 \arguments{
-\item{phase}{vector of treatment indicators or a character or factor vector indicating unique treatment phases.}
+\item{phase}{vector of treatment indicators or a character or
+factor vector indicating unique treatment phases.}
 
 \item{session}{numeric vector of measurement occasions.}
 }
+\value{
+an integer vector of the same length as \code{phase}
+  and \code{session} with unique values for every pair of
+  contiguous baseline and treatment phases.
+}
 \description{
-Calculate phase-pairs based on phases and session numbering.
+Calculate phase-pairs based on phases and
+  session numbering.
 }
 \examples{
 

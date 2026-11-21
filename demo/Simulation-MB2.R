@@ -51,4 +51,4 @@ names(dimnames(MB2_array))[7:8] <- c("stat","moment")
 MB2results <- cast(melt(MB2_array), ... ~ moment)
 attr(MB2results, "iterations") <- iterations
 attr(MB2results, "beta") <- beta
-save(MB2results, file="data/MB2results.RData", compress="xz")
+# save(MB2results, file="data/MB2results.RData", compress="xz")

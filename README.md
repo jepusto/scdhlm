@@ -6,9 +6,9 @@
 [![R-CMD-check](https://github.com/jepusto/scdhlm/workflows/R-CMD-check/badge.svg)](https://github.com/jepusto/scdhlm/actions)
 [![Test
 coverage](https://codecov.io/gh/jepusto/scdhlm/graph/badge.svg)](https://app.codecov.io/gh/jepusto/scdhlm)
-[![](http://www.r-pkg.org/badges/version/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
-[![](http://cranlogs.r-pkg.org/badges/last-month/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
+[![](https://www.r-pkg.org/badges/version/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
+[![](https://cranlogs.r-pkg.org/badges/last-month/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
 <!-- badges: end -->
 
 # Estimating Hierarchical Linear Models for Single-Case Designs
@@ -37,7 +37,7 @@ Shiny.
 
 The development of this R package was supported in part by the Institute
 of Education Sciences, U.S. Department of Education, through [Grant
-R324U190002](https://ies.ed.gov/funding/grantsearch/details.asp?ID=3358)
+R324U190002](https://ies.ed.gov/use-work/awards/improving-accessibility-effect-size-and-synthesis-methods-single-case-research?ID=3358)
 to the University of Oregon. The contents of the package do not
 necessarily represent the views of the Institute or the U.S. Department
 of Education.
@@ -48,13 +48,13 @@ Please cite this R package as follows:
 
 > Pustejovsky, J. E., Chen, M., & Hamilton, B. J. (2026). scdhlm:
 > Estimating hierarchical linear models for single-case designs (Version
-> 0.8.0) \[R package\]. <https://CRAN.R-project.org/package=scdhlm>
+> 0.8.0.999) \[R package\]. <https://CRAN.R-project.org/package=scdhlm>
 
 Please cite the web application as follows:
 
 > Pustejovsky, J. E., Chen, M., Hamilton, B., & Grekov, P. (2026).
 > scdhlm: A web-based calculator for between-case standardized mean
-> differences (Version 0.8.0) \[Web application\].
+> differences (Version 0.8.0.999) \[Web application\].
 > <https://jepusto.shinyapps.io/scdhlm>
 
 # Installation

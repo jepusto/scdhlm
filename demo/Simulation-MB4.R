@@ -53,4 +53,4 @@ MB4results <- cast(melt(MB4_array), ... ~ moment)
 attr(MB4results, "iterations") <- iterations
 attr(MB4results, "beta") <- beta
 attr(MB4results, "p_const") <- p_const
-save(MB4results, file="data/MB4results.RData", compress="xz")
+# save(MB4results, file="data/MB4results.RData", compress="xz")

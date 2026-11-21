@@ -49,8 +49,7 @@ test_that("graph_SCD works for design = 'TR'", {
   # Graph 
   p <- graph_SCD(design = "TR", 
                  case = Participant, phase = Phase, 
-                 session = Session, outcome = PercentageCorrect, model_fit = fit_RML,  
-                 data = dat)
+                 session = Session, outcome = PercentageCorrect, model_fit = fit_RML)
   
   expect_s3_class(p, "ggplot")
   expect_invisible(print(p))
@@ -229,7 +228,7 @@ test_that("graph_SCD works for design = 'RMBB'", {
                                case = Thiemann2001$case, series = Thiemann2001$series,
                                phase = Thiemann2001$treatment, session = Thiemann2001$time, 
                                outcome = Thiemann2001$outcome,
-                               treatment_name = "treatment", model_fit = Thiemann2001_RML)
+                               treatment_name = "treatment")
   expect_s3_class(Thiemann_graph2, "ggplot")
   expect_invisible(print(Thiemann_graph2))
   keys <- c("scales","theme","coordinates")
@@ -305,7 +304,7 @@ test_that("graph_SCD works for design = 'CMB'", {
                           cluster = Bryant2018$group, case = Bryant2018$case,
                           phase = Bryant2018$treatment, session = Bryant2018$session, 
                           outcome = Bryant2018$outcome,
-                          treatment_name = "treatment", model_fit = Bryant2018_RML)
+                          treatment_name = "treatment")
   expect_s3_class(Bry_graph2, "ggplot")
   expect_invisible(print(Bry_graph2))
   keys <- c("scales","theme","coordinates")
