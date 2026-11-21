@@ -40,8 +40,8 @@ shine_scd <- function(dataset = NULL, ...) {
     stop(paste("The scdhlm app requires the", missing_pkgs,"package. Please install it."), call. = FALSE)
   }
     
-  uiDir <- system.file("shiny-examples/scdhlm", "ui.R", package = "scdhlm")
-  serveDir <- system.file("shiny-examples/scdhlm", "server.R", package = "scdhlm")
+  uiDir <- system.file("shiny-examples/scdhlm", "ui-def.R", package = "scdhlm")
+  serveDir <- system.file("shiny-examples/scdhlm", "server-def.R", package = "scdhlm")
   if (uiDir == "" | serveDir == "") {
     stop("Could not find the application directory. Try re-installing the scdhlm package.", call. = FALSE)
   }
