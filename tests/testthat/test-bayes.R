@@ -169,19 +169,26 @@ test_that("Bayesian estimation works for MBP design.", {
                  corStruct = "IID",
                  Bayesian = TRUE, 
                  chain = 2, iter = 400, 
-                 summary = TRUE,
+                 summary = FALSE,
                  data = Laski)
     )
   
+  Laski_simple_summary <- summary(Laski_simple)
   expect_s3_class(Laski_simple_summary, "data.frame")
-  expect_true(is.na(Laski_simple$`Variance parameter`))
+  expect_true(is.na(Laski_simple_summary$`Variance parameter`))
   
-  summary(Laski_simple)
-
+  
+  expect_error(
+    graph_SCD(design="MBP",
+              case = case, phase = treatment,
+              session = time, outcome = outcome,
+              model_fit = Laski_simple$model)
+  )
   graph_Laski_comp <- graph_SCD(design="MBP",
                                 case = case, phase = treatment,
                                 session = time, outcome = outcome,
-                                model_fit = Laski_simple$model)
+                                model_fit = Laski_simple$model,
+                                data = Laski)
   expect_s3_class(graph_Laski_comp, "ggplot")
   expect_invisible(print(graph_Laski_comp))
   

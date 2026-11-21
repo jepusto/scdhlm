@@ -49,8 +49,7 @@ test_that("graph_SCD works for design = 'TR'", {
   # Graph 
   p <- graph_SCD(design = "TR", 
                  case = Participant, phase = Phase, 
-                 session = Session, outcome = PercentageCorrect, model_fit = fit_RML,  
-                 data = dat)
+                 session = Session, outcome = PercentageCorrect, model_fit = fit_RML)
   
   expect_s3_class(p, "ggplot")
   expect_invisible(print(p))

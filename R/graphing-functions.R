@@ -125,6 +125,7 @@ graph_SCD <- function(design, case, phase, session, outcome,
       
     }
     use_model_data <- all(c(case_name, phase_name, session_name, outcome_name) %in% names(model_dat))
+    if (!use_model_data) stop("The dataset stored in `model_fit` does not contain all of the needed variables. Please use the `data` argument to specify the original dataset.")
   } else {
     use_model_data <- FALSE
   }
