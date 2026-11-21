@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/jepusto/scdhlm/workflows/R-CMD-check/badge.svg)](https://github.com/jepusto/scdhlm/actions)
 [![Test coverage](https://codecov.io/gh/jepusto/scdhlm/graph/badge.svg)](https://app.codecov.io/gh/jepusto/scdhlm)
-[![](http://www.r-pkg.org/badges/version/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
-[![](http://cranlogs.r-pkg.org/badges/last-month/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
+[![](https://www.r-pkg.org/badges/version/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
+[![](https://cranlogs.r-pkg.org/badges/last-month/scdhlm)](https://CRAN.R-project.org/package=scdhlm)
 <!-- badges: end -->
 
 # Estimating Hierarchical Linear Models for Single-Case Designs
@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 <img src="https://raw.githubusercontent.com/jepusto/scdhlm/master/images/IES_InstituteOfEducationSciences_RGB.svg" width="40%" align = "right" alt = "Institute of Education Sciences logo"/>
 
-The development of this R package was supported in part by the Institute of Education Sciences, U.S. Department of Education, through [Grant R324U190002](https://ies.ed.gov/funding/grantsearch/details.asp?ID=3358) to the University of Oregon. The contents of the package do not necessarily represent the views of the Institute or the U.S. Department of Education.
+The development of this R package was supported in part by the Institute of Education Sciences, U.S. Department of Education, through [Grant R324U190002](https://ies.ed.gov/use-work/awards/improving-accessibility-effect-size-and-synthesis-methods-single-case-research?ID=3358) to the University of Oregon. The contents of the package do not necessarily represent the views of the Institute or the U.S. Department of Education.
 
 # Citations
 

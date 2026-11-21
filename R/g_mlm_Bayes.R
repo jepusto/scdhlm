@@ -35,6 +35,53 @@
 #'   modeling framework. \emph{Journal of Educational and Behavioral Statistics,
 #'   39}(4), 211-227. \doi{10.3102/1076998614547577}
 #'
+#' @examples
+#' 
+#' \dontrun{
+#' 
+#' data(Laski)
+#' 
+#' Laski_dat <- preprocess_SCD(
+#'   design = "MBP", 
+#'   case = case, phase = treatment,
+#'   session = time, outcome = outcome,
+#'   center = 4, data = Laski
+#' )
+#' 
+#' # fit a Bayesian multilevel model 
+#' library(brms)
+#' Laski_mod <- 
+#'   brm(
+#'     bf(outcome ~ 1 + time + trt + time_trt + (time | case) +
+#'        arma(time = time, gr = case, p = 1, q = 0),
+#'        center = FALSE),
+#'     data = Laski_dat,
+#'     chains = 2, iter = 2000, 
+#'     save_pars = save_pars(all = TRUE)
+#'   )
+#' 
+#' # find default start and follow-up times  
+#' default_AB <- default_times(
+#'   design = "MBP", 
+#'   case = case, phase = treatment, session = time, 
+#'   data = Laski
+#' )
+#' 
+#' # constants for effect size calculations
+#' consts <- calc_consts(
+#'   method = "Bayes", design = "MBP", center = 4,
+#'   FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1), 
+#'   corStruct = "AR1", varStruct = "hom", A = default_AB$A, B = default_AB$B
+#' )
+#' 
+#' # compute effect size estimate
+#' res_g_mlm_Bayes <- g_mlm_Bayes(
+#'   mod = Laski_comp_mod, 
+#'   p_const = consts$p_const, r_const = consts$r_const
+#' )
+#'   
+#'}
+#'
 
 g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var_index = 1, cover = 95) {
   

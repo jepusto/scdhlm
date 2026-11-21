@@ -3,17 +3,29 @@
 # calculate session-by-treatment interaction
 #---------------------------------------------------------------
 
-#' @title Calculate session-by-treatment interactions for a unique case
+#' @title Calculate session-by-treatment interactions for a
+#'   unique case
 #'
-#' @description Calculate session-by-treatment interactions based on phases and
-#'   session numbering.
+#' @description Calculate session-by-treatment interactions
+#'   based on phases and session numbering.
 #'
-#' @param phase vector of treatment indicators or a character or factor vector indicating unique treatment phases.
+#' @param phase vector of treatment indicators or a character or
+#'   factor vector indicating unique treatment phases.
 #' @param session numeric vector of measurement occasions.
-#' @param trt_phase character string indicating the phase value corresponding to
-#'   the treatment condition.
-#'   
+#' @param trt_phase character string indicating the phase value
+#'   corresponding to the treatment condition.
+#'
+#' @returns An integer vector of the same length as
+#'   \code{session} that is equal to zero when \code{phase !=
+#'   trt_phase} and otherwise equal to one plus the number of sessions
+#'   since the first point where \code{phase == trt_phase}.
+#'
 #' @export
+#'
+#' @examples
+#' phase <- rep(c("A","B"), each = 6)
+#' session <- 1:length(phase)
+#' session_by_treatment(phase, session, trt_phase = "B")
 #' 
 
 session_by_treatment <- function(phase, session, trt_phase) {
@@ -27,23 +39,29 @@ session_by_treatment <- function(phase, session, trt_phase) {
 #---------------------------------------------------------------
 
 #' @title Calculate phase-pairs for a unique case
-#' 
-#' @description Calculate phase-pairs based on phases and session numbering. 
-#' 
-#' @param phase vector of treatment indicators or a character or factor vector indicating unique treatment phases.
+#'
+#' @description Calculate phase-pairs based on phases and
+#'   session numbering.
+#'
+#' @param phase vector of treatment indicators or a character or
+#'   factor vector indicating unique treatment phases.
 #' @param session numeric vector of measurement occasions.
-#' @export 
-#' 
-#' @examples 
-#' 
+#' @export
+#'
+#' @returns an integer vector of the same length as \code{phase}
+#'   and \code{session} with unique values for every pair of
+#'   contiguous baseline and treatment phases.
+#'   
+#' @examples
+#'
 #' phases <- rep(c("A","B","A","B"), each = 4)
 #' sessions <- 1:length(phases)
-#' 
+#'
 #' phase_pairs(phases, sessions)
-#' 
+#'
 #' phases <- rep(c("A","B","C","A","B","C","D"), each = 4)
 #' phase_pairs(phases)
-#' 
+#'
 #' phases <- rep(c("B","A","C","B","A","B","C","A"), each = 4)
 #' phase_pairs(phases)
 #' 
