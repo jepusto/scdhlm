@@ -78,7 +78,7 @@ test_that("The logic for the A, B, and D argument in calc_BCSMD() is correct.", 
 })
 
 
-test_that("The default_times() calculates A and B correctly.", {
+test_that("default_times() calculates A and B correctly.", {
   
   # MBP
   data(Laski)
@@ -132,7 +132,7 @@ test_that("The default_times() calculates A and B correctly.", {
 })
 
 
-test_that("The calc_BCSMD() works appropriately for treatment reversal designs.", {
+test_that("calc_BCSMD() works appropriately for treatment reversal designs.", {
   
   data(Anglesea)
   Ang1_RML <- lme(fixed = outcome ~ 1 + condition,
