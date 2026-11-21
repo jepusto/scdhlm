@@ -378,7 +378,7 @@ test_that("calc_BCSMD() returns the same result as g_mlm() for Bryant 2018 data 
   
 })
 
-test_that("The batch_calc_BCSMD() works for MBP design.", {
+test_that("batch_calc_BCSMD() works for MBP design.", {
   
   skip_on_cran()
   
@@ -547,7 +547,7 @@ test_that("The batch_calc_BCSMD() works for MBP design.", {
 })
   
 
-test_that("The batch_calc_BCSMD() works for RMBB design.", {
+test_that("batch_calc_BCSMD() works for RMBB design.", {
   
   skip_on_cran()
   
@@ -623,5 +623,58 @@ test_that("The batch_calc_BCSMD() works for RMBB design.", {
   
   expect_equal(Thi2_single_2001, as.data.frame(Thi2_batch[1, 2:12], ))
   expect_equal(Thi2_single_2004, as.data.frame(Thi2_batch[2, 2:12], ))
+  
+})
+
+test_that("batch_calc_BCSMD() works for CMB design.", {
+  
+  skip_on_cran()
+  
+  data("Bryant2018")
+  Bryant2018$Study_ID <- ifelse(Bryant2018$school %in% c("school 1","school 2", "school 3"), "123", "45")
+  
+  # basic model without trends
+  
+  Bryant_123 <- calc_BCSMD(
+    design = "CMB",
+    cluster = group, case = case, phase = treatment,
+    session = session, outcome = outcome,
+    treatment_name = "treatment",
+    FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+    summary = TRUE,
+    data = subset(Bryant2018, school %in% c("school 1","school 2", "school 3"))
+  )
+  
+  Bryant_45 <- calc_BCSMD(
+    design = "CMB",
+    cluster = group, case = case, phase = treatment,
+    session = session, outcome = outcome,
+    treatment_name = "treatment",
+    FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+    summary = TRUE,
+    data = subset(Bryant2018, school %in% c("school 4","school 5"))
+  )
+  
+  Bryant_stack <- 
+    dplyr::bind_rows(
+      `123` = Bryant_123, 
+      `45` = Bryant_45,
+      .id = "Study_ID"
+    ) |> 
+    dplyr::as_tibble()
+  
+  Bryant_batch <- 
+    batch_calc_BCSMD(
+      data = Bryant2018, grouping = Study_ID, 
+      design = "CMB",
+      cluster = group, case = case, phase = treatment,
+      session = session, outcome = outcome,
+      treatment_name = "treatment",
+      FE_base = 0, RE_base = 0, RE_base_2 = 0, FE_trt = 0,
+      summary = TRUE
+    )
+  
+  expect_equal(Bryant_stack, Bryant_batch)
+  
   
 })
