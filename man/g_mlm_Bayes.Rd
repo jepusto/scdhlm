@@ -30,7 +30,7 @@ A list with the following components
  \code{CI_L} \tab Lower bound of credible interval for effect size \cr
  \code{CI_U} \tab Upper bound of credible interval for effect size \cr
  \code{es_num_vec} \tab Posterior samples of effect size numerator \cr
- \code{es_denom_vec} \tab Posterior samples of squared denominator of effect size \cr
+ \code{es_denom_vec} \tab Posterior samples of effect size denominator \cr
  \code{autocor_param} \tab Posterior mean auto-correlation \cr
  \code{var_param} \tab Posterior mean of level-1 variance model parameter \cr
  \code{rho} \tab Posterior mean intra-class correlation \cr
@@ -81,7 +81,7 @@ consts <- calc_consts(
 
 # compute effect size estimate
 res_g_mlm_Bayes <- g_mlm_Bayes(
-  mod = Laski_comp_mod, 
+  mod = Laski_mod, 
   p_const = consts$p_const, r_const = consts$r_const
 )
   

@@ -24,7 +24,7 @@
 #'  \code{CI_L} \tab Lower bound of credible interval for effect size \cr
 #'  \code{CI_U} \tab Upper bound of credible interval for effect size \cr
 #'  \code{es_num_vec} \tab Posterior samples of effect size numerator \cr
-#'  \code{es_denom_vec} \tab Posterior samples of squared denominator of effect size \cr
+#'  \code{es_denom_vec} \tab Posterior samples of effect size denominator \cr
 #'  \code{autocor_param} \tab Posterior mean auto-correlation \cr
 #'  \code{var_param} \tab Posterior mean of level-1 variance model parameter \cr
 #'  \code{rho} \tab Posterior mean intra-class correlation \cr
@@ -76,7 +76,7 @@
 #' 
 #' # compute effect size estimate
 #' res_g_mlm_Bayes <- g_mlm_Bayes(
-#'   mod = Laski_comp_mod, 
+#'   mod = Laski_mod, 
 #'   p_const = consts$p_const, r_const = consts$r_const
 #' )
 #'   
@@ -136,14 +136,12 @@ g_mlm_Bayes <- function(mod, p_const, r_const, rconst_base_var_index = 1, cover 
     rho_level2 <- mean((samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var_index]) / 
                          (samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var_index] + 
                             samples_r_varcov[,ncol(samples_r_varcov)]))
-    rho_level2 <- round(rho_level2, 4)
     
     rho_level3 <- mean(samples_r_varcov[,1] /
                          (samples_r_varcov[,1] + samples_r_varcov[,rconst_base_var_index] + 
                             samples_r_varcov[,ncol(samples_r_varcov)]))
-    rho_level3 <- round(rho_level3, 4)
     
-    rho <- paste0("Level2: ", rho_level2, " Level3: ", rho_level3)
+    rho <- paste0("Level2: ", round(rho_level2, 4), " Level3: ", round(rho_level3, 4))
   }
   
   # get the corStruct and varStruct param

@@ -30,8 +30,8 @@ calc_BCSMD(
   backend = NULL,
   chains = 4,
   iter = 2000,
-  warmup = iter/2,
-  thin = 10,
+  warmup = floor(iter/2),
+  thin = 1,
   cores = 1,
   seed = NA,
   A = NULL,
@@ -165,7 +165,7 @@ Bayesian estimation. Default is \code{iter/2}. Ignored if
 \code{Bayesian = FALSE}.}
 
 \item{thin}{Thinning rate to use for Bayesian estimation.
-Default is \code{thin = 10}. Ignored if \code{Bayesian =
+Default is \code{thin = 1}. Ignored if \code{Bayesian =
 FALSE}.}
 
 \item{cores}{Number of cores to use for Bayesian estimation.
@@ -199,10 +199,10 @@ confidence interval.}
 
 \item{summary}{Logical indicating whether to return a data
 frame with effect size estimates and other information. If
-\code{TRUE} (default), return a \code{data.frame}
+\code{TRUE}, return a \code{data.frame}
 containing the effect size estimate, standard error,
 confidence interval (or credible interval if \code{Bayesian
-== TRUE}), and other information. If \code{FALSE}, return a
+== TRUE}), and other information. If \code{FALSE} (the default), return a
 list with effect size estimate, degrees of freedom, and
 other information.}
 
