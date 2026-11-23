@@ -286,7 +286,7 @@ Bayesian estimation. Default is <code>iter/2</code>. Ignored if
 
 <dt id="arg-thin">thin<a class="anchor" aria-label="anchor" href="#arg-thin"></a></dt>
 <dd><p>Thinning rate to use for Bayesian estimation.
-Default is <code>thin = 10</code>. Ignored if <code>Bayesian =
+Default is <code>thin = 1</code>. Ignored if <code>Bayesian =
 FALSE</code>.</p></dd>
 
 
@@ -338,10 +338,10 @@ confidence interval.</p></dd>
 <dt id="arg-summary">summary<a class="anchor" aria-label="anchor" href="#arg-summary"></a></dt>
 <dd><p>Logical indicating whether to return a data
 frame with effect size estimates and other information. If
-<code>TRUE</code> (default), return a <code>data.frame</code>
+<code>TRUE</code>, return a <code>data.frame</code>
 containing the effect size estimate, standard error,
 confidence interval (or credible interval if <code>Bayesian
-== TRUE</code>), and other information. If <code>FALSE</code>, return a
+== TRUE</code>), and other information. If <code>FALSE</code> (the default), return a
 list with effect size estimate, degrees of freedom, and
 other information.</p></dd>
 

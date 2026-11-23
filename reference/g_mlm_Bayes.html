@@ -103,7 +103,7 @@ parameters in <code>mod_denom</code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with the following components</p><table class="table table"><tr><td><code>g_AB</code></td><td>Posterior mean effect size estimate</td></tr><tr><td><code>SE_g_AB</code></td><td>Approximate standard error of mean effect size estimate</td></tr><tr><td><code>nu</code></td><td>Estimated denominator degrees of freedom</td></tr><tr><td><code>CI_L</code></td><td>Lower bound of credible interval for effect size</td></tr><tr><td><code>CI_U</code></td><td>Upper bound of credible interval for effect size</td></tr><tr><td><code>es_num_vec</code></td><td>Posterior samples of effect size numerator</td></tr><tr><td><code>es_denom_vec</code></td><td>Posterior samples of squared denominator of effect size</td></tr><tr><td><code>autocor_param</code></td><td>Posterior mean auto-correlation</td></tr><tr><td><code>var_param</code></td><td>Posterior mean of level-1 variance model parameter</td></tr><tr><td><code>rho</code></td><td>Posterior mean intra-class correlation</td></tr></table></div>
+    <p>A list with the following components</p><table class="table table"><tr><td><code>g_AB</code></td><td>Posterior mean effect size estimate</td></tr><tr><td><code>SE_g_AB</code></td><td>Approximate standard error of mean effect size estimate</td></tr><tr><td><code>nu</code></td><td>Estimated denominator degrees of freedom</td></tr><tr><td><code>CI_L</code></td><td>Lower bound of credible interval for effect size</td></tr><tr><td><code>CI_U</code></td><td>Upper bound of credible interval for effect size</td></tr><tr><td><code>es_num_vec</code></td><td>Posterior samples of effect size numerator</td></tr><tr><td><code>es_denom_vec</code></td><td>Posterior samples of effect size denominator</td></tr><tr><td><code>autocor_param</code></td><td>Posterior mean auto-correlation</td></tr><tr><td><code>var_param</code></td><td>Posterior mean of level-1 variance model parameter</td></tr><tr><td><code>rho</code></td><td>Posterior mean intra-class correlation</td></tr></table></div>
     <div id="references">
     <h2>References</h2>
     <p>Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014).
@@ -154,7 +154,7 @@ parameters in <code>mod_denom</code>.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># compute effect size estimate</span></span></span>
 <span class="r-in"><span><span class="va">res_g_mlm_Bayes</span> <span class="op">&lt;-</span> <span class="fu">g_mlm_Bayes</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  mod <span class="op">=</span> <span class="va">Laski_comp_mod</span>, </span></span>
+<span class="r-in"><span>  mod <span class="op">=</span> <span class="va">Laski_mod</span>, </span></span>
 <span class="r-in"><span>  p_const <span class="op">=</span> <span class="va">consts</span><span class="op">$</span><span class="va">p_const</span>, r_const <span class="op">=</span> <span class="va">consts</span><span class="op">$</span><span class="va">r_const</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
