@@ -207,7 +207,7 @@ test_that("Bayesian estimation works for MBP design.", {
            arma(time = time, gr = case, p = 1, q = 0),
          center = FALSE),
       data = Laski_dat,
-      chains = 2, iter = 400, thin = 10, cores = 1, 
+      chains = 2, iter = 400, cores = 1, 
       backend = "stanli",
       silent = 2,
       save_pars = save_pars(all = TRUE),
@@ -236,7 +236,8 @@ test_that("Bayesian estimation works for MBP design.", {
     design = "MBP", case = case, phase = treatment,
     session = time, outcome = outcome, center = 4,
     FE_base = c(0,1), RE_base = c(0,1), FE_trt = c(0,1),
-    Bayesian = TRUE, chains = 2, iter = 400,
+    Bayesian = TRUE, 
+    chains = 2, iter = 400, cores = 1,
     seed = 43073051,
     summary = FALSE,
     data = Laski
